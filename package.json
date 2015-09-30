@@ -1,0 +1,16 @@
+{
+  "name": "phpschool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "crossbow run watch",
+    "build": "crossbow run sass && crossbow run crossbow"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "crossbow": "^0.4.7",
+    "crossbow-cli": "^2.0.3"
+  }
+}

@@ -1,0 +1,17 @@
+watch:
+  bs-config:
+    server: true
+  tasks:
+    default:
+      "scss/**": ["sass", "bs:reload:core.min.css"]
+tasks:
+  build: ["sass"]
+config:
+  sass:
+    input: "scss/core.scss"
+    output: "css/core.min.css"
+  crossbow:
+      base: "_src"
+      input: [
+          "_src/*.html"
+      ]
