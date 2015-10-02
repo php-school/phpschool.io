@@ -1,24 +1,26 @@
 var crossbow = require('crossbow');
 
-function crossbowBuild (obs, resolved, ctx) {
+function crossbowBuild (obs, opts, ctx) {
 
-    var input = ctx.get('config.crossbow.input').map(function (item) {
+    var input = opts.input.map(function (item) {
         return ctx.resolve(item);
     });
 
     ctx.vfs.src(input)
         .pipe(crossbow.stream({
             config: {
-                base: ctx.get('config.crossbow.base')
+                base: opts.base,
+                errorHandler: function (err, compiler) {
+                    err.crossbowMessage = obs.compile(compiler.getErrorString(err)[0])
+                    obs.onError(err);
+                }
             },
-            data: {
-                site: "file:config.yml"
-            }
+            data: opts.data
         }))
         .pipe(ctx.vfs.dest(ctx.opts.cwd))
-        .on("end", obs.onCompleted.bind(obs))
-        .on('error', obs.onError.bind(obs));
-
+        .on("end", function () {
+            obs.done();
+        });
 }
 
 module.exports.tasks = [crossbowBuild];

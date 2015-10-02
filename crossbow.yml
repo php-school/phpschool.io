@@ -1,11 +1,14 @@
 watch:
   bs-config:
     server: true
+    open: false
   tasks:
     default:
-      "scss/**": ["sass", "bs:reload:core.min.css"]
+      "_src": ["crossbow", "bs:reload"]
+#      "scss/**": ["sass", "bs:reload:core.min.css"]
+
 tasks:
-  build: ["sass"]
+  build: ["crossbow"]
 config:
   sass:
     input: "scss/core.scss"
@@ -15,3 +18,5 @@ config:
       input: [
           "_src/*.html"
       ]
+      data:
+        site: 'file:config.yml'

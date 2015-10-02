@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "crossbow run watch",
-    "build": "crossbow run sass && crossbow run crossbow"
+    "start": "crossbow watch",
+    "build": "crossbow run build"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "browser-sync": "^2.9.8",
     "crossbow": "^0.4.7",
-    "crossbow-cli": "^2.0.3"
+    "crossbow-cli": "^2.0.6"
   }
 }
