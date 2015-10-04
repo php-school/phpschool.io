@@ -5,10 +5,9 @@ watch:
   tasks:
     default:
       "_src": ["crossbow", "bs:reload"]
-#      "scss/**": ["sass", "bs:reload:core.min.css"]
-
+      "scss/**": ["sass", "bs:reload:{sass.output}"]
 tasks:
-  build: ["crossbow"]
+  build: ["sass", "crossbow"]
 config:
   sass:
     input: "scss/core.scss"

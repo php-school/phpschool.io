@@ -10,8 +10,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer": "^6.0.3",
     "browser-sync": "^2.9.8",
+    "clean-css": "^3.4.5",
     "crossbow": "^0.4.7",
-    "crossbow-cli": "^2.0.6"
+    "crossbow-cli": "^2.0.7",
+    "node-sass": "^3.3.3",
+    "normalize.css": "^3.0.3",
+    "postcss": "^5.0.8",
+    "rx": "^4.0.0"
   }
 }
