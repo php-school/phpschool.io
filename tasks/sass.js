@@ -1,3 +1,4 @@
+require('es6-promise').polyfill();
 var sass     = require('node-sass');
 var CleanCSS = require('clean-css');
 var dirname  = require('path').dirname;
@@ -22,7 +23,7 @@ function processSass (obs, opts, ctx) {
      */
     process({file: ctx.path.make(opts.input)})
         .flatMap(function (x) {
-            return Rx.Observable.fromPromise(prefixer.process(x.css))
+            return Rx.Observable.fromPromise(prefixer.process(x.css.toString()))
         })
         .pluck('css')
         .map(min.minify.bind(min))

@@ -4,7 +4,7 @@ watch:
     open: false
   tasks:
     default:
-      "_src": ["crossbow", "bs:reload"]
+      "_src:config.yml": ["crossbow", "bs:reload"]
       "scss/**": ["sass", "bs:reload:{sass.output}"]
 tasks:
   build: ["sass", "crossbow"]
