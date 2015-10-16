@@ -1,13 +1,23 @@
 <!doctype html>
 <html lang="en-US">
 <head>
+    <link rel="stylesheet" type="text/css" href="scss/core.scss"/>
     <meta charset="UTF-8">
     <title>{{site.title}}</title>
     <link rel="stylesheet" href="/css/core.min.css"/>
 </head>
 <body>
-    <h1>{{site.title}}</h1>
-    <h2>Interactive programs to help you learn PHP</h2>
-    <p>Get involved - <a href="https://github.com/php-school">https://github.com/php-school</a></p>
+    <header>
+        <figure>
+            <img src="/img/screen.png" alt=""/>
+        </figure>
+        <h2>Interactive programs to help you learn PHP</h2>
+        <p>Coming soon...</p>
+        <nav class="main-nav">
+            <a href="{{site.links.github}}" class="main-nav__item" title="PHPSchool on Github">{{inc src="icon.hbs" name="github"}}</a>
+            <a href="{{site.links.twitter}}" class="main-nav__item" title="PHPSchool on Twitter">{{inc src="icon.hbs" name="twitter"}}</a>
+            <a href="{{site.links.slack}}" class="main-nav__item" title="PHPSchool on Slack">{{inc src="icon.hbs" name="slack"}}</a>
+        </nav>
+    </header>
 </body>
 </html>

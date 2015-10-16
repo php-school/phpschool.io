@@ -9,6 +9,9 @@ watch:
 tasks:
   build: ["sass", "crossbow"]
 config:
+  icons:
+    input: "img/svg/**"
+    output: "img/icons"
   sass:
     input: "scss/core.scss"
     output: "css/core.min.css"

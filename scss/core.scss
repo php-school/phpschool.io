@@ -1,7 +1,45 @@
 @import "../node_modules/normalize.css/normalize.css";
 
+$font: #63DD4A;
+
 body {
+    font-family: monospace;
     width: 100%;
-    background: white;
+    background: black;
     text-align: center;
+    color: $font;
+    padding-top: 20px;
+}
+
+figure {
+    margin: 20px 20px 40px;
+    //margin-bottom: 40px;
+}
+
+img {
+    border: 1px solid #262626;
+    box-shadow: 0 0 20px #3A3A3A;
+    max-width: 100%;
+}
+
+.svg-icon {
+    display: inline-block;
+    fill: currentColor!important;
+    height: 1em;
+    width: 1em;
+    vertical-align: middle;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: center;
+}
+
+.main-nav__item {
+    font-size: 2em;
+    color: white;
+    padding: 20px;
+    text-decoration: none;
+    text-align: center;
+    display: block;
 }
