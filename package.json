@@ -11,6 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^6.0.3",
+    "bourbon": "^4.2.6",
+    "bourbon-neat": "^1.7.2",
     "browser-sync": "^2.9.8",
     "clean-css": "^3.4.5",
     "crossbow": "^0.4.7",
