@@ -7,52 +7,74 @@
     <link rel="stylesheet" href="/css/core.min.css"/>
 </head>
 <body>
-    <header>
-        <h1>PHP School</h1>
-    </header>
+<header>
+    <h1>PHP School</h1>
+</header>
 
-    <script type="text/javascript" src="https://asciinema.org/a/14.js" id="asciicast-14" async></script>
+<script type="text/javascript" src="https://asciinema.org/a/14.js" id="asciicast-14" data-theme="solarized-dark"
+        async></script>
 
-    <section class="mission dark-wrap">
+<section class="mission dark-wrap">
+    <div class="container">
         <h2>Our Mission</h2>
-        <p>Disclaimer area lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, nostrum repudiandae saepe.</p>
-    </section>
 
-    <section class="setup">
-        <h2>Workshop Setup</h2>
-        <div class="terminal-wrapper joined">
-            <div class="terminal-statusbar">
-                <span class="red"></span><span class="orange"></span><span class="green"></span>
-                <h3>-&nbsp;Quick, Painless Installation!</h3>
-            </div>
-            <div class="terminal-content">
-                <p class="command">composer global require php-school/learn-you-php</p>
-            </div>
+        <p>Disclaimer area lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, nostrum repudiandae
+            saepe.</p>
+    </div>
+</section>
+
+<!--<script type="text/javascript" src="https://asciinema.org/a/14.js" id="asciicast-desktop" async></script>-->
+
+<section class="setup">
+    <h2>Workshop Setup</h2>
+
+    <div class="terminal-wrapper joined">
+        <div class="terminal-statusbar">
+            <span class="red"></span><span class="orange"></span><span class="green"></span>
+
+            <h3>-&nbsp;Quick, Painless Installation!</h3>
         </div>
-
-        <div class="terminal-wrapper">
-            <div class="terminal-statusbar">
-                <span class="red"></span><span class="orange"></span><span class="green"></span>
-                <h3>-&nbsp;Super Simple Commands!</h3>
-            </div>
-            <div class="terminal-content">
-                <p class="command">learnyouphp help</p>
-                <p class="title">Usage</p>
-                <p class="highlight">learnyouphp</p>
-                <p class="indented">Show a menu to interactively select a workshop.</p>
-                <p class="highlight">learnyouphp print</p>
-                <p class="indented">Print the instructions for the currently selected workshop.</p>
-                <p class="highlight">learnyouphp verify program.php</p>
-                <p class="indented">Verify your program against the expected output.</p>
-                <p class="highlight">learnyouphp help</p>
-                <p class="indented">Show this help.</p>
-                <p class="highlight">learnyouphp credits</p>
-                <p class="indented">Show the people who made this happen.</p>
-            </div>
+        <div class="terminal-content">
+            <p class="command">composer global require php-school/learn-you-php</p>
         </div>
-    </section>
+    </div>
 
-    <section class="contributors dark-wrap">
+    <div class="terminal-wrapper">
+        <div class="terminal-statusbar">
+            <span class="red"></span><span class="orange"></span><span class="green"></span>
+
+            <h3>-&nbsp;Super Simple Commands!</h3>
+        </div>
+        <div class="terminal-content">
+            <p class="command">learnyouphp help</p>
+
+            <p class="title">Usage</p>
+
+            <p class="highlight">learnyouphp</p>
+
+            <p class="indented">Show a menu to interactively select a workshop.</p>
+
+            <p class="highlight">learnyouphp print</p>
+
+            <p class="indented">Print the instructions for the currently selected workshop.</p>
+
+            <p class="highlight">learnyouphp verify program.php</p>
+
+            <p class="indented">Verify your program against the expected output.</p>
+
+            <p class="highlight">learnyouphp help</p>
+
+            <p class="indented">Show this help.</p>
+
+            <p class="highlight">learnyouphp credits</p>
+
+            <p class="indented">Show the people who made this happen.</p>
+        </div>
+    </div>
+</section>
+
+<section class="contributors dark-wrap">
+    <div class="container">
         <h2>Made with ❤ by...</h2>
         <figure>
             <a href="https://github.com/AydinHassan">
@@ -78,45 +100,58 @@
                 <figcaption>@chris3ailey</figcaption>
             </a>
         </figure>
-    </section>
+    </div>
+</section>
 
-    <section class="workshops">
-        <h2>Core Workshops</h2>
-        <div class="workshop">
-            <p>php-school/learn-you-php</p>
-            <a href="https://github.com/php-school/learn-you-php" class="workshop-img" title="Workshop on Github">{{inc src="icon.hbs" name="github"}}</a>
-        </div>
-        <div class="workshop">
-            <p>php-school/learn-you-php</p>
-            <a href="https://github.com/php-school/learn-you-php" class="workshop-img" title="Workshop on Github">{{inc src="icon.hbs" name="github"}}</a>
-        </div>
-    </section>
+<section class="workshops">
+    <h2>Core Workshops</h2>
 
-    <section class="workshops dark-wrap">
+    <div class="workshop">
+        <p>php-school/learn-you-php</p>
+        <a href="https://github.com/php-school/learn-you-php" class="workshop-img" title="Workshop on Github">{{inc
+            src="icon.hbs" name="github"}}</a>
+    </div>
+    <div class="workshop">
+        <p>php-school/learn-you-php</p>
+        <a href="https://github.com/php-school/learn-you-php" class="workshop-img" title="Workshop on Github">{{inc
+            src="icon.hbs" name="github"}}</a>
+    </div>
+</section>
+
+<section class="workshops dark-wrap">
+    <div class="container">
         <h2>Community Workshops</h2>
+
         <div class="workshop">
             <p>php-school/learn-you-php</p>
-            <a href="https://github.com/php-school/learn-you-php" class="workshop-img" title="Workshop on Github">{{inc src="icon.hbs" name="github"}}</a>
+            <a href="https://github.com/php-school/learn-you-php" class="workshop-img" title="Workshop on Github">{{inc
+                src="icon.hbs" name="github"}}</a>
         </div>
         <div class="workshop">
             <p>php-school/learn-you-php</p>
-            <a href="https://github.com/php-school/learn-you-php" class="workshop-img" title="Workshop on Github">{{inc src="icon.hbs" name="github"}}</a>
+            <a href="https://github.com/php-school/learn-you-php" class="workshop-img" title="Workshop on Github">{{inc
+                src="icon.hbs" name="github"}}</a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="help">
-        <h2>Need Help?</h2>
-        <p>Disclaimer area lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, nostrum repudiandae saepe.</p>
-    </section>
+<section class="help">
+    <h2>Need Help?</h2>
 
-    <footer class="footer" role="contentinfo">
-        <nav>
-            <a href="{{site.links.github}}" class="footer-img" title="PHPSchool on Github">{{inc src="icon.hbs" name="github"}}</a>
-            <a href="{{site.links.twitter}}" class="footer-img" title="PHPSchool on Twitter">{{inc src="icon.hbs" name="twitter"}}</a>
-            <a href="{{site.links.slack}}" class="footer-img" title="PHPSchool on Slack">{{inc src="icon.hbs" name="slack"}}</a>
-        </nav>
-        <p>Disclaimer area.</p>
-    </footer>
+    <p>Disclaimer area lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, nostrum repudiandae saepe.</p>
+</section>
+
+<footer class="footer" role="contentinfo">
+    <nav>
+        <a href="{{site.links.github}}" class="footer-img" title="PHPSchool on Github">{{inc src="icon.hbs"
+            name="github"}}</a>
+        <a href="{{site.links.twitter}}" class="footer-img" title="PHPSchool on Twitter">{{inc src="icon.hbs"
+            name="twitter"}}</a>
+        <a href="{{site.links.slack}}" class="footer-img" title="PHPSchool on Slack">{{inc src="icon.hbs"
+            name="slack"}}</a>
+    </nav>
+    <p>Disclaimer area.</p>
+</footer>
 
 </body>
 </html>
