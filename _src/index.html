@@ -3,25 +3,149 @@
 <head>
     <link rel="stylesheet" type="text/css" href="scss/core.scss"/>
     <meta charset="UTF-8">
-    <title>{{site.title}}</title>
+    <title>PHP SCHOOL</title>
     <link rel="stylesheet" href="/css/core.min.css"/>
 </head>
 <body>
-<header class="site-header">
-    <h1>PHP School</h1>
-    <p></p>
+
+<nav class="">
+    <div class="container site-nav">
+        <ul class="navigation">
+            <li class="navigation__item">
+                <a class="navigation__link">Workshops</a>
+            </li>
+            <li class="navigation__item">
+                <a class="navigation__link">Need Help</a>
+            </li>
+            <li class="navigation__item">
+                <a class="navigation__link">About</a>
+            </li>
+        </ul>
+        <ul class="social-nav">
+            <li class="social-nav__item"><a href="https://github.com/php-school" class="social-nav__link" title="PHPSchool on Github">{{inc src="icon.hbs" name="github"}}</a></li>
+            <li class="social-nav__item"><a href="" class="social-nav__link" title="PHPSchool on Twitter">{{inc src="icon.hbs" name="twitter"}}</a></li>
+            <li class="social-nav__item"><a href="https://phpschool.herokuapp.com/" class="social-nav__link" title="PHPSchool on Slack">{{inc src="icon.hbs" name="slack"}}</a></li>
+        </ul>
+    </div>
+</nav>
+
+<header class="">
+    <div class="container site-header">
+        <figure class="logo">{{inc src="icon.hbs" name="logo"}}</figure>
+        <h1 class="header__title">PHP School</h1>
+        <p class="header__desc">PHP School is a new revolutionary way to learn to code. Bring your imagination to life in an open learning eco-system. </p>
+        <a class="header__link">Workshops</a>
+    </div>
 </header>
 
 <section class="site-body">
     <div class="container">
+        <div class="introduction">
+            <div class="introduction__info">
+
+            </div>
+            <div class="introduction__video">
+
+            </div>
+        </div>
+
+        <div class="core-workshop">
+            <div class="core-workshop__info">
+                <h2></h2>
+                <p></p>
+            </div>
+            <div class="core-workshop__courses">
+                <ul class="workshops">
+                    <li class="workshop__course">
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="community-workshop">
+            <div class="community-workshop__info">
+                <h2></h2>
+                <p></p>
+            </div>
+            <div class="community-workshop__courses">
+                <ul class="workshops">
+                    <li class="workshop__course">
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="help">
+            <div class="help__icons">
+
+            </div>
+            <div class="help__info">
+                <h2></h2>
+                <p></p>
+            </div>
+        </div>
 
     </div>
 </section>
 
+<section class="">
+    <div class="container team">
+            <h2 class="team__title">Our team</h2>
+            <p class="team__desc"></p>
+            <ul class="">
+                <li class="team__image">
+                    <img class="team__image" src="">
+                    <p class="team__name">Name here</p>
+                    <p class="team__role">Role here</p>
+                </li>
+                <li class="team__image">
+                    <img class="team__image" src="">
+                    <p class="team__name">Name here</p>
+                    <p class="team__role">Role here</p>
+                </li>
+                <li class="team__image">
+                    <img class="team__image" src="">
+                    <p class="team__name">Name here</p>
+                    <p class="team__role">Role here</p>
+                </li>
+                <li class="team__image">
+                    <img class="team__image" src="">
+                    <p class="team__name">Name here</p>
+                    <p class="team__role">Role here</p>
+                </li>
+                <li class="team__image">
+                    <img class="team__image" src="">
+                    <p class="team__name">Name here</p>
+                    <p class="team__role">Role here</p>
+                </li>
+            </ul>
+    </div>
+</section>
+
+<section class="">
+    <div class="container inspiration">
+        <figure class="inspiration__image">
+            {{inc src="icon.hbs" name="node-school"}}
+        </figure>
+        <article class="inspiration__info">
+            <h2 class="inspiration__title">Our inspiration</h2>
+            <p class="inspiration__desc">Thank you Node school for inspiring us to create PHP school, if Node & JavaScript is your thing we recommend you check them out.</p>
+            <a class="inspiration__link">Node school</a>
+        </article>
+    </div>
+</section>
+
 <footer class="site-footer" role="contentinfo">
-        <a href="{{site.links.github}}" class="footer-img" title="PHPSchool on Github">{{inc src="icon.hbs"name="github"}}</a>
-        <a href="{{site.links.twitter}}" class="footer-img" title="PHPSchool on Twitter">{{inc src="icon.hbs"name="twitter"}}</a>
-        <a href="{{site.links.slack}}" class="footer-img" title="PHPSchool on Slack">{{inc src="icon.hbs"name="slack"}}</a>
+    <div class="copyright">
+        <p class="">© Copyright 2016</p>
+        <ul class="social-nav">
+            <li class="social-nav__item"><a href="https://github.com/php-school" class="social-nav__link" title="PHPSchool on Github">{{inc src="icon.hbs" name="github"}}</a></li>
+            <li class="social-nav__item"><a href="" class="social-nav__link" title="PHPSchool on Twitter">{{inc src="icon.hbs" name="twitter"}}</a></li>
+            <li class="social-nav__item"><a href="https://phpschool.herokuapp.com/" class="social-nav__link" title="PHPSchool on Slack">{{inc src="icon.hbs" name="slack"}}</a></li>
+        </ul>
+    </div>
 </footer>
 
 </body>
