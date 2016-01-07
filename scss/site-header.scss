@@ -1,0 +1,13 @@
+.site-header {
+  text-align: center;
+  background: $black;
+  color: $white;
+  padding: $base-spacing*4 0;
+}
+
+.header__desc {
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto $base-spacing;
+}
+

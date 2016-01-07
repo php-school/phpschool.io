@@ -35,3 +35,11 @@ p, li, a {
   line-height: 1.5;
   margin-bottom: $base-spacing;
 }
+
+.button {
+  padding: $half-spacing $base-spacing;
+  background: $white;
+  color: $black;
+  text-transform: uppercase;
+  text-decoration: none;
+}
