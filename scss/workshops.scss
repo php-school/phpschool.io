@@ -1,0 +1,36 @@
+.core-workshop {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -$base-spacing;
+  padding: $base-spacing*2 0;
+  border-top: 1px solid $silver;
+}
+
+.core-workshop__info {
+  width: 33.33%;
+  padding-left: $base-spacing;
+}
+
+.core-workshop__courses {
+  width: 66.66%;
+  padding-left: $base-spacing;
+}
+
+.community-workshop {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -$base-spacing;
+  padding: $base-spacing*2 0;
+  border-top: 1px solid $silver;
+  border-bottom: 1px solid $silver;
+}
+
+.community-workshop__info {
+  width: 33.33%;
+  padding-left: $base-spacing;
+}
+
+.community-workshop__courses {
+  width: 66.66%;
+  padding-left: $base-spacing;
+}
