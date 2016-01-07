@@ -1,0 +1,29 @@
+.site-footer {
+
+}
+
+.copyright {
+  text-align: center;
+  background: green;
+  padding: $base-spacing;
+}
+
+.copyright__text {
+  color: $white;
+  margin-bottom: $half-spacing;
+}
+
+.social-nav {
+  display: flex;
+  justify-content: center;
+}
+
+.social-nav__item {
+}
+
+.social-nav__link {
+  .svg-icon {
+    width: 1.5em;
+    height: 1.5em;
+  }
+}
