@@ -1,5 +1,37 @@
+body {
+  line-height: 1.5;
+  font-family: $base-font-family;
+  font-weight: 100;
+  color: black;
+}
+
 .container {
   max-width: 1024px;
   margin: 0 auto;
   padding: 0 $half-spacing;
+}
+
+h1, h2, h3 {
+  line-height: 1;
+  font-family: $header-font-family;
+  font-weight: 100;
+  margin-bottom: $base-spacing
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+p, li, a {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: $half-spacing;
 }
