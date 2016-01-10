@@ -1,0 +1,28 @@
+.help {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -$base-spacing;
+  padding: $base-spacing*2 0;
+}
+
+.help__icons {
+  width: 33.33%;
+  padding-left: $base-spacing;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .svg-icon {
+    width: 3em;
+    height: 3em;
+  }
+}
+
+.help__info {
+  width: 66.66%;
+  padding-left: $base-spacing;
+
+  p {
+    margin-bottom: 0;
+  }
+}

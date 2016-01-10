@@ -1,0 +1,32 @@
+.team {
+  background: $black;
+  color: $white;
+  text-align: center;
+  padding: $base-spacing*2 0;
+}
+
+.team__list {
+  margin-left: -$base-spacing;
+  display: flex;
+}
+
+
+.team__image {
+  margin-bottom: $half-spacing;
+}
+
+.team__item {
+  padding-left: $base-spacing;
+}
+
+.team__name {
+  font-family: $header-font-family;
+  margin-bottom: $half-spacing;
+}
+
+.team__role {
+  font-family: $header-font-family;
+  color: $silver;
+  margin-bottom: 0;
+  font-size: 12px;
+}

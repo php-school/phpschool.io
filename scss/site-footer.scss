@@ -19,11 +19,14 @@
 }
 
 .social-nav__item {
+  margin: 0;
 }
 
 .social-nav__link {
-  .svg-icon {
-    width: 1.5em;
-    height: 1.5em;
-  }
+  display: block;
+  margin: 0;
+  //.svg-icon {
+  //  width: 1.5em;
+  //  height: 1.5em;
+  //}
 }
