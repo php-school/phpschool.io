@@ -5,12 +5,14 @@
   padding: $base-spacing*2 0;
 }
 
-.introduction__info {
-  width: 50%;
+.introduction__info, .introduction__video {
+  width: 100%;
   padding-left: $base-spacing;
+
+  @media screen and (min-width: 600px) {
+    width: 50%;
+  }
 }
 
-.introduction__video {
-  width: 50%;
-  padding-left: $base-spacing;
-}
+
+

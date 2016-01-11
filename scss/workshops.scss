@@ -7,13 +7,21 @@
 }
 
 .core-workshop__info {
-  width: 33.33%;
+  width: 100%;
   padding-left: $base-spacing;
+
+  @media screen and (min-width: 600px) {
+    width: 33.33%;
+  }
 }
 
 .core-workshop__courses {
-  width: 66.66%;
+  width: 100%;
   padding-left: $base-spacing;
+
+  @media screen and (min-width: 600px) {
+    width: 66.66%;
+  }
 }
 
 .community-workshop {
@@ -26,11 +34,19 @@
 }
 
 .community-workshop__info {
-  width: 33.33%;
+  width: 100%;
   padding-left: $base-spacing;
+
+  @media screen and (min-width: 600px) {
+    width: 33.33%;
+  }
 }
 
 .community-workshop__courses {
-  width: 66.66%;
+  width: 100%;
   padding-left: $base-spacing;
+
+  @media screen and (min-width: 600px) {
+    width: 66.66%;
+  }
 }

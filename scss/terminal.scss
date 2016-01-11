@@ -4,13 +4,14 @@
 
 .terminal-head {
   border: 1px solid $silver;
-  border-top-right-radius:5px;
-  border-top-left-radius:5px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
   position: relative;
   bottom: -1px;
   padding: 5px;
   display: flex;
 }
+
 .terminal__button {
   width: 14px;
   height: 14px;
@@ -23,9 +24,11 @@
 
 .terminal__body {
   border: 1px solid $silver;
-  border-bottom-right-radius:5px;
-  border-bottom-left-radius:5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
   padding: $half-spacing;
   margin: 0;
   font-family: $header-font-family;
+  white-space: nowrap;
+  overflow-x: scroll;
 }

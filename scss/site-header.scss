@@ -4,12 +4,11 @@ nav {
 
 .site-nav {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   border-bottom: 1px solid rgba($white, 0.2);
   padding: $half-spacing 0;
 
-  .social-nav {
-    margin-left: auto;
-  }
   .svg-icon {
     width: 1.5em;
     height: 1.5em;
@@ -19,6 +18,9 @@ nav {
 
 .navigation {
   display: flex;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 }
 
 .navigation__item {
@@ -39,7 +41,11 @@ nav {
   text-align: center;
   background: $black;
   color: $white;
-  padding: $base-spacing*4 0;
+  padding: $base-spacing*2 0;
+
+  @media screen and (min-width: 600px) {
+    padding: $base-spacing*4 0;
+  }
 }
 
 .logo {

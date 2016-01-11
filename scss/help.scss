@@ -6,7 +6,7 @@
 }
 
 .help__icons {
-  width: 33.33%;
+  width: 100%;
   padding-left: $base-spacing;
   display: flex;
   align-items: center;
@@ -17,13 +17,20 @@
     height: 3em;
     color: $black;
   }
+
+  @media screen and (min-width: 600px) {
+    width: 33.33%;
+  }
 }
 
 .help__info {
-  width: 66.66%;
+  width: 100%;
   padding-left: $base-spacing;
 
   p {
     margin-bottom: 0;
+  }
+  @media screen and (min-width: 600px) {
+    width: 66.66%;
   }
 }

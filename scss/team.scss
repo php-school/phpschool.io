@@ -14,8 +14,8 @@
 .team__list {
   margin-left: -$base-spacing;
   display: flex;
+  flex-wrap: wrap;
 }
-
 
 .team__image {
   margin-bottom: $half-spacing;
@@ -23,6 +23,11 @@
 
 .team__item {
   padding-left: $base-spacing;
+  width: 50%;
+
+  @media screen and (min-width: 600px) {
+    width: 20%;
+  }
 }
 
 .team__name {
