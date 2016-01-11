@@ -1,8 +1,53 @@
+nav {
+  background: $black;
+}
+
+.site-nav {
+  display: flex;
+  border-bottom: 1px solid rgba($white, 0.2);
+  padding: $half-spacing 0;
+
+  .social-nav {
+    margin-left: auto;
+  }
+  .svg-icon {
+    width: 1.5em;
+    height: 1.5em;
+    color: $white;
+  }
+}
+
+.navigation {
+  display: flex;
+}
+
+.navigation__item {
+  margin: 0;
+  padding-right: $base-spacing;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navigation__link {
+  color: $white;
+  margin-bottom: 0;
+  text-decoration: none;
+}
+
 .site-header {
   text-align: center;
   background: $black;
   color: $white;
   padding: $base-spacing*4 0;
+}
+
+.logo {
+  margin-bottom: $base-spacing;
+  .svg-icon {
+    height: 11em;
+    width: 11em;
+  }
 }
 
 .header__desc {
@@ -11,3 +56,6 @@
   margin: 0 auto $base-spacing;
 }
 
+//.header__link {
+//
+//}

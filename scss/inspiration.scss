@@ -1,0 +1,23 @@
+.inspiration {
+  background: #F8E71C;
+  padding: $base-spacing*2 0;
+}
+.inspiration__content {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -$base-spacing;
+}
+
+.inspiration__image {
+  padding-left: $base-spacing;
+  width: 33.33%;
+  .svg-icon {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.inspiration__info {
+  padding-left: $base-spacing;
+  width: 66.66%;
+}

@@ -5,6 +5,12 @@
   padding: $base-spacing*2 0;
 }
 
+.team__desc {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto $base-spacing;
+}
+
 .team__list {
   margin-left: -$base-spacing;
   display: flex;

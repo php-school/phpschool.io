@@ -42,4 +42,33 @@ p, li, a {
   color: $black;
   text-transform: uppercase;
   text-decoration: none;
+  display: inline-block;
+  margin: 0;
 }
+
+.button--black {
+  background: $black;
+  color: $white;
+}
+
+//ICONS
+[class^="icon-"],
+[class*=" icon-"] {
+  span {
+    position: absolute;
+    left: -9999px;
+  }
+}
+
+svg {
+
+  display: inline-block;
+  fill: currentColor !important;
+  vertical-align: middle;
+
+  &.svg-icon {
+    height: 1em;
+    width: 1em;
+  }
+}
+

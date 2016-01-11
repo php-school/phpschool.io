@@ -2,6 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   margin-left: -$base-spacing;
+  padding: $base-spacing*2 0;
 }
 
 .introduction__info {
