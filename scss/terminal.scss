@@ -27,8 +27,13 @@
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   padding: $half-spacing;
-  margin: 0;
+  margin-bottom: $half-spacing;
   font-family: $header-font-family;
   white-space: nowrap;
   overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.termianl__meta {
+  font-size: 10px;
 }

@@ -18,8 +18,9 @@ nav {
 
 .navigation {
   display: flex;
-  @media screen and (max-width: 600px) {
-    width: 100%;
+  padding-left: $half-spacing;
+  @media screen and (min-width: 600px) {
+    padding: 0;
   }
 }
 
