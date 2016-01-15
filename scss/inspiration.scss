@@ -1,5 +1,5 @@
 .inspiration {
-  background: #F8E71C;
+  background: white;
   padding: $base-spacing*2 0;
 }
 
@@ -31,8 +31,8 @@
   width: 100%;
   text-align: center;
 
-  @media screen and (min-width: 600px) {
-    width: 66.66%;
-    text-align: left;
-  }
+  //@media screen and (min-width: 600px) {
+  //  width: 66.66%;
+  //  text-align: left;
+  //}
 }

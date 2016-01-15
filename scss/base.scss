@@ -15,7 +15,10 @@ h1, h2, h3 {
   line-height: 1;
   font-family: $header-font-family;
   font-weight: 100;
-  margin-bottom: $base-spacing
+  margin-bottom: $base-spacing;
+  color: #601848;
+  font-weight: 100;
+
 }
 
 h1 {
@@ -38,12 +41,48 @@ p, li, a {
 
 .button {
   padding: $half-spacing $base-spacing;
-  background: $white;
-  color: $black;
+  background: #10A4B7;
+  color: $white;
   text-transform: uppercase;
   text-decoration: none;
   display: inline-block;
   margin: 0;
+  position: relative;
+  transition: ease all .3s;
+
+  &:hover {
+    transform: scale(1.05);
+    background: darken(#10A4B7, 5);
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    right: -15%;
+    background: inherit;
+    height: 43px;
+    width: 43px;
+    top: 0;
+    border-radius: 100%;
+    //&:hover {
+    //  background: blue;
+    //}
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: -15%;
+    background: inherit;
+    height: 43px;
+    width: 43px;
+    top: 0;
+    border-radius: 100%;
+    //&:hover {
+    //  background: blue;
+    //}
+  }
+
 }
 
 .button--black {

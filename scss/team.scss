@@ -1,8 +1,12 @@
 .team {
-  background: $black;
-  color: $white;
+  color: $black;
   text-align: center;
   padding: $base-spacing*2 0;
+  background: $white;
+
+  //h2 {
+  //  color: $white;
+  //}
 }
 
 .team__desc {
@@ -37,7 +41,7 @@
 
 .team__role {
   font-family: $header-font-family;
-  color: $silver;
+  //color: $silver;
   margin-bottom: 0;
   font-size: 12px;
 }

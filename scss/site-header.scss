@@ -1,13 +1,14 @@
-nav {
-  background: $black;
-}
-
 .site-nav {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   border-bottom: 1px solid rgba($white, 0.2);
   padding: $half-spacing 0;
+  margin-bottom: $base-spacing*2;
+
+  @media screen and (min-width: 600px) {
+    margin-bottom: $base-spacing*4;
+  }
 
   .svg-icon {
     width: 1.5em;
@@ -40,12 +41,12 @@ nav {
 
 .site-header {
   text-align: center;
-  background: $black;
+  background: linear-gradient(darken(#480048, 10), #480048);
   color: $white;
-  padding: $base-spacing*2 0;
+  padding-bottom: $base-spacing*2;
 
   @media screen and (min-width: 600px) {
-    padding: $base-spacing*4 0;
+    padding-bottom: $base-spacing*4;
   }
 }
 
@@ -57,12 +58,38 @@ nav {
   }
 }
 
-.header__desc {
-  font-size: 18px;
-  max-width: 600px;
-  margin: 0 auto $base-spacing;
+.header__title {
+  color: $white;
 }
 
-//.header__link {
-//
+.header__desc {
+  font-size: 18px;
+  margin: 0 auto $base-spacing;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  animation: type 5s steps(60, end);
+  font-family: $header-font-family;
+
+}
+  .curser {
+    width: 10px;
+    height: 20px;
+    animation: blink 1s infinite;
+    background: $white;
+    display: block;
+    margin: $base-spacing auto 0;
+  }
+
+@keyframes type{
+  from { width: 0; }
+}
+
+@keyframes blink{
+  to{opacity: 0;}
+}
+
+//::selection{
+//  background: black;
 //}
+
