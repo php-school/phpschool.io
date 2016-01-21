@@ -65,31 +65,36 @@
 .header__desc {
   font-size: 18px;
   margin: 0 auto $base-spacing;
-  white-space: nowrap;
-  overflow: hidden;
   width: 100%;
-  animation: type 5s steps(60, end);
   font-family: $header-font-family;
-
-}
-  .curser {
-    width: 10px;
-    height: 20px;
-    animation: blink 1s infinite;
-    background: $white;
-    display: block;
-    margin: $base-spacing auto 0;
+  @media screen and (min-width: 600px) {
+    white-space: nowrap;
+    overflow: hidden;
+    animation: type 5s steps(60, end);
   }
 
-@keyframes type{
-  from { width: 0; }
 }
 
-@keyframes blink{
-  to{opacity: 0;}
+.curser {
+  animation: blink 1s infinite;
+  display: block;
+  margin: $base-spacing auto 0;
+
+  .svg-icon {
+    width: 1em;
+    height: 2em;
+
+  }
 }
 
-//::selection{
-//  background: black;
-//}
+@keyframes type {
+  from {
+    width: 0;
+  }
+}
 
+@keyframes blink {
+  to {
+    opacity: 0;
+  }
+}

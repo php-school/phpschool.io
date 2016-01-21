@@ -3,6 +3,7 @@
   flex-wrap: wrap;
   margin-left: -$base-spacing;
   padding: $base-spacing*2 0;
+  border-bottom: 1px solid $silver;
 }
 
 .help__icons {
@@ -16,7 +17,7 @@
   .svg-icon {
     width: 3em;
     height: 3em;
-    color: #10A4B7;
+    color: #480048;
   }
 
   @media screen and (min-width: 600px) {

@@ -18,8 +18,19 @@
   display: block;
   float: left;
   border-radius: 100%;
-  border: 1px solid $silver;
   margin-right: $half-spacing;
+
+  &:first-child {
+    background-color: #F44336;
+  }
+
+  &:nth-child(2n){
+    background-color: #FFEB3B;
+  }
+
+  &:last-child {
+    background-color: #8BC34A;
+  }
 }
 
 .terminal__body {
