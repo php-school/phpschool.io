@@ -36,7 +36,7 @@
 }
 
 .terminal__body {
-  border: 1px solid $silver;
+  //border: 1px solid $silver;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   padding: $half-spacing;
@@ -44,6 +44,8 @@
   font-family: $header-font-family;
   white-space: nowrap;
   overflow-x: scroll;
+  background: $terminalBg;
+  color: $white;
   -webkit-overflow-scrolling: touch;
 
   p {
