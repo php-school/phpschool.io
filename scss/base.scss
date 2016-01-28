@@ -19,7 +19,7 @@ h1, h2, h3 {
   font-family: $header-font-family;
   font-weight: 100;
   margin-bottom: $base-spacing;
-  color: $purple;
+  color: $base-colour;
   font-weight: 100;
 
 }
@@ -44,7 +44,7 @@ p, li, a {
 }
 
 a {
-  color: $blue;
+  color: $secondary-colour;
   text-decoration: none;
 
   &:hover {
@@ -54,7 +54,7 @@ a {
 
 .button {
   padding: $half-spacing $base-spacing;
-  background: $blue;
+  background: $secondary-colour;
   color: $white;
   text-transform: uppercase;
   text-decoration: none;
@@ -65,7 +65,7 @@ a {
 
   &:hover {
     transform: scale(1.05);
-    background: darken(#10A4B7, 5);
+    background: darken($secondary-colour, 15);
     text-decoration: none;
   }
 
@@ -114,7 +114,7 @@ svg {
     transition: color ease .3s;
 
     &:hover {
-      color: $blue;
+      color: $secondary-colour;
     }
   }
 }
