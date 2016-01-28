@@ -14,20 +14,23 @@
 }
 
 .team__desc {
-  max-width: 600px;
+  max-width: 700px;
   width: 100%;
-  margin: 0 auto $base-spacing;
+  margin: 0 auto $base-spacing*2;
 }
 
 .team__list {
   margin-left: -$base-spacing;
   display: flex;
   flex-wrap: wrap;
-  width: 80%;
 }
 
 .team__image {
   margin-bottom: $half-spacing;
+  overflow: hidden;
+  img {
+    //border-radius: 100%;
+  }
 }
 
 .team__item {
@@ -37,11 +40,16 @@
   @media screen and (min-width: 600px) {
     width: 20%;
   }
+  a {
+    display: block;
+    transition: ease all .3s;
+    color: inherit;
+  }
 }
 
 .team__name {
   font-family: $header-font-family;
-  margin-bottom: $half-spacing;
+  margin-bottom: $half-spacing/2;
 }
 
 .team__role {

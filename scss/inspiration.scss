@@ -1,23 +1,34 @@
 .inspiration {
-  background: white;
   padding: $base-spacing*2 0;
+  background-color: lighten($black, 10);
 }
 
 .inspiration__content {
   display: flex;
   flex-wrap: wrap;
   margin-left: -$base-spacing;
+  color: $white;
+}
+
+.inspiration__title {
+  color: $white;
 }
 
 .inspiration__image {
   padding-left: $base-spacing;
   width: 100%;
   margin-bottom: $base-spacing;
-  //order: 2;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 
-  .svg-icon {
-    width: 100%;
-    height: 100%;
+  img {
+    display: block;
+    margin: 0 auto;
+    width: 30%;
+    @media screen and (min-width: 600px) {
+      width: 50%;
+    }
   }
 
   @media screen and (min-width: 600px) {
@@ -31,8 +42,16 @@
   width: 100%;
   text-align: center;
 
-  //@media screen and (min-width: 600px) {
-  //  width: 66.66%;
-  //  text-align: left;
-  //}
+  @media screen and (min-width: 600px) {
+    width: 66.66%;
+    text-align: left;
+  }
+}
+
+.inspiration__link {
+
+  @media screen and (min-width: 600px) {
+  position: relative;
+  left: $base-spacing;
+  }
 }

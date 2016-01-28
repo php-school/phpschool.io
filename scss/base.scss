@@ -2,13 +2,16 @@ body {
   line-height: 1.5;
   font-family: $base-font-family;
   font-weight: 100;
-  color: black;
+  color: $black;
 }
 
 .container {
   max-width: 1024px;
   margin: 0 auto;
-  padding: 0 $half-spacing;
+  padding: 0 $base-spacing;
+  @media screen and (min-width: 600px) {
+    padding: 0 $half-spacing;
+  }
 }
 
 h1, h2, h3 {
@@ -16,21 +19,22 @@ h1, h2, h3 {
   font-family: $header-font-family;
   font-weight: 100;
   margin-bottom: $base-spacing;
-  color: #601848;
+  color: $purple;
   font-weight: 100;
 
 }
 
 h1 {
-  font-size: 28px;
+  font-size: 36px;
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 28px;
 }
 
 h3 {
-  font-size: 20px;
+  font-size: 18px;
+  margin-bottom: $half-spacing;
 }
 
 p, li, a {
@@ -39,9 +43,18 @@ p, li, a {
   margin-bottom: $base-spacing;
 }
 
+a {
+  color: $blue;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .button {
   padding: $half-spacing $base-spacing;
-  background: #10A4B7;
+  background: $blue;
   color: $white;
   text-transform: uppercase;
   text-decoration: none;
@@ -53,6 +66,7 @@ p, li, a {
   &:hover {
     transform: scale(1.05);
     background: darken(#10A4B7, 5);
+    text-decoration: none;
   }
 
   &:after {
@@ -64,9 +78,6 @@ p, li, a {
     width: 43px;
     top: 0;
     border-radius: 100%;
-    //&:hover {
-    //  background: blue;
-    //}
   }
 
   &:before {
@@ -78,17 +89,10 @@ p, li, a {
     width: 43px;
     top: 0;
     border-radius: 100%;
-    //&:hover {
-    //  background: blue;
-    //}
   }
 
 }
 
-.button--black {
-  background: $black;
-  color: $white;
-}
 
 //ICONS
 [class^="icon-"],
@@ -100,7 +104,6 @@ p, li, a {
 }
 
 svg {
-
   display: inline-block;
   fill: currentColor !important;
   vertical-align: middle;
@@ -108,6 +111,11 @@ svg {
   &.svg-icon {
     height: 1em;
     width: 1em;
+    transition: color ease .3s;
+
+    &:hover {
+      color: $blue;
+    }
   }
 }
 

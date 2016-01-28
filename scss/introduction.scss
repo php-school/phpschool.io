@@ -3,9 +3,13 @@
   flex-wrap: wrap;
   margin-left: -$base-spacing;
   padding: $base-spacing*2 0;
+
+  @media screen and (min-width: 600px) {
+    padding: $base-spacing*4 0;
+  }
 }
 
-.introduction__info, .introduction__video {
+.introduction__info {
   width: 100%;
   padding-left: $base-spacing;
 
@@ -14,5 +18,13 @@
   }
 }
 
+.introduction__video {
+  width: 100%;
+  padding-left: $base-spacing;
+
+  @media screen and (min-width: 600px) {
+    width: 50%;
+  }
+}
 
 

@@ -7,6 +7,7 @@
     <title>PHP SCHOOL</title>
     <link rel="stylesheet" href="/css/core.min.css"/>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <script type="javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
 
@@ -34,10 +35,10 @@
     </nav>
     <div class="container">
         <figure class="logo">{{inc src="icon.hbs" name="logo"}}</figure>
-        <h1 class="header__title">Open source learning tool</h1>
-        <p class="css-typing">This is a paragraph that is being typed by CSS animation.</p>
-        <p class="header__desc">A revolutionary new way to learn to code. Bring your imagination to life in an open learning eco-system. <span class="curser">{{inc src="icon.hbs" name="cursor"}}</span> </p>
+        <h1 class="header__title">Open source learning</h1>
+        <p class="header__desc">A revolutionary new way to learn PHP. Bring your imagination to life in an open learning eco-system.</p>
         <a href="#core-workshop" class="header__link button">Workshops</a>
+        <span class="curser">{{inc src="icon.hbs" name="cursor"}}</span>
     </div>
 </header>
 
@@ -46,7 +47,8 @@
         <div class="introduction">
             <div class="introduction__info">
                 <h2>Getting started</h2>
-                <p>PHP School is a set of ever expanding workshops to teach you basic to advanced concepts in PHP. We want to empower you to build, whether it be a hobbyist project or a tool to help educate the world. Skill nor age should be a barrier to learning, the PHP School team are committed to helping train the next generation of coders who will go on to change the world.</p>
+                <p>PHP School is a set of ever expanding workshops to teach you basic to advanced concepts in PHP.</p>
+                <!--<p>We want to empower you to build, whether it be a hobbyist project or a tool to help educate the world. Skill nor age should be a barrier to learning, the PHP School team are committed to helping train the next generation of coders who will go on to change the world.</p>-->
                 <div class="terminal">
                     <div class="terminal-head">
                         <span class="terminal__button"></span>
@@ -54,13 +56,22 @@
                         <span class="terminal__button"></span>
                     </div>
                     <div class="terminal__body">
-                        <p>curl -sS https://getcomposer.org/installer | php</p>
-                        <p>curl -sS https://getcomposer.org/installer | php</p>
+                        <p>composer global require php-school/learn-you-php </p>
+                        <p>learnyouphp</p>
                     </div>
                 </div>
             </div>
             <div class="introduction__video">
-                <!--<script type="text/javascript" src="https://asciinema.org/a/14.js" id="asciicast-14" async></script>-->
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body terminal--image">
+                        <img src="../img/menu.png"/>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -92,8 +103,7 @@
             <div class="community-workshop__info">
                 <h2>Community workshops</h2>
                 <p>At the core, PHP School is a workshop application which allows you to run exercises. We have designed it in a way so that you can build your own workshops!</p>
-                <p>If you want your workshop featured here, drop us an issue on GitHub</p>
-                <p>Visit the documentation to see how you can build your own workshop!</p>
+                <p>If you want your workshop featured here, drop us an issue on GitHub. Visit the documentation to see how you can build your own workshop!</p>
             </div>
             <div class="community-workshop__courses">
                 <div class="terminal">
@@ -107,9 +117,41 @@
                     </div>
                     <p class="termianl__meta">Made by: Name here + git hub link</p>
                 </div>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>Be the second</p>
+                    </div>
+                    <p class="termianl__meta">Made by: Name here + git hub link</p>
+                </div>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>Be the third</p>
+                    </div>
+                    <p class="termianl__meta">Made by: Name here + git hub link</p>
+                </div>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>Be the fourth</p>
+                    </div>
+                    <p class="termianl__meta">Made by: Name here + git hub link</p>
+                </div>
             </div>
         </div>
-
         <div class="help" id="help">
             <div class="help__icons">
                 <ul class="social-nav">
@@ -123,62 +165,76 @@
                 <p>If you need help or want to contribute to PHP School. You can chat on Slack, Create issues and send PR's on GitHub. We also have a twitter account where we will push out news and information!</p>
             </div>
         </div>
-        <section class="team">
-
-            <h2>Our team</h2>
-            <p class="team__desc">We are a couple of friends working in our spare time to improve the quality of PHP learning resources</p>
-            <ul class="team__list">
-                <li class="team__item">
-                    <figure class="team__image">
-                        <img src="https://avatars0.githubusercontent.com/u/2817002?v=3&s=460" alt="@AydinHassan">
-                    </figure>
-                    <p class="team__name">Aydin Hassan</p>
-                    <p class="team__role">Developer</p>
-                </li>
-                <li class="team__item">
-                    <figure class="team__image">
-                        <img src="https://avatars0.githubusercontent.com/u/2174476?v=3&s=460" alt="@mikeymike">
-                    </figure>
-                    <p class="team__name">Michael Woodward</p>
-                    <p class="team__role">Developer</p>
-                </li>
-                <li class="team__item">
-                    <figure class="team__image">
-                        <img src="https://avatars3.githubusercontent.com/u/1643522?v=3&s=460" alt="@shakeyShane">
-                    </figure>
-                    <p class="team__name">Shane Osbourne</p>
-                    <p class="team__role">Developer</p>
-                </li>
-                <li class="team__item">
-                    <figure class="team__image">
-                        <img src="https://avatars3.githubusercontent.com/u/3636816?v=3&s=460" alt="@chris3ailey">
-                    </figure>
-                    <p class="team__name">Chris Bailey</p>
-                    <p class="team__role">Designer</p>
-                </li>
-                <li class="team__item">
-                    <figure class="team__image">
-                        <img src="https://avatars3.githubusercontent.com/u/3636816?v=3&s=460" alt="@chris3ailey">
-                    </figure>
-                    <p class="team__name">Oliver Chenery</p>
-                    <p class="team__role">Designer</p>
-                </li>
-            </ul>
-        </section>
-
-
+    </div>
+</section>
+<section class="team">
+    <div class="container">
+    <h2>Our team</h2>
+    <p class="team__desc">We are a couple of friends working in our spare time to improve the quality of PHP learning resources. We want to empower you to build, whether it be a hobbyist project or a tool to help educate the world. Skill nor age should be a barrier to learning, the PHP School team are committed to helping train the next generation of coders who will go on to change the world.</p>
+    <ul class="team__list">
+        <li class="team__item">
+            <a href="">
+                <figure class="team__image">
+                    <img src="https://avatars0.githubusercontent.com/u/2817002?v=3&s=460" alt="@AydinHassan">
+                </figure>
+                <p class="team__name">Aydin Hassan</p>
+                <p class="team__role">Developer</p>
+                {{inc src="icon.hbs" name="github"}}
+            </a>
+        </li>
+        <li class="team__item">
+            <a href="">
+                <figure class="team__image">
+                    <img src="https://avatars0.githubusercontent.com/u/2174476?v=3&s=460" alt="@mikeymike">
+                </figure>
+                <p class="team__name">Michael Woodward</p>
+                <p class="team__role">Developer</p>
+                {{inc src="icon.hbs" name="github"}}
+            </a>
+        </li>
+        <li class="team__item">
+            <a href="">
+                <figure class="team__image">
+                    <img src="https://avatars3.githubusercontent.com/u/1643522?v=3&s=460" alt="@shakeyShane">
+                </figure>
+                <p class="team__name">Shane Osbourne</p>
+                <p class="team__role">Developer</p>
+                {{inc src="icon.hbs" name="github"}}
+            </a>
+        </li>
+        <li class="team__item">
+            <a href="">
+                <figure class="team__image">
+                    <img src="https://avatars3.githubusercontent.com/u/3636816?v=3&s=460" alt="@chris3ailey">
+                </figure>
+                <p class="team__name">Chris Bailey</p>
+                <p class="team__role">Designer</p>
+                {{inc src="icon.hbs" name="github"}}
+            </a>
+        </li>
+        <li class="team__item">
+            <a href="">
+                <figure class="team__image">
+                    <img src="https://avatars0.githubusercontent.com/u/2817002?v=3&s=460" alt="@AydinHassan">
+                </figure>
+                <p class="team__name">Oliver Chenery</p>
+                <p class="team__role">Designer</p>
+                {{inc src="icon.hbs" name="github"}}
+            </a>
+        </li>
+    </ul>
     </div>
 </section>
 
 <section class="inspiration">
     <div class="container">
         <div class="inspiration__content">
-            <!--<figure class="inspiration__image">-->
-                <!--{{inc src="icon.hbs" name="node-school"}}-->
-            <!--</figure>-->
+            <figure class="inspiration__image">
+                <img src="../img/svg/node-school-logo.svg" />
+            </figure>
             <article class="inspiration__info">
-                <h2>Our inspiration</h2>
-                <p>Thank you Node school for inspiring us to create PHP school, if Node & JavaScript is your thing we recommend you check them out. As developers using open source software, we have always loved the spirit of giving back. We work in a truly unique industry with is held together by people providing for free. When we saw Node School and what they had achieved, we knew we had to bring it over to the PHP world</p>
+                <h2 class="inspiration__title">Our inspiration</h2>
+                <p>Thank you <a href="http://nodeschool.io/">Node school</a> for inspiring us to create PHP school, if Node & JavaScript is your thing we recommend you check them out. As developers using open source software, we have always loved the spirit of giving back. We work in a truly unique industry with is held together by people providing for free. When we saw Node School and what they had achieved, we knew we had to bring it over to the PHP world</p>
                 <a href="http://nodeschool.io/" class="inspiration__link button">Node school</a>
             </article>
         </div>
@@ -196,24 +252,7 @@
         </ul>
     </div>
 </footer>
-<!--<script type="javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>-->
-<!--<script type="javascript">-->
-    <!--var $ = 'jQuery';-->
-    <!--var $trigger = $('a[href*=#]:not([href=#])');-->
-        <!--$trigger.on('click', function(evt) {-->
-            <!--evt.preventDefault();-->
 
-            <!--if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {-->
-                <!--var target = $(this.hash);-->
-                <!--target = target.length ? target : $('[name=' + this.hash.slice(1) +']');-->
-                <!--if (target.length) {-->
-                    <!--$('html,body').animate({-->
-                        <!--scrollTop: target.offset().top-->
-                    <!--}, 1000);-->
-                    <!--return false;-->
-                <!--}-->
-            <!--}-->
-        <!--});-->
-<!--</script>-->
 </body>
 </html>
+

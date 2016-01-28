@@ -20,9 +20,6 @@
 .navigation {
   display: flex;
   padding-left: $half-spacing;
-  @media screen and (min-width: 600px) {
-    padding: 0;
-  }
 }
 
 .navigation__item {
@@ -41,7 +38,8 @@
 
 .site-header {
   text-align: center;
-  background: linear-gradient(darken(#480048, 10), #480048);
+  background-image: url('../img/header-bg.jpg');
+  background-size: 600px;
   color: $white;
   padding-bottom: $base-spacing*2;
 
@@ -64,15 +62,9 @@
 
 .header__desc {
   font-size: 18px;
-  margin: 0 auto $base-spacing;
+  margin: 0 auto $base-spacing+$half-spacing;
   width: 100%;
-  font-family: $header-font-family;
-  @media screen and (min-width: 600px) {
-    white-space: nowrap;
-    overflow: hidden;
-    animation: type 5s steps(60, end);
-  }
-
+  max-width: 450px;
 }
 
 .curser {
@@ -84,12 +76,6 @@
     width: 1em;
     height: 2em;
 
-  }
-}
-
-@keyframes type {
-  from {
-    width: 0;
   }
 }
 
