@@ -10,7 +10,8 @@
   bottom: -1px;
   padding: 5px;
   display: flex;
-  background: lighten($silver, 19);
+  //background: lighten($silver, 19);
+  background: linear-gradient(lighten($silver,15), lighten($silver,5));
 }
 
 .terminal__button {
@@ -22,21 +23,9 @@
   margin-right: $half-spacing;
   border: 1px solid $silver;
   background: $white;
-  //&:first-child {
-  //  background-color: lighten($black, 30);
-  //}
-  //
-  //&:nth-child(2n) {
-  //  background-color: lighten($black, 45);
-  //}
-  //
-  //&:last-child {
-  //  background-color: lighten($black, 60);
-  //}
 }
 
 .terminal__body {
-  //border: 1px solid $silver;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   padding: $half-spacing;
