@@ -111,11 +111,6 @@ svg {
   &.svg-icon {
     height: 1em;
     width: 1em;
-    transition: color ease .3s;
-
-    &:hover {
-      color: $secondary-colour;
-    }
   }
 }
 

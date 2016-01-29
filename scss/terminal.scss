@@ -44,7 +44,7 @@
   font-family: $header-font-family;
   white-space: nowrap;
   overflow-x: scroll;
-  background: $terminalBg;
+  background: $base-colour;
   color: $white;
   -webkit-overflow-scrolling: touch;
 
@@ -53,7 +53,7 @@
     &:before {
       content: '$';
       margin-right: 4px;
-      color: $secondary-colour;
+      color: lighten($secondary-colour, 15);
       font-weight: bold;
     }
     &:last-child {

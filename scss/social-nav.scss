@@ -15,6 +15,10 @@
 
   &:hover {
     transform: scale(1.2);
+
+    .svg-icon {
+      color: $secondary-colour;
+    }
   }
 
 }
