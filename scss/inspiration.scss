@@ -1,6 +1,8 @@
 .inspiration {
   padding: $base-spacing*2 0;
-  background-color: lighten($black, 10);
+  background-color: $base-colour;
+  background-image: url(../img/header-bg.jpg);
+  background-size: 600px;
 }
 
 .inspiration__content {
