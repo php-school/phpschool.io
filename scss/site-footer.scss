@@ -1,0 +1,19 @@
+.site-footer {
+  .svg-icon {
+    width: 1.5em;
+    height: 1.5em;
+    color: $white;
+  }
+
+}
+
+.copyright {
+  text-align: center;
+  background: $black;
+  padding: $base-spacing;
+}
+
+.copyright__text {
+  color: $silver;
+  margin-bottom: $half-spacing;
+}

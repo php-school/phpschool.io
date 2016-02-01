@@ -1,0 +1,87 @@
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba($white, 0.2);
+  padding: $half-spacing 0;
+  margin-bottom: $base-spacing*2;
+
+  @media screen and (min-width: 600px) {
+    margin-bottom: $base-spacing*4;
+  }
+
+  .svg-icon {
+    width: 1.5em;
+    height: 1.5em;
+    color: $white;
+  }
+}
+
+.navigation {
+  display: flex;
+  padding-left: $half-spacing;
+}
+
+.navigation__item {
+  margin: 0;
+  padding-right: $base-spacing;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navigation__link {
+  color: $white;
+  margin-bottom: 0;
+  text-decoration: none;
+}
+
+.site-header {
+  text-align: center;
+  background-image: url('../img/header-bg.jpg');
+  background-size: 600px;
+  background-color: $base-colour;
+  color: $white;
+  padding-bottom: $base-spacing*2;
+
+  @media screen and (min-width: 600px) {
+    padding-bottom: $base-spacing*4;
+  }
+}
+
+.logo {
+  margin-bottom: $base-spacing;
+  .svg-icon {
+    height: 11em;
+    width: 11em;
+  }
+}
+
+.header__title {
+  color: $white;
+}
+
+.header__desc {
+  font-size: 18px;
+  margin: 0 auto $base-spacing+$half-spacing;
+  width: 100%;
+  max-width: 450px;
+}
+
+.curser {
+  animation: blink 1s infinite;
+  display: block;
+  margin: $base-spacing auto 0;
+
+  .svg-icon {
+    width: 1em;
+    height: 2em;
+    color: $secondary-colour;
+  }
+}
+
+@keyframes blink {
+  to {
+    opacity: 0;
+  }
+}

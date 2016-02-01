@@ -1,0 +1,39 @@
+.help {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -$base-spacing;
+  padding: $base-spacing*2 0;
+  border-bottom: 1px solid $silver;
+}
+
+.help__icons {
+  width: 100%;
+  padding-left: $base-spacing;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: $base-spacing;
+
+  .svg-icon {
+    width: 3em;
+    height: 3em;
+    color: $black;
+  }
+
+  @media screen and (min-width: 600px) {
+    width: 33.33%;
+    margin-bottom: 0;
+  }
+}
+
+.help__info {
+  width: 100%;
+  padding-left: $base-spacing;
+
+  p {
+    margin-bottom: 0;
+  }
+  @media screen and (min-width: 600px) {
+    width: 66.66%;
+  }
+}

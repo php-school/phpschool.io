@@ -1,0 +1,24 @@
+.social-nav {
+  display: flex;
+  justify-content: center;
+}
+
+.social-nav__item {
+  margin: 0;
+}
+
+.social-nav__link {
+  display: block;
+  margin: 0;
+  padding: $half-spacing;
+  transition: transform ease .3s;
+
+  &:hover {
+    transform: scale(1.2);
+
+    .svg-icon {
+      color: $secondary-colour;
+    }
+  }
+
+}

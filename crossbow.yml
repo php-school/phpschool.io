@@ -7,7 +7,7 @@ watch:
       "_src:config.yml": ["crossbow", "bs:reload"]
       "scss/**": ["sass", "bs:reload:{sass.output}"]
 tasks:
-  build: ["sass", "crossbow"]
+  build: ["icons", "sass", "crossbow"]
 config:
   icons:
     input: "img/svg/**"
