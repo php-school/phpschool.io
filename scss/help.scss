@@ -30,9 +30,18 @@
   width: 100%;
   padding-left: $base-spacing;
 
+  h2, p {
+      text-align: center;
+
+      @media screen and (min-width: 600px) {
+        text-align: left;
+      }
+  }
+
   p {
     margin-bottom: 0;
   }
+
   @media screen and (min-width: 600px) {
     width: 66.66%;
   }
