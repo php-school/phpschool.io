@@ -32,7 +32,7 @@
   margin-bottom: $half-spacing;
   font-family: $header-font-family;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: auto;
   background: $base-colour;
   color: $white;
   -webkit-overflow-scrolling: touch;
