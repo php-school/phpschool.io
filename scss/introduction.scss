@@ -27,4 +27,16 @@
   }
 }
 
+.requirements {
+  list-style: disc;
+  padding: 0 0 0 30px;
+}
 
+.requirements li {
+  display: list-item;
+  margin-bottom: 10px;
+
+  &:last-of-type {
+    margin-bottom: 23px;
+  }
+}
