@@ -53,7 +53,8 @@
 .inspiration__link {
 
   @media screen and (min-width: 600px) {
-  position: relative;
-  left: $base-spacing;
+    text-transform: none;
+    position: relative;
+    left: $base-spacing;
   }
 }

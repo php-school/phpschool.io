@@ -1,0 +1,53 @@
+.install {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -$base-spacing;
+  padding: $base-spacing*2 0;
+
+  @media screen and (min-width: 600px) {
+    padding: $base-spacing*4 0;
+  }
+}
+
+.install_os {
+  width: 100%;
+  padding-left: $base-spacing;
+  padding-right: $base-spacing;
+
+  @media screen and (min-width: 1000px) {
+    width: 33%;
+    border-right: 1px solid #CCC;
+
+    &:last-of-type {
+      border-right: none;
+    }
+  }
+}
+
+.os-icon {
+  color: #E91E63;
+  text-align: center;
+}
+
+.pre-requisites-header {
+  text-align: center;
+}
+
+.pre-requisites {
+  list-style: none;
+  overflow: scroll;
+  li {
+    display: inline;
+    margin-bottom: 10px;
+
+
+    .hint {
+      color: #1c8ed7;
+      //border: 1px solid #1c8ed7;
+      border-radius: 4px;
+      padding: 10px 10px 10px 0px;
+    }
+  }
+}
+
+

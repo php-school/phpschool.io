@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - PHP School - Open Source Learning for PHP</title>
-    <meta name="Description" content="Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP">
+    <title>Index - PHP School - Open Source Learning for PHP</title>
+    <meta name="Description" content="">
 
     <link href="../img/favicon.ico" rel="shortcut icon" type="image/ico">
     <link href="../img/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72">
@@ -41,7 +41,52 @@
 </header>
 
 
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP School - Open Source Learning for PHP</title>
+    <meta name="Description" content="Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP
+">
+    <link rel="stylesheet" href="/css/core.min.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+</head>
+<body>
 
+<header class="site-header">
+    <nav class="">
+        <div class="container site-nav">
+            <ul class="navigation">
+                <!--<li class="navigation__item">-->
+                    <!--<a href="#core-workshop" class="navigation__link">Workshops</a>-->
+                <!--</li>-->
+                <li class="navigation__item">
+                    <a href="#help" class="navigation__link">Need Help?</a>
+                </li>
+                <li class="navigation__item">
+                    <a href="install.html" class="navigation__link">Install</a>
+                </li>
+                <!--<li class="navigation__item">-->
+                    <!--<a href="#team" class="navigation__link">About</a>-->
+                <!--</li>-->
+            </ul>
+            <ul class="social-nav">
+                <li class="social-nav__item"><a href="https://github.com/php-school/learn-you-php" class="social-nav__link" title="PHPSchool on Github"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-github"></use></svg></a></li>
+                <li class="social-nav__item"><a href="https://twitter.com/PHPSchoolTeam" class="social-nav__link" title="PHPSchool on Twitter"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-twitter"></use></svg></a></li>
+                <li class="social-nav__item"><a href="https://phpschool.herokuapp.com" class="social-nav__link" title="PHPSchool on Slack"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-slack"></use></svg></a></li>
+            </ul>
+
+        </div>
+    </nav>
+    <div class="container">
+        <figure class="logo"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-logo"></use></svg></figure>
+        <h1 class="header__title">Open Source Learning for PHP</h1>
+        <p class="header__desc">A revolutionary new way to learn PHP. Bring your imagination to life in an open learning eco-system.</p>
+        <a href="#getting-started" class="header__link button">Get Started</a>
+        <span class="curser"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-cursor"></use></svg></span>
+    </div>
+</header>
 
 <section class="site-body">
     <div class="container">
@@ -65,7 +110,7 @@
                         <span class="terminal__button"></span>
                     </div>
                     <div class="terminal__body">
-                        <p>composer global require php-school/learn-you-php:~0.1</p>
+                        <p>composer global require php-school/learn-you-php </p>
                         <p>learnyouphp</p>
                     </div>
                 </div>
@@ -85,6 +130,30 @@
                 </div>
             </div>
         </div>
+
+        <!--<div id="core-workshop" class="core-workshop">-->
+            <!--<div class="core-workshop__info">-->
+                <!--<h2>Core Workshops</h2>-->
+                <!--<p>The scope for workshops in infinite, to give you an idea of what's to come:</p>-->
+                <!--<ul>-->
+                    <!--<li>Learn PHP7</li>-->
+                    <!--<li>Composer & Dependencies</li>-->
+                    <!--<li>Back to Basics</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <!--<div class="core-workshop__courses">-->
+                <!--<div class="terminal">-->
+                    <!--<div class="terminal-head">-->
+                        <!--<span class="terminal__button"></span>-->
+                        <!--<span class="terminal__button"></span>-->
+                        <!--<span class="terminal__button"></span>-->
+                    <!--</div>-->
+                    <!--<div class="terminal__body">-->
+                        <!--<p>curl -sS https://getcomposer.org/installer | php</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <div class="community-workshop">
             <div class="community-workshop__info">
@@ -233,6 +302,33 @@
         </div>
     </div>
 </section>
+
+<footer class="site-footer" role="contentinfo">
+    <div class="container"></div>
+    <div class="copyright">
+        <p class="copyright__text">© Copyright 2016</p>
+        <ul class="social-nav">
+            <li class="social-nav__item"><a href="https://github.com/php-school/learn-you-php" class="social-nav__link" title="PHPSchool on Github"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-github"></use></svg></a></li>
+            <li class="social-nav__item"><a href="https://twitter.com/PHPSchoolTeam" class="social-nav__link" title="PHPSchool on Twitter"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-twitter"></use></svg></a></li>
+            <li class="social-nav__item"><a href="https://phpschool.herokuapp.com" class="social-nav__link" title="PHPSchool on Slack"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-slack"></use></svg></a></li>
+        </ul>
+
+    </div>
+</footer>
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-73179733-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+</body>
+</html>
+
 
 
 <footer class="site-footer" role="contentinfo">
