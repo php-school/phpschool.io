@@ -1,5 +1,9 @@
-title: 'PHP SCHOOL'
+title: 'PHP School - Open Source Learning for PHP'
+
+description: >
+    Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP
+
 links:
   github: 'https://github.com/php-school'
   twitter: 'https://twitter.com/PHPSchoolTeam'
-  slack: 'https://phpschool.herokuapp.com/'
+  slack: 'https://phpschool.herokuapp.com'

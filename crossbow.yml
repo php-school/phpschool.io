@@ -2,6 +2,9 @@ watch:
   bs-config:
     server: true
     open: false
+    tunnel: true
+    ghostMode: false
+
   tasks:
     default:
       "_src:config.yml": ["crossbow", "bs:reload"]
