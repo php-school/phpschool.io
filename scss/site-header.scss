@@ -34,6 +34,10 @@
   color: $white;
   margin-bottom: 0;
   text-decoration: none;
+
+  &:hover {
+    color: $secondary-colour;
+  }
 }
 
 .site-header {

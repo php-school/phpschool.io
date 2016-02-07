@@ -35,112 +35,92 @@
 
         </div>
     </nav>
-    <div class="container">
-        <figure class="logo"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-logo"></use></svg></figure>
-        <h1 class="header__title">Open Source Learning for PHP</h1>
-        <p class="header__desc">A revolutionary new way to learn PHP. Bring your imagination to life in an open learning eco-system.</p>
-        <a href="#getting-started" class="header__link button">Get Started</a>
-        <span class="curser"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-cursor"></use></svg></span>
-    </div>
+    <!--<div class="container">-->
+        <!--<figure class="logo"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-logo"></use></svg></figure>-->
+        <!--<h1 class="header__title">Open Source Learning for PHP</h1>-->
+        <!--<p class="header__desc">A revolutionary new way to learn PHP. Bring your imagination to life in an open learning eco-system.</p>-->
+        <!--<a href="#getting-started" class="header__link button">Get Started</a>-->
+        <!--<span class="curser"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-cursor"></use></svg></span>-->
+    <!--</div>-->
 </header>
 
 <section class="site-body">
-    <div class="">
-        <div class="install">
-            <div class="install_os">
-                <p class="os-icon"><i class="fa fa-windows fa-4x"></i></p>
-                <h4 class="pre-requisites-header">Prerequisites</h4>
+    <div class="container docs">
+        <div class="doc__content">
+            <h2>PHP 5.6</h2>
+            <p><span class="hint"><i class="fa fa-fw fa-info"></i>You can check your PHP version using <code>php -v</code></span></p>
+            <p>If you have a version of PHP less than 5.6</p>
+            <div class="terminal">
+                <div class="terminal-head">
+                    <span class="terminal__button"></span>
+                    <span class="terminal__button"></span>
+                    <span class="terminal__button"></span>
+                </div>
+                <div class="terminal__body">
+                    <p>sudo apt-get install software-properties-common</p>
+                    <p>sudo add-apt-repository ppa:ondrej/php5-5.6</p>
+                </div>
+            </div>
+            <h2>Composer</h2>
+            <p><span class="hint"><i class="fa fa-fw fa-info"></i>You can check if you have composer installed with <code>composer -v</code></span></p>
+            <p>If you need to install Composer</p>
+            <div class="terminal">
+                <div class="terminal-head">
+                    <span class="terminal__button"></span>
+                    <span class="terminal__button"></span>
+                    <span class="terminal__button"></span>
+                </div>
+                <div class="terminal__body">
+                    <p>curl -sS https://getcomposer.org/installer | php</p>
+                    <p>mv composer.phar /usr/local/bin/composer</p>
+                    <p>chmod +x /usr/local/bin/composer</p>
+                </div>
+            </div>
+            <h2>PHP 5.6</h2>
+            <p><span class="hint"><i class="fa fa-fw fa-info"></i>You can check your PHP version using <code>php -v</code></span></p>
 
+            <p>If you have a version of PHP less than 5.6</p>
+            <div class="terminal">
+                <div class="terminal-head">
+                    <span class="terminal__button"></span>
+                    <span class="terminal__button"></span>
+                    <span class="terminal__button"></span>
+                </div>
+                <div class="terminal__body">
+                    <p>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</p>
+                    <p>brew tap homebrew/dupes</p>
+                    <p>brew tap homebrew/homebrew-php</p>
+                    <p>brew install php56</p>
+                    <p>export PATH="$(brew --prefix php56)/bin:$PATH"</p>
+                </div>
             </div>
-            <div class="install_os">
-                <p class="os-icon"><i class="fa fa-linux fa-4x"></i></p>
-                <h4 class="pre-requisites-header">Prerequisites</h4>
-                <br>
-                <ul class="pre-requisites">
-                    <li>
-                        <h3>PHP 5.6</h3>
-                        <div class="hint"><i class="fa fa-fw fa-info"></i>You can check your PHP version using <code>php -v</code></div>
-                        <p>If you have a version of PHP less than 5.6</p>
-                        <div class="terminal">
-                            <div class="terminal-head">
-                                <span class="terminal__button"></span>
-                                <span class="terminal__button"></span>
-                                <span class="terminal__button"></span>
-                            </div>
-                            <div class="terminal__body">
-                                <p>sudo apt-get install software-properties-common</p>
-                                <p>sudo add-apt-repository ppa:ondrej/php5-5.6</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <h3>Composer</h3>
-                        <div class="hint"><i class="fa fa-fw fa-info"></i>You can check if you have composer installed with <code>composer -v</code></div>
-                        <p>If you need to install Composer</p>
-                        <div class="terminal">
-                            <div class="terminal-head">
-                                <span class="terminal__button"></span>
-                                <span class="terminal__button"></span>
-                                <span class="terminal__button"></span>
-                            </div>
-                            <div class="terminal__body">
-                                <p>curl -sS https://getcomposer.org/installer | php</p>
-                                <p>mv composer.phar /usr/local/bin/composer</p>
-                                <p>chmod +x /usr/local/bin/composer</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li></li>
-                    <li></li>
-                </ul>
-            </div>
-            <div class="install_os">
-                <p class="os-icon"><i class="fa fa-apple fa-4x"></i></p>
-                <h4 class="pre-requisites-header">Prerequisites</h4>
-                <br>
-                <ul class="pre-requisites">
-                    <li>
-                        <h3>PHP 5.6</h3>
-                        <div class="hint"><i class="fa fa-fw fa-info"></i>You can check your PHP version using <code>php -v</code></div>
-                        <p>If you have a version of PHP less than 5.6</p>
-                        <div class="terminal">
-                            <div class="terminal-head">
-                                <span class="terminal__button"></span>
-                                <span class="terminal__button"></span>
-                                <span class="terminal__button"></span>
-                            </div>
-                            <div class="terminal__body">
-                                <p>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</p>
-                                <p>brew tap homebrew/dupes</p>
-                                <p>brew tap homebrew/homebrew-php</p>
-                                <p>brew install php56</p>
-                                <p>export PATH="$(brew --prefix php56)/bin:$PATH"</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <h3>Composer</h3>
-                        <div class="hint"><i class="fa fa-fw fa-info"></i>You can check if you have composer installed with <code>composer -v</code></div>
-                        <p>If you need to install Composer</p>
-                        <div class="terminal">
-                            <div class="terminal-head">
-                                <span class="terminal__button"></span>
-                                <span class="terminal__button"></span>
-                                <span class="terminal__button"></span>
-                            </div>
-                            <div class="terminal__body">
-                                <p>curl -sS https://getcomposer.org/installer | php</p>
-                                <p>mv composer.phar /usr/local/bin/composer</p>
-                                <p>chmod +x /usr/local/bin/composer</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li></li>
-                    <li></li>
-                </ul>
+
+            <h2>Composer</h2>
+
+            <p><span class="hint"><i class="fa fa-fw fa-info"></i>You can check if you have composer installed with <code>composer -v</code></span></p>
+
+            <p>If you need to install Composer</p>
+
+            <div class="terminal">
+                <div class="terminal-head">
+                    <span class="terminal__button"></span>
+                    <span class="terminal__button"></span>
+                    <span class="terminal__button"></span>
+                </div>
+                <div class="terminal__body">
+                    <p>curl -sS https://getcomposer.org/installer | php</p>
+                    <p>mv composer.phar /usr/local/bin/composer</p>
+                    <p>chmod +x /usr/local/bin/composer</p>
+                </div>
             </div>
         </div>
-
+        <ul class="doc__side">
+            <li><a href="#">Checking you php version</a></li>
+            <li><a href="#">wtnhetnmen</a></li>
+            <li><a href="#">abab</a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+        </ul>
     </div>
 </section>
 
