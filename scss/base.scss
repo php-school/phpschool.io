@@ -18,7 +18,6 @@ h1, h2, h3 {
   line-height: 1;
   font-family: $header-font-family;
   font-weight: 100;
-  margin-bottom: $base-spacing;
   color: $secondary-colour;
   font-weight: 100;
 
@@ -26,21 +25,24 @@ h1, h2, h3 {
 
 h1 {
   font-size: 36px;
+  margin-bottom: $base-spacing;
 }
 
 h2 {
   font-size: 28px;
+  margin-bottom: $base-spacing;
 }
 
 h3 {
   font-size: 18px;
   margin-bottom: $half-spacing;
+  color: $base-colour;
 }
 
 p, li, a {
   font-size: 14px;
   line-height: 1.5;
-  margin-bottom: $base-spacing;
+  margin-bottom: $half-spacing;
 }
 
 a {

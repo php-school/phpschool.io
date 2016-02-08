@@ -9,9 +9,8 @@ function crossbowBuild (obs, opts, ctx) {
     ctx.vfs.src(input)
         .pipe(crossbow.stream({
             config: {
-                defaultLayout: "default.hbs",
-                base: opts.base,
                 prettyUrls: true,
+                base: opts.base,
                 errorHandler: function (err, compiler) {
                     err.crossbowMessage = obs.compile(compiler.getErrorString(err)[0])
                     obs.onError(err);

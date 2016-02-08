@@ -34,9 +34,11 @@
   color: $white;
   margin-bottom: 0;
   text-decoration: none;
+  transition: all ease .3s;
 
   &:hover {
     color: $secondary-colour;
+    text-decoration: none;
   }
 }
 
