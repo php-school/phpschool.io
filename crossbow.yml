@@ -21,7 +21,7 @@ config:
   crossbow:
       base: "_src"
       input: [
-          "_src/*.html"
+          "_src/*.hbs"
       ]
       data:
         site: 'file:config.yml'
