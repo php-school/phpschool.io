@@ -1,44 +1,9 @@
-<!doctype html>
-<html lang="en-US">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{site.title}}</title>
-    <meta name="Description" content="{{site.description}}">
-    <link rel="stylesheet" href="/css/core.min.css"/>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-</head>
-<body>
+---
+title: "Home"
+description: "Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP"
+---
 
-<header class="site-header">
-    <nav class="">
-        <div class="container site-nav">
-            <ul class="navigation">
-                <!--<li class="navigation__item">-->
-                    <!--<a href="#core-workshop" class="navigation__link">Workshops</a>-->
-                <!--</li>-->
-                <li class="navigation__item">
-                    <a href="#help" class="navigation__link">Need Help?</a>
-                </li>
-                <li class="navigation__item">
-                    <a href="install" class="navigation__link">Installation</a>
-                </li>
-                <!--<li class="navigation__item">-->
-                    <!--<a href="#team" class="navigation__link">About</a>-->
-                <!--</li>-->
-            </ul>
-            {{inc src="social-nav.hbs"}}
-        </div>
-    </nav>
-    <div class="container">
-        <figure class="logo">{{inc src="icon.hbs" name="logo"}}</figure>
-        <h1 class="header__title">Open Source Learning for PHP</h1>
-        <p class="header__desc">A revolutionary new way to learn PHP. Bring your imagination to life in an open learning eco-system.</p>
-        <a href="#getting-started" class="header__link button">Get Started</a>
-        <span class="curser">{{inc src="icon.hbs" name="cursor"}}</span>
-    </div>
-</header>
+{{inc src="home-header.hbs"}}
 
 <section class="site-body">
     <div class="container">
@@ -54,7 +19,7 @@
                 </ul>
 
                 <p>You will also need a Text Editor. You can use one of the following if you don't already have one: <a href="https://atom.io/" target="_blank">Atom</a>, <a href="https://www.sublimetext.com/" target="_blank">Sublime</a>.</p>
-                <p>Once the requirements have been satisfied, run the below commands in your terminal. If you experience any issues, visit out <a href="install">installation page</a></p>
+                <p>Once the requirements have been satisfied, run the below commands in your terminal.</p>
                 <div class="terminal">
                     <div class="terminal-head">
                         <span class="terminal__button"></span>
@@ -62,7 +27,7 @@
                         <span class="terminal__button"></span>
                     </div>
                     <div class="terminal__body">
-                        <p>composer global require php-school/learn-you-php </p>
+                        <p>composer global require php-school/learn-you-php:~0.1</p>
                         <p>learnyouphp</p>
                     </div>
                 </div>
@@ -82,30 +47,6 @@
                 </div>
             </div>
         </div>
-
-        <!--<div id="core-workshop" class="core-workshop">-->
-            <!--<div class="core-workshop__info">-->
-                <!--<h2>Core Workshops</h2>-->
-                <!--<p>The scope for workshops in infinite, to give you an idea of what's to come:</p>-->
-                <!--<ul>-->
-                    <!--<li>Learn PHP7</li>-->
-                    <!--<li>Composer & Dependencies</li>-->
-                    <!--<li>Back to Basics</li>-->
-                <!--</ul>-->
-            <!--</div>-->
-            <!--<div class="core-workshop__courses">-->
-                <!--<div class="terminal">-->
-                    <!--<div class="terminal-head">-->
-                        <!--<span class="terminal__button"></span>-->
-                        <!--<span class="terminal__button"></span>-->
-                        <!--<span class="terminal__button"></span>-->
-                    <!--</div>-->
-                    <!--<div class="terminal__body">-->
-                        <!--<p>curl -sS https://getcomposer.org/installer | php</p>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
 
         <div class="community-workshop">
             <div class="community-workshop__info">
@@ -249,17 +190,3 @@
         </div>
     </div>
 </section>
-
-<footer class="site-footer" role="contentinfo">
-    <div class="container"></div>
-    <div class="copyright">
-        <p class="copyright__text">© Copyright 2016</p>
-        {{inc src="social-nav.hbs"}}
-    </div>
-</footer>
-<script type="text/javascript" src="../js/main.js"></script>
-{{inc src="ga.hbs"}}
-
-</body>
-</html>
-
