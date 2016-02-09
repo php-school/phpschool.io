@@ -1,18 +1,28 @@
 .docs {
   display: flex;
   flex-wrap: wrap;
+  margin-left: -$base-spacing*2;
 }
 
 .doc__content {
-  width: 70%;
+  width: 100%;
   padding-top: $base-spacing;
   margin-left: auto;
+  padding-left: $base-spacing*2;
+  @media screen and (min-width: 600px) {
+    width: 70%;
+  }
 }
 
 .doc__title {
   border-bottom: 1px dotted $silver;
   padding-bottom: $half-spacing/2;
+  display: flex;
   margin-top: $base-spacing*2;
+
+  .svg-icon {
+    margin-right: $half-spacing;
+  }
 
   &:first-child {
     margin-top: 0;
@@ -20,16 +30,22 @@
 }
 
 .doc__side {
-  width: 30%;
+  width: 100%;
   padding-top: $base-spacing;
-  padding-right: $base-spacing*2;
+  padding-left: $base-spacing*2;
   display: flex;
   flex-direction: column;
+  @media screen and (min-width: 600px) {
+    width: 30%;
+    max-width: 299px;
+  }
 }
 
 .doc__side--fixed {
-  position: fixed;
-  top: 0;
+  @media screen and (min-width: 600px) {
+    position: fixed;
+    top: 0;
+  }
 }
 
 .doc__side-item {
@@ -46,13 +62,12 @@
 
 .hint {
   color: lighten($base-colour, 20);
-  font-size: 12px;
 }
 
 code {
-  background-color: rgba($base-colour, 0.1);
+  background-color: rgba($base-colour, 0.05);
   color: $base-colour;
-  padding: 3px $half-spacing 4px;
+  padding: 0px $half-spacing 1px;
   border-radius: 3px;
   margin-left: 3px;
 }

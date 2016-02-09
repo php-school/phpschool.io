@@ -35,14 +35,15 @@ h2 {
 
 h3 {
   font-size: 18px;
+  padding-top: $half-spacing;
   margin-bottom: $half-spacing;
-  color: $base-colour;
+  color: $secondary-colour;
 }
 
 p, li, a {
   font-size: 14px;
   line-height: 1.5;
-  margin-bottom: $half-spacing;
+  margin-bottom: $base-spacing;
 }
 
 a {

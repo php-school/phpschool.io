@@ -4,12 +4,8 @@ var docSide = $('.doc__side');
 var docContent = $('.doc__content');
 var stickHeight = docContent.offset();
 
-
-docSide.css('width', docSide.innerWidth()-1);
-
 $(window).scroll(function () {
     var scroll = $(window).scrollTop();
-
     if (scroll >= stickHeight.top) {
         docSide.addClass('doc__side--fixed');
     } else {

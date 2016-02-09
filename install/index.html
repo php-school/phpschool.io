@@ -36,144 +36,113 @@
 </header>
 <a></a>
 <section class="site-body">
-    <div class="container docs">
-        <ul class="doc__side">
-            <li class="doc__side-item"><a class="doc__side-link" href="#linux">Linux - Debian Based</a></li>
-            <li class="doc__side-item"><a class="doc__side-link" href="#osx">OSX</a></li>
-            <li class="doc__side-item"><a class="doc__side-link" href="#windows">Windows</a></li>
-        </ul>
-        <div class="doc__content">
-            <h1 class="doc__title" id="linux">Linux</h1>
-            <div class="terminal">
-                <div class="terminal-head">
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
+    <div class="container">
+        <div class="docs">
+            <ul class="doc__side">
+                <li class="doc__side-item"><a class="doc__side-link" href="#linux">Linux - Debian Based</a></li>
+                <li class="doc__side-item"><a class="doc__side-link" href="#osx">OSX</a></li>
+                <li class="doc__side-item"><a class="doc__side-link" href="#windows">Windows</a></li>
+            </ul>
+            <div class="doc__content">
+                <h2 class="doc__title" id="linux"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-linux"></use></svg> Linux</h2>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>composer global require php-school/learn-you-php</p>
+                        <p>learnyouphp</p>
+                    </div>
                 </div>
-                <div class="terminal__body">
-                    <p>composer global require php-school/learn-you-php</p>
-                    <p>learnyouphp</p>
+                <p>If <code>/usr/local/bin</code> is not writeable you will receive an error message and you will need to make sure Composer global bin directory is available in your <code>$PATH</code> environment variable. To learn more about the <code>$PATH</code> environment, click <a target="_blank" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>.</p>
+                <p>If Composer's global bin directory is not available in your <code>$PATH</code> and the following to the end of your <code>~/.bashrc</code> file: <code>export PATH=~/.composer/vendor/bin:$PATH</code></p>
+                <h3>Required PHP 5.6</h3>
+                <p>If you have a PHP version less than 5.6, you will need to update</p>
+                <p><span class="hint"><b>Note</b> You can check your PHP version with <code>php -v</code></span></p>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>sudo apt-get install software-properties-common</p>
+                        <p>sudo add-apt-repository ppa:ondrej/php5-5.6</p>
+                    </div>
                 </div>
-            </div>
-            <p>If <code>/usr/local/bin</code> is not writeable you will receive an error message and you will need to make sure Composer global bin directory is available in your <code>$PATH</code> environment variable. To learn more about the <code>$PATH</code> environment, click <a target="_blank" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>.</p>
-            <p>If Composer's global bin directory is not available in your <code>$PATH</code> and the following to the end of your <code>~/.bashrc</code> file:</p>
-            <code>export PATH=~/.composer/vendor/bin:$PATH</code>
-            <h2>Requirements</h2>
-            <h3>PHP 5.6</h3>
-            <p>If you have a PHP version less than 5.6, you will need to update</p>
-            <p><span class="hint"><b>Note</b> You can check your PHP version with <code>php -v</code></span></p>
-            <div class="terminal">
-                <div class="terminal-head">
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
+                <h3>Composer</h3>
+                <p>If you don't have composer installed</p>
+                <p><span class="hint"><b>Note</b> You can check if you have composer installed with <code>composer -v</code></span></p>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>curl -sS https://getcomposer.org/installer | php</p>
+                        <p>mv composer.phar /usr/local/bin/composer</p>
+                        <p>chmod +x /usr/local/bin/composer</p>
+                    </div>
                 </div>
-                <div class="terminal__body">
-                    <p>sudo apt-get install software-properties-common</p>
-                    <p>sudo add-apt-repository ppa:ondrej/php5-5.6</p>
-                </div>
-            </div>
-            <h3>Composer</h3>
-            <p>If you don't have composer installed</p>
-            <p><span class="hint"><b>Note</b> You can check if you have composer installed with <code>composer -v</code></span></p>
-            <div class="terminal">
-                <div class="terminal-head">
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
-                </div>
-                <div class="terminal__body">
-                    <p>curl -sS https://getcomposer.org/installer | php</p>
-                    <p>mv composer.phar /usr/local/bin/composer</p>
-                    <p>chmod +x /usr/local/bin/composer</p>
-                </div>
-            </div>
 
-            <h1 class="doc__title" id="osx">OSX</h1>
-            <div class="terminal">
-                <div class="terminal-head">
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
+                <h2 class="doc__title" id="osx"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-apple"></use></svg> OSX</h2>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>composer global require php-school/learn-you-php</p>
+                        <p>learnyouphp</p>
+                    </div>
                 </div>
-                <div class="terminal__body">
-                    <p>composer global require php-school/learn-you-php</p>
-                    <p>learnyouphp</p>
+                <p>If <code>/usr/local/bin</code> is not writeable you will receive an error message and you will need to make sure Composer global bin directory is available in your <code>$PATH</code> environment variable. To learn more about the <code>$PATH</code> environment, click <a target="_blank" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>.</p>
+                <p>If Composer's global bin directory is not available in your <code>$PATH</code> and the following to the end of your <code>~/.bashrc</code> file: <code>export PATH=~/.composer/vendor/bin:$PATH</code></p>
+                <h3>Required PHP 5.6</h3>
+                <p>If you have a PHP version less than 5.6, you will need to update</p>
+                <p><span class="hint"><b>Note</b> You can check your PHP version with <code>php -v</code></span></p>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</p>
+                        <p>brew tap homebrew/dupes</p>
+                        <p>brew tap homebrew/homebrew-php</p>
+                        <p>brew install php56</p>
+                        <p>export PATH="$(brew --prefix php56)/bin:$PATH"</p>
+                    </div>
                 </div>
-            </div>
-            <p>If <code>/usr/local/bin</code> is not writeable you will receive an error message and you will need to make sure Composer global bin directory is available in your <code>$PATH</code> environment variable. To learn more about the <code>$PATH</code> environment, click <a target="_blank" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>.</p>
-            <p>If Composer's global bin directory is not available in your <code>$PATH</code> and the following to the end of your <code>~/.bashrc</code> file:</p>
-            <code>export PATH=~/.composer/vendor/bin:$PATH</code>
-            <h2>Requirements</h2>
-            <h3>PHP 5.6</h3>
-            <p>If you have a PHP version less than 5.6, you will need to update</p>
-            <p><span class="hint"><b>Note</b> You can check your PHP version with <code>php -v</code></span></p>
-            <div class="terminal">
-                <div class="terminal-head">
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
+                <h3>Composer</h3>
+                <p>If you don't have composer installed</p>
+                <p><span class="hint"><b>Note</b> You can check if you have composer installed with <code>composer -v</code></span></p>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>curl -sS https://getcomposer.org/installer | php</p>
+                        <p>mv composer.phar /usr/local/bin/composer</p>
+                        <p>chmod +x /usr/local/bin/composer</p>
+                    </div>
                 </div>
-                <div class="terminal__body">
-                    <p>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</p>
-                    <p>brew tap homebrew/dupes</p>
-                    <p>brew tap homebrew/homebrew-php</p>
-                    <p>brew install php56</p>
-                    <p>export PATH="$(brew --prefix php56)/bin:$PATH"</p>
-                </div>
-            </div>
-            <h3>Composer</h3>
-            <p>If you don't have composer installed</p>
-            <p><span class="hint"><b>Note</b> You can check if you have composer installed with <code>composer -v</code></span></p>
-            <div class="terminal">
-                <div class="terminal-head">
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
-                </div>
-                <div class="terminal__body">
-                    <p>curl -sS https://getcomposer.org/installer | php</p>
-                    <p>mv composer.phar /usr/local/bin/composer</p>
-                    <p>chmod +x /usr/local/bin/composer</p>
-                </div>
-            </div>
 
-            <h1 class="doc__title" id="windows">Windows</h1>
-            <h3>Updating to PHP 5.6</h3>
-            <p>If you have a version of PHP less than 5.6</p>
-            <p><span class="hint"><b>Note</b> You can check your PHP version with <code>php -v</code></span></p>
-            <div class="terminal">
-                <div class="terminal-head">
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
-                </div>
-                <div class="terminal__body">
-                    <p>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</p>
-                    <p>brew tap homebrew/dupes</p>
-                    <p>brew tap homebrew/homebrew-php</p>
-                    <p>brew install php56</p>
-                    <p>export PATH="$(brew --prefix php56)/bin:$PATH"</p>
-                </div>
-            </div>
+                <h2 class="doc__title" id="windows"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-windows"></use></svg> Windows</h2>
+                <h3>Required PHP 5.6</h3>
 
-            <h3>Installing Composer</h3>
-            <p>If you need to install Composer</p>
-            <p><span class="hint"><b>Note</b> You can check if you have composer installed with <code>composer -v</code></span></p>
-            <div class="terminal">
-                <div class="terminal-head">
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
-                    <span class="terminal__button"></span>
-                </div>
-                <div class="terminal__body">
-                    <p>curl -sS https://getcomposer.org/installer | php</p>
-                    <p>mv composer.phar /usr/local/bin/composer</p>
-                    <p>chmod +x /usr/local/bin/composer</p>
-                </div>
+                <h3>Installing Composer</h3>
+
+                <p>This site is <a href="https://github.com/php-school/php-school.github.io">open source on Github</a> & we welcome corrections/improvements.</p>
+                <br>
             </div>
-            <p>This site is <a href="https://github.com/php-school/php-school.github.io">open source on Github</a> & we welcome corrections/improvements.</p>
-            <br>
         </div>
     </div>
 </section>
