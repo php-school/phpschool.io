@@ -11,7 +11,7 @@
   padding: 5px;
   display: flex;
   //background: lighten($silver, 19);
-  background: linear-gradient(lighten($silver,15), lighten($silver,5));
+  background: linear-gradient(lighten($silver, 15), lighten($silver, 5));
 }
 
 .terminal__button {
@@ -39,6 +39,7 @@
 
   p {
     margin-bottom: $half-spacing;
+    padding-right: $half-spacing;
     &:before {
       content: '$';
       margin-right: 4px;
@@ -60,16 +61,16 @@
 }
 
 //.terminal__body--vid {
-  //padding-bottom: 100%*(2/3);
-  //position: relative;
-  //padding: 0;
-  //iframe {
-    //width: 100% !important;
-    //display: block;
-    //position: absolute;
-    //top: 0;
-    //left: 0;
-  //}
+//padding-bottom: 100%*(2/3);
+//position: relative;
+//padding: 0;
+//iframe {
+//width: 100% !important;
+//display: block;
+//position: absolute;
+//top: 0;
+//left: 0;
+//}
 //}
 
 .termianl__meta {
