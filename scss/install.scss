@@ -18,10 +18,13 @@
   border-bottom: 1px dotted $silver;
   padding-bottom: $half-spacing/2;
   display: flex;
+  align-items: center;
   margin-top: $base-spacing*2;
 
   .svg-icon {
     margin-right: $half-spacing;
+    width: 1.5em;
+    height: 1.5em;
   }
 
   &:first-child {
