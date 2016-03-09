@@ -34,17 +34,19 @@ $app = new \Slim\App($containerBuilder->build());
 $container  = $app->getContainer();
 $cache      = $container->get(Cache::class);
 
+if ($container->get('config')['enablePageCache']) {
+    $app->add(function (Request $request, Response $response, callable $next) use ($cache) {
+        $response = $next($request, $response);
 
-$app->add(function (Request $request, Response $response, callable $next) use ($cache) {
-    $response = $next($request, $response);
+        if ($response->getStatusCode() === 200) {
+            $cache->add($request->getUri()->getPath(), (string) $response->getBody(), 200, [], Cache::WEEK);
+        }
 
-    if ($response->getStatusCode() === 200) {
-        $cache->add($request->getUri()->getPath(), (string) $response->getBody(), 200, [], Cache::WEEK);
-    }
+        return $response;
+    });
+    $app->add($cache);
+}
 
-    return $response;
-});
-$app->add($cache);
 
 $app->get('/', function (Request $request, Response $response, PhpRenderer $renderer) {
     $inner = $renderer->fetch('home.phtml');

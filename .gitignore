@@ -6,3 +6,4 @@ npm-debug.log
 /logs/*
 !/logs/README.md
 /cache/
+/app/dev-config.php

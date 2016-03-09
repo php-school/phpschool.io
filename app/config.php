@@ -10,7 +10,7 @@ use PhpSchool\Website\DocGenerator;
 use Psr\Log\LoggerInterface;
 use Slim\Views\PhpRenderer;
 
-return [
+$config = [
     PhpRenderer::class => factory(function (ContainerInterface $c) {
         $settings = $c->get('config')['renderer'];
 
@@ -30,4 +30,36 @@ return [
     Cache::class => factory(function (ContainerInterface $c) {
         return new Cache($c->get('config')['cacheDir']);
     }),
+    'config' => [
+        'displayErrorDetails' => true, // set to false in production
+        // Renderer settings
+        'renderer' => [
+            'template_path' => __DIR__ . '/../templates/',
+        ],
+        // Monolog settings
+        'logger' => [
+            'name' => 'slim-app',
+            'path' => __DIR__ . '/../logs/app.log',
+        ],
+
+        'links' => [
+            'github'        => 'https://github.com/php-school/learn-you-php',
+            'twitter'       => 'https://twitter.com/PHPSchoolTeam',
+            'slack'         => 'https://phpschool.herokuapp.com',
+            'discussions'   => 'https://github.com/php-school/discussions',
+            'workshop'      => 'https://github.com/php-school/php-workshop',
+        ],
+
+        'cacheDir'          => __DIR__ . '/../cache',
+        'enablePageCache'   => true,
+    ],
+
+    //slim settings
+    'settings.displayErrorDetails' => true,
  ];
+
+if (file_exists(__DIR__ . '/dev-config.php')) {
+    $config = array_replace_recursive($config, include __DIR__ . '/dev-config.php');
+}
+
+return $config;
