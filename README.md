@@ -1,6 +1,7 @@
 ## Install
 
 ```shell
+composer install
 npm install
 ```
 

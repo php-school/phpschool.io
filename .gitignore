@@ -2,3 +2,7 @@
 node_modules
 .DS_STORE
 npm-debug.log
+/vendor/
+/logs/*
+!/logs/README.md
+/cache/

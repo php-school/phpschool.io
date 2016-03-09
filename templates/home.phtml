@@ -1,9 +1,5 @@
----
-title: "Home"
-description: "Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP"
----
 
-{{inc src="home-header.hbs"}}
+<?= $this->fetch('includes/home-header.phtml') ?>
 
 <section class="site-body">
     <div class="container">
@@ -30,7 +26,11 @@ description: "Learn PHP the right way... the open source way. PHP School Open So
                         <span class="terminal__button"></span>
                     </div>
                     <div class="terminal__body terminal--image">
+<<<<<<< 6071edc9d399d13ffca15cc7b02d741c5261a616:_src/index.hbs
                         <img src="../img/php-school.gif"/>
+=======
+                        <img src="/img/php-school.gif"/>
+>>>>>>> Initial rebuild of site in PHP:templates/home.phtml
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@ description: "Learn PHP the right way... the open source way. PHP School Open So
                 <h2>Community workshops</h2>
                 <p>At the core, PHP School is a workshop framework which allows you to run a set of exercises. It has been designed in a way that you can easily build your own workshops, focusing on any subject you please.</p>
                 <p>If you want your workshop featured here, drop us a line and we will get back to you.</p>
-                <p>Comprehensive documentation will be available soon which will detail how to build your own workshops. For now you can use <a href="{{site.links.github}}/learn-you-php" target="_blank">Learn You PHP</a> as a reference implementation. The package which provides the framework is <a href="{{site.links.github}}/php-workshop" target="_blank">PHP Workshop</a>.</p>
+                <p>Comprehensive documentation will be available soon which will detail how to build your own workshops. For now you can use <a href="<?= $links['github'] ?>" target="_blank">Learn You PHP</a> as a reference implementation. The package which provides the framework is <a href="<?= $links['workshop'] ?>" target="_blank">PHP Workshop</a>.</p>
             </div>
             <div class="community-workshop__courses">
                 <div class="terminal">
@@ -88,74 +88,72 @@ description: "Learn PHP the right way... the open source way. PHP School Open So
             </div>
         </div>
         <div class="help" id="help">
-            <div class="help__icons">
-                {{inc src="social-nav.hbs"}}
-            </div>
+            <div class="help__icons"><?= $this->fetch('includes/social-nav.phtml') ?></div>
             <div class="help__info">
                 <h2>Need help?</h2>
-                <p>If you need help or want to contribute to PHP School, you can chat on <a href="{{site.links.slack}}" target="_blank">Slack</a>, create issues and send PR's on <a href="{{site.links.github}}" target="_blank">GitHub</a>. We also have a <a href="{{site.links.twitter}}" target="_blank">Twitter</a> account where we will push out news and information!</p>
+                <p>If you need help or want to contribute to PHP School, you can chat on <a href="<?= $links['slack'] ?>" target="_blank">Slack</a>, create issues and send PR's on <a href="<?= $links['github'] ?>" target="_blank">GitHub</a>. We also have a <a href="<?= $links['twitter'] ?>" target="_blank">Twitter</a> account where we will push out news and information!</p>
                 <br>
-                <p>If you have any issues with any of the workshops or just general getting started questions, you can create an issue <a href="{{site.links.github}}/discussions" target="_blank">here</a> and someone will get back to you whenever it is possible. Feel free to also jump on and help other people with their issues. This type of project works best when everyone gets involved.</p>
+                <p>If you have any issues with any of the workshops or just general getting started questions, you can create an issue <a href="<?= $links['discussions'] ?>" target="_blank">here</a> and someone will get back to you whenever it is possible. Feel free to also jump on and help other people with their issues. This type of project works best when everyone gets involved.</p>
             </div>
         </div>
     </div>
 </section>
 <section class="team">
     <div class="container">
-    <h2>Our team</h2>
-    <p class="team__desc">We are a couple of friends working in our spare time to improve the quality of PHP learning resources. We want to empower you to build, whether it be a hobbyist project or a tool to help educate the world. Neither skill nor age should be a barrier to learning, the PHP School team are committed to helping train the next generation of coders who will go on to change the world!</p>
-    <ul class="team__list">
-        <li class="team__item">
-            <a href="https://github.com/AydinHassan" target="_blank">
-                <figure class="team__image">
-                    <img src="https://avatars0.githubusercontent.com/u/2817002?v=3&s=460" alt="@AydinHassan">
-                </figure>
-                <p class="team__name">Aydin Hassan</p>
-                <p class="team__role">Developer</p>
-                {{inc src="icon.hbs" name="github"}}
-            </a>
-        </li>
-        <li class="team__item">
-            <a href="https://github.com/mikeymike" target="_blank">
-                <figure class="team__image">
-                    <img src="https://avatars0.githubusercontent.com/u/2174476?v=3&s=460" alt="@mikeymike">
-                </figure>
-                <p class="team__name">Michael Woodward</p>
-                <p class="team__role">Developer</p>
-                {{inc src="icon.hbs" name="github"}}
-            </a>
-        </li>
-        <li class="team__item">
-            <a href="https://github.com/shakyShane" target="_blank">
-                <figure class="team__image">
-                    <img src="https://avatars3.githubusercontent.com/u/1643522?v=3&s=460" alt="@shakeyShane">
-                </figure>
-                <p class="team__name">Shane Osbourne</p>
-                <p class="team__role">Developer</p>
-                {{inc src="icon.hbs" name="github"}}
-            </a>
-        </li>
-        <li class="team__item">
-            <a href="https://github.com/chris3ailey" target="_blank">
-                <figure class="team__image">
-                    <img src="../img/ChrisBailey.jpg" alt="@chris3ailey">
-                </figure>
-                <p class="team__name">Chris Bailey</p>
-                <p class="team__role">Designer</p>
-                {{inc src="icon.hbs" name="github"}}
-            </a>
-        </li>
-        <li class="team__item">
-            <a href="https://github.com/OliverChenery" target="_blank">
-                <figure class="team__image">
-                    <img src="https://avatars1.githubusercontent.com/u/10711847?v=3&s=460" alt="@OliverChenery">
-                </figure>
-                <p class="team__name">Oliver Chenery</p>
-                <p class="team__role">Designer</p>
-                {{inc src="icon.hbs" name="github"}}
-            </a>
-        </li>
-    </ul>
+        <h2>Our team</h2>
+        <p class="team__desc">We are a couple of friends working in our spare time to improve the quality of PHP learning resources. We want to empower you to build, whether it be a hobbyist project or a tool to help educate the world. Neither skill nor age should be a barrier to learning, the PHP School team are committed to helping train the next generation of coders who will go on to change the world!</p>
+        <ul class="team__list">
+            <li class="team__item">
+                <a href="https://github.com/AydinHassan" target="_blank">
+                    <figure class="team__image">
+                        <img src="https://avatars0.githubusercontent.com/u/2817002?v=3&s=460" alt="@AydinHassan">
+                    </figure>
+                    <p class="team__name">Aydin Hassan</p>
+                    <p class="team__role">Developer</p>
+                    <?= $this->fetch('includes/icon.phtml', ['name' => "github"]) ?>
+                </a>
+            </li>
+            <li class="team__item">
+                <a href="https://github.com/mikeymike" target="_blank">
+                    <figure class="team__image">
+                        <img src="https://avatars0.githubusercontent.com/u/2174476?v=3&s=460" alt="@mikeymike">
+                    </figure>
+                    <p class="team__name">Michael Woodward</p>
+                    <p class="team__role">Developer</p>
+                    <?= $this->fetch('includes/icon.phtml', ['name' => "github"]) ?>
+                </a>
+            </li>
+            <li class="team__item">
+                <a href="https://github.com/shakyShane" target="_blank">
+                    <figure class="team__image">
+                        <img src="https://avatars3.githubusercontent.com/u/1643522?v=3&s=460" alt="@shakeyShane">
+                    </figure>
+                    <p class="team__name">Shane Osbourne</p>
+                    <p class="team__role">Developer</p>
+                    <?= $this->fetch('includes/icon.phtml', ['name' => "github"]) ?>
+                </a>
+            </li>
+            <li class="team__item">
+                <a href="https://github.com/chris3ailey" target="_blank">
+                    <figure class="team__image">
+                        <img src="../img/ChrisBailey.jpg" alt="@chris3ailey">
+                    </figure>
+                    <p class="team__name">Chris Bailey</p>
+                    <p class="team__role">Designer</p>
+                    <?= $this->fetch('includes/icon.phtml', ['name' => "github"]) ?>
+                </a>
+            </li>
+            <li class="team__item">
+                <a href="https://github.com/OliverChenery" target="_blank">
+                    <figure class="team__image">
+                        <img src="https://avatars1.githubusercontent.com/u/10711847?v=3&s=460" alt="@OliverChenery">
+                    </figure>
+                    <p class="team__name">Oliver Chenery</p>
+                    <p class="team__role">Designer</p>
+                    <?= $this->fetch('includes/icon.phtml', ['name' => "github"]) ?>
+                </a>
+            </li>
+        </ul>
     </div>
 </section>
 
@@ -163,7 +161,7 @@ description: "Learn PHP the right way... the open source way. PHP School Open So
     <div class="container">
         <div class="inspiration__content">
             <figure class="inspiration__image">
-                <img src="../img/svg/node-school-logo.svg" />
+                <img src="/img/svg/node-school-logo.svg" />
             </figure>
             <article class="inspiration__info">
                 <h2 class="inspiration__title">Our inspiration</h2>

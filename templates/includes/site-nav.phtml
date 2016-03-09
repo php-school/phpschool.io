@@ -1,0 +1,29 @@
+<nav class="">
+    <div class="container site-nav">
+        <ul class="navigation">
+
+            <?php if ($route === '/'): ?>
+                <li class="navigation__item">
+                    <a href="#help" class="navigation__link">Need Help?</a>
+                </li>
+                <li class="navigation__item">
+                    <a href="/install" class="navigation__link">Installation Problems?</a>
+                </li>
+                <li class="navigation__item">
+                    <a href="/docs" class="navigation__link">API Documentation</a>
+                </li>
+            <?php else: ?>
+                <li class="navigation__item">
+                    <a href="/" class="navigation__link">Home</a>
+                </li>
+                <li class="navigation__item">
+                    <a href="/install" class="navigation__link">Installation Problems?</a>
+                </li>
+                <li class="navigation__item">
+                    <a href="/docs" class="navigation__link">API Documentation</a>
+                </li>
+            <?php endif; ?>
+        </ul>
+        <?= $this->fetch('includes/social-nav.phtml') ?>
+    </div>
+</nav>
