@@ -28,7 +28,11 @@ footer, header, hgroup, menu, nav, section {
 }
 
 ul {
-  list-style: none;
+  padding-left: $base-spacing;
+}
+
+ol {
+  padding-left: 15px;
 }
 
 * {

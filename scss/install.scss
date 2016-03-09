@@ -7,8 +7,10 @@
 .doc__content {
   width: 100%;
   padding-top: $base-spacing;
+  padding-bottom: $base-spacing;
   margin-left: auto;
   padding-left: $base-spacing*2;
+
   @media screen and (min-width: 600px) {
     width: 70%;
   }
@@ -38,6 +40,7 @@
   padding-left: $base-spacing*2;
   display: flex;
   flex-direction: column;
+  list-style: none;
   @media screen and (min-width: 600px) {
     width: 30%;
     max-width: 299px;
@@ -70,7 +73,8 @@
 code {
   background-color: rgba($base-colour, 0.05);
   color: $base-colour;
-  padding: 0px $half-spacing 1px;
+  padding: 0px $half-spacing 2px;
   border-radius: 3px;
   margin-left: 3px;
+  border: 1px solid $silver;
 }

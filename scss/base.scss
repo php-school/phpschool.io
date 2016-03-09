@@ -20,7 +20,6 @@ h1, h2, h3 {
   font-weight: 100;
   color: $secondary-colour;
   font-weight: 100;
-
 }
 
 h1 {
@@ -37,13 +36,19 @@ h3 {
   font-size: 18px;
   padding-top: $half-spacing;
   margin-bottom: $half-spacing;
-  color: $secondary-colour;
+  color: $black;
 }
 
-p, li, a {
+p, a {
   font-size: 14px;
   line-height: 1.5;
   margin-bottom: $base-spacing;
+}
+
+li {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: $half-spacing;
 }
 
 a {
@@ -56,7 +61,7 @@ a {
 }
 
 .button {
-  padding: $half-spacing 24px;
+  padding: $half-spacing $base-spacing;
   background: $secondary-colour;
   color: $white;
   text-decoration: none;
@@ -74,10 +79,10 @@ a {
   &:after {
     content: '';
     position: absolute;
-    right: -15%;
+    right: -22px;
     background: inherit;
-    height: 43px;
-    width: 43px;
+    height: 48px;
+    width: 48px;
     top: 0;
     border-radius: 100%;
   }
@@ -85,10 +90,10 @@ a {
   &:before {
     content: '';
     position: absolute;
-    left: -15%;
+    left: -22px;
     background: inherit;
-    height: 43px;
-    width: 43px;
+    height: 48px;
+    width: 48px;
     top: 0;
     border-radius: 100%;
   }
