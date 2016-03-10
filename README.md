@@ -1,25 +1,34 @@
 ## Install
 
+You will need `composer`, `gulp` and `PHP7`
+
 ```shell
 composer install
 npm install
 ```
 
 
-## Configure Server
+## Run
 ```shell
-php -S phpschool.dev:8000 -t public
-npm run
+gulp
 ```
 
 Then navigate to `localhost:3000` !
 
 All SASS modifications will be auto inject live to the browser with ![Browsersync](https://www.browsersync.io)
+Any changes to `.phtml` will cause the browser to reload
 
-## Build
+Gulp will boot up a PHP server on port `8000` by default and will use the default system PHP version.
+
+## Build CSS
 
 ```shell
-npm run build
+gulp sass
+```
+
+## Build SVG's
+```shell
+gulp svg
 ```
 
 
