@@ -13,7 +13,9 @@ var easysvg     = require('easy-svg');
 gulp.task('serve', ['sass', 'svg'], function() {
     connect.server({
         base: 'public',
-        stdio: 'ignore'
+        stdio: 'ignore',
+        bin: process.env.GULPPHP !== 'undefined' ? process.env.GULPPHP : 'php',
+        port: 8000
     }, function () {
         bs({
             proxy: '127.0.0.1:8000'
