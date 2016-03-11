@@ -1,0 +1,84 @@
+<?= $this->fetch('includes/api-docs-header.phtml') ?>
+
+<section class="site-body">
+    <div class="container">
+        <div class="docs">
+            <ul class="doc__side">
+                <h2>Namespaces</h2>
+                <?php foreach ($docs['namespaces'] as $namespace): ?>
+                    <li class="doc__side-item">
+                        <a class="doc__side-link"
+                           href="#<?= $namespace['namespace']; ?>"><?= $namespace['namespace']; ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <div class="doc__content">
+                <?php foreach ($docs['namespaces'] as $namespace): ?>
+                    <h2 id="<?= $namespace['namespace']; ?>"><?= $namespace['namespace']; ?></h2>
+                    <?php foreach ($namespace['interfaces'] as $interface): ?>
+
+                    <?php endforeach; ?>
+
+                    <?php foreach ($namespace['abstracts'] as $abstracts): ?>
+
+                    <?php endforeach; ?>
+
+                    <?php foreach ($namespace['classes'] as $class): ?>
+
+                        <h2 id="<?= $class['name']; ?>"><a class="class__doc" href="#<?= $class['name']; ?>"><?= $class['name']; ?><a/> <a href="#page-top" class="back-to-top">^ TOP</a></h2>
+                        <h3>Methods</h3>
+                        <?php foreach ($class['methods'] as $method): ?>
+                            <h4><?= $this->fetch('includes/doc/method.phtml', ['method' => $method]) ?></h4>
+                            <br>
+                            <?php if ($method['shortDescription']): ?>
+                                <p><?= $method['shortDescription'] ?></p>
+                            <?php endif; ?>
+
+                            <div class="method-list">
+                                <h5 class="method-list-title">Parameters</h5>
+                                <ul class="method-list-group">
+                                    <?php foreach ($method['params'] as $param): ?>
+                                        <li class="method-list-item">
+                                            <h3 class="method-list-item-label">$<?= $param['name'] ?></h3>
+                                            <p class="method-list-item-description"><span class="type"><?= $param['typeHint'] ?></span><?= $param['description'] ?? 'No Description available'?></p>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+
+<!--                            <h5>Parameters</h5>-->
+<!--                            <ul class="parameters">-->
+<!--                                --><?php //foreach ($method['params'] as $param): ?>
+<!--                                    <li>-->
+<!--                                        <h6>$--><?//= $param['name'] ?><!--</h6>-->
+<!--                                        <p>Type: <code class="param__typehint">--><?//= $param['typeHint'] ? $param['typeHint'] : 'mixed' ?><!----><?//= $param['hasDefault'] ? ' [default = ' . $param['default'] . ']' : ''?><!--</code></p>-->
+<!--                                        <p>--><?//= $param['description'] ?><!--</p>-->
+<!--                                    </li>-->
+<!--                                --><?php //endforeach; ?>
+<!--                            </ul>-->
+
+                            <div class="method-list">
+                                <h5 class="method-list-title">Return Value</h5>
+                                <ul class="method-list-group">
+                                    <li class="method-list-item">
+                                        <h3 class="method-list-item-label"><?= $method['returnType'] ?></h3>
+                                        <p class="method-list-item-description"><?= $method['returnTypeDescription'] ?></p>
+                                    </li>
+                                </ul>
+                            </div>
+<!--                            <div>-->
+<!--                                <h5>Return Value</h5>-->
+<!--                                <p>Type: --><?//= $method['returnType'] ?><!--</p>-->
+<!--                                --><?php //if ($method['returnTypeDescription']): ?>
+<!--                                    <p>--><?//= $method['returnTypeDescription'] ?><!--</p>-->
+<!--                                --><?php //endif; ?>
+<!--                            </div>-->
+                        <?php endforeach; ?>
+
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</section>

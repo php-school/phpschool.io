@@ -4,50 +4,33 @@
     <div class="container">
         <div class="docs">
             <ul class="doc__side">
-                <?php foreach ($docs['namespaces'] as $namespace): ?>
-                    <li class="doc__side-item">
-                        <a class="doc__side-link"
-                           href="#<?= $namespace['namespace']; ?>"><?= $namespace['namespace']; ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
+                <li class="doc__side-item">
+                    <a class="doc__side-link" href="/api-docs">Creating Your Own Workshop</a>
+                </li>
+                <li class="doc__side-item">
+                    <a class="doc__side-link" href="/api-docs">Available Services</a>
+                </li>
+                <li class="doc__side-item">
+                    <a class="doc__side-link" href="/api-docs">Creating Exercises</a>
+                </li>
+                <li class="doc__side-item">
+                    <a class="doc__side-link" href="/api-docs">Checks</a>
+                </li>
+                <li class="doc__side-item">
+                    <a class="doc__side-link" href="/api-docs">Creating Custom Checks</a>
+                </li>
+                <li class="doc__side-item">
+                    <a class="doc__side-link" href="/api-docs">Creating Custom Results</a>
+                </li>
+                <li class="doc__side-item">
+                    <a class="doc__side-link" href="/api-docs">Creating Custom Result Renderers</a>
+                </li>
+                <li class="doc__side-item">
+                    <a class="doc__side-link" href="/api-docs">API Reference</a>
+                </li>
             </ul>
             <div class="doc__content">
-                <?php foreach ($docs['namespaces'] as $namespace): ?>
-                    <h2 id="<?= $namespace['namespace']; ?>"><?= $namespace['namespace']; ?></h2>
-                    <?php foreach ($namespace['interfaces'] as $interface): ?>
 
-                    <?php endforeach; ?>
-
-                    <?php foreach ($namespace['abstracts'] as $abstracts): ?>
-
-                    <?php endforeach; ?>
-
-                    <?php foreach ($namespace['classes'] as $class): ?>
-                        <h3><?= $class['name'] ?></h3>
-
-                        <?php foreach ($class['methods'] as $method): ?>
-                            <h4><?= $this->fetch('includes/doc/method.phtml', ['method' => $method]) ?></h4>
-                            <hr>
-                            <?php if ($method['shortDescription']): ?>
-                                <p><?= $method['shortDescription'] ?></p>
-                            <?php endif; ?>
-
-                            <h5>Parameters</h5>
-                            <?php foreach ($method['params'] as $param): ?>
-                                <h6>$<?= $param['name'] ?></h6>
-                                <p>Type: <?= $param['typeHint'] ? $param['typeHint'] : 'mixed' ?><?= $param['hasDefault'] ? ' [default = ' . $param['default'] . ']' : ''?></p>
-                                <p><?= $param['description'] ?></p>
-                            <?php endforeach; ?>
-                            <h5>Return Value</h5>
-                            <p>Type: <?= $method['returnType'] ?></p>
-                            <?php if ($method['returnTypeDescription']): ?>
-                                <p><?= $method['returnTypeDescription'] ?></p>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-
-                    <?php endforeach; ?>
-                <?php endforeach; ?>
             </div>
         </div>
     </div>
