@@ -8,16 +8,21 @@ use Monolog\Processor\UidProcessor;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\DocGenerator;
 use Psr\Log\LoggerInterface;
-use Slim\Views\PhpRenderer;
+use PhpSchool\Website\PhpRenderer;
 
 $config = [
     PhpRenderer::class => factory(function (ContainerInterface $c) {
         $settings = $c->get('config')['renderer'];
 
-        return new PhpRenderer($settings['template_path'], [
+        $renderer = new PhpRenderer($settings['template_path'], [
             'links' => $c->get('config')['links'],
             'route' => $c->get('request')->getUri()->getPath(),
         ]);
+
+        //default CSS
+        $renderer->appendCss('/css/core.css');
+        $renderer->appendCss('https://fonts.googleapis.com/css?family=Open+Sans');
+        return $renderer;
     }),
     LoggerInterface::class => factory(function (ContainerInterface $c) {
         $settings = $c->get('config')['logger'];
