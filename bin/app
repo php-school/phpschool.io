@@ -2,7 +2,8 @@
 
 use DI\ContainerBuilder;
 use PhpSchool\Website\DocGenerator;
-use PhpSchool\Website\ClearCache;
+use PhpSchool\Website\Command\ClearCache;
+use PhpSchool\Website\Command\GenerateDoc;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -15,10 +16,7 @@ $containerBuilder->addDefinitions(__DIR__ . '/../app/settings.php');
 
 $app = new Silly\Edition\PhpDi\Application('PHP School Website', null, $containerBuilder->build());
 
-$app->command('generate-docs', function (DocGenerator $docGenerator) {
-    $docGenerator->generate();
-});
-
+$app->command('generate-docs', new GenerateDoc);
 $app->command('clear-cache', new ClearCache);
 
 $app->run();

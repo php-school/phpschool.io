@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpSchool\Website;
+namespace PhpSchool\Website\Command;
 
 /**
  * Class ClearCache
