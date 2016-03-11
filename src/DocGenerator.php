@@ -133,7 +133,7 @@ class DocGenerator
         }
 
         $returnTypeTags = $phpdoc->getTagsByName('return');
-        $returnTypeDescription = '';
+        $returnTypeDescription = 'Does not return anything';
         if (!empty($returnTypes)) {
             $returnTypeTag = array_shift($returnTypeTags);
             $returnTypeDescription = $returnTypeTag->getDescription();
@@ -147,7 +147,7 @@ class DocGenerator
             'params'            => array_map(function (ReflectionParameter $parameter) use ($params) {
                 return $this->processParam($parameter, $params);
             }, $method->getParameters()),
-            'returnType' => $returnType,
+            'returnType' => ltrim($returnType, '\\'),
             'returnTypeDescription' => $returnTypeDescription,
         ];
     }
@@ -162,7 +162,9 @@ class DocGenerator
         foreach ($params as $paramTag) {
             /* @var $paramTag \phpDocumentor\Reflection\DocBlock\Tag\ParamTag */
             if ($paramTag->getVariableName() === '$' . $parameter->getName()) {
-                $description = $paramTag->getDescription();
+                if ($paramTag->getDescription() !== '') {
+                    $description = $paramTag->getDescription();
+                }
                 break;
             }
         }
@@ -172,7 +174,7 @@ class DocGenerator
             : null;
 
         return [
-            'typeHint'      => $typeHint,
+            'typeHint'      => ltrim($typeHint, '\\'),
             'description'   => $description,
             'name'          => $parameter->getName(),
             'hasDefault'    => $parameter->isDefaultValueAvailable(),
