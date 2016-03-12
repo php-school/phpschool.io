@@ -5,6 +5,5 @@ npm-debug.log
 /vendor/
 /logs/*
 !/logs/README.md
-/cache/*
-!/cache/.empty
+/cache/
 /app/dev-config.php

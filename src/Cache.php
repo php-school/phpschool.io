@@ -27,6 +27,10 @@ class Cache
      */
     public function __construct($cacheDirectory = __DIR__ . '/../cache/')
     {
+        if (!file_exists($cacheDirectory)) {
+            mkdir($cacheDirectory, 0775, true);
+        }
+
         $this->directory = $cacheDirectory;
         $this->fileHandler = new FileHandler($cacheDirectory);
     }
