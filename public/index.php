@@ -26,7 +26,6 @@ session_start();
 $containerBuilder = new ContainerBuilder;
 $containerBuilder->addDefinitions(__DIR__ . '/../vendor/php-di/slim-bridge/src/config.php');
 $containerBuilder->addDefinitions(__DIR__ . '/../app/config.php');
-$containerBuilder->addDefinitions(__DIR__ . '/../app/settings.php');
 
 $app = new \Slim\App($containerBuilder->build());
 
