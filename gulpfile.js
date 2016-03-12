@@ -14,7 +14,7 @@ gulp.task('serve', ['sass', 'svg'], function() {
     connect.server({
         base: 'public',
         stdio: 'ignore',
-        bin: process.env.GULPPHP !== 'undefined' ? process.env.GULPPHP : 'php',
+        bin: process.env.GULPPHP ? process.env.GULPPHP : 'php',
         port: 8000
     }, function () {
         bs({
