@@ -2,6 +2,8 @@
 
 namespace PhpSchool\Website\Command;
 
+use PhpSchool\Website\Cache;
+
 /**
  * Class ClearCache
  * @package PhpSchool\Website
