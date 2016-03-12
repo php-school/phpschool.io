@@ -2,7 +2,7 @@
     <div class="container"></div>
     <div class="copyright">
         <p class="copyright__text">© Copyright <?= date('Y') ?></p>
-        <p class="os__text">This site is <a href="https://github.com/php-school/php-school.github.io">open source on Github</a> & we welcome corrections/improvements.</p>
+        <p class="os__text">This site is <a href="<?= $this->getAttribute('links')['github-website'] ?>">open source on Github</a> & we welcome corrections/improvements.</p>
         <?= $this->fetch('includes/social-nav.phtml') ?>
     </div>
 </footer>
