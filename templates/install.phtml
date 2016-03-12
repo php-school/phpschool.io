@@ -1,0 +1,120 @@
+<?= $this->fetch('includes/install-header.phtml') ?>
+
+<section class="site-body">
+    <div class="container">
+        <div class="docs">
+            <ul class="doc__side">
+                <li class="doc__side-item"><a class="doc__side-link" href="#linux">Linux - Debian Based</a></li>
+                <li class="doc__side-item"><a class="doc__side-link" href="#osx">Mac OSX</a></li>
+                <li class="doc__side-item"><a class="doc__side-link" href="#windows">Windows</a></li>
+            </ul>
+            <div class="doc__content">
+                <h2 class="doc__title" id="linux"><?= $this->fetch('includes/icon.phtml', ['name' => "linux"]) ?> Troubleshooting Debian Linux Installations</h2>
+                <p>Common issues with Linux installations include not having a new enough version of PHP and not having Composer available.</p>
+                <h3>Step 1: Check your PHP version</h3>
+                <p><span class="hint">You can check your PHP version with <code class="install__code">php -v</code></span></p>
+                <p>If you have a PHP version less than 5.6, you will need to update it to at least 5.6, you can do so with the following commands:</p>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>sudo apt-get install software-properties-common</p>
+                        <p>sudo add-apt-repository ppa:ondrej/php5-5.6</p>
+                    </div>
+                </div>
+
+                <h3>Step 2: Check if Composer is installed</h3>
+                <p><span class="hint">You can check if you have composer installed with <code class="install__code">composer -v</code></span></p>
+                <p>If <code class="install__code">composer</code> is not installed, run the following commands to install it:</p>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>curl -sS https://getcomposer.org/installer | php</p>
+                        <p>mv composer.phar /usr/local/bin/composer</p>
+                        <p>chmod +x /usr/local/bin/composer</p>
+                    </div>
+                </div>
+
+                <h3>Step 3: Check Composer's global bin directory is available in $PATH</h3>
+                <p>When installing a workshop you may get an error message about the directory <code class="install__code">/usr/local/bin</code> not being writeable. If this happens the simplest remedy is to make sure composers global bin directory is available in the <code class="install__code">$PATH</code> environment variable.</p>
+                <p>If Composer's global bin directory is not available in your <code class="install__code">$PATH</code> add the following to the end of your <code class="install__code">~/.bashrc</code> file: <code class="install__code">export PATH=~/.composer/vendor/bin:$PATH</code></p>
+                <p> To learn more about the <code class="install__code">$PATH</code> environment, click <a target="_blank" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>.</p>
+
+
+                <h2 class="doc__title" id="osx"><?= $this->fetch('includes/icon.phtml', ['name' => "apple"]) ?> Troubleshooting Mac OSX Installations</h2>
+                <p>Common issues with Mac OSX installations include not having a new enough version of PHP and not having Composer available.</p>
+
+                <h3>Step 1: Check your PHP version</h3>
+                <p><span class="hint">You can check your PHP version with <code class="install__code">php -v</code></span></p>
+                <p>If you have a PHP version less than 5.6, you will need to update it to at least 5.6, you can do so with the following commands:</p>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</p>
+                        <p>brew tap homebrew/dupes</p>
+                        <p>brew tap homebrew/homebrew-php</p>
+                        <p>brew install php56</p>
+                        <p>export PATH="$(brew --prefix php56)/bin:$PATH"</p>
+                    </div>
+                </div>
+
+                <h3>Step 2: Check if Composer is installed</h3>
+                <p><span class="hint">You can check if you have composer installed with <code class="install__code">composer -v</code></span></p>
+                <p>If <code class="install__code">composer</code> is not installed, run the following commands to install it:</p>
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>curl -sS https://getcomposer.org/installer | php</p>
+                        <p>mv composer.phar /usr/local/bin/composer</p>
+                        <p>chmod +x /usr/local/bin/composer</p>
+                    </div>
+                </div>
+
+                <h3>Step 3: Check Composer's global bin directory is available in $PATH</h3>
+                <p>When installing a workshop you may get an error message about the directory <code class="install__code">/usr/local/bin</code> not being writeable. If this happens the simplest remedy is to make sure composers global bin directory is available in the <code class="install__code">$PATH</code> environment variable.</p>
+                <p>If Composer's global bin directory is not available in your <code class="install__code">$PATH</code> add the following to the end of your <code class="install__code">~/.bashrc</code> file: <code class="install__code">export PATH=~/.composer/vendor/bin:$PATH</code></p>
+                <p> To learn more about the <code class="install__code">$PATH</code> environment, click <a target="_blank" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>.</p>
+
+                <h2 class="doc__title" id="windows"><?= $this->fetch('includes/icon.phtml', ['name' => "windows"]) ?> Troubleshooting Windows Installations</h2>
+                <p>Windows is a difficult system to cater for in the PHP world. Unfortunately, it has various differences on the command line and console emulators which PHP unfortunately doesn't support. The best way to get PHP School Workshops running is to install Cygwin + ConEmu. Once the initial setup of these are complete, the process of installing workshops is the same as Linux and Mac OSX operating systems.</p>
+
+                <h3>Step 1: Check if Cygwin is installed</h3>
+                <p>If not, follow the instructions below:</p>
+                <ol>
+                    <li>Head on over to <a href="https://cygwin.com/install.html">https://cygwin.com/install.html</a> and grab the latest installer for your system, 32-bit or 64-bit.</li>
+                    <li>Run the installer and chose the default values until the package selection point.</li>
+                    <li>Ensure you choose to install <em>ALL</em> PHP packages. We also recommend installing GIT and VIM to complete your CLI experience.</li>
+                    <li>Complete the installation.</li>
+                </ol>
+
+                <h3>Step 2: Check if ConEmu is installed</h3>
+                <ol>
+                    <li>Grab the installer from <a href="https://conemu.github.io/">https://conemu.github.io/</a>.</li>
+                    <li>Run the installer and open ConEmu.</li>
+                    <li>Select Cygwin Bash</li>
+                </ol>
+
+                <h3>Step 3: Check if Composer is installed</h3>
+                <ol>
+                    <li>Download and run the installer over at <a href="https://getcomposer.org/doc/00-intro.md#using-the-installer">https://getcomposer.org/doc/00-intro.md#using-the-installer</a></li>
+                    <li>Restart ConEmu and then run composer to ensure it's running.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>

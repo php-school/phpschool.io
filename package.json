@@ -15,13 +15,18 @@
     "bourbon-neat": "^1.7.2",
     "browser-sync": "^2.9.8",
     "clean-css": "^3.4.5",
-    "crossbow": "^0.4.7",
-    "crossbow-cli": "^2.0.7",
     "easy-svg": "^1.0.5",
     "es6-promise": "^3.0.2",
+    "gulp": "^3.9.1",
+    "gulp-connect-php": "0.0.7",
+    "gulp-cssnano": "^2.1.1",
+    "gulp-postcss": "^6.1.0",
+    "gulp-sass": "^2.2.0",
+    "gulp-sourcemaps": "^1.6.0",
     "node-sass": "^3.3.3",
     "normalize.css": "^3.0.3",
     "postcss": "^5.0.8",
+    "postcss-import": "^8.0.2",
     "rx": "^4.0.0"
   }
 }

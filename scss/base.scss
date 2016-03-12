@@ -121,3 +121,21 @@ svg {
   }
 }
 
+pre {
+  border-radius: 0;
+  background-color: #f8f8f8;
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: #333;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+
+  code {
+    background-color: #f8f8f8 !important;
+  }
+}

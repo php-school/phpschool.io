@@ -1,0 +1,12 @@
+<?php
+
+$params = array_map(function (array $param) {
+    return sprintf(
+        '%s$%s, ',
+        $param['typeHint'] ? sprintf('%s ', basename(str_replace('\\', '/', $param['typeHint']))) : '',
+        $param['name'],
+        $param['hasDefault'] ? sprintf(' = %s', $param['default']) : ''
+    );
+}, $params);
+
+echo substr(implode('', $params), 0, -2);

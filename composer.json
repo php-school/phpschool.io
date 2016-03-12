@@ -1,0 +1,31 @@
+{
+  "name": "php-school/website",
+  "description": "PHP School Website",
+  "homepage": "http://www.phpschool.io",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Aydin Hassan",
+      "email": "aydin@hotmail.co.uk"
+    }
+  ],
+  "require": {
+    "php": "~7.0",
+    "slim/slim": "^3.1",
+    "slim/php-view": "^2.0",
+    "monolog/monolog": "^1.17",
+    "php-di/slim-bridge": "^0.2.1",
+    "snicholson/slimfilecache": "~1.0",
+    "php-school/php-workshop": "^0.3.6",
+    "mnapoli/silly-php-di": "^1.0",
+    "roave/better-reflection": "dev-master",
+    "phpdocumentor/reflection-common": "^1.0@dev",
+    "phpdocumentor/reflection-docblock": "^2.0",
+    "symfony/finder": "^3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "PhpSchool\\Website\\": "src/"
+    }
+  }
+}

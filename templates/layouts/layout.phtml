@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title><?= $pageTitle ?> - PHP School - Open Source Learning for PHP</title>
+        <meta name="Description" content="<?= $pageDescription ?>">
+
+        <link href="/img/favicon.ico" rel="shortcut icon" type="image/ico">
+        <link href="/img/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72">
+        <link href="/img/apple-touch-icon-144x144.png" rel="apple-touch-icon-precomposed" sizes="144x144">
+
+        <?php foreach ($this->getCss() as $css) : ?>
+            <link href='<?= $css ?>' rel='stylesheet' type='text/css'>
+        <?php endforeach; ?>
+    </head>
+    <body id="page-top">
+
+        <?= $content; ?>
+
+        <?= $this->fetch('includes/footer.phtml') ?>
+
+        <?php foreach ($this->getJs() as $js) : ?>
+            <script src="<?= $js ?>"></script>
+        <?php endforeach; ?>
+    </body>
+</html>
+
