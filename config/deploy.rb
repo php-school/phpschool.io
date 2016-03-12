@@ -9,6 +9,7 @@ set :deploy_to, '/var/www/html'
 set :pty, true
 set :log_level, :info
 
+set :linked_dirs, %w{cache}
 namespace :deploy do
 
   task :clear_cache do
@@ -18,7 +19,6 @@ namespace :deploy do
       end
     end
   end
-
 
   before 'deploy:updated', 'deploy:clear_cache'
 end
