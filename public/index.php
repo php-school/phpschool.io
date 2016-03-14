@@ -27,25 +27,8 @@ $containerBuilder = new ContainerBuilder;
 $containerBuilder->addDefinitions(__DIR__ . '/../vendor/php-di/slim-bridge/src/config.php');
 $containerBuilder->addDefinitions(__DIR__ . '/../app/config.php');
 
-$app = new \Slim\App($containerBuilder->build());
-
-//cache all the pages
-$container  = $app->getContainer();
-$cache      = $container->get(Cache::class);
-
-if ($container->get('config')['enablePageCache']) {
-    $app->add(function (Request $request, Response $response, callable $next) use ($cache) {
-        $response = $next($request, $response);
-
-        if ($response->getStatusCode() === 200) {
-            $cache->add($request->getUri()->getPath(), (string) $response->getBody(), 200, [], Cache::WEEK);
-        }
-
-        return $response;
-    });
-    $app->add($cache);
-}
-
+$container  = $containerBuilder->build();
+$app        = $container->get('app');
 
 $app->get('/', function (Request $request, Response $response, PhpRenderer $renderer) {
     $inner = $renderer->fetch('home.phtml');

@@ -1,9 +1,6 @@
 <?php
 
 use DI\ContainerBuilder;
-use PhpSchool\Website\DocGenerator;
-use PhpSchool\Website\Command\ClearCache;
-use PhpSchool\Website\Command\GenerateDoc;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -13,9 +10,4 @@ $containerBuilder = new ContainerBuilder;
 $containerBuilder->addDefinitions(__DIR__ . '/../vendor/php-di/slim-bridge/src/config.php');
 $containerBuilder->addDefinitions(__DIR__ . '/../app/config.php');
 
-$app = new Silly\Edition\PhpDi\Application('PHP School Website', null, $containerBuilder->build());
-
-$app->command('generate-docs', new GenerateDoc);
-$app->command('clear-cache', new ClearCache);
-
-$app->run();
+$containerBuilder->build()->get('console')->run();

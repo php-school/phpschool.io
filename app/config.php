@@ -6,11 +6,40 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use PhpSchool\Website\Cache;
+use PhpSchool\Website\Command\ClearCache;
+use PhpSchool\Website\Command\GenerateDoc;
 use PhpSchool\Website\DocGenerator;
+use PhpSchool\Website\Middleware\FpcCache;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
+use Stash\Driver\BlackHole;
+use Stash\Driver\FileSystem;
+use Stash\Pool;
 
 $config = [
+    'console' => factory(function (ContainerInterface $c) {
+        $app = new Silly\Edition\PhpDi\Application('PHP School Website', null, $c);
+        $app->command('generate-docs', $c->get(GenerateDoc::class));
+        $app->command('clear-cache', $c->get(ClearCache::class));
+        return $app;
+    }),
+    'app' => factory(function (ContainerInterface $c) {
+        $app = new \Slim\App($c);
+        $app->add($c->get(FpcCache::class));
+
+        return $app;
+    }),
+    FpcCache::class => factory(function (ContainerInterface $c) {
+        return new FpcCache($c->get('cache.fpc'));
+    }),
+    'cache.fpc' => factory(function (ContainerInterface $c) {
+
+        if (!$c->get('config')['enablePageCache']) {
+            return new Pool(new BlackHole);
+        }
+
+        return new Pool(new FileSystem(['path' => $c->get('config')['cacheDir']]));
+    }),
     PhpRenderer::class => factory(function (ContainerInterface $c) {
         $settings = $c->get('config')['renderer'];
 
@@ -32,9 +61,13 @@ $config = [
         return $logger;
     }),
     DocGenerator::class => \DI\object(),
-    Cache::class => factory(function (ContainerInterface $c) {
-        return new Cache($c->get('config')['cacheDir']);
+
+    //commands
+    GenerateDoc::class => \DI\object(),
+    ClearCache::class => factory(function (ContainerInterface $c) {
+        return new ClearCache($c->get('cache.fpc'));
     }),
+
     'config' => [
         'displayErrorDetails' => true, // set to false in production
         // Renderer settings
