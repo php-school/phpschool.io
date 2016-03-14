@@ -3,6 +3,7 @@
 namespace PhpSchool\Website\Command;
 
 use PhpSchool\Website\Cache;
+use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * Class ClearCache
@@ -12,10 +13,23 @@ use PhpSchool\Website\Cache;
 class ClearCache
 {
     /**
-     * @param Cache $cache
+     * @var CacheItemPoolInterface
      */
-    public function __invoke(Cache $cache)
+    private $cache;
+
+    /**
+     * @param CacheItemPoolInterface $cache
+     */
+    public function __construct(CacheItemPoolInterface $cache)
     {
-        $cache->flush();
+        $this->cache = $cache;
+    }
+
+    /**
+     * Clear the FPC cache
+     */
+    public function __invoke()
+    {
+        $this->cache->clear();
     }
 }
