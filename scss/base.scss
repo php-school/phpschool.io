@@ -149,6 +149,7 @@ h2 a.anchor {
 }
 
 p.note {
+  font-size: 12px;
   margin: 30px;
   padding: 15px;
   border: 1px solid transparent;
@@ -165,4 +166,10 @@ p.note-warning {
   color: #a94442;
   background-color: #f2dede;
   border-color: #ebccd1;
+}
+
+p.note-info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
 }
