@@ -11,31 +11,31 @@
                     <a class="doc__side-link" href="#modify-theme">Modifying the theme of your workshop</a>
                 </li>
                 <li class="doc__side-item">
-                    <a class="doc__side-link" href="#creating-an-exercise">Creating an exercise</a>
+                    <span class="doc__side-link" href="#creating-an-exercise">Creating an exercise</span>
                 </li>
                 <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">Available Services</a>
+                    <span class="doc__side-link" href="/api-docs">Available Services</span>
                 </li>
                 <li class="doc__side-item">
                     <a class="doc__side-link" href="#exercise-types">Exercise Types</a>
                 </li>
                 <li class="doc__side-item">
-                    <a class="doc__side-link" href="#exercise-solutions">Exercise Solutions</a>
+                    <span class="doc__side-link" href="#exercise-solutions">Exercise Solutions</span>
                 </li>
                 <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">Checks</a>
+                    <span class="doc__side-link" href="/api-docs">Checks</span>
                 </li>
                 <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">Creating Custom Checks</a>
+                    <span class="doc__side-link" href="/api-docs">Creating Custom Checks</span>
                 </li>
                 <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">Creating Custom Results</a>
+                    <span class="doc__side-link" href="/api-docs">Creating Custom Results</span>
                 </li>
                 <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">Creating Custom Result Renderers</a>
+                    <span class="doc__side-link" href="/api-docs">Creating Custom Result Renderers</span>
                 </li>
                 <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">API Reference</a>
+                    <span class="doc__side-link" href="/api-docs">API Reference</span>
                 </li>
             </ul>
             <div class="doc__content">
@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <p>Where <code>&lt;binary-name&gt;</code> is the name your previously entered during the <code>create-project</code> command.</p>
-                <img src="img/post-install-workshop.png" id="post-install-workshop">
+                <img src="img/post-install-workshop.png" class="doc-terminal-screen" id="post-install-workshop">
 
                 <p class="note note-warning">If you don't see the menu above, then something went wrong. Get in touch with us and bring any helpful information such as error messages with you!</p>
 
@@ -271,7 +271,75 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
                 <p>The remaining methods to implement are <code>getName</code> and <code>getDescription</code>. <code>getName</code> is the name of the exercise to be displayed in the menu and <code>getDescription</code> is a short description of the exercise. This is not actually used anywhere yet but is useful for when glancing through the code.</p>
 
                 <h3>Registering the exercise and adding a factory</h3>
+                <p>Internally, the workshop application uses a <a target="_blank" href="https://en.wikipedia.org/wiki/Dependency_Injection">dependency injection container</a>. This allows you to request other services from the application and replace services with your own implementations. In order for the application to locate your exercise, you need to register it with the application and also provide a factory for it. We use <a target="_blank" href="http://php-di.org">PHP-DI</a>.</p>
+                <p>First, lets create a factory for our exercise. Open up <code>app/config.php</code>.</p>
 
+                <pre><code lang="php">return [
+    Mean::class => \DI\Object(),
+];
+</code></pre>
+                <p>The file <code>app/config.php</code> should return an array of service definitions for the container. The key being the name of the service and the value the actual factory. For the case of exercises the service name should <strong>always</strong> be the class name. <code>\DI\Object()</code> is a helper function to create a factory which will simply run <code>new $yourClassName</code> when asking for the service from the container.</p>
+
+                <p class="note note-success">See the section on <a href="#service-configuration">Service Configuration</a> for more information on factory definitions.</p>
+                <div class="note note-success">
+                    PHP-DI provides more powerful features such as being able to use anonymous functions and any callables as a factory. When using a callable your callable will be injected with the container itself which you can pull other services from!
+                    <pre><code lang="php">return [
+    Mean::class => \DI\factory(function (ContainerInterface $container) {
+        return new Mean($container->get('someService');
+    }),
+];
+
+</code></pre>
+                </div>
+
+                <p>You are almost done, we have registered the factory, essentially telling the application how to create your exercise. We just need to make it aware of your exercise. We do this in <code>app/bootstrap.php</code>. After the <code>Application</code> object is created you just call <code>addExercise</code> with the name of your exercise class. Your final <code>app/bootstrap.php</code> file should look something like the following:</p>
+                <pre><code lang="php">&lt;?php
+ini_set('display_errors', 1);
+date_default_timezone_set('Europe/London');
+switch (true) {
+    case (file_exists(__DIR__ . '/../vendor/autoload.php')):
+        // Installed standalone
+        require __DIR__ . '/../vendor/autoload.php';
+        break;
+    case (file_exists(__DIR__ . '/../../../autoload.php')):
+        // Installed as a Composer dependency
+        require __DIR__ . '/../../../autoload.php';
+        break;
+    case (file_exists('vendor/autoload.php')):
+        // As a Composer dependency, relative to CWD
+        require 'vendor/autoload.php';
+        break;
+    default:
+        throw new RuntimeException('Unable to locate Composer autoloader; please run "composer install".');
+}
+
+use PhpSchool\PhpWorkshop\Application;
+use PhpSchool\SimpleMath\Exercise\Mean;
+
+$app = new Application('Simple Math', __DIR__ . '/config.php');
+
+$app->addExercise(Mean::class);
+
+$app->setLogo('\(*-+)/');
+$app->setFgColour('green');
+$app->setBgColour('black');
+
+return $app;
+</code></pre>
+                <p>That's it! You should now see your exercise in the menu when you run the app.</p>
+
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
+                    <div class="terminal__body">
+                        <p>php bin/simple-math</p>
+                    </div>
+                </div>
+
+                <img src="img/first-exercise.png" class="doc-terminal-screen" id="first-exercise">
 
                 <h2 id="exercise-types" class="doc__title">Exercise Types<a class="anchor" href="#exercise-types">#</a></h2>
                 <p>When an exercise is to be verified, there are two ways for the solution to be invoked. This is either CLI or CGI. Each exercise must have a type. This is used to determine how to invoke the script when verifying or running solutions. In order to explain the difference we will first show how a type translates to an actually php command.</p>
