@@ -1,0 +1,62 @@
+<h2 id="creating-your-own-workshop" class="doc__title">Creating your own workshop<a class="anchor" href="#creating-your-own-workshop">#</a></h2>
+<p>So.. You want to create your own workshop? You want to help teach a topic? You want to make a meetup more hands on? You want to showcase your tool? You've come to the right place!</p>
+
+<p>In order to create a workshop the first thing you will need to do is to setup a new project and configure the dependencies and wire it all together. Luckily for you we have created a starter kit which does this all for you, prompting you along the way. Simply execute the following command in your shell.</p>
+
+<div class="terminal">
+    <div class="terminal-head">
+        <span class="terminal__button"></span>
+        <span class="terminal__button"></span>
+        <span class="terminal__button"></span>
+    </div>
+    <div class="terminal__body">
+        <p>composer create-project php-school/workshop-starter-kit &lt;your-workshop-name&gt;</p>
+    </div>
+</div>
+
+<p>Where <code>&lt;your-workshop-name&gt;</code> is the name of the directory you want to setup your workshop in. For this tutorial we will create a workshop teaching some basic math concepts so we will use the name <code>simple-math</code>. You will be prompted for a few things:</p>
+
+<h3>Composer package name</h3>
+<p>The name for your workshop to be put in the <code>composer.json</code> file. This should follow the pattern <code>vendor/package</code>. In the case of our flagship workshop <a target="_blank" href="https://github.com/php-school/learn-you-php">Learn You PHP!</a> this is <code>php-school/learn-you-php</code>. Name your package <code>php-school/simple-math</code>.</p>
+<p>More info on the <code>name</code> property can be found <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#name">here</a>.</p>
+
+<h3>Composer package description</h3>
+<p>A short description of your workshop which will be added to the <code>composer.json</code> file. Add a short description here, something like: <code>Learn the basics of math with PHP!</code></p>
+<p>More info on the <code>description</code> property can be found <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#description">here</a>.</p>
+
+<h3>PHP Namespace for the source code</h3>
+<p>The namespace which will be used in the project so it can be added to the autoload configuration in the <code>composer.json</code> file. In the case of <a target="_blank" href="https://github.com/php-school/learn-you-php">Learn You PHP!</a> this is <code>PhpSchool\LearnYouPhp</code>. We will use <code>PhpSchool\SimpleMath</code>.</p>
+
+<p>More info on the <code>autoload</code> property can be found <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#psr-4">here</a>.</p>
+
+<h3>Workshop binary</h3>
+<p>This is the actual command users will execute to run your workshop. In the case of <a target="_blank" href="https://github.com/php-school/learn-you-php">Learn You PHP!</a> this is <code>learnyouphp</code>. You should set this as <code>simple-math</code>.</p>
+
+<hr>
+<p>After you have entered the required information the workshop dependencies will be downloaded and the autoload files will be generated.</p>
+
+<p class="note note-success">Assuming everything went well and your are in the root of your new workshop you should be able to run the workshop!</p>
+<div class="terminal">
+    <div class="terminal-head">
+        <span class="terminal__button"></span>
+        <span class="terminal__button"></span>
+        <span class="terminal__button"></span>
+    </div>
+    <div class="terminal__body">
+        <p>php bin/&lt;binary-name&gt;</p>
+    </div>
+</div>
+<p>Where <code>&lt;binary-name&gt;</code> is the name your previously entered during the <code>create-project</code> command. In our case:</p>
+<div class="terminal">
+    <div class="terminal-head">
+        <span class="terminal__button"></span>
+        <span class="terminal__button"></span>
+        <span class="terminal__button"></span>
+    </div>
+    <div class="terminal__body">
+        <p>php bin/simple-math</p>
+    </div>
+</div>
+<img src="img/post-install-workshop.png" class="doc-terminal-screen" id="post-install-workshop">
+
+<p class="note note-warning">If you don't see the menu above, then something went wrong. Get in touch with us and bring any helpful information such as error messages with you!</p>

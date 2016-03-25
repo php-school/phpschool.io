@@ -1,0 +1,28 @@
+<h2 id="modify-theme" class="doc__title">Modifying the theme of your workshop<a class="anchor" href="#modify-theme">#</a></h2>
+<p>You can alter the colours, logo and text of your workshop very easily. Look in <code>app/bootstrap.php</code> and you should see the following code.</p>
+
+<pre><code class="lang-php">$app->setLogo($art);
+$app->setFgColour('green');
+$app->setBgColour('black');</code></pre>
+
+<p>You can modify any of these settings. Available colours are black, red, green, yellow, blue, magenta, cyan, white. <code>setLogo</code> takes a <code>string</code> and can be used display ascii art!</p>
+<p>You can set the title of your workshop which will be displayed on the terminal by changing the <code>null</code> argument to <code>Application</code> to a title of your choice. For example:</p>
+
+<pre><code class="lang-php">$app = new Application('My Workshop', __DIR__ . '/config.php');</code></pre>
+
+<p>We will customise the theme a little to be more representative of our subject:</p>
+
+<pre><code lang="php">$art = &lt;&lt;&lt;ART
+  ∞ ÷ ∑ ×
+
+ PHP SCHOOL
+SIMPLE MATH
+ART;
+
+$app->setLogo($art);
+$app->setFgColour('red');
+$app->setBgColour('black');
+</code></pre>
+
+<img src="img/themed-workshop.png" class="doc-terminal-screen" id="themed-workshop">
+

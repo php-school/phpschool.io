@@ -154,6 +154,11 @@ h2 a.anchor {
   padding: 15px;
   border: 1px solid transparent;
   border-radius: 4px;
+
+  a {
+    font-size: 12px;
+    font-weight: bold;
+  }
 }
 
 .note-success {
