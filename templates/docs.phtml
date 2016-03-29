@@ -20,7 +20,10 @@
                 <h3>Reference Documentation</h3>
                 <ul>
                     <li class="doc__side-item">
-                        <span class="doc__side-link" href="/api-docs">Available Services</span>
+                        <a class="doc__side-link" href="#container">The Container</a>
+                    </li>
+                    <li class="doc__side-item">
+                        <a class="doc__side-link" href="#available-services">Available Services</a>
                     </li>
                      <li class="doc__side-item">
                         <a class="doc__side-link" href="#exercise-types">Exercise Types</a>
@@ -56,6 +59,8 @@
                 <?= $this->fetch('doc-sections/modify-theme.phtml'); ?>
                 <?= $this->fetch('doc-sections/creating-an-exercise.phtml'); ?>
                 <?= $this->fetch('doc-sections/exercise-types.phtml'); ?>
+                <?= $this->fetch('doc-sections/container.phtml'); ?>
+                <?= $this->fetch('doc-sections/available-services.phtml'); ?>
             </div>
         </div>
     </div>
