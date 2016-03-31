@@ -1,4 +1,4 @@
-<h2 id="exercise-types" class="doc__title">Exercise Types<a class="anchor" href="#exercise-types">#</a></h2>
+<h2 id="exercise-types" class="doc__title">Exercise Types<a class="anchor" href="#exercise-types">#</a><a href="#page-top" class="back-to-top">^ TOP</a></h2>
 <p>When an exercise is to be verified, there are two ways for the solution to be invoked. This is either CLI or CGI. Each exercise must have a type. This is used to determine how to invoke the script when verifying or running solutions. In order to explain the difference we will first show how a type translates to an actually php command.</p>
 <p>When selecting you exercise type you must return the valid type and implement the respective interface.</p>
 
@@ -209,7 +209,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CgiExerc
 <p>We use the <code>php-cgi</code> binary to setup the PHP environment. The php-cgi use environment variables and stdin to configure itself, we export these variables based on the information you provide in <code>getRequests</code></p>
 
 <div class="note note-success">
-    <ul>
+    <ul class="docs__std__list__note">
         <li>You can return multiple request from <code>getRequests</code>.</li>
         <li>Each request can have a different method.</li>
         <li>Each request can have any amount of headers as you need.</li>

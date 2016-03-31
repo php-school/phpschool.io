@@ -65,6 +65,10 @@
   margin-bottom: 0px;
 }
 
+.service-label {
+    width: 300px;
+}
+
 .method-list-item-description {
   position: relative;
   z-index: 10;
@@ -101,5 +105,23 @@
     border-bottom: 1px solid #ccc;
     padding: 5px;
     font-size: .85714286rem;
+  }
+}
+
+.docs__std__list {
+  padding-left: 30px;
+  padding-bottom: 20px;
+
+  li {
+    margin-bottom: 4px;
+  }
+}
+
+.docs__std__list__note {
+  padding-left: 30px;
+  padding-bottom: 0px;
+
+  li {
+    margin-bottom: 4px;
   }
 }
