@@ -174,17 +174,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
 </code></pre>
 <p>The file <code>app/config.php</code> should return an array of service definitions for the container. The key being the name of the service and the value the actual factory. For the case of exercises the service name should <strong>always</strong> be the class name. <code>\DI\Object()</code> is a helper function to create a factory which will simply run <code>new $yourClassName</code> when asking for the service from the container.</p>
 
-<p class="note note-success">See the section on <a href="#service-configuration">Service Configuration</a> for more information on factory definitions.</p>
-<div class="note note-success">
-    PHP-DI provides more powerful features such as being able to use anonymous functions and any callables as a factory. When using a callable your callable will be injected with the container itself which you can pull other services from!
-    <pre><code lang="php">return [
-    Mean::class => \DI\factory(function (ContainerInterface $container) {
-        return new Mean($container->get('someService');
-    }),
-];
-
-</code></pre>
-</div>
+<p class="note note-success">See the section on <a href="#container">The Container</a> for more information on service definitions.</p>
 
 <p>You are almost done! we have registered the factory which tells the application how to create your exercise. We just need to make it aware of your exercise. We do this in <code>app/bootstrap.php</code>. After the <code>Application</code> object is created you just call <code>addExercise</code> with the name of your exercise class. Your final <code>app/bootstrap.php</code> file should look something like the following:</p>
 <pre><code lang="php">&lt;?php
