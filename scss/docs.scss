@@ -65,8 +65,16 @@
   margin-bottom: 0px;
 }
 
-.service-label {
-    width: 300px;
+.service-list-item-label {
+  color: #292e31;
+  padding-top: 0px;
+  position: relative;
+  z-index: 5;
+  font-size: 14px;
+  line-height: 21px;
+  word-break: break-all;
+  white-space: normal;
+  margin-bottom: 10px;
 }
 
 .method-list-item-description {
@@ -76,7 +84,18 @@
   margin: 0 0 0 150px;
   font-size: 13px;
   line-height: 21px;
+
 }
+
+.service-list-item-description {
+  position: relative;
+  z-index: 10;
+  background: #fff;
+  font-size: 13px;
+  line-height: 21px;
+  margin: 0px;
+}
+
 
 .type {
   display: block;
