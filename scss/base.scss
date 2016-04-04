@@ -139,3 +139,42 @@ pre {
     background-color: #f8f8f8 !important;
   }
 }
+
+h2 a.anchor {
+  display: inline-block;
+  margin-left: 5px;
+  color: #ccc;
+  font-size: 24px;
+  margin-bottom: 0px;
+}
+
+.note {
+  font-size: 12px;
+  margin: 30px;
+  padding: 15px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+
+  a {
+    font-size: 12px;
+    font-weight: bold;
+  }
+}
+
+.note-success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
+.note-warning {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.note-info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}

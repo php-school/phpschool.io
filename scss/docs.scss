@@ -65,6 +65,18 @@
   margin-bottom: 0px;
 }
 
+.service-list-item-label {
+  color: #292e31;
+  padding-top: 0px;
+  position: relative;
+  z-index: 5;
+  font-size: 14px;
+  line-height: 21px;
+  word-break: break-all;
+  white-space: normal;
+  margin-bottom: 10px;
+}
+
 .method-list-item-description {
   position: relative;
   z-index: 10;
@@ -72,7 +84,18 @@
   margin: 0 0 0 150px;
   font-size: 13px;
   line-height: 21px;
+
 }
+
+.service-list-item-description {
+  position: relative;
+  z-index: 10;
+  background: #fff;
+  font-size: 13px;
+  line-height: 21px;
+  margin: 0px;
+}
+
 
 .type {
   display: block;
@@ -81,4 +104,43 @@
   font-weight: 500;
   text-transform: none;
   word-break: normal;
+}
+
+.doc-terminal-screen {
+  display: block;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.exercise__type__info {
+  width: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-top: 10px;
+  margin-bottom: $base-spacing + 10;
+
+  th, td {
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+    font-size: .85714286rem;
+  }
+}
+
+.docs__std__list {
+  padding-left: 30px;
+  padding-bottom: 20px;
+
+  li {
+    margin-bottom: 4px;
+  }
+}
+
+.docs__std__list__note {
+  padding-left: 30px;
+  padding-bottom: 0px;
+
+  li {
+    margin-bottom: 4px;
+  }
 }

@@ -3,11 +3,13 @@
 <section class="site-body">
     <div class="container">
         <div class="docs">
-            <ul class="doc__side">
-                <li class="doc__side-item"><a class="doc__side-link" href="#linux">Linux - Debian Based</a></li>
-                <li class="doc__side-item"><a class="doc__side-link" href="#osx">Mac OSX</a></li>
-                <li class="doc__side-item"><a class="doc__side-link" href="#windows">Windows</a></li>
-            </ul>
+            <div class="doc__side">
+                <ul>
+                    <li class="doc__side-item"><a class="doc__side-link" href="#linux">Linux - Debian Based</a></li>
+                    <li class="doc__side-item"><a class="doc__side-link" href="#osx">Mac OSX</a></li>
+                    <li class="doc__side-item"><a class="doc__side-link" href="#windows">Windows</a></li>
+                </ul>
+            </div>
             <div class="doc__content">
                 <h2 class="doc__title" id="linux"><?= $this->fetch('includes/icon.phtml', ['name' => "linux"]) ?> Troubleshooting Debian Linux Installations</h2>
                 <p>Common issues with Linux installations include not having a new enough version of PHP and not having Composer available.</p>

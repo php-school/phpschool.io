@@ -3,34 +3,73 @@
 <section class="site-body">
     <div class="container">
         <div class="docs">
-            <ul class="doc__side">
-                <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">Creating Your Own Workshop</a>
-                </li>
-                <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">Available Services</a>
-                </li>
-                <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">Creating Exercises</a>
-                </li>
-                <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">Checks</a>
-                </li>
-                <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">Creating Custom Checks</a>
-                </li>
-                <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">Creating Custom Results</a>
-                </li>
-                <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">Creating Custom Result Renderers</a>
-                </li>
-                <li class="doc__side-item">
-                    <a class="doc__side-link" href="/api-docs">API Reference</a>
-                </li>
-            </ul>
-            <div class="doc__content">
+            <div class="doc__side">
+                <h3>Workshop Tutorial</h3>
+                <ul class="">
+                    <li class="doc__side-item">
+                        <a class="doc__side-link" href="#creating-your-own-workshop">Creating your own workshop</a>
+                    </li>
+                    <li class="doc__side-item">
+                        <a class="doc__side-link" href="#modify-theme">Modifying the theme of your workshop</a>
+                    </li>
+                    <li class="doc__side-item">
+                        <a class="doc__side-link" href="#creating-an-exercise">Creating an exercise</a>
+                    </li>
+                </ul>
 
+                <h3>Reference Documentation</h3>
+                <ul>
+                    <li class="doc__side-item">
+                        <a class="doc__side-link" href="#container">The Container</a>
+                    </li>
+                    <li class="doc__side-item">
+                        <a class="doc__side-link" href="#available-services">Available Services</a>
+                    </li>
+                     <li class="doc__side-item">
+                        <a class="doc__side-link" href="#exercise-types">Exercise Types</a>
+                    </li>
+                    <li class="doc__side-item">
+                        <span class="doc__side-link" title="Coming Soon" href="#exercise-solutions">Exercise Solutions</span>
+                    </li>
+                    <li class="doc__side-item">
+                        <span class="doc__side-link" title="Coming Soon" href="#exercise-self-check">Self Checking Exercises</span>
+                    </li>
+                    <li class="doc__side-item">
+                        <span class="doc__side-link" title="Coming Soon" href="#exercise-hooks">Exercise Hooks</span>
+                    </li>
+                    <li class="doc__side-item">
+                        <span class="doc__side-link" title="Coming Soon" href="#exercise-patching">Patching Exercise Submissions</span>
+                    </li>
+                    <li class="doc__side-item">
+                        <span class="doc__side-link" title="Coming Soon" href="/api-docs">Checks</span>
+                    </li>
+                    <li class="doc__side-item">
+                        <span class="doc__side-link" title="Coming Soon" href="/api-docs">Creating Custom Checks</span>
+                    </li>
+                    <li class="doc__side-item">
+                        <span class="doc__side-link" title="Coming Soon" href="/api-docs">Creating Custom Results</span>
+                    </li>
+                    <li class="doc__side-item">
+                        <span class="doc__side-link" title="Coming Soon" href="/api-docs">Creating Custom Result Renderers</span>
+                    </li>
+                </ul>
+
+                <h3>API</h3>
+                <ul>
+                    <li class="doc__side-item">
+                        <span class="doc__side-link" title="Coming Soon" href="/api-docs">API Reference</span>
+                    </li>
+                </ul>
+
+
+            </div>
+            <div class="doc__content">
+                <?= $this->fetch('doc-sections/creating-your-own-workshop.phtml'); ?>
+                <?= $this->fetch('doc-sections/modify-theme.phtml'); ?>
+                <?= $this->fetch('doc-sections/creating-an-exercise.phtml'); ?>
+                <?= $this->fetch('doc-sections/container.phtml'); ?>
+                <?= $this->fetch('doc-sections/available-services.phtml'); ?>
+                <?= $this->fetch('doc-sections/exercise-types.phtml'); ?>
             </div>
         </div>
     </div>

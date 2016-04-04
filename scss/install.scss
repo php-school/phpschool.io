@@ -19,9 +19,10 @@
 .doc__title {
   border-bottom: 1px dotted $silver;
   padding-bottom: $half-spacing/2;
-  display: flex;
+  display: inline-block;
   align-items: center;
   margin-top: $base-spacing*2;
+  width: 100%;
 
   .svg-icon {
     margin-right: $half-spacing;
@@ -32,6 +33,11 @@
   &:first-child {
     margin-top: 0;
   }
+
+  a.back-to-top {
+    position: relative;
+    top: 10px;
+  }
 }
 
 .doc__side {
@@ -40,12 +46,18 @@
   padding-left: $base-spacing*2;
   display: flex;
   flex-direction: column;
-  list-style: none;
+
   @media screen and (min-width: 600px) {
     width: 30%;
     max-width: 299px;
   }
+
+  ul {
+    list-style: none;
+  }
 }
+
+
 
 .doc__side--fixed {
   @media screen and (min-width: 600px) {

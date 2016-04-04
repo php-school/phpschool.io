@@ -26,7 +26,7 @@
 
                     <?php foreach ($namespace['classes'] as $class): ?>
 
-                        <h2 id="<?= $class['name']; ?>"><a class="class__doc" href="#<?= $class['name']; ?>"><?= $class['name']; ?><a/> <a href="#page-top" class="back-to-top">^ TOP</a></h2>
+                        <h2 id="<?= $class['name']; ?>" class="doc__title"><a class="class__doc" href="#<?= $class['name']; ?>"><?= $class['name']; ?><a/> <a href="#page-top" class="back-to-top">^ TOP</a></h2>
                         <h3>Methods</h3>
                         <?php foreach ($class['methods'] as $method): ?>
                             <h4><?= $this->fetch('includes/doc/method.phtml', ['method' => $method]) ?></h4>

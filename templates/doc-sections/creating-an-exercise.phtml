@@ -1,0 +1,233 @@
+<h2 id="creating-an-exercise" class="doc__title">Creating an exercise<a class="anchor" href="#creating-an-exercise">#</a><a href="#page-top" class="back-to-top">^ TOP</a></h2>
+<p>A workshop is a fairly useless without any exercises, so here we will learn how to create them.</p>
+<p class="note note-success">It may be a good idea for exercises to start of simple and gradually increase in difficulty. You could try to explain concepts and build on them with each exercise.</p>
+
+<h3>Exercise checklist</h3>
+<ul class="docs__std__list">
+    <li>Decide on a topic to test.</li>
+    <li>Create a working solution.</li>
+    <li>Create a problem file.</li>
+    <li>Write the exercise.</li>
+</ul>
+
+<p>We will decide on a topic of basic PHP operators, more specifically working out the mean average of a given set of numbers.</p>
+
+<h3>Exercise specification</h3>
+<ul class="docs__std__list">
+    <li>The user should print out the mean average and nothing else. No new lines or whitespace.</li>
+    <li>The numbers passed to the program should be random.</li>
+    <li>The amount of numbers passed to the program should be random.</li>
+    <li>The numbers should be passed to the program as command line arguments.</li>
+</ul>
+
+<p>Given this specification we could write a program which would serve as our working solution.</p>
+<pre><code class="lang-php">&lt;?php
+$count = 0;
+for ($i = 1; $i < count($argv); $i++) {
+    $count += $argv[$i];
+}
+
+$numberCount = count($argv) - 1;
+echo $count / $numberCount;
+</code></pre>
+<p>We should place this file in <code>exercises/mean/solution/solution.php</code></p>
+
+<p class="note note-success">Solution files are known, working programs which pass the exercise. When running a user's solution to an exercise, the known working solution is executed and the output compared to the user's.</p>
+<p>The next step is to create a problem file. A problem file contains the instructions for the exercise. It should be a markdown file. This file is rendered in the terminal to the user when they select the exercise.</p>
+
+<h3>Tips for a good problem file</h3>
+<ul class="docs__std__list">
+    <li>Provide a solid description of the problem.</li>
+    <li>Provide some sample code which may need to be modified.</li>
+    <li>Provide hints and tips.</li>
+    <li>Provide links to the PHP documentation and good articles from reputable sources regarding key areas of the problem.</li>
+</ul>
+
+<p>Our problem file might look like the following.</p>
+<pre><code class="lang-md">Write a program that accepts one or more numbers as command-line arguments and prints the mean average of those numbers to the console (stdout).
+
+----------------------------------------------------------------------
+## HINTS
+
+You can access command-line arguments via the global `$argv` array.
+
+To get started, write a program that simply contains:
+
+```php
+var_dump($argv);
+```
+
+Run it with `php program.php` and some numbers as arguments. e.g:
+
+```sh
+$ php program.php 1 2 3
+```
+
+In which case the output would be an array looking something like:
+
+```php
+array(4) {
+[0] =>
+string(7) "program.php"
+[1] =>
+string(1) "1"
+[2] =>
+string(1) "2"
+[3] =>
+string(1) "3"
+}
+```
+
+You'll need to think about how to loop through the number of arguments so you can output just their mean average. The first element of the `$argv` array is always the name of your script. eg `program.php`, so you need to start at the 2nd element (index 1), adding each item to the total until you reach the end of the array. You will then need to work out the average based on the amount of arguments given to you.
+
+You can read how to work out an average here:
+  [https://www.mathsisfun.com/mean.html]()
+
+Also be aware that all elements of `$argv` are strings and you may need to *coerce* them into numbers. You can do this by prefixing the property with a cast `(int)` or just adding them. PHP will coerce it for you.
+
+`{appname}` will be supplying arguments to your program when you run `{appname} verify program.php` so you don't need to supply them yourself. To test your program without verifying it, you can invoke it with `{appname} run program.php`. When you use `run`, you are invoking the test environment that `{appname}` sets up for each exercise.
+
+----------------------------------------------------------------------
+</code></pre>
+<p class="note note-info">Any instances of <code>{appname}</code> will be replaced with the actual application name, this will most likely be the configuration you set when creating your workshop as this is inferred from the command the user executed to run the workshop.</p>
+<p>Drop this file in <code>exercises/mean/problem/problem.md</code>.</p>
+<p>Now we write the code, there is not much to it, this is a simple exercise!</p>
+
+<pre><code class="lang-php">&lt;?php
+
+namespace PhpSchool\SimpleMath\Exercise;
+
+use PhpSchool\PhpWorkshop\Exercise\AbstractExercise;
+use PhpSchool\PhpWorkshop\Exercise\CliExercise;
+use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
+use PhpSchool\PhpWorkshop\Exercise\ExerciseType;
+
+class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
+{
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'Mean Average';
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return 'Simple Math';
+    }
+
+    /**
+     * @return array
+     */
+    public function getArgs()
+    {
+        $numArgs = rand(0, 10);
+
+        $args = [];
+        for ($i = 0; $i < $numArgs; $i ++) {
+            $args[] = rand(0, 100);
+        }
+
+        return $args;
+    }
+
+    /**
+     * @return ExerciseType
+     */
+    public function getType()
+    {
+        return ExerciseType::CLI();
+    }
+}
+</code></pre>
+<p>Now lets break this down.</p>
+<p>This class represents our exercise, it describes how the programs will be executed, the users and our known working program.</p>
+
+<h3>AbstractExercise</h3>
+<p>The <code>AbstractExercise</code> class implements a few interesting methods for us. Mainly <code>getSolution</code> and <code>getProblem</code>. These methods are responsible for locating your solution and problem files. By default they take your exercises name, normalise it (remove anything that is not A-Za-z or a dash, lowercase and replace spaces with dashes) and look in the <code>exercises/&lt;normalised-name&gt;/solution</code> and <code>exercises/&lt;normalised-name&gt;/problem</code> folders for files named <code>solution.php</code> and <code>problem.md</code> respectively. There maybe be cases when you need to override these methods, and in that case you probably don't need to extend from <code>AbstractExercise</code>.</p>
+<p class="note note-info">You may need to override the methods <code>getSolution</code> and <code>getProblem</code> if you want to organise your problems and solutions in a different structure. We would advise against this in the name of consistency but if you have a good enough reason then the option is there. There may also be the case that your solution is not simply one file. Jump over to <a href="#exercise-solutions">Exercise Solutions</a> to learn more, if that is the case.</p>
+
+<h3>Exercise Type</h3>
+<p>Each exercise must have a type, there are currently two types of exercise: CGI & CLI. Head over to <a href="#exercise-types">Exercise Types</a> to learn more. We are currently building a CLI type exercise, this means our solution and the users solution programs will be invoked using the PHP CLI binary. The arguments will come from our exercise class. We inform the workshop of our exercise type by returning an instance of <code>ExerciseType</code> from the <code>getType</code> method. <code>ExerciseType</code> is an ENUM. In conjunction with this our exercise should implement the respective interface. For <code>cli</code> type exercises this is <code>CliExercise</code>.
+
+<h3>CliExercise</h3>
+<p>This interface defines one method: <code>getArgs</code>. This method should return an array of string arguments which will be passed to our solution and the user solutions at runtime. This method can return random records and random numbers of arguments so that each time the user runs the verification process they receive different arguments. This makes sure the solution is robust.</p>
+<p class="note note-success">Try passing arguments which will test the boundaries of the users solution, for example using minimum and maximum values and using random values on each invocation.</p>
+<p class="note note-info">Do note that although your implementation of <code>getArgs</code> may return random arguments, your solution and the users solution will always receive the same arguments as the <code>getArgs</code> method is only called once.</p>
+<p>Our exercise simply returns a random number of arguments between 0 and 10, each being a random number between 0 and 100.</p>
+
+<h3>Name and description</h3>
+<p>The remaining methods to implement are <code>getName</code> and <code>getDescription</code>. <code>getName</code> is the name of the exercise to be displayed in the menu and <code>getDescription</code> is a short description of the exercise. This is not actually used anywhere yet but is useful when glancing through the code.</p>
+
+<h3>Registering the exercise and adding a factory</h3>
+<p>Internally, the workshop application uses a <a target="_blank" href="https://en.wikipedia.org/wiki/Dependency_Injection">dependency injection container</a>. This allows you to request other services from the application and replace services with your own implementations. In order for the application to locate your exercise, you need to register it with the application and also provide a factory for it. We use the <a target="_blank" href="http://php-di.org">PHP-DI</a> package for dependency injection.</p>
+<p>First, lets create a factory for our exercise. Open up <code>app/config.php</code>.</p>
+
+<pre><code lang="php">return [
+    Mean::class => \DI\Object(),
+];
+</code></pre>
+<p>The file <code>app/config.php</code> should return an array of service definitions for the container. The key being the name of the service and the value the actual factory. For the case of exercises the service name should <strong>always</strong> be the class name. <code>\DI\Object()</code> is a helper function to create a factory which will simply run <code>new $yourClassName</code> when asking for the service from the container.</p>
+
+<p class="note note-success">See the section on <a href="#container">The Container</a> for more information on service definitions.</p>
+
+<p>You are almost done! we have registered the factory which tells the application how to create your exercise. We just need to make it aware of your exercise. We do this in <code>app/bootstrap.php</code>. After the <code>Application</code> object is created you just call <code>addExercise</code> with the name of your exercise class. Your final <code>app/bootstrap.php</code> file should look something like the following:</p>
+<pre><code lang="php">&lt;?php
+ini_set('display_errors', 1);
+date_default_timezone_set('Europe/London');
+switch (true) {
+    case (file_exists(__DIR__ . '/../vendor/autoload.php')):
+        // Installed standalone
+        require __DIR__ . '/../vendor/autoload.php';
+        break;
+    case (file_exists(__DIR__ . '/../../../autoload.php')):
+        // Installed as a Composer dependency
+        require __DIR__ . '/../../../autoload.php';
+        break;
+    case (file_exists('vendor/autoload.php')):
+        // As a Composer dependency, relative to CWD
+        require 'vendor/autoload.php';
+        break;
+    default:
+        throw new RuntimeException('Unable to locate Composer autoloader; please run "composer install".');
+}
+
+use PhpSchool\PhpWorkshop\Application;
+use PhpSchool\SimpleMath\Exercise\Mean;
+
+$app = new Application('Simple Math', __DIR__ . '/config.php');
+
+$app->addExercise(Mean::class);
+
+$art = &lt;&lt;&lt;ART
+  ∞ ÷ ∑ ×
+
+ PHP SCHOOL
+SIMPLE MATH
+ART;
+
+$app->setLogo($art);
+$app->setFgColour('red');
+$app->setBgColour('black');
+
+return $app;
+</code></pre>
+<p>That's it! You should now see your exercise in the menu when you run the app.</p>
+
+<div class="terminal">
+    <div class="terminal-head">
+        <span class="terminal__button"></span>
+        <span class="terminal__button"></span>
+        <span class="terminal__button"></span>
+    </div>
+    <div class="terminal__body">
+        <p>php bin/simple-math</p>
+    </div>
+</div>
+
+<img src="img/first-exercise.png" class="doc-terminal-screen" id="first-exercise">
