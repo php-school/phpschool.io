@@ -3,11 +3,11 @@ var connect     = require('gulp-connect-php');
 var bs          = require('browser-sync');
 var sourcemaps  = require('gulp-sourcemaps');
 var post        = require('gulp-postcss');
-var cssnano     = require('cssnano');
+var cssnano     = require('gulp-cssnano');
 var pre         = require('autoprefixer');
 var sass        = require('gulp-sass');
 var imp         = require('postcss-import');
-var vfs         = require('vinyl-fs');
+//var vfs         = require('vinyl-fs');
 var easysvg     = require('easy-svg');
 
 gulp.task('serve', ['sass', 'svg'], function() {

@@ -1,12 +1,68 @@
+.menu-icon {
+  width: 1.7em;
+  height: 1.2em;
+  position: relative;
+  margin: 15px;
+
+  @media screen and (min-width: 601px) {
+    display: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  span {
+    display: block;
+    width: 1.7em;
+    height: 3px;
+    background-color: $white;
+    position: absolute;
+    top: 50%;
+    margin-top: -1.5px;
+  }
+
+  &:before {
+    transition: all ease .3s;
+    content: '';
+    display: block;
+    width: 1.7em;
+    height: 3px;
+    background-color: $white;
+    position: absolute;
+    top: 0;
+  }
+  &:after {
+    transition: all ease .3s;
+    content: '';
+    display: block;
+    width: 1.7em;
+    height: 3px;
+    background-color: $white;
+    position: absolute;
+    bottom: 0;
+  }
+
+  &.active {
+    &:before {
+      top: -3px;
+    }
+    &:after {
+      bottom: -3px;
+    }
+  }
+}
+
 .site-nav {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   border-bottom: 1px solid rgba($white, 0.2);
-  padding: $half-spacing 0;
+  padding: $half-spacing 0 0;
   margin-bottom: $base-spacing*2;
+  flex-wrap: wrap;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: 601px) {
+    padding-bottom: $half-spacing;
     margin-bottom: $base-spacing*4;
   }
 
@@ -19,15 +75,47 @@
 
 .navigation {
   display: flex;
-  padding-left: $half-spacing;
+  flex-wrap: wrap;
+  padding: 0 $half-spacing;
+  margin: $half-spacing 0 0 0;
+  width: 100%;
+  transition: all ease .3s;
+  border-top: 1px solid rgba($white, 0.2);
+
+  @media screen and (max-width: 600px) {
+    order: 3;
+    max-height: 0;
+    overflow: hidden;
+
+    &.active {
+      max-height: 400px;
+    }
+  }
+
+  @media screen and (min-width: 601px) {
+    border: none;
+    width: 70%;
+    padding: 0 0 0 $half-spacing;
+    margin: 0;
+  }
 }
 
 .navigation__item {
   margin: 0;
-  padding-right: $base-spacing;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+
+  @media screen and (min-width: 601px) {
+    padding-right: $base-spacing;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+
+    &:last-child {
+      padding: 0;
+    }
+  }
+
 }
 
 .navigation__link {
@@ -35,6 +123,7 @@
   margin-bottom: 0;
   text-decoration: none;
   transition: all ease .3s;
+  padding: $half-spacing 0;
 
   &:hover {
     color: $secondary-colour;
@@ -50,7 +139,7 @@
   color: $white;
   padding-bottom: $base-spacing*2;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: 601px) {
     padding-bottom: $base-spacing*4;
   }
 }
