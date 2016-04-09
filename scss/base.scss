@@ -45,10 +45,13 @@ p, a {
   margin-bottom: $base-spacing;
 }
 
+ul, ol {
+  margin-bottom: $base-spacing;
+}
+
 li {
   font-size: 14px;
   line-height: 1.5;
-  margin-bottom: $half-spacing;
 }
 
 a {
@@ -126,7 +129,7 @@ pre {
   background-color: #f8f8f8;
   display: block;
   padding: 9.5px;
-  margin: 0 0 10px;
+  margin: 0 0 $base-spacing;
   font-size: 13px;
   line-height: 1.42857143;
   word-break: break-all;
@@ -150,7 +153,6 @@ h2 a.anchor {
 
 .note {
   font-size: 12px;
-  margin: 30px;
   padding: 15px;
   border: 1px solid transparent;
   border-radius: 4px;

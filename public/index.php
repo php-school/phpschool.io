@@ -40,9 +40,6 @@ $app->get('/', function (Request $request, Response $response, PhpRenderer $rend
 });
 
 $app->get('/install', function (Request $request, Response $response, PhpRenderer $renderer) {
-    $renderer->addJs('//code.jquery.com/jquery-1.12.0.min.js');
-    $renderer->addJs('/js/main.js');
-
     $inner = $renderer->fetch('install.phtml');
     return $renderer->render($response, 'layouts/layout.phtml', [
         'pageTitle'       => 'Installation instructions',
@@ -52,13 +49,6 @@ $app->get('/install', function (Request $request, Response $response, PhpRendere
 });
 
 $app->get('/docs', function (Request $request, Response $response, PhpRenderer $renderer) {
-
-
-    $renderer->prependCss('/css/solarized-light.css');
-    $renderer->addJs('/js/highlight.min.js');
-    $renderer->addJs('//code.jquery.com/jquery-1.12.0.min.js');
-    $renderer->addJs('/js/main.js');
-
     $inner = $renderer->fetch('docs.phtml');
 
     return $renderer->render($response, 'layouts/layout.phtml', [
@@ -77,11 +67,6 @@ $app->get('/api-docs', function (Request $request, Response $response, PhpRender
         $docs = $docGenerator->generate();
         file_put_contents($apiCacheFile, json_encode($docs, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
-
-    $renderer->prependCss('/css/solarized-light.css');
-    $renderer->addJs('/js/highlight.min.js');
-    $renderer->addJs('//code.jquery.com/jquery-1.12.0.min.js');
-    $renderer->addJs('/js/main.js');
 
     $inner = $renderer->fetch('api-docs.phtml', ['docs' => $docs]);
 

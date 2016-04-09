@@ -1,5 +1,11 @@
 .sub-header__title {
   color: $white;
+  font-size: 24px;
+
+  @media screen and (min-width: 600px) {
+    font-size: 36px;
+  }
+
 }
 
 .sub-header__desc {

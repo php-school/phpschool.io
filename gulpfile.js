@@ -7,7 +7,7 @@ var cssnano     = require('cssnano');
 var pre         = require('autoprefixer');
 var sass        = require('gulp-sass');
 var imp         = require('postcss-import');
-var vfs         = require('vinyl-fs');
+//var vfs         = require('vinyl-fs');
 var easysvg     = require('easy-svg');
 
 gulp.task('serve', ['sass', 'svg'], function() {

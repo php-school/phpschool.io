@@ -49,8 +49,16 @@ $config = [
         ]);
 
         //default CSS
+        $renderer->appendCss('/css/solarized-light.css');
         $renderer->appendCss('/css/core.css');
         $renderer->appendCss('https://fonts.googleapis.com/css?family=Open+Sans');
+
+
+        //default JS
+        $renderer->addJs('//code.jquery.com/jquery-1.12.0.min.js');
+        $renderer->addJs('/js/highlight.min.js');
+        $renderer->addJs('/js/main.js');
+
         return $renderer;
     }),
     LoggerInterface::class => factory(function (ContainerInterface $c) {
