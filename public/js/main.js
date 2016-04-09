@@ -1,13 +1,14 @@
 var $ = jQuery;
 
-$('.menu-icon').on('click', function () {
-    console.log('sdc');
-    $('.menu-icon').toggleClass('active');
-    $('.navigation').toggleClass('active');
-});
-
 
 $(function () {
+    $('.menu-icon').on('click', function () {
+        console.log('sdc');
+        $('.menu-icon').toggleClass('active');
+        $('.navigation').toggleClass('active');
+    });
+
+
     $('a[href*="#"]:not([href="#"])').click(function () {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
             var target = $(this.hash);
