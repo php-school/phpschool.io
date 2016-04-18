@@ -9,6 +9,9 @@ use PhpSchool\Website\Cache;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\GenerateDoc;
 use PhpSchool\Website\DocGenerator;
+use PhpSchool\Website\Documentation;
+use PhpSchool\Website\DocumentationAction;
+use PhpSchool\Website\DocumentationGroup;
 use PhpSchool\Website\Middleware\FpcCache;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
@@ -74,6 +77,39 @@ $config = [
     GenerateDoc::class => \DI\object(),
     ClearCache::class => factory(function (ContainerInterface $c) {
         return new ClearCache($c->get('cache.fpc'));
+    }),
+
+    Documentation::class => \DI\factory(function (ContainerInterface $c) {
+        $tutorialGroup = new DocumentationGroup('tutorial', 'Workshop Tutorial');
+        $tutorialGroup->setIndex('Tutorial Home', 'docs/tutorial/index.phtml');
+        $tutorialGroup->addSection('creating-your-own-workshop', 'Creating your own workshop', 'docs/tutorial/creating-your-own-workshop.phtml');
+        $tutorialGroup->addSection('modify-theme', 'Modifying the theme of your workshop', 'docs/tutorial/modify-theme.phtml');
+        $tutorialGroup->addSection('creating-an-exercise', 'Creating an exercise', 'docs/tutorial/creating-an-exercise.phtml');
+
+        $referenceGroup = new DocumentationGroup('reference', 'Reference Documentation');
+        $referenceGroup->setIndex('Reference Home', 'docs/reference/index.phtml');
+        $referenceGroup->addSection('container', 'The Container', 'docs/reference/container.phtml');
+        $referenceGroup->addSection('available-services', 'Available Services', 'docs/reference/available-services.phtml');
+        $referenceGroup->addSection('exercise-types', 'Exercise Types', 'docs/reference/exercise-types.phtml');
+        $referenceGroup->addSection('exercise-solutions', 'Exercise Solutions', 'docs/reference/exercise-solutions.phtml');
+        $referenceGroup->addSection('self-checking-exercises', 'Self Checking Exercises', 'docs/reference/self-checking-exercises.phtml');
+        $referenceGroup->addSection('exercise-hooks', 'Exercise Hooks', 'docs/reference/exercise-hooks.phtml');
+        $referenceGroup->addSection('patching-exercise-solutions', 'Patching Exercise Submissions', 'docs/reference/patching-exercises-solutions.phtml');
+        $referenceGroup->addSection('exercise-checks', 'Exercise Checks', 'docs/reference/exercise-checks.phtml');
+        $referenceGroup->addSection('creating-custom-checks', 'Creating Custom Checks', 'docs/reference/creating-custom-checks.phtml');
+        $referenceGroup->addSection('creating-custom-results', 'Creating Custom Results', 'docs/reference/creating-custom-results.phtml');
+        $referenceGroup->addSection('creating-custom-result-renderers', 'Creating Custom Result Renderers', 'docs/reference/creating-custom-result-renderers.phtml');
+
+        $docs = new Documentation;
+        $docs->setIndex('Home', 'docs/index.phtml');
+        $docs->addGroup($tutorialGroup);
+        $docs->addGroup($referenceGroup);
+
+        return $docs;
+    }),
+
+    DocumentationAction::class => \DI\factory(function (ContainerInterface $c) {
+        return new DocumentationAction($c->get(Documentation::class), $c->get(PhpRenderer::class));
     }),
 
     'config' => [

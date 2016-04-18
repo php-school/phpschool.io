@@ -4,73 +4,58 @@
     <div class="container">
         <div class="docs">
             <div class="doc__side">
-                <h3 class="doc__side-title">Workshop Tutorial</h3>
-                <ul class="doc__side-list">
-                    <li class="doc__side-item">
-                        <a class="doc__side-link active" href="#creating-your-own-workshop">Creating your own workshop</a>
-                    </li>
-                    <li class="doc__side-item">
-                        <a class="doc__side-link active" href="#modify-theme">Modifying the theme of your workshop</a>
-                    </li>
-                    <li class="doc__side-item">
-                        <a class="doc__side-link active" href="#creating-an-exercise">Creating an exercise</a>
-                    </li>
-                </ul>
+                <?php foreach ($docs as $group): ?>
+                    <h3 class="doc__side-title"><a href="/docs/<?= $group->getName() ?>"><?= $this->fetch('includes/icon.phtml', ['name' => "home"]) ?> <?= $group->getTitle(); ?></a></h3>
+                    <ul class="doc__side-list">
+                        <?php foreach ($group as $docSection): ?>
+                            <li class="doc__side-item">
 
-                <h3 class="doc__side-title">Reference Documentation</h3>
-                <ul class="doc__side-list">
-                    <li class="doc__side-item">
-                        <a class="doc__side-link active" href="#container">The Container</a>
-                    </li>
-                    <li class="doc__side-item">
-                        <a class="doc__side-link active" href="#available-services">Available Services</a>
-                    </li>
-                     <li class="doc__side-item">
-                        <a class="doc__side-link active" href="#exercise-types">Exercise Types</a>
-                    </li>
-                    <li class="doc__side-item">
-                        <a class="doc__side-link active" href="#exercise-solutions">Exercise Solutions</a>
-                    </li>
-                    <li class="doc__side-item">
-                        <span class="doc__side-link" title="Coming Soon" href="#exercise-self-check">Self Checking Exercises</span>
-                    </li>
-                    <li class="doc__side-item">
-                        <span class="doc__side-link" title="Coming Soon" href="#exercise-hooks">Exercise Hooks</span>
-                    </li>
-                    <li class="doc__side-item">
-                        <span class="doc__side-link" title="Coming Soon" href="#exercise-patching">Patching Exercise Submissions</span>
-                    </li>
-                    <li class="doc__side-item">
-                        <span class="doc__side-link" title="Coming Soon" href="/api-docs">Checks</span>
-                    </li>
-                    <li class="doc__side-item">
-                        <span class="doc__side-link" title="Coming Soon" href="/api-docs">Creating Custom Checks</span>
-                    </li>
-                    <li class="doc__side-item">
-                        <span class="doc__side-link" title="Coming Soon" href="/api-docs">Creating Custom Results</span>
-                    </li>
-                    <li class="doc__side-item">
-                        <span class="doc__side-link" title="Coming Soon" href="/api-docs">Creating Custom Result Renderers</span>
-                    </li>
-                </ul>
-
+                                <?php if ($this->exists($docSection->getTemplateFile())) : ?>
+                                    <a class="doc__side-link active"
+                                        href="<?= $docSection->getHref() ?>">
+                                        <?= $docSection->getTitle(); ?>
+                                    </a>
+                                <?php else: ?>
+                                    <span class="doc__side-link"
+                                        href="<?= $docSection->getHref() ?>">
+                                        <?= $docSection->getTitle(); ?>
+                                    </span>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endforeach; ?>
                 <h3 class="doc__side-title">API</h3>
                 <ul class="doc__side-list">
                     <li class="doc__side-item">
-                        <span class="doc__side-link" title="Coming Soon" href="/api-docs">API Reference</span>
+                        <span class="doc__side-link"
+                            href="/api-docs">API Reference
+                        </span>
                     </li>
                 </ul>
-
-
             </div>
             <div class="doc__content">
-                <?= $this->fetch('doc-sections/creating-your-own-workshop.phtml'); ?>
-                <?= $this->fetch('doc-sections/modify-theme.phtml'); ?>
-                <?= $this->fetch('doc-sections/creating-an-exercise.phtml'); ?>
-                <?= $this->fetch('doc-sections/container.phtml'); ?>
-                <?= $this->fetch('doc-sections/available-services.phtml'); ?>
-                <?= $this->fetch('doc-sections/exercise-types.phtml'); ?>
-                <?= $this->fetch('doc-sections/exercise-solutions.phtml'); ?>
+                <?= $content; ?>
+
+                <div class="doc__controls">
+                    <div class="doc__previous">
+                        <?php if ($doc->getPrev()) : ?>
+                            <a class="" href="<?= $doc->getPrev()->getHref() ?>">⇠ <?= $doc->getPrev()->getTitle() ?></a>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="doc__home">
+                        <?php if ($doc->getHome()) : ?>
+                            <a href="<?= $doc->getHome()->getHref() ?>"><?= $this->fetch('includes/icon.phtml', ['name' => "home"]) ?></a>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="doc__next">
+                        <?php if ($doc->getNext()) : ?>
+                            <a class="" href="<?= $doc->getNext()->getHref() ?>"><?= $doc->getNext()->getTitle() ?> ⇢</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
