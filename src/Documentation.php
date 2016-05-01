@@ -13,7 +13,7 @@ use IteratorAggregate;
 class Documentation implements IteratorAggregate
 {
     /**
-     * @var array
+     * @var DocumentationGroup[]
      */
     private $groups = [];
 
@@ -24,7 +24,7 @@ class Documentation implements IteratorAggregate
 
     public function setIndex(string $title, string $template)
     {
-        $this->index = new DocumentationSection('index', $title, $template, sprintf('/docs'));
+        $this->index = new DocumentationSection('index', $title, $template, sprintf('/docs'), true);
     }
 
     /**
@@ -33,30 +33,6 @@ class Documentation implements IteratorAggregate
     public function addGroup(DocumentationGroup $group)
     {
         $this->groups[] = $group;
-    }
-
-    /**
-     * @param string $group
-     * @param string $name
-     * @param string $title
-     * @param string $template
-     */
-    public function addSectionToGroup(string $group, string $name, string $title, string $template)
-    {
-        if (!isset($this->groups[$group])) {
-            throw new \InvalidArgumentException(sprintf('Group: "%s" does not exist', $group));
-        }
-
-        $doc        = new DocumentationSection($name, $title, $template);
-        $sections   = $this->groups[$group];
-        $prev       = end($sections);
-
-        if ($prev instanceof DocumentationSection) {
-            $prev->setNext($doc);
-            $doc->setPrev($prev);
-        }
-
-        $this->groups[$group][] = $doc;
     }
 
     /**
@@ -96,5 +72,72 @@ class Documentation implements IteratorAggregate
     public function getIterator()
     {
         return new ArrayIterator($this->groups);
+    }
+
+    public function hasPreviousSection(DocumentationSectionInterface $section) : bool
+    {
+        $group = $this->findGroupForSection($section);
+
+        if (null === $group) {
+            return false;
+        }
+
+        return $group->hasPreviousSection($section);
+    }
+
+    public function getPreviousSection(DocumentationSectionInterface $section) : DocumentationSectionInterface
+    {
+        return $this->findGroupForSection($section)->getPreviousSection($section);
+    }
+
+    public function hasNextSection(DocumentationSectionInterface $section)
+    {
+        $group = $this->findGroupForSection($section);
+
+        if (null === $group) {
+            return false;
+        }
+
+        return $group->hasNextSection($section);
+    }
+
+    public function getNextSection(DocumentationSectionInterface $section) : DocumentationSectionInterface
+    {
+        return $this->findGroupForSection($section)->getNextSection($section);
+    }
+
+    public function hasHome(DocumentationSectionInterface $section) : bool
+    {
+        if ($section->getName() === 'index') {
+            return false;
+        }
+
+            $group = $this->findGroupForSection($section);
+
+        if (null === $group) {
+            return false;
+        }
+
+        return $group->hasHome();
+    }
+
+    public function getHome(DocumentationSectionInterface $section) : DocumentationSectionInterface
+    {
+        return $this->findGroupForSection($section)->getHome();
+    }
+
+    /**
+     * @param DocumentationSectionInterface $section
+     * @return null|DocumentationGroup
+     */
+    private function findGroupForSection(DocumentationSectionInterface $section)
+    {
+        foreach ($this->groups as $group) {
+            if ($group->hasSection($section)) {
+                return $group;
+            }
+        }
+
+        return null;
     }
 }

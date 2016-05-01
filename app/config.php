@@ -12,6 +12,7 @@ use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
 use PhpSchool\Website\DocumentationAction;
 use PhpSchool\Website\DocumentationGroup;
+use PhpSchool\Website\DocumentationSection;
 use PhpSchool\Website\Middleware\FpcCache;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
@@ -92,18 +93,22 @@ $config = [
         $referenceGroup->addSection('available-services', 'Available Services', 'docs/reference/available-services.phtml');
         $referenceGroup->addSection('exercise-types', 'Exercise Types', 'docs/reference/exercise-types.phtml');
         $referenceGroup->addSection('exercise-solutions', 'Exercise Solutions', 'docs/reference/exercise-solutions.phtml');
-        $referenceGroup->addSection('self-checking-exercises', 'Self Checking Exercises', 'docs/reference/self-checking-exercises.phtml');
-        $referenceGroup->addSection('exercise-hooks', 'Exercise Hooks', 'docs/reference/exercise-hooks.phtml');
-        $referenceGroup->addSection('patching-exercise-solutions', 'Patching Exercise Submissions', 'docs/reference/patching-exercises-solutions.phtml');
-        $referenceGroup->addSection('exercise-checks', 'Exercise Checks', 'docs/reference/exercise-checks.phtml');
-        $referenceGroup->addSection('creating-custom-checks', 'Creating Custom Checks', 'docs/reference/creating-custom-checks.phtml');
-        $referenceGroup->addSection('creating-custom-results', 'Creating Custom Results', 'docs/reference/creating-custom-results.phtml');
-        $referenceGroup->addSection('creating-custom-result-renderers', 'Creating Custom Result Renderers', 'docs/reference/creating-custom-result-renderers.phtml');
+        $referenceGroup->addSection('self-checking-exercises', 'Self Checking Exercises', 'docs/reference/self-checking-exercises.phtml', false);
+        $referenceGroup->addSection('exercise-hooks', 'Exercise Hooks', 'docs/reference/exercise-hooks.phtml', false);
+        $referenceGroup->addSection('patching-exercise-solutions', 'Patching Exercise Submissions', 'docs/reference/patching-exercises-solutions.phtml', false);
+        $referenceGroup->addSection('exercise-checks', 'Exercise Checks', 'docs/reference/exercise-checks.phtml', false);
+        $referenceGroup->addSection('creating-custom-checks', 'Creating Custom Checks', 'docs/reference/creating-custom-checks.phtml', false);
+        $referenceGroup->addSection('creating-custom-results', 'Creating Custom Results', 'docs/reference/creating-custom-results.phtml', false);
+        $referenceGroup->addSection('creating-custom-result-renderers', 'Creating Custom Result Renderers', 'docs/reference/creating-custom-result-renderers.phtml', false);
+
+        $apiGroup = new DocumentationGroup('api', 'API');
+        $apiGroup->addExternalSection('api', 'API Reference', '/docs/api', false);
 
         $docs = new Documentation;
         $docs->setIndex('Home', 'docs/index.phtml');
         $docs->addGroup($tutorialGroup);
         $docs->addGroup($referenceGroup);
+        $docs->addGroup($apiGroup);
 
         return $docs;
     }),

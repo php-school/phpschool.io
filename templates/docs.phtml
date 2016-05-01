@@ -5,12 +5,16 @@
         <div class="docs">
             <div class="doc__side">
                 <?php foreach ($docs as $group): ?>
-                    <h3 class="doc__side-title"><a href="/docs/<?= $group->getName() ?>"><?= $this->fetch('includes/icon.phtml', ['name' => "home"]) ?> <?= $group->getTitle(); ?></a></h3>
+                    <?php if ($group->hasHome()) : ?>
+                        <h3 class="doc__side-title"><a href="<?=  $group->getHome()->getHref() ?>"><?= $this->fetch('includes/icon.phtml', ['name' => "home"]) ?> <?= $group->getTitle(); ?></a></h3>
+                    <?php else : ?>
+                        <h3 class="doc__side-title"><?= $group->getTitle(); ?></a></h3>
+                    <?php endif; ?>
                     <ul class="doc__side-list">
                         <?php foreach ($group as $docSection): ?>
                             <li class="doc__side-item">
 
-                                <?php if ($this->exists($docSection->getTemplateFile())) : ?>
+                                <?php if ($docSection->enabled()) : ?>
                                     <a class="doc__side-link active"
                                         href="<?= $docSection->getHref() ?>">
                                         <?= $docSection->getTitle(); ?>
@@ -25,34 +29,26 @@
                         <?php endforeach; ?>
                     </ul>
                 <?php endforeach; ?>
-                <h3 class="doc__side-title">API</h3>
-                <ul class="doc__side-list">
-                    <li class="doc__side-item">
-                        <span class="doc__side-link"
-                            href="/api-docs">API Reference
-                        </span>
-                    </li>
-                </ul>
             </div>
             <div class="doc__content">
                 <?= $content; ?>
 
                 <div class="doc__controls">
                     <div class="doc__previous">
-                        <?php if ($doc->getPrev()) : ?>
-                            <a class="" href="<?= $doc->getPrev()->getHref() ?>">⇠ <?= $doc->getPrev()->getTitle() ?></a>
+                        <?php if ($docs->hasPreviousSection($doc)) : ?>
+                            <a class="" href="<?= $docs->getPreviousSection($doc)->getHref() ?>">⇠ <?= $docs->getPreviousSection($doc)->getTitle() ?></a>
                         <?php endif; ?>
                     </div>
 
                     <div class="doc__home">
-                        <?php if ($doc->getHome()) : ?>
-                            <a href="<?= $doc->getHome()->getHref() ?>"><?= $this->fetch('includes/icon.phtml', ['name' => "home"]) ?></a>
+                        <?php if ($docs->hasHome($doc)) : ?>
+                            <a href="<?= $docs->getHome($doc)->getHref() ?>"><?= $this->fetch('includes/icon.phtml', ['name' => "home"]) ?></a>
                         <?php endif; ?>
                     </div>
 
                     <div class="doc__next">
-                        <?php if ($doc->getNext()) : ?>
-                            <a class="" href="<?= $doc->getNext()->getHref() ?>"><?= $doc->getNext()->getTitle() ?> ⇢</a>
+                        <?php if ($docs->hasNextSection($doc)) : ?>
+                            <a class="" href="<?= $docs->getNextSection($doc)->getHref() ?>"><?= $docs->getNextSection($doc)->getTitle() ?> ⇢</a>
                         <?php endif; ?>
                     </div>
                 </div>
