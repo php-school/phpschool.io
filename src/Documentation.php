@@ -27,12 +27,23 @@ class Documentation implements IteratorAggregate
 
     /**
      * @param string $group
-     * @param string $section
+     * @param string $sectionName
      * @return DocumentationSection
      */
-    public function findSectionByGroupAndSection($group, $section) : DocumentationSection
+    public function findSectionByGroupAndSection($group, $sectionName) : DocumentationSection
     {
-        return $this->findGroupByName($group)->findSectionByName($section);
+        $group      = $this->findGroupByName($group);
+        $sections   = $group->getSections();
+
+        $doc = current(array_filter($sections, function (DocumentationSectionInterface $doc) use ($sectionName) {
+            return $doc->getName() === $sectionName;
+        }));
+
+        if (false === $doc) {
+            throw new \RuntimeException(sprintf('Section: "%s" does not exist', $sectionName));
+        }
+
+        return $doc;
     }
 
     /**
@@ -52,10 +63,7 @@ class Documentation implements IteratorAggregate
         return $group;
     }
 
-    /**
-     * @return ArrayIterator
-     */
-    public function getIterator()
+    public function getIterator() : ArrayIterator
     {
         return new ArrayIterator($this->groups);
     }
@@ -63,33 +71,37 @@ class Documentation implements IteratorAggregate
     public function hasPreviousSection(DocumentationSectionInterface $section) : bool
     {
         $group = $this->findGroupForSection($section);
-
-        if (null === $group) {
-            return false;
-        }
-
-        return $group->hasPreviousSection($section);
+        return $group->sectionExists($group->getSectionOffset($section) - 1);
     }
 
     public function getPreviousSection(DocumentationSectionInterface $section) : DocumentationSectionInterface
     {
-        return $this->findGroupForSection($section)->getPreviousSection($section);
+        $group      = $this->findGroupForSection($section);
+        $offset     = $group->getSectionOffset($section) - 1;
+
+        if (!$group->sectionExists($offset)) {
+            throw new \RuntimeException(sprintf('Section: "%s" has no previous section', $section->getName()));
+        }
+
+        return $group->getSectionAtOffset($offset);
     }
 
     public function hasNextSection(DocumentationSectionInterface $section)
     {
         $group = $this->findGroupForSection($section);
-
-        if (null === $group) {
-            return false;
-        }
-
-        return $group->hasNextSection($section);
+        return $group->sectionExists($group->getSectionOffset($section) + 1);
     }
 
     public function getNextSection(DocumentationSectionInterface $section) : DocumentationSectionInterface
     {
-        return $this->findGroupForSection($section)->getNextSection($section);
+        $group      = $this->findGroupForSection($section);
+        $offset     = $group->getSectionOffset($section) + 1;
+
+        if (!$group->sectionExists($offset)) {
+            throw new \RuntimeException(sprintf('Section: "%s" has no next section', $section->getName()));
+        }
+
+        return $group->getSectionAtOffset($offset);
     }
 
     public function hasHome(DocumentationSectionInterface $section) : bool
@@ -98,18 +110,12 @@ class Documentation implements IteratorAggregate
             return false;
         }
 
-        $group = $this->findGroupForSection($section);
-
-        if (null === $group) {
-            return false;
-        }
-
-        return $group->getHome() !== null;
+        return $this->findGroupForSection($section)->sectionExists(0);
     }
 
     public function getHome(DocumentationSectionInterface $section) : DocumentationSectionInterface
     {
-        return $this->findGroupForSection($section)->getHome();
+        return $this->findGroupForSection($section)->getSectionAtOffset(1);
     }
 
     /**
