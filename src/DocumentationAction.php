@@ -4,7 +4,6 @@ namespace PhpSchool\Website;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use Slim\Views\PhpRenderer;
 
 /**
  * Class DocumentationAction
@@ -40,11 +39,17 @@ class DocumentationAction
         $section    = $request->getAttribute('route')->getArgument('section', 'index');
 
         $document   = $this->documentation->findSectionByGroupAndSection($group, $section);
-        $docContent = $this->renderer->fetch($document->getTemplateFile());
+        $docContent = $this->renderer->fetch($document->getTemplateFile(), ['doc' => $document]);
+
+        $title = $this->renderer->renderDocHeader(
+            $this->slugify($document->getTitle()),
+            $document->getTitle(),
+            $document->getTemplateFile()
+        );
 
         $inner = $this->renderer->fetch('docs.phtml', [
             'docs'      => $this->documentation,
-            'content'   => $docContent,
+            'content'   => $title . $docContent,
             'doc'       => $document,
         ]);
 
@@ -53,5 +58,10 @@ class DocumentationAction
             'pageDescription' => sprintf('Documentation - %s', $document->getTitle()),
             'content'         => $inner
         ]);
+    }
+
+    private function slugify(string $title) : string
+    {
+        return str_replace(' ', '-', strtolower($title));
     }
 }

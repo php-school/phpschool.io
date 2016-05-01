@@ -59,4 +59,21 @@ class PhpRenderer extends SlimPhpRenderer
     {
         return $this->js;
     }
+
+    public function renderDocHeader(string $id, string $title, string $file = null) : string
+    {
+        $editLink = '';
+        if (null !== $file) {
+            $editLink = sprintf(
+                '<a title="Edit this page on GitHub!" target="_blank" class="edit-on-gh" href="%s">%s</a>',
+                $this->getAttribute('links')['github-website'] . '/templates/' . $file,
+                $this->fetch('includes/icon.phtml', ['name' => "edit"])
+            );
+        }
+
+        $format      = '<h2 id="%s" class="doc__title">%s<a class="anchor" href="#%s">#</a>%s';
+        $format     .= '<a href="#page-top" class="back-to-top">^ TOP</a></h2>';
+
+        return sprintf($format, $id, $title, $id, $editLink);
+    }
 }

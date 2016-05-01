@@ -175,3 +175,17 @@
   padding-left: 0px;
   float: left;
 }
+
+.edit-on-gh {
+  font-size: 24px;
+  padding-bottom: 2px;
+  color: #ccc;
+
+  :hover {
+    color: #e91e63;
+  }
+
+  .svg-icon {
+    height: 0.7em;
+  }
+}
