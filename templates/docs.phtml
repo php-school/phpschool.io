@@ -15,9 +15,14 @@
                             <li class="doc__side-item">
 
                                 <?php if ($docSection->enabled()) : ?>
+                                    <?php if ($docSection->getName() === 'index'): ?>
+                                        <span class="doc__link__icon">
+                                            <?= $this->fetch('includes/icon.phtml', ['name' => "home"]) ?>
+                                        </span>
+                                    <?php endif; ?>
+
                                     <a class="doc__side-link active"
                                         href="<?= $docSection->getHref() ?>">
-                                        <span class="doc__link__icon"><?= $docSection->getName() === 'index' ? $this->fetch('includes/icon.phtml', ['name' => "home"]) : '' ?></span>
                                         <?= $docSection->getTitle(); ?>
                                     </a>
                                 <?php else: ?>
