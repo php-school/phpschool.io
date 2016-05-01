@@ -3,7 +3,6 @@
 namespace PhpSchool\Website;
 
 /**
- * Class DocumentationSection
  * @package PhpSchool\Website
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */

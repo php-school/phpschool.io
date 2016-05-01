@@ -59,13 +59,4 @@ class PhpRenderer extends SlimPhpRenderer
     {
         return $this->js;
     }
-
-    /**
-     * @param string $template
-     * @return bool
-     */
-    public function exists(string $template) : bool
-    {
-        return is_file($this->templatePath . $template);
-    }
 }

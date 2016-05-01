@@ -41,10 +41,6 @@ class Documentation implements IteratorAggregate
         return $doc;
     }
 
-    /**
-     * @param string $name
-     * @return DocumentationGroup
-     */
     public function findGroupByName(string $name) : DocumentationGroup
     {
         $group = current(array_filter($this->groups, function (DocumentationGroup $group) use ($name) {
