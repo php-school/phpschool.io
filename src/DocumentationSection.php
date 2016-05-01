@@ -66,7 +66,8 @@ class DocumentationSection implements DocumentationSectionInterface
 
     public function getHref() : string
     {
-        return $this->href;
+        //strip off trainling `/index`
+        return preg_replace('/(\/index)+$/', '', $this->href);
     }
 
     public function enabled() : bool
