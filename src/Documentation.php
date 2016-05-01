@@ -25,12 +25,7 @@ class Documentation implements IteratorAggregate
         $this->groups[] = $group;
     }
 
-    /**
-     * @param string $group
-     * @param string $sectionName
-     * @return DocumentationSection
-     */
-    public function findSectionByGroupAndSection($group, $sectionName) : DocumentationSection
+    public function findSectionByGroupAndSection(string $group, string $sectionName) : DocumentationSection
     {
         $group      = $this->findGroupByName($group);
         $sections   = $group->getSections();
