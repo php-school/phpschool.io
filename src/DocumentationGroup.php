@@ -23,11 +23,6 @@ class DocumentationGroup implements IteratorAggregate
     private $title;
 
     /**
-     * @var DocumentationSection|null
-     */
-    private $index;
-
-    /**
      * @var DocumentationSectionInterface[]
      */
     private $sections = [];
@@ -36,11 +31,6 @@ class DocumentationGroup implements IteratorAggregate
     {
         $this->name = $name;
         $this->title = $title;
-    }
-
-    public function setIndex(string $title, string $template)
-    {
-        $this->index = new DocumentationSection('index', $title, $template, sprintf('/docs/%s', $this->name), true);
     }
 
     public function addSection(string $name, string $title, string $template, bool $enabled = true)
@@ -69,26 +59,8 @@ class DocumentationGroup implements IteratorAggregate
         return $this->title;
     }
 
-    public function hasHome(): bool
-    {
-        return null !== $this->index;
-    }
-
-    public function getHome() : DocumentationSectionInterface
-    {
-        if (null === $this->index) {
-            throw new \RuntimeException(sprintf('Group: "%s" has no home', $this->name));
-        }
-
-        return $this->index;
-    }
-
     public function findSectionByName(string $name) : DocumentationSectionInterface
     {
-        if ($name === 'index' && null !== $this->index) {
-            return $this->index;
-        }
-
         $doc = current(array_filter($this->sections, function (DocumentationSectionInterface $doc) use ($name) {
             return $doc->getName() === $name;
         }));
@@ -100,9 +72,14 @@ class DocumentationGroup implements IteratorAggregate
         return $doc;
     }
 
+    public function getHome()
+    {
+        return $this->sections[0];
+    }
+
     public function hasSection(DocumentationSectionInterface $section) : bool
     {
-        return $this->index === $section || in_array($section, $this->sections, true);
+        return in_array($section, $this->sections, true);
     }
 
     public function hasNextSection(DocumentationSectionInterface $section) : bool
@@ -143,10 +120,6 @@ class DocumentationGroup implements IteratorAggregate
 
     private function getSectionKey(DocumentationSectionInterface $section) : int
     {
-        if ($section->getName() === 'index') {
-            return -1;
-        }
-
         $offset = array_search($section, $this->sections, true);
 
         if (false === $offset) {

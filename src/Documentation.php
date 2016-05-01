@@ -18,16 +18,6 @@ class Documentation implements IteratorAggregate
     private $groups = [];
 
     /**
-     * @var null|DocumentationSection
-     */
-    private $index;
-
-    public function setIndex(string $title, string $template)
-    {
-        $this->index = new DocumentationSection('index', $title, $template, sprintf('/docs'), true);
-    }
-
-    /**
      * @param DocumentationGroup $group
      */
     public function addGroup(DocumentationGroup $group)
@@ -42,10 +32,6 @@ class Documentation implements IteratorAggregate
      */
     public function findSectionByGroupAndSection($group, $section) : DocumentationSection
     {
-        if ($group === 'index' && $section === 'index' && null !== $this->index) {
-            return $this->index;
-        }
-
         return $this->findGroupByName($group)->findSectionByName($section);
     }
 
@@ -112,13 +98,13 @@ class Documentation implements IteratorAggregate
             return false;
         }
 
-            $group = $this->findGroupForSection($section);
+        $group = $this->findGroupForSection($section);
 
         if (null === $group) {
             return false;
         }
 
-        return $group->hasHome();
+        return $group->getHome() !== null;
     }
 
     public function getHome(DocumentationSectionInterface $section) : DocumentationSectionInterface

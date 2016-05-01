@@ -5,11 +5,11 @@
         <div class="docs">
             <div class="doc__side">
                 <?php foreach ($docs as $group): ?>
-                    <?php if ($group->hasHome()) : ?>
-                        <h3 class="doc__side-title"><a href="<?=  $group->getHome()->getHref() ?>"><?= $this->fetch('includes/icon.phtml', ['name' => "home"]) ?> <?= $group->getTitle(); ?></a></h3>
-                    <?php else : ?>
+                    <?php //if ($group->hasHome()) : ?>
+<!--                        <h3 class="doc__side-title"><a href="--><?//=  $group->getHome()->getHref() ?><!--">--><?//= $this->fetch('includes/icon.phtml', ['name' => "home"]) ?><!-- --><?//= $group->getTitle(); ?><!--</a></h3>-->
+                    <?php //else : ?>
                         <h3 class="doc__side-title"><?= $group->getTitle(); ?></a></h3>
-                    <?php endif; ?>
+                    <?php //endif; ?>
                     <ul class="doc__side-list">
                         <?php foreach ($group as $docSection): ?>
                             <li class="doc__side-item">
