@@ -28,12 +28,7 @@ class DocumentationAction
         $this->renderer = $renderer;
     }
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @return Response
-     */
-    public function __invoke(Request $request, Response $response)
+    public function __invoke(Request $request, Response $response) : Response
     {
         $group      = $request->getAttribute('route')->getArgument('group', 'index');
         $section    = $request->getAttribute('route')->getArgument('section', 'index');

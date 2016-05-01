@@ -17,9 +17,6 @@ class Documentation implements IteratorAggregate
      */
     private $groups = [];
 
-    /**
-     * @param DocumentationGroup $group
-     */
     public function addGroup(DocumentationGroup $group)
     {
         $this->groups[] = $group;
@@ -110,7 +107,6 @@ class Documentation implements IteratorAggregate
     }
 
     /**
-     * @param DocumentationSectionInterface $section
      * @return null|DocumentationGroup
      */
     private function findGroupForSection(DocumentationSectionInterface $section)
