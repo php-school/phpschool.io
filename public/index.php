@@ -3,6 +3,9 @@
 use DI\ContainerBuilder;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\DocGenerator;
+use PhpSchool\Website\Documentation;
+use PhpSchool\Website\DocumentationAction;
+use PhpSchool\Website\DocumentationSection;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
@@ -48,16 +51,6 @@ $app->get('/install', function (Request $request, Response $response, PhpRendere
     ]);
 });
 
-$app->get('/docs', function (Request $request, Response $response, PhpRenderer $renderer) {
-    $inner = $renderer->fetch('docs.phtml');
-
-    return $renderer->render($response, 'layouts/layout.phtml', [
-        'pageTitle'       => 'Documentation',
-        'pageDescription' => 'Documentation',
-        'content'         => $inner
-    ]);
-});
-
 $app->get('/api-docs', function (Request $request, Response $response, PhpRenderer $renderer, DocGenerator $docGenerator) {
 
     $apiCacheFile = __DIR__ . '/../cache/api-docs.json';
@@ -76,6 +69,8 @@ $app->get('/api-docs', function (Request $request, Response $response, PhpRender
         'content'         => $inner
     ]);
 });
+
+$app->get('/docs[/{group}[/{section}]]', DocumentationAction::class);
 
 // Run app
 $app->run();

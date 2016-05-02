@@ -49,7 +49,7 @@
 
   @media screen and (min-width: 600px) {
     width: 30%;
-    max-width: 299px;
+    max-width: 310px;
   }
 }
 
@@ -67,6 +67,10 @@
 
   padding-top: $base-spacing;
 
+  a {
+    font-size: inherit;
+    color: inherit;
+  }
 }
 
 .doc__side-link {
@@ -80,8 +84,6 @@
     color: $secondary-colour;
   }
 }
-
-
 
 
 .doc__side--fixed {
