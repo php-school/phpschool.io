@@ -66,7 +66,7 @@ class PhpRenderer extends SlimPhpRenderer
         if (null !== $file) {
             $editLink = sprintf(
                 '<a title="Edit this page on GitHub!" target="_blank" class="edit-on-gh" href="%s">%s</a>',
-                $this->getAttribute('links')['github-website'] . '/templates/' . $file,
+                $this->getAttribute('links')['github-website'] . '/tree/master/templates/' . $file,
                 $this->fetch('includes/icon.phtml', ['name' => "edit"])
             );
         }
