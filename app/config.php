@@ -93,7 +93,7 @@ $config = [
         $referenceGroup->addSection('available-services', 'Available Services', 'docs/reference/available-services.phtml');
         $referenceGroup->addSection('exercise-types', 'Exercise Types', 'docs/reference/exercise-types.phtml');
         $referenceGroup->addSection('exercise-solutions', 'Exercise Solutions', 'docs/reference/exercise-solutions.phtml');
-        $referenceGroup->addSection('self-checking-exercises', 'Self Checking Exercises', 'docs/reference/self-checking-exercises.phtml', false);
+        $referenceGroup->addSection('self-checking-exercises', 'Self Checking Exercises', 'docs/reference/self-checking-exercises.phtml');
         $referenceGroup->addSection('exercise-hooks', 'Exercise Hooks', 'docs/reference/exercise-hooks.phtml', false);
         $referenceGroup->addSection('patching-exercise-solutions', 'Patching Exercise Submissions', 'docs/reference/patching-exercises-solutions.phtml', false);
         $referenceGroup->addSection('exercise-checks', 'Exercise Checks', 'docs/reference/exercise-checks.phtml', false);
