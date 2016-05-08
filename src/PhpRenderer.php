@@ -81,4 +81,9 @@ class PhpRenderer extends SlimPhpRenderer
     {
         return '<a href="#page-top" class="back-to-top">^ TOP</a>';
     }
+
+    public function hashLink(string $id) : string
+    {
+        return sprintf('<a class="anchor" href="#%s">#</a>', $id);
+    }
 }

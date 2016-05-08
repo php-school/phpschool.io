@@ -104,7 +104,7 @@
     </ul>
 </div>
 
-<h2 id="check-functional-requirements">Functional Requirements Check<?= $this->backToTop(); ?></h2>
+<?= $this->renderDocHeader('check-functional-requirements', 'Functional Requirements Check') ?>
 <p>Here is an example of how to force the student to use the function <code>curl_exec</code> and ban the usage of
 <code>file_get_contents</code>. This could be useful if you wanted to teach advanced usages of data transfers.</p>
 
@@ -148,7 +148,7 @@ echo file_get_contents('http://example.com');
 <img src="/img/func-requirements.png" class="doc-terminal-screen">
 <hr>
 
-<h2 id="check-composer">Composer Check<?= $this->backToTop() ?></h2>
+<?= $this->renderDocHeader('check-composer', 'Composer Check') ?>
 <p>Here is an example of how to force the student to require the <code>nikic/fast-route</code> package via Composer. This
 is useful if you want to focus on specific issue or promote popular/battle tested packages.</p>
 
@@ -181,7 +181,7 @@ package has not been found, the output would look like the following:</p>
 <img src="/img/composer-check.png" class="doc-terminal-screen">
 <hr>
 
-<h2 id="check-database">Database Check<?= $this->backToTop() ?></h2>
+<?= $this->renderDocHeader('check-database', 'Database Check') ?>
 <p>Here is an example where we require that the user insert a record in to the users table that we will create in the
     seed method of our check. We will then verify that there are some records in the users table.</p>
 
