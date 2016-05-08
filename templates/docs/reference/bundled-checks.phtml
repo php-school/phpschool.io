@@ -145,7 +145,7 @@ echo file_get_contents('http://example.com');
 </code></pre>
 
 <p>The output would be something along the lines of:</p>
-<img src="/img/func-requirements.png" class="doc-terminal-screen">
+<a href="/img/func-requirements.png"><img src="/img/func-requirements.png" class="doc-terminal-screen"></a>
 <hr>
 
 <?= $this->renderDocHeader('check-composer', 'Composer Check') ?>
@@ -178,7 +178,7 @@ is useful if you want to focus on specific issue or promote popular/battle teste
 case, the check will fail and the message printed with the other results. If the required files are present, but the
 package has not been found, the output would look like the following:</p>
 
-<img src="/img/composer-check.png" class="doc-terminal-screen">
+<a href="/img/composer-check.png"><img src="/img/composer-check.png" class="doc-terminal-screen"></a>
 <hr>
 
 <?= $this->renderDocHeader('check-database', 'Database Check') ?>
@@ -203,8 +203,7 @@ package has not been found, the output would look like the following:</p>
      */
     public function seed(PDO $db)
     {
-        $db
-            ->exec('CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER, gender TEXT)');
+        $db->exec('CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER, gender TEXT)');
     }
 
     /**
@@ -225,7 +224,7 @@ echo "Where is the database?";
 </code></pre>
 <p>Then they would receive the following failure:</p>
 
-<img src="/img/database-check-failure.png" class="doc-terminal-screen">
+<a href="/img/database-check-failure.png"><img src="/img/database-check-failure.png" class="doc-terminal-screen"></a>
 <p>If they submitted a proper solution, like the following:</p>
 <pre><code class="lang-php">&lt;?php
 
@@ -237,4 +236,4 @@ $stmt->execute([':name' => 'Karl Renner', ':age' => 80, ':gender' => 'Male']);
 </code></pre>
 <p>They would receive this success:</p>
 
-<img src="/img/database-check-success.png" class="doc-terminal-screen">
+<a href="/img/database-check-success.png"><img src="/img/database-check-success.png" class="doc-terminal-screen"></a>
