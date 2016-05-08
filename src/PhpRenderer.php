@@ -76,4 +76,9 @@ class PhpRenderer extends SlimPhpRenderer
 
         return sprintf($format, $id, $title, $id, $editLink);
     }
+
+    public function backToTop() : string
+    {
+        return '<a href="#page-top" class="back-to-top">^ TOP</a>';
+    }
 }
