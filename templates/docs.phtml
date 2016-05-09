@@ -2,6 +2,7 @@
 
 <section class="site-body">
     <div class="container">
+        <p class="doc__side-trigger">Open Menu</p>
         <div class="docs">
             <div class="doc__side">
                 <?php foreach ($docs as $group): ?>
@@ -38,7 +39,7 @@
                 <div class="doc__controls">
                     <div class="doc__previous">
                         <?php if ($docs->hasPreviousSection($doc)) : ?>
-                            <a class="" href="<?= $docs->getPreviousSection($doc)->getHref() ?>">⇠ <?= $docs->getPreviousSection($doc)->getTitle() ?></a>
+                            <a class="" href="<?= $docs->getPreviousSection($doc)->getHref() ?>">< <?= $docs->getPreviousSection($doc)->getTitle() ?></a>
                         <?php endif; ?>
                     </div>
 
@@ -50,7 +51,7 @@
 
                     <div class="doc__next">
                         <?php if ($docs->hasNextSection($doc)) : ?>
-                            <a class="" href="<?= $docs->getNextSection($doc)->getHref() ?>"><?= $docs->getNextSection($doc)->getTitle() ?> ⇢</a>
+                            <a class="" href="<?= $docs->getNextSection($doc)->getHref() ?>"><?= $docs->getNextSection($doc)->getTitle() ?> ></a>
                         <?php endif; ?>
                     </div>
                 </div>

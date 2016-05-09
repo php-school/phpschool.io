@@ -49,12 +49,3 @@
     text-align: left;
   }
 }
-
-.inspiration__link {
-
-  @media screen and (min-width: 600px) {
-    text-transform: none;
-    position: relative;
-    left: $base-spacing;
-  }
-}

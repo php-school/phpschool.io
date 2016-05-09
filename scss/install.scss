@@ -11,7 +11,7 @@
   margin-left: auto;
   padding-left: $base-spacing*2;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: 700px) {
     width: 70%;
   }
 }
@@ -34,9 +34,37 @@
     margin-top: 0;
   }
 
-  a.back-to-top {
+  .back-to-top {
     position: relative;
     top: 10px;
+    font-size: 14px;
+  }
+}
+
+.doc__side-trigger {
+  margin: $base-spacing auto 0;
+  display: block;
+  max-width: 200px;
+  text-align: center;
+  padding: $half-spacing 45px;
+  background: $secondary-colour;
+  color: $white;
+  text-decoration: none;
+  position: relative;
+  transition: ease all .3s;
+  border-radius: 45px;
+  box-sizing: border-box;
+
+  @media screen and (min-width: 700px) {
+    display: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.is-open {
+    background: darken($secondary-colour, 15);
   }
 }
 
@@ -44,11 +72,16 @@
   width: 100%;
   padding-top: $base-spacing;
   padding-left: $base-spacing*2;
-  display: flex;
   flex-direction: column;
+  display: none;
 
-  @media screen and (min-width: 600px) {
+  &.is-open {
+    display: block;
+  }
+
+  @media screen and (min-width: 700px) {
     width: 30%;
+    display: flex;
     max-width: 310px;
   }
 }
@@ -82,14 +115,6 @@
 
   &.active {
     color: $secondary-colour;
-  }
-}
-
-
-.doc__side--fixed {
-  @media screen and (min-width: 600px) {
-    position: fixed;
-    top: 0;
   }
 }
 
