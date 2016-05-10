@@ -2,6 +2,7 @@ body {
   line-height: 1.5;
   font-family: $base-font-family;
   font-weight: 100;
+  font-size: 14px;
   color: $black;
 }
 
@@ -39,7 +40,7 @@ h3 {
   color: $black;
 }
 
-p, a {
+p {
   font-size: 14px;
   line-height: 1.5;
   margin-bottom: $base-spacing;
@@ -64,7 +65,7 @@ a {
 }
 
 .button {
-  padding: $half-spacing $base-spacing;
+  padding: $half-spacing 45px;
   background: $secondary-colour;
   color: $white;
   text-decoration: none;
@@ -72,33 +73,12 @@ a {
   margin: 0;
   position: relative;
   transition: ease all .3s;
+  border-radius: 45px;
 
   &:hover {
     transform: scale(1.05);
     background: darken($secondary-colour, 15);
     text-decoration: none;
-  }
-
-  &:after {
-    content: '';
-    position: absolute;
-    right: -22px;
-    background: inherit;
-    height: 48px;
-    width: 48px;
-    top: 0;
-    border-radius: 100%;
-  }
-
-  &:before {
-    content: '';
-    position: absolute;
-    left: -22px;
-    background: inherit;
-    height: 48px;
-    width: 48px;
-    top: 0;
-    border-radius: 100%;
   }
 
 }
@@ -152,13 +132,10 @@ h2 a.anchor {
 }
 
 .note {
-  font-size: 12px;
   padding: 15px;
   border: 1px solid transparent;
   border-radius: 4px;
-
   a {
-    font-size: 12px;
     font-weight: bold;
   }
 }

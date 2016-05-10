@@ -2,6 +2,7 @@
 
 <section class="site-body">
     <div class="container">
+        <p class="doc__side-trigger">Open Menu</p>
         <div class="docs">
             <div class="doc__side">
                 <?php foreach ($docs as $group): ?>
@@ -44,13 +45,13 @@
 
                     <div class="doc__home">
                         <?php if ($docs->hasHome($doc)) : ?>
-                            <a href="<?= $docs->getHome($doc)->getHref() ?>"><?= $this->fetch('includes/icon.phtml', ['name' => "home"]) ?></a>
+                            <a class="" href="<?= $docs->getNextSection($doc)->getHref() ?>"><?= $docs->getNextSection($doc)->getTitle() ?> ⇢</a>
                         <?php endif; ?>
                     </div>
 
                     <div class="doc__next">
                         <?php if ($docs->hasNextSection($doc)) : ?>
-                            <a class="" href="<?= $docs->getNextSection($doc)->getHref() ?>"><?= $docs->getNextSection($doc)->getTitle() ?> ⇢</a>
+                            <a class="" href="<?= $docs->getNextSection($doc)->getHref() ?>"><?= $docs->getNextSection($doc)->getTitle() ?> ></a>
                         <?php endif; ?>
                     </div>
                 </div>
