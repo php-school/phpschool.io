@@ -45,13 +45,13 @@
 
                     <div class="doc__home">
                         <?php if ($docs->hasHome($doc)) : ?>
-                            <a class="" href="<?= $docs->getNextSection($doc)->getHref() ?>"><?= $docs->getNextSection($doc)->getTitle() ?> ⇢</a>
+                            <a href="<?= $docs->getHome($doc)->getHref() ?>"><?= $this->fetch('includes/icon.phtml', ['name' => "home"]) ?></a>
                         <?php endif; ?>
                     </div>
 
                     <div class="doc__next">
                         <?php if ($docs->hasNextSection($doc)) : ?>
-                            <a class="" href="<?= $docs->getNextSection($doc)->getHref() ?>"><?= $docs->getNextSection($doc)->getTitle() ?> ></a>
+                            <a class="" href="<?= $docs->getNextSection($doc)->getHref() ?>"><?= $docs->getNextSection($doc)->getTitle() ?> ⇢</a>
                         <?php endif; ?>
                     </div>
                 </div>
