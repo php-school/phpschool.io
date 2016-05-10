@@ -7,7 +7,10 @@
 <p>To give you an example of how you might use it - we use it <a href="https://github.com/php-school/learn-you-php/blob/master/src/Exercise/ConcernedAboutSeparation.php">here in Learn You PHP!</a> to check that a submission contains an <code>include</code>/<code>require</code> statement as the exercise is teaching how to separate code over multiple files. We want to enforce the student to include a separate file.</p>
 
 <h3>Creating a self checking exercise</h3>
-<p>Creating a self checking exercise requires implementing the interface, adding your check logic and return an instance of <code>PhpSchool\PhpWorkshop\Result\ResultInterface</code>. Depending on whether you want a success or failure to be recorded it will be an instance of <code>PhpSchool\PhpWorkshop\Result\SuccessInterface</code> or <code>\PhpSchool\PhpWorkshop\Result\FailureInterface</code>.</p>
+<p>Creating a self checking exercise requires implementing the interface, adding your check logic and return an instance
+    of <code>PhpSchool\PhpWorkshop\Result\ResultInterface</code>. Depending on whether you want a success or failure
+    to be recorded it will be an instance of <code>PhpSchool\PhpWorkshop\Result\SuccessInterface</code> or
+    <code>\PhpSchool\PhpWorkshop\Result\FailureInterface</code>.</p>
 
 <p>The interface is as follows:</p>
 <pre><code class="lang-php">&lt;?php
@@ -55,7 +58,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
 
 <h3>Example PSR2 self checking exercise</h3>
 <p>Contrary to what we said earlier (a PSR2 check would be a good candidate for a re-usable check), let's build that as a self check. You can check out the end result <a href="https://github.com/php-school/simple-math/blob/self-checking-exercise/src/Exercise/Mean.php">here on the workshop tutorial repository</a>. We will use the already built Example Workshop as a base.</p>
-<p>If you haven't already got it, git clone and install the dependencies:</p>
+<p>If you haven't already got it, git clone it and install the dependencies:</p>
 
 <div class="terminal">
     <div class="terminal-head">
@@ -71,7 +74,8 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
     </div>
 </div>
 
-Our check will run the <a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> tool against the student's submission and report a success or failure based on the result.
+<p>Our check will run the <a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> tool against the
+    student's submission and report a success or failure based on the result.</p>
 
 <h3>1. Require the PHP_CodeSniffer tool as a dependency</h3>
 
