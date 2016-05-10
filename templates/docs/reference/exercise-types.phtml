@@ -1,7 +1,8 @@
-<p>When an exercise is to be verified, there are two ways for the solution to be invoked. This is either CLI or CGI. Each exercise must have a type. This is used to determine how to invoke the script when verifying or running solutions. In order to explain the difference we will first show how a type translates to an actually php command.</p>
+<p>When an exercise is to be verified, there are two ways for the solution to be invoked. This is either <a href="#exercise-type-cli">CLI</a> or
+    <a href="#exercise-type-cgi">CGI</a>. Each exercise must have a type. This is used to determine how to invoke the script when verifying or running solutions. In order to explain the difference we will first show how a type translates to an actually php command.</p>
 <p>When selecting you exercise type you must return the valid type and implement the respective interface.</p>
 
-<h3>CLI</h3>
+<?= $this->renderDocHeader('exercise-type-cli', 'CLI') ?>
 <p>You choose the CLI type if you want the user to interact with the <code>$argv</code> and <code>$argc</code> super globals.</p>
 
 <table class="exercise__type__info">
@@ -21,7 +22,7 @@
     </tbody>
 </table>
 
-<h4>Implementing getArgs</h4>
+<h3>Implementing getArgs</h3>
 <p><code>getArgs</code> should return an array of string. These are the arguments to be passed to the PHP CLI executable. The number of arguments which can be returned is not limited. All arguments should be strings.</p>
 
 <pre><code class="lang-php">&lt;?php
@@ -57,7 +58,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CliExerc
 <p>This exercise would cause PHP to be invoked like so:<p>
 <pre><code lang="sh">php solution.php 'arg1' 'arg2' 'arg3'</code></pre>
 
-<h3>CGI</h3>
+<?= $this->renderDocHeader('exercise-type-cgi', 'CGI') ?>
 <p>You choose the CGI type if you want the user to interact with the <code>$_GET</code>, <code>$_POST</code>, <code>$_SERVER</code>, etc super globals.</p>
 <p>This exercise type allows to simulate a real HTTP request to a PHP script.</p>
 
@@ -78,10 +79,10 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CliExerc
     </tbody>
 </table>
 
-<h4>Implementing getRequests</h4>
+<h3>Implementing getRequests</h3>
 <p><code>getRequests</code> should return an array of PSR-7 Requests. The number of requests is not limited. Check <a target="_blank" href="http://www.php-fig.org/psr/psr-7/">here</a> for more information about PSR-7. The method is currently type hinted to return an array of the <a target="_blank" href="http://www.php-fig.org/psr/psr-7/#3-2-psr-http-message-requestinterface">Psr\Http\Message\RequestInterface</a> interface. You will need to use a library which implements the PSR-7 standard. Currently <a target="_blank" href="https://github.com/zendframework/zend-diactoros">zendframework/zend-diactoros</a> is shipped with <code>php-school/php-workshop</code> so you can just use that, or feel free to pull in a different implementation.</p>
 
-<h5>Simulating a GET request</h5>
+<h4>Simulating a GET request</h4>
 <pre><code class="lang-php">&lt;?php
 namespace PhpSchool\MyWorkshop\Exercise;
 
@@ -141,7 +142,7 @@ array(2) {
     ["limit"] => string(2) "50"
 }
 </code></pre>
-<h5>Simulating a POST request</h5>
+<h4>Simulating a POST request</h4>
 <pre><code class="lang-php">&lt;?php
 
 namespace PhpSchool\MyWorkshop\Exercise;
@@ -204,7 +205,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CgiExerc
     ["limit"] => string(2) "50"
  }
 </code></pre>
-<h4>How does this work?</h4>
+<h3>How does this work?</h3>
 <p>We use the <code>php-cgi</code> binary to setup the PHP environment. The php-cgi use environment variables and stdin to configure itself, we export these variables based on the information you provide in <code>getRequests</code></p>
 
 <div class="note note-success">

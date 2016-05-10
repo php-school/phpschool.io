@@ -70,11 +70,12 @@
   padding-top: 0px;
   position: relative;
   z-index: 5;
-  font-size: 14px;
+  font-size: 17px;
   line-height: 21px;
   word-break: break-all;
   white-space: normal;
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .method-list-item-description {
@@ -188,5 +189,60 @@
 
   .svg-icon {
     height: 0.7em;
+  }
+}
+
+dl.check-description {
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: $base-spacing;
+
+  dt {
+    font-style: italic;
+    @media screen and (min-width: 840px) {
+      float: left;
+      width: 30%;
+    }
+  }
+
+  dd {
+    color: #A938E5;
+    @media screen and (min-width: 840px) {
+      float: left;
+      width: 70%;
+    }
+  }
+}
+
+.doc__header {
+  border-bottom: 1px dotted $silver;
+  padding-bottom: $half-spacing/2;
+  display: inline-block;
+  align-items: center;
+  margin-top: $base-spacing*2;
+  width: 100%;
+
+  .svg-icon {
+    margin-right: $half-spacing;
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  a.back-to-top {
+    position: relative;
+    top: 5px;
+    font-size: 14px;
+  }
+}
+
+h2 {
+  a.back-to-top {
+    position: relative;
+    top: 5px;
+    font-size: 14px;
   }
 }

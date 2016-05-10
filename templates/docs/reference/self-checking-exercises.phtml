@@ -1,0 +1,190 @@
+<p>As we have seen in the previous article, you can build your own custom checks. Checks can be used in as many exercises as you want - you could even create a package which consists of common checks you might want to use in your workshops. A common check could be to check the coding style of the submissions, maybe you want to enforce a PSR2 style. This would be a good example of a reusable check; you might want to include this in all your exercises.</p>
+<p>But what if you want to perform a check that you don't think you will use again? You don't really want to create a class to encompass this logic when it is only to be used in one exercise.</p>
+<p><strong>Enter the Self Checking feature!</strong></p>
+
+<p>The Self Checking feature allows your exercise to implement an interface which contains one method - during the verification process of the exercise submission, your method will be executed and passed the absolute path to the student's submission. In this method you can do whatever you want: parse the code into an AST using the <code>PhpParser\Parser</code> service, lint it using a third party tool or whatever else you can think of.</p>
+
+<p>To give you an example of how you might use it - we use it <a href="https://github.com/php-school/learn-you-php/blob/master/src/Exercise/ConcernedAboutSeparation.php">here in Learn You PHP!</a> to check that a submission contains an <code>include</code>/<code>require</code> statement as the exercise is teaching how to separate code over multiple files. We want to enforce the student to include a separate file.</p>
+
+<h3>Creating a self checking exercise</h3>
+<p>Creating a self checking exercise requires implementing the interface, adding your check logic and return an instance
+    of <code>PhpSchool\PhpWorkshop\Result\ResultInterface</code>. Depending on whether you want a success or failure
+    to be recorded it will be an instance of <code>PhpSchool\PhpWorkshop\Result\SuccessInterface</code> or
+    <code>\PhpSchool\PhpWorkshop\Result\FailureInterface</code>.</p>
+
+<p>The interface is as follows:</p>
+<pre><code class="lang-php">&lt;?php
+
+namespace PhpSchool\PhpWorkshop\ExerciseCheck;
+
+use PhpSchool\PhpWorkshop\Result\ResultInterface;
+
+interface SelfCheck
+{
+    /**
+     * @param string $fileName
+     * @return ResultInterface
+     */
+    public function check($fileName);
+}
+</code></pre>
+
+<p>You can implement like so:</p>
+<pre><code class="lang-php">&lt;?php
+
+class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, SelfCheck
+{
+
+    ...ommiting methods describe in ExerciseInterface
+
+    /**
+     * @param string $fileName
+     * @return ResultInterface
+     */
+    public function check($fileName)
+    {
+        //do some checking with $fileName
+
+        if ($someResult) {
+            return new Success('My Check');
+        }
+
+        return new Failure('My Check', 'Something didn't go well!');
+    }
+}
+</code></pre>
+
+<p>As you can see, you do the checking logic and then return a result object. The result object is used to render the results to the student. In this case the first argument to <code>PhpSchool\PhpWorkshop\Result\Success</code> is the name of the check being performed. The same is true for the failure <code>PhpSchool\PhpWorkshop\Result\Failure</code> however, it takes an optional second argument which should describe what went wrong.</p>
+
+<h3>Example PSR2 self checking exercise</h3>
+<p>Contrary to what we said earlier (a PSR2 check would be a good candidate for a re-usable check), let's build that as a self check. You can check out the end result <a href="https://github.com/php-school/simple-math/blob/self-checking-exercise/src/Exercise/Mean.php">here on the workshop tutorial repository</a>. We will use the already built Example Workshop as a base.</p>
+<p>If you haven't already got it, git clone it and install the dependencies:</p>
+
+<div class="terminal">
+    <div class="terminal-head">
+        <span class="terminal__button"></span>
+        <span class="terminal__button"></span>
+        <span class="terminal__button"></span>
+    </div>
+    <div class="terminal__body">
+        <p>cd projects</p>
+        <p>git clone git@github.com:php-school/simple-math.git</p>
+        <p>cd simple-math</p>
+        <p>composer install</p>
+    </div>
+</div>
+
+<p>Our check will run the <a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> tool against the
+    student's submission and report a success or failure based on the result.</p>
+
+<h3>1. Require the PHP_CodeSniffer tool as a dependency</h3>
+
+<div class="terminal">
+    <div class="terminal-head">
+        <span class="terminal__button"></span>
+        <span class="terminal__button"></span>
+        <span class="terminal__button"></span>
+    </div>
+    <div class="terminal__body">
+        <p>composer require squizlabs/php_codesniffer</p>
+    </div>
+</div>
+
+<h3>2. Modify the exercise to implement the SelfCheck interface</h3>
+<p>Our exercise should look like the following:</p>
+
+<pre><code class="lang-php">&lt;?php
+
+namespace PhpSchool\SimpleMath\Exercise;
+
+use PhpSchool\PhpWorkshop\Exercise\AbstractExercise;
+use PhpSchool\PhpWorkshop\Exercise\CliExercise;
+use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
+use PhpSchool\PhpWorkshop\Exercise\ExerciseType;
+use PhpSchool\PhpWorkshop\ExerciseCheck\SelfCheck;
+use PhpSchool\PhpWorkshop\Result\Failure;
+use PhpSchool\PhpWorkshop\Result\ResultInterface;
+use PhpSchool\PhpWorkshop\Result\Success;
+
+class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, SelfCheck
+{
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'Mean Average';
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return 'Simple Math';
+    }
+
+    /**
+     * @return array
+     */
+    public function getArgs()
+    {
+        $numArgs = rand(0, 10);
+
+        $args = [];
+        for ($i = 0; $i < $numArgs; $i ++) {
+            $args[] = rand(0, 100);
+        }
+
+        return $args;
+    }
+
+    /**
+     * @return ExerciseType
+     */
+    public function getType()
+    {
+        return ExerciseType::CLI();
+    }
+
+    /**
+     * @param string $fileName
+     * @return ResultInterface
+     */
+    public function check($fileName)
+    {
+
+    }
+}
+</code></pre>
+
+<h3>3. Implement the check logic</h3>
+<p>As you can see, our check does nothing at the minute. Let's add the logic to execute PHPCS on the student's submission using the PSR2 standard. As we brought in the tool via Composer, we can rest assured that the binary <code>phpcs</code> is available in our projects <code>vendor</code> directory.</p>
+<p>Our method might look something like this - nothing advanced going on:</p>
+
+<pre><code class="lang-php">/**
+ * @param string $fileName
+ * @return ResultInterface
+ */
+public function check($fileName)
+{
+    $phpCsBinary = __DIR__ . '/../../vendor/bin/phpcs';
+    $cmd = sprintf('%s %s --standard=PSR2', $phpCsBinary, $fileName);
+    exec($cmd, $output, $exitCode);
+
+    if ($exitCode === 0) {
+        return new Success('PSR2 Code Check');
+    }
+
+    return new Failure('PSR2 Code Check', 'Coding style did not conform to PSR2!');
+}
+</code></pre>
+
+<p>If the <code>phpcs</code> binary returns a non-zero exit code - a failure occurred e.g. the submission did not pass the coding standard check. So we return a failure with an error message. Otherwise a Success is returned.</p>
+
+<p>Verifying a solution which does not pass PSR2 would yield the output:</p>
+<img src="/img/psr2-fail.png" class="doc-terminal-screen">
+<p>And a solution which <strong>does</strong> pass would yield the output:</p>
+<img src="/img/psr2-success.png" class="doc-terminal-screen">
+<p>Hopefully this feature will help you build your workshops that bit faster!</p>

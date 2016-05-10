@@ -36,7 +36,7 @@ class DocumentationAction
         $document   = $this->documentation->findSectionByGroupAndSection($group, $section);
         $docContent = $this->renderer->fetch($document->getTemplateFile(), ['doc' => $document]);
 
-        $title = $this->renderer->renderDocHeader(
+        $title = $this->renderer->renderDocTitle(
             $this->slugify($document->getTitle()),
             $document->getTitle(),
             $document->getTemplateFile()
