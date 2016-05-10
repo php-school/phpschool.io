@@ -213,3 +213,36 @@ dl.check-description {
     }
   }
 }
+
+.doc__header {
+  border-bottom: 1px dotted $silver;
+  padding-bottom: $half-spacing/2;
+  display: inline-block;
+  align-items: center;
+  margin-top: $base-spacing*2;
+  width: 100%;
+
+  .svg-icon {
+    margin-right: $half-spacing;
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  a.back-to-top {
+    position: relative;
+    top: 5px;
+    font-size: 14px;
+  }
+}
+
+h2 {
+  a.back-to-top {
+    position: relative;
+    top: 5px;
+    font-size: 14px;
+  }
+}
