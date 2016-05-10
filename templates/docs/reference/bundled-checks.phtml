@@ -1,4 +1,10 @@
-<p>This page documents each of the checks bundled with the workshop and how to use them.</p>
+<p>This page documents each of the checks bundled with the workshop and how to use them. Remember the exercise
+    types from the <a href="/docs/reference/exercise-types">Exercise Types documentation</a>?
+    <a href="/docs/reference/exercise-types#exercise-type-cli">CLI</a> &
+    <a href="/docs/reference/exercise-types#exercise-type-cgi">CGI</a>?</p>
+
+<p>Well, checks can support one or both exercise
+    types. So inspect the table below to see if the check you want to use actually supports your exercise type.</p>
 
 <div class="method-list">
     <h5 class="method-list-title">Bundled Checks</h5>
@@ -8,9 +14,11 @@
             <p class="service-list-item-description">
                 <dl class="check-description">
                     <dt>Interface to implement:</dt>
-                    <dd>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</dd>
+                    <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
                     <dt>Type:</dt>
-                    <dd>Simple</dd>
+                    <dd><code>Simple</code></dd>
+                    <dt>Compatible Exercise Types:</dt>
+                    <dd><code>CLI, CGI</code></dd>
                 </dl>
 
                 This check verifies that the students submission file actually exists. This check is always registered
@@ -23,9 +31,11 @@
             <p class="service-list-item-description">
                 <dl class="check-description">
                     <dt>Interface to implement:</dt>
-                    <dd>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</dd>
+                    <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
                     <dt>Type:</dt>
-                    <dd>Simple</dd>
+                    <dd><code>Simple</code></dd>
+                    <dt>Compatible Exercise Types:</dt>
+                    <dd><code>CLI, CGI</code></dd>
                 </dl>
 
                 This check verifies that the students submission file can actually be parsed.
@@ -38,9 +48,11 @@
             <p class="service-list-item-description">
                 <dl class="check-description">
                     <dt>Interface to implement:</dt>
-                    <dd>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</dd>
+                    <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
                     <dt>Type:</dt>
-                    <dd>Simple</dd>
+                    <dd><code>Simple</code></dd>
+                    <dt>Compatible Exercise Types:</dt>
+                    <dd><code>CLI, CGI</code></dd>
                 </dl>
 
                 This check verifies that the students submission file contains valid PHP syntax. This is as simple as
@@ -53,9 +65,11 @@
             <p class="service-list-item-description">
                 <dl class="check-description">
                     <dt>Interface to implement:</dt>
-                    <dd>PhpSchool\PhpWorkshop\ExerciseCheck\FunctionRequirementsExerciseCheck</dd>
+                    <dd><code>PhpSchool\PhpWorkshop\ExerciseCheck\FunctionRequirementsExerciseCheck</code></dd>
                     <dt>Type:</dt>
-                    <dd>Simple</dd>
+                    <dd><code>Simple</code></dd>
+                    <dt>Compatible Exercise Types:</dt>
+                    <dd><code>CLI, CGI</code></dd>
                 </dl>
 
                 This check verifies that the students submission contains usages of some required functions and also
@@ -71,9 +85,11 @@
             <p class="service-list-item-description">
                 <dl class="check-description">
                     <dt>Interface to implement:</dt>
-                    <dd>PhpSchool\PhpWorkshop\ExerciseCheck\ComposerExerciseCheck</dd>
+                    <dd><code>PhpSchool\PhpWorkshop\ExerciseCheck\ComposerExerciseCheck</code></dd>
                     <dt>Type:</dt>
-                    <dd>Simple</dd>
+                    <dd><code>Simple</code></dd>
+                    <dt>Compatible Exercise Types:</dt>
+                    <dd><code>CLI, CGI</code></dd>
                 </dl>
 
                 This check verifies that the student used Composer to install the required dependencies of the
@@ -88,9 +104,11 @@
             <p class="service-list-item-description">
                 <dl class="check-description">
                     <dt>Interface to implement:</dt>
-                    <dd>PhpSchool\PhpWorkshop\ExerciseCheck\DatabaseExerciseCheck</dd>
+                    <dd><code>PhpSchool\PhpWorkshop\ExerciseCheck\DatabaseExerciseCheck</code></dd>
                     <dt>Type:</dt>
-                    <dd>Listener</dd>
+                    <dd><code>Listener</code></dd>
+                    <dt>Compatible Exercise Types:</dt>
+                    <dd><code>CLI</code></dd>
                 </dl>
 
                 This check sets up a database and a <code>PDO</code> object. It prepends the database DSN as a
