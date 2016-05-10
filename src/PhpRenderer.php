@@ -60,21 +60,43 @@ class PhpRenderer extends SlimPhpRenderer
         return $this->js;
     }
 
-    public function renderDocHeader(string $id, string $title, string $file = null) : string
+    public function renderDocTitle(string $id, string $title, string $file = null) : string
+    {
+        $options = [
+            'classes' => ['doc__title'],
+        ];
+
+        if (null !== $file) {
+            $options['file'] = $file;
+        }
+
+        return $this->renderHeader($id, $title, $options);
+    }
+
+    public function renderDocHeader(string $id, string $title) : string
+    {
+        return $this->renderHeader($id, $title);
+    }
+
+    private function renderHeader(string $id, string $title, array $options = []) : string
     {
         $editLink = '';
-        if (null !== $file) {
+        if (isset($options['file'])) {
             $editLink = sprintf(
                 '<a title="Edit this page on GitHub!" target="_blank" class="edit-on-gh" href="%s">%s</a>',
-                $this->getAttribute('links')['github-website'] . '/tree/master/templates/' . $file,
+                $this->getAttribute('links')['github-website'] . '/tree/master/templates/' . $options['file'],
                 $this->fetch('includes/icon.phtml', ['name' => "edit"])
             );
         }
+        $classes = '';
+        if (isset($options['classes']) && is_array($options['classes'])) {
+            $classes = implode(' ', $options['classes']);
+        }
 
-        $format      = '<h2 id="%s" class="doc__title">%s<a class="anchor" href="#%s">#</a>%s';
+        $format      = '<h2 id="%s" class="%s">%s<a class="anchor" href="#%s">#</a>%s';
         $format     .= '<a href="#page-top" class="back-to-top">^ TOP</a></h2>';
 
-        return sprintf($format, $id, $title, $id, $editLink);
+        return sprintf($format, $id, $classes, $title, $id, $editLink);
     }
 
     public function backToTop() : string
