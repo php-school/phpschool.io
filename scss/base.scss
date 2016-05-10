@@ -136,6 +136,14 @@ pre {
   }
 }
 
+:not(pre) > code {
+  font-size: 90%;
+  background-color: #f8f8f8;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: #0E90B2;
+}
+
 h2 a.anchor {
   display: inline-block;
   margin-left: 5px;
@@ -150,6 +158,10 @@ h2 a.anchor {
   border-radius: 4px;
   a {
     font-weight: bold;
+  }
+
+  ul.docs__std__list__note {
+    margin-bottom: 0px;
   }
 }
 
@@ -175,3 +187,4 @@ hr {
   border: none;
   border-top: 1px dotted #ccc;
 }
+
