@@ -1,7 +1,30 @@
-<p>The main task of the workshop is to compare the output of the students solution with the output of the known working solution, it is not however, limited to this.</p>
-<h3>What are Checks?</h3>
-<p>Checks are extra verifications that can be perform during the process of verifying a students solution. Each exercise can require any amount of additional checks.</p>
-<p>In order to specify your that your exercise requires additional checks you implement the function <code>configure</code> in your exercise. It will be passed an instance of <code>ExerciseDispatcher</code> which you can call <code>requireCheck</code> on. The method <code>configure</code> is already implemented in <code>AbstractExercise</code>, but is empty, so you don't need to call <code>parent::configure($dispatcher)</code> inside your method. Below is an example how you would require an extra check.</p>
+<p>The main task of the workshop is to compare the output of the students solution with the output of the known working
+    solution, it is not however, limited to this!</p>
+<?= $this->renderDocHeader('what-are-checks', 'What are Checks?') ?>
+<p>Checks are extra verifications that can be performed during the process of verifying a students solution to an
+    exercise. Each exercise can require any amount of additional checks.</p>
+
+<?= $this->renderDocHeader('check-types', 'Check Types') ?>
+<p>There are two types of checks Simple & Listener checks. What is the difference? Read on!</p>
+<h3>Simple Checks</h3>
+<p>Simple checks are basically a block of code that can run before or after verifying the output of the students
+    submission. There can be many checks, and they will be ran sequentially - each check can return a success or
+    failure and this will be injected into the output.</p>
+
+<h3>Listener Checks</h3>
+<p>Listener checks are more advanced - when you add a listener type check, it will be passed an event dispatcher
+    (<code>\PhpSchool\PhpWorkshop\Event\EventDispatcher</code>) which can be used to attach to various events
+    throughout the life-cycle of verifying. Learn more about Listener Checks and the events which can be listened to in
+    the <a href="/doc/reference/listener-checks">Listener checks documentation</a>.</p>
+
+<?= $this->renderDocHeader('check-types', 'How to use a check in your exercise?') ?>
+
+<h3>1. Tell the dispatcher about your check requirements</h3>
+<p>In order to specify that your exercise requires additional checks you should implement the function
+    <code>configure</code> in your exercise. It will be passed an instance of <code>ExerciseDispatcher</code> which
+    you can interact with and tell it which checks your exercise requires. The method <code>configure</code> is already
+    implemented in <code>AbstractExercise</code>, but is empty, so you don't need to call
+    <code>parent::configure($dispatcher)</code> inside your method.</p>
 
 <pre><code class="lang-php">class MyExercise extends AbstractExercise implements ExerciseInterface
 {
@@ -12,30 +35,29 @@
      */
     public function configure(ExerciseDispatcher $dispatcher)
     {
-        $dispatcher->requireCheck(ComposerCheck::class, $dispatcher::CHECK_BEFORE);
+        $dispatcher->requireCheck(ComposerCheck::class);
     }
 }
 </code></pre>
 
-<p>This basically informs the workshop that when verifying the students solution to this exercise, we should run the
-    <code>ComposerCheck</code> check <em>**BEFORE**</em> the verification process. To learn what
-    <code>ComposerCheck</code> check actually does go to the <a href="/docs/reference/bundled-checks">Bundled Checks</a>
-    page.</p>
+<p>This basically informs the workshop that when verifying the students solution to this exercise, we should also run
+    the <code>ComposerCheck</code> check. To learn what the <code>ComposerCheck</code> check actually does go to the
+    <a href="/docs/reference/bundled-checks">Bundled Checks</a> page.</p>
 
-
-<p>The final step is to implement the correct interface in your exercise. If you do not do this the workshop will throw
-    an exception when it tries to run the check. Each check has an interface you to implement when requiring that check
-    in your exercise. This interface can be found by visiting the
+<h3>2. Implement the required interface and methods</h3>
+<p>The second and final step is to implement the correct interface in your exercise. If you do not do this the workshop
+    will throw an exception when it tries to run the check. Each check has an interface you need to implement when
+    requiring it in your exercise. This interface can be found by visiting the
     <a href="/docs/reference/bundled-checks">Bundled Checks</a> page or by looking at the
     <code>getExerciseInterface</code> method of the check. This method returns a string containing the FQCN of the
     interface the check requires your exercise to implement.</p>
 
 <p>Some of the bundled checks only require you to implement
-    <code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code> which you will have to anyone as part of building your
-    exercise. Some checks require you to implement additional interfaces which introduce new methods to your check.
-    These methods provide the checks with the necessary information required to run. For example, the
+    <code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code> which you will have to do anyway as part of building
+    your exercise. Some checks require you to implement additional interfaces which introduce new methods to your
+    exercise. These methods provide the checks with the necessary information required to run. For example, the
     <code>ComposerCheck</code> requires you to implement the
-    <code>\PhpSchool\PhpWorkshop\ExerciseCheck\ComposerExerciseCheck</code> interface which, in turn,
+    <code>\PhpSchool\PhpWorkshop\ExerciseCheck\ComposerExerciseCheck</code> interface, which, in turn,
     requires your exercise to implement the method <code>getRequiredPackages</code>.</p>
 
 <p>So, your exercise taking advantage of the <code>ComposerExerciseCheck</code> may end up looking something like the
@@ -50,9 +72,12 @@
      */
     public function configure(ExerciseDispatcher $dispatcher)
     {
-        $dispatcher->requireCheck(ComposerCheck::class, $dispatcher::CHECK_BEFORE);
+        $dispatcher->requireCheck(ComposerCheck::class);
     }
 
+    /**
+     * @return array
+     */
     public function getRequiredPackages()
     {
         return [
@@ -63,38 +88,4 @@
 }
 </code></pre>
 
-<h3>When are checks ran?</h3>
-<p>There are two constants to determine where your check is inserted at: <code>PhpSchool\PhpWorkshop\ExerciseDispatcher::CHECK_BEFORE</code> & <code>PhpSchool\PhpWorkshop\ExerciseDispatcher::CHECK_AFTER</code>. This is the second parameter to the <code>configure</code> method.</p>
-
-<p>The process of verifying a students submission looks something like the following (pseudo code).</p>
-
-<pre><code class="lang-php">//run before checks
-foreach ($beforeChecks as $check) {
-    $result = $check->check($exercise, $submissionFilePath);
-
-    if (!$result->isSuccessful) {
-        return;
-    }
-}
-
-//compare output of student solution and known working solution
-$this->verifier->compareOutput($exercise);
-
-foreach ($afterChecks as $check) {
-    $result = $check->check($exercise, $submissionFilePath);
-    //store result
-}
-</code></pre>
-
-<h4>Before Verifying</h4>
-<p>When a check is required in <code>CHECK_BEFORE</code> mode it is run before the output verification. The process is
-    also short circuited is the check returns a failure. No more check will be run and the output will
-    not be compared.</p>
-
-<h4>After Verifying</h4>
-<p>When a check is required in <code>CHECK_AFTER</code> mode it is run after the output verification. This means that
-    the check is run after the students submission has been run. After checks are useful for verifying that something
-    has actually been performed in the students submission, for example, inserting a row into the database.</p>
-
-
-
+<?=
