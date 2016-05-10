@@ -39,13 +39,13 @@
                 <div class="doc__controls">
                     <div class="doc__previous">
                         <?php if ($docs->hasPreviousSection($doc)) : ?>
-                            <a class="" href="<?= $docs->getPreviousSection($doc)->getHref() ?>">< <?= $docs->getPreviousSection($doc)->getTitle() ?></a>
+                            <a class="" href="<?= $docs->getPreviousSection($doc)->getHref() ?>">⇠ <?= $docs->getPreviousSection($doc)->getTitle() ?></a>
                         <?php endif; ?>
                     </div>
 
                     <div class="doc__home">
                         <?php if ($docs->hasHome($doc)) : ?>
-                            <a href="<?= $docs->getHome($doc)->getHref() ?>"><?= $this->fetch('includes/icon.phtml', ['name' => "home"]) ?></a>
+                            <a class="" href="<?= $docs->getNextSection($doc)->getHref() ?>"><?= $docs->getNextSection($doc)->getTitle() ?> ⇢</a>
                         <?php endif; ?>
                     </div>
 
