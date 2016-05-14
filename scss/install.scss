@@ -23,6 +23,8 @@
   align-items: center;
   margin-top: $base-spacing*2;
   width: 100%;
+  position: relative;
+  padding-right: 70px;
 
   .svg-icon {
     margin-right: $half-spacing;
@@ -32,12 +34,6 @@
 
   &:first-child {
     margin-top: 0;
-  }
-
-  .back-to-top {
-    position: relative;
-    top: 10px;
-    font-size: 14px;
   }
 }
 

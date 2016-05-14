@@ -21,7 +21,10 @@
 }
 
 .back-to-top {
-  float: right;
+  position: absolute;
+  right: 0px;
+  top: 4px;
+  font-size: 16px;
 }
 
 .method-list {
