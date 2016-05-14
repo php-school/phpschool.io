@@ -352,7 +352,7 @@ Open up <code>src/Check/Psr2Check.php</code> and change the <code>getExerciseInt
     return new Failure($this->getName(), 'Coding style did not conform to PSR2!');
 }
 </code></pre>
-<p>We've added a couple of things here - we make sure the exercise actually implements our required exception, if not
+<p>We've added a couple of things here - we make sure the exercise actually implements our required interface, if not
 we throw an exception. We check if the standard provided is in a small subset of supported standards, and finally,
 we pass the standard along to the <code>phpcs</code> command.</p>
 
@@ -428,8 +428,8 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, P
     }
 }</code></pre>
 
-<p>You should be able to run it just as above, you can now easily update your exercise to use a different coding
-standard without modifying the check.</p>
+<p>You should be able to run it just the same as before we added the extra interface. You can now easily update your
+    exercise to use a different coding standard without modifying the check.</p>
 
 <p class="note note-success">Maybe you could try updating the check to take into account the standard when return the
     result? It currently has PSR2 hardcoded!</p>
