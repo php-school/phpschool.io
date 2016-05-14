@@ -168,7 +168,6 @@
   text-align: right;
 }
 
-
 .doc__link__icon {
   color: black;
   padding-top: 6px;
@@ -178,15 +177,20 @@
 }
 
 .edit-on-gh {
-  font-size: 24px;
-  padding-bottom: 2px;
-  color: #ccc;
 
-  :hover {
-    color: #e91e63;
-  }
+  display:none;
+  @media screen and (min-width: 500px) {
+    display: inline;
+    font-size: 24px;
+    padding-bottom: 2px;
+    color: #ccc;
 
-  .svg-icon {
-    height: 0.7em;
+    :hover {
+      color: #e91e63;
+    }
+
+    .svg-icon {
+      height: 0.7em;
+    }
   }
 }
