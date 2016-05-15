@@ -1,0 +1,89 @@
+<p>The main task of the workshop is to compare the output of the students solution with the output of the known working
+    solution, it is not however, limited to this!</p>
+<?= $this->renderContentHeader('what-are-checks', 'What are Checks?') ?>
+<p>Checks are extra verifications that can be performed during the process of verifying a students solution to an
+    exercise. Each exercise can require any amount of additional checks.</p>
+
+<?= $this->renderContentHeader('check-types', 'Check Types') ?>
+<p>There are two types of checks <code>Simple</code> & <code>Listener</code> checks. What are the differences? Read on!</p>
+<h3>Simple Checks</h3>
+<p>Simple checks are basically a block of code that can run before or after verifying the output of the students
+    submission. There can be many checks, and they will be ran sequentially - each check can return a success or
+    failure and this will be injected into the output.</p>
+
+<h3>Listener Checks</h3>
+<p>Listener checks are more advanced - when you add a listener type check, it will be passed an event dispatcher
+    (<code>\PhpSchool\PhpWorkshop\Event\EventDispatcher</code>) which can be used to attach to various events
+    throughout the life-cycle of verifying. Learn more about Listener Checks and the events which can be listened to in
+    the <a href="/doc/reference/listener-checks">Listener checks documentation</a>.</p>
+
+<?= $this->renderContentHeader('check-types', 'How to use a check in your exercise?') ?>
+
+<h3>1. Tell the dispatcher about your check requirements</h3>
+<p>In order to specify that your exercise requires additional checks you should implement the function
+    <code>configure</code> in your exercise. It will be passed an instance of <code>ExerciseDispatcher</code> which
+    you can interact with and tell it which checks your exercise requires. The method <code>configure</code> is already
+    implemented in <code>AbstractExercise</code>, but is empty, so you don't need to call
+    <code>parent::configure($dispatcher)</code> inside your method.</p>
+
+<pre><code class="lang-php">class MyExercise extends AbstractExercise implements ExerciseInterface
+{
+    ...snip
+
+    /**
+     * @param ExerciseDispatcher $dispatcher
+     */
+    public function configure(ExerciseDispatcher $dispatcher)
+    {
+        $dispatcher->requireCheck(ComposerCheck::class);
+    }
+}
+</code></pre>
+
+<p>This basically informs the workshop that when verifying the students solution to this exercise, we should also run
+    the <code>ComposerCheck</code> check. To learn what the <code>ComposerCheck</code> check actually does go to the
+    <a href="/docs/reference/bundled-checks">Bundled Checks</a> page.</p>
+
+<h3>2. Implement the required interface and methods</h3>
+<p>The second and final step is to implement the correct interface in your exercise. If you do not do this the workshop
+    will throw an exception when it tries to run the check. Each check has an interface you need to implement when
+    requiring it in your exercise. This interface can be found by visiting the
+    <a href="/docs/reference/bundled-checks">Bundled Checks</a> page or by looking at the
+    <code>getExerciseInterface</code> method of the check. This method returns a string containing the FQCN of the
+    interface the check requires your exercise to implement.</p>
+
+<p>Some of the bundled checks only require you to implement
+    <code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code> which you will have to do anyway as part of building
+    your exercise. Some checks require you to implement additional interfaces which introduce new methods to your
+    exercise. These methods provide the checks with the necessary information required to run. For example, the
+    <code>ComposerCheck</code> requires you to implement the
+    <code>\PhpSchool\PhpWorkshop\ExerciseCheck\ComposerExerciseCheck</code> interface, which, in turn,
+    requires your exercise to implement the method <code>getRequiredPackages</code>.</p>
+
+<p>So, your exercise taking advantage of the <code>ComposerExerciseCheck</code> may end up looking something like the
+    following:</p>
+
+<pre><code class="lang-php">class MyExercise extends AbstractExercise implements ExerciseInterface, ComposerExerciseCheck
+{
+    ...snip
+
+    /**
+     * @param ExerciseDispatcher $dispatcher
+     */
+    public function configure(ExerciseDispatcher $dispatcher)
+    {
+        $dispatcher->requireCheck(ComposerCheck::class);
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequiredPackages()
+    {
+        return [
+            'nikic/fast-route'
+        ];
+    }
+
+}
+</code></pre>
