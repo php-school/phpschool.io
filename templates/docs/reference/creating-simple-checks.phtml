@@ -69,7 +69,7 @@ foreach ($afterChecks as $check) {
 
 <?= $this->renderContentHeader('build-check', 'Build the check') ?>
 
-<p>Now - let's build it! We will use the already built example workshop as a base - finished code is
+<p>Now - let's build it! We will use the already built example workshop as a base - the finished code is
     available on the <code>custom-simple-check</code> branch of the
     <a href="https://github.com/php-school/simple-math">tutorial repository</a>. We will start fresh from the
     <code>master</code> branch for this tutorial, so if you haven't already got it, git
@@ -263,11 +263,16 @@ return $app;
 
 <?= $this->renderContentHeader('try-it-out', 'Try it out!') ?>
 
-<p>Run the workshop and select the Mean Average exercise. Verifying a solution which does not pass the PSR2 coding standard will yield
+<p>Run the workshop and select the Mean Average exercise. Verifying a solution which does not pass the
+    <code>PSR2</code> coding standard will yield
     the output:</p>
-<img src="/img/custom-simple-check-psr2-fail.png" class="doc-terminal-screen">
+<a href="/img/custom-simple-check-psr2-fail.png">
+    <img src="/img/custom-simple-check-psr2-fail.png" class="doc-terminal-screen">
+</a>
 <p>And a solution which <strong>does</strong> pass will yield the output:</p>
-<img src="/img/custom-simple-check-psr2-success.png" class="doc-terminal-screen">
+<a href="/img/custom-simple-check-psr2-success.png">
+    <img src="/img/custom-simple-check-psr2-success.png" class="doc-terminal-screen">
+</a>
 
 <?= $this->renderContentHeader('custom-interface', 'Custom Interface') ?>
 <p>When you build checks, sometimes you need extra information from the exercise to configure the check. For

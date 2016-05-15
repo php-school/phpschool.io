@@ -97,7 +97,7 @@ $config = [
         $referenceGroup->addSection('bundled-checks', 'Bundled Checks', 'docs/reference/bundled-checks.phtml');
         $referenceGroup->addSection('creating-simple-checks', 'Creating Simple Checks', 'docs/reference/creating-simple-checks.phtml');
         $referenceGroup->addSection('creating-listener-checks', 'Creating Listener Checks', 'docs/reference/creating-listener-checks.phtml', false);
-        $referenceGroup->addSection('self-checking-exercises', 'Self Checking Exercises', 'docs/reference/self-checking-exercises.phtml', false);
+        $referenceGroup->addSection('self-checking-exercises', 'Self Checking Exercises', 'docs/reference/self-checking-exercises.phtml');
         $referenceGroup->addSection('exercise-hooks', 'Exercise Hooks', 'docs/reference/exercise-hooks.phtml', false);
         $referenceGroup->addSection('patching-exercise-solutions', 'Patching Exercise Submissions', 'docs/reference/patching-exercises-solutions.phtml', false);
         $referenceGroup->addSection('creating-custom-checks', 'Creating Custom Checks', 'docs/reference/creating-custom-checks.phtml', false);
