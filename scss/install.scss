@@ -16,24 +16,45 @@
   }
 }
 
-.doc__title {
+.os-icon {
+  display: block;
+  font-size: 70px;
+  color: $secondary-colour;
+  text-align: center;
+
+  @media screen and (min-width: 700px) {
+      display: none;
+    }
+}
+
+.install__title {
   border-bottom: 1px dotted $silver;
   padding-bottom: $half-spacing/2;
   display: inline-block;
   align-items: center;
-  margin-top: $base-spacing*2;
+  text-align: center;
+  margin-top: $half-spacing;
+
   width: 100%;
   position: relative;
-  padding-right: 70px;
 
   .svg-icon {
-    margin-right: $half-spacing;
-    width: 1.5em;
-    height: 1.5em;
+    display: none;
+    @media screen and (min-width: 700px) {
+      display: inline;
+      margin-right: $half-spacing;
+      width: 1.5em;
+      height: 1.5em;
+    }
   }
 
-  &:first-child {
-    margin-top: 0;
+  @media screen and (min-width: 700px) {
+    margin-top: $base-spacing*2;
+    text-align: left;
+
+    &:first-of-type {
+      margin-top: 0px;
+    }
   }
 }
 

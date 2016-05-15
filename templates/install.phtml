@@ -12,7 +12,8 @@
                 </ul>
             </div>
             <div class="doc__content">
-                <h2 class="doc__title" id="linux"><?= $this->fetch('includes/icon.phtml', ['name' => "linux"]) ?> Troubleshooting Debian Linux Installations</h2>
+                <span class="os-icon"><?= $this->fetch('includes/icon.phtml', ['name' => "linux"]) ?></span>
+                <h2 class="install__title" id="linux"><?= $this->fetch('includes/icon.phtml', ['name' => "linux"]) ?>Troubleshooting Debian Linux Installations</h2>
                 <p>Common issues with Linux installations include not having a new enough version of PHP and not having Composer available.</p>
                 <h3>Step 1: Check your PHP version</h3>
                 <p><span class="hint">You can check your PHP version with <code class="install__code">php -v</code></span></p>
@@ -50,8 +51,8 @@
                 <p>If Composer's global bin directory is not available in your <code class="install__code">$PATH</code> add the following to the end of your <code class="install__code">~/.bashrc</code> file: <code class="install__code">export PATH=~/.composer/vendor/bin:$PATH</code></p>
                 <p> To learn more about the <code class="install__code">$PATH</code> environment, click <a target="_blank" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>.</p>
 
-
-                <h2 class="doc__title" id="osx"><?= $this->fetch('includes/icon.phtml', ['name' => "apple"]) ?> Troubleshooting Mac OSX Installations</h2>
+                <span class="os-icon"><?= $this->fetch('includes/icon.phtml', ['name' => "apple"]) ?></span>
+                <h2 class="install__title" id="osx"><?= $this->fetch('includes/icon.phtml', ['name' => "apple"]) ?>Troubleshooting Mac OSX Installations</h2>
                 <p>Common issues with Mac OSX installations include not having a new enough version of PHP and not having Composer available.</p>
 
                 <h3>Step 1: Check your PHP version</h3>
@@ -93,7 +94,8 @@
                 <p>If Composer's global bin directory is not available in your <code class="install__code">$PATH</code> add the following to the end of your <code class="install__code">~/.bashrc</code> file: <code class="install__code">export PATH=~/.composer/vendor/bin:$PATH</code></p>
                 <p> To learn more about the <code class="install__code">$PATH</code> environment, click <a target="_blank" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>.</p>
 
-                <h2 class="doc__title" id="windows"><?= $this->fetch('includes/icon.phtml', ['name' => "windows"]) ?> Troubleshooting Windows Installations</h2>
+                <span class="os-icon"><?= $this->fetch('includes/icon.phtml', ['name' => "windows"]) ?></span>
+                <h2 class="install__title" id="windows"><?= $this->fetch('includes/icon.phtml', ['name' => "windows"]) ?>Troubleshooting Windows Installations</h2>
                 <p>Windows is a difficult system to cater for in the PHP world. Unfortunately, it has various differences on the command line and console emulators which PHP unfortunately doesn't support. The best way to get PHP School Workshops running is to install Cygwin + ConEmu. Once the initial setup of these are complete, the process of installing workshops is the same as Linux and Mac OSX operating systems.</p>
 
                 <h3>Step 1: Check if Cygwin is installed</h3>
