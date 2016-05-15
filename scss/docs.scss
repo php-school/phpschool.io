@@ -260,3 +260,26 @@ ul.docs__std__list__note {
     margin-top: 0;
   }
 }
+
+dl.check-description {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: $base-spacing;
+  border-radius: 4px;
+  padding: 8px;
+
+  dt {
+    font-style: italic;
+    @media screen and (min-width: 840px) {
+      float: left;
+      width: 30%;
+    }
+  }
+
+  dd {
+    @media screen and (min-width: 840px) {
+      float: left;
+      width: 70%;
+    }
+  }
+}
