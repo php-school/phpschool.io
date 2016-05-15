@@ -141,14 +141,8 @@
 }
 
 .hint {
-  color: lighten($base-colour, 20);
+  color: #777;
+  padding: 8px;
+  border-left: 4px solid #0e90b2;
 }
 
-code.install__code {
-  background-color: rgba($base-colour, 0.05);
-  color: $base-colour;
-  padding: 0px $half-spacing 2px;
-  border-radius: 3px;
-  margin-left: 3px;
-  border: 1px solid $silver;
-}

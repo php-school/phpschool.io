@@ -123,6 +123,14 @@ pre {
   }
 }
 
+:not(pre) > code {
+  font-size: 90%;
+  background-color: #f8f8f8;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: #0E90B2;
+}
+
 .note {
   padding: 15px;
   border: 1px solid transparent;
