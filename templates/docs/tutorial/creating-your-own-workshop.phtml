@@ -15,23 +15,25 @@
 
 <p>Where <code>&lt;your-workshop-name&gt;</code> is the name of the directory you want to setup your workshop in. For this tutorial we will create a workshop teaching some basic math concepts so we will use the name <code>simple-math</code>. You will be prompted for a few things:</p>
 
-<h3>Composer package name</h3>
+<?= $this->renderContentHeader('composer-package-name', 'Composer package name') ?>
 <p>The name for your workshop to be put in the <code>composer.json</code> file. This should follow the pattern <code>vendor/package</code>. In the case of our flagship workshop <a target="_blank" href="https://github.com/php-school/learn-you-php">Learn You PHP!</a> this is <code>php-school/learn-you-php</code>. Name your package <code>php-school/simple-math</code>.</p>
 <p>More info on the <code>name</code> property <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#name">can be found in the composer documentation</a>.</p>
 
-<h3>Composer package description</h3>
+<?= $this->renderContentHeader('composer-package-description', 'Composer package description') ?>
 <p>A short description of your workshop which will be added to the <code>composer.json</code> file. Add a short description here, something like: <code>Learn the basics of math with PHP!</code></p>
 <p>More info on the <code>description</code> property <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#description">can be found in the composer documentation</a>.</p>
 
-<h3>PHP Namespace for the source code</h3>
+<?= $this->renderContentHeader('namespace', 'PHP Namespace for the source code') ?>
 <p>The namespace which will be used in the project so it can be added to the autoload configuration in the <code>composer.json</code> file. In the case of <a target="_blank" href="https://github.com/php-school/learn-you-php">Learn You PHP!</a> this is <code>PhpSchool\LearnYouPhp</code>. We will use <code>PhpSchool\SimpleMath</code>.</p>
 
 <p>More info on the <code>autoload</code> property <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#psr-4">can be found in the composer documentation</a>.</p>
 
-<h3>Workshop binary</h3>
+<?= $this->renderContentHeader('binary', 'Workshop binary') ?>
 <p>This is the actual command users will execute to run your workshop. In the case of <a target="_blank" href="https://github.com/php-school/learn-you-php">Learn You PHP!</a> this is <code>learnyouphp</code>. You should set this as <code>simple-math</code>.</p>
 
+<br>
 <hr>
+<br>
 <p>After you have entered the required information the workshop dependencies will be downloaded and the autoload files will be generated.</p>
 
 <p class="note note-success">Assuming everything went well and your are in the root of your new workshop you should be able to run the workshop!</p>

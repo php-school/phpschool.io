@@ -1,7 +1,7 @@
 <p>A workshop is a fairly useless without any exercises, so here we will learn how to create them.</p>
 <p class="note note-success">It may be a good idea for exercises to start of simple and gradually increase in difficulty. You could try to explain concepts and build on them with each exercise.</p>
 
-<h3>Exercise checklist</h3>
+<?= $this->renderContentHeader('checklist', 'Exercise checklist') ?>
 <ul>
     <li>Decide on a topic to test.</li>
     <li>Create a working solution.</li>
@@ -11,7 +11,7 @@
 
 <p>We will decide on a topic of basic PHP operators, more specifically working out the mean average of a given set of numbers.</p>
 
-<h3>Exercise specification</h3>
+<?= $this->renderContentHeader('specification', 'Exercise specification') ?>
 <ul>
     <li>The user should print out the mean average and nothing else. No new lines or whitespace.</li>
     <li>The numbers passed to the program should be random.</li>
@@ -34,7 +34,7 @@ echo $count / $numberCount;
 <p class="note note-success">Solution files are known, working programs which pass the exercise. When running a user's solution to an exercise, the known working solution is executed and the output compared to the user's.</p>
 <p>The next step is to create a problem file. A problem file contains the instructions for the exercise. It should be a markdown file. This file is rendered in the terminal to the user when they select the exercise.</p>
 
-<h3>Tips for a good problem file</h3>
+<?= $this->renderContentHeader('tips-for-a-problem-file', 'Tips for a good problem file') ?>
 <ul>
     <li>Provide a solid description of the problem.</li>
     <li>Provide some sample code which may need to be modified.</li>
@@ -163,7 +163,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
 <h3>Name and description</h3>
 <p>The remaining methods to implement are <code>getName</code> and <code>getDescription</code>. <code>getName</code> is the name of the exercise to be displayed in the menu and <code>getDescription</code> is a short description of the exercise. This is not actually used anywhere yet but is useful when glancing through the code.</p>
 
-<h3>Registering the exercise and adding a factory</h3>
+<?= $this->renderContentHeader('registering-exercise', 'Registering the exercise and adding a factory') ?>
 <p>Internally, the workshop application uses a <a target="_blank" href="https://en.wikipedia.org/wiki/Dependency_Injection">dependency injection container</a>. This allows you to request other services from the application and replace services with your own implementations. In order for the application to locate your exercise, you need to register it with the application and also provide a factory for it. We use the <a target="_blank" href="http://php-di.org">PHP-DI</a> package for dependency injection.</p>
 <p>First, lets create a factory for our exercise. Open up <code>app/config.php</code>.</p>
 

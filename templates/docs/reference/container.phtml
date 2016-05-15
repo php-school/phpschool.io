@@ -3,15 +3,15 @@
 
 <p>The file <code>app/config.php</code> should return an array of service definitions for the container. The key being the name of the service and the value the actual factory. For the case of exercises the service name should <strong>always</strong> be the class name.</p>
 
-<h3>Defining Factories</h3>
-<h4>Simple Object with No dependencies</h4>
+<?= $this->renderContentHeader('defining-factories', 'Defining Factories') ?>
+<h3>Simple Object with No dependencies</h3>
 <p><code>\DI\Object()</code> is a helper function to create a factory which will simply run <code>new $yourClassName</code> when asking for the service from the container.</p>
 <pre><code lang="php">return [
     ...snip
     Generator::class => \DI\Object(),
 ];
 </code></pre>
-<h4>Object with dependencies</h4>
+<h3>Object with dependencies</h3>
 
 <p>PHP-DI provides more powerful features such as being able to use anonymous functions and any callables as a factory. When using a callable your callable will be injected with the container itself which you can pull other services from!</p>
 <p>If you pulled in a third party library for random number generation you might define a service like below. We use the battle tested package: <code>ircmaxell/random-lib</code> as an example.</p>
@@ -26,7 +26,7 @@
 ];
 </code></pre>
 
-<h3>Overwriting existing services</h3>
+<?= $this->renderContentHeader('overwriting-services', 'Overwriting existing services') ?>
 <p>As your workshop configuration is merged into default workshop application configuration, you can override existing services with your own implementation. Maybe you want to override the <code>\Symfony\Component\Filesystem\Filesystem</code> service with your own version, maybe you extended it to add some methods.</p>
 <p>The below definition would replace the <code>\Symfony\Component\Filesystem\Filesystem</code> service with your own implementation: <code>MyFileSystem</code> which extends from <code>\Symfony\Component\Filesystem\Filesystem</code>.</p>
 

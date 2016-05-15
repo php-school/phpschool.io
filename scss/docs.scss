@@ -225,3 +225,38 @@ ul.docs__std__list__note {
     margin-top: 0;
   }
 }
+
+.content__header {
+  border-bottom: 1px dotted $silver;
+  padding-bottom: $half-spacing / 2;
+  display: inline-block;
+  align-items: center;
+  text-align: left;
+  margin-top: $half-spacing;
+  padding-right: 45px;
+  font-size: 20px;
+  margin-bottom: $base-spacing;
+  color: $black;
+
+  width: 100%;
+  position: relative;
+
+  .anchor {
+    display: inline-block;
+    margin-left: 5px;
+    color: #ccc;
+    font-size: 24px;
+    margin-bottom: 0px;
+  }
+
+  .back-to-top {
+    position: absolute;
+    right: 0;
+    top: 16px;
+    font-size: 14px;
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+}

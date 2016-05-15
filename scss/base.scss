@@ -40,6 +40,13 @@ h3 {
   color: $black;
 }
 
+h4 {
+  font-size: 16px;
+  padding-top: $half-spacing;
+  margin-bottom: $half-spacing;
+  font-style: italic;
+}
+
 p {
   font-size: 14px;
   line-height: 1.5;
@@ -133,8 +140,7 @@ pre {
 
 .note {
   padding: 15px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  border-left: 4px solid transparent;
   a {
     font-weight: bold;
   }
@@ -142,18 +148,32 @@ pre {
 
 .note-success {
   color: #3c763d;
-  background-color: #dff0d8;
   border-color: #d6e9c6;
+
+  &:hover {
+      background-color: #dff0d8;
+  }
 }
 
 .note-warning {
   color: #a94442;
-  background-color: #f2dede;
   border-color: #ebccd1;
+
+  &:hover {
+      background-color: #f2dede;
+  }
 }
 
 .note-info {
   color: #31708f;
-  background-color: #d9edf7;
   border-color: #bce8f1;
+
+  &:hover {
+      background-color: #d9edf7;
+  }
+}
+
+hr {
+  border: none;
+  border-top: 1px dotted #ccc;
 }

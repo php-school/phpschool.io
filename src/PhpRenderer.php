@@ -64,4 +64,9 @@ class PhpRenderer extends SlimPhpRenderer
     {
         return $this->fetch('includes/doc-title.phtml', ['id' => $id, 'title' => $title, 'file' => $file]);
     }
+
+    public function renderContentHeader(string $id, string $title) : string
+    {
+        return $this->fetch('includes/content-header.phtml', ['id' => $id, 'title' => $title]);
+    }
 }
