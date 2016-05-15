@@ -103,7 +103,7 @@ class Documentation implements IteratorAggregate
 
     public function getHome(DocumentationSectionInterface $section) : DocumentationSectionInterface
     {
-        return $this->findGroupForSection($section)->getSectionAtOffset(1);
+        return $this->findGroupForSection($section)->getSectionAtOffset(0);
     }
 
     /**

@@ -3,13 +3,13 @@ body {
   font-family: $base-font-family;
   font-weight: 100;
   font-size: 14px;
-  color: $black;
+  color: #333;
 }
 
 .container {
   max-width: 1024px;
   margin: 0 auto;
-  padding: 0 $base-spacing;
+  padding: 0 10px;
   @media screen and (min-width: 600px) {
     padding: 0 $half-spacing;
   }
@@ -38,6 +38,13 @@ h3 {
   padding-top: $half-spacing;
   margin-bottom: $half-spacing;
   color: $black;
+}
+
+h4 {
+  font-size: 16px;
+  padding-top: $half-spacing;
+  margin-bottom: $half-spacing;
+  font-style: italic;
 }
 
 p {
@@ -123,18 +130,17 @@ pre {
   }
 }
 
-h2 a.anchor {
-  display: inline-block;
-  margin-left: 5px;
-  color: #ccc;
-  font-size: 24px;
-  margin-bottom: 0px;
+:not(pre) > code {
+  font-size: 90%;
+  background-color: #f8f8f8;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: #0E90B2;
 }
 
 .note {
   padding: 15px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  border-left: 4px solid transparent;
   a {
     font-weight: bold;
   }
@@ -142,18 +148,32 @@ h2 a.anchor {
 
 .note-success {
   color: #3c763d;
-  background-color: #dff0d8;
   border-color: #d6e9c6;
+
+  &:hover {
+      background-color: #dff0d8;
+  }
 }
 
 .note-warning {
   color: #a94442;
-  background-color: #f2dede;
   border-color: #ebccd1;
+
+  &:hover {
+      background-color: #f2dede;
+  }
 }
 
 .note-info {
   color: #31708f;
-  background-color: #d9edf7;
   border-color: #bce8f1;
+
+  &:hover {
+      background-color: #d9edf7;
+  }
+}
+
+hr {
+  border: none;
+  border-top: 1px dotted #ccc;
 }

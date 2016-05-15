@@ -14,7 +14,7 @@
     <li><strong>PhpSchool\PhpWorkshop\Solution\DirectorySolution</strong> - When your solution encompasses multiple files.</li>
 </ul>
 
-<h3>SingleFileSolution</h3>
+<?= $this->renderContentHeader('single-file-solution', 'SingleFileSolution') ?>
 <p>This is the default used by <code>PhpSchool\PhpWorkshop\Exercise\AbstractExercise</code>. So if you don't override the <code>getSolution</code> method, the solution will be a single file named <code>solution.php</code> contained in the directory <code>exercises/exercise-name/solution</code>.</p>
 
 <p>This would look like the following if you were to manually construct it:</p>
@@ -56,7 +56,7 @@ var_dump($file->getContents());
 
 </code></pre>
 
-<h3>DirectorySolution</h3>
+<?= $this->renderContentHeader('directory-solution', 'DirectorySolution') ?>
 <p>It is possible that your solution contains more than one PHP file. Maybe you have some classes separated into different files, maybe you also pull in some dependencies via Composer. In either case, you should use <code>PhpSchool\PhpWorkshop\Solution\DirectorySolution</code>.</p>
 
 <p>Usage is simple, just pass it the directory and an (optional) entry point. You can also provide an optional list of files to exclude, more on that later. The entry point defaults to <code>solution.php</code>. The following is a depiction of a directory structure and the code to encompass the solution:</p>
@@ -124,7 +124,7 @@ var_dump($file2->__toString());
 var_dump($file2->getContents());
 //Outputs: "contents-of-the-file"</code></pre>
 
-<h4>Using a different entry point file</h4>
+<h3>Using a different entry point file</h3>
 <p>If your solution looked like the below where your entry point is named <code>index.php</code>, you can provide the optional third parameter to the static constructor: <code>fromDirectory</code>. It must be the relative path of the file from the solution base directory.</p>
 
 <pre>/path/to/workshop/exercises/exercise-name
@@ -141,10 +141,9 @@ $solution = DirectorySolution::fromDirectory('/path/to/workshop/exercises/exerci
 </code></pre>
 
 <p class="note note-info">The convention is for the entry point file to be named <code>solution.php</code> to keep things simple.</p>
-
 <p class="note note-warning"><code>DirectorySolution</code> will throw an instance of <code>InvalidArgumentException</code> if the entry point does not exist in the directory given.</p>
 
-<h4>Excluding files from the solution directory</h4>
+<h3>Excluding files from the solution directory</h3>
 <p>The method <code>getFiles</code> is used to find all the files in an exercise. One use case is to display the contents of the files to the user when they have finished an exercise. This way they can compare notes. Sometimes you may want some files to be excluded from this. Perhaps you don't want the <code>composer.lock</code> file to be printed to the terminal as this can be quite long. To exclude some files from the solution, simply provide an array of excludes, relative to the base directory:</p>
 <pre><code lang="php">&lt;?php
 require __DIR__ . '/vendor/autoload.php';
@@ -162,7 +161,7 @@ $solution = DirectorySolution::fromDirectory(
 
 <p>It is not actually necessary to exclude <code>composer.lock</code> or <code>vendor</code> as these are automatically appended to the list of excludes when using the static constructor <code>fromDirectory</code>.</p>
 
-<h4>Overriding the default excluded files</h4>
+<h3>Overriding the default excluded files</h3>
 <p>The following files are excluded by default when using the static constructor <code>fromDirectory</code>:</p>
 <ul>
     <li>composer.lock</li>
@@ -184,10 +183,11 @@ $solution = new DirectorySolution(
 
 <p class="note note-info">The argument order for <code>__construct</code> and <code>fromDirectory</code> are slightly different. <code>__construct</code> is: $directory, $entryPoint, $excludes. <code>fromDirectory</code> is: $directory, $excludes, $entryPoint.</p>
 
-<h4>Using Composer Libraries in your solution</h4>
+<h3>Using Composer Libraries in your solution</h3>
 <p>If you use a library via Composer then you should include the <code>composer.json</code> and <code>composer.lock</code> file in the solution base directory. <code>DirectorySolution</code> will detect the Composer files automatically. If there are Composer files available, the workshop will run a <code>composer install</code> in the solution base directory before invoking the solution.</p>
 
-<h3>Creating your own Exercise Solution Type</h3>
+
+<?= $this->renderContentHeader('creating-your-own-solution', 'Creating your own Exercise Solution Type') ?>
 <p>If the <code>SingleFileSolution</code> or <code>DirectorySolution</code> implementations do not cover your needs, you can create your own by implementing the following interface:</p>
 <pre><code lang="php">interface SolutionInterface
 {
@@ -213,14 +213,14 @@ $solution = new DirectorySolution(
 }
 </code></pre>
 
-<h4>getEntryPoint()</h4>
+<h3><code>getEntryPoint()</code></h3>
 <p>This method should return the name of the file which should be the entry point to your solution, in absolute form.</p>
 
-<h4>getFiles()</h4>
+<h3><code>getFiles()</code></h3>
 <p>This method should return an array of files. Each file should be represented by an instance of <code>PhpSchool\PhpWorkshop\Solution\SolutionFile</code>.</p>
 
-<h4>getBaseDirectory()</h4>
+<h3><code>getBaseDirectory()</code></h3>
 <p>This should return the absolute path to the directory of the solution.</p>
 
-<h4>hasComposerFile()</h4>
+<h3><code>hasComposerFile()</code></h3>
 <p>This should return a boolean value depending on whether the solution has a <code>composer.lock</code> file present. If it does, before invoking the solution, <code>composer install</code> will be executed in the solution base directory. This saves you having to bundle the vendor directory in your workshop.</p>

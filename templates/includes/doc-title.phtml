@@ -1,0 +1,4 @@
+<h2 id="<?= $id ?>" class="doc__title">
+    <?= $title ?><a class="anchor" href="#<?= $id ?>">#</a><?php if ($file) :?><a title="Edit this page on GitHub!" target="_blank" class="edit-on-gh" href="<?= $this->getAttribute('links')['github-website'] ?>"><?= $this->fetch('includes/icon.phtml', ['name' => "edit"]) ?></a><?php endif; ?><a href="#page-top" class="back-to-top">^ TOP</a>
+</h2>
+
