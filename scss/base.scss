@@ -71,6 +71,19 @@ a {
   }
 }
 
+
+.link {
+  border: 1px solid $secondary-colour;
+  border-radius: 4px;
+  padding: 8px;
+
+  &:hover {
+    background: lighten($secondary-colour, 8);
+    text-decoration: none;
+    color: white;
+  }
+}
+
 .button {
   padding: $half-spacing 45px;
   background: $secondary-colour;
