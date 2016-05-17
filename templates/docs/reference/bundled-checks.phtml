@@ -126,7 +126,8 @@
 <p>Here is an example of how to force the student to use the function <code>curl_exec</code> and ban the usage of
 <code>file_get_contents</code>. This could be useful if you wanted to teach advanced configuration of data transfers.</p>
 
-<pre><code class="lang-php">class MyExercise extends AbstractExercise implements ExerciseInterface, FunctionRequirementsExerciseCheck
+<pre><code class="lang-php">class MyExercise extends AbstractExercise
+        implements ExerciseInterface, FunctionRequirementsExerciseCheck
 {
     ...snip
 
@@ -169,7 +170,8 @@ echo file_get_contents('http://example.com');
 <p>Here is an example of how to force the student to require the <code>nikic/fast-route</code> package via Composer. This
 is useful if you want to focus on a specific problem or promote popular/battle tested packages.</p>
 
-<pre><code class="lang-php">class MyExercise extends AbstractExercise implements ExerciseInterface, ComposerExerciseCheck
+<pre><code class="lang-php">class MyExercise extends AbstractExercise
+        implements ExerciseInterface, ComposerExerciseCheck
 {
     ...snip
 
@@ -204,7 +206,8 @@ package has not been found, the output will look like the following:</p>
 <p>Here is an example where we require that the user insert a record in to the <code>users</code> table which we will create in the
     <code>seed</code> method of our check. We will then verify that there are some records in the users table.</p>
 
-<pre><code class="lang-php">class MyExercise extends AbstractExercise implements ExerciseInterface, DatabaseExerciseCheck
+<pre><code class="lang-php">class MyExercise extends AbstractExercise
+        implements ExerciseInterface, DatabaseExerciseCheck
 {
     ...snip
 
