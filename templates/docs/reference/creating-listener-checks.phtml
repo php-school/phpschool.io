@@ -1,0 +1,416 @@
+<div class="tabs">
+    <input type="radio" name="tabs" id="tab1" checked>
+    <label for="tab1">
+        <span>CLI Verify</span>
+    </label>
+    <input type="radio" name="tabs" id="tab2">
+    <label for="tab2">
+        <span>CLI Run</span>
+    </label>
+    <input type="radio" name="tabs" id="tab3">
+    <label for="tab3">
+        <span>CGI Verify</span>
+    </label>
+    <input type="radio" name="tabs" id="tab4">
+    <label for="tab4">
+        <span>CGI Run</span>
+    </label>
+    <div id="tab-content1" class="tab-content">
+        <div class="method-list">
+            <h5 class="method-list-title">CLI Verify Events</h5>
+            <ul class="method-list-group">
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">verify.start</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">verify.pre.execute</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cli.verify.solution-execute.pre</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cli.verify.solution.executing</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cli.verify.solution-execute.fail</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cli.verify.user-execute.pre</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cli.verify.user.executing</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cli.verify.user-execute.fail</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">verify.post.execute</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">verify.post.check</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">verify.finish</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="tab-content2" class="tab-content">
+        <div class="method-list">
+            <h5 class="method-list-title">CLI Run Events</h5>
+            <ul class="method-list-group">
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">run.start</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cli.run.user-execute.pre</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cli.run.executing</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">run.finish</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="tab-content3" class="tab-content">
+        <div class="method-list">
+            <h5 class="method-list-title">CGI Verify Events</h5>
+            <ul class="method-list-group">
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">verify.start</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">verify.pre.execute</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cgi.verify.solution-execute.pre</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cgi.verify.solution.executing</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cgi.verify.solution-execute.fail</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cgi.verify.user-execute.pre</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cgi.verify.user.executing</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cgi.verify.user-execute.fail</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">verify.post.execute</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">verify.post.check</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">verify.finish</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="tab-content4" class="tab-content">
+        <div class="method-list">
+            <h5 class="method-list-title">CGI Run Events</h5>
+            <ul class="method-list-group">
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">run.start</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cgi.run.user-execute.pre</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">cgi.run.executing</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 class="service-list-item-label">run.finish</h3>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
