@@ -1,5 +1,7 @@
 .terminal {
-  margin-bottom: $base-spacing;
+  margin-bottom: $half-spacing;
+  background: $base-colour;
+  border-radius: 5px;
 }
 
 .terminal-head {
@@ -7,7 +9,6 @@
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   position: relative;
-  bottom: -1px;
   padding: 5px;
   display: flex;
   //background: lighten($silver, 19);
@@ -26,28 +27,33 @@
 }
 
 .terminal__body {
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  padding: $half-spacing;
+  // padding: $half-spacing;
+  padding-left: 0;
   margin-bottom: $half-spacing;
   font-family: $header-font-family;
   white-space: nowrap;
   overflow-x: auto;
-  background: $base-colour;
   color: $white;
   -webkit-overflow-scrolling: touch;
 
   p {
-    margin-bottom: $half-spacing;
-    padding-right: $half-spacing;
+    margin: 0;
+    padding: 0;
+    height: $base-spacing+$half-spacing;
+    line-height: $base-spacing+$half-spacing;
+
     &:before {
       content: '$';
-      margin-right: 4px;
+      margin-right: 15px;
       color: lighten($secondary-colour, 15);
       font-weight: bold;
-    }
-    &:last-child {
-      margin: 0;
+      position: relative;
+      height: 100%;
+      width: 35px;
+      text-align: center;
+      background-color: rgba(255, 255, 255, .1);
+      display: block;
+      float: left;
     }
   }
 }
