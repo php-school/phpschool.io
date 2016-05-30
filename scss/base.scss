@@ -51,6 +51,10 @@ p {
   font-size: 14px;
   line-height: 1.5;
   margin-bottom: $base-spacing;
+
+  a {
+    font-size: 13px;
+  }
 }
 
 ul, ol {

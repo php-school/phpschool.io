@@ -86,20 +86,23 @@
 }
 
 .doc__side {
+
   width: 100%;
   padding-top: $base-spacing;
   padding-left: $base-spacing*2;
   flex-direction: column;
   display: none;
+  box-sizing: border-box;
 
   &.is-open {
-    display: block;
+    display: flex;
   }
 
   @media screen and (min-width: 700px) {
     width: 30%;
     display: flex;
     max-width: 310px;
+    border-right: 1px solid #eee;
   }
 }
 
@@ -121,23 +124,34 @@
     font-size: inherit;
     color: inherit;
   }
+
+  padding-bottom: $half-spacing / 2;
+
+  @media screen and (min-width: 700px) {
+    border-bottom: 1px dotted $silver;
+  }
 }
 
 .doc__side-link {
-  padding: $half-spacing/2 0;
+  padding: 4px;
   margin: 0;
-  border-bottom: 1px dotted $silver;
   display: block;
   color: $silver;
 
   &.active {
     color: $secondary-colour;
   }
+
+  &.current {
+    border-right: 3px solid $secondary-colour;
+  }
 }
 
 .doc__side-item {
+  font-size: 12px;
   width: 100%;
   margin: 0;
+  padding-left: 5px;
 }
 
 .hint {
