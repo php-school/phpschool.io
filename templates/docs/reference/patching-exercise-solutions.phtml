@@ -1,0 +1,193 @@
+<p>This is the fun bit! - In this article we will show how we can modify students's solutions, injecting, modifying
+and wrapping code. before we get down to it, a little background to explain why we built this feature.</p>
+
+<h3>Why?</h3>
+<p>We wanted a way to make sure that <code>display_errors</code> and <code>error_reporting</code> were always configured
+correctly, we also thought that we might want to wrap solutions in <code>try/catch</code> blocks so we could give more structured
+feedback to the student. We figured, in order to do this in a robust manner, we would have to patch the
+students submission on the fly and revert the changes after the framework has verified/run the solution.
+</p>
+
+<p>We decided this feature may be useful for workshop developers, we thought there may be possibilities where you want
+to concentrate on a verify specific problem like "Here is a variable - transform it to this", well with this feature, you could
+inject that variable at the start of the script so it is already available to the student!</p>
+
+<h3>How?</h3>
+<p>There are two type of modifications you can do to a solution:</p>
+<ul>
+    <li>Insertion (Insert code at the beginning or end of a solution)</li>
+    <li>Transformer (Use a callable to modify an AST representation of the solution)</li>
+</ul>
+
+<p>In order to inform the workshop framework that an exercise would like to patch a solution it must implement
+<code>PhpSchool\PhpWorkshop\Exercise\SubmissionPatchable</code> and return an instance of
+<code>PhpSchool\PhpWorkshop\Patch</code>.</p>
+
+<p>The <code>Patch</code> object is where you specify your <em>Insertions</em> & <em>Transformers</em>. The API looks
+    like this:</p>
+
+<pre><code class="lang-php">&lt;?php
+
+use PhpSchool\PhpWorkshop\Patch;
+
+$patch = new Patch;
+$patch = $patch->withInsertion($insertion1);
+$patch = $patch->withInsertion($insertion2);
+$patch = $patch->withTransformer($transformer);
+</code></pre>
+
+<p class="note note-info">The <code>Patch</code> class is immutable so you will need to assign
+the result of any calls to <code>with*</code> methods.</p>
+
+<?= $this->renderContentHeader('insertions', 'Insertions') ?>
+<p>Insertions allow to insert a block of code at either the beginning or end of the student's
+solution. The API is very simple:</p>
+
+<pre><code class="lang-php">&lt;?php
+
+use PhpSchool\PhpWorkshop\CodeInsertion;
+
+$before = new CodeInsertion(CodeInsertion::TYPE_BEFORE, 'echo "Before";');
+$after = new CodeInsertion(CodeInsertion::TYPE_AFTER, 'echo "After";');
+</code></pre>
+
+<?= $this->renderContentHeader('transformers', 'Transformers') ?>
+<p>Transformers allow to modify the whole solution via an AST. A transformer is any valid PHP <code>callable</code>
+that returns an <code>array</code> of <code>PhpParser\Node</code> objects. The callable will be
+passed an <code>array</code> of <code>PhpParser\Node</code> which represent the parsed student's solution.</p>
+
+<p>Lets see how you can build a transformer that wraps the solution in a <code>try/catch</code> block that then
+outputs the exception message.</p>
+
+<pre><code class="lang-php">&lt;?php
+
+use PhpSchool\PhpWorkshop\Exercise\SubmissionPatchable;
+use PhpSchool\PhpWorkshop\Patch;
+use PhpSchool\PhpWorkshop\CodeInsertion;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\Catch_;
+use PhpParser\Node\Stmt\Echo_;
+use PhpParser\Node\Stmt\TryCatch;
+
+class MyExercise extends AbstractExercise implements
+    ExerciseInterface,
+    SubmissionPatchable
+{
+    ...snip
+
+    /**
+     * @return Patch
+     */
+    public function getPatch()
+    {
+        $wrapInTryCatch = function (array $statements) {
+                return [
+                   new TryCatch(
+                       $statements,
+                       [
+                           new Catch_(
+                               new Name('Exception'),
+                               'e',
+                               [
+                                   new Echo_([
+                                       new MethodCall(new Variable('e'), 'getMessage')
+                                   ])
+                               ]
+                           )
+                       ]
+                   )
+                ];
+            };
+
+       return (new Patch)
+            ->withTransformer($wrapInTryCatch);
+    }
+}
+</code></pre>
+
+<p>Note that the AST modification is fairly complicated, the featured is provided by the
+    <a href="https://github.com/nikic/PHP-Parser">nikic/php-parser</a> library and you should refer to that project for
+documentation on the AST.</p>
+
+<?= $this->renderContentHeader('wiring-it-together', 'Wiring it together') ?>
+<p>Let's write a patch that will wrap the solution in a <code>try/catch</code>, add <code>echo 'Start';</code> at the
+    beginning and add <code>echo 'Finish';</code> at the end:</p>
+
+<pre><code class="lang-php">&lt;?php
+
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\Catch_;
+use PhpParser\Node\Stmt\Echo_;
+use PhpParser\Node\Stmt\TryCatch;
+use PhpSchool\PhpWorkshop\CodeInsertion;
+use PhpSchool\PhpWorkshop\Exercise\AbstractExercise;
+use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
+use PhpSchool\PhpWorkshop\Exercise\SubmissionPatchable;
+use PhpSchool\PhpWorkshop\Patch;
+
+class MyExercise extends AbstractExercise implements
+    ExerciseInterface,
+    SubmissionPatchable
+{
+    ...snip
+
+    /**
+     * @return Patch
+     */
+    public function getPatch()
+    {
+        $wrapInTryCatch = function (array $statements) {
+                return [
+                   new TryCatch(
+                       $statements,
+                       [
+                           new Catch_(
+                               new Name('Exception'),
+                               'e',
+                               [
+                                   new Echo_([
+                                       new MethodCall(new Variable('e'), 'getMessage')
+                                   ])
+                               ]
+                           )
+                       ]
+                   )
+                ];
+            };
+
+       return (new Patch)
+           ->withTransformer($wrapInTryCatch)
+           ->withInsertion(new CodeInsertion(CodeInsertion::TYPE_BEFORE, "echo 'Start';"))
+           ->withInsertion(new CodeInsertion(CodeInsertion::TYPE_AFTER, "echo 'Finish';"));
+    }
+}
+</code></pre>
+
+<p>If the following solution was submitted:</p>
+
+<pre><code class="lang-php">&lt;?php
+
+echo "Hello World"
+throw new InvalidArgumentException('What is this magic?');
+</code></pre>
+
+<p>Then the code that is actually invoked by the workshop framework would be the following:</p>
+
+<pre><code class="lang-php">&lt;?php
+
+echo 'Start';
+try {
+    echo "Hello World"
+    throw new InvalidArgumentException('What is this magic?');
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
+echo 'Finish';
+</code></pre>
+
+<p class="note note-info">The students solution will be reverted to the original form at the end of the
+    verifying/running process so the student will never see the code in their solution file.</p>
