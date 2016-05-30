@@ -194,3 +194,83 @@ hr {
   border: none;
   border-top: 1px dotted #ccc;
 }
+
+.tabs {
+  float: none;
+  list-style: none;
+  padding: 0px;
+  margin: 75px auto;
+
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  input[type=radio] {
+    display:none;
+  }
+
+  label {
+    display: block;
+    float: left;
+    width: 25%;
+
+    font-weight: normal;
+    text-decoration: none;
+    text-align: center;
+    line-height: 2;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+
+    &:hover {
+      border-bottom: 1px solid $secondary-colour;
+      margin-bottom: -1gulppx;
+    }
+  }
+
+  .tab-content {
+    display: none;
+    width: 100%;
+    float: left;
+    padding: 15px;
+    box-sizing: border-box;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 18px;
+    max-width: 750px;
+    margin: 50px auto;
+  }
+}
+
+.tab-content * {
+    -webkit-animation: scale 0.7s ease-in-out;
+    -moz-animation: scale 0.7s ease-in-out;
+    animation: scale 0.7s ease-in-out;
+}
+@keyframes scale {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+}
+
+.tabs [id^="tab"]:checked + label {
+  border-top: 2px solid $secondary-colour;
+  margin-top: -2px;
+  border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-bottom: 0px;
+}
+#tab1:checked ~ #tab-content1,
+#tab2:checked ~ #tab-content2,
+#tab3:checked ~ #tab-content3,
+#tab4:checked ~ #tab-content4 {
+    display: block;
+}
+
+
