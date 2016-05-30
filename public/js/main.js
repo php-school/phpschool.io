@@ -41,6 +41,12 @@ $(function () {
             }
         }
     });
+
+    docsearch({
+        apiKey: '839c0aa3f3df6404158b249b3f84774f',
+        indexName: 'phpschool',
+        inputSelector: '#search-input'
+    });
 });
 
 hljs.initHighlightingOnLoad();

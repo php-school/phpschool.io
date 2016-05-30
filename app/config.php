@@ -12,7 +12,6 @@ use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
 use PhpSchool\Website\DocumentationAction;
 use PhpSchool\Website\DocumentationGroup;
-use PhpSchool\Website\DocumentationSection;
 use PhpSchool\Website\Middleware\FpcCache;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;

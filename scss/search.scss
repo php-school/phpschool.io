@@ -1,0 +1,55 @@
+.algolia-autocomplete {
+  width: 100%;
+}
+
+.aa-dropdown-menu {
+  border-color: #eee;
+  font-size: 13px;
+}
+
+.algolia-docsearch-suggestion {
+  border-bottom-color: #eee;
+}
+/* Main category headers */
+.algolia-docsearch-suggestion--category-header {
+  background-color: rgba(233, 30, 99, 0.8);;
+  color: $white;
+  border-radius: 2px;
+  padding: 8px;
+}
+
+/* Highlighted search terms */
+.algolia-docsearch-suggestion--highlight {
+  color: $secondary-colour;
+}
+/* Highligted search terms in the main category headers */
+.algolia-docsearch-suggestion--category-header .algolia-docsearch-suggestion--highlight  {
+  color: $secondary-colour;
+  background-color: $white;
+}
+/* Currently selected suggestion */
+.aa-cursor .algolia-docsearch-suggestion--content {
+  color: #333;
+}
+.aa-cursor .algolia-docsearch-suggestion {
+  background: rgba(233, 30, 99, 0.05);
+}
+
+/* For bigger screens, when displaying results in two columns */
+@media (min-width: 768px) {
+  /* Bottom border of each suggestion */
+  .algolia-docsearch-suggestion {
+    border-bottom-color: #eee;
+    border-top: none;
+  }
+
+  .algolia-docsearch-suggestion-suggestion {
+    border-bottom-color: #eee;
+    border-top: none;
+  }
+  /* Left column, with secondary category header */
+  .algolia-docsearch-suggestion--subcategory-column {
+    border-right-color: #eee;
+    background-color: $white;
+  }
+}

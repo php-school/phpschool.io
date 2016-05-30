@@ -284,3 +284,27 @@ dl.check-description {
     }
   }
 }
+
+#search {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+
+  #search-input {
+    background-image: url(/img/search-icon.png);
+    background-repeat: no-repeat;
+    background-position: 98%;
+    font-size: 16px;
+    color: #333;
+    height: 50px;
+    width: 100%;
+    padding: 10px;
+    border: 2px solid $secondary-colour;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+
