@@ -1,6 +1,6 @@
-<p>There are various events triggered throughout the running and verifying of exercises. These checks
-can be used by <a href="/docs/reference/creating-listener-checks">Listener Checks</a> to hook it the process
-at various stages. This page details the events and the arguments available.</p>
+<p>There are various events triggered throughout the verifying and running of exercises. These events
+can be used by <a href="/docs/reference/creating-listener-checks">Listener Checks</a> to hook in to the process
+at various stages. This article details the events and the arguments available.</p>
 
 <p>Each event implements <code>PhpSchool\PhpWorkshop\Event\EventInterface</code> where you can grab the parameters like
     <code>$event->getParameter('myParam'); </code> some events may have convenience methods for accessing certain
@@ -10,17 +10,17 @@ at various stages. This page details the events and the arguments available.</p>
 of one of those routes.</p>
 
 <h3>CLI Verify</h3>
-<p>This is route taken when using the verify command on a <code>CLI</code> type exercise.</p>
+<p>This is the route taken when using the <code>verify</code> command on a <code>CLI</code> type exercise.</p>
 <h3>CLI Run</h3>
-<p>This is route taken when using the run command on a <code>CLI</code> type exercise.</p>
+<p>This is the route taken when using the <code>run</code> command on a <code>CLI</code> type exercise.</p>
 <h3>CGI Verify</h3>
-<p>This is route taken when using the verify command on a <code>CGI</code> type exercise.</p>
+<p>This is the route taken when using the <code>verify</code> command on a <code>CGI</code> type exercise.</p>
 <h3>CGI Run</h3>
-<p>This is route taken when using the run command on a <code>CGI</code> type exercise.</p>
+<p>This is the route taken when using the <code>run</code> command on a <code>CGI</code> type exercise.</p>
 
 <?= $this->renderContentHeader('listening', 'Listening to Events') ?>
 
-<p>Events can be listened to by attaching to the event dispatcher with any PHP callable:</p>
+<p>Events can be listened to by attaching to the event dispatcher with any valid PHP callable:</p>
 
 <pre><code lang="php">&lt;?php
 
@@ -29,23 +29,23 @@ $eventDispatcher->listen('verify.start', function (Event $event) {
     //do something
 });
 
-// you can also listen to multiple events at one time
+// you can also listen to multiple events in one call
 
 $eventDispatcher->listen(['verify.start', 'run.start'], function (Event $event) {
     //do something
 });
 </code></pre>
 
-<p>With the event dispatcher you can even do more interesting things, such as, at any event, you can attach
-a verifier (any PHP callable) - it will be passed the event, the same as a normal listener, but it must return
-an instance of <code>PhpSchool\PhpWorkshop\Result\ResultInterface</code>. This will be evaluated and injected in to the
-results for display on the CLI. <code>PhpSchool\PhpWorkshop\Result\SuccessInterface</code> instances will be
+<p>With the event dispatcher you can even do more interesting things, such as, at any event, you can insert
+a verifier (any valid PHP callable) - it will be passed the event, the same as a normal listener, but it must return
+an implementation of <code>PhpSchool\PhpWorkshop\Result\ResultInterface</code>. This will be evaluated and injected in
+to the results for reporting on the CLI. <code>PhpSchool\PhpWorkshop\Result\SuccessInterface</code> instances will be
 treated as successes and <code>PhpSchool\PhpWorkshop\Result\FailureInterface</code> instances will be treated as
-failures. So you can actually fail an verification via an event.</p>
+failures. So you can actually fail a verification attempt via an event.</p>
 
-<p>This is useful for Listener Checks, for example, towards the end of the verifying process, you may
-want to verify that some data was inserted to a database. If it was not you will return a failure, whcih will
-be displayed on the CLI and will cause the process to fail.</p>
+<p>This is useful for <em>Listener Checks</em>, for example, towards the end of the verifying process, you may
+want to verify that some data was inserted to a database. If it was not you will return a failure, which will
+be displayed on the CLI and will cause the verification attempt to fail.</p>
 
 <p>How to insert verifiers:</p>
 
@@ -53,7 +53,7 @@ be displayed on the CLI and will cause the process to fail.</p>
 
 $eventDispatcher = $container->get(PhpSchool\PhpWorkshop\Event\EventDispatcher:class);
 $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
-    if (!$this->checkDb() {
+    if (!$this->checkDb()) {
         return Failure::fromNameAndReason('DB Check', 'DB Verification failed!');
     }
     return new Success('DB Check');
@@ -116,7 +116,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cli.verify.solution-execute.pre</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
-                    <p><small>This event is triggered just before the bundled solution is run.</small></p>
+                    <p><small>This event is triggered just before the reference solution is run.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -130,7 +130,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cli.verify.solution.executing</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
-                    <p><small>This event is triggered while the bundled solution is being executed. Here you can
+                    <p><small>This event is triggered while the reference solution is being executed. Here you can
                         actually interact with the program, for example if it kicked of a TCP server.</small></p>
                     <p class="service-list-item-description">
                         Arguments
@@ -145,7 +145,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cli.verify.solution-execute.fail</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is only triggered if the bundled solution failed to finish correctly,
+                    <p><small>This event is only triggered if the reference solution failed to finish correctly,
                         that is, with a non-zero exit code.</small></p>
                     <p class="service-list-item-description">
                         Arguments
@@ -160,7 +160,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cli.verify.user-execute.pre</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
-                    <p><small>This event is triggered just before the students submission is run.</small></p>
+                    <p><small>This event is triggered just before the student's solution is run.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -174,7 +174,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cli.verify.user.executing</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
-                    <p><small>This event is triggered while the students submission is being executed. Here you can
+                    <p><small>This event is triggered while the student's solution is being executed. Here you can
                         actually interact with the program, for example if it kicked of a TCP server.</small></p>
                     <p class="service-list-item-description">
                         Arguments
@@ -189,7 +189,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cli.verify.user-execute.fail</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is only triggered if the students submission failed to finish correctly,
+                    <p><small>This event is only triggered if the student's solution failed to finish correctly,
                         that is, with a non-zero exit code.</small></p>
                     <p class="service-list-item-description">
                         Arguments
@@ -219,7 +219,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">verify.post.check</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is trigged after the before checks have finished running.</small></p>
+                    <p><small>This event is triggered after the before checks have finished running.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -269,7 +269,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cli.run.user-execute.pre</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
-                    <p><small>This event is triggered just before the students submission is run.</small></p>
+                    <p><small>This event is triggered just before the student's solution is run.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -283,7 +283,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cli.run.executing</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
-                    <p><small>This event is triggered while the students submission is being executed. Here you can
+                    <p><small>This event is triggered while the student's solution is being executed. Here you can
                         actually interact with the program, for example if it kicked of a TCP server.</small></p>
                     <p class="service-list-item-description">
                         Arguments
@@ -348,7 +348,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cgi.verify.solution-execute.pre</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                    <p><small>This event is triggered just before the bundled solution is run.</small></p>
+                    <p><small>This event is triggered just before the reference solution is run.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -362,7 +362,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cgi.verify.solution.executing</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                    <p><small>This event is triggered while the bundled solution is being executed. Here you can
+                    <p><small>This event is triggered while the reference solution is being executed. Here you can
                             actually interact with the program, for example if it kicked of a TCP server.</small></p>
                     <p class="service-list-item-description">
                         Arguments
@@ -377,8 +377,8 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cgi.verify.solution-execute.fail</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is only triggered if the bundled solution failed to finish correctly, that is,
-                            with a non-zero exit code.</small></p>
+                    <p><small>This event is only triggered if the reference solution failed to finish correctly, that
+                            is, with a non-zero exit code.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -392,7 +392,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cgi.verify.user-execute.pre</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                    <p><small>This event is triggered just before the students submission is run.</small></p>
+                    <p><small>This event is triggered just before the student's solution is run.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -406,7 +406,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cgi.verify.user.executing</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                    <p><small>This event is triggered while the students submission is being executed. Here you can
+                    <p><small>This event is triggered while the student's solution is being executed. Here you can
                             actually interact with the program, for example if it kicked of a TCP server.</small></p>
                     <p class="service-list-item-description">
                         Arguments
@@ -421,7 +421,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cgi.verify.user-execute.fail</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is only triggered if the students submission failed to finish correctly,
+                    <p><small>This event is only triggered if the student's solution failed to finish correctly,
                             that is, with a non-zero exit code.</small></p>
                     <p class="service-list-item-description">
                         Arguments
@@ -451,7 +451,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">verify.post.check</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is trigged after the before checks have finished running.</small></p>
+                    <p><small>This event is triggered after the before checks have finished running.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -501,7 +501,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cgi.run.user-execute.pre</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                    <p><small>This event is triggered just before the students submission is run.</small></p>
+                    <p><small>This event is triggered just before the student's solution is run.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -515,7 +515,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 class="service-list-item-label">cgi.run.executing</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                    <p><small>This event is triggered while the students submission is being executed. Here you can
+                    <p><small>This event is triggered while the student's solution is being executed. Here you can
                         actually interact with the program, for example if it kicked of a TCP server.</small></p>
                     <p class="service-list-item-description">
                         Arguments

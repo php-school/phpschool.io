@@ -7,15 +7,17 @@
     class to encompass this logic when it is only to be used in one exercise.</p>
 <p><em>Enter the Self Checking feature!</em></p>
 
-<p>The Self Checking feature allows your exercise to implement an interface which contains one method - during the
-    verification process of the students submission, your method will be called and passed the absolute path to the
-    student's submission. In this method you can do whatever you want: parse the code into an AST using the
-    <code>PhpParser\Parser</code> service, lint it using a third party tool or whatever else you can think of.</p>
+<p>The Self Checking feature allows your exercise to implement an interface which contains one method -
+    <code>check()</code>during the verification process of the student's solution, your method will be called and
+    passed the absolute path to the student's solution. In this method you can do whatever you want: parse the code
+    into an AST using the <code>PhpParser\Parser</code> service, lint it using a third party tool or whatever else you
+    can think of.</p>
 
 <p>To give you an example of how you might use it - we use it <a href="https://github.com/php-school/learn-you-php/blob/master/src/Exercise/ConcernedAboutSeparation.php">here in Learn You PHP!</a> to check that a submission contains an <code>include</code>/<code>require</code> statement as the exercise is teaching how to separate code over multiple files. We want to enforce the student to include a separate file.</p>
 
-<h3>Creating a self checking exercise</h3>
-<p>Creating a self checking exercise requires implementing the interface <code>PhpSchool\PhpWorkshop\ExerciseCheck\SelfCheck</code>, adding your check logic and return an instance
+<?= $this->renderContentHeader('creating-self-check-exercise', 'Creating a self checking exercise') ?>
+<p>Creating a self checking exercise requires implementing the interface
+    <code>PhpSchool\PhpWorkshop\ExerciseCheck\SelfCheck</code>, adding your check logic and returning an implementation
     of <code>PhpSchool\PhpWorkshop\Result\ResultInterface</code>. Depending on whether you want a success or a failure
     to be recorded it will be an instance of <code>PhpSchool\PhpWorkshop\Result\SuccessInterface</code> or
     <code>\PhpSchool\PhpWorkshop\Result\FailureInterface</code>.</p>
@@ -62,7 +64,11 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
 }
 </code></pre>
 
-<p>As you can see, you do the checking logic and then return a result object. The result object is used to render the results to the student. In this case the first argument to <code>PhpSchool\PhpWorkshop\Result\Success</code> is the name of the check being performed. The same is true for the failure <code>PhpSchool\PhpWorkshop\Result\Failure</code> however, it takes an optional second argument which should describe what went wrong.</p>
+<p>As you can see, you do the checking logic and then return a result object. The result object is used to render the
+    results to the student. In this case the first argument to <code>PhpSchool\PhpWorkshop\Result\Success</code> is
+    the name of the check being performed. The same is true for the failure
+    <code>PhpSchool\PhpWorkshop\Result\Failure</code>, however, it takes an optional second argument which should
+    describe what went wrong.</p>
 
 <?= $this->renderContentHeader('example-self-check', 'Example PSR2 self checking exercise') ?>
 <p>Contrary to what we said earlier (a PSR2 check would be a good candidate for a re-usable check), let's build that
@@ -82,7 +88,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
 </div>
 
 <p>Our check will run the <a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> tool against the
-    student's submission and report a success or failure based on the result.</p>
+    student's solution and report a success or failure based on the result.</p>
 
 <h3>1. Require the PHP_CodeSniffer tool as a dependency</h3>
 
@@ -108,7 +114,10 @@ use PhpSchool\PhpWorkshop\Result\Failure;
 use PhpSchool\PhpWorkshop\Result\ResultInterface;
 use PhpSchool\PhpWorkshop\Result\Success;
 
-class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, SelfCheck
+class Mean extends AbstractExercise implements
+    ExerciseInterface,
+    CliExercise,
+    SelfCheck
 {
 
     /**
@@ -163,7 +172,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
 
 <h3>3. Implement the check logic</h3>
 <p>As you can see, our check does nothing at the minute. Let's add the logic to execute <code>phpcs</code> on the
-    student's submission using the <code>PSR2</code> standard. As we brought in the tool via Composer, we can rest
+    student's solution using the <code>PSR2</code> standard. As we brought in the tool via Composer, we can rest
     assured that the binary <code>phpcs</code> is available in our projects <code>vendor</code> directory.</p>
 <p>Our method might look something like this - nothing new going on:</p>
 
@@ -185,7 +194,7 @@ public function check($fileName)
 }
 </code></pre>
 
-<p>If the <code>phpcs</code> binary returns a non-zero exit code - a failure occurred: probably the submission did not
+<p>If the <code>phpcs</code> binary returns a non-zero exit code - a failure occurred: probably the solution did not
     pass the coding standard check. So we return a failure with an error message. Otherwise a Success is returned.</p>
 
 <p>Verifying a solution which does not pass the <code>PSR2</code> coding standard will yield

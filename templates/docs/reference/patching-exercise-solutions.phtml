@@ -1,11 +1,11 @@
-<p>This is the fun bit! - In this article we will show how we can modify students's solutions, injecting, modifying
-and wrapping code. before we get down to it, a little background to explain why we built this feature.</p>
+<p>This is the fun bit! - In this article we will show how we can modify the student's solution, injecting, modifying
+and wrapping code. Before we get down to it, a little background to explain why we built this feature.</p>
 
 <h3>Why?</h3>
 <p>We wanted a way to make sure that <code>display_errors</code> and <code>error_reporting</code> were always configured
 correctly, we also thought that we might want to wrap solutions in <code>try/catch</code> blocks so we could give more structured
 feedback to the student. We figured, in order to do this in a robust manner, we would have to patch the
-students submission on the fly and revert the changes after the framework has verified/run the solution.
+student's solution on the fly and revert the changes after the framework has verified/run the solution.
 </p>
 
 <p>We decided this feature may be useful for workshop developers, we thought there may be possibilities where you want
@@ -54,7 +54,7 @@ $after = new CodeInsertion(CodeInsertion::TYPE_AFTER, 'echo "After";');
 <?= $this->renderContentHeader('transformers', 'Transformers') ?>
 <p>Transformers allow to modify the whole solution via an AST. A transformer is any valid PHP <code>callable</code>
 that returns an <code>array</code> of <code>PhpParser\Node</code> objects. The callable will be
-passed an <code>array</code> of <code>PhpParser\Node</code> which represent the parsed student's solution.</p>
+passed an <code>array</code> of <code>PhpParser\Node</code> objects which represent the parsed student's solution.</p>
 
 <p>Lets see how you can build a transformer that wraps the solution in a <code>try/catch</code> block that then
 outputs the exception message.</p>
@@ -107,13 +107,13 @@ class MyExercise extends AbstractExercise implements
 }
 </code></pre>
 
-<p>Note that the AST modification is fairly complicated, the featured is provided by the
+<p>Note that the AST modification is fairly complicated, the feature is provided by the
     <a href="https://github.com/nikic/PHP-Parser">nikic/php-parser</a> library and you should refer to that project for
 documentation on the AST.</p>
 
 <?= $this->renderContentHeader('wiring-it-together', 'Wiring it together') ?>
-<p>Let's write a patch that will wrap the solution in a <code>try/catch</code>, add <code>echo 'Start';</code> at the
-    beginning and add <code>echo 'Finish';</code> at the end:</p>
+<p>Let's write a patch that will wrap the solution in a <code>try/catch</code> block, add <code>echo 'Start';</code> at
+    the beginning and add <code>echo 'Finish';</code> at the end:</p>
 
 <pre><code class="lang-php">&lt;?php
 

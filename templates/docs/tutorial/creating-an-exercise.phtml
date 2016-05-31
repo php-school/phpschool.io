@@ -1,10 +1,10 @@
 <p>A workshop is a fairly useless without any exercises, so here we will learn how to create them.</p>
-<p class="note note-success">It may be a good idea for exercises to start of simple and gradually increase in difficulty. You could try to explain concepts and build on them with each exercise.</p>
+<p class="note note-success">It may be a good idea for exercises to start off simple and gradually increase in difficulty. You could try to explain concepts and build on them with each exercise.</p>
 
 <?= $this->renderContentHeader('checklist', 'Exercise checklist') ?>
 <ul>
-    <li>Decide on a topic to test.</li>
-    <li>Create a working solution.</li>
+    <li>Decide on a topic to teach.</li>
+    <li>Create a working reference solution.</li>
     <li>Create a problem file.</li>
     <li>Write the exercise.</li>
 </ul>
@@ -13,13 +13,13 @@
 
 <?= $this->renderContentHeader('specification', 'Exercise specification') ?>
 <ul>
-    <li>The user should print out the mean average and nothing else. No new lines or whitespace.</li>
+    <li>The student should print out the mean average and nothing else. No new lines or whitespace.</li>
     <li>The numbers passed to the program should be random.</li>
     <li>The amount of numbers passed to the program should be random.</li>
     <li>The numbers should be passed to the program as command line arguments.</li>
 </ul>
 
-<p>Given this specification we could write a program which would serve as our working solution.</p>
+<p>Given this specification we could write a program which would serve as our reference solution.</p>
 <pre><code class="lang-php">&lt;?php
 $count = 0;
 for ($i = 1; $i < count($argv); $i++) {
@@ -31,8 +31,8 @@ echo $count / $numberCount;
 </code></pre>
 <p>We should place this file in <code>exercises/mean-average/solution/solution.php</code></p>
 
-<p class="note note-success">Solution files are known, working programs which pass the exercise. When running a user's solution to an exercise, the known working solution is executed and the output compared to the user's.</p>
-<p>The next step is to create a problem file. A problem file contains the instructions for the exercise. It should be a markdown file. This file is rendered in the terminal to the user when they select the exercise.</p>
+<p class="note note-success">Reference solutions are known, working programs which pass the exercise. When running a students's solution to an exercise, the reference solution is executed and the output compared to the student's.</p>
+<p>The next step is to create a problem file. A problem file contains the instructions for the exercise. It should be a markdown file. This file is rendered in the terminal to the student when they select the exercise.</p>
 
 <?= $this->renderContentHeader('tips-for-a-problem-file', 'Tips for a good problem file') ?>
 <ul>
@@ -88,7 +88,7 @@ Also be aware that all elements of `$argv` are strings and you may need to *coer
 
 ----------------------------------------------------------------------
 </code></pre>
-<p class="note note-info">Any instances of <code>{appname}</code> will be replaced with the actual application name, this will most likely be the configuration you set when creating your workshop as this is inferred from the command the user executed to run the workshop.</p>
+<p class="note note-info">Any instances of <code>{appname}</code> will be replaced with the actual application name, this will most likely be the configuration you set when creating your workshop as this is inferred from the command the student executed to run the workshop.</p>
 <p>Drop this file in <code>exercises/mean-average/problem/problem.md</code>.</p>
 <p>Now we write the code, there is not much to it, this is a simple exercise!</p>
 
@@ -145,19 +145,20 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
 }
 </code></pre>
 <p>Now lets break this down.</p>
-<p>This class represents our exercise, it describes how the programs will be executed, the users and our known working program.</p>
+<p>This class represents our exercise, it describes how the programs will be executed, the student's and our reference solution.</p>
 
 <h3>AbstractExercise</h3>
-<p>The <code>AbstractExercise</code> class implements a few interesting methods for us. Mainly <code>getSolution</code> and <code>getProblem</code>. These methods are responsible for locating your solution and problem files. By default they take your exercises name, normalise it (remove anything that is not A-Za-z or a dash, lowercase and replace spaces with dashes) and look in the <code>exercises/&lt;normalised-name&gt;/solution</code> and <code>exercises/&lt;normalised-name&gt;/problem</code> folders for files named <code>solution.php</code> and <code>problem.md</code> respectively. There maybe be cases when you need to override these methods, and in that case you probably don't need to extend from <code>AbstractExercise</code>.</p>
-<p class="note note-info">You may need to override the methods <code>getSolution</code> and <code>getProblem</code> if you want to organise your problems and solutions in a different structure. We would advise against this in the name of consistency but if you have a good enough reason then the option is there. There may also be the case that your solution is not simply one file. Jump over to <a href="#exercise-solutions">Exercise Solutions</a> to learn more, if that is the case.</p>
+<p>The <code>AbstractExercise</code> class implements a few interesting methods for us. Mainly <code>getSolution</code> and <code>getProblem</code>. These methods are responsible for locating your solution and problem files. By default they take your exercise's name, normalise it (remove anything that is not A-Za-z or a dash, lowercase and replace spaces with dashes) and look in the <code>exercises/&lt;normalised-name&gt;/solution</code> and <code>exercises/&lt;normalised-name&gt;/problem</code> folders for files named <code>solution.php</code> and <code>problem.md</code> respectively. There maybe be cases when you need to override these methods, and in that case you probably don't need to extend from <code>AbstractExercise</code>.</p>
+<p class="note note-info">You may need to override the methods <code>getSolution</code> and <code>getProblem</code> if you want to organise your problems and solutions in a different structure. We would advise against this in the name of consistency but if you have a good enough reason then the option is there. There may also be the case that your solution is not simply one file. Jump over to <a href="/docs/reference/exercise-solutions">Exercise Solutions</a> to learn more, if that is the case.</p>
 
 <h3>Exercise Type</h3>
-<p>Each exercise must have a type, there are currently two types of exercise: CGI & CLI. Head over to <a href="#exercise-types">Exercise Types</a> to learn more. We are currently building a CLI type exercise, this means our solution and the users solution programs will be invoked using the PHP CLI binary. The arguments will come from our exercise class. We inform the workshop of our exercise type by returning an instance of <code>ExerciseType</code> from the <code>getType</code> method. <code>ExerciseType</code> is an ENUM. In conjunction with this our exercise should implement the respective interface. For <code>cli</code> type exercises this is <code>CliExercise</code>.
+<p>Each exercise must have a type, there are currently two types of exercise: <code>CGI</code> & <code>CLI</code>. Head over to <a href="/docs/reference/exercise-types">Exercise Types</a> to learn more. We are currently building a
+    <code>CLI</code> type exercise, this means our reference solution and the student's solution programs will be invoked using the PHP CLI binary. The arguments will come from our exercise class. We inform the workshop of our exercise type by returning an instance of <code>ExerciseType</code> from the <code>getType</code> method. <code>ExerciseType</code> is an ENUM. In conjunction with this, our exercise should implement the respective interface. For <code>cli</code> type exercises this is <code>CliExercise</code>.
 
 <h3>CliExercise</h3>
-<p>This interface defines one method: <code>getArgs</code>. This method should return an array of string arguments which will be passed to our solution and the user solutions at runtime. This method can return random records and random numbers of arguments so that each time the user runs the verification process they receive different arguments. This makes sure the solution is robust.</p>
-<p class="note note-success">Try passing arguments which will test the boundaries of the users solution, for example using minimum and maximum values and using random values on each invocation.</p>
-<p class="note note-info">Do note that although your implementation of <code>getArgs</code> may return random arguments, your solution and the users solution will always receive the same arguments as the <code>getArgs</code> method is only called once.</p>
+<p>This interface defines one method: <code>getArgs</code>. This method should return an array of string arguments which will be passed to our reference solution and the student's solution at runtime. This method can return random records and random numbers of arguments so that each time the student runs the verification process they receive different arguments. This makes sure the solution is robust.</p>
+<p class="note note-success">Try passing arguments which will test the boundaries of the student's solution, for example using minimum and maximum values and using random values on each invocation.</p>
+<p class="note note-info">Do note that although your implementation of <code>getArgs</code> may return random arguments, your reference solution and the student's solution will always receive the same arguments as the <code>getArgs</code> method is only called once.</p>
 <p>Our exercise simply returns a random number of arguments between 0 and 10, each being a random number between 0 and 100.</p>
 
 <h3>Name and description</h3>
@@ -173,7 +174,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
 </code></pre>
 <p>The file <code>app/config.php</code> should return an array of service definitions for the container. The key being the name of the service and the value the actual factory. For the case of exercises the service name should <strong>always</strong> be the class name. <code>\DI\Object()</code> is a helper function to create a factory which will simply run <code>new $yourClassName</code> when asking for the service from the container.</p>
 
-<p class="note note-success">See the section on <a href="#container">The Container</a> for more information on service definitions.</p>
+<p class="note note-success">See the section on <a href="/docs/reference/container">The Container</a> for more information on service definitions.</p>
 
 <p>You are almost done! we have registered the factory which tells the application how to create your exercise. We just need to make it aware of your exercise. We do this in <code>app/bootstrap.php</code>. After the <code>Application</code> object is created you just call <code>addExercise</code> with the name of your exercise class. Your final <code>app/bootstrap.php</code> file should look something like the following:</p>
 <pre><code lang="php">&lt;?php
