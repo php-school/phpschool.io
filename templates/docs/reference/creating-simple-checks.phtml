@@ -1,10 +1,10 @@
 <p>In this article we will learn how to create a simple check. If you don't fully understand what checks are, head over
-    to the <a href="/docs/reference/exercise-types">Exercise Checks section</a>.</p>
+    to the <a href="/docs/reference/exercise-checks">Exercise Checks</a> article.</p>
 
-<p>We will build a fairly boring check which verifies that a students solution passes the PSR2 coding standard.
+<p>We will build a fairly boring check which verifies that a student's solution passes the PSR2 coding standard.
     Lets get started!</p>
 
-<p>Creating an check begins with creating a file and a class for our check . We need to implement the interface
+<p>Creating a check begins with creating a file and a class for our check . We need to implement the interface
     <code>PhpSchool\PhpWorkshop\Check\SimpleCheckInterface</code> which extends from
     <code>PhpSchool\PhpWorkshop\Check\CheckInterface</code>. Let's breakdown these methods before we start coding:</p>
 
@@ -24,7 +24,7 @@
 
 <h3><code>check(ExerciseInterface $exercise, $fileName)</code></h3>
 <p>This is the method where we actually perform our check logic, executing PHP_CodeSniffer. This method receives an instance of
-    the current exercise and the file name of the students submission.</p>
+    the current exercise and the file name of the student's solution.</p>
 
 <p>This method needs to return an instance of <code>PhpSchool\PhpWorkshop\Result\ResultInterface</code>. Depending on
     whether you want a success or failure to be recorded it will be an instance of
@@ -37,18 +37,18 @@
     <code>PhpSchool\PhpWorkshop\Check\SimpleCheckInterface::CHECK_AFTER</code>. This value indicates when the check
     should be run.</p>
 
-<p>The process of verifying a students submission looks something like the following (pseudo code):</p>
+<p>The process of verifying a student's solution looks something like the following (pseudo code):</p>
 
 <pre><code class="lang-php">//run before checks
 foreach ($beforeChecks as $check) {
     $result = $check->check($exercise, $submissionFilePath);
 
-    if (!$result->isSuccessful) {
+    if (!$result->isSuccessful()) {
         return;
     }
 }
 
-//compare output of student solution and known working solution
+//compare output of student solution and reference solution
 $this->verifier->compareOutput($exercise);
 
 foreach ($afterChecks as $check) {
@@ -64,12 +64,12 @@ foreach ($afterChecks as $check) {
 
 <h3>After Verifying</h3>
 <p>When a check use <code>CHECK_AFTER</code> mode it is run after the output verification. This means that
-    the check is run after the students submission has been run. After checks are useful for verifying that something
+    the check is run after the student's solution has been run. After checks are useful for verifying that something
     was actually performed in the students submission, for example, inserting a row into the database.</p>
 
 <?= $this->renderContentHeader('build-check', 'Build the check') ?>
 
-<p>Now - let's build it! We will use the already built example workshop as a base - the finished code is
+<p>Now - let's build it! We will use the already built tutorial workshop as a base - the finished code is
     available on the <code>custom-simple-check</code> branch of the
     <a href="https://github.com/php-school/simple-math">tutorial repository</a>. We will start fresh from the
     <code>master</code> branch for this tutorial, so if you haven't already got it, git
@@ -154,8 +154,8 @@ class Psr2Check implements SimpleCheckInterface
 }
 </code></pre>
 
-<p>If the <code>phpcs</code> binary returns a non-zero exit code - a failure occurred: probably the submission did not pass
-    the coding standard check. So we return a failure with an error message. Otherwise a Success is returned.</p>
+<p>If the <code>phpcs</code> binary returns a non-zero exit code - a failure occurred: probably the solution did not
+    pass the coding standard check. So we return a failure with an error message. Otherwise a Success is returned.</p>
 
 <p class="note note-info">As we brought in the tool via Composer, we can rest assured that the binary <code>phpcs</code>
     is available in our projects <code>vendor</code> directory.</p>
@@ -185,7 +185,7 @@ return [
 ];
 </code></pre>
 
-<p>Note the new entry for <code>Psr2Check::class => object(),</code>. Finally we need to tell the application about our
+<p>Note the new entry for <code>Psr2Check::class => object(),</code>. Finally, we need to tell the application about our
 check in <code>app/bootstrap.php</code>. After the application object is created you just call <code>addCheck</code>
 with the name of check class. Your final <code>app/bootstrap.php</code> file should look something like:</p>
 
@@ -262,7 +262,7 @@ return $app;
 <?= $this->renderContentHeader('custom-interface', 'Custom Interface') ?>
 <p>When you build checks, sometimes you need extra information from the exercise to configure the check. For
     example, the <a href="https://github.com/php-school/php-workshop/blob/master/src/Check/FunctionRequirementsCheck.php">FunctionRequirementsCheck</a> check
-    calls <code>getRequiredFunctions</code> & <code>getBannedFunctions</code> on the exercise, these methods are defined
+    calls <code>getRequiredFunctions()</code> & <code>getBannedFunctions()</code> on the exercise, these methods are defined
     on the extra interface <code>FunctionRequirementsExerciseCheck</code> which the exercise must implement if it requires the
     <code>FunctionRequirementsCheck</code> check.</p>
 
@@ -301,8 +301,9 @@ interface Psr2ExerciseCheck
 </code></pre>
 
 <h3>2. Update our check</h3>
-<p>We need to update the <code>getExerciseInterface</code> method in our check to return the name of our new interface.
-Open up <code>src/Check/Psr2Check.php</code> and change the <code>getExerciseInterface</code> method to match below:</p>
+<p>We need to update the <code>getExerciseInterface()</code> method in our check to return the name of our new
+    interface. Open up <code>src/Check/Psr2Check.php</code> and change the <code>getExerciseInterface()</code> method to
+    match below:</p>
 
 <pre><code class="lang-php">public function getExerciseInterface()
 {
@@ -310,7 +311,7 @@ Open up <code>src/Check/Psr2Check.php</code> and change the <code>getExerciseInt
 }
 </code></pre>
 
-<p>We also need to modify our <code>check</code> method to actually use this data:</p>
+<p>We also need to modify our <code>check()</code> method to actually use this data:</p>
 
 <pre><code class="lang-php">public function check(ExerciseInterface $exercise, $fileName)
 {
@@ -355,7 +356,10 @@ use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\SimpleMath\Check\Psr2Check;
 use PhpSchool\SimpleMath\ExerciseCheck\Psr2ExerciseCheck;
 
-class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, Psr2ExerciseCheck
+class Mean extends AbstractExercise implements
+    ExerciseInterface,
+    CliExercise,
+    Psr2ExerciseCheck
 {
 
     /**
@@ -415,7 +419,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, P
     exercise to use a different coding standard without modifying the check.</p>
 
 <p class="note note-success">Maybe you could try updating the check to take into account the standard when returning the
-    result? It currently has <code>PSR2</code> hardcoded!</p>
+    result? It currently has <code>PSR2</code> hardcoded in the message!</p>
 
 <p>You can see the finished, working code on the <code>custom-interface-check</code> branch of the
     <a href="https://github.com/php-school/simple-math">tutorial repository</a>.</p>

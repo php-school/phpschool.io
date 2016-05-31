@@ -1,5 +1,5 @@
 <p>When an exercise is to be verified, there are two ways for the solution to be invoked. This is either <a href="#cli">CLI</a> or
-    <a href="#cgi">CGI</a>. Each exercise must have a type. This is used to determine how to invoke the script when verifying or running solutions. In order to explain the difference we will first show how a type translates to an actually php command.</p>
+    <a href="#cgi">CGI</a>. Each exercise must have a type. The type is used to determine how to invoke the program when verifying or running solutions. In order to explain the difference we will show how a type translates to an actual PHP command.</p>
 <p>When selecting you exercise type you must return the valid type and implement the respective interface.</p>
 
 <?= $this->renderContentHeader('cli', 'CLI') ?>
@@ -23,7 +23,7 @@
 </table>
 
 <h3>Implementing getArgs</h3>
-<p><code>getArgs</code> should return an array of string. These are the arguments to be passed to the PHP CLI executable. The number of arguments which can be returned is not limited. All arguments should be strings.</p>
+<p><code>getArgs</code> should return an array of strings. These are the arguments to be passed to the PHP CLI executable. The number of arguments which can be returned is not limited. All arguments should be strings.</p>
 
 <pre><code class="lang-php">&lt;?php
 
@@ -84,6 +84,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CliExerc
 
 <h4>Simulating a GET request</h4>
 <pre><code class="lang-php">&lt;?php
+
 namespace PhpSchool\MyWorkshop\Exercise;
 
 use PhpSchool\PhpWorkshop\Exercise\AbstractExercise;
