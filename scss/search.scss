@@ -5,6 +5,26 @@
 .aa-dropdown-menu {
   border-color: #eee;
   font-size: 13px;
+  margin: 6px 0 0;
+  max-width: 450px;
+  min-width: 350px;
+  box-shadow: 0 1px 0 0
+}
+
+.aa-dropdown-menu:before {
+  position: absolute;
+  content: '';
+  width: 14px;
+  height: 14px;
+  background: #FFFFFF;
+  z-index: 1000;
+  top: -7px;
+  border-top: 1px solid #D9D9D9;
+  border-right: 1px solid #D9D9D9;
+  transform: rotate(-45deg);
+  border-radius: 2px;
+  display: block;
+  right: 48px;
 }
 
 .algolia-docsearch-suggestion {
@@ -12,10 +32,12 @@
 }
 /* Main category headers */
 .algolia-docsearch-suggestion--category-header {
-  background-color: rgba(233, 30, 99, 0.8);;
-  color: $white;
+  background-color: $white;
+  color: #333;
   border-radius: 2px;
   padding: 8px;
+  font-size: 15px;
+  border-bottom: 1px solid #eee;
 }
 
 /* Highlighted search terms */
