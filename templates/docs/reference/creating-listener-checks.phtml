@@ -55,8 +55,8 @@ will pass a client object to the exercise <code>seed</code> method so they can c
 <h3><a href="#db-arg">Pass database name to the programs</a></h3>
 <p>We will need to pass the database names to the programs (student's solution & the reference solution) so the programs
     can access it via the <code>$argv</code> array. We can do this with any events which trigger with an instance of
-    <code>CliExecuteEvent</code>. We can use <code>cli.verify.solution-execute.pre</code>,
-    <code>cli.verify.user-execute.pre</code> & <code>cli.run.user-execute.pre</code>.</p>
+    <code>CliExecuteEvent</code>. We can use <code>cli.verify.reference-execute.pre</code>,
+    <code>cli.verify.student-execute.pre</code> & <code>cli.run.student-execute.pre</code>.</p>
 
 <h3><a href="#db-verify">Verify the database</a></h3>
 <p>We will need to allow the exercise to verify the database, we should do this after output verification has finished.
@@ -66,7 +66,7 @@ database.</p>
 
 <h3><a href="#db-cleanup">Cleanup the database</a></h3>
 <p>We will need to remove the databases we created at the end of the process. We can use <code>verify.finish</code> &
-<code>run.finish</code> to do this. We will also listen to <code>cli.verify.solution-execute.fail</code> so in case
+<code>run.finish</code> to do this. We will also listen to <code>cli.verify.reference-execute.fail</code> so in case
 something goes wrong, we still cleanup.</p>
 
 <?= $this->renderContentHeader('build-it', "Now let's build the check!") ?>
@@ -305,17 +305,17 @@ names, the best way to do this is via command line arguments - we can add argume
 be sent to the programs with any event which triggers with an instance of <code>CliExecuteEvent</code>. It exposes
 the <code>prependArg()</code> & <code>appendArg()</code> methods.</p>
 
-<p>We use <code>cli.verify.solution-execute.pre</code> to prepend the reference database name to the reference
-solution program when in <code>verify</code> mode and we use <code>cli.verify.user-execute.pre</code> &
-<code>cli.run.user-execute.pre</code> to prepend the student database name to the student solution in
+<p>We use <code>cli.verify.reference-execute.pre</code> to prepend the reference database name to the reference
+solution program when in <code>verify</code> mode and we use <code>cli.verify.student-execute.pre</code> &
+<code>cli.run.student-execute.pre</code> to prepend the student database name to the student solution in
     <code>verify</code> & <code>run</code> mode, respectively.</p>
 
-<pre><code class="lang-php">$eventDispatcher->listen('cli.verify.solution-execute.pre', function (CliExecuteEvent $e) {
+<pre><code class="lang-php">$eventDispatcher->listen('cli.verify.reference-execute.pre', function (CliExecuteEvent $e) {
     $e->prependArg('phpschool');
 });
 
 $eventDispatcher->listen(
-    ['cli.verify.user-execute.pre', 'cli.run.user-execute.pre'],
+    ['cli.verify.student-execute.pre', 'cli.run.student-execute.pre'],
     function (CliExecuteEvent $e) {
         $e->prependArg('phpschool-student');
     }
@@ -433,12 +433,12 @@ class CouchDbCheck implements ListenableCheckInterface
             $e->getParameter('exercise')->seed($studentClient);
         });
 
-        $eventDispatcher->listen('cli.verify.solution-execute.pre', function (CliExecuteEvent $e) {
+        $eventDispatcher->listen('cli.verify.reference-execute.pre', function (CliExecuteEvent $e) {
             $e->prependArg('phpschool');
         });
 
         $eventDispatcher->listen(
-            ['cli.verify.user-execute.pre', 'cli.run.user-execute.pre'],
+            ['cli.verify.student-execute.pre', 'cli.run.student-execute.pre'],
             function (CliExecuteEvent $e) {
                 $e->prependArg('phpschool-student');
             }
