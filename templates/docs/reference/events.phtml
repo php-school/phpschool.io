@@ -9,13 +9,13 @@ at various stages. This article details the events and the arguments available.<
 <p>There are 4 routes through the application, and the lists of events below each represent a timeline
 of one of those routes.</p>
 
-<h3>CLI Verify</h3>
+<h3 id="cli-verify">CLI Verify</h3>
 <p>This is the route taken when using the <code>verify</code> command on a <code>CLI</code> type exercise.</p>
-<h3>CLI Run</h3>
+<h3 id="cli-run">CLI Run</h3>
 <p>This is the route taken when using the <code>run</code> command on a <code>CLI</code> type exercise.</p>
-<h3>CGI Verify</h3>
+<h3 id="cgi-verify">CGI Verify</h3>
 <p>This is the route taken when using the <code>verify</code> command on a <code>CGI</code> type exercise.</p>
-<h3>CGI Run</h3>
+<h3 id="cgi-run">CGI Run</h3>
 <p>This is the route taken when using the <code>run</code> command on a <code>CGI</code> type exercise.</p>
 
 <?= $this->renderContentHeader('listening', 'Listening to Events') ?>
@@ -528,7 +528,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </p>
                 </li>
                 <li class="method-list-item">
-                    <h3 class="service-list-item-label">run.finish</h3>
+                    <h3 id="run.finish" class="service-list-item-label">run.finish</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
                     <p><small>This event is triggered right at the end of the verification process.</small></p>
                     <p class="service-list-item-description">

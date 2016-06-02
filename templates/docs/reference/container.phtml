@@ -4,14 +4,14 @@
 <p>The file <code>app/config.php</code> should return an array of service definitions for the container. The key being the name of the service and the value the actual factory.</p>
 
 <?= $this->renderContentHeader('defining-factories', 'Defining Factories') ?>
-<h3>Simple Object with No dependencies</h3>
+<h3 id="no-deps">Simple Object with No dependencies</h3>
 <p><code>\DI\Object()</code> is a helper function to create a factory which will simply run <code>new $yourClassName</code> when asking for the service from the container.</p>
 <pre><code lang="php">return [
     ...snip
     Generator::class => \DI\Object(),
 ];
 </code></pre>
-<h3>Object with dependencies</h3>
+<h3 id="with-deps">Object with dependencies</h3>
 
 <p>PHP-DI provides more powerful features such as being able to use anonymous functions and any valid PHP <code>callables</code> as a factory. When using a callable your callable will be injected with the container itself which you can pull other services from!</p>
 <p>If you pulled in a third party library for random number generation you might define a service like below. We use the battle tested package: <code>ircmaxell/random-lib</code> as an example.</p>

@@ -43,28 +43,28 @@ application which utilises this check.</p>
 <p>Reading this specification we can see that we will need to hook in to various events to provide this
     functionality, we will now break down each point and decide what events to listen to.</p>
 
-<h3><a href="#db-create">Creating the databases</a> </h3>
+<h4><a href="#db-create">Creating the databases</a> </h4>
 <p>We will need to create databases in both <code>verify</code> & <code>run</code> mode, we can do this immediately
 in our <code>attach</code> method, which is automatically called when we register our check within an exercise.</p>
 
-<h3><a href="#db-seed">Seed the database</a></h3>
+<h4><a href="#db-seed">Seed the database</a></h4>
 <p>We will need to allow the exercise to seed the database, we should do this early on <code>verify.start</code> &
     <code>run.start</code> are the earliest events dispatched. These sound like good candidates to perform this task. We
 will pass a client object to the exercise <code>seed</code> method so they can create documents.</p>
 
-<h3><a href="#db-arg">Pass database name to the programs</a></h3>
+<h4><a href="#db-arg">Pass database name to the programs</a></h4>
 <p>We will need to pass the database names to the programs (student's solution & the reference solution) so the programs
     can access it via the <code>$argv</code> array. We can do this with any events which trigger with an instance of
     <code>CliExecuteEvent</code>. We can use <code>cli.verify.reference-execute.pre</code>,
     <code>cli.verify.student-execute.pre</code> & <code>cli.run.student-execute.pre</code>.</p>
 
-<h3><a href="#db-verify">Verify the database</a></h3>
+<h4><a href="#db-verify">Verify the database</a></h4>
 <p>We will need to allow the exercise to verify the database, we should do this after output verification has finished.
 We can pick one of the last events triggered, <code>verify.finish</code> will do! We will
 pass the database client object again to the exercise <code>verify</code> method so they can verify the state of the
 database.</p>
 
-<h3><a href="#db-cleanup">Cleanup the database</a></h3>
+<h4><a href="#db-cleanup">Cleanup the database</a></h4>
 <p>We will need to remove the databases we created at the end of the process. We can use <code>verify.finish</code> &
 <code>run.finish</code> to do this. We will also listen to <code>cli.verify.reference-execute.fail</code> so in case
 something goes wrong, we still cleanup.</p>
@@ -88,7 +88,7 @@ separate Composer package for you to use in your workshops right away, but, for 
     </div>
 </div>
 
-<h3>1. Require doctrine/couchdb as a dependency</h3>
+<h3 id="check-step-1">1. Require doctrine/couchdb as a dependency</h3>
 <p>We will use this library to interact with Couch DB.</p>
 <div class="terminal">
     <div class="terminal__body">
@@ -96,7 +96,7 @@ separate Composer package for you to use in your workshops right away, but, for 
     </div>
 </div>
 
-<h3>2. Create the folders and classes</h3>
+<h3 id="check-step-2">2. Create the folders and classes</h3>
 <div class="terminal">
     <div class="terminal__body">
         <p>mkdir src/Check</p>
@@ -106,7 +106,7 @@ separate Composer package for you to use in your workshops right away, but, for 
     </div>
 </div>
 
-<h3>3. Define our interface</h3>
+<h3 id="check-step-3">3. Define our interface</h3>
 <p>We mentioned before that we needed a way for the exercise to seed and verify the database, so we will define an
 interface which describes these methods which the exercise must implement for the Couch DB check. These
 methods will automatically be invoked by the check. Open up <code>src/ExerciseCheck/CouchDbExerciseCheck.php</code>
@@ -139,7 +139,7 @@ interface CouchDbExerciseCheck
 should be called before the student's solution is run and <code>verify()</code> should be called after the student's
 solution is run.</p>
 
-<h3>4. Write the check</h3>
+<h3 id="check-step-4">4. Write the check</h3>
 
 <p class="note note-info">For this check, we assume that Couch DB is always
     running at <code>http://localhost:5984/</code>as is default when Couch DB is installed.</p>
@@ -708,7 +708,7 @@ and 18 being the ID of the document we created!</p>
 solution in <code>exercises/couch-db-exercise/solution</code>. We will need three files
 <code>composer.json</code>, <code>composer.lock</code> and <code>solution.php:</code></p>
 
-<h4><code>solution.php</code></h4>
+<h4 id="solution-php"><code>solution.php</code></h4>
 <pre><code class="lang-php">&lt;?php
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -723,7 +723,7 @@ $client->putDocument(['total' => $total, 'numbers' => $doc['numbers']], $argv[2]
 echo $total;
 </code></pre>
 
-<h4><code>composer.json</code></h4>
+<h4 id="composer-json"><code>composer.json</code></h4>
 <pre><code class="lang-json">{
     "name": "php-school/couch-db-exercise-ref-solution",
     "description": "Intro to Couch DB",
@@ -734,7 +734,7 @@ echo $total;
 
 </code></pre>
 
-<h4><code>composer.lock</code></h4>
+<h4 id="composer-lock"><code>composer.lock</code></h4>
 <p class="note note-info"><code>composer.lock</code> is auto generated by Composer, by running
     <code>composer install</code> in <code>exercises/couch-db-exercise/solution</code></p>
 
