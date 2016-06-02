@@ -63,29 +63,20 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
 
 <?= $this->renderContentHeader('events', 'Events') ?>
 
-<div class="tabs">
-    <input type="radio" name="tabs" id="tab1" checked>
-    <label for="tab1">
-        <span>CLI Verify</span>
-    </label>
-    <input type="radio" name="tabs" id="tab2">
-    <label for="tab2">
-        <span>CLI Run</span>
-    </label>
-    <input type="radio" name="tabs" id="tab3">
-    <label for="tab3">
-        <span>CGI Verify</span>
-    </label>
-    <input type="radio" name="tabs" id="tab4">
-    <label for="tab4">
-        <span>CGI Run</span>
-    </label>
-    <div id="tab-content1" class="tab-content">
+<div class="tabs-container">
+    <ul class="tabs-menu">
+        <li class="active"><a href="#tab-1">CLI Verify</a></li>
+        <li class=""><a href="#tab-2">CLI Run</a></li>
+        <li class=""><a href="#tab-3">CGI Verify</a></li>
+        <li class=""><a href="#tab-4">CGI Run</a></li>
+    </ul>
+    <div class="tab">
+        <div id="tab-1" class="tab-content">
         <div class="method-list">
             <h5 class="method-list-title">CLI Verify Events</h5>
             <ul class="method-list-group">
                 <li class="method-list-item">
-                    <h3 class="service-list-item-label">verify.start</h3>
+                    <h3 id="cli-verify-start" class="service-list-item-label">verify.start</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
                     <p><small>This event is triggered right at the start of the verification process.</small></p>
                     <p class="service-list-item-description">
@@ -100,7 +91,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </p>
                 </li>
                 <li class="method-list-item">
-                    <h3 class="service-list-item-label">verify.pre.execute</h3>
+                    <h3 id="cli-verify-pre-execute" class="service-list-item-label">verify.pre.execute</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
                     <p><small>This event is triggered after the before checks have successfully finished running.</small></p>
                     <p class="service-list-item-description">
@@ -114,7 +105,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </p>
                 </li>
                 <li class="method-list-item">
-                    <h3 class="service-list-item-label">cli.verify.reference-execute.pre</h3>
+                    <h3 id="cli-verify-ref-execute-pre" class="service-list-item-label">cli.verify.reference-execute.pre</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
                     <p><small>This event is triggered just before the reference solution is run.</small></p>
                     <p class="service-list-item-description">
@@ -128,7 +119,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </p>
                 </li>
                 <li class="method-list-item">
-                    <h3 class="service-list-item-label">cli.verify.reference.executing</h3>
+                    <h3 id="cli-verify-ref-executing" class="service-list-item-label">cli.verify.reference.executing</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
                     <p><small>This event is triggered while the reference solution is being executed. Here you can
                         actually interact with the program, for example if it kicked of a TCP server.</small></p>
@@ -143,7 +134,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </p>
                 </li>
                 <li class="method-list-item">
-                    <h3 class="service-list-item-label">cli.verify.reference-execute.fail</h3>
+                    <h3 id="cli-verify-ref-execute-fail" class="service-list-item-label">cli.verify.reference-execute.fail</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
                     <p><small>This event is only triggered if the reference solution failed to finish correctly,
                         that is, with a non-zero exit code.</small></p>
@@ -158,7 +149,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </p>
                 </li>
                 <li class="method-list-item">
-                    <h3 class="service-list-item-label">cli.verify.user-execute.pre</h3>
+                    <h3 id="cli-verify-student-execute-pre" class="service-list-item-label">cli.verify.student-execute.pre</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
                     <p><small>This event is triggered just before the student's solution is run.</small></p>
                     <p class="service-list-item-description">
@@ -172,7 +163,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </p>
                 </li>
                 <li class="method-list-item">
-                    <h3 class="service-list-item-label">cli.verify.student.executing</h3>
+                    <h3 id="cli-verify-student-executing" class="service-list-item-label">cli.verify.student.executing</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
                     <p><small>This event is triggered while the student's solution is being executed. Here you can
                         actually interact with the program, for example if it kicked of a TCP server.</small></p>
@@ -187,7 +178,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </p>
                 </li>
                 <li class="method-list-item">
-                    <h3 class="service-list-item-label">cli.verify.user-execute.fail</h3>
+                    <h3 id="cli-verify-student-execute-fail" class="service-list-item-label">cli.verify.student-execute.fail</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
                     <p><small>This event is only triggered if the student's solution failed to finish correctly,
                         that is, with a non-zero exit code.</small></p>
@@ -202,7 +193,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </p>
                 </li>
                 <li class="method-list-item">
-                    <h3 class="service-list-item-label">verify.post.execute</h3>
+                    <h3 id="cli-verify-post-execute" class="service-list-item-label">verify.post.execute</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
                     <p><small>This event is triggered after the output verification and right before the after checks
                             are run.</small></p>
@@ -217,7 +208,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </p>
                 </li>
                 <li class="method-list-item">
-                    <h3 class="service-list-item-label">verify.post.check</h3>
+                    <h3 id="cli-verify-post-check" class="service-list-item-label">verify.post.check</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
                     <p><small>This event is triggered after the before checks have finished running.</small></p>
                     <p class="service-list-item-description">
@@ -231,7 +222,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </p>
                 </li>
                 <li class="method-list-item">
-                    <h3 class="service-list-item-label">verify.finish</h3>
+                    <h3 id="cli-verify-finish" class="service-list-item-label">verify.finish</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
                     <p><small>This event is triggered right at the end of the verification process.</small></p>
                     <p class="service-list-item-description">
@@ -247,301 +238,302 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
             </ul>
         </div>
     </div>
-    <div id="tab-content2" class="tab-content">
-        <div class="method-list">
-            <h5 class="method-list-title">CLI Run Events</h5>
-            <ul class="method-list-group">
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">run.start</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered right at the start of the running process.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
+        <div id="tab-2" class="tab-content">
+            <div class="method-list">
+                <h5 class="method-list-title">CLI Run Events</h5>
+                <ul class="method-list-group">
+                    <li class="method-list-item">
+                        <h3 id="cli-run-start" class="service-list-item-label">run.start</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is triggered right at the start of the running process.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
 
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">cli.run.user-execute.pre</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
-                    <p><small>This event is triggered just before the student's solution is run.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">cli.run.student.executing</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
-                    <p><small>This event is triggered while the student's solution is being executed. Here you can
-                        actually interact with the program, for example if it kicked of a TCP server.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">run.finish</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered right at the end of the verification process.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div id="tab-content3" class="tab-content">
-        <div class="method-list">
-            <h5 class="method-list-title">CGI Verify Events</h5>
-            <ul class="method-list-group">
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">verify.start</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered right at the start of the verification process.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">verify.pre.execute</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered after the before checks have successfully finished running.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">cgi.verify.reference-execute.pre</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                    <p><small>This event is triggered just before the reference solution is run.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">cgi.verify.reference.executing</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                    <p><small>This event is triggered while the reference solution is being executed. Here you can
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cli-run-student-execute-pre" class="service-list-item-label">cli.run.student-execute.pre</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
+                        <p><small>This event is triggered just before the student's solution is run.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cli-run-student-executing" class="service-list-item-label">cli.run.student.executing</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
+                        <p><small>This event is triggered while the student's solution is being executed. Here you can
                             actually interact with the program, for example if it kicked of a TCP server.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">cgi.verify.reference-execute.fail</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is only triggered if the reference solution failed to finish correctly, that
-                            is, with a non-zero exit code.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">cgi.verify.student-execute.pre</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                    <p><small>This event is triggered just before the student's solution is run.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">cgi.verify.student.executing</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                    <p><small>This event is triggered while the student's solution is being executed. Here you can
-                            actually interact with the program, for example if it kicked of a TCP server.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">cgi.verify.student-execute.fail</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is only triggered if the student's solution failed to finish correctly,
-                            that is, with a non-zero exit code.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">verify.post.execute</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered after the output verification and right before the after
-                            checks are run.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">verify.post.check</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered after the before checks have finished running.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">verify.finish</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered right at the end of the verification process.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-            </ul>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cli-run-finish" class="service-list-item-label">run.finish</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is triggered right at the end of the verification process.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div id="tab-content4" class="tab-content">
-        <div class="method-list">
-            <h5 class="method-list-title">CGI Run Events</h5>
-            <ul class="method-list-group">
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">run.start</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered right at the start of the running process.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
+        <div id="tab-3" class="tab-content">
+            <div class="method-list">
+                <h5 class="method-list-title">CGI Verify Events</h5>
+                <ul class="method-list-group">
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-start" class="service-list-item-label">verify.start</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is triggered right at the start of the verification process.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
 
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">cgi.run.student-execute.pre</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                    <p><small>This event is triggered just before the student's solution is run.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 class="service-list-item-label">cgi.run.student.executing</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                    <p><small>This event is triggered while the student's solution is being executed. Here you can
-                        actually interact with the program, for example if it kicked of a TCP server.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-                <li class="method-list-item">
-                    <h3 id="run.finish" class="service-list-item-label">run.finish</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered right at the end of the verification process.</small></p>
-                    <p class="service-list-item-description">
-                        Arguments
-                    <dl class="check-description">
-                        <dt>exercise</dt>
-                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                        <dt>fileName</dt>
-                        <dd><code>string</code></dd>
-                    </dl>
-                    </p>
-                </li>
-            </ul>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-ref-execute" class="service-list-item-label">verify.pre.execute</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is triggered after the before checks have successfully finished running.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-ref-execute-pre" class="service-list-item-label">cgi.verify.reference-execute.pre</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
+                        <p><small>This event is triggered just before the reference solution is run.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-ref-executing" class="service-list-item-label">cgi.verify.reference.executing</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
+                        <p><small>This event is triggered while the reference solution is being executed. Here you can
+                                actually interact with the program, for example if it kicked of a TCP server.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-ref-execute-fail" class="service-list-item-label">cgi.verify.reference-execute.fail</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is only triggered if the reference solution failed to finish correctly, that
+                                is, with a non-zero exit code.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-student-execute-pre" class="service-list-item-label">cgi.verify.student-execute.pre</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
+                        <p><small>This event is triggered just before the student's solution is run.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-student-executing" class="service-list-item-label">cgi.verify.student.executing</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
+                        <p><small>This event is triggered while the student's solution is being executed. Here you can
+                                actually interact with the program, for example if it kicked of a TCP server.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-student-execute-fail" class="service-list-item-label">cgi.verify.student-execute.fail</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is only triggered if the student's solution failed to finish correctly,
+                                that is, with a non-zero exit code.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-post-execute" class="service-list-item-label">verify.post.execute</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is triggered after the output verification and right before the after
+                                checks are run.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-post-check" class="service-list-item-label">verify.post.check</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is triggered after the before checks have finished running.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-finish" class="service-list-item-label">verify.finish</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is triggered right at the end of the verification process.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="tab-4" class="tab-content">
+            <div class="method-list">
+                <h5 class="method-list-title">CGI Run Events</h5>
+                <ul class="method-list-group">
+                    <li class="method-list-item">
+                        <h3 id="cgi-run-start" class="service-list-item-label">run.start</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is triggered right at the start of the running process.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-run-student-execute-pre" class="service-list-item-label">cgi.run.student-execute.pre</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
+                        <p><small>This event is triggered just before the student's solution is run.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-run-student-executing" class="service-list-item-label">cgi.run.student.executing</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
+                        <p><small>This event is triggered while the student's solution is being executed. Here you can
+                            actually interact with the program, for example if it kicked of a TCP server.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-run-finish" class="service-list-item-label">run.finish</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is triggered right at the end of the verification process.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
