@@ -22,8 +22,8 @@ use Stash\Pool;
 $config = [
     'console' => factory(function (ContainerInterface $c) {
         $app = new Silly\Edition\PhpDi\Application('PHP School Website', null, $c);
-        $app->command('generate-docs', $c->get(GenerateDoc::class));
-        $app->command('clear-cache', $c->get(ClearCache::class));
+        $app->command('generate-docs', GenerateDoc::class);
+        $app->command('clear-cache', ClearCache::class);
         return $app;
     }),
     'app' => factory(function (ContainerInterface $c) {
