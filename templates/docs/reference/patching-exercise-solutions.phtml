@@ -1,7 +1,7 @@
 <p>This is the fun bit! - In this article we will show how we can modify the student's solution, injecting, modifying
 and wrapping code. Before we get down to it, a little background to explain why we built this feature.</p>
 
-<h3>Why?</h3>
+<h3 id="why">Why?</h3>
 <p>We wanted a way to make sure that <code>display_errors</code> and <code>error_reporting</code> were always configured
 correctly, we also thought that we might want to wrap solutions in <code>try/catch</code> blocks so we could give more structured
 feedback to the student. We figured, in order to do this in a robust manner, we would have to patch the
@@ -12,7 +12,7 @@ student's solution on the fly and revert the changes after the framework has ver
 to concentrate on a verify specific problem like "Here is a variable - transform it to this", well with this feature, you could
 inject that variable at the start of the script so it is already available to the student!</p>
 
-<h3>How?</h3>
+<h3 id="how">How?</h3>
 <p>There are two type of modifications you can do to a solution:</p>
 <ul>
     <li>Insertion (Insert code at the beginning or end of a solution)</li>

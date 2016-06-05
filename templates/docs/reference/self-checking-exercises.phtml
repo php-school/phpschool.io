@@ -90,7 +90,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
 <p>Our check will run the <a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> tool against the
     student's solution and report a success or failure based on the result.</p>
 
-<h3>1. Require the PHP_CodeSniffer tool as a dependency</h3>
+<h3 id="check-step-1">1. Require the PHP_CodeSniffer tool as a dependency</h3>
 
 <div class="terminal">
     <div class="terminal__body">
@@ -98,7 +98,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
     </div>
 </div>
 
-<h3>2. Modify the exercise to implement the SelfCheck interface</h3>
+<h3 id="check-step-2">2. Modify the exercise to implement the SelfCheck interface</h3>
 <p>Our exercise should look like the following:</p>
 
 <pre><code class="lang-php">&lt;?php
@@ -170,7 +170,7 @@ class Mean extends AbstractExercise implements
 }
 </code></pre>
 
-<h3>3. Implement the check logic</h3>
+<h3 id="check-step-3">3. Implement the check logic</h3>
 <p>As you can see, our check does nothing at the minute. Let's add the logic to execute <code>phpcs</code> on the
     student's solution using the <code>PSR2</code> standard. As we brought in the tool via Composer, we can rest
     assured that the binary <code>phpcs</code> is available in our projects <code>vendor</code> directory.</p>
