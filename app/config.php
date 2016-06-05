@@ -41,7 +41,11 @@ $config = [
             return new Pool(new BlackHole);
         }
 
-        return new Pool(new FileSystem(['path' => $c->get('config')['cacheDir']]));
+        return new Pool(new FileSystem([
+            'path' => $c->get('config')['cacheDir'],
+            'filePermissions' => $c->get('config')['cachePermissions'],
+            'dirPermissions' => $c->get('config')['cachePermissions'],
+        ]));
     }),
     PhpRenderer::class => factory(function (ContainerInterface $c) {
         $settings = $c->get('config')['renderer'];
@@ -144,6 +148,7 @@ $config = [
         ],
 
         'cacheDir'          => __DIR__ . '/../cache',
+        'cachePermissions'  => '0777',
         'enablePageCache'   => true,
     ],
 
