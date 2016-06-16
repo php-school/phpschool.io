@@ -43,6 +43,8 @@ to the results for reporting on the CLI. <code>PhpSchool\PhpWorkshop\Result\Succ
 treated as successes and <code>PhpSchool\PhpWorkshop\Result\FailureInterface</code> instances will be treated as
 failures. So you can actually fail a verification attempt via an event.</p>
 
+<p class="note note-success">Learn more about results <a href="/docs/reference/result">here</a>.</p>
+
 <p>This is useful for <em>Listener Checks</em>, for example, towards the end of the verifying process, you may
 want to verify that some data was inserted to a database. If it was not you will return a failure, which will
 be displayed on the CLI and will cause the verification attempt to fail.</p>

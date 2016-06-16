@@ -1,8 +1,8 @@
 <p>In this article we will build a custom result for our PSR2 check. In the next article,
-we will build the renderer for it, as the result is useless without it.</p>
+we will build the renderer for it, as the result is fairly useless without it.</p>
 
 <p>We want to be able to list out each of the coding standard violations as part of the feedback to the student.
-To do this, we will write our result (which is mostly a simple object containing the data and then we
+To do this, we will write our result (which is mostly a simple object containing the data) and then we
 will update our check to parse the violations and use the new result class.</p>
 
 <?= $this->renderContentHeader('getting-started', 'Getting Started') ?>
@@ -109,15 +109,15 @@ class CodingStandardFailure implements FailureInterface
 }
 </code></pre>
 
-<p>This is a simple class which takes in the check name, the standard used & and array of violations.
+<p>This is a simple class which takes in the check name, the standard used & and an array of violations.
     <code>getCheckName()</code> should return the name of the check this result represents, this is used when
 rendering the results to the student by the workshop framework. This is the only method required by the interface
 <code>PhpSchool\PhpWorkshop\Result\FailureInterface</code>.</p>
 
 <h3 id="check-step-3">3. Update the Check</h3>
 
-<p>We need to update our check to use the new result class, and we need to parse the violations from the
-    <code>phpcs</code>. We will only be making changes in the <code>check</code> method, the final method should
+<p>We need to update our check to use the new result class, and we need to parse the violations from
+    <code>phpcs</code>. We will only be making changes in the <code>check</code> method and the final method should
 look like the following:</p>
 
 <pre><code class="lang-php">&lt?php

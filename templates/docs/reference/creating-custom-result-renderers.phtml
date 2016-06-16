@@ -1,7 +1,6 @@
-<p>If you don't what result renderers are, go ahead and read
-    <a href="/docs/reference/results">this article</a> first.</p>
-
-<p>Continuing on from the previous article, let's go ahead and create the renderer.</p>
+<p>If you don't know what result renderers are, go ahead and read
+    <a href="/docs/reference/results">this article</a> first. We will be continuing on from the previous article,
+    let's go ahead and create the renderer.</p>
 
 <h3 id="renderer-step-1">1. Create the folder and class</h3>
 <div class="terminal">
@@ -43,7 +42,7 @@ class CodingStandardFailureRenderer implements ResultRendererInterface
     public function render(ResultsRenderer $renderer)
     {
         $header = sprintf(
-            'Coding Standards found violations using the standard: "%s"',
+            'Coding Standard violations were found using the standard: "%s"',
             $this->failure->getCodingStandard()
         );
         $output = [
@@ -68,8 +67,8 @@ We also add a title which describes the coding standard used.</p>
 <p>That's basically it - we just need to register the renderer with the application.</p>
 
 <h3 id="renderer-step-3">3. Register the renderer</h3>
-<p>Now you need to tell the application about your new check, open up <code>app/bootstrap.php</code>.
-After the application object is created you just call <code>addResult</code> with the result class name
+<p>Now you need to tell the application about your new result. Open up <code>app/bootstrap.php</code> and
+after the application object is created you just call <code>addResult</code> with the result class name
     and the result renderer class name. Your final <code>app/bootstrap.php</code> file should look something like:</p>
 
 <pre><code class="lang-php">&lt?php
@@ -130,5 +129,5 @@ return $app;
 </a>
 
 
-<p>You can see the finished, working code on the <code>custom-result-renderer</code> branch of the
+<p>You can see the finished, working code on the <code>custom-result</code> branch of the
     <a href="https://github.com/php-school/simple-math">tutorial repository</a>.</p>
