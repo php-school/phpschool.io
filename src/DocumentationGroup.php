@@ -33,14 +33,13 @@ class DocumentationGroup implements IteratorAggregate
         $this->title = $title;
     }
 
-    public function addSection(string $name, string $title, string $template, bool $enabled = true)
+    public function addSection(string $name, string $title, string $template)
     {
         $this->sections[] = new DocumentationSection(
             $name,
             $title,
             $template,
-            sprintf('/docs/%s/%s', $this->name, $name),
-            $enabled
+            sprintf('/docs/%s/%s', $this->name, $name)
         );
     }
 

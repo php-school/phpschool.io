@@ -25,22 +25,15 @@ class ExternalDocumentationSection implements DocumentationSectionInterface
      */
     private $href;
 
-    /**
-     * @var bool
-     */
-    private $enabled;
-
     public function __construct(
         string $name,
         string $title,
-        string $href,
-        bool $enabled = true
+        string $href
     ) {
 
         $this->name = $name;
         $this->title = $title;
         $this->href = $href;
-        $this->enabled = $enabled;
     }
 
     public function getName() : string
@@ -56,10 +49,5 @@ class ExternalDocumentationSection implements DocumentationSectionInterface
     public function getHref() : string
     {
         return $this->href;
-    }
-
-    public function enabled() : bool
-    {
-        return $this->enabled;
     }
 }

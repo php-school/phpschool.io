@@ -30,23 +30,16 @@ class DocumentationSection implements DocumentationSectionInterface
      */
     private $href;
 
-    /**
-     * @var bool
-     */
-    private $enabled;
-
     public function __construct(
         string $name,
         string $title,
         string $templateFile,
-        string $href,
-        bool $enabled = true
+        string $href
     ) {
         $this->name = $name;
         $this->title = $title;
         $this->templateFile = $templateFile;
         $this->href = $href;
-        $this->enabled = $enabled;
     }
 
     public function getName() : string
@@ -68,10 +61,5 @@ class DocumentationSection implements DocumentationSectionInterface
     {
         //strip off trainling `/index`
         return preg_replace('/(\/index)+$/', '', $this->href);
-    }
-
-    public function enabled() : bool
-    {
-        return $this->enabled;
     }
 }

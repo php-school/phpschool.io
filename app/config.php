@@ -27,7 +27,7 @@ $config = [
     }),
     'app' => factory(function (ContainerInterface $c) {
         $app = new \Slim\App($c);
-        $app->add($c->get(FpcCache::class));
+//        $app->add($c->get(FpcCache::class));
 
         return $app;
     }),
@@ -113,7 +113,7 @@ $config = [
         $referenceGroup->addSection('patching-exercise-solutions', 'Patching Exercise Submissions', 'docs/reference/patching-exercise-solutions.phtml');
 
         $apiGroup = new DocumentationGroup('api', 'API');
-        $apiGroup->addExternalSection('api', 'API Reference', '/docs/api', false);
+        $apiGroup->addExternalSection('api', 'API Reference', '/api-docs');
 
         $indexGroup = new DocumentationGroup('index', 'Documentation Home');
         $indexGroup->addSection('index', 'Documentation Home', 'docs/index.phtml');
