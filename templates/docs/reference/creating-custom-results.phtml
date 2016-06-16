@@ -1,0 +1,164 @@
+<p>In this article we will build a custom result for our PSR2 check. In the next article,
+we will build the renderer for it, as the result is fairly useless without it.</p>
+
+<p>We want to be able to list out each of the coding standard violations as part of the feedback to the student.
+To do this, we will write our result (which is mostly a simple object containing the data) and then we
+will update our check to parse the violations and use the new result class.</p>
+
+<?= $this->renderContentHeader('getting-started', 'Getting Started') ?>
+<p>If you are carrying on from the previous article then you can skip this first step of grabbing the tutorial
+workshop.</p>
+
+<p>As usual we will use the already built tutorial workshop as a base - the finished code is
+    available on the <code>custom-result</code> branch of the
+    <a href="https://github.com/php-school/simple-math">tutorial repository</a>. We will start fresh from the
+    <code>custom-interface-check</code> branch for this tutorial, so if you haven't already got it, git
+    clone it and install the dependencies:</p>
+
+<div class="terminal">
+    <div class="terminal__body">
+        <p>cd projects</p>
+        <p>git clone git@github.com:php-school/simple-math.git</p>
+        <p>cd simple-math</p>
+        <p>git checkout custom-interface-check</p>
+        <p>composer install</p>
+    </div>
+</div>
+
+<h3 id="result-step-1">1. Create the folder and class</h3>
+<div class="terminal">
+    <div class="terminal__body">
+        <p>mkdir src/Result</p>
+        <p>touch src/Result/CodingStandardFailure.php.php</p>
+    </div>
+</div>
+
+<h3 id="check-step-2">2. Write the result class</h3>
+
+<pre><code class="lang-php">&lt?php
+
+namespace PhpSchool\SimpleMath\Result;
+
+use PhpSchool\PhpWorkshop\Check\CheckInterface;
+use PhpSchool\PhpWorkshop\Result\FailureInterface;
+
+class CodingStandardFailure implements FailureInterface
+{
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $codingStandard;
+
+    /**
+     * @var array
+     */
+    private $errors;
+
+    /**
+     * @param string $name
+     * @param string $codingStandard
+     * @param array $errors
+     */
+    public function __construct($name, $codingStandard, array $errors)
+    {
+        $this->name             = $name;
+        $this->codingStandard   = $codingStandard;
+        $this->errors           = $errors;
+    }
+
+    /**
+     * @param CheckInterface $check
+     * @param $codingStandard
+     * @param array $errors
+     * @return static
+     */
+    public static function fromCheckAndOutput(CheckInterface $check, $codingStandard, array $errors)
+    {
+        return new static($check->getName(), $codingStandard, $errors);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCheckName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCodingStandard()
+    {
+        return $this->codingStandard;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+}
+</code></pre>
+
+<p>This is a simple class which takes in the check name, the standard used & and an array of violations.
+    <code>getCheckName()</code> should return the name of the check this result represents, this is used when
+rendering the results to the student by the workshop framework. This is the only method required by the interface
+<code>PhpSchool\PhpWorkshop\Result\FailureInterface</code>.</p>
+
+<h3 id="check-step-3">3. Update the Check</h3>
+
+<p>We need to update our check to use the new result class, and we need to parse the violations from
+    <code>phpcs</code>. We will only be making changes in the <code>check</code> method and the final method should
+look like the following:</p>
+
+<pre><code class="lang-php">&lt?php
+public function check(ExerciseInterface $exercise, $fileName)
+{
+    if (!$exercise instanceof Psr2ExerciseCheck) {
+        throw new \InvalidArgumentException;
+    }
+
+    $standard = $exercise->getStandard();
+
+    if (!in_array($standard, ['PSR1', 'PSR2', 'PEAR'])) {
+        throw new \InvalidArgumentException('Standard is not supported');
+    }
+
+    $phpCsBinary = __DIR__ . '/../../vendor/bin/phpcs';
+    $cmd = sprintf('%s %s --standard=%s --report=json', $phpCsBinary, $fileName, $standard);
+    exec($cmd, $output, $exitCode);
+
+    if ($exitCode === 0) {
+        return new Success($this->getName());
+    }
+
+    $errors = json_decode($output[0], true)['files'][$fileName];
+    $errors = array_map(function ($error) {
+        return sprintf('Line %d, Column %d: %s', $error['line'], $error['column'], $error['message']);
+    }, $errors['messages']);
+
+    return CodingStandardFailure::fromCheckAndOutput($this, $standard, $errors);
+}
+</code></pre>
+
+<ul>
+    <li>We add the option <code>--report=json</code> to give us the report in json, which makes it easier to parse.</li>
+    <li>We <code>json_decode</code> the first line of output from <code>phpcs</code>.</li>
+    <li>We grab the violations for the students submission.</li>
+    <li>We format each violation in to a string consisting of the line number, column and message.</li>
+    <li>Return a instance of our new result class containing the check name, coding standard and an array
+    of violations.</li>
+</ul>
+
+<p class="note note-success">That's it! Move on to the next article to build the renderer.</p>
+<p class="note note-warning">If you try to run verify the exercise now, the program will crash as it cannot
+find a renderer for the new result.</p>
