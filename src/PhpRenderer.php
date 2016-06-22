@@ -69,4 +69,9 @@ class PhpRenderer extends SlimPhpRenderer
     {
         return $this->fetch('includes/content-header.phtml', ['id' => $id, 'title' => $title]);
     }
+
+    public function slugClass(string $class) : string
+    {
+        return str_replace('\\', '-', strtolower($class));
+    }
 }

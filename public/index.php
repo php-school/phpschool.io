@@ -5,6 +5,7 @@ use PhpSchool\Website\Cache;
 use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
 use PhpSchool\Website\DocumentationAction;
+use PhpSchool\Website\ApiDocsAction;
 use PhpSchool\Website\DocumentationSection;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
@@ -51,25 +52,7 @@ $app->get('/install', function (Request $request, Response $response, PhpRendere
     ]);
 });
 
-$app->get('/api-docs', function (Request $request, Response $response, PhpRenderer $renderer, DocGenerator $docGenerator) {
-
-    $apiCacheFile = __DIR__ . '/../cache/api-docs.json';
-    if (file_exists($apiCacheFile)) {
-        $docs = json_decode(file_get_contents($apiCacheFile), true);
-    } else {
-        $docs = $docGenerator->generate();
-        file_put_contents($apiCacheFile, json_encode($docs, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-    }
-
-    $inner = $renderer->fetch('api-docs.phtml', ['docs' => $docs]);
-
-    return $renderer->render($response, 'layouts/layout.phtml', [
-        'pageTitle'       => 'API - Documentation',
-        'pageDescription' => 'PHPSchool API Documentation',
-        'content'         => $inner
-    ]);
-});
-
+$app->get('/api-docs[/{namespace}[/{class}]]', ApiDocsAction::class);
 $app->get('/docs[/{group}[/{section}]]', DocumentationAction::class);
 
 // Run app

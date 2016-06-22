@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8de6a05e0021e8cdf54fe931aac69358",
-    "content-hash": "1610159094bd502798359fb6460e1aea",
+    "hash": "9218202162f56ff5254c20cbdaebc8ae",
+    "content-hash": "e49d6abe137edf5b404766f590db5c58",
     "packages": [
         {
             "name": "aydin-hassan/cli-md-renderer",
@@ -870,16 +870,16 @@
         },
         {
             "name": "php-school/php-workshop",
-            "version": "0.3.8",
+            "version": "dev-api-docs",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/php-workshop.git",
-                "reference": "6dd3aa1ffc7b40eaadc8f96708f423ab47ffb79e"
+                "reference": "9621e09b23404f8d8c4ee3c0e05c5584cd628249"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/6dd3aa1ffc7b40eaadc8f96708f423ab47ffb79e",
-                "reference": "6dd3aa1ffc7b40eaadc8f96708f423ab47ffb79e",
+                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/9621e09b23404f8d8c4ee3c0e05c5584cd628249",
+                "reference": "9621e09b23404f8d8c4ee3c0e05c5584cd628249",
                 "shasum": ""
             },
             "require": {
@@ -889,6 +889,7 @@
                 "ext-pdo_sqlite": "*",
                 "fzaninotto/faker": "^1.5",
                 "myclabs/php-enum": "^1.4",
+                "nikic/php-parser": "^2.1",
                 "php": ">=5.6",
                 "php-di/invoker": "^1.0",
                 "php-di/php-di": "^5.0",
@@ -901,7 +902,7 @@
             },
             "require-dev": {
                 "composer/composer": "^1.0-alpha",
-                "phpunit/phpunit": "^5.1",
+                "phpunit/phpunit": "^5.4",
                 "squizlabs/php_codesniffer": "^2.4"
             },
             "type": "library",
@@ -930,7 +931,18 @@
                 }
             ],
             "description": "PHP Workshop Framework",
-            "time": "2016-03-31 07:17:26"
+            "homepage": "https://www.phpschool.io",
+            "keywords": [
+                "cli",
+                "console",
+                "education",
+                "learning",
+                "php-school",
+                "phpschool",
+                "terminal",
+                "workshop"
+            ],
+            "time": "2016-06-22 22:11:27"
         },
         {
             "name": "php-school/psx",
@@ -2116,6 +2128,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "php-school/php-workshop": 20,
         "roave/better-reflection": 20,
         "phpdocumentor/reflection-common": 20,
         "symfony/cache": 20

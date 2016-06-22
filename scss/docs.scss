@@ -21,7 +21,7 @@
 }
 
 .method-list {
-  padding: 30px 0px 0;
+  padding: 10px 30px 10px;
 }
 
 .method-list-title {
@@ -100,6 +100,8 @@
   font-weight: 500;
   text-transform: none;
   word-break: normal;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .doc-terminal-screen {
@@ -307,4 +309,23 @@ dl.check-description {
   }
 }
 
+
+.doc__api-param-table {
+  padding: 8px;
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-top: 10px;
+
+  th, td {
+    //border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 15px;
+    font-size: .85714286rem;
+  }
+
+  .col-one {
+    width: 200px;
+  }
+}
 

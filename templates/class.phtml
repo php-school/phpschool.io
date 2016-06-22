@@ -1,0 +1,35 @@
+<?= $this->fetch('includes/api-class-header.phtml', ['id' => $class['name'], 'class' => $class['name'], 'namespace' => $class['namespace']]); ?>
+<?php foreach ($class['methods'] as $method): ?>
+    <h4><?= $this->fetch('includes/doc/method.phtml', ['method' => $method]) ?></h4>
+    <?php if ($method['shortDescription']): ?>
+        <p><?= $method['shortDescription'] ?></p>
+    <?php endif; ?>
+
+    <div class="method-list">
+        <h5 class="method-list-title">Parameters</h5>
+        <table class="doc__api-param-table">
+            <tbody>
+                <?php foreach ($method['params'] as $param): ?>
+                    <tr>
+                        <td class="col-one"><code>$<?= $param['name'] ?></code></td>
+                        <td>
+                            <span class="type"><?= $param['typeHint'] ?></span>
+                            <?= $param['description'] ?? 'No Description available' ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="method-list">
+        <h5 class="method-list-title">Return Value</h5>
+        <table class="doc__api-param-table">
+            <tbody>
+                <tr>
+                    <td class="col-one"><code><?= $method['returnType'] ?></code></td>
+                    <td><?= $method['returnTypeDescription'] ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<?php endforeach; ?>
