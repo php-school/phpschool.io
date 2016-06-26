@@ -45,8 +45,8 @@ gulp.task('svg', function () {
 
 gulp.task('build-all', ['sass', 'svg']);
 
-gulp.task('deploy', ['build-all'], function () {
-
+gulp.task('deploy', function () {
+    execSync('cap production deploy');
 });
 
 gulp.task('default', ['serve']);
