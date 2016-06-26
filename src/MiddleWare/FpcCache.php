@@ -49,7 +49,7 @@ class FpcCache
         if ($this->canSave($request, $response)) {
 
             $item->set($this->serialize($response));
-            $item->setTTL(new \DateTime('now + 1 month'));
+            $item->expiresAt(new \DateTime('now + 1 month'));
             $this->cache->save($item);
         }
 
@@ -82,6 +82,7 @@ class FpcCache
 
     /**
      * @param string $responseData
+     * @return Response
      */
     private function unserialize(string $responseData)
     {

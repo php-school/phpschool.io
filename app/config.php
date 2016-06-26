@@ -15,9 +15,8 @@ use PhpSchool\Website\DocumentationGroup;
 use PhpSchool\Website\Middleware\FpcCache;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
-use Stash\Driver\BlackHole;
-use Stash\Driver\FileSystem;
-use Stash\Pool;
+use Symfony\Component\Cache\Adapter\NullAdapter;
+use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 $config = [
     'console' => factory(function (ContainerInterface $c) {
@@ -38,14 +37,10 @@ $config = [
     'cache.fpc' => factory(function (ContainerInterface $c) {
 
         if (!$c->get('config')['enablePageCache']) {
-            return new Pool(new BlackHole);
+            return new NullAdapter;
         }
 
-        return new Pool(new FileSystem([
-            'path' => $c->get('config')['cacheDir'],
-            'filePermissions' => $c->get('config')['cachePermissions'],
-            'dirPermissions' => $c->get('config')['cachePermissions'],
-        ]));
+        return new RedisAdapter(new Predis\Client(['host' => 'redis']));
     }),
     PhpRenderer::class => factory(function (ContainerInterface $c) {
         $settings = $c->get('config')['renderer'];
