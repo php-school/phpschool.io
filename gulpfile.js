@@ -13,7 +13,8 @@ var easysvg     = require('easy-svg');
 gulp.task('serve', ['sass', 'svg'], function() {
     exec('docker-compose up -d', function () {
         bs.init({
-            proxy: '127.0.0.1:8000'
+            proxy: '127.0.0.1:8000',
+            open: false
         });
     });
 
