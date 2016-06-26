@@ -1,7 +1,10 @@
 <?php
 
-namespace PhpSchool\Website;
+namespace PhpSchool\Website\Action;
 
+use PhpSchool\Website\DocGenerator;
+use PhpSchool\Website\PhpRenderer;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
@@ -23,10 +26,16 @@ class ApiDocsAction
      */
     private $docGenerator;
 
-    public function __construct(PhpRenderer $renderer, DocGenerator $docGenerator)
+    /**
+     * @var CacheItemPoolInterface
+     */
+    private $cache;
+
+    public function __construct(PhpRenderer $renderer, DocGenerator $docGenerator, CacheItemPoolInterface $cache)
     {
         $this->renderer = $renderer;
         $this->docGenerator = $docGenerator;
+        $this->cache = $cache;
     }
 
     public function __invoke(Request $request, Response $response) : Response
@@ -34,13 +43,13 @@ class ApiDocsAction
         $namespace  = $request->getAttribute('route')->getArgument('namespace');
         $class      = $request->getAttribute('route')->getArgument('class');
 
-        $apiCacheFile = __DIR__ . '/../cache/api-docs.json';
-        if (file_exists($apiCacheFile)) {
-            $docs = json_decode(file_get_contents($apiCacheFile), true);
-        } else {
-            $docs = $this->docGenerator->generate();
-            file_put_contents($apiCacheFile, json_encode($docs, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        $apiDocs = $this->cache->getItem('api-docs');
+        if (!$apiDocs->isHit()) {
+            $apiDocs->set($this->docGenerator->generate());
+            $this->cache->save($apiDocs);
         }
+
+        $docs = $apiDocs->get();
 
         $namespace = $this->findNamespace($docs['namespaces'], $namespace);
         $allNamespaces = array_map(function ($namespaceData) {
@@ -56,7 +65,6 @@ class ApiDocsAction
             $class = $this->findClass($namespace, $class);
             $content = $this->renderer->fetch('class.phtml', ['class' => $class]);
         }
-
 
         $inner = $this->renderer->fetch('api-docs.phtml', [
             'namespaces'        => $allNamespaces,

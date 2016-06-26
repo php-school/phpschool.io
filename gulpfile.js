@@ -21,10 +21,15 @@ gulp.task('serve', ['sass', 'svg'], function() {
     gulp.watch('public/img/icons/**', ['svg'])
 
     gulp.watch('templates/**/*.phtml', ['clear-cache', bs.reload]);
+    gulp.watch('vendor/php-school/php-workshop/src/**/*.php', ['rebuild-doc-cache', 'clear-cache', bs.reload])
 });
 
 gulp.task('clear-cache', function () {
     execSync('docker exec php-school-fpm php bin/app clear-cache');
+});
+
+gulp.task('rebuild-doc-cache', function () {
+    execSync('docker exec php-school-fpm php bin/app generate-docs');
 });
 
 gulp.task('sass', function () {

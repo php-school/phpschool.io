@@ -49,6 +49,7 @@ class GenerateDoc
         }
         $apiDocsCache = $this->cache->getItem('api-docs');
         $apiDocsCache->set($docs);
+        $this->cache->save($apiDocsCache);
 
         $output->writeln('<info>Docs generated successfully</info>');
     }

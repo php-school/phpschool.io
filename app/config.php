@@ -5,12 +5,13 @@ use Interop\Container\ContainerInterface;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
+use PhpSchool\Website\Action\DocsAction;
+use PhpSchool\Website\Action\ApiDocsAction;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\GenerateDoc;
 use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
-use PhpSchool\Website\DocumentationAction;
 use PhpSchool\Website\DocumentationGroup;
 use PhpSchool\Website\Middleware\FpcCache;
 use Psr\Log\LoggerInterface;
@@ -27,7 +28,7 @@ $config = [
     }),
     'app' => factory(function (ContainerInterface $c) {
         $app = new \Slim\App($c);
-//        $app->add($c->get(FpcCache::class));
+        $app->add($c->get(FpcCache::class));
 
         return $app;
     }),
@@ -127,8 +128,11 @@ $config = [
         return $docs;
     }),
 
-    DocumentationAction::class => \DI\factory(function (ContainerInterface $c) {
-        return new DocumentationAction($c->get(Documentation::class), $c->get(PhpRenderer::class));
+    DocsAction::class => \DI\factory(function (ContainerInterface $c) {
+        return new DocsAction($c->get(PhpRenderer::class), $c->get(Documentation::class));
+    }),
+    ApiDocsAction::class => \DI\factory(function (ContainerInterface $c) {
+        return new ApiDocsAction($c->get(PhpRenderer::class), $c->get(DocGenerator::class), $c->get('cache'));
     }),
 
     'config' => [
