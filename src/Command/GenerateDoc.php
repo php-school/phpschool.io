@@ -2,7 +2,10 @@
 
 namespace PhpSchool\Website\Command;
 
+use Exception;
 use PhpSchool\Website\DocGenerator;
+use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 
 /**
@@ -12,16 +15,41 @@ use PhpSchool\Website\DocGenerator;
 class GenerateDoc
 {
     /**
-     * @var string
+     * @var DocGenerator
      */
-    private $apiCacheFile = __DIR__ . '/../../cache/api-docs.json';
+    private $docGenerator;
+    /**
+     * @var CacheItemPoolInterface
+     */
+    private $cache;
 
     /**
      * @param DocGenerator $docGenerator
+     * @param CacheItemPoolInterface $cache
      */
-    public function __invoke(DocGenerator $docGenerator)
+    public function __construct(DocGenerator $docGenerator, CacheItemPoolInterface $cache)
     {
-        $docs = $docGenerator->generate();
-        file_put_contents($this->apiCacheFile, json_encode($docs, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        $this->docGenerator = $docGenerator;
+        $this->cache = $cache;
+    }
+
+    /**
+     * Generate the API docs and save it to cache
+     *
+     * @param OutputInterface $output
+     * @throws Exception
+     */
+    public function __invoke(OutputInterface $output)
+    {
+        try {
+            $docs = $this->docGenerator->generate();
+        } catch (Exception $e) {
+            $output->writeln('<error>Docs generation failed</error>');
+            throw $e;
+        }
+        $apiDocsCache = $this->cache->getItem('api-docs');
+        $apiDocsCache->set($docs);
+
+        $output->writeln('<info>Docs generated successfully</info>');
     }
 }

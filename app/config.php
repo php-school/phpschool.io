@@ -40,7 +40,14 @@ $config = [
             return new NullAdapter;
         }
 
-        return new RedisAdapter(new Predis\Client(['host' => 'redis']));
+        return new RedisAdapter(new Predis\Client(['host' => 'redis']), 'fpc');
+    }),
+    'cache' => factory(function (ContainerInterface $c) {
+        if (!$c->get('config')['enableCache']) {
+            return new NullAdapter;
+        }
+
+        return new RedisAdapter(new Predis\Client(['host' => 'redis']), 'default');
     }),
     PhpRenderer::class => factory(function (ContainerInterface $c) {
         $settings = $c->get('config')['renderer'];
@@ -73,7 +80,9 @@ $config = [
     DocGenerator::class => \DI\object(),
 
     //commands
-    GenerateDoc::class => \DI\object(),
+    GenerateDoc::class => factory(function (ContainerInterface $c) {
+        return new GenerateDoc($c->get(DocGenerator::class), $c->get('cache'));
+    }),
     ClearCache::class => factory(function (ContainerInterface $c) {
         return new ClearCache($c->get('cache.fpc'));
     }),
@@ -146,6 +155,7 @@ $config = [
         'cacheDir'          => __DIR__ . '/../cache',
         'cachePermissions'  => '0777',
         'enablePageCache'   => true,
+        'enableCache'       => true,
     ],
 
     //slim settings
