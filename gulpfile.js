@@ -1,5 +1,4 @@
 var gulp        = require('gulp');
-var connect     = require('gulp-connect-php');
 var bs          = require('browser-sync');
 var sourcemaps  = require('gulp-sourcemaps');
 var post        = require('gulp-postcss');
@@ -7,17 +6,13 @@ var cssnano     = require('cssnano');
 var pre         = require('autoprefixer');
 var sass        = require('gulp-sass');
 var imp         = require('postcss-import');
-//var vfs         = require('vinyl-fs');
+var execSync    = require('child_process').execSync;
+var exec        = require('child_process').exec;
 var easysvg     = require('easy-svg');
 
 gulp.task('serve', ['sass', 'svg'], function() {
-    connect.server({
-        base: 'public',
-        stdio: 'ignore',
-        bin: process.env.GULPPHP ? process.env.GULPPHP : 'php',
-        port: 8000
-    }, function () {
-        bs({
+    exec('docker-compose -f docker-compose-dev.yml up -d', function () {
+        bs.init({
             proxy: '127.0.0.1:8000'
         });
     });
@@ -25,9 +20,11 @@ gulp.task('serve', ['sass', 'svg'], function() {
     gulp.watch('scss/**', ['sass']);
     gulp.watch('public/img/icons/**', ['svg'])
 
-    gulp.watch('templates/**/*.phtml').on('change', function () {
-        bs.reload();
-    });
+    gulp.watch('templates/**/*.phtml', ['clear-cache', bs.reload]);
+});
+
+gulp.task('clear-cache', function () {
+    execSync('docker exec php-school-fpm php bin/app clear-cache');
 });
 
 gulp.task('sass', function () {
@@ -45,6 +42,12 @@ gulp.task('svg', function () {
         .pipe(easysvg.stream())
         .pipe(gulp.dest('public/img/icons'))
 })
+
+gulp.task('build-all', ['sass', 'svg']);
+
+gulp.task('deploy', ['build-all'], function () {
+
+});
 
 gulp.task('default', ['serve']);
 
