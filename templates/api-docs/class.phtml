@@ -1,6 +1,6 @@
-<?= $this->fetch('includes/api-class-header.phtml', ['id' => $class['name'], 'class' => $class['name'], 'namespace' => $class['namespace']]); ?>
+<?= $this->fetch('api-docs/class-header.phtml', ['id' => $class['name'], 'class' => $class['name'], 'namespace' => $class['namespace']]); ?>
 <?php foreach ($class['methods'] as $method): ?>
-    <h4><?= $this->fetch('includes/doc/method.phtml', ['method' => $method]) ?></h4>
+    <h4><?= $this->fetch('api-docs/method.phtml', ['method' => $method]) ?></h4>
     <?php if ($method['shortDescription']): ?>
         <p><?= $method['shortDescription'] ?></p>
     <?php endif; ?>

@@ -60,10 +60,10 @@ class ApiDocsAction
         }, $docs['namespaces']);
 
         if (null === $class) {
-            $content = $this->renderer->fetch('namespace.phtml', ['namespace' => $namespace]);
+            $content = $this->renderer->fetch('api-docs/namespace.phtml', ['namespace' => $namespace]);
         } else {
             $class = $this->findClass($namespace, $class);
-            $content = $this->renderer->fetch('class.phtml', ['class' => $class]);
+            $content = $this->renderer->fetch('api-docs/class.phtml', ['class' => $class]);
         }
 
         $inner = $this->renderer->fetch('api-docs.phtml', [
