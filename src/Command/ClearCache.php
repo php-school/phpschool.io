@@ -4,6 +4,7 @@ namespace PhpSchool\Website\Command;
 
 use PhpSchool\Website\Cache;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class ClearCache
@@ -27,9 +28,11 @@ class ClearCache
 
     /**
      * Clear the FPC cache
+     * @param OutputInterface $output
      */
-    public function __invoke()
+    public function __invoke(OutputInterface $output)
     {
         $this->cache->clear();
+        $output->writeln('<info>FPC Cleared!</info>');
     }
 }
