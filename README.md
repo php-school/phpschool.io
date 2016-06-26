@@ -60,3 +60,11 @@ You will need capistrano installed and SSH access to the production server.
 ```shell
 gulp deploy
 ``
+
+## Booting docker container for production
+
+Letsencrypt certs should be setup and located in `/etc/letsencrypt`
+
+```shell
+sudo docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d
+```
