@@ -4,12 +4,12 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "97c564a36528b910a4d1e2d7eb21da50",
-    "content-hash": "050c6f88f77b6934ad9b5315ce9095ff",
+    "hash": "929d4e611056f7efa46b5c9218839cd9",
+    "content-hash": "8076ddfba99406cd03c1ce84bdb659d0",
     "packages": [
         {
             "name": "aydin-hassan/cli-md-renderer",
-            "version": "1.0.2",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AydinHassan/cli-md-renderer.git",
@@ -436,16 +436,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.19.0",
+            "version": "1.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf"
+                "reference": "55841909e2bcde01b5318c35f2b74f8ecc86e037"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5f56ed5212dc509c8dc8caeba2715732abb32dbf",
-                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/55841909e2bcde01b5318c35f2b74f8ecc86e037",
+                "reference": "55841909e2bcde01b5318c35f2b74f8ecc86e037",
                 "shasum": ""
             },
             "require": {
@@ -464,8 +464,8 @@
                 "php-console/php-console": "^3.1.3",
                 "phpunit/phpunit": "~4.5",
                 "phpunit/phpunit-mock-objects": "2.3.0",
-                "raven/raven": "^0.13",
                 "ruflin/elastica": ">=0.90 <3.0",
+                "sentry/sentry": "^0.13",
                 "swiftmailer/swiftmailer": "~5.3"
             },
             "suggest": {
@@ -477,9 +477,9 @@
                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
                 "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
                 "php-console/php-console": "Allow sending log messages to Google Chrome",
-                "raven/raven": "Allow sending log messages to a Sentry server",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
-                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
+                "sentry/sentry": "Allow sending log messages to a Sentry server"
             },
             "type": "library",
             "extra": {
@@ -510,7 +510,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-04-12 18:29:35"
+            "time": "2016-07-02 14:02:10"
         },
         {
             "name": "myclabs/php-enum",
@@ -873,20 +873,20 @@
         },
         {
             "name": "php-school/php-workshop",
-            "version": "dev-api-docs",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/php-workshop.git",
-                "reference": "5ae81ce59ecdb9d0003e0d759143369157ecd926"
+                "reference": "17b58183ca41d9ce8595b360bdc03cacf386143c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/5ae81ce59ecdb9d0003e0d759143369157ecd926",
-                "reference": "5ae81ce59ecdb9d0003e0d759143369157ecd926",
+                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/17b58183ca41d9ce8595b360bdc03cacf386143c",
+                "reference": "17b58183ca41d9ce8595b360bdc03cacf386143c",
                 "shasum": ""
             },
             "require": {
-                "aydin-hassan/cli-md-renderer": "~1.0",
+                "aydin-hassan/cli-md-renderer": "^2.0",
                 "beberlei/assert": "^2.4",
                 "container-interop/container-interop": "^1.0",
                 "ext-pdo_sqlite": "*",
@@ -945,7 +945,7 @@
                 "terminal",
                 "workshop"
             ],
-            "time": "2016-06-27 12:08:31"
+            "time": "2016-07-02 17:38:40"
         },
         {
             "name": "php-school/psx",
@@ -1535,12 +1535,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "4edee693a4aee7c5fe63e944765b58594dd28dbf"
+                "reference": "30ac2b8853f8ab733d939ccf101fbe3175ea1c3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/4edee693a4aee7c5fe63e944765b58594dd28dbf",
-                "reference": "4edee693a4aee7c5fe63e944765b58594dd28dbf",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/30ac2b8853f8ab733d939ccf101fbe3175ea1c3f",
+                "reference": "30ac2b8853f8ab733d939ccf101fbe3175ea1c3f",
                 "shasum": ""
             },
             "require": {
@@ -1593,20 +1593,20 @@
                 "caching",
                 "psr6"
             ],
-            "time": "2016-06-17 15:55:45"
+            "time": "2016-07-01 16:09:33"
         },
         {
             "name": "symfony/console",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "64a4d43b045f07055bb197650159769604cb2a92"
+                "reference": "747154aa69b0f83cd02fc9aa554836dee417631a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/64a4d43b045f07055bb197650159769604cb2a92",
-                "reference": "64a4d43b045f07055bb197650159769604cb2a92",
+                "url": "https://api.github.com/repos/symfony/console/zipball/747154aa69b0f83cd02fc9aa554836dee417631a",
+                "reference": "747154aa69b0f83cd02fc9aa554836dee417631a",
                 "shasum": ""
             },
             "require": {
@@ -1653,20 +1653,20 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-14 11:18:07"
+            "time": "2016-06-29 07:02:31"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "5751e80d6f94b7c018f338a4a7be0b700d6f3058"
+                "reference": "322da5f0910d8aa0b25fa65ffccaba68dbddb890"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/5751e80d6f94b7c018f338a4a7be0b700d6f3058",
-                "reference": "5751e80d6f94b7c018f338a4a7be0b700d6f3058",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/322da5f0910d8aa0b25fa65ffccaba68dbddb890",
+                "reference": "322da5f0910d8aa0b25fa65ffccaba68dbddb890",
                 "shasum": ""
             },
             "require": {
@@ -1702,20 +1702,20 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2016-04-12 18:27:47"
+            "time": "2016-06-29 05:41:56"
         },
         {
             "name": "symfony/finder",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "40d17ed287bf51a2f884c4619ce8ff2a1c5cd219"
+                "reference": "8201978de88a9fa0923e18601bb17f1df9c721e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/40d17ed287bf51a2f884c4619ce8ff2a1c5cd219",
-                "reference": "40d17ed287bf51a2f884c4619ce8ff2a1c5cd219",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/8201978de88a9fa0923e18601bb17f1df9c721e7",
+                "reference": "8201978de88a9fa0923e18601bb17f1df9c721e7",
                 "shasum": ""
             },
             "require": {
@@ -1751,7 +1751,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2016-05-13 18:06:41"
+            "time": "2016-06-29 05:41:56"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1922,16 +1922,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "6350e63ed9c232da50e00f00a7e0330f066387a2"
+                "reference": "5c11a1a4d4016662eeaf0f8757958c7de069f9a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/6350e63ed9c232da50e00f00a7e0330f066387a2",
-                "reference": "6350e63ed9c232da50e00f00a7e0330f066387a2",
+                "url": "https://api.github.com/repos/symfony/process/zipball/5c11a1a4d4016662eeaf0f8757958c7de069f9a0",
+                "reference": "5c11a1a4d4016662eeaf0f8757958c7de069f9a0",
                 "shasum": ""
             },
             "require": {
@@ -1967,20 +1967,20 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2016-06-06 11:42:41"
+            "time": "2016-06-29 05:42:25"
         },
         {
             "name": "zendframework/zend-code",
-            "version": "3.0.2",
+            "version": "3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-code.git",
-                "reference": "57cfbcf794a79985278d6308325bc86060af588c"
+                "reference": "c5272131d3acb0f470a2462ed088fca3b6ba61c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-code/zipball/57cfbcf794a79985278d6308325bc86060af588c",
-                "reference": "57cfbcf794a79985278d6308325bc86060af588c",
+                "url": "https://api.github.com/repos/zendframework/zend-code/zipball/c5272131d3acb0f470a2462ed088fca3b6ba61c2",
+                "reference": "c5272131d3acb0f470a2462ed088fca3b6ba61c2",
                 "shasum": ""
             },
             "require": {
@@ -2020,7 +2020,7 @@
                 "code",
                 "zf2"
             ],
-            "time": "2016-04-20 17:34:49"
+            "time": "2016-06-30 22:35:27"
         },
         {
             "name": "zendframework/zend-diactoros",
