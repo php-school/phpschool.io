@@ -1,1 +1,1 @@
-<pre><code class="lang-php">public function <?= $method['name'] ?>(<?= $this->fetch('api-docs/params.phtml', ['params' => $method['params']]) ?>) : <?= basename(str_replace('\\', '/', $method['returnType'])) ?></code></pre>
+<pre><code class="lang-php">public<?= $method['isStatic'] ? ' static' : '' ?> function <?= $method['name'] ?>(<?= $this->fetch('api-docs/params.phtml', ['params' => $method['params']]) ?>) : <?= basename(str_replace('\\', '/', $method['returnType'])) ?></code></pre>
