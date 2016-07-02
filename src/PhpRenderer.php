@@ -2,6 +2,7 @@
 
 namespace PhpSchool\Website;
 
+use League\CommonMark\CommonMarkConverter;
 use Slim\Views\PhpRenderer as SlimPhpRenderer;
 /**
  * Class PhpRenderer
@@ -19,6 +20,25 @@ class PhpRenderer extends SlimPhpRenderer
      * @var array
      */
     private $js = [];
+
+    /**
+     * @var CommonMarkConverter
+     */
+    private $markdownConverter;
+
+    /**
+     * SlimRenderer constructor.
+     *
+     * @param CommonMarkConverter $markdownConverter
+     * @param string $templatePath
+     * @param array $attributes
+     */
+    public function __construct(CommonMarkConverter $markdownConverter, $templatePath = "", $attributes = [])
+    {
+        $this->markdownConverter = $markdownConverter;
+        $this->templatePath = $templatePath;
+        $this->attributes = $attributes;
+    }
 
     /**
      * @param string $cssFile
@@ -73,5 +93,10 @@ class PhpRenderer extends SlimPhpRenderer
     public function slugClass(string $class) : string
     {
         return str_replace('\\', '-', strtolower($class));
+    }
+
+    public function markdownToHtml($markdown) : string
+    {
+        return $this->markdownConverter->convertToHtml($markdown);
     }
 }

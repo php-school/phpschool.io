@@ -2,6 +2,7 @@
 
 use function DI\factory;
 use Interop\Container\ContainerInterface;
+use League\CommonMark\CommonMarkConverter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
@@ -53,10 +54,14 @@ $config = [
     PhpRenderer::class => factory(function (ContainerInterface $c) {
         $settings = $c->get('config')['renderer'];
 
-        $renderer = new PhpRenderer($settings['template_path'], [
-            'links' => $c->get('config')['links'],
-            'route' => $c->get('request')->getUri()->getPath(),
-        ]);
+        $renderer = new PhpRenderer(
+            new CommonMarkConverter,
+            $settings['template_path'],
+            [
+                'links' => $c->get('config')['links'],
+                'route' => $c->get('request')->getUri()->getPath(),
+            ]
+        );
 
         //default CSS
         $renderer->appendCss('/css/solarized-light.css');
