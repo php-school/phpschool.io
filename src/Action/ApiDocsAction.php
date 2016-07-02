@@ -69,7 +69,7 @@ class ApiDocsAction
         $inner = $this->renderer->fetch('api-docs.phtml', [
             'namespaces'        => $allNamespaces,
             'content'           => $content,
-            'currentNamespace'  => $namespace,
+            'currentNamespace'  => $namespace['namespace'],
         ]);
 
         return $this->renderer->render($response, 'layouts/layout.phtml', [
@@ -98,7 +98,12 @@ class ApiDocsAction
 
     private function findClass(array $namespace, $class) : array
     {
-        $classes = array_merge($namespace['classes'], $namespace['interfaces'], $namespace['abstracts']);
+        $classes = array_merge(
+            $namespace['classes'],
+            $namespace['interfaces'],
+            $namespace['abstracts'],
+            $namespace['traits']
+        );
 
         foreach ($classes as $classData) {
             if (strtolower($classData['name']) === $class) {
