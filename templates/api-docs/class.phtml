@@ -1,35 +1,89 @@
 <?= $this->fetch('api-docs/class-header.phtml', ['id' => $class['name'], 'class' => $class['name'], 'namespace' => $class['namespace']]); ?>
-<?php foreach ($class['methods'] as $method): ?>
-    <h4><?= $this->fetch('api-docs/method.phtml', ['method' => $method]) ?></h4>
-    <?php if ($method['shortDescription']): ?>
-        <p><?= $method['shortDescription'] ?></p>
-    <?php endif; ?>
+<div class="class-description">
+    <?= $this->markdownToHtml($class['description']) ?>
+</div>
 
-    <div class="method-list">
-        <h5 class="method-list-title">Parameters</h5>
-        <table class="doc__api-param-table">
+<?php if (!empty($class['constants'])): ?>
+    <div class="list constant-list">
+        <h5 class="list-title constant-list-title">Class Constants</h5>
+        <table class="doc__api-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
             <tbody>
-                <?php foreach ($method['params'] as $param): ?>
+                <?php foreach ($class['constants'] as $constant): ?>
                     <tr>
-                        <td class="col-one"><code>$<?= $param['name'] ?></code></td>
-                        <td>
-                            <span class="type"><?= $param['typeHint'] ?></span>
-                            <?= $param['description'] ?? 'No Description available' ?>
-                        </td>
+                        <td class="col-one"><code><?= $constant['name'] ?></code></td>
+                        <td class="col-two"><code><?= $constant['value'] ?></code></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <div class="method-list">
-        <h5 class="method-list-title">Return Value</h5>
-        <table class="doc__api-param-table">
-            <tbody>
-                <tr>
-                    <td class="col-one"><code><?= $method['returnType'] ?></code></td>
-                    <td><?= $method['returnTypeDescription'] ?></td>
-                </tr>
-            </tbody>
-        </table>
+<?php endif; ?>
+
+<?php foreach ($class['methods'] as $method): ?>
+    <div class="method">
+        <div class="method-sig"><?= $this->fetch('api-docs/method.phtml', ['method' => $method]) ?></div>
+        <?php if ($method['description']): ?>
+            <div class="method-description">
+                <?= $this->markdownToHtml($method['description']); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($method['params'])): ?>
+            <div class="list">
+                <h5 class="list-title">Parameters</h5>
+                <table class="doc__api-table">
+                    <tbody>
+                        <?php foreach ($method['params'] as $param): ?>
+                            <tr>
+                                <td class="col-one"><code>$<?= $param['name'] ?></code></td>
+                                <td class="col-two">
+                                    <span class="type"><code><?= $param['typeHint'] ?></code></span>
+                                    <?= $param['description'] ? $this->markdownToHtml($param['description']) : 'No Description available.' ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($method['throws'])): ?>
+            <div class="list">
+                <h5 class="list-title">Throws Exceptions</h5>
+                <table class="doc__api-table">
+                    <tbody>
+                        <?php foreach ($method['throws'] as $throw): ?>
+                            <tr>
+                                <td class="col-one"></td>
+                                <td class="col-two">
+                                    <span class="type"><code><?= $throw['type'] ?></code></span>
+                                    <?= $throw['description'] ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+        <div class="list">
+            <h5 class="list-title">Return Value</h5>
+            <table class="doc__api-table">
+                <tbody>
+                    <tr>
+                        <td class="col-one"></td>
+                        <td class="col-two">
+                            <span class="type"><code><?= $method['returnType'] ?></code></span>
+                            <?= $this->markdownToHtml($method['returnTypeDescription']) ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 <?php endforeach; ?>
