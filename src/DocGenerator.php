@@ -9,10 +9,12 @@ use BetterReflection\SourceLocator\Type\AggregateSourceLocator;
 use BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
 use phpDocumentor\Reflection\DocBlock;
 use BetterReflection\Reflection\ReflectionParameter;
+use phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
+ *
  * Class DocGenerator
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */
@@ -54,10 +56,18 @@ class DocGenerator
                 }
             );
 
+            $traits = array_filter(
+                $classesInNamespace,
+                function (ReflectionClass $class) {
+                    return $class->isTrait();
+                }
+            );
+
             $classes = array_udiff(
                 $classesInNamespace,
                 $abstracts,
                 $interfaces,
+                $traits,
                 function (ReflectionClass $a, ReflectionClass $b) {
                     return $a === $b ? 0 : -1;
                 }
@@ -68,6 +78,7 @@ class DocGenerator
                 'classes'       => $this->processClasses($classes),
                 'interfaces'    => $this->processClasses($interfaces),
                 'abstracts'     => $this->processClasses($abstracts),
+                'traits'        => $this->processClasses($traits),
             ];
         }
 
@@ -81,7 +92,6 @@ class DocGenerator
             ->name('*.php')
             ->in(__DIR__ .'/../vendor/php-school/php-workshop/src')
             ->exclude('Command')
-            ->exclude('ComposerUtil')
             ->exclude('Factory')
             ->exclude('Listener')
             ->exclude('MenuItem')
@@ -104,10 +114,13 @@ class DocGenerator
             return $method->isPublic();
         });
 
+        $description = new DocBlock($class->getDocComment());
+
         return [
-            'namespace' => $class->getNamespaceName(),
-            'name'      => $class->getShortName(),
-            'constants' => array_map(function ($constName, $constValue) {
+            'namespace'   => $class->getNamespaceName(),
+            'name'        => $class->getShortName(),
+            'description' => $description->getShortDescription() . "\n\n" . $description->getLongDescription(),
+            'constants'   => array_map(function ($constName, $constValue) {
                 return [
                     'name'  => $constName,
                     'value' => str_replace('\\\\', '\\', var_export($constValue, true)),
@@ -123,6 +136,7 @@ class DocGenerator
     {
         $phpdoc = new DocBlock($method->getDocComment());
         $params = $phpdoc->getTagsByName('param');
+        $throws = $phpdoc->getTagsByName('throws');
 
         $returnTypes = $method->getDocBlockReturnTypes();
 
@@ -133,20 +147,25 @@ class DocGenerator
         }
 
         $returnTypeTags = $phpdoc->getTagsByName('return');
-        $returnTypeDescription = 'Does not return anything';
+        $returnTypeDescription = 'Does not return anything.';
         if (!empty($returnTypes)) {
             $returnTypeTag = array_shift($returnTypeTags);
             $returnTypeDescription = $returnTypeTag->getDescription();
         }
 
         return [
-            'isStatic'          => $method->isStatic(),
-            'shortDescription'  => $phpdoc->getShortDescription(),
-            'longDescription'   => $phpdoc->getLongDescription()->getContents(),
-            'name'              => $method->getName(),
-            'params'            => array_map(function (ReflectionParameter $parameter) use ($params) {
+            'isStatic' => $method->isStatic(),
+            'description' => $phpdoc->getShortDescription() . "\n\n" . $phpdoc->getLongDescription()->getContents(),
+            'name' => $method->getName(),
+            'params' => array_map(function (ReflectionParameter $parameter) use ($params) {
                 return $this->processParam($parameter, $params);
             }, $method->getParameters()),
+            'throws' => array_map(function (ThrowsTag $throw) {
+                return [
+                    'type' => ltrim($throw->getType(), '\\'),
+                    'description' => $throw->getDescription(),
+                ];
+            }, $throws),
             'returnType' => ltrim($returnType, '\\'),
             'returnTypeDescription' => $returnTypeDescription,
         ];

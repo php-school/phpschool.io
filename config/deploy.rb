@@ -20,13 +20,13 @@ namespace :deploy do
     end
   end
 
-  #task :build_api_docs do
-  #  on roles(:web) do |host|
-  #    within release_path do
-  #        execute "docker exec php-school-fpm php bin/app generate-docs"
-  #    end
-  #  end
-  #end
+  task :build_api_docs do
+    on roles(:web) do |host|
+      within release_path do
+          execute "docker exec php-school-fpm php bin/app generate-docs"
+      end
+    end
+  end
 
   before 'deploy:updated', 'deploy:clear_cache'
   after 'deploy:clear_cache', 'deploy:build_api_docs'

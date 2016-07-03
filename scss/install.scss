@@ -137,10 +137,7 @@
   margin: 0;
   display: block;
   color: $silver;
-
-  &.active {
-    color: $secondary-colour;
-  }
+  color: $secondary-colour;
 
   &.current {
     border-right: 3px solid $secondary-colour;

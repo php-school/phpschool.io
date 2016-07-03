@@ -1,31 +1,33 @@
 <?php
 
-namespace PhpSchool\Website;
+namespace PhpSchool\Website\Action;
 
+use PhpSchool\Website\Documentation;
+use PhpSchool\Website\PhpRenderer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
 /**
- * Class DocumentationAction
+ * Class DocsAction
  * @package PhpSchool\Website
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */
-class DocumentationAction
+class DocsAction
 {
-    /**
-     * @var Documentation
-     */
-    private $documentation;
-
     /**
      * @var PhpRenderer
      */
     private $renderer;
 
-    public function __construct(Documentation $documentation, PhpRenderer $renderer)
+    /**
+     * @var Documentation
+     */
+    private $documentation;
+
+    public function __construct(PhpRenderer $renderer, Documentation $documentation)
     {
-        $this->documentation = $documentation;
         $this->renderer = $renderer;
+        $this->documentation = $documentation;
     }
 
     public function __invoke(Request $request, Response $response) : Response

@@ -1,0 +1,39 @@
+<h2 class="doc__title" id="<?= $namespace['namespace']; ?>"><?= $namespace['namespace']; ?></h2>
+
+<?php if (!empty($namespace['interfaces'])) : ?>
+    <h3>Interfaces</h3>
+    <ul class="docs__std__list__note">
+        <?php foreach ($namespace['interfaces'] as $interface): ?>
+            <li><a href="/api-docs/<?= $this->slugClass($namespace['namespace']); ?>/<?= $this->slugClass($interface['name']) ?>"><?= $interface['name'] ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
+<?php if (!empty($namespace['abstracts'])) : ?>
+    <h3>Abstracts</h3>
+    <ul class="docs__std__list__note">
+        <?php foreach ($namespace['abstracts'] as $class): ?>
+            <li><a href="/api-docs/<?= $this->slugClass($namespace['namespace']); ?>/<?= $this->slugClass($class['name']) ?>"><?= $class['name'] ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
+<?php if (!empty($namespace['classes'])) : ?>
+    <h3>Classes</h3>
+    <ul class="docs__std__list__note">
+        <?php foreach ($namespace['classes'] as $class): ?>
+            <li><a href="/api-docs/<?= $this->slugClass($namespace['namespace']); ?>/<?= $this->slugClass($class['name']) ?>"><?= $class['name'] ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
+<?php if (!empty($namespace['traits'])) : ?>
+    <h3>Traits</h3>
+    <ul class="docs__std__list__note">
+        <?php foreach ($namespace['traits'] as $class): ?>
+            <li><a href="/api-docs/<?= $this->slugClass($namespace['namespace']); ?>/<?= $this->slugClass(
+                    $class['name']
+                ) ?>"><?= $class['name'] ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>

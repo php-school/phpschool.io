@@ -10,19 +10,10 @@
                     <ul class="doc__side-list">
                         <?php foreach ($group as $docSection): ?>
                             <li class="doc__side-item">
-
-                                <?php if ($docSection->enabled()) : ?>
-                                    <a class="doc__side-link active <?= $docSection === $doc ? 'current' : '' ?>"
-                                        href="<?= $docSection->getHref() ?>">
-                                        <?= $docSection->getTitle(); ?>
-                                    </a>
-
-                                <?php else: ?>
-                                    <span class="doc__side-link"e
-                                        href="<?= $docSection->getHref() ?>">
-                                        <?= $docSection->getTitle(); ?>
-                                    </span>
-                                <?php endif; ?>
+                                <a class="doc__side-link <?= $docSection === $doc ? 'current' : '' ?>"
+                                    href="<?= $docSection->getHref() ?>">
+                                    <?= $docSection->getTitle(); ?>
+                                </a>
                             </li>
                         <?php endforeach; ?>
                     </ul>

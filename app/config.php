@@ -2,15 +2,17 @@
 
 use function DI\factory;
 use Interop\Container\ContainerInterface;
+use League\CommonMark\CommonMarkConverter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
+use PhpSchool\Website\Action\DocsAction;
+use PhpSchool\Website\Action\ApiDocsAction;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\GenerateDoc;
 use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
-use PhpSchool\Website\DocumentationAction;
 use PhpSchool\Website\DocumentationGroup;
 use PhpSchool\Website\Middleware\FpcCache;
 use Psr\Log\LoggerInterface;
@@ -52,10 +54,14 @@ $config = [
     PhpRenderer::class => factory(function (ContainerInterface $c) {
         $settings = $c->get('config')['renderer'];
 
-        $renderer = new PhpRenderer($settings['template_path'], [
-            'links' => $c->get('config')['links'],
-            'route' => $c->get('request')->getUri()->getPath(),
-        ]);
+        $renderer = new PhpRenderer(
+            new CommonMarkConverter,
+            $settings['template_path'],
+            [
+                'links' => $c->get('config')['links'],
+                'route' => $c->get('request')->getUri()->getPath(),
+            ]
+        );
 
         //default CSS
         $renderer->appendCss('/css/solarized-light.css');
@@ -113,7 +119,7 @@ $config = [
         $referenceGroup->addSection('patching-exercise-solutions', 'Patching Exercise Submissions', 'docs/reference/patching-exercise-solutions.phtml');
 
         $apiGroup = new DocumentationGroup('api', 'API');
-        $apiGroup->addExternalSection('api', 'API Reference', '/docs/api', false);
+        $apiGroup->addExternalSection('api', 'API Reference', '/api-docs');
 
         $indexGroup = new DocumentationGroup('index', 'Documentation Home');
         $indexGroup->addSection('index', 'Documentation Home', 'docs/index.phtml');
@@ -127,8 +133,11 @@ $config = [
         return $docs;
     }),
 
-    DocumentationAction::class => \DI\factory(function (ContainerInterface $c) {
-        return new DocumentationAction($c->get(Documentation::class), $c->get(PhpRenderer::class));
+    DocsAction::class => \DI\factory(function (ContainerInterface $c) {
+        return new DocsAction($c->get(PhpRenderer::class), $c->get(Documentation::class));
+    }),
+    ApiDocsAction::class => \DI\factory(function (ContainerInterface $c) {
+        return new ApiDocsAction($c->get(PhpRenderer::class), $c->get(DocGenerator::class), $c->get('cache'));
     }),
 
     'config' => [
