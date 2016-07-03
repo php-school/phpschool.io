@@ -15,7 +15,7 @@
     "slim/php-view": "^2.0",
     "monolog/monolog": "^1.17",
     "php-di/slim-bridge": "^0.2.1",
-    "php-school/php-workshop": "dev-master",
+    "php-school/php-workshop": "^1.0",
     "mnapoli/silly-php-di": "^1.0",
     "roave/better-reflection": "dev-master",
     "phpdocumentor/reflection-common": "^1.0@dev",
