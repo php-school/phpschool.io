@@ -59,7 +59,7 @@ You will need capistrano installed and SSH access to the production server.
 
 ```shell
 gulp deploy
-``
+```
 
 ## Booting docker container for production
 
