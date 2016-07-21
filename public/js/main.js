@@ -2,8 +2,21 @@ var $ = jQuery;
 
 $(function () {
 
+    var letters = 'Open Source Learning for PHP';
+    var pos = 0;
+    var target  = document.getElementById('typer');
+
+    var typingAway = window.setInterval(function(){
+        if(letters[pos]) {
+            target.innerHTML = target.innerHTML+letters[pos];
+            pos++;
+        } else {
+            clearInterval(typingAway);
+        }
+    }, 100);
+
     var $menuTrigger = $('.menu-icon');
-    var $mainNav = $('.navigation');
+    var $mainNav = $('.site-nav__list');
 
     $menuTrigger.on('click', function () {
         $menuTrigger.toggleClass('active');
@@ -37,7 +50,6 @@ $(function () {
         return false;
     });
 
-
     var hash = document.location.hash;
     if ($(".tabs-container > .tab").length && hash.length) {
         //if there are some tabs on this page and we have a hash
@@ -61,11 +73,13 @@ $(function () {
         }
     });
 
-    docsearch({
-        apiKey: '839c0aa3f3df6404158b249b3f84774f',
-        indexName: 'phpschool',
-        inputSelector: '#search-input'
-    });
+    if ($('#search-input').length) {
+        docsearch({
+            apiKey: '839c0aa3f3df6404158b249b3f84774f',
+            indexName: 'phpschool',
+            inputSelector: '#search-input'
+        });
+    }
 
     /**
      * Try to either open a tab (match id to hash) and scroll to it,
@@ -74,8 +88,7 @@ $(function () {
      *
      * @param string hash
      */
-    function processTabHash(hash)
-    {
+    function processTabHash(hash) {
         if (hash.indexOf("#tab-") === 0) {
             //we want to visit specific tab
             var tab = $('a[href="' + hash + '"]');
@@ -101,8 +114,8 @@ $(function () {
         }
 
         //we want to visit content inside a tab
-        var tab         = target.closest(".tab-content");
-        var tabId       = tab.attr("id");
+        var tab = target.closest(".tab-content");
+        var tabId = tab.attr("id");
         var tabMenuItem = tab.parent().prev().find('a[href="#' + tabId + '"]').parent();
 
         tab.show().siblings().hide();
