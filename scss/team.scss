@@ -36,7 +36,7 @@
   padding-left: $base-spacing;
   width: 50%;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     width: 20%;
   }
   a {

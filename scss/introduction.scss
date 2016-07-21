@@ -4,7 +4,7 @@
   margin-left: -$base-spacing;
   padding: $base-spacing*2 0;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     padding: $base-spacing*4 0;
   }
 }
@@ -13,7 +13,7 @@
   width: 100%;
   padding-left: $base-spacing;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     width: 50%;
   }
 }
@@ -22,7 +22,7 @@
   width: 100%;
   padding-left: $base-spacing;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     width: 50%;
   }
 

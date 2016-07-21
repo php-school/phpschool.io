@@ -7,10 +7,10 @@ body {
 }
 
 .container {
-  max-width: 1024px;
+  max-width: $page-width;
   margin: 0 auto;
   padding: 0 10px;
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     padding: 0 $half-spacing;
   }
 }

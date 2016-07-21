@@ -10,7 +10,7 @@
   width: 100%;
   padding-left: $base-spacing;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     width: 33.33%;
   }
 }
@@ -19,7 +19,7 @@
   width: 100%;
   padding-left: $base-spacing;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     width: 66.66%;
   }
 }
@@ -37,7 +37,7 @@
   width: 100%;
   padding-left: $base-spacing;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     width: 33.33%;
   }
 }
@@ -46,7 +46,7 @@
   width: 100%;
   padding-left: $base-spacing;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     width: 66.66%;
   }
 }

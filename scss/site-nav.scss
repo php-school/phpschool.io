@@ -5,7 +5,7 @@
     width: 1.5em;
     height: 1.5em;
   }
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: $lap-start) {
     display: none;
   }
 }
@@ -17,14 +17,14 @@
   max-width: 1024px;
   margin: 0 auto $base-spacing;
 
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: $lap-start) {
       margin-bottom: $base-spacing*2;
   }
 
   .social-nav {
     margin-left: auto;
 
-    @media screen and (min-width: 700px) {
+    @media screen and (min-width: $lap-start) {
       order: 2;
     }
     .svg-icon {
@@ -52,7 +52,7 @@
   @media screen and (max-width: 700px) {
     width: 100%;
   }
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: $lap-start) {
     display: flex;
     border: none;
   }
@@ -65,7 +65,7 @@
 .site-nav__item {
   text-align: left;
 
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: $lap-start) {
     display: flex;
     align-items: center;
   }
