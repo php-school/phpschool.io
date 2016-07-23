@@ -9,6 +9,12 @@
   }
 }
 
+.site-header--slim {
+   .site-header__desc {
+     margin-bottom: 0;
+   }
+}
+
 .logo {
   margin-bottom: $base-spacing;
 
@@ -23,7 +29,7 @@
   }
 }
 
-.header__title {
+.site-header__title {
   color: $white;
   display: block;
   min-height: 24px;
@@ -37,15 +43,20 @@
   }
 }
 
-.header__desc {
+.site-header__desc {
   font-size: 14px;
   margin: 0 auto $base-spacing + $half-spacing;
   width: 100%;
-  max-width: 450px;
+  max-width: $lap-start;
 
   @media screen and (min-width: $lap-start) {
     font-size: 18px;
   }
+}
+
+.site-header__search {
+  margin: $base-spacing auto 0;
+  max-width: $lap-start;
 }
 
 .curser {

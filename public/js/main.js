@@ -2,18 +2,20 @@ var $ = jQuery;
 
 $(function () {
 
-    var letters = 'Open Source Learning for PHP';
-    var pos = 0;
-    var target  = document.getElementById('typer');
+    if ($('#typer').length) {
+        var letters = 'Open Source Learning for PHP';
+        var pos = 0;
+        var target = document.getElementById('typer');
 
-    var typingAway = window.setInterval(function(){
-        if(letters[pos]) {
-            target.innerHTML = target.innerHTML+letters[pos];
-            pos++;
-        } else {
-            clearInterval(typingAway);
-        }
-    }, 100);
+        var typingAway = window.setInterval(function () {
+            if (letters[pos]) {
+                target.innerHTML = target.innerHTML + letters[pos];
+                pos++;
+            } else {
+                clearInterval(typingAway);
+            }
+        }, 100);
+    }
 
     var $menuTrigger = $('.menu-icon');
     var $mainNav = $('.site-nav__list');
