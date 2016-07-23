@@ -1,3 +1,4 @@
+//COLOUR
 $black: #000000;
 $white: #ffffff;
 $silver: #cccccc;
@@ -5,12 +6,20 @@ $yellow: #cccccc;
 $base-colour: #002835;
 $secondary-colour: #E91E63;
 
-
+//TYPOGRAPHY
 $base-font-family: 'Open Sans', sans-serif;
 $header-font-family: monospace;
+$base-line-height: 1.5;
+$base-font-size: 14px;
+
+$h1-font-size: 36px;
+$h2-font-size: 24px;
+$h3-font-size: 18px;
 
 $base-spacing: 27px;
-$half-spacing: $base-spacing/2;
+$large-spacing: $base-spacing * 2;
+$half-spacing: $base-spacing / 2;
 
 $page-width: 1024px;
 $lap-start: 700px;
+$desk-start: 900px;

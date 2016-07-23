@@ -1,0 +1,88 @@
+.tabs-container {
+  float: none;
+  list-style: none;
+  padding: 0px;
+  margin: 75px auto;
+
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  .tabs-menu {
+    padding-left: 0px;
+    list-style: none;
+
+    li {
+      display: block;
+      float: left;
+      width: 25%;
+
+      font-weight: normal;
+      text-decoration: none;
+      text-align: center;
+      line-height: 2;
+      cursor: pointer;
+      border-bottom: 1px solid #ccc;
+
+      a {
+        color: $black;
+        display: block;
+        @media (min-width: 768px) {
+          font-size: 18px;
+        }
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      &:hover:not(.active) {
+        border-bottom: 1px solid $secondary-colour;
+        margin-bottom: -1px;
+      }
+    }
+
+    .active {
+      border-top: 2px solid $secondary-colour;
+      margin-top: -2px;
+      border-right: 1px solid #ccc;
+      border-left: 1px solid #ccc;
+      border-bottom: 0px;
+    }
+  }
+
+  .tab-content {
+    display: none;
+    width: 100%;
+    float: left;
+    padding: 15px;
+    box-sizing: border-box;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
+
+  #tab-1 {
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 18px;
+    max-width: 750px;
+    margin: 50px auto;
+  }
+}
+
+.tab-content * {
+  -webkit-animation: scale 0.7s ease-in-out;
+  -moz-animation: scale 0.7s ease-in-out;
+  animation: scale 0.7s ease-in-out;
+}
+@keyframes scale {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+}

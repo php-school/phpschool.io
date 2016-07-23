@@ -27,12 +27,8 @@ footer, header, hgroup, menu, nav, section {
   display: block;
 }
 
-ul {
-  padding-left: 17px;
-}
-
-ol {
-  padding-left: 15px;
+ul, ol {
+  padding-left: $base-spacing;
 }
 
 * {
