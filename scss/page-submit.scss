@@ -1,0 +1,30 @@
+.submit {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -$base-spacing*2;
+}
+
+.submit__form {
+  width: 100%;
+  padding-bottom: $base-spacing;
+  margin-left: auto;
+  padding-left: $base-spacing*2;
+
+  @media screen and (min-width: $lap-start) {
+    padding-top: $base-spacing;
+    width: 66.66%;
+  }
+}
+
+.submit__content {
+  width: 100%;
+  padding-top: $base-spacing;
+  padding-left: $base-spacing*2;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  @media screen and (min-width: $lap-start) {
+    width: 33.33%;
+    display: flex;
+  }
+}

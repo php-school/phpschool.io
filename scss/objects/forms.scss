@@ -1,0 +1,52 @@
+.form {
+  margin-bottom: $base-spacing;
+}
+
+//Form section
+.field {
+  margin-bottom: $base-spacing;
+}
+
+// wrapper for input
+.input-box {
+}
+
+// input field
+.input-text {
+  height: $button-height;
+
+  &:focus {
+    border-color: $secondary-colour;
+    outline: none;
+  }
+}
+
+label {
+  margin-bottom: $half-spacing;
+  display: block;
+  font-weight: 700;
+}
+
+input, textarea, select {
+  border: 1px solid $silver;
+  border-radius: 100px;
+  max-width: 45em;
+  width: 100%;
+  padding: $half-spacing;
+  font-size: $base-font-size;
+}
+
+.form__errors {
+  margin-top: $base-spacing;
+  border: 1px solid $red;
+  border-radius: 5px;
+  background-color: rgba($red, .1);
+  padding: $half-spacing;
+  color: $red;
+
+  p {
+    &:last-child {
+      margin: 0;
+    }
+  }
+}

@@ -26,8 +26,13 @@ pre {
 }
 
 .note {
-  padding: 15px;
-  border-left: 4px solid transparent;
+  padding: $half-spacing;
+  border-left: 4px solid $white;
+  border-top: 1px solid $silver;
+  border-right: 1px solid $silver;
+  border-bottom: 1px solid $silver;
+  border-radius: 3px;
+
   a {
     font-weight: bold;
   }
@@ -43,11 +48,10 @@ pre {
 }
 
 .note-warning {
-  color: #a94442;
-  border-color: #ebccd1;
+  color: $red;
+  border-color: $red;
 
   &:hover {
-    background-color: #f2dede;
   }
 }
 

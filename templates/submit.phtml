@@ -1,24 +1,45 @@
-<?= $this->fetch('includes/home-header.phtml') ?>
+<?= $this->fetch('includes/submit-header.phtml') ?>
+
 <section class="site-body">
     <div class="container">
-        <div id="submit-workshop">
-            <form id="submit-workshop-form" action="/submit" method="post">
-                <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label for="name">Workshop Name</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Learn You PHP!">
-                    <p class="help-block">Example block-level help text here.</p>
-                </div>
-                <div class="form-group">
-                    <label for="github-url">GitHub repository URL</label>
-                    <input type="test" class="form-control" name="github-url" id="github-url" placeholder="https://github.com/php-school/learn-you-php">
-                    <p class="help-block">Example block-level help text here.</p>
-                </div>
-                <input type="submit" class="link" value="Submit"/>
-            </form>
+        <div class="submit">
+            <div class="submit__content">
+                <h2>Submit</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, amet consequuntur, dolore enim harum labore laudantium molestiae natus, pariatur perferendis placeat quidem ut vel. Accusantium deserunt in ipsa molestiae quod?</p>
+            </div>
+            <div class="submit__form">
+                <form action="" class="form" _lpchecked="1">
+                    <div class="field">
+                        <label for="form1-text">Email Address</label>
+                        <div class="input-box">
+                            <input id="form1-text" class="input-text" type="email" required="">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="form1-password">Workshop Name</label>
+                        <div class="input-box">
+                            <input id="form1-password" class="input-text" type="text" placeholder="Learn You PHP!">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="form1-email">GitHub Repository URL</label>
+                        <div class="input-box">
+                            <input id="form1-email" class="input-text" type="text" placeholder="https://github.com/php-school/learn-you-php" required="">
+                        </div>
+                    </div>
+                    <div class="form__actions">
+                        <button type="submit" class="button button--bold button-submit"><span>Submit</span>
+                            <div class="loader-wapper"><div class="loader">Loading...</div></div>
+                            <div class="button-submit__success"><?= $this->fetch('includes/icon.phtml', ['name' => "tick"]) ?></div>
+                            <div class="button-submit__error"><?= $this->fetch('includes/icon.phtml', ['name' => "cross"]) ?></div>
+                        </button>
+                    </div>
+                    <div class="field form__errors">
+                        <p class=""></p>
+                    </div>
+                </form>
+
+            </div>
         </div>
     </div>
 </section>
