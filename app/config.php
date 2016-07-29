@@ -15,6 +15,7 @@ use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\ApiDocsAction;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\Command\ClearCache;
+use PhpSchool\Website\Command\CreateUser;
 use PhpSchool\Website\Command\GenerateDoc;
 use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
@@ -22,6 +23,9 @@ use PhpSchool\Website\DocumentationGroup;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\FpcCache;
 use PhpSchool\Website\Repository\WorkshopRepository;
+use PhpSchool\Website\User\Adapter\Doctrine;
+use PhpSchool\Website\User\AuthenticationService;
+use PhpSchool\Website\User\Middleware\Authenticator;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
 use Ramsey\Uuid\Doctrine\UuidType;
@@ -33,6 +37,7 @@ $config = [
         $app = new Silly\Edition\PhpDi\Application('PHP School Website', null, $c);
         $app->command('generate-docs', GenerateDoc::class);
         $app->command('clear-cache', ClearCache::class);
+        $app->command('create-user name email password', CreateUser::class);
         return $app;
     }),
     'app' => factory(function (ContainerInterface $c) {
@@ -100,6 +105,9 @@ $config = [
     ClearCache::class => factory(function (ContainerInterface $c) {
         return new ClearCache($c->get('cache.fpc'));
     }),
+    CreateUser::class => factory(function (ContainerInterface $c) {
+       return new CreateUser($c->get(EntityManagerInterface::class));
+    }),
 
     Documentation::class => \DI\factory(function (ContainerInterface $c) {
         $tutorialGroup = new DocumentationGroup('tutorial', 'Workshop Tutorial');
@@ -150,6 +158,16 @@ $config = [
 
     WorkshopRepository::class => \DI\factory(function (ContainerInterface $c) {
         return $c->get(EntityManagerInterface::class)->getRepository(Workshop::class);
+    }),
+
+    AuthenticationService::class => \DI\factory(function (ContainerInterface $c) {
+        $authService = new \Zend\Authentication\AuthenticationService;
+        $authService->setAdapter(new Doctrine($c->get(EntityManagerInterface::class)));
+        return new AuthenticationService($authService);
+    }),
+
+    Authenticator::class => \DI\factory(function(ContainerInterface $c) {
+        return new Authenticator($c->get(AuthenticationService::class));
     }),
 
     Setup::class => \DI\factory(function (ContainerInterface $c) {
