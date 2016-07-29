@@ -50,7 +50,7 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
      */
     public function findByDisplayName(string $displayName) : Workshop
     {
-        $workshop = parent::findOneBy(['display' => $displayName]);
+        $workshop = parent::findOneBy(['displayName' => $displayName]);
 
         if (null !== $workshop) {
             return $workshop;
