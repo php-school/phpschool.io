@@ -34,11 +34,11 @@ gulp.task('rebuild-doc-cache', function () {
     execSync('docker exec php-school-fpm php bin/app generate-docs');
 });
 
-gulp.task('orm:validate-schema', function () {
+gulp.task('build-db', function () {
     execSync('docker exec php-school-fpm vendor/bin/doctrine orm:validate-schema');
 })
 
-gulp.task('orm:validate-schema', function () {
+gulp.task('validate-db', function () {
     execSync('docker exec php-school-fpm vendor/bin/doctrine orm:schema-tool:update -f');
 })
 
