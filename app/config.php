@@ -226,8 +226,8 @@ $config = [
     'settings.displayErrorDetails' => true,
  ];
 
-if (file_exists(__DIR__ . '/dev-config.php')) {
-    $config = array_replace_recursive($config, include __DIR__ . '/dev-config.php');
+if (file_exists(__DIR__ . '/local-config.php')) {
+    $config = array_replace_recursive($config, include __DIR__ . '/local-config.php');
 }
 
 return $config;
