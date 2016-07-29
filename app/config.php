@@ -1,6 +1,11 @@
 <?php
 
 use function DI\factory;
+use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Tools\Setup;
 use Interop\Container\ContainerInterface;
 use League\CommonMark\CommonMarkConverter;
 use Monolog\Handler\StreamHandler;
@@ -14,9 +19,12 @@ use PhpSchool\Website\Command\GenerateDoc;
 use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
 use PhpSchool\Website\DocumentationGroup;
+use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\FpcCache;
+use PhpSchool\Website\Repository\WorkshopRepository;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
+use Ramsey\Uuid\Doctrine\UuidType;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
@@ -140,7 +148,37 @@ $config = [
         return new ApiDocsAction($c->get(PhpRenderer::class), $c->get(DocGenerator::class), $c->get('cache'));
     }),
 
+    WorkshopRepository::class => \DI\factory(function (ContainerInterface $c) {
+        return $c->get(EntityManagerInterface::class)->getRepository(Workshop::class);
+    }),
+
+    Setup::class => \DI\factory(function (ContainerInterface $c) {
+        $doctrineConfig = $c->get('config')['doctrine'];
+
+        return Setup::createAnnotationMetadataConfiguration(
+            $doctrineConfig['meta']['entity_path'],
+            $doctrineConfig['meta']['auto_generate_proxies'],
+            $doctrineConfig['meta']['proxy_dir'],
+            $doctrineConfig['meta']['cache'],
+            false
+        );
+    }),
+
+    EntityManagerInterface::class => \DI\factory(function (ContainerInterface $c) {
+        Type::addType('uuid', UuidType::class);
+
+        return EntityManager::create(
+            $c->get('config')['doctrine']['connection'],
+            $c->get(Setup::class)
+        );
+    }),
+
+    ConsoleRunner::class => \DI\factory(function (ContainerInterface $c) {
+        return ConsoleRunner::createHelperSet($c->get(EntityManagerInterface::class));
+    }),
+
     'config' => [
+        'determineRouteBeforeAppMiddleware' => true,
         'displayErrorDetails' => true, // set to false in production
         // Renderer settings
         'renderer' => [
@@ -165,6 +203,23 @@ $config = [
         'cachePermissions'  => '0777',
         'enablePageCache'   => true,
         'enableCache'       => true,
+
+        'doctrine' => [
+            'meta' => [
+                'entity_path' => [
+                    'src/Entity',
+                    'src/User/Entity'
+                ],
+                'auto_generate_proxies' => true,
+                'proxy_dir' =>  __DIR__.'/../cache/proxies',
+                'cache' => null,
+            ],
+            'connection' => [
+                'driver'   => 'pdo_mysql',
+                'host'     => 'php-school-db',
+                'dbname'   => 'phpschool',
+            ]
+        ]
     ],
 
     //slim settings

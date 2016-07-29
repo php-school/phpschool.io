@@ -33,6 +33,14 @@ gulp.task('rebuild-doc-cache', function () {
     execSync('docker exec php-school-fpm php bin/app generate-docs');
 });
 
+gulp.task('orm:validate-schema', function () {
+    execSync('docker exec php-school-fpm vendor/bin/doctrine orm:validate-schema');
+})
+
+gulp.task('orm:validate-schema', function () {
+    execSync('docker exec php-school-fpm vendor/bin/doctrine orm:schema-tool:update -f');
+})
+
 gulp.task('sass', function () {
     return gulp.src('scss/core.scss')
         .pipe(sourcemaps.init())

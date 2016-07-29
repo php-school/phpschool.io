@@ -4,5 +4,12 @@ return [
     'config' => [
         'enablePageCache' => false,
         'enableCache' => false,
+
+        'doctrine' => [
+            'connection' => [
+                'user'     => 'phpschool',
+                'password' => 'phpschool',
+            ]
+        ]
     ]
 ];
