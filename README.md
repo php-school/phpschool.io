@@ -21,7 +21,7 @@ On the first `gulp` run the docker containers will be created. The username and 
 ## Create DB structure
 
 ```shell
-gulp create-db
+gulp build-db
 ```
 
 This command runs the doctrine schema tool which creates the database structure.
