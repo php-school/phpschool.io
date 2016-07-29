@@ -18,6 +18,14 @@ Database username and password is specified at `config -> doctrine -> connection
 
 On the first `gulp` run the docker containers will be created. The username and password it uses is sepcified in the `project.env` file, so if you want to to change the username and password you should change it there before the first run and you should also update `app/local-config.php`.
 
+## Create DB structure
+
+```shell
+gulp create-db
+```
+
+This command runs the doctrine schema tool which creates the database structure.
+
 ## Run
 ```shell
 gulp
