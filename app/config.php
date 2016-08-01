@@ -208,7 +208,6 @@ $config = [
             'meta' => [
                 'entity_path' => [
                     'src/Entity',
-                    'src/User/Entity'
                 ],
                 'auto_generate_proxies' => true,
                 'proxy_dir' =>  __DIR__.'/../cache/proxies',

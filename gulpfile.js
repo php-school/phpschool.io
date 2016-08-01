@@ -10,9 +10,10 @@ var execSync    = require('child_process').execSync;
 var exec        = require('child_process').exec;
 var easysvg     = require('easy-svg');
 
-gulp.task('serve', ['sass', 'svg'], function() {
+gulp.task('serve', ['build-db', 'sass', 'svg'], function() {
     
     exec('docker-compose build && docker-compose up -d', function () {
+        gulp.start('build-db');
         bs.init({
             proxy: '127.0.0.1:8000',
             open: false
@@ -34,11 +35,11 @@ gulp.task('rebuild-doc-cache', function () {
     execSync('docker exec php-school-fpm php bin/app generate-docs');
 });
 
-gulp.task('build-db', function () {
+gulp.task('validate-db', function () {
     execSync('docker exec php-school-fpm vendor/bin/doctrine orm:validate-schema');
 })
 
-gulp.task('validate-db', function () {
+gulp.task('build-db', function () {
     execSync('docker exec php-school-fpm vendor/bin/doctrine orm:schema-tool:update -f');
 })
 
