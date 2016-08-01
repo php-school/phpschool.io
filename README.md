@@ -7,6 +7,25 @@ composer install
 npm install
 ```
 
+## Setup config
+
+```shell
+cp app/local-config.php.dist app/local-config.php
+```
+
+This file should specify the database details, you can also overwrite any config from the main `app/config.php` file.
+Database username and password is specified at `config -> doctrine -> connection`, the keys `username` and `password` are required.
+
+On the first `gulp` run the docker containers will be created. The username and password it uses is sepcified in the `project.env` file, so if you want to to change the username and password you should change it there before the first run and you should also update `app/local-config.php`.
+
+## Create DB structure
+
+```shell
+gulp build-db
+```
+
+This command runs the doctrine schema tool which creates the database structure.
+
 ## Run
 ```shell
 gulp
@@ -32,7 +51,6 @@ gulp sass
 gulp svg
 ```
 
-
 All pages are cached the first time you hit them so any HTML changes will not loaded unless you clear the cache, or enable dev mode.
 
 ### View cache keys
@@ -48,10 +66,9 @@ docker exec php-school-fpm php bin/app clear-cache
 ```
 
 
-## Dev Mode
+## Disable Caching
 
-You can enable dev mode by creating `app/dev-config.php` which should return an array of config. This config takes precedence over `app/config.php`. They will be merged together. This file is ignored from git.
-We provide a sample file which disables caching, you can use it by copying it: `cp app/dev-config.php.dist app/dev-config.php`
+Check `app/local-config.php` and update `config -> enablePageCache`.
 
 ## Deploy
 

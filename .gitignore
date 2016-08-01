@@ -6,4 +6,7 @@ npm-debug.log
 /logs/*
 !/logs/README.md
 /cache/
-/app/dev-config.php
+/app/local-config.php
+
+.docker/db/*
+.docker/mysql/*

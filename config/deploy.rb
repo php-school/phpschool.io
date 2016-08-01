@@ -28,6 +28,6 @@ namespace :deploy do
     end
   end
 
-  before 'deploy:updated', 'deploy:clear_cache'
+  before 'deploy:finished', 'deploy:clear_cache'
   after 'deploy:clear_cache', 'deploy:build_api_docs'
 end
