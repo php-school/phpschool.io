@@ -10,7 +10,7 @@ var execSync    = require('child_process').execSync;
 var exec        = require('child_process').exec;
 var easysvg     = require('easy-svg');
 
-gulp.task('serve', ['build-db', 'sass', 'svg'], function() {
+gulp.task('serve', ['sass', 'svg'], function() {
     
     exec('docker-compose build && docker-compose up -d', function () {
         gulp.start('build-db');
