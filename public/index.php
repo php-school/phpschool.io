@@ -1,6 +1,5 @@
 <?php
 
-use DI\ContainerBuilder;
 use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
@@ -9,6 +8,7 @@ use PhpSchool\Website\Action\ApiDocsAction;
 use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Cache;
+use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\DocumentationAction;
 use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\User\AuthenticationService;
@@ -35,12 +35,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
-$containerBuilder = new ContainerBuilder;
-$containerBuilder->addDefinitions(__DIR__ . '/../vendor/php-di/slim-bridge/src/config.php');
-$containerBuilder->addDefinitions(__DIR__ . '/../app/config.php');
-
-$container  = $containerBuilder->build();
-$app        = $container->get('app');
+$app = (new ContainerFactory)()->get('app');
 
 $app->get('/', function (Request $request, Response $response, PhpRenderer $renderer) {
     $inner = $renderer->fetch('home.phtml');

@@ -1,6 +1,8 @@
 <?php
 
+use Cache\Bridge\DoctrineCacheBridge;
 use function DI\factory;
+use Doctrine\Common\Cache\Cache as DoctrineCache;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +19,6 @@ use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\ApiDocsAction;
-use PhpSchool\Website\Cache;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateUser;
 use PhpSchool\Website\Command\GenerateDoc;
@@ -38,7 +39,7 @@ use Slim\Flash\Messages;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
-$config = [
+return [
     'console' => factory(function (ContainerInterface $c) {
         $app = new Silly\Edition\PhpDi\Application('PHP School Website', null, $c);
         $app->command('generate-docs', GenerateDoc::class);
@@ -61,14 +62,7 @@ $config = [
             return new NullAdapter;
         }
 
-        return new RedisAdapter(new Predis\Client(['host' => 'redis']), 'fpc');
-    }),
-    'cache' => factory(function (ContainerInterface $c) {
-        if (!$c->get('config')['enableCache']) {
-            return new NullAdapter;
-        }
-
-        return new RedisAdapter(new Predis\Client(['host' => 'redis']), 'default');
+        return new RedisAdapter(new Predis\Client(['host' => $c->get('config')['redisHost']]), 'fpc');
     }),
     PhpRenderer::class => factory(function (ContainerInterface $c) {
         $settings = $c->get('config')['renderer'];
@@ -221,13 +215,18 @@ $config = [
     Setup::class => \DI\factory(function (ContainerInterface $c) {
         $doctrineConfig = $c->get('config')['doctrine'];
 
-        return Setup::createAnnotationMetadataConfiguration(
+        $config =  Setup::createAnnotationMetadataConfiguration(
             $doctrineConfig['meta']['entity_path'],
             $doctrineConfig['meta']['auto_generate_proxies'],
             $doctrineConfig['meta']['proxy_dir'],
-            $doctrineConfig['meta']['cache'],
+            null,
             false
         );
+
+        $config->setMetadataCacheImpl($c->get(DoctrineCache::class));
+        $config->setQueryCacheImpl($c->get(DoctrineCache::class));
+        $config->setHydrationCacheImpl($c->get(DoctrineCache::class));
+        $config->setResultCacheImpl($c->get(DoctrineCache::class));
     }),
 
     EntityManagerInterface::class => \DI\factory(function (ContainerInterface $c) {
@@ -278,7 +277,6 @@ $config = [
                 ],
                 'auto_generate_proxies' => true,
                 'proxy_dir' =>  __DIR__.'/../cache/proxies',
-                'cache' => null,
             ],
             'connection' => [
                 'driver'   => 'pdo_mysql',
@@ -291,9 +289,3 @@ $config = [
     //slim settings
     'settings.displayErrorDetails' => true,
  ];
-
-if (file_exists(__DIR__ . '/local-config.php')) {
-    $config = array_replace_recursive($config, include __DIR__ . '/local-config.php');
-}
-
-return $config;
