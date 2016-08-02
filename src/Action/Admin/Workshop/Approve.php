@@ -43,12 +43,18 @@ class Approve
 
         $this->repository->save($workshop);
 
-        $this->workshopFeed->generate();
-
-        $this->messages->addMessage(
-            'admin',
-            sprintf('Successfully approved %s and regenerated workshop feed.', $workshop->getDisplayName())
-        );
+        try {
+            $this->workshopFeed->generate();
+            $this->messages->addMessage(
+                'admin.success',
+                sprintf('Successfully approved %s and regenerated workshop feed!', $workshop->getDisplayName())
+            );
+        } catch (RuntimeException $e) {
+            $this->messages->addMessage(
+                'admin.error',
+                sprintf('Workshop feed could not be generated. Error: "%s"', $e->getMessage())
+            );
+        }
 
         return $response
             ->withStatus(302)

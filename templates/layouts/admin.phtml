@@ -85,8 +85,17 @@
                 <!-- /top navigation -->
 
                 <div class="right_col" role="main" style="min-height: 1162px;">
-                    <?php foreach ($messages as $message): ?>
+                    <?php foreach ($successMessages as $message): ?>
                         <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <?= $message ?>
+                        </div>
+                    <?php endforeach; ?>
+
+                    <?php foreach ($errorMessages as $message): ?>
+                        <div class="alert alert-danger">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
