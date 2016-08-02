@@ -44,8 +44,8 @@ class DocsAction
             $document->getTemplateFile()
         );
 
-        $this->renderer->addJs('https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js');
-        $this->renderer->prependCss('https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css');
+        $this->renderer->addJs('docsearch', 'https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js');
+        $this->renderer->prependCss('docsearch', 'https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css');
 
         $inner = $this->renderer->fetch('docs.phtml', [
             'docs'      => $this->documentation,
