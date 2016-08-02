@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Setup;
-use Github\Client;
 use Interop\Container\ContainerInterface;
 use League\CommonMark\CommonMarkConverter;
 use Monolog\Handler\StreamHandler;
@@ -17,7 +16,6 @@ use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\ApiDocsAction;
-use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateUser;
@@ -28,12 +26,9 @@ use PhpSchool\Website\DocumentationGroup;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\FpcCache;
 use PhpSchool\Website\Repository\WorkshopRepository;
-use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\User\Adapter\Doctrine;
 use PhpSchool\Website\User\AuthenticationService;
 use PhpSchool\Website\User\Middleware\Authenticator;
-use PhpSchool\Website\Validator\SubmitWorkshop as SubmitWorkshopValidator;
-use PhpSchool\Website\Validator\WorkshopComposerJson;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
@@ -164,13 +159,6 @@ $config = [
     }),
     ApiDocsAction::class => \DI\factory(function (ContainerInterface $c) {
         return new ApiDocsAction($c->get(PhpRenderer::class), $c->get(DocGenerator::class), $c->get('cache'));
-    }),
-
-    SubmitWorkshop::class => \DI\factory(function (ContainerInterface $c) {
-        return new SubmitWorkshop(
-            new SubmitWorkshopValidator(new Client, $c->get(WorkshopRepository::class)),
-            new WorkshopCreator(new WorkshopComposerJson, $c->get(WorkshopRepository::class))
-        );
     }),
 
     //admin
