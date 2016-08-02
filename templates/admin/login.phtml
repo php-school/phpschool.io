@@ -17,7 +17,7 @@
         <div class="login_wrapper">
             <div class="animate form login_form">
                 <section class="login_content">
-                    <form lpformnum="1" action="/login" method="POST">
+                    <form lpformnum="1" action="/authenticate" method="POST">
                         <h1>Login</h1>
                         <div>
                             <input type="text" name="email" class="form-control" placeholder="Email" required="">
@@ -35,8 +35,21 @@
                             <div class="clearfix"></div>
                             <br>
                         </div>
+
+
                     </form>
                 </section>
+                <?php if (isset($messages)): ?>
+                    <div class="alert alert-danger">
+                        <ul>
+                            <?php foreach ($messages as $field): ?>
+                                <? foreach ($field as $error): ?>
+                                    <li><?= $error ?></li>
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </body>

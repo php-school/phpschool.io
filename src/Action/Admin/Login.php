@@ -74,7 +74,7 @@ class Login
         return $this->renderer->render($response, 'admin/login.phtml', [
             'pageTitle'       => 'Login to Admin',
             'pageDescription' => 'Login to Admin',
-            'messages'        => $result->getMessages()
+            'messages'        => [$result->getMessages()]
         ]);
     }
 }
