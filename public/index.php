@@ -61,15 +61,6 @@ $app->get('/install', function (Request $request, Response $response, PhpRendere
 
 $app->get('/api-docs[/{namespace}[/{class}]]', ApiDocsAction::class);
 $app->get('/docs[/{group}[/{section}]]', DocsAction::class);
-$app->get('/submit', function (Request $request, Response $response, PhpRenderer $renderer) {
-    $inner = $renderer->fetch('submit.phtml');
-    return $renderer->render($response, 'layouts/layout.phtml', [
-        'pageTitle'       => 'Submit your workshop',
-        'pageDescription' => 'Submit your workshop to the workshop registry!',
-        'content'         => $inner
-    ]);
-});
-$app->post('/submit', SubmitWorkshop::class);
 $app
     ->group('/admin', function () {
         $this->get('', function (Request $request, Response $response, PhpRenderer $renderer) {
