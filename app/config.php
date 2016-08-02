@@ -11,6 +11,9 @@ use League\CommonMark\CommonMarkConverter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
+use PhpSchool\Website\Action\Admin\Workshop\Approve;
+use PhpSchool\Website\Action\Admin\Workshop\Requests;
+use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\ApiDocsAction;
 use PhpSchool\Website\Cache;
@@ -26,9 +29,11 @@ use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\Adapter\Doctrine;
 use PhpSchool\Website\User\AuthenticationService;
 use PhpSchool\Website\User\Middleware\Authenticator;
+use PhpSchool\Website\WorkshopFeed;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
 use Ramsey\Uuid\Doctrine\UuidType;
+use Slim\Flash\Messages;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
@@ -77,15 +82,15 @@ $config = [
         );
 
         //default CSS
-        $renderer->appendCss('/css/solarized-light.css');
-        $renderer->appendCss('/css/core.css');
-        $renderer->appendCss('https://fonts.googleapis.com/css?family=Open+Sans');
+        $renderer->appendCss('code-blocks', '/css/solarized-light.css');
+        $renderer->appendCss('main-css', '/css/core.css');
+        $renderer->appendCss('font', 'https://fonts.googleapis.com/css?family=Open+Sans');
 
 
         //default JS
-        $renderer->addJs('//code.jquery.com/jquery-1.12.0.min.js');
-        $renderer->addJs('/js/highlight.min.js');
-        $renderer->addJs('/js/main.js');
+        $renderer->addJs('jquery', '//code.jquery.com/jquery-1.12.0.min.js');
+        $renderer->addJs('highlight-js', '/js/highlight.min.js');
+        $renderer->addJs('main-js', '/js/main.js');
 
         return $renderer;
     }),
@@ -154,6 +159,40 @@ $config = [
     }),
     ApiDocsAction::class => \DI\factory(function (ContainerInterface $c) {
         return new ApiDocsAction($c->get(PhpRenderer::class), $c->get(DocGenerator::class), $c->get('cache'));
+    }),
+
+    //admin
+    Requests::class => \DI\factory(function (ContainerInterface $c) {
+        return new Requests(
+            $c->get(WorkshopRepository::class),
+            $c->get(PhpRenderer::class)
+        );
+    }),
+
+    All::class => \DI\factory(function (ContainerInterface $c) {
+        return new All(
+            $c->get(WorkshopRepository::class),
+            $c->get(PhpRenderer::class)
+        );
+    }),
+
+    Approve::class => \DI\factory(function (ContainerInterface $c) {
+        return new Approve(
+            $c->get(WorkshopRepository::class),
+            $c->get(WorkshopFeed::class),
+            $c->get(Messages::class)
+        );
+    }),
+
+    Messages::class => \DI\factory(function (ContainerInterface $c) {
+        return new Messages();
+    }),
+
+    WorkshopFeed::class => \DI\factory(function (ContainerInterface $c) {
+        return new WorkshopFeed(
+            $c->get(WorkshopRepository::class),
+            __DIR__ . '/../feed.json'
+        );
     }),
 
     WorkshopRepository::class => \DI\factory(function (ContainerInterface $c) {
