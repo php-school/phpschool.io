@@ -47,38 +47,26 @@ class User
 
     public function __construct(string $username, string $email, string $passwordHash)
     {
-        $this->username = $username;
-        $this->email = $email;
+        $this->username     = $username;
+        $this->email        = $email;
         $this->passwordHash = $passwordHash;
     }
 
-    /**
-     * @return Uuid
-     */
     public function getId(): Uuid
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @return string
-     */
     public function getPassword(): string
     {
         return $this->passwordHash;
