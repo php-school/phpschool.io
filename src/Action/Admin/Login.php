@@ -19,13 +19,22 @@ class Login
     private $authenticationService;
 
     /**
+     * @var LoginValidator
+     */
+    private $loginValidator;
+
+    /**
      * @var PhpRenderer
      */
     private $renderer;
 
-    public function __construct(AuthenticationService $authenticationService, PhpRenderer $renderer)
-    {
+    public function __construct(
+        AuthenticationService $authenticationService,
+        LoginValidator $loginValidator,
+        PhpRenderer $renderer
+    ) {
         $this->authenticationService = $authenticationService;
+        $this->loginValidator = $loginValidator;
         $this->renderer = $renderer;
     }
 
@@ -50,13 +59,11 @@ class Login
                 ->withHeader('Location', '/');
         }
 
-        $validator = new LoginValidator;
-
-        if (!$validator->validateRequest($request)) {
+        if (!$this->loginValidator->validateRequest($request)) {
             return $this->renderer->render($response, 'admin/login.phtml', [
                 'pageTitle'       => 'Login to Admin',
                 'pageDescription' => 'Login to Admin',
-                'messages'        => $validator->getMessages()
+                'messages'        => $this->loginValidator->getMessages()
             ]);
         }
 

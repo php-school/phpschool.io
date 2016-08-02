@@ -1,13 +1,22 @@
 <?php
 
 use DI\ContainerBuilder;
+use PhpSchool\Website\Action\Admin\Login;
+use PhpSchool\Website\Action\Admin\Workshop\Approve;
+use PhpSchool\Website\Action\Admin\Workshop\Requests;
+use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\ApiDocsAction;
 use PhpSchool\Website\Action\DocsAction;
+use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\DocumentationAction;
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use PhpSchool\Website\Middleware\AdminStyle;
+use PhpSchool\Website\User\AuthenticationService;
+use PhpSchool\Website\User\Middleware\Authenticator;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
+use Slim\Flash\Messages;
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -52,6 +61,58 @@ $app->get('/install', function (Request $request, Response $response, PhpRendere
 
 $app->get('/api-docs[/{namespace}[/{class}]]', ApiDocsAction::class);
 $app->get('/docs[/{group}[/{section}]]', DocsAction::class);
+$app->get('/submit', function (Request $request, Response $response, PhpRenderer $renderer) {
+    $inner = $renderer->fetch('submit.phtml');
+    return $renderer->render($response, 'layouts/layout.phtml', [
+        'pageTitle'       => 'Submit your workshop',
+        'pageDescription' => 'Submit your workshop to the workshop registry!',
+        'content'         => $inner
+    ]);
+});
+$app->post('/submit', SubmitWorkshop::class);
+$app
+    ->group('/admin', function () {
+        $this->get('', function (Request $request, Response $response, PhpRenderer $renderer) {
+            return $renderer->render($response, 'layouts/admin.phtml', [
+                'pageTitle'       => 'Admin Area',
+                'pageDescription' => 'Admin Area',
+                'content'         => 'Welcome to the Admin!'
+            ]);
+        });
+
+        $this->get('/workshops/new', Requests::class);
+        $this->get('/workshops/all', All::class);
+        $this->get('/workshop/approve/{id}', Approve::class);
+    })
+    ->add($container->get(Authenticator::class))
+    ->add(function (Request $request, Response $response, callable $next) {
+
+        $renderer = $this->get(PhpRenderer::class);
+
+        $request = $request
+            ->withAttribute('user', $this->get(AuthenticationService::class));
+
+        $renderer
+            ->addAttribute('user', $this->get(AuthenticationService::class)->getIdentity());
+
+        $renderer
+            ->addAttribute('messages', $this->get(Messages::class)->getMessage('admin') ?? []);
+
+        return $next($request, $response);
+    })
+    ->add(AdminStyle::class);
+
+$app
+    ->map(['GET', 'POST'], '/login', Login::class)
+    ->add(AdminStyle::class);
+
+$app->get('/logout', function (AuthenticationService $auth, Response $response) {
+    $auth->logout();
+
+    return $response
+        ->withStatus(302)
+        ->withHeader('Location', '/');
+});
 
 // Run app
 $app->run();

@@ -11,6 +11,7 @@ use League\CommonMark\CommonMarkConverter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
+use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
@@ -162,6 +163,14 @@ $config = [
     }),
 
     //admin
+    Login::class => \DI\factory(function (ContainerInterface $c) {
+        return new Login(
+            $c->get(AuthenticationService::class),
+            new LoginValidator,
+            $c->get(PhpRenderer::class)
+        );
+    }),
+
     Requests::class => \DI\factory(function (ContainerInterface $c) {
         return new Requests(
             $c->get(WorkshopRepository::class),
