@@ -8,7 +8,6 @@ use Zend\Authentication\Adapter\AbstractAdapter;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Authentication\Adapter\Exception\ExceptionInterface;
 use Zend\Authentication\Result as AuthenticationResult;
-use Zend\Authentication\Result;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
@@ -29,10 +28,10 @@ class Doctrine extends AbstractAdapter implements AdapterInterface
     /**
      * Performs an authentication attempt
      *
-     * @return Result
+     * @return AuthenticationResult
      * @throws ExceptionInterface If authentication cannot be performed
      */
-    public function authenticate()
+    public function authenticate() : AuthenticationResult
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $this->getIdentity()]);
 
