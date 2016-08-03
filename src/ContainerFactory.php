@@ -27,11 +27,9 @@ class ContainerFactory
         $containerBuilder->addDefinitions(__DIR__ . '/../vendor/php-di/slim-bridge/src/config.php');
         $containerBuilder->addDefinitions($config);
 
-        if ($config['config']['enableCache']) {
-            $cache = new NullAdapter();
-        } else {
-            $cache = new RedisAdapter(new Client(['host' => $config['config']['redisHost']]), 'default');
-        }
+        $cache = $config['config']['enableCache']
+            ? new RedisAdapter(new Client(['host' => $config['config']['redisHost']]), 'default')
+            : new NullAdapter();
 
         $doctrineCache = new DoctrineCacheBridge($cache);
         $containerBuilder->setDefinitionCache($doctrineCache);
