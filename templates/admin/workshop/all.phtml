@@ -32,7 +32,7 @@
                         <?php foreach ($workshops as $i => $workshop): ?>
                             <tr>
                                 <th scope="row"><?= $i + 1 ?></th>
-                                <td><?= $workshop->getName(); ?></td>
+                                <td><a href="/admin/workshop/view/<?= $workshop->getId() ?>"><?= $workshop->getName(); ?></a></td>
                                 <td><?= $workshop->getDisplayName(); ?></td>
                                 <td><?= $workshop->getDescription(); ?></td>
                                 <td>

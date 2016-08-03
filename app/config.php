@@ -25,8 +25,11 @@ use PhpSchool\Website\Command\GenerateDoc;
 use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
 use PhpSchool\Website\DocumentationGroup;
+use PhpSchool\Website\DownloadManager;
 use PhpSchool\Website\Entity\Workshop;
+use PhpSchool\Website\Entity\WorkshopInstall;
 use PhpSchool\Website\Middleware\FpcCache;
+use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\Adapter\Doctrine;
 use PhpSchool\Website\User\AuthenticationService;
@@ -201,6 +204,14 @@ return [
 
     WorkshopRepository::class => \DI\factory(function (ContainerInterface $c) {
         return $c->get(EntityManagerInterface::class)->getRepository(Workshop::class);
+    }),
+
+    WorkshopInstallRepository::class => \DI\factory(function (ContainerInterface $c) {
+        return $c->get(EntityManagerInterface::class)->getRepository(WorkshopInstall::class);
+    }),
+
+    DownloadManager::class => DI\factory(function (ContainerInterface $c) {
+        return new DownloadManager($c->get(WorkshopInstallRepository::class));
     }),
 
     AuthenticationService::class => \DI\factory(function (ContainerInterface $c) {
