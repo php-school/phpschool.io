@@ -13,7 +13,7 @@ use Ramsey\Uuid\Uuid;
  * @ORM\Table(name="workshop"))
  * @ORM\Entity(repositoryClass="PhpSchool\Website\Repository\DoctrineORMWorkshopRepository")
  */
-class Workshop implements JsonSerializable
+class Workshop
 {
     /**
      * @var Uuid
@@ -129,7 +129,7 @@ class Workshop implements JsonSerializable
         $this->approved = true;
     }
 
-    public function jsonSerialize() : array
+    public function toArray() : array
     {
         return [
             "name" => $this->getName(),

@@ -10,3 +10,5 @@ npm-debug.log
 
 .docker/db/*
 .docker/mysql/*
+
+/public/workshops.json

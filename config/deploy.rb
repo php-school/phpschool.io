@@ -9,7 +9,7 @@ set :deploy_to, '/var/www/html'
 set :pty, true
 set :log_level, :debug
 
-set :linked_dirs, %w{cache}
+set :linked_files, %w{public/workshops.json}
 namespace :deploy do
 
   task :clear_cache do

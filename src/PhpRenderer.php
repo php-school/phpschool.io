@@ -4,9 +4,8 @@ namespace PhpSchool\Website;
 
 use League\CommonMark\CommonMarkConverter;
 use Slim\Views\PhpRenderer as SlimPhpRenderer;
+
 /**
- * Class PhpRenderer
- * @package PhpSchool\Website
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */
 class PhpRenderer extends SlimPhpRenderer
@@ -41,19 +40,37 @@ class PhpRenderer extends SlimPhpRenderer
     }
 
     /**
+     * @param string $id
      * @param string $cssFile
+     * @return PhpRenderer
      */
-    public function prependCss(string $cssFile)
+    public function prependCss(string $id, string $cssFile) : PhpRenderer
     {
-        array_unshift($this->css, $cssFile);
+        array_unshift($this->css, ['id' => $id, 'url' => $cssFile]);
+        return $this;
     }
 
     /**
+     * @param string $id
      * @param string $cssFile
+     * @return PhpRenderer
      */
-    public function appendCss(string $cssFile)
+    public function appendCss(string $id, string $cssFile) : PhpRenderer
     {
-        $this->css[] = $cssFile;
+        $this->css[] = ['id' => $id, 'url' => $cssFile];
+        return $this;
+    }
+
+    /**
+     * @param string $id
+     * @return PhpRenderer
+     */
+    public function removeCss(string $id) : PhpRenderer
+    {
+        $this->css = array_values(array_filter($this->css, function (array $css) use ($id) {
+            return $css['id'] !== $id;
+        }));
+        return $this;
     }
 
     /**
@@ -61,15 +78,32 @@ class PhpRenderer extends SlimPhpRenderer
      */
     public function getCss() : array
     {
-        return $this->css;
+        return array_map(function (array $css) {
+            return $css['url'];
+        }, $this->css);
     }
 
     /**
+     * @param string $id
      * @param string $jsFile
+     * @return PhpRenderer
      */
-    public function addJs(string $jsFile)
+    public function addJs(string $id, string $jsFile) : PhpRenderer
     {
-        $this->js[] = $jsFile;
+        $this->js[] = ['id' => $id, 'url' => $jsFile];
+        return $this;
+    }
+
+    /**
+     * @param string $id
+     * @return PhpRenderer
+     */
+    public function removeJs(string $id) : PhpRenderer
+    {
+        $this->js = array_values(array_filter($this->js, function (array $js) use ($id) {
+            return $js['id'] !== $id;
+        }));
+        return $this;
     }
 
     /**
@@ -77,7 +111,9 @@ class PhpRenderer extends SlimPhpRenderer
      */
     public function getJs() : array
     {
-        return $this->js;
+        return array_map(function (array $js) {
+            return $js['url'];
+        }, $this->js);
     }
 
     public function renderDocHeader(string $id, string $title, string $file = null) : string
