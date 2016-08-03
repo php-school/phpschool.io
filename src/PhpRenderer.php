@@ -42,9 +42,9 @@ class PhpRenderer extends SlimPhpRenderer
     /**
      * @param string $id
      * @param string $cssFile
-     * @return self
+     * @return PhpRenderer
      */
-    public function prependCss(string $id, string $cssFile)
+    public function prependCss(string $id, string $cssFile) : PhpRenderer
     {
         array_unshift($this->css, ['id' => $id, 'url' => $cssFile]);
         return $this;
@@ -53,9 +53,9 @@ class PhpRenderer extends SlimPhpRenderer
     /**
      * @param string $id
      * @param string $cssFile
-     * @return self
+     * @return PhpRenderer
      */
-    public function appendCss(string $id, string $cssFile)
+    public function appendCss(string $id, string $cssFile) : PhpRenderer
     {
         $this->css[] = ['id' => $id, 'url' => $cssFile];
         return $this;
@@ -63,9 +63,9 @@ class PhpRenderer extends SlimPhpRenderer
 
     /**
      * @param string $id
-     * @return self
+     * @return PhpRenderer
      */
-    public function removeCss(string $id)
+    public function removeCss(string $id) : PhpRenderer
     {
         $this->css = array_values(array_filter($this->css, function (array $css) use ($id) {
             return $css['id'] !== $id;
@@ -86,9 +86,9 @@ class PhpRenderer extends SlimPhpRenderer
     /**
      * @param string $id
      * @param string $jsFile
-     * @return self
+     * @return PhpRenderer
      */
-    public function addJs(string $id, string $jsFile)
+    public function addJs(string $id, string $jsFile) : PhpRenderer
     {
         $this->js[] = ['id' => $id, 'url' => $jsFile];
         return $this;
@@ -96,9 +96,9 @@ class PhpRenderer extends SlimPhpRenderer
 
     /**
      * @param string $id
-     * @return self
+     * @return PhpRenderer
      */
-    public function removeJs(string $id)
+    public function removeJs(string $id) : PhpRenderer
     {
         $this->js = array_values(array_filter($this->js, function (array $js) use ($id) {
             return $js['id'] !== $id;

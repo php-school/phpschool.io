@@ -34,11 +34,11 @@ class Login
         PhpRenderer $renderer
     ) {
         $this->authenticationService = $authenticationService;
-        $this->loginValidator = $loginValidator;
-        $this->renderer = $renderer;
+        $this->loginValidator        = $loginValidator;
+        $this->renderer              = $renderer;
     }
 
-    public function __invoke(Request $request, Response $response)
+    public function __invoke(Request $request, Response $response) : Response
     {
         if ($this->authenticationService->hasIdentity()) {
             return $response

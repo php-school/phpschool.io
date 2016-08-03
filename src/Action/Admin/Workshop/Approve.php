@@ -7,6 +7,7 @@ use PhpSchool\Website\WorkshopFeed;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
+use RuntimeException;
 use Slim\Flash\Messages;
 
 /**
@@ -38,7 +39,14 @@ class Approve
 
     public function __invoke(Request $request, Response $response, PhpRenderer $renderer, $id)
     {
-        $workshop = $this->repository->findById($id);
+        try {
+            $workshop = $this->repository->findById($id);
+        } catch (RuntimeException $e) {
+            return $response
+                ->withStatus(302)
+                ->withHeader('Location', '/admin/workshops/all');
+         }
+
         $workshop->approve();
 
         $this->repository->save($workshop);
