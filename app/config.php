@@ -38,7 +38,7 @@ use Ramsey\Uuid\Doctrine\UuidType;
 use Slim\Flash\Messages;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
-use PhpSchool\Website\Validator as LoginValidator;
+use PhpSchool\Website\Validator\Login as LoginValidator;
 
 return [
     'console' => factory(function (ContainerInterface $c) {
