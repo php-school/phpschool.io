@@ -35,7 +35,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
-$app = (new ContainerFactory)()->get('app');
+$container = (new ContainerFactory)();
+$app = $container->get('app');
 
 $app->get('/', function (Request $request, Response $response, PhpRenderer $renderer) {
     $inner = $renderer->fetch('home.phtml');

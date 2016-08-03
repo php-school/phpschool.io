@@ -227,6 +227,8 @@ return [
         $config->setQueryCacheImpl($c->get(DoctrineCache::class));
         $config->setHydrationCacheImpl($c->get(DoctrineCache::class));
         $config->setResultCacheImpl($c->get(DoctrineCache::class));
+
+        return $config;
     }),
 
     EntityManagerInterface::class => \DI\factory(function (ContainerInterface $c) {
