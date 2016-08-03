@@ -4,6 +4,7 @@ return [
     'config' => [
         'enablePageCache' => false,
         'enableCache' => false,
+        'redisHost' => 'redis',
 
         'doctrine' => [
             'connection' => [
