@@ -1,0 +1,24 @@
+<?= $this->fetch('includes/home-header.phtml') ?>
+<section class="site-body">
+    <div class="container">
+        <div id="submit-workshop">
+            <form id="submit-workshop-form" action="/submit" method="post">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="name">Workshop Name</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Learn You PHP!">
+                    <p class="help-block">Example block-level help text here.</p>
+                </div>
+                <div class="form-group">
+                    <label for="github-url">GitHub repository URL</label>
+                    <input type="test" class="form-control" name="github-url" id="github-url" placeholder="https://github.com/php-school/learn-you-php">
+                    <p class="help-block">Example block-level help text here.</p>
+                </div>
+                <input type="submit" class="link" value="Submit"/>
+            </form>
+        </div>
+    </div>
+</section>
