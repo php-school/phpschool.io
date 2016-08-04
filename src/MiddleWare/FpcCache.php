@@ -35,7 +35,7 @@ class FpcCache
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
-        $key  = sprintf('fpc-route-%s', $this->encodeUrl($request->getUri()->getPath()));
+        $key  = sprintf('fpc-route-%s-%s', $this->encodeUrl($request->getUri()->getPath()), $request->getMethod());
 
         $item = $this->cache->getItem($key);
 
@@ -64,7 +64,6 @@ class FpcCache
      */
     private function encodeUrl($urlPath)
     {
-
         return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $urlPath)));
     }
 
