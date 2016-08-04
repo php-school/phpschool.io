@@ -1,0 +1,7 @@
+#!/bin/bash
+
+[ "$XDEBUG_ENABLE" = "true" ] && \
+    docker-php-ext-enable xdebug && \
+    echo "Xdebug is enabled"
+
+exec "$@"

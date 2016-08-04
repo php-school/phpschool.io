@@ -9,6 +9,10 @@ services:
       dockerfile: ./.docker/files/php-school-fpm
     volumes:
       - .:/var/www/html
+    env_file:
+      - ./project.env
+    ports:
+      - 9000
 
   db:
     container_name: php-school-db

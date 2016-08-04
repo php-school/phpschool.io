@@ -1,3 +1,16 @@
 FROM php:7.0-fpm
 RUN apt-get update && docker-php-ext-install -j$(nproc) pdo_mysql
 
+# Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Xdebug
+RUN pecl install -o -f xdebug-2.4.0
+
+ADD .docker/bin/docker-configure /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-configure
+
+ADD .docker/etc/php-xdebug.ini /usr/local/etc/php/conf.d/php-xdebug.ini
+
+ENTRYPOINT ["/usr/local/bin/docker-configure"]
+CMD ["php-fpm"]
