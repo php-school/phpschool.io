@@ -19,10 +19,6 @@ class ContainerFactory
     {
         $config = include __DIR__ . '/../app/config.php';
 
-        if (file_exists(__DIR__ . '/../app/local-config.php')) {
-            $config = array_replace_recursive($config, include __DIR__ . '/../app/local-config.php');
-        }
-
         $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions(__DIR__ . '/../vendor/php-di/slim-bridge/src/config.php');
         $containerBuilder->addDefinitions($config);

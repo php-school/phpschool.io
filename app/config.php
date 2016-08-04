@@ -267,10 +267,9 @@ return [
             'github-website' => 'https://github.com/php-school/phpschool.io',
         ],
 
-        'cacheDir'          => __DIR__ . '/../cache',
-        'cachePermissions'  => '0777',
         'enablePageCache'   => true,
         'enableCache'       => true,
+        'redisHost'         => 'redis',
 
         'doctrine' => [
             'meta' => [
@@ -285,6 +284,8 @@ return [
                 'driver'   => 'pdo_mysql',
                 'host'     => 'php-school-db',
                 'dbname'   => 'phpschool',
+                'user'     => getenv('MYSQL_USER'),
+                'password' => getenv('MYSQL_PASSWORD'),
             ]
         ]
     ],
