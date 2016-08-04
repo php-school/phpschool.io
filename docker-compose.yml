@@ -9,8 +9,11 @@ services:
       dockerfile: ./.docker/files/php-school-fpm
     volumes:
       - .:/var/www/html
-    env_file:
-      - ./project.env
+    environment:
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - XDEBUG_ENABLE
+      - XDEBUG_CONFIG
     ports:
       - 9000
 
@@ -23,8 +26,11 @@ services:
     ports:
         - "3306"
     restart: always
-    env_file:
-        - ./project.env
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
 
   nginx:
     container_name: php-school-nginx
