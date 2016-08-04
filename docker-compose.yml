@@ -23,8 +23,6 @@ services:
   db:
     container_name: php-school-db
     image: mysql:latest
-    links:
-      - php
     volumes:
         - "./.docker/mysql:/var/lib/mysql"
         - "./.docker/db/:/docker-entrypoint-initdb.d/"
