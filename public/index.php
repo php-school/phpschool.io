@@ -94,6 +94,8 @@ $app
     ->add($container->get(Authenticator::class))
     ->add(function (Request $request, Response $response, callable $next) {
 
+        $response = $response->withHeader('cache-control', 'no-cache');
+
         $renderer = $this->get(PhpRenderer::class);
 
         $request = $request
