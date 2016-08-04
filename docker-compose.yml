@@ -19,7 +19,7 @@ services:
 
   db:
     container_name: php-school-db
-    image: mysql:5.6
+    image: mysql:latest
     links:
       - php
     volumes:
