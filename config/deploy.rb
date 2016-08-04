@@ -49,6 +49,7 @@ namespace :deploy do
   task :schema_update do
     on roles(:web) do |host|
       within release_path do
+        execute('sleep', '5') #db is not usually booted
         execute('docker', 'exec', 'php-school-fpm', 'vendor/bin/doctrine', 'orm:schema-tool:update', '-f')
       end
     end
