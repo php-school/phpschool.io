@@ -17,6 +17,9 @@ services:
     ports:
       - 9000
 
+    depends_on:
+      - "db"
+
   db:
     container_name: php-school-db
     image: mysql:latest
