@@ -36,6 +36,13 @@ interface WorkshopRepository
     public function findByDisplayName(string $displayName) : Workshop;
 
     /**
+     * @param string $name
+     * @return Workshop
+     * @throws RuntimeException
+     */
+    public function findByName(string $name) : Workshop;
+
+    /**
      * @param Workshop $workshopSubmission
      */
     public function save(Workshop $workshopSubmission);

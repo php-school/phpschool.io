@@ -4,12 +4,15 @@ use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
+use PhpSchool\Website\Action\Admin\Workshop\View;
 use PhpSchool\Website\Action\ApiDocsAction;
 use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\SubmitWorkshop;
+use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\DocumentationAction;
+use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\User\AuthenticationService;
 use PhpSchool\Website\User\Middleware\Authenticator;
@@ -61,6 +64,7 @@ $app->get('/docs[/{group}[/{section}]]', DocsAction::class);
 
 $app
     ->group('/admin', function () {
+
         $this->get('', function (Request $request, Response $response, PhpRenderer $renderer) {
             return $renderer->render($response, 'layouts/admin.phtml', [
                 'pageTitle'       => 'Admin Area',
@@ -90,6 +94,8 @@ $app
                     ->withHeader('Location', '/admin/workshops/all');
             }
         );
+
+        $this->get('/workshop/view/{id}', View::class);
     })
     ->add($container->get(Authenticator::class))
     ->add(function (Request $request, Response $response, callable $next) {
@@ -125,6 +131,7 @@ $app->get('/logout', function (AuthenticationService $auth, Response $response) 
         ->withStatus(302)
         ->withHeader('Location', '/');
 });
+$app->post('/downloads/{workshop}/{version}', TrackDownloads::class)->add(new \RKA\Middleware\IpAddress());
 
 // Run app
 $app->run();

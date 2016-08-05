@@ -4,9 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e4778d2d3546c34536485abf6c9c49f1",
-    "content-hash": "4d4dfc72f6dbdd118a5742c2f70c6785",
+    "hash": "ffc8f22bd74b60743775e57fc8284c0f",
+    "content-hash": "c131dcc7baffcc3a7bdcda2b766a8c62",
     "packages": [
+        {
+            "name": "akrabat/rka-ip-address-middleware",
+            "version": "0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/akrabat/rka-ip-address-middleware.git",
+                "reference": "1c9947fdbaad04614e8b15d55f191f11c39293d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/akrabat/rka-ip-address-middleware/zipball/1c9947fdbaad04614e8b15d55f191f11c39293d1",
+                "reference": "1c9947fdbaad04614e8b15d55f191f11c39293d1",
+                "shasum": ""
+            },
+            "require": {
+                "psr/http-message": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8",
+                "squizlabs/php_codesniffer": "^2.3",
+                "zendframework/zend-diactoros": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RKA\\Middleware\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Allen",
+                    "email": "rob@akrabat.com",
+                    "homepage": "http://akrabat.com"
+                }
+            ],
+            "description": "PSR-7 Middleware that determines the client IP address and stores it as an ServerRequest attribute",
+            "homepage": "http://github.com/akrabat/rka-ip-address-middleware",
+            "keywords": [
+                "IP",
+                "middleware",
+                "psr7"
+            ],
+            "time": "2015-11-06 10:38:17"
+        },
         {
             "name": "aydin-hassan/cli-md-renderer",
             "version": "2.0.0",
@@ -1215,21 +1263,21 @@
         },
         {
             "name": "mnapoli/silly-php-di",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mnapoli/silly-php-di.git",
-                "reference": "c63d9a2bd50a8675034f6ea49b78985bf319e30d"
+                "reference": "ffcfd38f20ddf43db09f1fda25faa895116c4d31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/silly-php-di/zipball/c63d9a2bd50a8675034f6ea49b78985bf319e30d",
-                "reference": "c63d9a2bd50a8675034f6ea49b78985bf319e30d",
+                "url": "https://api.github.com/repos/mnapoli/silly-php-di/zipball/ffcfd38f20ddf43db09f1fda25faa895116c4d31",
+                "reference": "ffcfd38f20ddf43db09f1fda25faa895116c4d31",
                 "shasum": ""
             },
             "require": {
-                "mnapoli/php-di": "~4.4",
-                "mnapoli/silly": "~1.1"
+                "mnapoli/silly": "~1.1",
+                "php-di/php-di": "~4.4 || ^5.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.5"
@@ -1245,7 +1293,7 @@
                 "MIT"
             ],
             "description": "Silly framework edition configured with PHP-DI",
-            "time": "2015-04-05 00:22:24"
+            "time": "2016-08-04 15:41:28"
         },
         {
             "name": "monolog/monolog",
