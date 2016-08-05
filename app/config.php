@@ -225,10 +225,6 @@ return [
         return $c->get(EntityManagerInterface::class)->getRepository(WorkshopInstall::class);
     }),
 
-    DownloadManager::class => DI\factory(function (ContainerInterface $c) {
-        return new DownloadManager($c->get(WorkshopInstallRepository::class));
-    }),
-
     AuthenticationService::class => \DI\factory(function (ContainerInterface $c) {
         $authService = new \Zend\Authentication\AuthenticationService;
         $authService->setAdapter(new Doctrine($c->get(EntityManagerInterface::class)));
