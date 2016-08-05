@@ -30,6 +30,7 @@ set :log_level, :debug
 set :keep_releases, 2
 
 set :linked_dirs, %w{.docker/mysql}
+set :linked_files, %w{public/workshops.json}
 namespace :deploy do
 
   task :setup_container do
