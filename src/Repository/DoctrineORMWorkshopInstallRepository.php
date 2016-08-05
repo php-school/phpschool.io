@@ -62,10 +62,10 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
             ->where($where)
             ->andWhere('s.workshop = :workshop')
             ->setParameters([
-                                'from' => $thirtyDaysAgo,
-                                'to' => $now,
-                                'workshop' => $workshop
-                            ]);
+                'from' => $thirtyDaysAgo,
+                'to' => $now,
+                'workshop' => $workshop
+            ]);
 
         return $qb->getQuery()->getResult();
     }

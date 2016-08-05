@@ -3,12 +3,14 @@
         <div class="dashboard_graph">
 
             <div class="row x_title">
-                <div class="col-md-12">
+                <div class="col-sm-6">
                     <h3>Last 30 day download stats for workshop: <?= $workshop->getDisplayName() ?></h3>
                 </div>
             </div>
 
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <br>
+                <br>
                 <div style="width: 100%;">
                     <canvas id="myChart" style="display: block; width: 100%;"></canvas>
                 </div>
@@ -25,36 +27,9 @@
                     return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
                 };
 
-                var data = {
-                    labels: ["January", "February", "March", "April", "May", "June", "July"],
-                    datasets: [
-                        {
-                            label: "My First dataset",
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(255,99,132,1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
-                            borderWidth: 1,
-                            data: [65, 59, 80, 81, 56, 55, 40],
-                        }
-                    ]
-                };
-
                 var ctx = document.getElementById("myChart");
                 var config = {
-                    type: 'bar',
+                    type: 'line',
                     data: {
                         labels: <?= json_encode($graphData['dates']) ?>,
                         datasets: [{

@@ -73,7 +73,7 @@ class View
     {
         $end    = new DateTimeImmutable();
         $begin  = $end->sub(new DateInterval("P30D"));
-        $end    = $end->modify('+1 day');
+        $end    = $end->add(new DateInterval("P1D"));
 
         $interval   = new DateInterval('P1D');
         $dateRange  = new DatePeriod($begin, $interval ,$end);
