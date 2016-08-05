@@ -17,8 +17,10 @@ use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
+use PhpSchool\Website\Action\Admin\Workshop\View;
 use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\ApiDocsAction;
+use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateUser;
 use PhpSchool\Website\Command\GenerateDoc;
@@ -156,9 +158,14 @@ return [
     DocsAction::class => \DI\factory(function (ContainerInterface $c) {
         return new DocsAction($c->get(PhpRenderer::class), $c->get(Documentation::class));
     }),
+
     ApiDocsAction::class => \DI\factory(function (ContainerInterface $c) {
         return new ApiDocsAction($c->get(PhpRenderer::class), $c->get(DocGenerator::class), $c->get('cache'));
     }),
+
+    TrackDownloads::class => function (ContainerInterface $c) {
+        return new TrackDownloads($c->get(WorkshopRepository::class), $c->get(WorkshopInstallRepository::class));
+    },
 
     //admin
     Login::class => \DI\factory(function (ContainerInterface $c) {
@@ -190,6 +197,14 @@ return [
             $c->get(Messages::class)
         );
     }),
+
+    View::class => function (ContainerInterface $c) {
+        return new View(
+            $c->get(WorkshopRepository::class),
+            $c->get(WorkshopInstallRepository::class),
+            $c->get(PhpRenderer::class)
+        );
+    },
 
     Messages::class => \DI\factory(function (ContainerInterface $c) {
         return new Messages();

@@ -2,14 +2,16 @@
 
 namespace PhpSchool\Website\Action\Admin\Workshop;
 
+use DateInterval;
+use DatePeriod;
+use DateTimeImmutable;
+use PhpSchool\Website\Entity\WorkshopInstall;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
-use PhpSchool\Website\WorkshopFeed;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
 use RuntimeException;
-use Slim\Flash\Messages;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
@@ -53,9 +55,11 @@ class View
 
         $this->renderer->addJs('charts', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.min.js');
 
+        $installs = $this->workshopInstallRepository->findInstallsInLast30Days($workshop);
         $inner = $this->renderer->fetch('admin/workshop/view.phtml', [
-            'workshop' => $workshop,
-            'installs' => $this->workshopInstallRepository->findInstallsInLast30Days($workshop),
+            'workshop'  => $workshop,
+            'installs'  => $installs,
+            'graphData' => $this->getLast30DayInstallGraphData($installs)
         ]);
 
         return $this->renderer->render($response, 'layouts/admin.phtml', [
@@ -63,5 +67,27 @@ class View
             'pageDescription' => $workshop->getDisplayName(),
             'content'         => $inner
         ]);
+    }
+
+    private function getLast30DayInstallGraphData(array $installs) : array
+    {
+        $end    = new DateTimeImmutable();
+        $begin  = $end->sub(new DateInterval("P30D"));
+        $end    = $end->modify('+1 day');
+
+        $interval   = new DateInterval('P1D');
+        $dateRange  = new DatePeriod($begin, $interval ,$end);
+
+        $data = array_map(function (\DateTimeImmutable $dateTime) use ($installs) {
+            return count(array_filter($installs, function (WorkshopInstall $install) use ($dateTime) {
+                return $install->getDateTime()->format('d-m-Y') === $dateTime->format('d-m-Y');
+            }));
+        }, iterator_to_array($dateRange));
+
+        $dates = array_map(function (\DateTimeImmutable $dateTime) {
+            return $dateTime->format('d M');
+        }, iterator_to_array($dateRange));
+
+        return ['dates' => $dates, 'data' => $data];
     }
 }
