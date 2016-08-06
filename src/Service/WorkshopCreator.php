@@ -13,7 +13,7 @@ use PhpSchool\Website\Validator\WorkshopComposerJson as WorkshopComposerJsonVali
 class WorkshopCreator
 {
     private static $gitHubComposerJsonUrlFormat = 'https://raw.githubusercontent.com/%s/%s/master/composer.json';
-    private static $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d-]+)$/';
+    private static $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d-]+)\/?$/';
 
     /**
      * @var WorkshopComposerJsonValidator

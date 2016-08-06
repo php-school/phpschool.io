@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ffc8f22bd74b60743775e57fc8284c0f",
-    "content-hash": "c131dcc7baffcc3a7bdcda2b766a8c62",
+    "hash": "6171684d5db2c696137b5f270ea52d2a",
+    "content-hash": "75f8e07adaafe5f2b30b2d04ac2c4300",
     "packages": [
         {
             "name": "akrabat/rka-ip-address-middleware",
@@ -2625,12 +2625,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "335b26ed6a61ee82e51331fdedb7dcd0213b6628"
+                "reference": "833fbd1ffbbad82e3fc98531191a3afcc3f2f953"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/335b26ed6a61ee82e51331fdedb7dcd0213b6628",
-                "reference": "335b26ed6a61ee82e51331fdedb7dcd0213b6628",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/833fbd1ffbbad82e3fc98531191a3afcc3f2f953",
+                "reference": "833fbd1ffbbad82e3fc98531191a3afcc3f2f953",
                 "shasum": ""
             },
             "require": {
@@ -2683,7 +2683,7 @@
                 "caching",
                 "psr6"
             ],
-            "time": "2016-07-30 07:40:02"
+            "time": "2016-08-05 10:06:06"
         },
         {
             "name": "symfony/console",
@@ -3499,6 +3499,61 @@
                 "zf2"
             ],
             "time": "2016-06-11 19:35:33"
+        },
+        {
+            "name": "zendframework/zend-servicemanager",
+            "version": "3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-servicemanager.git",
+                "reference": "f701b0d322741b0c8d8ca1288f249a49438029cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-servicemanager/zipball/f701b0d322741b0c8d8ca1288f249a49438029cd",
+                "reference": "f701b0d322741b0c8d8ca1288f249a49438029cd",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "~1.0",
+                "php": "^5.5 || ^7.0"
+            },
+            "provide": {
+                "container-interop/container-interop-implementation": "^1.1"
+            },
+            "require-dev": {
+                "ocramius/proxy-manager": "^1.0 || ^2.0",
+                "phpbench/phpbench": "^0.10.0",
+                "phpunit/phpunit": "^4.6 || ^5.2.10",
+                "squizlabs/php_codesniffer": "^2.5.1"
+            },
+            "suggest": {
+                "ocramius/proxy-manager": "ProxyManager 1.* to handle lazy initialization of services",
+                "zendframework/zend-stdlib": "zend-stdlib ^2.5 if you wish to use the MergeReplaceKey or MergeRemoveKey features in Config instances"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev",
+                    "dev-develop": "3.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\ServiceManager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "homepage": "https://github.com/zendframework/zend-servicemanager",
+            "keywords": [
+                "service-manager",
+                "servicemanager",
+                "zf"
+            ],
+            "time": "2016-07-15 14:59:51"
         },
         {
             "name": "zendframework/zend-session",
