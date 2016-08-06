@@ -62,6 +62,7 @@ $app->get('/install', function (Request $request, Response $response, PhpRendere
 $app->get('/api-docs[/{namespace}[/{class}]]', ApiDocsAction::class);
 $app->get('/docs[/{group}[/{section}]]', DocsAction::class);
 $app->get('/submit', function (Request $request, Response $response, PhpRenderer $renderer) {
+    $renderer->appendCss('bootstrap', '/css/bootstrap.min.css');
     $inner = $renderer->fetch('submit.phtml');
     return $renderer->render($response, 'layouts/layout.phtml', [
         'pageTitle'       => 'Submit your workshop',
@@ -70,6 +71,7 @@ $app->get('/submit', function (Request $request, Response $response, PhpRenderer
     ]);
 });
 $app->post('/submit', SubmitWorkshop::class);
+
 $app
     ->group('/admin', function () {
 
