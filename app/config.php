@@ -1,6 +1,5 @@
 <?php
 
-use Cache\Bridge\DoctrineCacheBridge;
 use function DI\factory;
 use Doctrine\Common\Cache\Cache as DoctrineCache;
 use Doctrine\DBAL\Types\Type;
@@ -8,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Setup;
+use Github\Client;
 use Interop\Container\ContainerInterface;
 use League\CommonMark\CommonMarkConverter;
 use Monolog\Handler\StreamHandler;
@@ -21,6 +21,8 @@ use PhpSchool\Website\Action\Admin\Workshop\View;
 use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\ApiDocsAction;
 use PhpSchool\Website\Action\TrackDownloads;
+use PhpSchool\Website\Action\SubmitWorkshop;
+use PhpSchool\Website\Cache;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateUser;
 use PhpSchool\Website\Command\GenerateDoc;
@@ -33,9 +35,13 @@ use PhpSchool\Website\Entity\WorkshopInstall;
 use PhpSchool\Website\Middleware\FpcCache;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
+use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\User\Adapter\Doctrine;
 use PhpSchool\Website\User\AuthenticationService;
 use PhpSchool\Website\User\Middleware\Authenticator;
+use PhpSchool\Website\Validator\Login as LoginValidator;
+use PhpSchool\Website\Validator\SubmitWorkshop as SubmitWorkshopValidator;
+use PhpSchool\Website\Validator\WorkshopComposerJson as WorkshopComposerJsonValidator;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
@@ -43,7 +49,6 @@ use Ramsey\Uuid\Doctrine\UuidType;
 use Slim\Flash\Messages;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
-use PhpSchool\Website\Validator\Login as LoginValidator;
 
 return [
     'console' => factory(function (ContainerInterface $c) {
@@ -166,6 +171,13 @@ return [
     TrackDownloads::class => function (ContainerInterface $c) {
         return new TrackDownloads($c->get(WorkshopRepository::class), $c->get(WorkshopInstallRepository::class));
     },
+
+    SubmitWorkshop::class => \DI\factory(function (ContainerInterface $c) {
+        return new SubmitWorkshop(
+            new SubmitWorkshopValidator(new Client, $c->get(WorkshopRepository::class)),
+            new WorkshopCreator(new WorkshopComposerJsonValidator, $c->get(WorkshopRepository::class))
+        );
+    }),
 
     //admin
     Login::class => \DI\factory(function (ContainerInterface $c) {
