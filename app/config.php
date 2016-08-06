@@ -1,6 +1,5 @@
 <?php
 
-use Cache\Bridge\DoctrineCacheBridge;
 use function DI\factory;
 use Doctrine\Common\Cache\Cache as DoctrineCache;
 use Doctrine\DBAL\Types\Type;
@@ -42,7 +41,7 @@ use PhpSchool\Website\User\AuthenticationService;
 use PhpSchool\Website\User\Middleware\Authenticator;
 use PhpSchool\Website\Validator\Login as LoginValidator;
 use PhpSchool\Website\Validator\SubmitWorkshop as SubmitWorkshopValidator;
-use PhpSchool\Website\Validator\WorkshopComposerJson;
+use PhpSchool\Website\Validator\WorkshopComposerJson as WorkshopComposerJsonValidator;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
@@ -176,7 +175,7 @@ return [
     SubmitWorkshop::class => \DI\factory(function (ContainerInterface $c) {
         return new SubmitWorkshop(
             new SubmitWorkshopValidator(new Client, $c->get(WorkshopRepository::class)),
-            new WorkshopCreator(new WorkshopComposerJson, $c->get(WorkshopRepository::class))
+            new WorkshopCreator(new WorkshopComposerJsonValidator, $c->get(WorkshopRepository::class))
         );
     }),
 
