@@ -2,6 +2,101 @@ var $ = jQuery;
 
 $(function () {
 
+    var $submitForm = $('#ws-submit-form');
+    var $formTrigger = $('.button-submit');
+
+    /**
+     * Loops through and object
+     * @param dataObject
+     */
+    function formErrors(dataObject) {
+        for (var key in dataObject) {
+            if (!dataObject.hasOwnProperty(key)) continue;
+            var obj = dataObject[key];
+
+            if (key === 'github-url') {
+                for (var prop in obj) {
+                    if (!obj.hasOwnProperty(prop)) continue;
+                    $('.ws-submit__input--gh').addClass('error');
+                    $('.gh-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
+                }
+            }
+            if (key === 'email') {
+                for (var prop in obj) {
+                    if (!obj.hasOwnProperty(prop)) continue;
+                    $('.ws-submit__input--email').addClass('error');
+                    $('.email-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
+                }
+            }
+            if (key === 'name') {
+                for (var prop in obj) {
+                    if (!obj.hasOwnProperty(prop)) continue;
+                    $('.ws-submit__input--name').addClass('error');
+                    $('.name-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
+                }
+            }
+        }
+    }
+
+    function workshopErrors(dataObject) {
+        $('.workshop-errors').append('<p>We checked out the workshop you submitted and we found a few problems, they are listed below. Feel free to jump on Slack if you need any more help!</p>');
+        for (var key in dataObject) {
+            if (!dataObject.hasOwnProperty(key)) continue;
+            var obj = dataObject[key];
+
+            for (var prop in obj) {
+                if (!obj.hasOwnProperty(prop)) continue;
+                $('.workshop-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
+            }
+        }
+    }
+
+    function formError(){
+        $formTrigger.removeClass('button-submit--loading').addClass('button-submit--error');
+        $('.workshop-errors').addClass('active').append('<li>Sorry but something went wrong please try again</li>');
+        setTimeout(function () {
+            $formTrigger.removeClass('button-submit--error');
+            $('.workshop-errors').removeClass('active').empty();
+        }, 3000);
+    }
+
+    /**
+     * Form submit function and ajax request
+     */
+    $submitForm.on('submit', function (evt) {
+        evt.preventDefault();
+        $formTrigger.addClass('button-submit--loading');
+
+        $.ajax({
+            url: '/submit',
+            method: 'POST',
+            data: $submitForm.serialize(),
+            dataType: 'json',
+
+            success: function (data) {
+                $formTrigger.removeClass('button-submit--loading');
+                if (data.success === false) {
+                    $formTrigger.addClass('button-submit--error');
+                    if (data.form_errors) {
+                        formErrors(data.form_errors);
+                    }
+                    if (data.workshop_errors) {
+                        workshopErrors(data.workshop_errors);
+                    }
+                } else {
+                    $formTrigger.addClass('button-submit--success');
+                }
+
+            },
+            error: function () {
+                formError();
+            }
+        });
+    });
+
+    /**
+     * Type effect on home page
+     */
     if ($('#typer').length) {
         var letters = 'Open Source Learning for PHP';
         var pos = 0;
@@ -17,6 +112,10 @@ $(function () {
         }, 100);
     }
 
+    /**
+     * Mobile menu js
+     * @type {any}
+     */
     var $menuTrigger = $('.menu-icon');
     var $mainNav = $('.site-nav__list');
 

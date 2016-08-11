@@ -2,43 +2,45 @@
 
 <section class="site-body">
     <div class="container">
-        <div class="submit">
-            <div class="submit__content">
+        <div class="ws-submit">
+            <div class="ws-submit__content">
                 <h2>Submit</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, amet consequuntur, dolore enim harum labore laudantium molestiae natus, pariatur perferendis placeat quidem ut vel. Accusantium deserunt in ipsa molestiae quod?</p>
+                <p>Through this form you can submit your workshop for approval, once approved your workshop will appear on the website and be installable by the workshop manager. To learn how to build a workshop, head over to the docs(link) and jump on to slack for any help</p>
             </div>
-            <div class="submit__form">
-                <form action="" class="form" _lpchecked="1">
+            <div class="ws-submit__form">
+                <form id="ws-submit-form" action="/submit" method="get" class="form" _lpchecked="1">
                     <div class="field">
                         <label for="form1-text">Email Address</label>
                         <div class="input-box">
-                            <input name="email" id="email" class="input-text" type="email" required="">
+                            <input name="email" id="email" class="input-text ws-submit__input email" type="text" placeholder="myname@example.com" required="">
+                            <ul class="form__errors email-errors"></ul>
                         </div>
                     </div>
                     <div class="field">
                         <label for="form1-password">Workshop Name</label>
                         <div class="input-box">
-                            <input name="name" id="name" class="input-text" type="text" placeholder="Learn You PHP!">
+                            <input name="name" id="name" class="input-text ws-submit__input name" type="text" placeholder="Learn You PHP!" required="">
+                            <ul class="form__errors name-errors"></ul>
                         </div>
                     </div>
                     <div class="field">
                         <label for="form1-email">GitHub Repository URL</label>
                         <div class="input-box">
-                            <input name="github-url" id="github-url" class="input-text" type="text" name="github-url" placeholder="https://github.com/php-school/learn-you-php" required="">
+                            <input name="github-url" id="github-url" class="input-text ws-submit__input gh" type="text" name="github-url" placeholder="https://github.com/php-school/learn-you-php" required="">
+                            <ul class="form__errors gh-errors"></ul>
                         </div>
                     </div>
                     <div class="form__actions">
                         <button type="submit" class="button button--bold button-submit"><span>Submit</span>
-                            <div class="loader-wapper"><div class="loader">Loading...</div></div>
+                            <div class="loader-wapper">
+                                <div class="loader"></div>
+                            </div>
                             <div class="button-submit__success"><?= $this->fetch('includes/icon.phtml', ['name' => "tick"]) ?></div>
                             <div class="button-submit__error"><?= $this->fetch('includes/icon.phtml', ['name' => "cross"]) ?></div>
                         </button>
                     </div>
-                    <div class="field form__errors">
-                        <p class=""></p>
-                    </div>
+                    <ul class="form__errors workshop-errors"></ul>
                 </form>
-
             </div>
         </div>
     </div>

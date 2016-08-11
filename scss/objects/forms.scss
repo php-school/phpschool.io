@@ -34,19 +34,40 @@ input, textarea, select {
   width: 100%;
   padding: $half-spacing;
   font-size: $base-font-size;
-}
-
-.form__errors {
-  margin-top: $base-spacing;
-  border: 1px solid $red;
-  border-radius: 5px;
-  background-color: rgba($red, .1);
-  padding: $half-spacing;
-  color: $red;
-
-  p {
-    &:last-child {
-      margin: 0;
-    }
+  &:-webkit-autofill {
+    background-color: transparent !important;
   }
 }
+
+  .form__errors {
+    margin: $half-spacing 0 0;
+    padding: $half-spacing;
+    color: $red;
+    font-size: $small-font-size;
+    border-left: 4px solid $red;
+    list-style: none;
+
+    display: none;
+
+    &.active {
+      display: block;
+    }
+
+    li {
+      margin-bottom: $half-spacing;
+      &:last-child {
+        margin: 0;
+      }
+    }
+
+  }
+
+  .form__msg--success {
+    margin: $half-spacing 0;
+    border: 1px solid $green;
+    border-radius: $base-spacing;
+    background-color: rgba($green, .1);
+    padding: ($half-spacing/2) $base-spacing;
+    color: $green;
+    font-size: $small-font-size;
+  }
