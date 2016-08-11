@@ -68,9 +68,14 @@ class SubmitWorkshop extends Validator
         $uniqueNameValidator
             ->setMessage('The name is used by an existing workshop, please try another.', Callback::INVALID_VALUE);
 
+        $nameLengthValidator = new StringLength(['min' => 1, 'max' => 255]);
+        $nameLengthValidator
+            ->setMessage('Name should be between %min% and %max% characters long.', StringLength::TOO_SHORT)
+            ->setMessage('Name should be between %min% and %max% characters long.', StringLength::TOO_LONG);
+
         $name = new Input('name');
         $name->getValidatorChain()
-            ->attach(new StringLength(['min' => 1, 'max' => 255]))
+            ->attach($nameLengthValidator)
             ->attach($uniqueNameValidator);
 
         $this->add($name);
