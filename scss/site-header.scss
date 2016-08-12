@@ -63,13 +63,13 @@
 
 .curser {
   animation: blink 1s infinite;
-  display: block;
-  margin: $base-spacing auto 0;
+  font-size: .7em;
 
   .svg-icon {
     width: 1em;
     height: 2em;
     color: $secondary-colour;
+    padding-bottom: 10px;
   }
 }
 

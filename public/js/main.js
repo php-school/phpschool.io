@@ -154,6 +154,18 @@ $(function () {
         }
     });
 
+    // header typeing
+    $(".header__typed").typed({
+        strings: [
+            "Open Source Learning for PHP",
+            "Fresh Teaching Experience for PHP"
+        ],
+        typeSpeed: 50,
+        cursorChar: '<span class="curser"><svg class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/img/icons/icons.svg#svg-cursor"></use></svg></span>',
+        loop: true,
+        loopCount: 5
+    });
+
     //tab switcher
     $('.tabs-menu > li > a').click(function (event) {
         event.preventDefault();

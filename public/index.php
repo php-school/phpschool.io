@@ -55,6 +55,7 @@ $app->get('/', function (Request $request, Response $response, PhpRenderer $rend
         return $workshop->isCommunity();
     });
 
+    $renderer->addJs('typed.js', '//cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.4/typed.min.js');
     $inner = $renderer->fetch('home.phtml', ['coreWorkshops' => $core, 'communityWorkshops' => $community]);
     return $renderer->render($response, 'layouts/layout.phtml', [
         'pageTitle'       => 'Home',
