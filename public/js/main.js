@@ -4,10 +4,7 @@ $(function () {
 
     var $submitForm = $('#ws-submit-form');
     var $formTrigger = $('.button-submit');
-
-    var $ghInput = $('.ws-submit__input--gh');
-    var $emailInput = $('.ws-submit__input--email');
-    var $nameInput = $('.ws-submit__input--name');
+    var $formErrors = $('.form__errors');
     var $workshopError = $('.workshop-errors');
 
     /**
@@ -22,21 +19,18 @@ $(function () {
             if (key === 'github-url') {
                 for (var prop in obj) {
                     if (!obj.hasOwnProperty(prop)) continue;
-                    $ghInput.addClass('error');
                     $('.gh-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
                 }
             }
             if (key === 'email') {
                 for (var prop in obj) {
                     if (!obj.hasOwnProperty(prop)) continue;
-                    $emailInput.addClass('error');
                     $('.email-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
                 }
             }
             if (key === 'name') {
                 for (var prop in obj) {
                     if (!obj.hasOwnProperty(prop)) continue;
-                    $nameInput.addClass('error');
                     $('.name-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
                 }
             }
@@ -60,13 +54,10 @@ $(function () {
         }
     }
 
-    function formError(){
-        $formTrigger.removeClass('button-submit--loading').addClass('button-submit--error');
-        $workshopError.addClass('active').append('<li>Sorry but something went wrong please try again</li>');
+    function formReset() {
         setTimeout(function () {
-            $formTrigger.removeClass('button-submit--error');
-            $workshopError.removeClass('active').empty();
-        }, 3000);
+            $formTrigger.removeClass('button-submit--error')
+        }, 5000);
     }
 
     /**
@@ -88,16 +79,21 @@ $(function () {
                     $formTrigger.addClass('button-submit--error');
                     if (data.form_errors) {
                         formErrors(data.form_errors);
+                        formReset();
                     }
                     if (data.workshop_errors) {
                         workshopErrors(data.workshop_errors);
+                        formReset();
                     }
                 } else {
+                    $formErrors.removeClass('active').empty();
                     $formTrigger.addClass('button-submit--success');
                 }
             },
             error: function () {
-                formError();
+                $formTrigger.removeClass('button-submit--loading').addClass('button-submit--error');
+                $workshopError.addClass('active').append('<li>Sorry but something went wrong please try again</li>');
+                formReset();
             }
         });
     });
