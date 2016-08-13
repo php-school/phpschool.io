@@ -56,3 +56,77 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="dashboard_graph">
+
+            <div class="row x_title">
+                <div class="col-sm-6">
+                    <h3>Last 30 day download stats for workshops</h3>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <br>
+                <br>
+                <div style="width: 100%;">
+                    <canvas id="myChart" style="display: block; width: 100%;"></canvas>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var randomColorFactor = function () {
+                    return Math.round(Math.random() * 255);
+                };
+                var randomColor = function (opacity) {
+                    return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
+                };
+
+                var data = <?= json_encode($workshopInstalls['installs']) ?>;
+                datasets = data.map(function (workshop) {
+                    return {
+                        label: '# of Downloads for ' + workshop.name,
+                        data: workshop.installs,
+                        fill: false,
+                        tension: 0.5,
+                        borderWidth: 5
+                    };
+                });
+
+                var ctx = document.getElementById("myChart");
+                var config = {
+                    type: 'line',
+                    data: {
+                        labels: <?= json_encode($workshopInstalls['dates']) ?>,
+                        datasets: datasets
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        hover: {
+                            mode: 'dataset'
+                        },
+                    }
+                };
+
+                $.each(config.data.datasets, function (i, dataset) {
+                    dataset.borderColor = randomColor(0.4);
+                    dataset.backgroundColor = randomColor(0.5);
+                    dataset.pointBorderColor = randomColor(0.7);
+                    dataset.pointBackgroundColor = randomColor(0.5);
+                    dataset.pointBorderWidth = 1;
+                });
+
+                var myChart = new Chart(ctx, config);
+            });
+        </script>
+    </div>
+</div>
