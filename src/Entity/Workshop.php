@@ -135,7 +135,8 @@ class Workshop
             "name" => $this->getName(),
             "display_name" => $this->getDisplayName(),
             "owner" => $this->getOwner(),
-            "repo" => $this->getRepoUrl(),
+            "repo" => $this->getUser(),
+            'repo_url' => $this->getRepoUrl(),
             "description" => $this->getDescription()
         ];
     }
