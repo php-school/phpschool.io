@@ -1,10 +1,10 @@
 .form {
-  margin-bottom: $base-spacing;
+    margin-bottom: $base-spacing;
 }
 
 //Form section
 .field {
-  margin-bottom: $base-spacing;
+    margin-bottom: $base-spacing;
 }
 
 // wrapper for input
@@ -13,33 +13,33 @@
 
 // input field
 .input-text {
-  height: $button-height;
+    height: $button-height;
 
-  &:focus {
-    border-color: $secondary-colour;
-    outline: none;
-  }
+    &:focus {
+        border-color: $secondary-colour;
+        outline: none;
+    }
 }
 
 label {
-  margin-bottom: $half-spacing;
-  display: block;
-  font-weight: 700;
+    margin-bottom: $half-spacing;
+    display: block;
+    font-weight: 700;
 }
 
 input, textarea, select {
-  border: 1px solid $silver;
-  border-radius: 100px;
-  max-width: 45em;
-  width: 100%;
-  padding: $half-spacing;
-  font-size: $base-font-size;
-  &:-webkit-autofill {
-    background-color: transparent !important;
-  }
+    border: 1px solid $silver;
+    border-radius: 100px;
+    max-width: 45em;
+    width: 100%;
+    padding: $half-spacing;
+    font-size: $base-font-size;
+    &:-webkit-autofill {
+        background-color: transparent !important;
+    }
 }
 
-  .form__errors {
+.form__errors {
     margin: $half-spacing 0 0;
     padding: $half-spacing;
     color: $red;
@@ -50,24 +50,14 @@ input, textarea, select {
     display: none;
 
     &.active {
-      display: block;
+        display: block;
     }
 
     li {
-      margin-bottom: $half-spacing;
-      &:last-child {
-        margin: 0;
-      }
+        margin-bottom: $half-spacing;
+        &:last-child {
+            margin: 0;
+        }
     }
 
-  }
-
-  .form__msg--success {
-    margin: $half-spacing 0;
-    border: 1px solid $green;
-    border-radius: $base-spacing;
-    background-color: rgba($green, .1);
-    padding: ($half-spacing/2) $base-spacing;
-    color: $green;
-    font-size: $small-font-size;
-  }
+}

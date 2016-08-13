@@ -4,9 +4,11 @@ $(function () {
 
     var $submitForm = $('#ws-submit-form');
     var $formTrigger = $('.button-submit');
+    var $formErrors = $('.form__errors');
+    var $workshopError = $('.workshop-errors');
 
     /**
-     * Loops through and object
+     * Loops through the form errors object and a applies the right message under the right input
      * @param dataObject
      */
     function formErrors(dataObject) {
@@ -17,47 +19,45 @@ $(function () {
             if (key === 'github-url') {
                 for (var prop in obj) {
                     if (!obj.hasOwnProperty(prop)) continue;
-                    $('.ws-submit__input--gh').addClass('error');
                     $('.gh-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
                 }
             }
             if (key === 'email') {
                 for (var prop in obj) {
                     if (!obj.hasOwnProperty(prop)) continue;
-                    $('.ws-submit__input--email').addClass('error');
                     $('.email-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
                 }
             }
             if (key === 'name') {
                 for (var prop in obj) {
                     if (!obj.hasOwnProperty(prop)) continue;
-                    $('.ws-submit__input--name').addClass('error');
                     $('.name-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
                 }
             }
         }
     }
 
+    /**
+     * Loops through the workshop error object and adds the message to the bottom of the form
+     * @param dataObject
+     */
     function workshopErrors(dataObject) {
-        $('.workshop-errors').append('<p>We checked out the workshop you submitted and we found a few problems, they are listed below. Feel free to jump on Slack if you need any more help!</p>');
+        $workshopError.append('<p>We checked out the workshop you submitted and we found a few problems, they are listed below. Feel free to jump on Slack if you need any more help!</p>');
         for (var key in dataObject) {
             if (!dataObject.hasOwnProperty(key)) continue;
             var obj = dataObject[key];
 
             for (var prop in obj) {
                 if (!obj.hasOwnProperty(prop)) continue;
-                $('.workshop-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
+                $workshopError.addClass('active').append('<li>' + obj[prop] + '</li>');
             }
         }
     }
 
-    function formError(){
-        $formTrigger.removeClass('button-submit--loading').addClass('button-submit--error');
-        $('.workshop-errors').addClass('active').append('<li>Sorry but something went wrong please try again</li>');
+    function formReset() {
         setTimeout(function () {
-            $formTrigger.removeClass('button-submit--error');
-            $('.workshop-errors').removeClass('active').empty();
-        }, 3000);
+            $formTrigger.removeClass('button-submit--error')
+        }, 5000);
     }
 
     /**
@@ -79,17 +79,21 @@ $(function () {
                     $formTrigger.addClass('button-submit--error');
                     if (data.form_errors) {
                         formErrors(data.form_errors);
+                        formReset();
                     }
                     if (data.workshop_errors) {
                         workshopErrors(data.workshop_errors);
+                        formReset();
                     }
                 } else {
+                    $formErrors.removeClass('active').empty();
                     $formTrigger.addClass('button-submit--success');
                 }
-
             },
             error: function () {
-                formError();
+                $formTrigger.removeClass('button-submit--loading').addClass('button-submit--error');
+                $workshopError.addClass('active').append('<li>Sorry but something went wrong please try again</li>');
+                formReset();
             }
         });
     });
