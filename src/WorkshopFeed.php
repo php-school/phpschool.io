@@ -32,11 +32,11 @@ class WorkshopFeed
     {
         $workshops = $this->workshopRepository->findBy(['approved' => true]);
 
-        $workshops = collect($workshops)
+        $workshops = ['workshops' => collect($workshops)
             ->map(function (Workshop $workshop) {
                 return $workshop->toArray();
             })
-            ->all();
+            ->all()];
 
         $result = file_put_contents($this->outputFile, json_encode($workshops, JSON_PRETTY_PRINT));
 
