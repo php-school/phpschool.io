@@ -25,20 +25,9 @@
                     </div>
                 </div>
 
-                <h3>Step 2: Check if Composer is installed</h3>
-                <p class="hint">You can check if you have composer installed with <code class="install__code">composer -v</code></p>
-                <p>If <code class="install__code">composer</code> is not installed, run the following commands to install it:</p>
-                <div class="terminal">
-                    <div class="terminal__body">
-                        <p>curl -sS https://getcomposer.org/installer | php</p>
-                        <p>mv composer.phar /usr/local/bin/composer</p>
-                        <p>chmod +x /usr/local/bin/composer</p>
-                    </div>
-                </div>
-
-                <h3>Step 3: Check Composer's global bin directory is available in $PATH</h3>
-                <p>When installing a workshop you may get an error message about the directory <code class="install__code">/usr/local/bin</code> not being writeable. If this happens the simplest remedy is to make sure composers global bin directory is available in the <code class="install__code">$PATH</code> environment variable.</p>
-                <p>If Composer's global bin directory is not available in your <code class="install__code">$PATH</code> add the following to the end of your <code class="install__code">~/.bashrc</code> file: <code class="install__code">export PATH=~/.composer/vendor/bin:$PATH</code></p>
+                <h3>Step 2: Check PHP School's bin directory is available in $PATH</h3>
+                <p>After installing a workshop using the workshop manager you may find it's not available to run immediately. If this happens the simplest remedy is to make sure PHP School's workshop bin directory is available in the <code class="install__code">$PATH</code> environment variable.</p>
+                <p>You can check this with <code class="install__code">workshop-manager verify</code> which will also provide the relevant details on how to resolve the issue.</p>
                 <p> To learn more about the <code class="install__code">$PATH</code> environment, click <a target="_blank" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>.</p>
 
                 <span class="os-icon"><?= $this->fetch('includes/icon.phtml', ['name' => "apple"]) ?></span>
@@ -58,20 +47,9 @@
                     </div>
                 </div>
 
-                <h3>Step 2: Check if Composer is installed</h3>
-                <p class="hint">You can check if you have composer installed with <code class="install__code">composer -v</code></p>
-                <p>If <code class="install__code">composer</code> is not installed, run the following commands to install it:</p>
-                <div class="terminal">
-                    <div class="terminal__body">
-                        <p>curl -sS https://getcomposer.org/installer | php</p>
-                        <p>mv composer.phar /usr/local/bin/composer</p>
-                        <p>chmod +x /usr/local/bin/composer</p>
-                    </div>
-                </div>
-
-                <h3>Step 3: Check Composer's global bin directory is available in $PATH</h3>
-                <p>When installing a workshop you may get an error message about the directory <code class="install__code">/usr/local/bin</code> not being writeable. If this happens the simplest remedy is to make sure composers global bin directory is available in the <code class="install__code">$PATH</code> environment variable.</p>
-                <p>If Composer's global bin directory is not available in your <code class="install__code">$PATH</code> add the following to the end of your <code class="install__code">~/.bashrc</code> file: <code class="install__code">export PATH=~/.composer/vendor/bin:$PATH</code></p>
+                <h3>Step 2: Check PHP School's bin directory is available in $PATH</h3>
+                <p>After installing a workshop using the workshop manager you may find it's not available to run immediately. If this happens the simplest remedy is to make sure PHP School's workshop bin directory is available in the <code class="install__code">$PATH</code> environment variable.</p>
+                <p>You can check this with <code class="install__code">workshop-manager verify</code> which will also provide the relevant details on how to resolve the issue.</p>
                 <p> To learn more about the <code class="install__code">$PATH</code> environment, click <a target="_blank" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>.</p>
 
                 <span class="os-icon"><?= $this->fetch('includes/icon.phtml', ['name' => "windows"]) ?></span>
@@ -94,11 +72,11 @@
                     <li>Select Cygwin Bash</li>
                 </ol>
 
-                <h3>Step 3: Check if Composer is installed</h3>
-                <ol>
-                    <li>Download and run the installer over at <a href="https://getcomposer.org/doc/00-intro.md#using-the-installer">https://getcomposer.org/doc/00-intro.md#using-the-installer</a></li>
-                    <li>Restart ConEmu and then run composer to ensure it's running.</li>
-                </ol>
+                <h3>Step 3: Check PHP School's bin directory is available in $PATH</h3>
+                <p>After installing a workshop using the workshop manager you may find it's not available to run immediately. If this happens the simplest remedy is to make sure PHP School's workshop bin directory is available in the <code class="install__code">$PATH</code> environment variable.</p>
+                <p>You can check this with <code class="install__code">workshop-manager verify</code> which will also provide the relevant details on how to resolve the issue.</p>
+                <p> To learn more about the <code class="install__code">$PATH</code> environment, click <a target="_blank" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>.</p>
+
             </div>
         </div>
     </div>

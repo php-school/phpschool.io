@@ -3,19 +3,11 @@
   flex-wrap: wrap;
   margin-left: -$base-spacing;
   padding: $base-spacing*2 0;
-
-  @media screen and (min-width: $lap-start) {
-    padding: $base-spacing*4 0;
-  }
 }
 
 .introduction__info {
   width: 100%;
   padding-left: $base-spacing;
-
-  @media screen and (min-width: $lap-start) {
-    width: 50%;
-  }
 }
 
 .introduction__video {

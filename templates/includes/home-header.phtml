@@ -3,9 +3,30 @@
     <div class="container">
         <figure class="logo"><?= $this->fetch('includes/icon.phtml', ['name' => "logo"]) ?></figure>
         <h1 class="header__title">
-            <span class="header__typed"></span>
-<!--            <span class="curser">--><?//= $this->fetch('includes/icon.phtml', ['name' => "cursor"]) ?><!--</span>-->
+            <span class="header__typed">Open Source Learning for PHP</span>
         </h1>
-        <p class="header__desc">A revolutionary new way to learn PHP. Bring your imagination to life in an open learning eco-system.</p>
+        <p class="header__desc">A revolutionary new way to learn PHP. <br>Bring your imagination to life in an open learning eco-system.</p>
+
+        <?php if ($userAgent->is('Windows')) : ?>
+            <p>Windows users should check out what <a href="/install#windows">prerequisites are required</a></p>
+        <?php endif; ?>
+        
+        <div class="header__terminal">
+            <div class="terminal__body">
+                <p>curl https://php-school.github.io/workshop-manager/workshop-manager.phar</p>
+                <p>mv workshop-manager.phar /usr/local/bin/workshop-manager</p>
+                <p>chmod +x /usr/local/bin/workshop-manager</p>
+                <p>workshop-manager verify</p>
+            </div>
+        </div>
     </div>
+
 </header>
+
+<!--<div class="container">-->
+<!--    <div class="header__video">-->
+<!--        <video class="video-js" controls preload="auto">-->
+<!--            <source src="http://download.blender.org/peach/trailer/trailer_1080p.ogg" type="video/ogg">-->
+<!--        </video>-->
+<!--    </div>-->
+<!--</div>-->

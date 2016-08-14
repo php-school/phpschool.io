@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6171684d5db2c696137b5f270ea52d2a",
-    "content-hash": "75f8e07adaafe5f2b30b2d04ac2c4300",
+    "hash": "429dbb42d100d046159659473cd303ed",
+    "content-hash": "bb62c05255aa7b6fad17ddbff75bd771",
     "packages": [
         {
             "name": "akrabat/rka-ip-address-middleware",
@@ -159,33 +159,36 @@
         },
         {
             "name": "cache/psr-6-doctrine-bridge",
-            "version": "2.1.1",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-cache/doctrine-bridge.git",
-                "reference": "32afa528f4b56eeb51f697ed58744cfa4f5007ba"
+                "reference": "dcdb269a72e8d7c451f749b617c748ead42b78f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-cache/doctrine-bridge/zipball/32afa528f4b56eeb51f697ed58744cfa4f5007ba",
-                "reference": "32afa528f4b56eeb51f697ed58744cfa4f5007ba",
+                "url": "https://api.github.com/repos/php-cache/doctrine-bridge/zipball/dcdb269a72e8d7c451f749b617c748ead42b78f8",
+                "reference": "dcdb269a72e8d7c451f749b617c748ead42b78f8",
                 "shasum": ""
             },
             "require": {
                 "doctrine/cache": "^1.3",
-                "php": "^5.5|^7.0",
-                "psr/cache-implementation": "~1.0"
+                "php": "^5.5 || ^7.0",
+                "psr/cache-implementation": "^1.0"
             },
             "require-dev": {
-                "cache/doctrine-adapter": "@stable",
-                "mockery/mockery": "^0.9.4",
-                "phpunit/phpunit": "^5.1|^4.0"
+                "cache/doctrine-adapter": "^0.5",
+                "mockery/mockery": "^0.9",
+                "phpunit/phpunit": "^4.0 || ^5.1"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Cache\\Bridge\\": "src/"
-                }
+                    "Cache\\Bridge\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -199,13 +202,13 @@
                 }
             ],
             "description": "PSR-6 Doctrine bridge",
-            "homepage": "https://github.com/php-cache/doctrine-bridge",
+            "homepage": "http://www.php-cache.com/en/latest/",
             "keywords": [
                 "cache",
                 "doctrine",
                 "psr-6"
             ],
-            "time": "2016-01-26 20:09:04"
+            "time": "2016-08-07 14:49:33"
         },
         {
             "name": "container-interop/container-interop",
@@ -978,6 +981,161 @@
             "time": "2015-03-18 18:23:50"
         },
         {
+            "name": "illuminate/contracts",
+            "version": "v5.2.43",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/contracts.git",
+                "reference": "22bde7b048a33c702d9737fc1446234fff9b1363"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/22bde7b048a33c702d9737fc1446234fff9b1363",
+                "reference": "22bde7b048a33c702d9737fc1446234fff9b1363",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\Contracts\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "The Illuminate Contracts package.",
+            "homepage": "http://laravel.com",
+            "time": "2016-08-08 11:46:08"
+        },
+        {
+            "name": "illuminate/support",
+            "version": "v5.2.21",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/illuminate/support.git",
+                "reference": "6749fab3f3d38d8b15427536a8e7bbdc57497c9e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/6749fab3f3d38d8b15427536a8e7bbdc57497c9e",
+                "reference": "6749fab3f3d38d8b15427536a8e7bbdc57497c9e",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/inflector": "~1.0",
+                "ext-mbstring": "*",
+                "illuminate/contracts": "5.2.*",
+                "php": ">=5.5.9"
+            },
+            "suggest": {
+                "illuminate/filesystem": "Required to use the composer class (5.2.*).",
+                "jeremeamia/superclosure": "Required to be able to serialize closures (~2.2).",
+                "paragonie/random_compat": "Provides a compatible interface like PHP7's random_bytes() in PHP 5 projects (~1.1).",
+                "symfony/polyfill-php56": "Required to use the hash_equals function on PHP 5.5 (~1.0).",
+                "symfony/process": "Required to use the composer class (2.8.*|3.0.*).",
+                "symfony/var-dumper": "Improves the dd function (2.8.*|3.0.*)."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Illuminate\\Support\\": ""
+                },
+                "files": [
+                    "helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "The Illuminate Support package.",
+            "homepage": "http://laravel.com",
+            "time": "2016-02-22 20:29:02"
+        },
+        {
+            "name": "jenssegers/agent",
+            "version": "v2.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jenssegers/agent.git",
+                "reference": "3068d6372a4677af84014a53d5a212cfa74492c1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jenssegers/agent/zipball/3068d6372a4677af84014a53d5a212cfa74492c1",
+                "reference": "3068d6372a4677af84014a53d5a212cfa74492c1",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^4.0|^5.0",
+                "mobiledetect/mobiledetectlib": "^2.7.6",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0|^5.0",
+                "satooshi/php-coveralls": "^0.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Jenssegers\\Agent\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jens Segers",
+                    "homepage": "https://jenssegers.com"
+                }
+            ],
+            "description": "A PHP desktop/mobile user agent parser with support for Laravel, based on Mobiledetect",
+            "homepage": "https://github.com/jenssegers/agent",
+            "keywords": [
+                "Agent",
+                "browser",
+                "laravel",
+                "mobile",
+                "platform",
+                "user agent",
+                "useragent"
+            ],
+            "time": "2016-03-08 13:47:22"
+        },
+        {
             "name": "jeremeamia/SuperClosure",
             "version": "2.2.0",
             "source": {
@@ -1219,16 +1377,16 @@
         },
         {
             "name": "mnapoli/silly",
-            "version": "1.3.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mnapoli/silly.git",
-                "reference": "b95e1be1a669991c9c1c532b9efe985f1063ece7"
+                "reference": "2f53397797d992fa2862105992b198b25679d283"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/silly/zipball/b95e1be1a669991c9c1c532b9efe985f1063ece7",
-                "reference": "b95e1be1a669991c9c1c532b9efe985f1063ece7",
+                "url": "https://api.github.com/repos/mnapoli/silly/zipball/2f53397797d992fa2862105992b198b25679d283",
+                "reference": "2f53397797d992fa2862105992b198b25679d283",
                 "shasum": ""
             },
             "require": {
@@ -1259,7 +1417,7 @@
                 "micro-framework",
                 "silly"
             ],
-            "time": "2016-08-01 11:29:53"
+            "time": "2016-08-13 18:47:51"
         },
         {
             "name": "mnapoli/silly-php-di",
@@ -1294,6 +1452,60 @@
             ],
             "description": "Silly framework edition configured with PHP-DI",
             "time": "2016-08-04 15:41:28"
+        },
+        {
+            "name": "mobiledetect/mobiledetectlib",
+            "version": "2.8.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/serbanghita/Mobile-Detect.git",
+                "reference": "53cddae0c272a478b24a4b5fb60d0f838caf70b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/53cddae0c272a478b24a4b5fb60d0f838caf70b6",
+                "reference": "53cddae0c272a478b24a4b5fb60d0f838caf70b6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "johnkary/phpunit-speedtrap": "~1.0@dev",
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Mobile_Detect.php"
+                ],
+                "psr-0": {
+                    "Detection": "namespaced/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Serban Ghita",
+                    "email": "serbanghita@gmail.com",
+                    "homepage": "http://mobiledetect.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Mobile_Detect is a lightweight PHP class for detecting mobile devices. It uses the User-Agent string combined with specific HTTP headers to detect the mobile environment.",
+            "homepage": "https://github.com/serbanghita/Mobile-Detect",
+            "keywords": [
+                "detect mobile devices",
+                "mobile",
+                "mobile detect",
+                "mobile detector",
+                "php mobile detect"
+            ],
+            "time": "2016-04-24 09:47:16"
         },
         {
             "name": "monolog/monolog",
@@ -2146,16 +2358,16 @@
         },
         {
             "name": "psr/cache",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/cache.git",
-                "reference": "9e66031f41fbbdda45ee11e93c45d480ccba3eb3"
+                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/cache/zipball/9e66031f41fbbdda45ee11e93c45d480ccba3eb3",
-                "reference": "9e66031f41fbbdda45ee11e93c45d480ccba3eb3",
+                "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
+                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
                 "shasum": ""
             },
             "require": {
@@ -2188,7 +2400,7 @@
                 "psr",
                 "psr-6"
             ],
-            "time": "2015-12-11 02:52:07"
+            "time": "2016-08-06 20:24:11"
         },
         {
             "name": "psr/http-message",
@@ -2626,12 +2838,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "833fbd1ffbbad82e3fc98531191a3afcc3f2f953"
+                "reference": "64b972a196798dd7f663e2ceab8d360ab1a3b442"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/833fbd1ffbbad82e3fc98531191a3afcc3f2f953",
-                "reference": "833fbd1ffbbad82e3fc98531191a3afcc3f2f953",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/64b972a196798dd7f663e2ceab8d360ab1a3b442",
+                "reference": "64b972a196798dd7f663e2ceab8d360ab1a3b442",
                 "shasum": ""
             },
             "require": {
@@ -2684,7 +2896,7 @@
                 "caching",
                 "psr6"
             ],
-            "time": "2016-08-05 10:06:06"
+            "time": "2016-08-13 18:51:17"
         },
         {
             "name": "symfony/console",
@@ -3122,16 +3334,16 @@
         },
         {
             "name": "tightenco/collect",
-            "version": "v5.2.41",
+            "version": "v5.2.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tightenco/collect.git",
-                "reference": "cb6c548aac9c8dd49ab8a36a1e477c739e235927"
+                "reference": "6add72fba3816232c71a3338081ed8cbef41974d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tightenco/collect/zipball/cb6c548aac9c8dd49ab8a36a1e477c739e235927",
-                "reference": "cb6c548aac9c8dd49ab8a36a1e477c739e235927",
+                "url": "https://api.github.com/repos/tightenco/collect/zipball/6add72fba3816232c71a3338081ed8cbef41974d",
+                "reference": "6add72fba3816232c71a3338081ed8cbef41974d",
                 "shasum": ""
             },
             "require": {
@@ -3165,7 +3377,7 @@
                 "collection",
                 "laravel"
             ],
-            "time": "2016-07-22 18:59:39"
+            "time": "2016-08-10 15:40:20"
         },
         {
             "name": "zendframework/zend-authentication",
