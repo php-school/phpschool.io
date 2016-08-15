@@ -61,3 +61,26 @@ input, textarea, select {
     }
 
 }
+
+.form__success {
+    margin: $half-spacing 0 0;
+    padding: $half-spacing;
+    color: $green;
+    font-size: $small-font-size;
+    border-left: 4px solid $green;
+    list-style: none;
+
+    display: none;
+
+    &.active {
+        display: block;
+    }
+
+    li {
+        margin-bottom: $half-spacing;
+        &:last-child {
+            margin: 0;
+        }
+    }
+
+}
