@@ -1,5 +1,7 @@
 .site-header {
   text-align: center;
+  background-image: url('../img/header-bg.jpg');
+  background-size: 600px;
   background-color: $base-colour;
   color: $white;
   padding: 0 $half-spacing $base-spacing;
@@ -10,9 +12,9 @@
 }
 
 .site-header--slim {
-   .site-header__desc {
-     margin-bottom: 0;
-   }
+  .site-header__desc {
+    margin-bottom: 0;
+  }
 }
 
 .logo {
