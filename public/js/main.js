@@ -6,33 +6,34 @@ $(function () {
     var $formTrigger = $('.button-submit');
     var $formErrors = $('.form__errors');
     var $workshopError = $('.workshop-errors');
+    var $workshopSuccess = $('.workshop-success');
+
+    var elementMap = {
+        'github-url' : '.gh-errors',
+        'email': ".email-errors",
+        'name': '.name-errors'
+    };
 
     /**
      * Loops through the form errors object and a applies the right message under the right input
      * @param dataObject
      */
-    function formErrors(dataObject) {
-        for (var key in dataObject) {
-            if (!dataObject.hasOwnProperty(key)) continue;
-            var obj = dataObject[key];
+    function formErrors(errors) {
+        for (var field in errors) {
+            if (!errors.hasOwnProperty(field)) {
+                continue;
+            }
+            var messages = errors[field];
+            var errorContainer = $(elementMap[field]);
 
-            if (key === 'github-url') {
-                for (var prop in obj) {
-                    if (!obj.hasOwnProperty(prop)) continue;
-                    $('.gh-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
+            for (var message in messages) {
+                if (!messages.hasOwnProperty(message)) {
+                    continue;
                 }
-            }
-            if (key === 'email') {
-                for (var prop in obj) {
-                    if (!obj.hasOwnProperty(prop)) continue;
-                    $('.email-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
-                }
-            }
-            if (key === 'name') {
-                for (var prop in obj) {
-                    if (!obj.hasOwnProperty(prop)) continue;
-                    $('.name-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
-                }
+
+                errorContainer
+                    .addClass('active')
+                    .append('<li>' + messages[message] + '</li>');
             }
         }
     }
@@ -44,7 +45,9 @@ $(function () {
     function workshopErrors(dataObject) {
         $workshopError.append('<p>We checked out the workshop you submitted and we found a few problems, they are listed below. Feel free to jump on Slack if you need any more help!</p>');
         for (var key in dataObject) {
-            if (!dataObject.hasOwnProperty(key)) continue;
+            if (!dataObject.hasOwnProperty(key)) {
+                continue;
+            }
             var obj = dataObject[key];
 
             for (var prop in obj) {
@@ -88,6 +91,7 @@ $(function () {
                 } else {
                     $formErrors.removeClass('active').empty();
                     $formTrigger.addClass('button-submit--success');
+                    $workshopSuccess.addClass('active');
                 }
             },
             error: function () {
@@ -96,6 +100,11 @@ $(function () {
                 formReset();
             }
         });
+    });
+
+    $submitForm.delegate(':input', 'focus', function() {
+        $formTrigger.removeClass('button-submit--success')
+        $workshopSuccess.removeClass('active');
     });
 
     /**

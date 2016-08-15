@@ -12,7 +12,7 @@
 
     @media screen and (min-width: $lap-start) {
         padding-top: $base-spacing;
-        width: 66.66%;
+        width: 50%;
     }
 }
 
@@ -30,7 +30,7 @@
     box-sizing: border-box;
 
     @media screen and (min-width: $lap-start) {
-        width: 33.33%;
+        width: 50%;
         display: flex;
     }
 }
