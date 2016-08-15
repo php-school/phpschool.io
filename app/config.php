@@ -197,6 +197,7 @@ return [
     All::class => \DI\factory(function (ContainerInterface $c) {
         return new All(
             $c->get(WorkshopRepository::class),
+            $c->get(WorkshopInstallRepository::class),
             $c->get(PhpRenderer::class)
         );
     }),
