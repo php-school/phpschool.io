@@ -192,7 +192,7 @@ ul.docs__std__list__note {
 
   .edit-on-gh {
     display: none;
-    @media screen and (min-width: 500px) {
+    @media screen and (min-width: $lap-start) {
       display: inline;
       font-size: 24px;
       padding-bottom: 2px;
@@ -273,14 +273,14 @@ dl.check-description {
 
   dt {
     font-style: italic;
-    @media screen and (min-width: 840px) {
+    @media screen and (min-width: $lap-start) {
       float: left;
       width: 30%;
     }
   }
 
   dd {
-    @media screen and (min-width: 840px) {
+    @media screen and (min-width: $lap-start) {
       float: left;
       width: 70%;
     }

@@ -28,12 +28,12 @@
     display: block;
     margin: 0 auto;
     width: 30%;
-    @media screen and (min-width: 600px) {
+    @media screen and (min-width: $lap-start) {
       width: 50%;
     }
   }
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     width: 33.33%;
     margin: 0;
   }
@@ -44,7 +44,7 @@
   width: 100%;
   text-align: center;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     width: 66.66%;
     text-align: left;
   }

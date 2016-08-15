@@ -1,0 +1,63 @@
+.form {
+    margin-bottom: $base-spacing;
+}
+
+//Form section
+.field {
+    margin-bottom: $base-spacing;
+}
+
+// wrapper for input
+.input-box {
+}
+
+// input field
+.input-text {
+    height: $button-height;
+
+    &:focus {
+        border-color: $secondary-colour;
+        outline: none;
+    }
+}
+
+label {
+    margin-bottom: $half-spacing;
+    display: block;
+    font-weight: 700;
+}
+
+input, textarea, select {
+    border: 1px solid $silver;
+    border-radius: 100px;
+    max-width: 45em;
+    width: 100%;
+    padding: $half-spacing;
+    font-size: $base-font-size;
+    &:-webkit-autofill {
+        background-color: transparent !important;
+    }
+}
+
+.form__errors {
+    margin: $half-spacing 0 0;
+    padding: $half-spacing;
+    color: $red;
+    font-size: $small-font-size;
+    border-left: 4px solid $red;
+    list-style: none;
+
+    display: none;
+
+    &.active {
+        display: block;
+    }
+
+    li {
+        margin-bottom: $half-spacing;
+        &:last-child {
+            margin: 0;
+        }
+    }
+
+}

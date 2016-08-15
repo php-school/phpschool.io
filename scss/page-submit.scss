@@ -1,0 +1,60 @@
+.ws-submit {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -$base-spacing*2;
+}
+
+.ws-submit__form {
+    width: 100%;
+    padding-bottom: $base-spacing;
+    margin-left: auto;
+    padding-left: $base-spacing*2;
+
+    @media screen and (min-width: $lap-start) {
+        padding-top: $base-spacing;
+        width: 66.66%;
+    }
+}
+
+.ws-submit__form--success {
+    input {
+        border-color: $green;
+    }
+}
+
+.ws-submit__content {
+    width: 100%;
+    padding-top: $base-spacing;
+    padding-left: $base-spacing*2;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    @media screen and (min-width: $lap-start) {
+        width: 33.33%;
+        display: flex;
+    }
+}
+
+.ws-submit__input {
+    padding-left: 3em;
+
+    &.email {
+        background-image: url('../img/svg/mail.svg');
+    }
+
+    &.name {
+        background-image: url('../img/svg/pencil.svg');
+    }
+
+    &.gh {
+        background-image: url('../img/svg/github-dk.svg');
+    }
+
+    background-repeat: no-repeat;
+    background-size: 1.5em;
+    background-position: 1em center;
+
+    &.error {
+        border-color: $red;
+    }
+}

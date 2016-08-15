@@ -11,7 +11,7 @@
   margin-left: auto;
   padding-left: $base-spacing*2;
 
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: $lap-start) {
     width: 70%;
   }
 }
@@ -22,7 +22,7 @@
   color: $secondary-colour;
   text-align: center;
 
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: $lap-start) {
       display: none;
     }
 }
@@ -40,7 +40,7 @@
 
   .svg-icon {
     display: none;
-    @media screen and (min-width: 700px) {
+    @media screen and (min-width: $lap-start) {
       display: inline;
       margin-right: $half-spacing;
       width: 1.5em;
@@ -48,7 +48,7 @@
     }
   }
 
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: $lap-start) {
     margin-top: $base-spacing*2;
     text-align: left;
 
@@ -72,7 +72,7 @@
   border-radius: 45px;
   box-sizing: border-box;
 
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: $lap-start) {
     display: none;
   }
 
@@ -98,7 +98,7 @@
     display: flex;
   }
 
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: $lap-start) {
     width: 30%;
     display: flex;
     max-width: 310px;
@@ -127,7 +127,7 @@
 
   padding-bottom: $half-spacing / 2;
 
-  @media screen and (min-width: 700px) {
+  @media screen and (min-width: $lap-start) {
     border-bottom: 1px dotted $silver;
   }
 }

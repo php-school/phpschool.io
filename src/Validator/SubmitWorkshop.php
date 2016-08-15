@@ -16,7 +16,7 @@ use Zend\Validator\StringLength;
 class SubmitWorkshop extends Validator
 {
     private static $gitHubComposerJsonUrlFormat = 'https://raw.githubusercontent.com/%s/%s/master/composer.json';
-    private static $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d-]+)$/';
+    private static $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d-]+)\/?$/';
 
     public function __construct(Client $gitHubClient, WorkshopRepository $workshopRepository)
     {
@@ -68,9 +68,14 @@ class SubmitWorkshop extends Validator
         $uniqueNameValidator
             ->setMessage('The name is used by an existing workshop, please try another.', Callback::INVALID_VALUE);
 
+        $nameLengthValidator = new StringLength(['min' => 1, 'max' => 255]);
+        $nameLengthValidator
+            ->setMessage('Name should be between %min% and %max% characters long.', StringLength::TOO_SHORT)
+            ->setMessage('Name should be between %min% and %max% characters long.', StringLength::TOO_LONG);
+
         $name = new Input('name');
         $name->getValidatorChain()
-            ->attach(new StringLength(['min' => 1, 'max' => 255]))
+            ->attach($nameLengthValidator)
             ->attach($uniqueNameValidator);
 
         $this->add($name);

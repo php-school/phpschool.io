@@ -2,8 +2,126 @@ var $ = jQuery;
 
 $(function () {
 
+    var $submitForm = $('#ws-submit-form');
+    var $formTrigger = $('.button-submit');
+    var $formErrors = $('.form__errors');
+    var $workshopError = $('.workshop-errors');
+
+    /**
+     * Loops through the form errors object and a applies the right message under the right input
+     * @param dataObject
+     */
+    function formErrors(dataObject) {
+        for (var key in dataObject) {
+            if (!dataObject.hasOwnProperty(key)) continue;
+            var obj = dataObject[key];
+
+            if (key === 'github-url') {
+                for (var prop in obj) {
+                    if (!obj.hasOwnProperty(prop)) continue;
+                    $('.gh-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
+                }
+            }
+            if (key === 'email') {
+                for (var prop in obj) {
+                    if (!obj.hasOwnProperty(prop)) continue;
+                    $('.email-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
+                }
+            }
+            if (key === 'name') {
+                for (var prop in obj) {
+                    if (!obj.hasOwnProperty(prop)) continue;
+                    $('.name-errors').addClass('active').append('<li>' + obj[prop] + '</li>');
+                }
+            }
+        }
+    }
+
+    /**
+     * Loops through the workshop error object and adds the message to the bottom of the form
+     * @param dataObject
+     */
+    function workshopErrors(dataObject) {
+        $workshopError.append('<p>We checked out the workshop you submitted and we found a few problems, they are listed below. Feel free to jump on Slack if you need any more help!</p>');
+        for (var key in dataObject) {
+            if (!dataObject.hasOwnProperty(key)) continue;
+            var obj = dataObject[key];
+
+            for (var prop in obj) {
+                if (!obj.hasOwnProperty(prop)) continue;
+                $workshopError.addClass('active').append('<li>' + obj[prop] + '</li>');
+            }
+        }
+    }
+
+    function formReset() {
+        setTimeout(function () {
+            $formTrigger.removeClass('button-submit--error')
+        }, 5000);
+    }
+
+    /**
+     * Form submit function and ajax request
+     */
+    $submitForm.on('submit', function (evt) {
+        evt.preventDefault();
+        $formTrigger.addClass('button-submit--loading');
+
+        $.ajax({
+            url: '/submit',
+            method: 'POST',
+            data: $submitForm.serialize(),
+            dataType: 'json',
+
+            success: function (data) {
+                $formTrigger.removeClass('button-submit--loading');
+                if (data.success === false) {
+                    $formTrigger.addClass('button-submit--error');
+                    if (data.form_errors) {
+                        formErrors(data.form_errors);
+                        formReset();
+                    }
+                    if (data.workshop_errors) {
+                        workshopErrors(data.workshop_errors);
+                        formReset();
+                    }
+                } else {
+                    $formErrors.removeClass('active').empty();
+                    $formTrigger.addClass('button-submit--success');
+                }
+            },
+            error: function () {
+                $formTrigger.removeClass('button-submit--loading').addClass('button-submit--error');
+                $workshopError.addClass('active').append('<li>Sorry but something went wrong please try again</li>');
+                formReset();
+            }
+        });
+    });
+
+    /**
+     * Type effect on home page
+     */
+    if ($('#typer').length) {
+        var letters = 'Open Source Learning for PHP';
+        var pos = 0;
+        var target = document.getElementById('typer');
+
+        var typingAway = window.setInterval(function () {
+            if (letters[pos]) {
+                target.innerHTML = target.innerHTML + letters[pos];
+                pos++;
+            } else {
+                clearInterval(typingAway);
+            }
+        }, 100);
+    }
+
+    /**
+     * Mobile menu js
+     * @type {any}
+     */
     var $menuTrigger = $('.menu-icon');
-    var $mainNav = $('.navigation');
+    var $mainNav = $('.site-nav__list');
 
     $menuTrigger.on('click', function () {
         $menuTrigger.toggleClass('active');
@@ -37,7 +155,6 @@ $(function () {
         return false;
     });
 
-
     var hash = document.location.hash;
     if ($(".tabs-container > .tab").length && hash.length) {
         //if there are some tabs on this page and we have a hash
@@ -61,11 +178,13 @@ $(function () {
         }
     });
 
-    docsearch({
-        apiKey: '839c0aa3f3df6404158b249b3f84774f',
-        indexName: 'phpschool',
-        inputSelector: '#search-input'
-    });
+    if ($('#search-input').length) {
+        docsearch({
+            apiKey: '839c0aa3f3df6404158b249b3f84774f',
+            indexName: 'phpschool',
+            inputSelector: '#search-input'
+        });
+    }
 
     /**
      * Try to either open a tab (match id to hash) and scroll to it,
@@ -74,8 +193,7 @@ $(function () {
      *
      * @param string hash
      */
-    function processTabHash(hash)
-    {
+    function processTabHash(hash) {
         if (hash.indexOf("#tab-") === 0) {
             //we want to visit specific tab
             var tab = $('a[href="' + hash + '"]');
@@ -101,8 +219,8 @@ $(function () {
         }
 
         //we want to visit content inside a tab
-        var tab         = target.closest(".tab-content");
-        var tabId       = tab.attr("id");
+        var tab = target.closest(".tab-content");
+        var tabId = tab.attr("id");
         var tabMenuItem = tab.parent().prev().find('a[href="#' + tabId + '"]').parent();
 
         tab.show().siblings().hide();

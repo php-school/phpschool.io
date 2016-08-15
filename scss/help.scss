@@ -20,7 +20,7 @@
     color: $black;
   }
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     width: 33.33%;
     margin-bottom: 0;
   }
@@ -33,7 +33,7 @@
   h2, p {
       text-align: center;
 
-      @media screen and (min-width: 600px) {
+      @media screen and (min-width: $lap-start) {
         text-align: left;
       }
   }
@@ -42,7 +42,7 @@
     margin-bottom: 0;
   }
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $lap-start) {
     width: 66.66%;
   }
 }

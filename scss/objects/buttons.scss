@@ -1,0 +1,133 @@
+.button {
+  padding: $half-spacing 45px;
+  background: $secondary-colour;
+  color: $white;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0;
+  position: relative;
+  transition: ease all .3s;
+  border-radius: 45px;
+  font-size: $base-font-size;
+  height: $button-height;
+
+  &:hover {
+    transform: scale(1.05);
+    background: darken($secondary-colour, 15);
+    text-decoration: none;
+  }
+
+}
+
+.button-submit {
+  border: none;
+  position: relative;
+  transition: opacity .3s;
+  margin: 0 auto;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.button-submit--loading {
+    .loader-wapper {
+      opacity: 1;
+      visibility: visible;
+    }
+    span {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  &.button-submit--success {
+    background-color: $green;
+
+    .button-submit__success {
+      opacity: 1;
+      visibility: visible;
+    }
+    span {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  &.button-submit--error {
+    background-color: $red;
+
+    .button-submit__error {
+      opacity: 1;
+      visibility: visible;
+    }
+    span {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+}
+
+.button-submit__success {
+}
+
+.button-submit__error {
+
+}
+
+.button-submit__success, .button-submit__error {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  transform: translateY(-50%);
+}
+
+.loader-wapper {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  transform: translateY(-50%);
+
+  .loader,
+  .loader:after {
+    border-radius: 100%;
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  .loader {
+    margin: 0 auto;
+    position: relative;
+    //text-indent: -9999em;
+    border-top: 5px solid rgba($white, 0.2);
+    border-right: 5px solid rgba($white, 0.2);
+    border-bottom: 5px solid rgba($white, 0.2);
+    border-left: 5px solid rgba($white, 1);
+    transform: translateZ(0);
+    animation: load8 1.1s infinite linear;
+  }
+
+}
+
+@mixin load8-frames() {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+
+}
+
+@keyframes load8 {
+  @include load8-frames;
+}
