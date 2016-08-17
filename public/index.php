@@ -1,5 +1,6 @@
 <?php
 
+use PhpSchool\Website\Action\Admin\ClearCache;
 use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
@@ -78,10 +79,11 @@ $app
             return $renderer->render($response, 'layouts/admin.phtml', [
                 'pageTitle'       => 'Admin Area',
                 'pageDescription' => 'Admin Area',
-                'content'         => 'Welcome to the Admin!'
+                'content'         => $renderer->fetch('admin/main.phtml')
             ]);
         });
 
+        $this->get('/cache/clear', ClearCache::class);
         $this->get('/workshops/new', Requests::class);
         $this->get('/workshops/all', All::class);
         $this->get('/workshop/approve/{id}', Approve::class);

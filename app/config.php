@@ -13,6 +13,7 @@ use League\CommonMark\CommonMarkConverter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
+use PhpSchool\Website\Action\Admin\ClearCache as ClearCacheAction;
 use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
@@ -186,6 +187,13 @@ return [
             $c->get(PhpRenderer::class)
         );
     }),
+
+    ClearCacheAction::class => function (ContainerInterface $c) {
+        return new ClearCacheAction(
+            $c->get('cache.fpc'),
+            $c->get(Messages::class)
+        );
+    },
 
     Requests::class => \DI\factory(function (ContainerInterface $c) {
         return new Requests(
