@@ -50,7 +50,8 @@ class WorkshopCreator
             $repo,
             basename(array_values($jsonData['bin'])[0]),
             $data['name'],
-            $jsonData['description']
+            $jsonData['description'],
+            $data['email']
         );
 
         $this->workshopRepository->save($workshop);

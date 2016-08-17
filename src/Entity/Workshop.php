@@ -15,6 +15,17 @@ use Ramsey\Uuid\Uuid;
  */
 class Workshop
 {
+    const TYPE_COMMUNITY = 0;
+    const TYPE_CORE = 1;
+
+    /**
+     * @var array
+     */
+    private $typeMap = [
+        self::TYPE_COMMUNITY => 'community',
+        self::TYPE_CORE => 'core',
+    ];
+
     /**
      * @var Uuid
      *
@@ -30,14 +41,14 @@ class Workshop
      *
      * @ORM\Column(type="string", length=255)
      */
-    private $owner;
+    private $gitHubOwner;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
-    private $user;
+    private $gitHubRepoName;
 
     /**
      * @var string
@@ -61,26 +72,41 @@ class Workshop
     private $description;
 
     /**
-     * @var bool
+     * @var string
      *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $submitterEmail;
+
+    /**
+     * @var bool
      *
      * @ORM\Column(type="boolean")
      */
     private $approved;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $type = self::TYPE_COMMUNITY;
+
     public function __construct(
-        string $owner,
-        string $user,
+        string $gitHubOwner,
+        string $gitHubRepoName,
         string $name,
         string $displayName,
         string $description,
+        string $submitterEmail,
         bool $approved = false
     ) {
-        $this->owner = $owner;
-        $this->user = $user;
+        $this->gitHubOwner = $gitHubOwner;
+        $this->gitHubRepoName = $gitHubRepoName;
         $this->name = $name;
         $this->displayName = $displayName;
         $this->description = $description;
+        $this->submitterEmail = $submitterEmail;
         $this->approved = $approved;
     }
 
@@ -91,17 +117,17 @@ class Workshop
 
     public function getRepoUrl(): string
     {
-        return sprintf('https://github.com/%s/%s', $this->getOwner(), $this->getUser());
+        return sprintf('https://github.com/%s/%s', $this->getGitHubOwner(), $this->getGitHubRepoName());
     }
 
-    public function getOwner(): string
+    public function getGitHubOwner(): string
     {
-        return $this->owner;
+        return $this->gitHubOwner;
     }
 
-    public function getUser(): string
+    public function getGitHubRepoName(): string
     {
-        return $this->user;
+        return $this->gitHubRepoName;
     }
 
     public function getName(): string
@@ -119,6 +145,11 @@ class Workshop
         return $this->description;
     }
 
+    public function getSubmitterEmail(): string
+    {
+        return $this->submitterEmail;
+    }
+
     public function isApproved() : bool
     {
         return $this->approved;
@@ -129,14 +160,45 @@ class Workshop
         $this->approved = true;
     }
 
+    public function isCommunity() : bool
+    {
+        return $this->type === self::TYPE_COMMUNITY;
+    }
+
+    public function isCore() : bool
+    {
+        return $this->type === self::TYPE_CORE;
+    }
+
+    public function getType() : int
+    {
+        return $this->type;
+    }
+
+    public function getTypeCode() : string
+    {
+        return $this->typeMap[$this->getType()];
+    }
+
+    public function getTypeName() : string
+    {
+        return ucfirst($this->getTypeCode());
+    }
+
+    public function promoteToCore()
+    {
+        $this->type = self::TYPE_CORE;
+    }
+
     public function toArray() : array
     {
         return [
             "name" => $this->getName(),
             "display_name" => $this->getDisplayName(),
-            "owner" => $this->getOwner(),
-            "repo" => $this->getUser(),
+            "owner" => $this->getGitHubOwner(),
+            "repo" => $this->getGitHubRepoName(),
             'repo_url' => $this->getRepoUrl(),
+            'type' => $this->getTypeCode(),
             "description" => $this->getDescription()
         ];
     }

@@ -40,6 +40,7 @@ gulp.task('validate-db', function () {
 })
 
 gulp.task('build-db', function () {
+    execSync('docker exec php-school-fpm vendor/bin/doctrine orm:clear-cache:metadata')
     execSync('docker exec php-school-fpm vendor/bin/doctrine orm:schema-tool:update -f');
 })
 
