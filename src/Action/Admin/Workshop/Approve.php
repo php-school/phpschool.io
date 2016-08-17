@@ -4,6 +4,7 @@ namespace PhpSchool\Website\Action\Admin\Workshop;
 
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\WorkshopFeed;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
@@ -30,11 +31,21 @@ class Approve
      */
     private $messages;
 
-    public function __construct(WorkshopRepository $repository, WorkshopFeed $workshopFeed, Messages $messages)
-    {
+    /**
+     * @var CacheItemPoolInterface
+     */
+    private $cache;
+
+    public function __construct(
+        WorkshopRepository $repository,
+        WorkshopFeed $workshopFeed,
+        CacheItemPoolInterface $cache,
+        Messages $messages
+    ) {
         $this->workshopFeed = $workshopFeed;
         $this->repository = $repository;
         $this->messages = $messages;
+        $this->cache = $cache;
     }
 
     public function __invoke(Request $request, Response $response, PhpRenderer $renderer, $id)
@@ -50,6 +61,8 @@ class Approve
         $workshop->approve();
 
         $this->repository->save($workshop);
+
+        $this->cache->clear();
 
         try {
             $this->workshopFeed->generate();

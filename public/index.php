@@ -16,6 +16,7 @@ use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\DocumentationAction;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\AdminStyle;
+use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\AuthenticationService;
 use PhpSchool\Website\User\Middleware\Authenticator;
 use PhpSchool\Website\WorkshopFeed;
@@ -43,8 +44,18 @@ session_start();
 $container = (new ContainerFactory)();
 $app = $container->get('app');
 
-$app->get('/', function (Request $request, Response $response, PhpRenderer $renderer) {
-    $inner = $renderer->fetch('home.phtml');
+$app->get('/', function (Request $request, Response $response, PhpRenderer $renderer, WorkshopRepository $workshopRepository) {
+    $workshops = $workshopRepository->findAll();
+
+    $core = array_filter($workshops, function (Workshop $workshop) {
+        return $workshop->isCore();
+    });
+
+    $community = array_filter($workshops, function (Workshop $workshop) {
+        return $workshop->isCommunity();
+    });
+
+    $inner = $renderer->fetch('home.phtml', ['coreWorkshops' => $core, 'communityWorkshops' => $community]);
     return $renderer->render($response, 'layouts/layout.phtml', [
         'pageTitle'       => 'Home',
         'pageDescription' => 'Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP',

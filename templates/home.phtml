@@ -39,18 +39,19 @@
                 <p></p>
             </div>
             <div class="core-workshop__courses">
+                <?php foreach ($coreWorkshops as $workshop): ?>
+                    <div class="workshop__course">
+                        <h3><a href="<?= $workshop->getRepoUrl() ?>"><?= $workshop->getDisplayName() ?></a></h3>
+                        <p class="workshop-description"><?= $workshop->getDescription() ?></p>
 
-                <div class="workshop__course">
-                    <h3><a href="https://github.com/php-school/learn-you-php">Learn You PHP!</a></h3>
-                    <p class="workshop-description">An introduction to PHP's core features: i/o, http, arrays, exceptions and so on.</p>
-
-                    <div class="terminal">
-                        <div class="terminal__body">
-                            <p>composer global require php-school/learn-you-php:~0.1</p>
-                            <p>learnyouphp</p>
+                        <div class="terminal">
+                            <div class="terminal__body">
+                                <p>workshop-manager install <?= $workshop->getName() ?></p>
+                                <p><?= $workshop->getName() ?></p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <?php endforeach; ?>
                 <div class="workshop__course">
                     <h3><a href="#">PHP Basics</a></h3>
                     <p class="workshop-description">Mastering the basic concepts of PHP</p>
@@ -73,19 +74,20 @@
                 <p>Check out <a href="/docs">this page</a> to submit your workshop so it appears here and can be installable with the workshop manager!</p>
             </div>
             <div class="community-workshop__courses">
-                <div class="workshop__course">
-                    <h3><a href="https://github.com/NastasiaSaby/callable-functions">Callable Functions</a></h3>
-                    <p class="workshop-description">A PHP School workshop about callable functions with arrays.</p>
+                <?php foreach ($communityWorkshops as $workshop): ?>
+                    <div class="workshop__course">
+                        <h3><a href="<?= $workshop->getRepoUrl() ?>"><?= $workshop->getDisplayName() ?></a></h3>
+                        <p class="workshop-description"><?= $workshop->getDescription() ?></p>
 
-                    <div class="terminal">
-                        <div class="terminal__body">
-                            <p>composer global require nastasia/callable-functions:^0.3</p>
-                            <p>callablefunctions</p>
+                        <div class="terminal">
+                            <div class="terminal__body">
+                                <p>workshop-manager install <?= $workshop->getName() ?></p>
+                                <p><?= $workshop->getName() ?></p>
+                            </div>
                         </div>
+                        <p class="termianl__meta">Made by: <a href=" https://twitter.com/saby_nastasia">Nastasia Saby</a></p>
                     </div>
-                    <p class="termianl__meta">Made by: <a href=" https://twitter.com/saby_nastasia">Nastasia Saby</a></p>
-                </div>
-
+                <?php endforeach; ?>
                 <div class="terminal">
                     <div class="terminal__body">
                         <p>Contact us to get your workshop listed here!</p>
