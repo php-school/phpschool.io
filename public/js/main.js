@@ -157,13 +157,12 @@ $(function () {
     // header typeing
     $(".header__typed").typed({
         strings: [
-            "Open Source Learning for PHP ^500",
-            "Fresh Teaching Experience for PHP ^500",
-            "Self-paced and Interactive Learning ^500",
-            "No Prior Experience Required...^500",
-            "Any Level Developer Welcome! ^500",
+            "Open source learning for PHP ^500",
+            "A fun and fresh teaching experience ^500",
+            "Self-paced and interactive learning ^500",
+            "No previous experience necessary..^500",
             "This is... ^500",
-            "The New Way to Learn PHP!"
+            "The new way to Learn PHP! "
         ],
         typeSpeed: 50,
         cursorChar: '<span class="curser"><svg class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/img/icons/icons.svg#svg-cursor"></use></svg></span>',
@@ -174,7 +173,7 @@ $(function () {
             "TRoubl^300",
             "Troublesgoo^200",
             "*@!#",
-            "Troubleshooting"
+            "Troubleshooting "
         ],
         typeSpeed: 50,
         cursorChar: '<span class="curser"><svg class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/img/icons/icons.svg#svg-cursor"></use></svg></span>',

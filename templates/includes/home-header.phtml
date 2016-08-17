@@ -6,19 +6,7 @@
             <span class="header__typed">Open Source Learning for PHP</span>
         </h1>
         <p class="header__desc">A revolutionary new way to learn PHP. <br>Bring your imagination to life in an open learning eco-system.</p>
-
-        <?php if ($userAgent->is('Windows')) : ?>
-            <p>Windows users should check out what <a href="/install#windows">prerequisites are required</a></p>
-        <?php endif; ?>
-        
-        <div class="header__terminal">
-            <div class="terminal__body">
-                <p>curl https://php-school.github.io/workshop-manager/workshop-manager.phar</p>
-                <p>mv workshop-manager.phar /usr/local/bin/workshop-manager</p>
-                <p>chmod +x /usr/local/bin/workshop-manager</p>
-                <p>workshop-manager verify</p>
-            </div>
-        </div>
+        <a href="#installation" class="header__link button">Get Started</a>
     </div>
 
 </header>
