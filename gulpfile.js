@@ -10,6 +10,9 @@ var execSync    = require('child_process').execSync;
 var spawn       = require('child_process').spawn;
 var easysvg     = require('easy-svg');
 var minify      = require('gulp-minify');
+var concat      = require('gulp-concat');
+var rename      = require('gulp-rename');
+var uglify      = require('gulp-uglify');
 
 gulp.task('serve', ['build-all', 'build-db'], function(cb) {
     
@@ -77,13 +80,9 @@ gulp.task('svg', function () {
 
 gulp.task('minify', function() {
     gulp.src(['public/js/highlight.min.js', 'public/js/main.js'])
-        .pipe(minify({
-            ext:{
-                src:'.js',
-                min:'.min.js'
-            },
-            ignoreFiles: ['*.min.js']
-        }))
+        .pipe(concat('main.min.js'))
+        .pipe(gulp.dest('public/js'))
+        .pipe(uglify())
         .pipe(gulp.dest('public/js'))
 });
 

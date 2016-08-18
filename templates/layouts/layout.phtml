@@ -26,7 +26,7 @@
         <?= $this->fetch('includes/footer.phtml') ?>
 
         <?php foreach ($this->getJs() as $js) : ?>
-            <script async src="<?= $js ?>"></script>
+            <script defer src="<?= $js ?>"></script>
         <?php endforeach; ?>
     </body>
 </html>
