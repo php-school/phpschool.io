@@ -2,8 +2,8 @@
 
 namespace PhpSchool\Website\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use JsonSerializable;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -79,6 +79,20 @@ class Workshop
     private $submitterEmail;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $submitterName;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(type="string", length=512, nullable=true)
+     */
+    private $submitterContact;
+
+    /**
      * @var bool
      *
      * @ORM\Column(type="boolean")
@@ -92,6 +106,13 @@ class Workshop
      */
     private $type = self::TYPE_COMMUNITY;
 
+    /**
+     * @var DateTime
+     *
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
     public function __construct(
         string $gitHubOwner,
         string $gitHubRepoName,
@@ -99,6 +120,8 @@ class Workshop
         string $displayName,
         string $description,
         string $submitterEmail,
+        string $submitterName,
+        string $submitterContact = null,
         bool $approved = false
     ) {
         $this->gitHubOwner = $gitHubOwner;
@@ -107,7 +130,10 @@ class Workshop
         $this->displayName = $displayName;
         $this->description = $description;
         $this->submitterEmail = $submitterEmail;
+        $this->submitterName = $submitterName;
+        $this->submitterContact = $submitterContact;
         $this->approved = $approved;
+        $this->createdAt = new DateTime;
     }
 
     public function getId() : string
@@ -120,34 +146,47 @@ class Workshop
         return sprintf('https://github.com/%s/%s', $this->getGitHubOwner(), $this->getGitHubRepoName());
     }
 
-    public function getGitHubOwner(): string
+    public function getGitHubOwner() : string
     {
         return $this->gitHubOwner;
     }
 
-    public function getGitHubRepoName(): string
+    public function getGitHubRepoName() : string
     {
         return $this->gitHubRepoName;
     }
 
-    public function getName(): string
+    public function getName() : string
     {
         return $this->name;
     }
 
-    public function getDisplayName(): string
+    public function getDisplayName() : string
     {
         return $this->displayName;
     }
 
-    public function getDescription(): string
+    public function getDescription() : string
     {
         return $this->description;
     }
 
-    public function getSubmitterEmail(): string
+    public function getSubmitterEmail() : string
     {
         return $this->submitterEmail;
+    }
+
+    public function getSubmitterName() : string
+    {
+        return $this->submitterName;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSubmitterContact()
+    {
+        return $this->submitterContact;
     }
 
     public function isApproved() : bool
@@ -188,6 +227,11 @@ class Workshop
     public function promoteToCore()
     {
         $this->type = self::TYPE_CORE;
+    }
+
+    public function getCreatedAt() : DateTime
+    {
+        return $this->createdAt;
     }
 
     public function toArray() : array

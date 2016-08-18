@@ -7,6 +7,7 @@ use PhpSchool\Website\Repository\WorkshopRepository;
 use Zend\InputFilter\Input;
 use Zend\Validator\Callback;
 use Zend\Validator\EmailAddress;
+use Zend\Validator\NotEmpty;
 use Zend\Validator\Regex;
 use Zend\Validator\StringLength;
 
@@ -57,6 +58,30 @@ class SubmitWorkshop extends Validator
 
         $this->add($email);
 
+        $nameLengthValidator = new StringLength(['min' => 1, 'max' => 255]);
+        $nameLengthValidator
+            ->setMessage('Name should be between %min% and %max% characters long.', StringLength::TOO_SHORT)
+            ->setMessage('Name should be between %min% and %max% characters long.', StringLength::TOO_LONG);
+
+        $name = new Input('name');
+        $name->getValidatorChain()
+            ->attach($nameLengthValidator);
+
+        $this->add($name);
+
+        $contactLengthValidator = new StringLength(['min' => 1, 'max' => 512]);
+        $contactLengthValidator
+            ->setMessage('Contact should be between %min% and %max% characters long.', StringLength::TOO_SHORT)
+            ->setMessage('Contact should be between %min% and %max% characters long.', StringLength::TOO_LONG);
+
+        $contact = new Input('contact');
+        $contact->setRequired(false);
+        $contact->getValidatorChain()
+            ->attach(new NotEmpty)
+            ->attach($contactLengthValidator);
+
+        $this->add($contact);
+
         $uniqueNameValidator = new Callback(function ($name) use ($workshopRepository) {
             try {
                 $workshopRepository->findByDisplayName($name);
@@ -70,10 +95,10 @@ class SubmitWorkshop extends Validator
 
         $nameLengthValidator = new StringLength(['min' => 1, 'max' => 255]);
         $nameLengthValidator
-            ->setMessage('Name should be between %min% and %max% characters long.', StringLength::TOO_SHORT)
-            ->setMessage('Name should be between %min% and %max% characters long.', StringLength::TOO_LONG);
+            ->setMessage('Workshop name should be between %min% and %max% characters long.', StringLength::TOO_SHORT)
+            ->setMessage('Workshop name should be between %min% and %max% characters long.', StringLength::TOO_LONG);
 
-        $name = new Input('name');
+        $name = new Input('workshop-name');
         $name->getValidatorChain()
             ->attach($nameLengthValidator)
             ->attach($uniqueNameValidator);

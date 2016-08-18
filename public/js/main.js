@@ -11,6 +11,8 @@ $(function () {
     var elementMap = {
         'github-url' : '.gh-errors',
         'email': ".email-errors",
+        'workshop-name': '.workshop-name-errors',
+        'contact': '.contact-errors',
         'name': '.name-errors'
     };
 
