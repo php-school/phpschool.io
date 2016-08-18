@@ -297,11 +297,13 @@ dl.check-description {
     background-repeat: no-repeat;
     background-position: 98%;
     font-size: 16px;
-    color: #333;
+    color: $white;
     height: 50px;
     width: 100%;
     padding: 10px;
     border: 2px solid $secondary-colour;
+    background-color: transparent;
+
 
     &:focus {
       outline: none;

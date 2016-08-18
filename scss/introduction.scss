@@ -1,26 +1,16 @@
 .introduction {
   display: flex;
   flex-wrap: wrap;
-  margin-left: -$base-spacing;
-  padding: $base-spacing*2 0;
+  //margin-left: -$base-spacing;
+  padding: $base-spacing*2 0 0;
+  //max-width: 750px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .introduction__info {
   width: 100%;
-  padding-left: $base-spacing;
-}
-
-.introduction__video {
-  width: 100%;
-  padding-left: $base-spacing;
-
-  @media screen and (min-width: $lap-start) {
-    width: 50%;
-  }
-
-  .terminal--image {
-    padding: 10px 0;
-  }
 }
 
 .requirements {
@@ -42,7 +32,7 @@
   margin: 0px auto;
   display: block;
   flex-wrap: wrap;
-  padding: $base-spacing*2 0;
+  padding: 0 0 $base-spacing*2 0;
 
   h2 {
     text-align: center;
@@ -52,8 +42,8 @@
 .installation__info {
   display: block;
   margin: $base-spacing auto;
-  width: 750px;
-  max-width: 100%;
+  //max-width: 750px;
+  width: 100%;
   border: 1px dashed #ccc;
   border-radius: 8px;
   padding: $base-spacing;

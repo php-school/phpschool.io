@@ -2,19 +2,9 @@
     <?= $this->fetch('includes/site-nav.phtml') ?>
     <div class="container">
         <figure class="logo"><?= $this->fetch('includes/icon.phtml', ['name' => "logo"]) ?></figure>
-        <h1 class="header__title">
-            <span class="header__typed">Open Source Learning for PHP</span>
-        </h1>
-        <p class="header__desc">A revolutionary new way to learn PHP. <br>Bring your imagination to life in an open learning eco-system.</p>
-        <a href="#installation" class="header__link button">Get Started</a>
+        <h1 class="site-header__title" id="typer"></h1>
+        <p class="site-header__desc">A revolutionary new way to learn PHP. <br>Bring your imagination to life in an open learning eco-system.</p>
+        <a href="#installation" class="site-header__link button">Get Started</a>
+        <span class="curser"><svg class="svg-icon"><use xlink:href="/img/icons/icons.svg#svg-cursor"></use></svg></span>
     </div>
-
 </header>
-
-<!--<div class="container">-->
-<!--    <div class="header__video">-->
-<!--        <video class="video-js" controls preload="auto">-->
-<!--            <source src="http://download.blender.org/peach/trailer/trailer_1080p.ogg" type="video/ogg">-->
-<!--        </video>-->
-<!--    </div>-->
-<!--</div>-->
