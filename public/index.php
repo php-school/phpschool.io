@@ -160,8 +160,7 @@ $app
     ->add(AdminStyle::class);
 
 $app
-    ->map(['GET', 'POST'], '/login', Login::class)
-    ->add(AdminStyle::class);
+    ->map(['GET', 'POST'], '/login', Login::class);
 
 $app->get('/logout', function (AuthenticationService $auth, Response $response) {
     $auth->logout();
