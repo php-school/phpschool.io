@@ -35,7 +35,8 @@
     "zendframework/zend-inputfilter": "^2.7",
     "cache/psr-6-doctrine-bridge": "^2.1",
     "akrabat/rka-ip-address-middleware": "^0.4.0",
-    "zendframework/zend-servicemanager": "^3.1"
+    "zendframework/zend-servicemanager": "^3.1",
+    "jenssegers/agent": "^2.3"
   },
   "autoload": {
     "psr-4": {

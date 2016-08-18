@@ -1,32 +1,39 @@
 <?= $this->fetch('includes/home-header.phtml') ?>
 <section class="site-body">
     <div class="container">
+        <div class="installation" id="installation">
+            <h2>Getting Started</h2>
+            <div class="installation__info">
+
+                <p>In order to get started with PHP School workshops, you first need to install the workshop manager. The workshop manager is a tool to search, install and remove PHP School workshops. Open up a terminal and enter the commands listed below, they will download the workshop manager and make it available to your computer.</p>
+                <p>The final command will verify your installation and will give you tips in how to resolve any issues.</p>
+
+                <?php if ($userAgent->is('Windows')) : ?>
+                    <p>Windows users need to do a <a href="/install#windows">few more annoying things first</a>.</p>
+                <?php endif; ?>
+
+                <div class="terminal terminal__install">
+                    <div class="terminal__body">
+                        <p>curl https://php-school.github.io/workshop-manager/workshop-manager.phar</p>
+                        <p>mv workshop-manager.phar /usr/local/bin/workshop-manager</p>
+                        <p>chmod +x /usr/local/bin/workshop-manager</p>
+                        <p>workshop-manager verify</p>
+                    </div>
+                </div>
+
+                <hr>
+                <p>Run <code>workshop-manager list</code> to see the available commands and visit the <a href="https://github.com/php-school/workshop-manager" target="_blank">GitHub Repository</a> for the workshop manager to learn more.</p>
+                <p>The most important command is <code>workshop-manager install &lt;workshopname&gt;</workshopname></code>. You may also find <code>workshop-manager search &lt;topic&gt;</code> useful to find a workshop for a particular subject.</p>
+                <p><a class="button" href="#core-workshop">To the workshops!</a></p>
+            </div>
+        </div>
+
+
         <div class="introduction" id="getting-started">
             <div class="introduction__info">
                 <h2>What is PHP School?</h2>
 
                 <p>Welcome to PHP School! A dedicated community based learning platform that will teach you the core skills in PHP. The concept behind PHP School is simple, workshops are run from the command line, somewhere every developer should be familiar with. Each workshop covers a different topic, some beginner, some advanced. You're not restricted to a schedule, you go at your own pace with no pressure.</p>
-                <h3>Getting Started</h3>
-                <p>Before you can start our courses there are a few requirements which should be met:</p>
-                <ul>
-                    <li>You will need PHP with a version of at least 5.6 and a recent version of <a href="https://getcomposer.org/" target="_blank">Composer</a> installed</li>
-                    <li>If you are running Windows, you will need a few more things which can be found on our <a href="/install">install</a> page.</li>
-                    <li>You will also need a Text Editor so you can work through the workshops. You can try <a href="https://atom.io/" target="_blank">Atom</a> or <a href="https://www.sublimetext.com/" target="_blank">Sublime</a> if you don't already have one.</li>
-                </ul>
-
-                <p>Now all you have to do is pick a <a href="#core-workshop">workshop</a> and go through the exercises! Each exercise increases in difficulty, guiding you through the core concepts of PHP.</p>
-            </div>
-            <div class="introduction__video">
-                <div class="terminal">
-                    <div class="terminal-head">
-                        <span class="terminal__button"></span>
-                        <span class="terminal__button"></span>
-                        <span class="terminal__button"></span>
-                    </div>
-                    <div class="terminal__body terminal--image">
-                        <img src="/img/php-school.gif"/>
-                    </div>
-                </div>
             </div>
         </div>
 

@@ -154,6 +154,31 @@ $(function () {
         }
     });
 
+    // header typeing
+    $(".header__typed").typed({
+        strings: [
+            "Open source learning for PHP ^500",
+            "A fun and fresh teaching experience ^500",
+            "Self-paced and interactive learning ^500",
+            "No previous experience necessary..^500",
+            "This is... ^500",
+            "The new way to Learn PHP! "
+        ],
+        typeSpeed: 50,
+        cursorChar: '<span class="curser"><svg class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/img/icons/icons.svg#svg-cursor"></use></svg></span>',
+    });
+
+    $(".install-header__typed").typed({
+        strings: [
+            "TRoubl^300",
+            "Troublesgoo^200",
+            "*@!#",
+            "Troubleshooting "
+        ],
+        typeSpeed: 50,
+        cursorChar: '<span class="curser"><svg class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/img/icons/icons.svg#svg-cursor"></use></svg></span>',
+    });
+
     //tab switcher
     $('.tabs-menu > li > a').click(function (event) {
         event.preventDefault();

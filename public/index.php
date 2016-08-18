@@ -14,7 +14,6 @@ use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\DocumentationAction;
-use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\AuthenticationService;
@@ -24,6 +23,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
 use Slim\Flash\Messages;
+use Jenssegers\Agent\Agent;
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -47,21 +47,36 @@ $app = $container->get('app');
 $app->get('/', function (Request $request, Response $response, PhpRenderer $renderer, WorkshopRepository $workshopRepository) {
     $workshops = $workshopRepository->findAllApproved();
 
-    $core = array_filter($workshops, function (Workshop $workshop) {
+    $core = array_filter(
+        $workshops, function (Workshop $workshop) {
         return $workshop->isCore();
-    });
+    }
+    );
 
-    $community = array_filter($workshops, function (Workshop $workshop) {
+    $community = array_filter(
+        $workshops, function (Workshop $workshop) {
         return $workshop->isCommunity();
-    });
+    }
+    );
 
+    $renderer->addJs('typed.js', '//cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.4/typed.min.js');
     $inner = $renderer->fetch('home.phtml', ['coreWorkshops' => $core, 'communityWorkshops' => $community]);
-    return $renderer->render($response, 'layouts/layout.phtml', [
-        'pageTitle'       => 'Home',
+
+    return $renderer->render(
+        $response, 'layouts/layout.phtml', [
+        'pageTitle' => 'Home',
         'pageDescription' => 'Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP',
-        'content'         => $inner,
-        'loadCssJs'       => file_get_contents(__DIR__ . '/../node_modules/fg-loadcss/src/loadCSS.js')
-    ]);
+        'content' => $inner,
+        'loadCssJs' => file_get_contents(__DIR__ . '/../node_modules/fg-loadcss/src/loadCSS.js')
+    ]
+    );
+});
+
+$app->add(function (Request $request, Response $response, callable $next) {
+    $renderer = $this->get(PhpRenderer::class);
+    $renderer->addAttribute('userAgent', new Agent);
+
+    return $next($request, $response);
 });
 
 $app->get('/install', function (Request $request, Response $response, PhpRenderer $renderer) {
