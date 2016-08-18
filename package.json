@@ -12,6 +12,7 @@
     "bourbon-neat": "^1.8.0",
     "browser-sync": "^2.13.0",
     "clean-css": "^3.4.18",
+    "cssnano": "^3.7.4",
     "easy-svg": "^1.0.5",
     "es6-promise": "^3.2.1",
     "gulp": "^3.9.1",

@@ -5,6 +5,7 @@ You will need `composer`, `gulp` and `docker`.
 ```shell
 composer install
 npm install
+docker-compose build
 ```
 
 ## Run
