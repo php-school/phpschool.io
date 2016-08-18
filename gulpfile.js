@@ -7,25 +7,39 @@ var pre         = require('autoprefixer');
 var sass        = require('gulp-sass');
 var imp         = require('postcss-import');
 var execSync    = require('child_process').execSync;
-var exec        = require('child_process').exec;
+var spawn       = require('child_process').spawn;
 var easysvg     = require('easy-svg');
 var minify      = require('gulp-minify');
 
-gulp.task('serve', ['build-all'], function() {
+gulp.task('serve', ['build-all', 'build-db'], function(cb) {
     
-    exec('docker-compose build && docker-compose up -d', function () {
-        gulp.start('build-db');
+    const dc = spawn('docker-compose', ['up', '-d'], {
+        stdio: 'inherit' // pipe stdout/stderr to process
+    });
+
+    // Catch errors from prev command docker
+    dc.on('error', function (err) {
+        throw err;
+    });
+
+    // 'close' indicates docker-compose command ended;
+    dc.on('close', function (code) {
+
+        if (code !== 0) throw new Error('docker-compose did not complete!');
+
         bs.init({
             proxy: '127.0.0.1:8000',
             open: false
+        }, function () {
+            cb(); // all good, signal to gulp that the serve task is complete
         });
     });
 
     gulp.watch('scss/**', ['sass']);
-    gulp.watch('public/img/icons/**', ['svg'])
+    gulp.watch('public/img/icons/**', ['svg']);
 
-    gulp.watch('templates/**/*.phtml', ['clear-cache', bs.reload]);
-    gulp.watch('vendor/php-school/php-workshop/src/**/*.php', ['rebuild-doc-cache', 'clear-cache', bs.reload])
+    gulp.watch('templates/**/*.phtml', ['clear-cache', () => bs.reload()]);
+    gulp.watch('vendor/php-school/php-workshop/src/**/*.php', ['rebuild-doc-cache', 'clear-cache', () => bs.reload()])
 });
 
 gulp.task('clear-cache', function () {
