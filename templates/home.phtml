@@ -1,4 +1,3 @@
-
 <?= $this->fetch('includes/home-header.phtml') ?>
 <section class="site-body">
     <div class="container">
@@ -39,6 +38,7 @@
                 <p></p>
             </div>
             <div class="core-workshop__courses">
+                <?php /** @var \PhpSchool\Website\Entity\Workshop $workshop */?>
                 <?php foreach ($coreWorkshops as $workshop): ?>
                     <div class="workshop__course">
                         <h3><a href="<?= $workshop->getRepoUrl() ?>"><?= $workshop->getDisplayName() ?></a></h3>
@@ -74,6 +74,7 @@
                 <p>Check out <a href="/docs">this page</a> to submit your workshop so it appears here and can be installable with the workshop manager!</p>
             </div>
             <div class="community-workshop__courses">
+                <?php /** @var \PhpSchool\Website\Entity\Workshop $workshop */?>
                 <?php foreach ($communityWorkshops as $workshop): ?>
                     <div class="workshop__course">
                         <h3><a href="<?= $workshop->getRepoUrl() ?>"><?= $workshop->getDisplayName() ?></a></h3>
@@ -85,7 +86,11 @@
                                 <p><?= $workshop->getName() ?></p>
                             </div>
                         </div>
-                        <p class="termianl__meta">Made by: <a href=" https://twitter.com/saby_nastasia">Nastasia Saby</a></p>
+                        <?php if ($workshop->getSubmitterContact()) : ?>
+                            <p class="termianl__meta">Made by: <a href="<?= $workshop->getSubmitterContact() ?>"><?= $workshop->getSubmitterName() ?></a></p>
+                        <?php else : ?>
+                            <p class="termianl__meta">Made by: <?= $workshop->getSubmitterName() ?></p>
+                        <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
                 <div class="terminal">
