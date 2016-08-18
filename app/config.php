@@ -96,7 +96,7 @@ return [
         //default JS
         $renderer->addJs('jquery', '//code.jquery.com/jquery-1.12.0.min.js');
         $renderer->addJs('highlight-js', '/js/highlight.min.js');
-        $renderer->addJs('main-js', '/js/main.js');
+        $renderer->addJs('main-js', '/js/main.min.js');
 
         return $renderer;
     }),

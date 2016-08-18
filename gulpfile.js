@@ -9,8 +9,9 @@ var imp         = require('postcss-import');
 var execSync    = require('child_process').execSync;
 var exec        = require('child_process').exec;
 var easysvg     = require('easy-svg');
+var minify      = require('gulp-minify');
 
-gulp.task('serve', ['sass', 'svg'], function() {
+gulp.task('serve', ['build-all'], function() {
     
     exec('docker-compose build && docker-compose up -d', function () {
         gulp.start('build-db');
@@ -37,11 +38,11 @@ gulp.task('rebuild-doc-cache', function () {
 
 gulp.task('validate-db', function () {
     execSync('docker exec php-school-fpm vendor/bin/doctrine orm:validate-schema');
-})
+});
 
 gulp.task('build-db', function () {
     execSync('docker exec php-school-fpm vendor/bin/doctrine orm:schema-tool:update -f');
-})
+});
 
 gulp.task('sass', function () {
     return gulp.src('scss/core.scss')
@@ -57,9 +58,21 @@ gulp.task('svg', function () {
     return gulp.src('public/img/svg/**')
         .pipe(easysvg.stream())
         .pipe(gulp.dest('public/img/icons'))
-})
+});
 
-gulp.task('build-all', ['sass', 'svg']);
+gulp.task('minify', function() {
+    gulp.src('public/js/*.js')
+        .pipe(minify({
+            ext:{
+                src:'.js',
+                min:'.min.js'
+            },
+            ignoreFiles: ['*.min.js']
+        }))
+        .pipe(gulp.dest('public/js'))
+});
+
+gulp.task('build-all', ['sass', 'svg', 'minify']);
 
 gulp.task('deploy', function () {
     execSync('cap production deploy');
