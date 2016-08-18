@@ -1,17 +1,58 @@
 <div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="dashboard_graph">
+    <div class="col-md-23 col-sm-23 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Workshop Name</th>
+                            <td><?= $workshop->getName() ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Workshop Display Name</th>
+                            <td><?= $workshop->getDisplayName() ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Workshop Description</th>
+                            <td><?= $workshop->getDescription() ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Workshop Type</th>
+                            <td>
+                                <span class="label label-<?= $workshop->isCore() ? 'success' : 'info' ?>">
+                                    <?= $workshop->getTypeName() ?>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Submitter Name</th>
+                            <td><?= $workshop->getSubmitterName() ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Submitter email</th>
+                            <td><?= $workshop->getSubmitterEmail() ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Submitter Contact</th>
+                            <td><?= $workshop->getSubmitterContact() ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <div class="row x_title">
-                <div class="col-sm-6">
-                    <h3>Last 30 day download stats for workshop: <?= $workshop->getDisplayName() ?></h3>
-                </div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Last 30 day download stats for workshop: <?= $workshop->getDisplayName() ?></h2>
+                <div class="clearfix"></div>
             </div>
 
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <br>
-                <br>
-                <div style="width: 100%;">
+            <div class="x_content">
+                <div>
                     <canvas id="myChart" style="display: block; width: 100%;"></canvas>
                 </div>
             </div>
