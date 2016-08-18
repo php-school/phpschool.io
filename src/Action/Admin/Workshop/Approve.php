@@ -27,14 +27,14 @@ class Approve
     private $workshopFeed;
 
     /**
-     * @var Messages
-     */
-    private $messages;
-
-    /**
      * @var CacheItemPoolInterface
      */
     private $cache;
+
+    /**
+     * @var Messages
+     */
+    private $messages;
 
     public function __construct(
         WorkshopRepository $repository,
@@ -44,8 +44,8 @@ class Approve
     ) {
         $this->workshopFeed = $workshopFeed;
         $this->repository = $repository;
-        $this->messages = $messages;
         $this->cache = $cache;
+        $this->messages = $messages;
     }
 
     public function __invoke(Request $request, Response $response, PhpRenderer $renderer, $id)

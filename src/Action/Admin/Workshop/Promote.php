@@ -4,6 +4,7 @@ namespace PhpSchool\Website\Action\Admin\Workshop;
 
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\WorkshopFeed;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
@@ -26,14 +27,24 @@ class Promote
     private $workshopFeed;
 
     /**
+     * @var CacheItemPoolInterface
+     */
+    private $cache;
+
+    /**
      * @var Messages
      */
     private $messages;
 
-    public function __construct(WorkshopRepository $repository, WorkshopFeed $workshopFeed, Messages $messages)
-    {
+    public function __construct(
+        WorkshopRepository $repository,
+        WorkshopFeed $workshopFeed,
+        CacheItemPoolInterface $cache,
+        Messages $messages
+    ) {
         $this->workshopFeed = $workshopFeed;
         $this->repository = $repository;
+        $this->cache = $cache;
         $this->messages = $messages;
     }
 
@@ -50,6 +61,8 @@ class Promote
         $workshop->promoteToCore();
 
         $this->repository->save($workshop);
+
+        $this->cache->clear();
 
         try {
             $this->workshopFeed->generate();
