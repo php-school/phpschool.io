@@ -25,5 +25,8 @@
     "postcss": "^5.0.21",
     "postcss-import": "^8.1.2",
     "rx": "^4.1.0"
+  },
+  "dependencies": {
+    "fg-loadcss": "^1.2.0"
   }
 }
