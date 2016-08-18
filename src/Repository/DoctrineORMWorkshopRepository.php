@@ -23,6 +23,14 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
     /**
      * @return Workshop[]
      */
+    public function findAllApproved() : array
+    {
+        return $this->findBy(['approved' => true]);
+    }
+
+    /**
+     * @return Workshop[]
+     */
     public function findAll() : array
     {
         return parent::findAll();

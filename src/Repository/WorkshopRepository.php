@@ -19,6 +19,11 @@ interface WorkshopRepository
     /**
      * @return Workshop[]
      */
+    public function findAllApproved() : array;
+
+    /**
+     * @return Workshop[]
+     */
     public function findAll() : array;
 
     /**

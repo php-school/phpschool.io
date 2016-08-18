@@ -45,7 +45,7 @@ $container = (new ContainerFactory)();
 $app = $container->get('app');
 
 $app->get('/', function (Request $request, Response $response, PhpRenderer $renderer, WorkshopRepository $workshopRepository) {
-    $workshops = $workshopRepository->findAll();
+    $workshops = $workshopRepository->findAllApproved();
 
     $core = array_filter($workshops, function (Workshop $workshop) {
         return $workshop->isCore();
