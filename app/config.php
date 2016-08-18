@@ -16,6 +16,7 @@ use Monolog\Processor\UidProcessor;
 use PhpSchool\Website\Action\Admin\ClearCache as ClearCacheAction;
 use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
+use PhpSchool\Website\Action\Admin\Workshop\Promote;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
@@ -212,6 +213,14 @@ return [
 
     Approve::class => \DI\factory(function (ContainerInterface $c) {
         return new Approve(
+            $c->get(WorkshopRepository::class),
+            $c->get(WorkshopFeed::class),
+            $c->get(Messages::class)
+        );
+    }),
+
+    Promote::class => \DI\factory(function (ContainerInterface $c) {
+        return new Promote(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopFeed::class),
             $c->get(Messages::class)

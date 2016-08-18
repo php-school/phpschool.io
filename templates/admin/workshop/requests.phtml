@@ -20,7 +20,7 @@
                             <th>Description</th>
                             <th>Repo</th>
                             <th>Submitter E-mail</th>
-                            <th>Submitter E-mail</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,7 +35,7 @@
                                         <?= $workshop->getRepoUrl(); ?>
                                     </a>
                                 </td>
-                                <td></td>
+                                <td><?= $workshop->getSubmitterEmail() ?></td>
                                 <td><a class="btn btn-success btn-sm" href="/admin/workshop/approve/<?= $workshop->getId() ?>">Approve</a></td>
                             </tr>
                         <?php endforeach; ?>

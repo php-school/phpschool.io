@@ -3,6 +3,7 @@
 use PhpSchool\Website\Action\Admin\ClearCache;
 use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
+use PhpSchool\Website\Action\Admin\Workshop\Promote;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
@@ -88,6 +89,7 @@ $app
         $this->get('/workshops/new', Requests::class);
         $this->get('/workshops/all', All::class);
         $this->get('/workshop/approve/{id}', Approve::class);
+        $this->get('/workshop/promote/{id}', Promote::class);
         $this->get(
             '/regenerate',
             function (Request $request, Response $response, Messages $messages, WorkshopFeed $workshopFeed) {

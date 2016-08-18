@@ -27,6 +27,8 @@
                             <th>Repo</th>
                             <th>Submitter E-mail</th>
                             <th>Status</th>
+                            <th>Type</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,11 +43,30 @@
                                         <?= $workshop->getRepoUrl(); ?>
                                     </a>
                                 </td>
-                                <td></td>
+                                <td><?= $workshop->getSubmitterEmail() ?></td>
                                 <td>
                                     <span class="label label-<?= $workshop->isApproved() ? 'success' : 'danger' ?>">
                                         <?= $workshop->isApproved() ? 'Approved' : 'Not-approved' ?>
                                     </span>
+                                </td>
+                                <td>
+                                    <span class="label label-<?= $workshop->isCore() ? 'success' : 'info' ?>">
+                                        <?= $workshop->getTypeName() ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <ul class="nav navbar-right panel_toolbox" style="min-width: 0px;">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <?php if (!$workshop->isCore()): ?>
+                                                    <li><a href="/admin/workshop/promote/<?= $workshop->getId() ?>">Promote to core</a></li>
+                                                <?php else: ?>
+                                                    <li><a href="#">No actions</a></li>
+                                                <?php endif; ?>
+                                            </ul>
+                                        </li>
+                                    </ul>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
