@@ -76,7 +76,7 @@ gulp.task('svg', function () {
 });
 
 gulp.task('minify', function() {
-    gulp.src('public/js/*.js')
+    gulp.src(['public/js/highlight.min.js', 'public/js/main.js'])
         .pipe(minify({
             ext:{
                 src:'.js',

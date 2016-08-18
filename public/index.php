@@ -64,11 +64,10 @@ $app->get('/', function (Request $request, Response $response, PhpRenderer $rend
 
     return $renderer->render(
         $response, 'layouts/layout.phtml', [
-        'pageTitle' => 'Home',
-        'pageDescription' => 'Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP',
-        'content' => $inner,
-        'loadCssJs' => file_get_contents(__DIR__ . '/../node_modules/fg-loadcss/src/loadCSS.js')
-    ]
+            'pageTitle' => 'Home',
+            'pageDescription' => 'Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP',
+            'content' => $inner,
+        ]
     );
 });
 
