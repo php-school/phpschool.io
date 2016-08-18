@@ -91,7 +91,6 @@ return [
         );
 
         //default CSS
-        $renderer->appendCss('code-blocks', '/css/solarized-light.css');
         $renderer->appendCss('main-css', '/css/core.css');
         $renderer->appendCss('font', 'https://fonts.googleapis.com/css?family=Open+Sans: 400,700');
 
