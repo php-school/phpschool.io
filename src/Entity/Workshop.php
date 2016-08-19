@@ -55,7 +55,7 @@ class Workshop
      *
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $code;
 
     /**
      * @var string
@@ -126,7 +126,7 @@ class Workshop
     ) {
         $this->gitHubOwner = $gitHubOwner;
         $this->gitHubRepoName = $gitHubRepoName;
-        $this->name = $name;
+        $this->code = $name;
         $this->displayName = $displayName;
         $this->description = $description;
         $this->submitterEmail = $submitterEmail;
@@ -156,9 +156,9 @@ class Workshop
         return $this->gitHubRepoName;
     }
 
-    public function getName() : string
+    public function getCode() : string
     {
-        return $this->name;
+        return $this->code;
     }
 
     public function getDisplayName() : string
@@ -237,10 +237,10 @@ class Workshop
     public function toArray() : array
     {
         return [
-            "name" => $this->getName(),
+            "workshop_code" => $this->getCode(),
             "display_name" => $this->getDisplayName(),
-            "owner" => $this->getGitHubOwner(),
-            "repo" => $this->getGitHubRepoName(),
+            "github_owner" => $this->getGitHubOwner(),
+            "github_repo_name" => $this->getGitHubRepoName(),
             'repo_url' => $this->getRepoUrl(),
             'type' => $this->getTypeCode(),
             "description" => $this->getDescription()

@@ -15,7 +15,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
+                            <th>Code</th>
                             <th>Display Name</th>
                             <th>Description</th>
                             <th>Repo</th>
@@ -27,7 +27,7 @@
                         <?php foreach ($workshops as $i => $workshop): ?>
                             <tr>
                                 <th scope="row"><?= $i + 1 ?></th>
-                                <td><?= $workshop->getName(); ?></td>
+                                <td><?= $workshop->getCode(); ?></td>
                                 <td><?= $workshop->getDisplayName(); ?></td>
                                 <td><?= $workshop->getDescription(); ?></td>
                                 <td>

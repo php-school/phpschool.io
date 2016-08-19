@@ -21,7 +21,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
+                            <th>Code</th>
                             <th>Display Name</th>
                             <th>Repo</th>
                             <th>Submitter E-mail</th>
@@ -34,7 +34,7 @@
                         <?php foreach ($workshops as $i => $workshop): ?>
                             <tr>
                                 <th scope="row"><?= $i + 1 ?></th>
-                                <td><a href="/admin/workshop/view/<?= $workshop->getId() ?>"><?= $workshop->getName(); ?></a></td>
+                                <td><a href="/admin/workshop/view/<?= $workshop->getId() ?>"><?= $workshop->getCode(); ?></a></td>
                                 <td><?= $workshop->getDisplayName(); ?></td>
                                 <td>
                                     <a target="_blank" href="<?= $workshop->getRepoUrl(); ?>">
