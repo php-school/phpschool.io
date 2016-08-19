@@ -232,6 +232,7 @@ return [
     Delete::class => \DI\factory(function (ContainerInterface $c) {
         return new Delete(
             $c->get(WorkshopRepository::class),
+            $c->get(WorkshopInstallRepository::class),
             $c->get(WorkshopFeed::class),
             $c->get('cache.fpc'),
             $c->get(Messages::class)

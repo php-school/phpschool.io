@@ -16,4 +16,6 @@ interface WorkshopInstallRepository
     public function findInstallsInLast30Days(Workshop $workshop): array;
 
     public function save(WorkshopInstall $workshopInstall);
+
+    public function removeAllByWorkshop(Workshop $workshop);
 }

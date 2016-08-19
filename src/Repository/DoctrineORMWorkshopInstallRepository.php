@@ -78,4 +78,14 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
         $this->_em->persist($workshopInstall);
         $this->_em->flush();
     }
+
+    public function removeAllByWorkshop(Workshop $workshop)
+    {
+        $qb = $this->createQueryBuilder()
+            ->delete(WorkshopInstall::class, 's')
+            ->where('s.workshop = :workshop')
+            ->setParameter('workshop', $workshop);
+
+        $qb->getQuery()->execute();
+    }
 }
