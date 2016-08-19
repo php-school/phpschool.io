@@ -89,4 +89,10 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
         $this->_em->persist($workshopSubmission);
         $this->_em->flush();
     }
+
+    public function remove(Workshop $workshop)
+    {
+        $this->_em->remove($workshop);
+        $this->_em->flush();
+    }
 }

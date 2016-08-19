@@ -59,9 +59,8 @@
                                             <ul class="dropdown-menu" role="menu">
                                                 <?php if (!$workshop->isCore()): ?>
                                                     <li><a href="/admin/workshop/promote/<?= $workshop->getId() ?>">Promote to core</a></li>
-                                                <?php else: ?>
-                                                    <li><a href="#">No actions</a></li>
                                                 <?php endif; ?>
+                                                <li><a href="/admin/workshop/delete/<?= $workshop->getId() ?>">Delete</li>
                                             </ul>
                                         </li>
                                     </ul>

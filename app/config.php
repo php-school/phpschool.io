@@ -16,6 +16,7 @@ use Monolog\Processor\UidProcessor;
 use PhpSchool\Website\Action\Admin\ClearCache as ClearCacheAction;
 use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
+use PhpSchool\Website\Action\Admin\Workshop\Delete;
 use PhpSchool\Website\Action\Admin\Workshop\Promote;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
@@ -223,6 +224,16 @@ return [
         return new Promote(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopFeed::class),
+            $c->get('cache.fpc'),
+            $c->get(Messages::class)
+        );
+    }),
+
+    Delete::class => \DI\factory(function (ContainerInterface $c) {
+        return new Delete(
+            $c->get(WorkshopRepository::class),
+            $c->get(WorkshopFeed::class),
+            $c->get('cache.fpc'),
             $c->get(Messages::class)
         );
     }),

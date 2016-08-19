@@ -51,4 +51,9 @@ interface WorkshopRepository
      * @param Workshop $workshopSubmission
      */
     public function save(Workshop $workshopSubmission);
+
+    /**
+     * @param Workshop $workshop
+     */
+    public function remove(Workshop $workshop);
 }
