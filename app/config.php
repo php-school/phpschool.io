@@ -91,13 +91,11 @@ return [
         );
 
         //default CSS
-        $renderer->appendCss('code-blocks', '/css/solarized-light.css');
         $renderer->appendCss('main-css', '/css/core.css');
         $renderer->appendCss('font', 'https://fonts.googleapis.com/css?family=Open+Sans: 400,700');
 
         //default JS
         $renderer->addJs('jquery', '//code.jquery.com/jquery-1.12.0.min.js');
-        $renderer->addJs('typed.js', '//cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.4/typed.min.js');
         $renderer->addJs('main-js', '/js/main.min.js');
 
         return $renderer;

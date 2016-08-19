@@ -1,6 +1,10 @@
 @import "vars";
 @import "reset";
 @import "base";
+
+@import "vendor/solarise";
+@import "vendor/doc-search";
+
 @import "site-header";
 @import "introduction";
 @import "terminal";
@@ -22,7 +26,6 @@
 
 @import "objects/buttons";
 @import "objects/forms";
-
 
 
 
