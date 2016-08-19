@@ -14,6 +14,7 @@ use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\DocumentationAction;
+use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\AuthenticationService;
