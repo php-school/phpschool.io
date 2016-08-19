@@ -13,44 +13,42 @@
             <link href='<?= $css ?>' rel='stylesheet' type='text/css'>
         <?php endforeach; ?>
     </head>
-    <body class="login">
-        <div class="login_wrapper">
-            <div class="animate form login_form">
-                <section class="login_content">
-                    <form lpformnum="1" action="/login" method="POST">
-                        <h1>Login</h1>
-                        <div>
-                            <input type="text" name="email" class="form-control" placeholder="Email" required="">
+    <body>
+        <section>
+            <div class="container login">
+                <div class="content">
+                    <pre class="blink">
+  ____    __  __  ____        ____           __                    ___
+ /\  _`\ /\ \/\ \/\  _`\     /\  _`\        /\ \                  /\_ \
+ \ \ \L\ \ \ \_\ \ \ \L\ \   \ \,\L\_\   ___\ \ \___     ___    __\//\ \
+  \ \ ,__/\ \  _  \ \ ,__/    \/_\__ \  /\'___\ \  _`\  / __`\ / __`\ \ \
+   \ \ \/  \ \ \ \ \ \ \/       /\ \L\ \/\ \__/\ \ \ \ \/\ \L\ /\ \L\ \_\ \_
+    \ \_\   \ \_\ \_\ \_\       \ `\____\ \____\\ \_\ \_\ \____\ \____/\____\
+     \/_/    \/_/\/_/\/_/        \/_____/\/____/ \/_/\/_/\/___/ \/___/\/____/
+                    </pre>
+                    <form class="login-form" action="/login" method="POST">
+                        <div class="field">
+                            <input type="text" name="email" class="input-text" placeholder="Email" required="">
                         </div>
-                        <div>
-                            <input type="password" name="password" class="form-control" placeholder="Password" required="">
+                        <div class="field">
+                            <input type="password" name="password" class="input-text" placeholder="Password" required="">
                         </div>
-                        <div>
-                            <button class="btn btn-default submit" type="submit">Log in</button>
+                        <div class="form__actions">
+                            <button class="button button--bold button-submit" type="submit">LOGIN</button>
                         </div>
 
-                        <div class="clearfix"></div>
-
-                        <div class="separator">
-                            <div class="clearfix"></div>
-                            <br>
-                        </div>
-
-
-                    </form>
-                </section>
-                <?php if (isset($messages)): ?>
-                    <div class="alert alert-danger">
-                        <ul>
-                            <?php foreach ($messages as $field): ?>
-                                <? foreach ($field as $error): ?>
-                                    <li><?= $error ?></li>
+                        <?php if (isset($messages)): ?>
+                            <ul class="form__errors">
+                                <?php foreach ($messages as $field): ?>
+                                    <? foreach ($field as $error): ?>
+                                        <li><?= $error ?></li>
+                                    <?php endforeach; ?>
                                 <?php endforeach; ?>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
+                            </ul>
+                        <?php endif; ?>
+                    </form>
+                </div>
             </div>
-        </div>
+        </section>
     </body>
 </html>

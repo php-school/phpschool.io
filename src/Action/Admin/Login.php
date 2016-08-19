@@ -47,6 +47,8 @@ class Login
         }
 
         if ($request->getMethod() === 'GET') {
+            $this->renderer->appendCss('login', '/css/page-login.css');
+
             return $this->renderer->render($response, 'admin/login.phtml', [
                 'pageTitle'       => 'Login to Admin',
                 'pageDescription' => 'Login to Admin',

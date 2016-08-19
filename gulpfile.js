@@ -63,7 +63,15 @@ gulp.task('build-db', function () {
 });
 
 gulp.task('sass', function () {
-    return gulp.src('scss/core.scss')
+    gulp.src('scss/core.scss')
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(post([imp, pre, cssnano]))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('public/css'))
+        .pipe(bs.stream());
+
+    return gulp.src('scss/page-login.scss')
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(post([imp, pre, cssnano]))
