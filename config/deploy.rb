@@ -41,7 +41,7 @@ namespace :deploy do
           execute('docker', 'rm', '-f', '`docker ps -aq`', ';true')
           execute('docker-compose', 'build')
           execute('docker-compose', '-f', 'docker-compose.yml', '-f', 'docker-compose-prod.yml', 'up', '-d')
-       end
+        end
       end
     end
   end
