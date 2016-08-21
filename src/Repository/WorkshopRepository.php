@@ -45,7 +45,7 @@ interface WorkshopRepository
      * @return Workshop
      * @throws RuntimeException
      */
-    public function findByName(string $name) : Workshop;
+    public function findByCode(string $name) : Workshop;
 
     /**
      * @param Workshop $workshopSubmission

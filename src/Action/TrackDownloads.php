@@ -37,7 +37,7 @@ class TrackDownloads
     public function __invoke(Request $request, Response $response, $workshop, $version) : Response
     {
         try {
-            $workshop = $this->workshopRepository->findByName($workshop);
+            $workshop = $this->workshopRepository->findByCode($workshop);
         } catch (RuntimeException $e) {
             return new JsonResponse(
                 ['status' => 'error', 'message' => sprintf('Workshop: "%s" not found.', $workshop)]

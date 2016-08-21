@@ -71,14 +71,14 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
      * @return Workshop
      * @throws RuntimeException
      */
-    public function findByName(string $name) : Workshop
+    public function findByCode(string $name) : Workshop
     {
-        $workshop = parent::findOneBy(['name' => $name]);
+        $workshop = parent::findOneBy(['code' => $name]);
 
         if (null !== $workshop) {
             return $workshop;
         }
-        throw new RuntimeException(sprintf('Cannot find workshop with name: "%s"', $name));
+        throw new RuntimeException(sprintf('Cannot find workshop with code: "%s"', $name));
     }
 
     /**
