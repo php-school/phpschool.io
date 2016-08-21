@@ -1,24 +1,15 @@
-# config valid only for current version of Capistrano
+require 'yaml'
 lock '3.4.0'
 
-if ENV['PHPSCHOOL_DB_USER'].nil?
-  puts 'PHPSCHOOL_DB_USER not set'
-  exit
-end
+env = YAML.load_file(File.join(File.dirname(__FILE__), 'env.yaml'));
+requiredKeys = ['MYSQL_ROOT_PASSWORD', 'MYSQL_DATABASE', 'MYSQL_USER', 'MYSQL_PASSWORD', 'SEND_GRID_API_KEY']
 
-if ENV['PHPSCHOOL_DB_PASS'].nil?
-  puts 'PHPSCHOOL_DB_PASS not set'
-  exit
+requiredKeys.each do |key|
+  if !env.include? key
+     puts "Key #{key} must be set"
+     exit
+  end
 end
-
-if ENV['PHPSCHOOL_ROOT_DB_PASS'].nil?
-  puts 'PHPSCHOOL_ROOT_DB_PASS not set'
-  exit
-end
-
-set :db_user, ENV['PHPSCHOOL_DB_USER']
-set :db_pass, ENV['PHPSCHOOL_DB_PASS']
-set :db_root_pass, ENV['PHPSCHOOL_ROOT_DB_PASS']
 
 set :composer_install_flags, '--no-dev --no-interaction --quiet --optimize-autoloader --ignore-platform-reqs'
 set :application, 'phpschool'
@@ -36,7 +27,7 @@ namespace :deploy do
   task :setup_container do
     on roles(:web) do |host|
       within release_path do
-        with MYSQL_ROOT_PASSWORD: fetch(:db_root_pass),  MYSQL_USER: fetch(:db_user), MYSQL_PASSWORD: fetch(:db_pass) do
+        with MYSQL_ROOT_PASSWORD: env['MYSQL_ROOT_PASSWORD'],  MYSQL_USER: env['MYSQL_USER'], MYSQL_PASSWORD: env['MYSQL_PASSWORD'], SEND_GRID_API_KEY: env['SEND_GRID_API_KEY'] do
           execute('docker-compose', 'stop', ';true')
           execute('docker', 'rm', '-f', '`docker ps -aq`', ';true')
           execute('docker-compose', 'build')

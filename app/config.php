@@ -45,6 +45,7 @@ use PhpSchool\Website\User\Middleware\Authenticator;
 use PhpSchool\Website\Validator\Login as LoginValidator;
 use PhpSchool\Website\Validator\SubmitWorkshop as SubmitWorkshopValidator;
 use PhpSchool\Website\Validator\WorkshopComposerJson as WorkshopComposerJsonValidator;
+use PhpSchool\Website\Workshop\EmailNotifier;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
@@ -176,7 +177,8 @@ return [
     SubmitWorkshop::class => \DI\factory(function (ContainerInterface $c) {
         return new SubmitWorkshop(
             new SubmitWorkshopValidator(new Client, $c->get(WorkshopRepository::class)),
-            new WorkshopCreator(new WorkshopComposerJsonValidator, $c->get(WorkshopRepository::class))
+            new WorkshopCreator(new WorkshopComposerJsonValidator, $c->get(WorkshopRepository::class)),
+            $c->get(EmailNotifier::class)
         );
     }),
 
@@ -216,7 +218,8 @@ return [
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopFeed::class),
             $c->get('cache.fpc'),
-            $c->get(Messages::class)
+            $c->get(Messages::class),
+            $c->get(EmailNotifier::class)
         );
     }),
 
@@ -307,6 +310,13 @@ return [
     ConsoleRunner::class => \DI\factory(function (ContainerInterface $c) {
         return ConsoleRunner::createHelperSet($c->get(EntityManagerInterface::class));
     }),
+
+    EmailNotifier::class => function (ContainerInterface $c) {
+        return new EmailNotifier(
+            new \SendGrid(getenv('SEND_GRID_API_KEY')),
+            "phpschool.team@gmail.com"
+        );
+    },
 
     'config' => [
         'determineRouteBeforeAppMiddleware' => true,
