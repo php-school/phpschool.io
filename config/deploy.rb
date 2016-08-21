@@ -28,8 +28,7 @@ namespace :deploy do
     on roles(:web) do |host|
       within release_path do
         with MYSQL_ROOT_PASSWORD: env['MYSQL_ROOT_PASSWORD'],  MYSQL_USER: env['MYSQL_USER'], MYSQL_PASSWORD: env['MYSQL_PASSWORD'], SEND_GRID_API_KEY: env['SEND_GRID_API_KEY'] do
-          execute('docker-compose', 'stop', ';true')
-          execute('docker', 'rm', '-f', '`docker ps -aq`', ';true')
+          execute('docker-compose', 'down', ';true')
           execute('docker-compose', 'build')
           execute('docker-compose', '-f', 'docker-compose.yml', '-f', 'docker-compose-prod.yml', 'up', '-d')
         end
