@@ -14,7 +14,7 @@ var concat      = require('gulp-concat');
 var rename      = require('gulp-rename');
 var uglify      = require('gulp-uglify');
 
-gulp.task('serve', ['build-all', 'build-db'], function(cb) {
+gulp.task('serve', ['build-all'], function(cb) {
     
     const dc = spawn('docker-compose', ['up', '-d'], {
         stdio: 'inherit' // pipe stdout/stderr to process
@@ -29,6 +29,8 @@ gulp.task('serve', ['build-all', 'build-db'], function(cb) {
     dc.on('close', function (code) {
 
         if (code !== 0) throw new Error('docker-compose did not complete!');
+
+        gulp.start('build-db');
 
         bs.init({
             proxy: '127.0.0.1:8000',
