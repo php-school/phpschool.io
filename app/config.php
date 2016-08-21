@@ -93,8 +93,8 @@ return [
         );
 
         //default CSS
-        $renderer->appendCss('main-css', '/css/core.css');
-        $renderer->appendCss('font', 'https://fonts.googleapis.com/css?family=Open+Sans: 400,700');
+        $renderer->appendLocalCss('main-css', __DIR__ . '/../public/css/core.css');
+        $renderer->appendRemoteCss('font', 'https://fonts.googleapis.com/css?family=Open+Sans: 400,700');
 
         //default JS
         $renderer->addJs('jquery', '//code.jquery.com/jquery-1.12.0.min.js');

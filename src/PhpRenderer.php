@@ -44,9 +44,9 @@ class PhpRenderer extends SlimPhpRenderer
      * @param string $cssFile
      * @return PhpRenderer
      */
-    public function prependCss(string $id, string $cssFile) : PhpRenderer
+    public function prependLocalCss(string $id, string $cssFile) : PhpRenderer
     {
-        array_unshift($this->css, ['id' => $id, 'url' => $cssFile]);
+        array_unshift($this->css, ['id' => $id, 'url' => $cssFile, 'type' => 'local']);
         return $this;
     }
 
@@ -55,9 +55,31 @@ class PhpRenderer extends SlimPhpRenderer
      * @param string $cssFile
      * @return PhpRenderer
      */
-    public function appendCss(string $id, string $cssFile) : PhpRenderer
+    public function appendLocalCss(string $id, string $cssFile) : PhpRenderer
     {
-        $this->css[] = ['id' => $id, 'url' => $cssFile];
+        $this->css[] = ['id' => $id, 'url' => $cssFile, 'type' => 'local'];
+        return $this;
+    }
+
+    /**
+     * @param string $id
+     * @param string $cssFile
+     * @return PhpRenderer
+     */
+    public function prependRemoteCss(string $id, string $cssFile) : PhpRenderer
+    {
+        array_unshift($this->css, ['id' => $id, 'url' => $cssFile, 'type' => 'remote']);
+        return $this;
+    }
+
+    /**
+     * @param string $id
+     * @param string $cssFile
+     * @return PhpRenderer
+     */
+    public function appendRemoteCss(string $id, string $cssFile) : PhpRenderer
+    {
+        $this->css[] = ['id' => $id, 'url' => $cssFile, 'type' => 'remote'];
         return $this;
     }
 
@@ -74,13 +96,17 @@ class PhpRenderer extends SlimPhpRenderer
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getCss() : array
+    public function renderCss() : string
     {
-        return array_map(function (array $css) {
-            return $css['url'];
-        }, $this->css);
+        return implode("\n", array_map(function (array $css) {
+            if ($css['type'] === 'local') {
+                return sprintf('<style>%s</style>', file_get_contents($css['url']));
+            } elseif ($css['type'] === 'remote') {
+                return sprintf('<link rel="stylesheet" type="text/css"  href="%s">', $css['url']);
+            }
+        }, $this->css));
     }
 
     /**

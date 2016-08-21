@@ -34,10 +34,10 @@ class AdminStyle
             ->removeCss('code-blocks')
             ->removeJs('main-js')
             ->removeJs('highlight-js')
-            ->appendCss('bootstrap', '/css/bootstrap.min.css')
-            ->appendCss('fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css')
-            ->appendCss('gentelella', '/css/gentelella.min.css')
-            ->appendCss('admin', '/css/admin.css')
+            ->appendLocalCss('bootstrap', __DIR__ . '/../../public/css/bootstrap.min.css')
+            ->appendRemoteCss('fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css')
+            ->appendLocalCss('gentelella', __DIR__ . '/../../public/css/gentelella.min.css')
+            ->appendLocalCss('admin', __DIR__ . '/../../public/css/admin.css')
             ->addJs('bootstrap', '/js/bootstrap.min.js')
             ->addJs('gentelella', '/js/gentelella.min.js');
 

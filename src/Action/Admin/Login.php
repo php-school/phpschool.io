@@ -47,7 +47,7 @@ class Login
         }
 
         if ($request->getMethod() === 'GET') {
-            $this->renderer->appendCss('login', '/css/page-login.css');
+            $this->renderer->appendLocalCss('login', __DIR__ . '/../../../public/css/page-login.css');
 
             return $this->renderer->render($response, 'admin/login.phtml', [
                 'pageTitle'       => 'Login to Admin',
