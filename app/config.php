@@ -88,7 +88,6 @@ return [
             [
                 'links'     => $c->get('config')['links'],
                 'route'     => $c->get('request')->getUri()->getPath(),
-                'loadCssJs' => file_get_contents(__DIR__ . '/../node_modules/fg-loadcss/src/loadCSS.js')
             ]
         );
 
