@@ -12,3 +12,4 @@ npm-debug.log
 .docker/mysql/*
 
 /public/workshops.json
+/config/env.yaml

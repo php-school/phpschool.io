@@ -10,6 +10,7 @@ services:
     volumes:
       - .:/var/www/html
     environment:
+      - SEND_GRID_API_KEY
       - MYSQL_USER
       - MYSQL_PASSWORD
       - XDEBUG_ENABLE

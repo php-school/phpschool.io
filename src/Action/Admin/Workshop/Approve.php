@@ -3,6 +3,7 @@
 namespace PhpSchool\Website\Action\Admin\Workshop;
 
 use PhpSchool\Website\Repository\WorkshopRepository;
+use PhpSchool\Website\Workshop\EmailNotifier;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -36,16 +37,23 @@ class Approve
      */
     private $messages;
 
+    /**
+     * @var EmailNotifier
+     */
+    private $emailNotifier;
+
     public function __construct(
         WorkshopRepository $repository,
         WorkshopFeed $workshopFeed,
         CacheItemPoolInterface $cache,
-        Messages $messages
+        Messages $messages,
+        EmailNotifier $emailNotifier
     ) {
         $this->workshopFeed = $workshopFeed;
         $this->repository = $repository;
         $this->cache = $cache;
         $this->messages = $messages;
+        $this->emailNotifier = $emailNotifier;
     }
 
     public function __invoke(Request $request, Response $response, PhpRenderer $renderer, $id)
@@ -63,6 +71,12 @@ class Approve
         $this->repository->save($workshop);
 
         $this->cache->clear();
+
+        try {
+            $this->emailNotifier->approved($workshop);
+        } catch (RuntimeException $e) {
+            //log
+        }
 
         try {
             $this->workshopFeed->generate();

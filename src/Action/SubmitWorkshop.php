@@ -2,21 +2,14 @@
 
 namespace PhpSchool\Website\Action;
 
-use Github\Client;
-use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Exception\WorkshopCreationException;
 use PhpSchool\Website\PhpRenderer;
-use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\Validator\SubmitWorkshop as SubmitWorkshopValidator;
-use PhpSchool\Website\Validator\WorkshopComposerJson as WorkshopComposerJsonValidator;
+use PhpSchool\Website\Workshop\EmailNotifier;
+use RuntimeException;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Zend\Diactoros\Response\JsonResponse;
-use Zend\InputFilter\Input;
-use Zend\InputFilter\InputFilter;
-use Zend\Validator\Callback;
-use Zend\Validator\Regex;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
@@ -33,12 +26,19 @@ class SubmitWorkshop
      */
     private $workshopCreator;
 
+    /**
+     * @var EmailNotifier
+     */
+    private $emailNotifier;
+
     public function __construct(
         SubmitWorkshopValidator $submitWorkshopValidator,
-        WorkshopCreator $workshopCreator
+        WorkshopCreator $workshopCreator,
+        EmailNotifier $emailNotifier
     ) {
         $this->submitWorkshopValidator = $submitWorkshopValidator;
         $this->workshopCreator = $workshopCreator;
+        $this->emailNotifier = $emailNotifier;
     }
 
     public function __invoke(Request $request, Response $response, PhpRenderer $phpRenderer)
@@ -51,12 +51,18 @@ class SubmitWorkshop
         }
 
         try {
-            $this->workshopCreator->create($this->submitWorkshopValidator->getValues());
+            $workshop = $this->workshopCreator->create($this->submitWorkshopValidator->getValues());
         } catch (WorkshopCreationException $e) {
             return $response->withJson([
                'success' => false,
                'workshop_errors' => $e->getErrors()
            ]);
+        }
+
+        try {
+            $this->emailNotifier->new($workshop);
+        } catch (RuntimeException $e) {
+            //log
         }
 
         return $response->withJson([

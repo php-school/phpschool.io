@@ -56,11 +56,9 @@ gulp deploy
 ## Production deploy requisites
 
 Letsencrypt certs should be setup and located in `/etc/letsencrypt`
-database passwords and users should be exported locally as environment variables, these are sent to the production server
-as part of the deploy process.
 
 ```shell
-export PHPSCHOOL_DB_USER=phpschool
-export PHPSCHOOL_ROOT_DB_PASS=rootdbpass
-export PHPSCHOOL_DB_PASS=dbpass
+cp config/env.yaml.dist config/env.yaml
 ```
+
+Copy dist config and fill in details.
