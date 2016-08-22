@@ -5,7 +5,15 @@
 @import "vendor/solarise";
 @import "vendor/doc-search";
 
+//base styling
+@import "objects/buttons";
+@import "objects/forms";
+
+//global
 @import "site-header";
+@import "site-footer";
+
+//Theme
 @import "introduction";
 @import "terminal";
 @import "workshops";
@@ -13,19 +21,14 @@
 @import "team";
 @import "inspiration";
 @import "social-nav";
-@import "site-footer";
 @import "site-nav";
 @import "install";
 @import "docs/docs";
-@import "search";
 @import "typography";
 @import "notes";
 @import "tabs";
-
 @import "page-submit";
 
-@import "objects/buttons";
-@import "objects/forms";
 
 
 
