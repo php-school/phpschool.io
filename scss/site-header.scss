@@ -1,99 +1,92 @@
 .site-header {
-  text-align: center;
-  background-image: url('../img/header-bg.jpg');
-  background-size: 600px;
-  background-color: $base-colour;
-  color: $white;
-  padding: 0 $half-spacing $base-spacing;
+    text-align: center;
+    background-image: url('../img/header-bg.jpg');
+    background-size: 600px;
+    background-color: $base-colour;
+    color: $white;
+    padding: 0 $half-spacing $base-spacing;
 
-  @media screen and (min-width: $lap-start) {
-    padding-bottom: $base-spacing*2;
-  }
+    @media screen and (min-width: $lap-start) {
+        padding-bottom: $base-spacing*2;
+    }
 }
 
 .site-header--slim {
-  .site-header__desc {
-    margin-bottom: 0;
-  }
+    .site-header__desc {
+        margin-bottom: 0;
+    }
 }
 
 .logo {
-  margin-bottom: $base-spacing;
+    margin-bottom: $base-spacing;
 
-  .svg-icon {
-    height: 7em;
-    width: 7em;
+    .svg-icon {
+        height: 7em;
+        width: 7em;
 
-    @media screen and (min-width: $lap-start) {
-      height: 11em;
-      width: 11em;
+        @media screen and (min-width: $lap-start) {
+            height: 11em;
+            width: 11em;
+        }
     }
-  }
 }
 
 .site-header__title {
-  color: $white;
-  display: block;
-  min-height: 24px;
-  font-size: 24px;
-  line-height: 1.2;
-  margin-bottom: $half-spacing;
+    color: $white;
+    display: block;
+    min-height: 24px;
+    font-size: 24px;
+    line-height: 1.2;
+    margin-bottom: $half-spacing;
 
-  @media screen and (min-width: $lap-start) {
-    min-height: 43px;
-    font-size: 36px;
-  }
+    @media screen and (min-width: $lap-start) {
+        min-height: 43px;
+        font-size: 36px;
+    }
 }
 
 .site-header__desc {
-  font-size: 14px;
-  margin: 0 auto $base-spacing + $half-spacing;
-  width: 100%;
-  max-width: $lap-start;
+    font-size: 14px;
+    margin: 0 auto $base-spacing + $half-spacing;
+    width: 100%;
+    max-width: $lap-start;
 
-  @media screen and (min-width: $lap-start) {
-    font-size: 18px;
-  }
+    @media screen and (min-width: $lap-start) {
+        font-size: 18px;
+    }
 }
 
 .site-header__search {
-  margin: $base-spacing auto 0;
-  max-width: $lap-start;
+    margin: $base-spacing auto 0;
+    max-width: $lap-start;
 }
 
-//.header__title {
-//  color: $white;
-//}
-//
-//.header__desc {
-//  font-size: 18px;
-//  margin: 0 auto $base-spacing+$half-spacing;
-//  width: 100%;
-//  max-width: 700px;
-//}
+.site-header__input {
+    border-color: $secondary-colour;
+    background-color: transparent;
+    color: $white;
+    max-width: 100%;
+    padding-left: 3em;
+    background-image: url('../img/svg/search.svg');
+    background-repeat: no-repeat;
+    background-size: 1.5em;
+    background-position: 1em center;
+}
 
 .curser {
-  animation: blink 1s infinite;
-  display: block;
-  margin-top: $base-spacing;
+    animation: blink 1s infinite;
+    display: block;
+    margin-top: $base-spacing;
 
-  .svg-icon {
-    width: 1em;
-    height: 2em;
-    color: $secondary-colour;
-  }
+    .svg-icon {
+        width: 1em;
+        height: 2em;
+        color: $secondary-colour;
+    }
 }
 
-//.header__video {
-//  width: 700px;
-//  max-width: 100%;
-//  margin: -80px auto 0;
-//  border: solid 2px $white;
-//  border-radius: 5px;
-//}
-
 @keyframes blink {
-  to {
-    opacity: 0;
-  }
+    to {
+        opacity: 0;
+    }
 }

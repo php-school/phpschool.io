@@ -9,7 +9,7 @@ $(function () {
     var $workshopSuccess = $('.workshop-success');
 
     var elementMap = {
-        'github-url' : '.gh-errors',
+        'github-url': '.gh-errors',
         'email': ".email-errors",
         'workshop-name': '.workshop-name-errors',
         'contact': '.contact-errors',
@@ -104,7 +104,7 @@ $(function () {
         });
     });
 
-    $submitForm.delegate(':input', 'focus', function() {
+    $submitForm.delegate(':input', 'focus', function () {
         $formTrigger.removeClass('button-submit--success')
         $workshopSuccess.removeClass('active');
     });
@@ -190,10 +190,18 @@ $(function () {
     });
 
     if ($('#search-input').length) {
-        docsearch({
+        var search = docsearch({
             apiKey: '839c0aa3f3df6404158b249b3f84774f',
             indexName: 'phpschool',
             inputSelector: '#search-input'
+        });
+
+        search.autocomplete.on('autocomplete:opened', function (e) {
+            $('.site-body').addClass('overlay');
+        });
+
+        search.autocomplete.on('autocomplete:closed', function (e) {
+            $('.site-body').removeClass('overlay');
         });
     }
 
