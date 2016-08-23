@@ -18,7 +18,7 @@ ADD .docker/etc/php-xdebug.ini /usr/local/etc/php/conf.d/php-xdebug.ini
 COPY . /var/www/html
 WORKDIR /var/www/html
 
-RUN cd /var/www/html && composer install --no-dev -o
+RUN cd /var/www/html && composer install -q --no-dev -o
 RUN php bin/app generate-docs
 
 EXPOSE 9000

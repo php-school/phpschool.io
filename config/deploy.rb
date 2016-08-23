@@ -28,7 +28,7 @@ namespace :deploy do
       within release_path do
         with MYSQL_ROOT_PASSWORD: env['MYSQL_ROOT_PASSWORD'],  MYSQL_USER: env['MYSQL_USER'], MYSQL_PASSWORD: env['MYSQL_PASSWORD'], SEND_GRID_API_KEY: env['SEND_GRID_API_KEY'] do
           execute('docker-compose', 'build', 'php')
-          execute('docker-compose', 'up', '--no-deps', '-f', 'docker-compose.yml', '-f', 'docker-compose-prod.yml', '-d', 'php')
+          execute('docker-compose', '-f', 'docker-compose.yml', '-f', 'docker-compose-prod.yml', 'up', '--no-deps',  '-d', 'php')
         end
       end
     end
