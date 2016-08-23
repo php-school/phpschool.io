@@ -3,21 +3,18 @@ version: '2'
 services:
   php:
     container_name: php-school-fpm
-    image: php:7-fpm
     build:
       context: .
-      dockerfile: ./.docker/files/php-school-fpm
-    volumes:
-      - .:/var/www/html
+      dockerfile: .docker/files/php-school-fpm/Dockerfile
+    image: php-school-fpm:latest
     environment:
       - SEND_GRID_API_KEY
       - MYSQL_USER
       - MYSQL_PASSWORD
       - XDEBUG_ENABLE
       - XDEBUG_CONFIG
-    ports:
-      - 9000
 
+    restart: always
     depends_on:
       - "db"
 
@@ -45,7 +42,8 @@ services:
       - 8000:80
     volumes:
       - ./nginx-dev.conf:/etc/nginx/conf.d/default.conf
-      - .:/var/www/html
+    volumes_from:
+      - php:ro
 
   redis:
       container_name: php-school-redis

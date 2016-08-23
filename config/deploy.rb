@@ -11,7 +11,6 @@ requiredKeys.each do |key|
   end
 end
 
-set :composer_install_flags, '--no-dev --no-interaction --quiet --optimize-autoloader --ignore-platform-reqs'
 set :application, 'phpschool'
 set :repo_url, 'git@github.com:php-school/phpschool.io.git'
 set :branch, 'master'
@@ -28,9 +27,8 @@ namespace :deploy do
     on roles(:web) do |host|
       within release_path do
         with MYSQL_ROOT_PASSWORD: env['MYSQL_ROOT_PASSWORD'],  MYSQL_USER: env['MYSQL_USER'], MYSQL_PASSWORD: env['MYSQL_PASSWORD'], SEND_GRID_API_KEY: env['SEND_GRID_API_KEY'] do
-          execute('docker-compose', 'down', ';true')
-          execute('docker-compose', 'build')
-          execute('docker-compose', '-f', 'docker-compose.yml', '-f', 'docker-compose-prod.yml', 'up', '-d')
+          execute('docker-compose', 'build', 'php')
+          execute('docker-compose', 'up', '--no-deps', '-f', 'docker-compose.yml', '-f', 'docker-compose-prod.yml', '-d', 'php')
         end
       end
     end
@@ -53,17 +51,7 @@ namespace :deploy do
     end
   end
 
-  task :build_api_docs do
-    on roles(:web) do |host|
-      within release_path do
-          execute "docker exec php-school-fpm php bin/app generate-docs"
-      end
-    end
-  end
-
-
   after "deploy:finished", "deploy:setup_container"
   after "deploy:setup_container", "deploy:schema_update"
   after "deploy:schema_update", "deploy:clear_cache"
-  after "deploy:clear_cache", "deploy:build_api_docs"
 end
