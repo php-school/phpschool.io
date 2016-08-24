@@ -1,6 +1,6 @@
 .site-header {
     text-align: center;
-    background-image: url('../img/header-bg.jpg');
+    background-image: url('/img/header-bg.jpg');
     background-size: 600px;
     background-color: $base-colour;
     color: $white;
@@ -67,7 +67,7 @@
     color: $white;
     max-width: 100%;
     padding-left: 3em;
-    background-image: url('../img/svg/search.svg');
+    background-image: url('/img/svg/search.svg');
     background-repeat: no-repeat;
     background-size: 1.5em;
     background-position: 1em center;
