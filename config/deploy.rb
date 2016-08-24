@@ -10,7 +10,7 @@ set :log_level, :debug
 set :keep_releases, 2
 
 set :linked_dirs, %w{var}
-set :linked_files, %w{public/workshops.json, .env}
+set :linked_files, %w{public/workshops.json .env}
 namespace :deploy do
 
   task :schema_update do
