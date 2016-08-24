@@ -51,6 +51,7 @@ use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
 use Ramsey\Uuid\Doctrine\UuidType;
 use Slim\Flash\Messages;
+use Slim\Router;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
@@ -68,6 +69,19 @@ return [
 
         return $app;
     }),
+    'router' => function (ContainerInterface $c) {
+        $router = new Router;
+
+        if ($c->get('config')['enableCache']) {
+            if (!file_exists('../var/cache')) {
+                mkdir('../var/cache', 0777, true);
+            }
+
+            $router->setCacheFile('../var/cache/router.php');
+        }
+
+        return $router;
+    },
     FpcCache::class => factory(function (ContainerInterface $c) {
         return new FpcCache($c->get('cache.fpc'));
     }),
