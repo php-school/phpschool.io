@@ -57,8 +57,4 @@ gulp deploy
 
 Letsencrypt certs should be setup and located in `/etc/letsencrypt`
 
-```shell
-cp config/env.yaml.dist config/env.yaml
-```
-
-Copy dist config and fill in details.
+Make sure `.env` file exists in `shared` folder. You can use `env.dist` as an example.
