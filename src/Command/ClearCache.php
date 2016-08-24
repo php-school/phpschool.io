@@ -33,6 +33,12 @@ class ClearCache
     public function __invoke(OutputInterface $output)
     {
         $this->cache->clear();
+
+        //clear route cache
+        if (file_exists(__DIR__ . '/../../var/cache/router.php')) {
+            unlink(__DIR__ . '/../../var/cache/router.php');
+        }
+
         $output->writeln('<info>FPC Cleared!</info>');
     }
 }
