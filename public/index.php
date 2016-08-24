@@ -15,6 +15,7 @@ use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\DocumentationAction;
+use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\Repository\WorkshopRepository;
@@ -45,23 +46,18 @@ session_start();
 
 $container = (new ContainerFactory)();
 $app = $container->get('app');
-
 $app->get('/', function (Request $request, Response $response, PhpRenderer $renderer, WorkshopRepository $workshopRepository) {
+
     $workshops = $workshopRepository->findAllApproved();
 
-    $core = array_filter(
-        $workshops, function (Workshop $workshop) {
+    $core = array_filter($workshops, function (Workshop $workshop) {
         return $workshop->isCore();
-    }
-    );
+    });
 
-    $community = array_filter(
-        $workshops, function (Workshop $workshop) {
+    $community = array_filter($workshops, function (Workshop $workshop) {
         return $workshop->isCommunity();
-    }
-    );
+    });
 
-    $renderer->addJs('typed.js', '//cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.4/typed.min.js');
     $inner = $renderer->fetch('home.phtml', ['coreWorkshops' => $core, 'communityWorkshops' => $community]);
 
     return $renderer->render(
