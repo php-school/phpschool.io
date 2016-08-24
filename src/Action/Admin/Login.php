@@ -46,9 +46,8 @@ class Login
                 ->withHeader('Location', '/admin');
         }
 
+        $this->renderer->appendLocalCss('login', __DIR__ . '/../../../public/css/page-login.css');
         if ($request->getMethod() === 'GET') {
-            $this->renderer->appendLocalCss('login', __DIR__ . '/../../../public/css/page-login.css');
-
             return $this->renderer->render($response, 'admin/login.phtml', [
                 'pageTitle'       => 'Login to Admin',
                 'pageDescription' => 'Login to Admin',
@@ -62,7 +61,6 @@ class Login
         }
 
         if (!$this->loginValidator->validateRequest($request)) {
-            $this->renderer->appendLocalCss('login', __DIR__ . '/../../../public/css/page-login.css');
             return $this->renderer->render($response, 'admin/login.phtml', [
                 'pageTitle'       => 'Login to Admin',
                 'pageDescription' => 'Login to Admin',
