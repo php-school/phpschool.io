@@ -170,44 +170,6 @@ $app->get('/logout', function (AuthenticationService $auth, Response $response) 
 });
 $app->post('/downloads/{workshop}/{version}', TrackDownloads::class)->add(new \RKA\Middleware\IpAddress());
 
-$app->get('/events', function (Request $request, Response $response, PhpRenderer $renderer) {
-
-    $previousEvents = [
-        new Event(
-            'PHP MiNDS - PHP School Nottingham',
-            'Want to learn PHP from scratch? Want to learn a new skill? PHP School workshops are self-guided PHP challenges - Go at your own pace and pick or skip lessons!',
-            new \DateTime('13 October 2016 20:00'),
-            "JH 34a Stoney Street\nNottingham\nNG1 1NB",
-            'notts-13-10-2016.jpg'
-        ),
-        new Event(
-            'PHP MiNDS - PHP School Nottingham',
-            'Want to learn PHP from scratch? Want to learn a new skill? PHP School workshops are self-guided PHP challenges - Go at your own pace and pick or skip lessons!',
-            new \DateTime('13 October 2016 20:00'),
-            "JH 34a Stoney Street\nNottingham\nNG1 1NB",
-            'notts-13-10-2016.jpg'
-        ),
-    ];
-
-    $events = [
-        new Event(
-            'PHP MiNDS - PHP School Nottingham',
-            'Want to learn PHP from scratch? Want to learn a new skill? PHP School workshops are self-guided PHP challenges - Go at your own pace and pick or skip lessons!',
-            new \DateTime('13 October 2016 20:00'),
-            "JH 34a Stoney Street\nNottingham\nNG1 1NB",
-            'notts-13-10-2016.jpg'
-        ),
-    ];
-    
-    
-    $inner = $renderer->fetch('events.phtml', ['events' => $events, 'previousEvents' => $previousEvents]);
-    return $renderer->render($response, 'layouts/layout.phtml', [
-        'pageTitle'       => 'Events',
-        'pageDescription' => 'PHP School Events!',
-        'content'         => $inner
-    ]);
-});
-
 // Run app
 $app->run();
 
