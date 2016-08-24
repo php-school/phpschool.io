@@ -4,6 +4,7 @@ namespace PhpSchool\Website;
 
 use Cache\Bridge\DoctrineCacheBridge;
 use DI\ContainerBuilder;
+use Dotenv\Dotenv;
 use Interop\Container\ContainerInterface;
 use Predis\Client;
 use Symfony\Component\Cache\Adapter\NullAdapter;
@@ -17,6 +18,9 @@ class ContainerFactory
 {
     public function __invoke() : ContainerInterface
     {
+        $dotEnv = new Dotenv(__DIR__ . '/../');
+        $dotEnv->load();
+
         $config = include __DIR__ . '/../app/config.php';
 
         $containerBuilder = new ContainerBuilder;

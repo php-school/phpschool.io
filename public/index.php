@@ -15,6 +15,7 @@ use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\DocumentationAction;
+use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\Repository\WorkshopRepository;
@@ -45,23 +46,18 @@ session_start();
 
 $container = (new ContainerFactory)();
 $app = $container->get('app');
-
 $app->get('/', function (Request $request, Response $response, PhpRenderer $renderer, WorkshopRepository $workshopRepository) {
+
     $workshops = $workshopRepository->findAllApproved();
 
-    $core = array_filter(
-        $workshops, function (Workshop $workshop) {
+    $core = array_filter($workshops, function (Workshop $workshop) {
         return $workshop->isCore();
-    }
-    );
+    });
 
-    $community = array_filter(
-        $workshops, function (Workshop $workshop) {
+    $community = array_filter($workshops, function (Workshop $workshop) {
         return $workshop->isCommunity();
-    }
-    );
+    });
 
-    $renderer->addJs('typed.js', '//cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.4/typed.min.js');
     $inner = $renderer->fetch('home.phtml', ['coreWorkshops' => $core, 'communityWorkshops' => $community]);
 
     return $renderer->render(
@@ -173,6 +169,44 @@ $app->get('/logout', function (AuthenticationService $auth, Response $response) 
         ->withHeader('Location', '/');
 });
 $app->post('/downloads/{workshop}/{version}', TrackDownloads::class)->add(new \RKA\Middleware\IpAddress());
+
+$app->get('/events', function (Request $request, Response $response, PhpRenderer $renderer) {
+
+    $previousEvents = [
+        new Event(
+            'PHP MiNDS - PHP School Nottingham',
+            'Want to learn PHP from scratch? Want to learn a new skill? PHP School workshops are self-guided PHP challenges - Go at your own pace and pick or skip lessons!',
+            new \DateTime('13 October 2016 20:00'),
+            "JH 34a Stoney Street\nNottingham\nNG1 1NB",
+            'notts-13-10-2016.jpg'
+        ),
+        new Event(
+            'PHP MiNDS - PHP School Nottingham',
+            'Want to learn PHP from scratch? Want to learn a new skill? PHP School workshops are self-guided PHP challenges - Go at your own pace and pick or skip lessons!',
+            new \DateTime('13 October 2016 20:00'),
+            "JH 34a Stoney Street\nNottingham\nNG1 1NB",
+            'notts-13-10-2016.jpg'
+        ),
+    ];
+
+    $events = [
+        new Event(
+            'PHP MiNDS - PHP School Nottingham',
+            'Want to learn PHP from scratch? Want to learn a new skill? PHP School workshops are self-guided PHP challenges - Go at your own pace and pick or skip lessons!',
+            new \DateTime('13 October 2016 20:00'),
+            "JH 34a Stoney Street\nNottingham\nNG1 1NB",
+            'notts-13-10-2016.jpg'
+        ),
+    ];
+    
+    
+    $inner = $renderer->fetch('events.phtml', ['events' => $events, 'previousEvents' => $previousEvents]);
+    return $renderer->render($response, 'layouts/layout.phtml', [
+        'pageTitle'       => 'Events',
+        'pageDescription' => 'PHP School Events!',
+        'content'         => $inner
+    ]);
+});
 
 // Run app
 $app->run();

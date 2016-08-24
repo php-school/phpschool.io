@@ -72,11 +72,9 @@ return [
         return new FpcCache($c->get('cache.fpc'));
     }),
     'cache.fpc' => factory(function (ContainerInterface $c) {
-
         if (!$c->get('config')['enablePageCache']) {
             return new NullAdapter;
         }
-
         return new RedisAdapter(new Predis\Client(['host' => $c->get('config')['redisHost']]), 'fpc');
     }),
     PhpRenderer::class => factory(function (ContainerInterface $c) {
@@ -313,13 +311,13 @@ return [
     EmailNotifier::class => function (ContainerInterface $c) {
         return new EmailNotifier(
             new \SendGrid(getenv('SEND_GRID_API_KEY')),
-            "phpschool.team@gmail.com"
+            getenv('SEND_GRID_SENDER_EMAIL')
         );
     },
 
     'config' => [
         'determineRouteBeforeAppMiddleware' => true,
-        'displayErrorDetails' => true, // set to false in production
+        'displayErrorDetails' => filter_var(getenv('DISPLAY_ERRORS'), FILTER_VALIDATE_BOOLEAN),
         // Renderer settings
         'renderer' => [
             'template_path' => __DIR__ . '/../templates/',
@@ -327,7 +325,7 @@ return [
         // Monolog settings
         'logger' => [
             'name' => 'slim-app',
-            'path' => __DIR__ . '/../logs/app.log',
+            'path' => __DIR__ . '/../var/logs/app.log',
         ],
 
         'links' => [
@@ -339,9 +337,9 @@ return [
             'github-website' => 'https://github.com/php-school/phpschool.io',
         ],
 
-        'enablePageCache'   => true,
-        'enableCache'       => true,
-        'redisHost'         => 'redis',
+        'enablePageCache'   => filter_var(getenv('CACHE.FPC.ENABLE'), FILTER_VALIDATE_BOOLEAN),
+        'enableCache'       => filter_var(getenv('CACHE.ENABLE'), FILTER_VALIDATE_BOOLEAN),
+        'redisHost'         => getenv('REDIS_HOST'),
 
         'doctrine' => [
             'meta' => [
@@ -354,8 +352,8 @@ return [
             ],
             'connection' => [
                 'driver'   => 'pdo_mysql',
-                'host'     => 'php-school-db',
-                'dbname'   => 'phpschool',
+                'host'     => getenv('MYSQL_HOST'),
+                'dbname'   => getenv('MYSQL_DATABASE'),
                 'user'     => getenv('MYSQL_USER'),
                 'password' => getenv('MYSQL_PASSWORD'),
             ]
