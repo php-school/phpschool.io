@@ -14,7 +14,7 @@ services:
       - MYSQL_USER=phpschool
       - MYSQL_PASSWORD=phpschool
       - SEND_GRID_API_KEY
-      - SEND_GRID_SENDER_EMAIL="phpschool.team+test@gmail.com"
+      - SEND_GRID_SENDER_EMAIL=phpschool.team+test@gmail.com
       - CACHE.FPC.ENABLE=false
       - CACHE.ENABLE=false
       - REDIS_HOST=redis
