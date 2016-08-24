@@ -189,7 +189,8 @@ return [
         return new SubmitWorkshop(
             new SubmitWorkshopValidator(new Client, $c->get(WorkshopRepository::class)),
             new WorkshopCreator(new WorkshopComposerJsonValidator, $c->get(WorkshopRepository::class)),
-            $c->get(EmailNotifier::class)
+            $c->get(EmailNotifier::class),
+            $c->get(LoggerInterface::class)
         );
     }),
 
@@ -230,7 +231,8 @@ return [
             $c->get(WorkshopFeed::class),
             $c->get('cache.fpc'),
             $c->get(Messages::class),
-            $c->get(EmailNotifier::class)
+            $c->get(EmailNotifier::class),
+            $c->get(LoggerInterface::class)
         );
     }),
 

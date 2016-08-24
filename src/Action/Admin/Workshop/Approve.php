@@ -9,6 +9,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Slim\Flash\Messages;
 
@@ -42,18 +43,25 @@ class Approve
      */
     private $emailNotifier;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         WorkshopRepository $repository,
         WorkshopFeed $workshopFeed,
         CacheItemPoolInterface $cache,
         Messages $messages,
-        EmailNotifier $emailNotifier
+        EmailNotifier $emailNotifier,
+        LoggerInterface $logger
     ) {
         $this->workshopFeed = $workshopFeed;
         $this->repository = $repository;
         $this->cache = $cache;
         $this->messages = $messages;
         $this->emailNotifier = $emailNotifier;
+        $this->logger = $logger;
     }
 
     public function __invoke(Request $request, Response $response, PhpRenderer $renderer, $id)
@@ -75,7 +83,7 @@ class Approve
         try {
             $this->emailNotifier->approved($workshop);
         } catch (RuntimeException $e) {
-            //log
+            $this->logger->error(sprintf('Email could not be sent. Error: "%s"', $e->getMessage()));
         }
 
         try {

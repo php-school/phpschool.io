@@ -57,7 +57,7 @@ class EmailNotifier
         $response = $this->sendGrid->client->mail()->send()->post($mail);
 
         if ($response->statusCode() < 200 || $response->statusCode() > 300) {
-            throw new RuntimeException($response->body());
+            throw new RuntimeException(json_encode($response->headers()));
         }
     }
 
