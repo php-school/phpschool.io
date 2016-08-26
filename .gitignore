@@ -12,5 +12,6 @@ npm-debug.log
 .docker/mysql/*
 
 /public/workshops.json
+/public/uploads
 .env
 /var

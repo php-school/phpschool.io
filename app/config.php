@@ -14,6 +14,9 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use PhpSchool\Website\Action\Admin\ClearCache as ClearCacheAction;
+use PhpSchool\Website\Action\Admin\Event\All as AllEvents;
+use PhpSchool\Website\Action\Admin\Event\Create;
+use PhpSchool\Website\Action\Admin\Event\Delete as DeleteEvent;
 use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Delete;
@@ -33,9 +36,11 @@ use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
 use PhpSchool\Website\DocumentationGroup;
 use PhpSchool\Website\DownloadManager;
+use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
 use PhpSchool\Website\Middleware\FpcCache;
+use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\Service\WorkshopCreator;
@@ -47,6 +52,7 @@ use PhpSchool\Website\Validator\SubmitWorkshop as SubmitWorkshopValidator;
 use PhpSchool\Website\Validator\WorkshopComposerJson as WorkshopComposerJsonValidator;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use PhpSchool\Website\WorkshopFeed;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
 use Ramsey\Uuid\Doctrine\UuidType;
@@ -263,6 +269,26 @@ return [
         );
     },
 
+    Create::class => function (ContainerInterface $c) {
+        return new Create(
+            $c->get(EventRepository::class),
+            $c->get(PhpRenderer::class),
+            $c->get(Messages::class)
+        );
+    },
+
+    AllEvents::class => function (ContainerInterface $c) {
+        return new AllEvents($c->get(EventRepository::class), $c->get(PhpRenderer::class));
+    },
+
+    DeleteEvent::class => function (ContainerInterface $c) {
+        return new DeleteEvent(
+            $c->get(EventRepository::class),
+            $c->get('cache.fpc'),
+            $c->get(Messages::class)
+        );
+    },
+
     Messages::class => \DI\factory(function (ContainerInterface $c) {
         return new Messages();
     }),
@@ -281,6 +307,10 @@ return [
     WorkshopInstallRepository::class => \DI\factory(function (ContainerInterface $c) {
         return $c->get(EntityManagerInterface::class)->getRepository(WorkshopInstall::class);
     }),
+
+    EventRepository::class => function (ContainerInterface $c) {
+        return $c->get(EntityManagerInterface::class)->getRepository(Event::class);
+    },
 
     AuthenticationService::class => \DI\factory(function (ContainerInterface $c) {
         $authService = new \Zend\Authentication\AuthenticationService;

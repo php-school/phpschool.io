@@ -1,6 +1,9 @@
 <?php
 
 use PhpSchool\Website\Action\Admin\ClearCache;
+use PhpSchool\Website\Action\Admin\Event\All as AllEvents;
+use PhpSchool\Website\Action\Admin\Event\Create;
+use PhpSchool\Website\Action\Admin\Event\Delete as DeleteEvent;
 use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Delete;
@@ -18,6 +21,7 @@ use PhpSchool\Website\DocumentationAction;
 use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\AdminStyle;
+use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\AuthenticationService;
 use PhpSchool\Website\User\Middleware\Authenticator;
@@ -114,6 +118,9 @@ $app
         $this->get('/workshop/approve/{id}', Approve::class);
         $this->get('/workshop/promote/{id}', Promote::class);
         $this->get('/workshop/delete/{id}', Delete::class);
+        $this->map(['GET', 'POST'], '/event/create', Create::class);
+        $this->get('/events/all', AllEvents::class);
+        $this->get('/event/delete/{id}', DeleteEvent::class);
         $this->get(
             '/regenerate',
             function (Request $request, Response $response, Messages $messages, WorkshopFeed $workshopFeed) {
@@ -169,6 +176,19 @@ $app->get('/logout', function (AuthenticationService $auth, Response $response) 
         ->withHeader('Location', '/');
 });
 $app->post('/downloads/{workshop}/{version}', TrackDownloads::class)->add(new \RKA\Middleware\IpAddress());
+
+$app->get('/events', function (Request $request, Response $response, EventRepository $repository, PhpRenderer $renderer) {
+
+    $previousEvents = $repository->findPrevious();
+    $events = $repository->findUpcoming();
+
+    $inner = $renderer->fetch('events.phtml', ['events' => $events, 'previousEvents' => $previousEvents]);
+    return $renderer->render($response, 'layouts/layout.phtml', [
+        'pageTitle'       => 'Events',
+        'pageDescription' => 'PHP School Events!',
+        'content'         => $inner
+    ]);
+});
 
 // Run app
 $app->run();
