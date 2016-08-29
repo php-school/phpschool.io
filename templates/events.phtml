@@ -35,6 +35,9 @@
                         <?php endif ?>
 
                         <p class="item event__description"><?= $event->getDescription() ?></p>
+                        <?php if ($event->getLink()): ?>
+                            <p class="item event__description">More info: <a target="_blank" href="<?= $event->getLink() ?>"><?= $event->getLink() ?></a></p>
+                        <?php endif ?>
                         <p class="item event_venue">
                             <a target="_blank" href="http://maps.google.com/?q=<?= implode(',', $event->getVenueLines()) ?>">
                                 <address>

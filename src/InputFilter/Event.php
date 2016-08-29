@@ -1,27 +1,22 @@
 <?php
 
-namespace PhpSchool\Website\Validator;
+namespace PhpSchool\Website\InputFilter;
 
-use Github\Client;
-use PhpSchool\Website\Repository\WorkshopRepository;
 use Zend\Filter\File\RenameUpload;
+use Zend\InputFilter\InputFilter;
 use Zend\Validator\Date;
-use Zend\Validator\File\Extension;
 use Zend\Validator\File\IsImage;
 use Zend\Validator\File\Size;
 use Zend\Validator\File\UploadFile;
 use Zend\InputFilter\FileInput;
 use Zend\InputFilter\Input;
-use Zend\Validator\Callback;
-use Zend\Validator\EmailAddress;
-use Zend\Validator\NotEmpty;
-use Zend\Validator\Regex;
 use Zend\Validator\StringLength;
+use Zend\Validator\Uri;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */
-class CreateEvent extends Validator
+class Event extends InputFilter
 {
     public function __construct()
     {
@@ -30,7 +25,7 @@ class CreateEvent extends Validator
             ->setMessage('Title should be between %min% and %max% characters long.', StringLength::TOO_SHORT)
             ->setMessage('Title should be between %min% and %max% characters long.', StringLength::TOO_LONG);
 
-        $title = new Input('title');
+        $title = new Input('name');
         $title->getValidatorChain()
             ->attach($titleLengthValidator);
 
@@ -46,6 +41,19 @@ class CreateEvent extends Validator
             ->attach($descriptionValidator);
 
         $this->add($description);
+
+        $linkValidator = new StringLength(['min' => 1, 'max' => 255]);
+        $linkValidator
+            ->setMessage('Link should be between %min% and %max% characters long.', StringLength::TOO_SHORT)
+            ->setMessage('Link should be between %min% and %max% characters long.', StringLength::TOO_LONG);
+
+        $link = new Input('link');
+        $link->setRequired(false);
+        $link->getValidatorChain()
+            ->attach(new Uri)
+            ->attach($linkValidator);
+
+        $this->add($link);
 
         $dateValidator = new Date();
         $dateValidator->setFormat('Y-m-d\TH:i');
@@ -75,16 +83,15 @@ class CreateEvent extends Validator
             ->attach(new IsImage)
             ->attach(new Size(['max' => '2MB']));
 
-        if (!file_exists(__DIR__ . '/../../public/uploads')) {
-            mkdir(__DIR__ . '/../../public/uploads');
-        }
         $poster
             ->getFilterChain()
             ->attach(new RenameUpload([
-                'target'    => realpath(__DIR__ . '/../../public/uploads') . '/event-poster.jpg',
-                'use_upload_name' => false,
-                'use_upload_extension' => false,
-                'randomize' => true,
+                                          'target'    => realpath(
+                                                  __DIR__ . '/../../public/uploads'
+                                              ) . '/event-poster.jpg',
+                                          'use_upload_name' => false,
+                                          'use_upload_extension' => false,
+                                          'randomize' => true,
             ]));
         
         $this->add($poster);

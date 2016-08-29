@@ -48,7 +48,7 @@ class DoctrineORMEventRepository extends EntityRepository implements EventReposi
      */
     public function findAll() : array
     {
-        return parent::findAll();
+        return parent::findBy([], ['dateTime' => 'DESC']);
     }
 
     /**

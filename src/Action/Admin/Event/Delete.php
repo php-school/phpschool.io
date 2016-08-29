@@ -60,7 +60,6 @@ class Delete
             sprintf('Successfully removed event %s', $event->getName())
         );
 
-
         return $response
             ->withStatus(302)
             ->withHeader('Location', '/admin/events/all');

@@ -50,7 +50,7 @@ class View
         } catch (RuntimeException $e) {
             return $response
                 ->withStatus(302)
-                ->withHeader('Location', '/admin/workshops/all');
+                ->withHeader('Location', '/admin/workshop/all');
         }
 
         $this->renderer->addJs('charts', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.min.js');

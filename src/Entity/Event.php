@@ -40,6 +40,13 @@ class Event
     private $description;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(type="string", length=512, nullable=true)
+     */
+    private $link;
+
+    /**
      * @var DateTime
      *
      * @ORM\Column(type="datetime", length=512)
@@ -60,10 +67,17 @@ class Event
      */
     private $poster;
 
-    public function __construct(string $name, string $description, DateTime $dateTime, string $venue, string $poster = null)
-    {
+    public function __construct(
+        string $name,
+        string $description,
+        string $link = null,
+        DateTime $dateTime,
+        string $venue,
+        string $poster = null
+    ) {
         $this->name = $name;
         $this->description = $description;
+        $this->link = $link;
         $this->dateTime = $dateTime;
         $this->venue = $venue;
         $this->poster = $poster;
@@ -79,9 +93,35 @@ class Event
         return $this->name;
     }
 
+    public function setName(string $name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    public function setLink(string $link = null)
+    {
+        $this->link = $link;
+        return $this;
     }
 
     public function getDateTime(): DateTime
@@ -89,14 +129,21 @@ class Event
         return $this->dateTime;
     }
 
-    public function getHost(): string
+    public function setDateTime(DateTime $dateTime)
     {
-        return $this->host;
+        $this->dateTime = $dateTime;
+        return $this;
     }
 
     public function getVenue(): string
     {
         return $this->venue;
+    }
+
+    public function setVenue(string $venue)
+    {
+        $this->venue = $venue;
+        return $this;
     }
 
     public function getVenueLines(): array
@@ -110,5 +157,23 @@ class Event
     public function getPoster()
     {
         return $this->poster;
+    }
+
+    public function setPoster(string $poster = null)
+    {
+        $this->poster = $poster;
+        return $this;
+    }
+
+    public function toArray()
+    {
+        return [
+            'name' => $this->getName(),
+            'description' => $this->getDescription(),
+            'link' => $this->getLink(),
+            'date' => $this->getDateTime(),
+            'venue' => $this->getVenue(),
+            'poster' => $this->getPoster(),
+        ];
     }
 }

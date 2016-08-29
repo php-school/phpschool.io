@@ -64,7 +64,7 @@ class Delete
         } catch (RuntimeException $e) {
             return $response
                 ->withStatus(302)
-                ->withHeader('Location', '/admin/workshops/all');
+                ->withHeader('Location', '/admin/workshop/all');
         }
 
         $this->installRepository->removeAllByWorkshop($workshop);
@@ -87,6 +87,6 @@ class Delete
 
         return $response
             ->withStatus(302)
-            ->withHeader('Location', '/admin/workshops/all');
+            ->withHeader('Location', '/admin/workshop/all');
     }
 }

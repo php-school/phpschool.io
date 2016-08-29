@@ -1,10 +1,11 @@
 <?php
 
-namespace PhpSchool\Website\Validator;
+namespace PhpSchool\Website\InputFilter;
 
 use Github\Client;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use Zend\InputFilter\Input;
+use Zend\InputFilter\InputFilter;
 use Zend\Validator\Callback;
 use Zend\Validator\EmailAddress;
 use Zend\Validator\NotEmpty;
@@ -14,7 +15,7 @@ use Zend\Validator\StringLength;
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */
-class SubmitWorkshop extends Validator
+class SubmitWorkshop extends InputFilter
 {
     private static $gitHubComposerJsonUrlFormat = 'https://raw.githubusercontent.com/%s/%s/master/composer.json';
     private static $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d-]+)\/?$/';

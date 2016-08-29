@@ -2,12 +2,9 @@
 
 namespace PhpSchool\Website\Action\Admin\Event;
 
-use PhpSchool\Website\Entity\Event;
-use PhpSchool\Website\Form\FormFactory;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
-use PhpSchool\Website\Validator\CreateEvent as CreateEventValidator;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages;
 use Slim\Http\Request;
@@ -17,7 +14,7 @@ use Zend\Filter\Exception\RuntimeException;
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */
-class Create
+class Update
 {
     /**
      * @var EventRepository
@@ -51,20 +48,39 @@ class Create
         $this->formHandler = $formHandler;
     }
 
-    public function showCreateForm(Request $request, Response $response)
+    public function showUpdateForm(Request $request, Response $response, string $id)
     {
+        try {
+            $event = $this->repository->findById($id);
+        } catch (RuntimeException $e) {
+            return $response
+                ->withStatus(302)
+                ->withHeader('Location', '/admin/events/all');
+        }
+
         return $this->renderer->render($response, 'layouts/admin.phtml', [
-            'pageTitle'       => 'Admin Area - Create Event',
-            'pageDescription' => 'Admin Area - Create Event',
+            'pageTitle'       => 'Admin Area - Update Event',
+            'pageDescription' => 'Admin Area - Update Event',
             'content'         => $this->renderer->fetch(
-                'admin/event/create.phtml',
-                ['form' => $this->formHandler->getForm()]
+                'admin/event/update.phtml',
+                [
+                    'form'  => $this->formHandler->getForm($event->toArray()),
+                    'event' => $event
+                ]
             )
         ]);
     }
 
-    public function create(Request $request, Response $response) : Response
+    public function update(Request $request, Response $response, string $id) : Response
     {
+        try {
+            $event = $this->repository->findById($id);
+        } catch (RuntimeException $e) {
+            return $response
+                ->withStatus(302)
+                ->withHeader('Location', '/admin/events/all');
+        }
+
         $res = $this->formHandler->validateAndRedirectIfErrors($request, $response);
 
         if ($res instanceof ResponseInterface) {
@@ -83,20 +99,18 @@ class Create
             );
         }
 
-        $event = new Event(
-            $values['name'],
-            $values['description'],
-            $values['link'] ?? null,
-            \DateTime::createFromFormat('Y-m-d\TH:i', $values['date']),
-            $values['venue'],
-            $values['poster']['tmp_name'] ? basename($values['poster']['tmp_name']) : null
-        );
+        $event->setName($values['name'])
+            ->setDescription($values['description'])
+            ->setLink($values['link'])
+            ->setDateTime(\DateTime::createFromFormat('Y-m-d\TH:i', $values['date']))
+            ->setVenue($values['venue'])
+            ->setPoster($values['poster']['tmp_name'] ? basename($values['poster']['tmp_name']) : $event->getPoster());
 
         $this->repository->save($event);
 
         $this->messages->addMessage(
             'admin.success',
-            sprintf('Successfully added event %s', $event->getName())
+            sprintf('Event %s was successfully updated.', $event->getName())
         );
 
         return $response

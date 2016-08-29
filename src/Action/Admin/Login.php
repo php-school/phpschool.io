@@ -2,9 +2,11 @@
 
 namespace PhpSchool\Website\Action\Admin;
 
+use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\User\AuthenticationService;
 use PhpSchool\Website\Validator\Login as LoginValidator;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -19,9 +21,9 @@ class Login
     private $authenticationService;
 
     /**
-     * @var LoginValidator
+     * @var FormHandler
      */
-    private $loginValidator;
+    private $formHandler;
 
     /**
      * @var PhpRenderer
@@ -30,15 +32,15 @@ class Login
 
     public function __construct(
         AuthenticationService $authenticationService,
-        LoginValidator $loginValidator,
+        FormHandler $formHandler,
         PhpRenderer $renderer
     ) {
         $this->authenticationService = $authenticationService;
-        $this->loginValidator        = $loginValidator;
+        $this->formHandler           = $formHandler;
         $this->renderer              = $renderer;
     }
 
-    public function __invoke(Request $request, Response $response) : Response
+    public function showLoginForm(Request $request, Response $response) : Response
     {
         if ($this->authenticationService->hasIdentity()) {
             return $response
@@ -47,25 +49,20 @@ class Login
         }
 
         $this->renderer->appendLocalCss('login', __DIR__ . '/../../../public/css/page-login.css');
-        if ($request->getMethod() === 'GET') {
-            return $this->renderer->render($response, 'admin/login.phtml', [
-                'pageTitle'       => 'Login to Admin',
-                'pageDescription' => 'Login to Admin',
-            ]);
-        }
 
-        if ($request->getMethod() !== 'POST') {
-            return $response
-                ->withStatus(302)
-                ->withHeader('Location', '/');
-        }
+        return $this->renderer->render($response, 'admin/login.phtml', [
+            'pageTitle'       => 'Login to Admin',
+            'pageDescription' => 'Login to Admin',
+            'errors'          => $this->formHandler->getPreviousErrors()
+        ]);
+    }
 
-        if (!$this->loginValidator->validateRequest($request)) {
-            return $this->renderer->render($response, 'admin/login.phtml', [
-                'pageTitle'       => 'Login to Admin',
-                'pageDescription' => 'Login to Admin',
-                'messages'        => $this->loginValidator->getMessages()
-            ]);
+    public function login(Request $request, Response $response) : Response
+    {
+        $res = $this->formHandler->validateAndRedirectIfErrors($request, $response);
+
+        if ($res instanceof ResponseInterface) {
+            return $res;
         }
 
         $result = $this->authenticationService->login(
@@ -73,16 +70,14 @@ class Login
             $request->getParam('password')
         );
 
-        if ($result->isValid()) {
-            return $response
-                ->withStatus(302)
-                ->withHeader('Location', '/admin');
+        if (!$result->isValid()) {
+            return $this->formHandler->redirectWithErrors($request, $response, [
+                $result->getMessages()
+            ]);
         }
 
-        return $this->renderer->render($response, 'admin/login.phtml', [
-            'pageTitle'       => 'Login to Admin',
-            'pageDescription' => 'Login to Admin',
-            'messages'        => [$result->getMessages()]
-        ]);
+        return $response
+            ->withStatus(302)
+            ->withHeader('Location', '/admin');
     }
 }

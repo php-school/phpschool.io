@@ -9,47 +9,50 @@
                 </ul>
                 <div class="clearfix"></div>
             </div>
-            <div class="x_content" style="display: block;">
+            <div class="x_content">
                 <div class="table-responsive">
                     <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Date</th>
-                            <th>Venue</th>
-                            <th>Poster</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($events as $event): ?>
+                        <thead>
                             <tr>
-                                <td><?= $event->getName(); ?></td>
-                                <td><?= $event->getDescription(); ?></td>
-                                <td><?= $event->getDateTime()->format('d-m-Y'); ?></td>
-                                <td><?= $event->getVenue() ?></td>
-                                <td>
-                                    <?php if ($event->getPoster()): ?>
-                                        <a target="_blank" class="item event__poster" href="/uploads/<?= $event->getPoster() ?>">
-                                            <?= $event->getPoster() ?>
-                                        </a>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <ul class="nav navbar-right panel_toolbox" style="min-width: 0px;">
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a href="/admin/event/delete/<?= $event->getId() ?>">Delete</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </td>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Link</th>
+                                <th>Date</th>
+                                <th>Venue</th>
+                                <th>Poster</th>
+                                <th></th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($events as $event): ?>
+                                <tr>
+                                    <td><?= $event->getName(); ?></td>
+                                    <td><?= $event->getDescription(); ?></td>
+                                    <td><?= $event->getLink(); ?></td>
+                                    <td><?= $event->getDateTime()->format('d-m-Y'); ?></td>
+                                    <td><?= $event->getVenue() ?></td>
+                                    <td>
+                                        <?php if ($event->getPoster()): ?>
+                                            <a target="_blank" class="item event__poster" href="/uploads/<?= $event->getPoster() ?>">
+                                                <?= $event->getPoster() ?>
+                                            </a>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <ul class="nav navbar-right panel_toolbox" style="min-width: 0px;">
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="/admin/event/update/<?= $event->getId() ?>">Update</li>
+                                                    <li><a href="/admin/event/delete/<?= $event->getId() ?>">Delete</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

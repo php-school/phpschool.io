@@ -35,9 +35,9 @@
                             <button class="button button--bold button-submit" type="submit">LOGIN</button>
                         </div>
 
-                        <?php if (isset($messages)): ?>
+                        <?php if (isset($errors)): ?>
                             <ul class="form__errors">
-                                <?php foreach ($messages as $field): ?>
+                                <?php foreach ($errors as $field): ?>
                                     <?php foreach ($field as $error): ?>
                                         <li><?= $error ?></li>
                                     <?php endforeach; ?>

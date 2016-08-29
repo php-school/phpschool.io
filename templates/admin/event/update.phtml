@@ -2,18 +2,28 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Event</h2>
+                <h2>Updating event - '<?= $event->getName() ?>'</h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
 
-                <?= $form->openHorizontal(['lg' => [2, 6]])->multipart()->action('/admin/event/create') ?>
+                <?= $form->openHorizontal(['lg' => [2, 6]])->multipart()->action(sprintf('/admin/event/update/%s', $event->getId())) ?>
                 <?= $form->text('Title', 'name')->addClass('required'); ?>
                 <?= $form->textArea('Description', 'description')->rows(5)->addClass('required'); ?>
                 <?= $form->text('Link', 'link') ?>
                 <?= $form->dateTimeLocal('Date', 'date')->addClass('required'); ?>
                 <?= $form->textArea('Venue', 'venue')->rows(5)->addClass('required'); ?>
-                <?= $form->file('Poster', 'poster'); ?>
+
+                <?php if ($event->getPoster()) : ?>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label" for="venue">Current Poster</label>
+                        <div class="col-lg-6">
+                            <img width="200px"src="/uploads/<?= $event->getPoster() ?>">
+                        </div>
+                    </div>
+                <?php endif ?>
+
+                <?= $form->file('New Poster (leave empty to keep current)', 'poster'); ?>
                 <?= $form->submit('Submit'); ?>
                 <?= $form->close(); ?>
             </div>
