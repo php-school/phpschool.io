@@ -7,9 +7,7 @@ use PhpSchool\Website\DocGenerator;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 /**
- * Class GenerateDoc
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */
 class GenerateDoc

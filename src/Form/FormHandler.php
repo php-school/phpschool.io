@@ -63,7 +63,7 @@ class FormHandler
         return $response->withJson([
            'success'        => false,
            'form_errors'    => $this->inputFilter->getMessages(),
-       ]);
+        ]);
     }
 
     public function validateRequest(Request $request) : bool

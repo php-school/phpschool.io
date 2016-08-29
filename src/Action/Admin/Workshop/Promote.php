@@ -56,7 +56,7 @@ class Promote
             return $response
                 ->withStatus(302)
                 ->withHeader('Location', '/admin/workshop/all');
-         }
+        }
 
         $workshop->promoteToCore();
 

@@ -75,7 +75,7 @@ class SubmitWorkshop
             return $response->withJson([
                'success' => false,
                'workshop_errors' => $e->getErrors()
-           ]);
+            ]);
         }
 
         try {

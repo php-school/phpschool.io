@@ -33,7 +33,7 @@ class TrackDownloads
         $this->workshopRepository = $workshopRepository;
         $this->workshopInstallRepository = $workshopInstallRepository;
     }
-    
+
     public function __invoke(Request $request, Response $response, $workshop, $version) : Response
     {
         try {

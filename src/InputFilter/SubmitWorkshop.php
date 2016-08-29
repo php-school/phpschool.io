@@ -50,7 +50,7 @@ class SubmitWorkshop extends InputFilter
             ->attach($regex, true)
             ->attach($composerJsonPresence, true)
             ->attach($tags, true);
-        
+
         $this->add($gitHubUrl);
 
         $email = new Input('email');

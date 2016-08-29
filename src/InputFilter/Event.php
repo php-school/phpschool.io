@@ -86,14 +86,12 @@ class Event extends InputFilter
         $poster
             ->getFilterChain()
             ->attach(new RenameUpload([
-                                          'target'    => realpath(
-                                                  __DIR__ . '/../../public/uploads'
-                                              ) . '/event-poster.jpg',
-                                          'use_upload_name' => false,
-                                          'use_upload_extension' => false,
-                                          'randomize' => true,
+                'target' => realpath(__DIR__ . '/../../public/uploads') . '/event-poster.jpg',
+                'use_upload_name' => false,
+                'use_upload_extension' => false,
+                'randomize' => true,
             ]));
-        
+
         $this->add($poster);
     }
 }

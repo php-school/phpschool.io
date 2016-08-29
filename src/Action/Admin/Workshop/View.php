@@ -76,7 +76,7 @@ class View
         $end    = $end->add(new DateInterval("P1D"));
 
         $interval   = new DateInterval('P1D');
-        $dateRange  = new DatePeriod($begin, $interval ,$end);
+        $dateRange  = new DatePeriod($begin, $interval, $end);
 
         $data = array_map(function (\DateTimeImmutable $dateTime) use ($installs) {
             return count(array_filter($installs, function (WorkshopInstall $install) use ($dateTime) {

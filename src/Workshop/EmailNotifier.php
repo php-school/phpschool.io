@@ -64,7 +64,7 @@ class EmailNotifier
     private function getMail(Workshop $workshop, string $to, string $template) : Mail
     {
         $from = new SendGrid\Email('PHP School', $this->phpSchoolEmail);
-        
+
         $personalisation = new Personalization;
         $personalisation->addSubstitution('%workshop%', $workshop->getDisplayName());
         $personalisation->addTo(new SendGrid\Email(null, $to));
@@ -73,7 +73,7 @@ class EmailNotifier
         $mail->setTemplateId($template);
         $mail->addPersonalization($personalisation);
         $mail->setFrom($from);
-        
+
         return $mail;
     }
 }

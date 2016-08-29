@@ -29,13 +29,14 @@ class AdminStyle
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
+        $fontAwesomeCss = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css';
         $this->renderer
             ->removeCss('main-css')
             ->removeCss('code-blocks')
             ->removeJs('main-js')
             ->removeJs('highlight-js')
             ->appendLocalCss('bootstrap', __DIR__ . '/../../public/css/bootstrap.min.css')
-            ->appendRemoteCss('fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css')
+            ->appendRemoteCss('fontawesome', $fontAwesomeCss)
             ->appendLocalCss('gentelella', __DIR__ . '/../../public/css/gentelella.min.css')
             ->appendLocalCss('admin', __DIR__ . '/../../public/css/admin.css')
             ->addJs('bootstrap', '/js/bootstrap.min.js')

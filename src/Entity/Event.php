@@ -67,10 +67,18 @@ class Event
      */
     private $poster;
 
+    /**
+     * @param string $name
+     * @param string $description
+     * @param string|null $link
+     * @param DateTime $dateTime
+     * @param string $venue
+     * @param string|null $poster
+     */
     public function __construct(
         string $name,
         string $description,
-        string $link = null,
+        $link,
         DateTime $dateTime,
         string $venue,
         string $poster = null

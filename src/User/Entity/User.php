@@ -5,7 +5,6 @@ namespace PhpSchool\Website\User\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
-
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  *

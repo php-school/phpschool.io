@@ -5,7 +5,6 @@ namespace PhpSchool\Website\Repository;
 use PhpSchool\Website\Entity\Workshop;
 use RuntimeException;
 
-
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */
