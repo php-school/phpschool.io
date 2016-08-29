@@ -106,7 +106,7 @@ class FormHandler
         $this->session->delete('__errors');
 
         $basicBootFormsBuilder = new BasicFormBuilder($formBuilder);
-        $horizontalBootFormsBuilder = new \AdamWathan\BootForms\HorizontalFormBuilder($formBuilder);
+        $horizontalBootFormsBuilder = new HorizontalFormBuilder($formBuilder);
         return new \AdamWathan\BootForms\BootForm($basicBootFormsBuilder, $horizontalBootFormsBuilder);
     }
 
