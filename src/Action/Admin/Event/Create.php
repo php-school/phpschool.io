@@ -7,7 +7,6 @@ use PhpSchool\Website\Form\FormFactory;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
-use PhpSchool\Website\Validator\CreateEvent as CreateEventValidator;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages;
 use Slim\Http\Request;
@@ -101,6 +100,6 @@ class Create
 
         return $response
             ->withStatus(302)
-            ->withHeader('Location', '/admin/events/all');
+            ->withHeader('Location', '/admin/event/all');
     }
 }

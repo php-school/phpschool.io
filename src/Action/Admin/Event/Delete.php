@@ -48,7 +48,7 @@ class Delete
         } catch (RuntimeException $e) {
             return $response
                 ->withStatus(302)
-                ->withHeader('Location', '/admin/events/all');
+                ->withHeader('Location', '/admin/event/all');
         }
 
         $this->repository->remove($event);
@@ -62,6 +62,6 @@ class Delete
 
         return $response
             ->withStatus(302)
-            ->withHeader('Location', '/admin/events/all');
+            ->withHeader('Location', '/admin/event/all');
     }
 }

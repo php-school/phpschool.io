@@ -55,7 +55,7 @@ class Update
         } catch (RuntimeException $e) {
             return $response
                 ->withStatus(302)
-                ->withHeader('Location', '/admin/events/all');
+                ->withHeader('Location', '/admin/event/all');
         }
 
         return $this->renderer->render($response, 'layouts/admin.phtml', [
@@ -78,7 +78,7 @@ class Update
         } catch (RuntimeException $e) {
             return $response
                 ->withStatus(302)
-                ->withHeader('Location', '/admin/events/all');
+                ->withHeader('Location', '/admin/event/all');
         }
 
         $res = $this->formHandler->validateAndRedirectIfErrors($request, $response);
@@ -115,6 +115,6 @@ class Update
 
         return $response
             ->withStatus(302)
-            ->withHeader('Location', '/admin/events/all');
+            ->withHeader('Location', '/admin/event/all');
     }
 }

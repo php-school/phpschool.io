@@ -8,6 +8,8 @@ use Zend\Validator\Date;
 use Zend\Validator\File\IsImage;
 use Zend\Validator\File\Size;
 use Zend\Validator\File\UploadFile;
+use Zend\InputFilter\FileInput;
+use Zend\InputFilter\Input;
 use Zend\Validator\StringLength;
 use Zend\Validator\Uri;
 
@@ -108,6 +110,7 @@ class Event extends InputFilter
 
         $this->add([
             'name' => 'poster',
+            'type' => FileInput::class,
             'required' => false,
             'validators' => [
                 ['name' => UploadFile::class],
