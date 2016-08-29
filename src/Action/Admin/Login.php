@@ -5,7 +5,6 @@ namespace PhpSchool\Website\Action\Admin;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\User\AuthenticationService;
-use PhpSchool\Website\Validator\Login as LoginValidator;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;

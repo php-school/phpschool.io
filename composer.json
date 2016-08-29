@@ -49,15 +49,21 @@
       "PhpSchool\\Website\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "PhpSchool\\WebsiteTest\\": "test/"
+    }
+  },
   "require-dev": {
     "phpunit/phpunit": "^5.5",
     "squizlabs/php_codesniffer": "^2.6"
   },
   "scripts" : {
     "test": [
-      "phpunit",
+      "@phpunit",
       "@cs"
     ],
+    "phpunit": "phpunit",
     "cs" : "phpcs",
     "cs-fix": "phpcbf"
   }

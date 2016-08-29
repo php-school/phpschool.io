@@ -18,14 +18,15 @@ class Login extends InputFilter
             'required' => true,
             'validators' => [
                 [
-                    'name' => EmailAddress::class,
-                ],
-                [
                     'name' => StringLength::class,
                     'options' => [
                         'min' => 3,
                         'max' => 254,
+                        'break_chain_on_failure' => true,
                     ]
+                ],
+                [
+                    'name' => EmailAddress::class,
                 ]
             ]
         ]);
@@ -37,7 +38,7 @@ class Login extends InputFilter
                 [
                     'name' => StringLength::class,
                     'options' => [
-                        'min' => 1,
+                        'min' => 3,
                         'max' => 255,
                     ]
                 ]
