@@ -50,7 +50,7 @@ class View
         } catch (RuntimeException $e) {
             return $response
                 ->withStatus(302)
-                ->withHeader('Location', '/admin/workshops/all');
+                ->withHeader('Location', '/admin/workshop/all');
         }
 
         $this->renderer->addJs('charts', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.min.js');
@@ -76,7 +76,7 @@ class View
         $end    = $end->add(new DateInterval("P1D"));
 
         $interval   = new DateInterval('P1D');
-        $dateRange  = new DatePeriod($begin, $interval ,$end);
+        $dateRange  = new DatePeriod($begin, $interval, $end);
 
         $data = array_map(function (\DateTimeImmutable $dateTime) use ($installs) {
             return count(array_filter($installs, function (WorkshopInstall $install) use ($dateTime) {

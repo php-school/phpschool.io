@@ -2,11 +2,14 @@
 
 namespace PhpSchool\Website\Action;
 
+use AdamWathan\Form\Facades\Form;
 use PhpSchool\Website\Exception\WorkshopCreationException;
+use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\Validator\SubmitWorkshop as SubmitWorkshopValidator;
 use PhpSchool\Website\Workshop\EmailNotifier;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Slim\Http\Request;
@@ -18,9 +21,9 @@ use Slim\Http\Response;
 class SubmitWorkshop
 {
     /**
-     * @var SubmitWorkshopValidator
+     * @var FormHandler
      */
-    private $submitWorkshopValidator;
+    private $formHandler;
 
     /**
      * @var WorkshopCreator
@@ -38,33 +41,41 @@ class SubmitWorkshop
     private $logger;
 
     public function __construct(
-        SubmitWorkshopValidator $submitWorkshopValidator,
+        FormHandler $formHandler,
         WorkshopCreator $workshopCreator,
         EmailNotifier $emailNotifier,
         LoggerInterface $logger
     ) {
-        $this->submitWorkshopValidator = $submitWorkshopValidator;
+        $this->formHandler = $formHandler;
         $this->workshopCreator = $workshopCreator;
         $this->emailNotifier = $emailNotifier;
         $this->logger = $logger;
     }
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $phpRenderer)
+    public function showSubmitForm(Request $request, Response $response, PhpRenderer $renderer)
     {
-        if (!$this->submitWorkshopValidator->validateRequest($request)) {
-            return $response->withJson([
-                'success' => false,
-                'form_errors' => $this->submitWorkshopValidator->getMessages(),
-            ]);
+        return $renderer->render($response, 'layouts/layout.phtml', [
+            'pageTitle'       => 'Submit your workshop',
+            'pageDescription' => 'Submit your workshop to the workshop registry!',
+            'content'         => $renderer->fetch('submit.phtml')
+        ]);
+    }
+
+    public function submit(Request $request, Response $response)
+    {
+        $res = $this->formHandler->validateJsonRequest($request, $response);
+
+        if ($res instanceof ResponseInterface) {
+            return $res;
         }
 
         try {
-            $workshop = $this->workshopCreator->create($this->submitWorkshopValidator->getValues());
+            $workshop = $this->workshopCreator->create($this->formHandler->getData());
         } catch (WorkshopCreationException $e) {
             return $response->withJson([
                'success' => false,
                'workshop_errors' => $e->getErrors()
-           ]);
+            ]);
         }
 
         try {

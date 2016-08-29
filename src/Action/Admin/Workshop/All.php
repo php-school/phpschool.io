@@ -81,7 +81,7 @@ class All
         $end    = $end->add(new DateInterval("P1D"));
 
         $interval   = new DateInterval('P1D');
-        return iterator_to_array(new DatePeriod($begin, $interval ,$end));
+        return iterator_to_array(new DatePeriod($begin, $interval, $end));
     }
 
     private function getLast30DayInstallGraphData(array $installs, array $dateRange) : array

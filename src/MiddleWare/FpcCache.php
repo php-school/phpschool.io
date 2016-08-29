@@ -47,7 +47,6 @@ class FpcCache
         $response = $next($request, $response);
 
         if ($this->canSave($request, $response)) {
-
             $item->set($this->serialize($response));
             $item->expiresAt(new \DateTime('now + 1 month'));
             $this->cache->save($item);

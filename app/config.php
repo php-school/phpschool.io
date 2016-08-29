@@ -14,6 +14,10 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use PhpSchool\Website\Action\Admin\ClearCache as ClearCacheAction;
+use PhpSchool\Website\Action\Admin\Event\All as EventAll;
+use PhpSchool\Website\Action\Admin\Event\Create as EventCreate;
+use PhpSchool\Website\Action\Admin\Event\Update as EventUpdate;
+use PhpSchool\Website\Action\Admin\Event\Delete as EventDelete;
 use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Delete;
@@ -33,23 +37,30 @@ use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
 use PhpSchool\Website\DocumentationGroup;
 use PhpSchool\Website\DownloadManager;
+use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
+use PhpSchool\Website\Form\FormFactory;
+use PhpSchool\Website\Form\FormHandlerFactory;
+use PhpSchool\Website\InputFilter\SubmitWorkshop as SubmitWorkshopInputFilter;
 use PhpSchool\Website\Middleware\FpcCache;
+use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\User\Adapter\Doctrine;
 use PhpSchool\Website\User\AuthenticationService;
 use PhpSchool\Website\User\Middleware\Authenticator;
-use PhpSchool\Website\Validator\Login as LoginValidator;
-use PhpSchool\Website\Validator\SubmitWorkshop as SubmitWorkshopValidator;
-use PhpSchool\Website\Validator\WorkshopComposerJson as WorkshopComposerJsonValidator;
+use PhpSchool\Website\InputFilter\Event as EventInputFilter;
+use PhpSchool\Website\InputFilter\WorkshopComposerJson as WorkshopComposerJsonInputFilter;
+use PhpSchool\Website\InputFilter\Login as LoginInputFilter;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
 use Ramsey\Uuid\Doctrine\UuidType;
+use RKA\Session;
+use RKA\SessionMiddleware;
 use Slim\Flash\Messages;
 use Slim\Router;
 use Symfony\Component\Cache\Adapter\NullAdapter;
@@ -66,6 +77,7 @@ return [
     'app' => factory(function (ContainerInterface $c) {
         $app = new \Slim\App($c);
         $app->add($c->get(FpcCache::class));
+        $app->add(new SessionMiddleware(['name' => 'phpschool']));
 
         return $app;
     }),
@@ -121,6 +133,14 @@ return [
         return $logger;
     }),
     DocGenerator::class => \DI\object(),
+
+    Session::class => function (ContainerInterface $c) {
+        return new Session;
+    },
+
+    FormHandlerFactory::class => function (ContainerInterface $c) {
+        return new FormHandlerFactory($c->get(Session::class));
+    },
 
     //commands
     GenerateDoc::class => factory(function (ContainerInterface $c) {
@@ -187,8 +207,10 @@ return [
 
     SubmitWorkshop::class => \DI\factory(function (ContainerInterface $c) {
         return new SubmitWorkshop(
-            new SubmitWorkshopValidator(new Client, $c->get(WorkshopRepository::class)),
-            new WorkshopCreator(new WorkshopComposerJsonValidator, $c->get(WorkshopRepository::class)),
+            $c->get(FormHandlerFactory::class)->create(
+                new SubmitWorkshopInputFilter(new Client, $c->get(WorkshopRepository::class))
+            ),
+            new WorkshopCreator(new WorkshopComposerJsonInputFilter, $c->get(WorkshopRepository::class)),
             $c->get(EmailNotifier::class),
             $c->get(LoggerInterface::class)
         );
@@ -198,7 +220,7 @@ return [
     Login::class => \DI\factory(function (ContainerInterface $c) {
         return new Login(
             $c->get(AuthenticationService::class),
-            new LoginValidator,
+            $c->get(FormHandlerFactory::class)->create(new LoginInputFilter),
             $c->get(PhpRenderer::class)
         );
     }),
@@ -263,6 +285,40 @@ return [
         );
     },
 
+    'form.event' => function (ContainerInterface $c) {
+        return $c->get(FormHandlerFactory::class)->create(new EventInputFilter);
+    },
+
+    EventAll::class => function (ContainerInterface $c) {
+        return new EventAll($c->get(EventRepository::class), $c->get(PhpRenderer::class));
+    },
+
+    EventCreate::class => function (ContainerInterface $c) {
+        return new EventCreate(
+            $c->get(EventRepository::class),
+            $c->get('form.event'),
+            $c->get(PhpRenderer::class),
+            $c->get(Messages::class)
+        );
+    },
+
+    EventUpdate::class => function (ContainerInterface $c) {
+        return new EventUpdate(
+            $c->get(EventRepository::class),
+            $c->get('form.event'),
+            $c->get(PhpRenderer::class),
+            $c->get(Messages::class)
+        );
+    },
+
+    EventDelete::class => function (ContainerInterface $c) {
+        return new EventDelete(
+            $c->get(EventRepository::class),
+            $c->get('cache.fpc'),
+            $c->get(Messages::class)
+        );
+    },
+
     Messages::class => \DI\factory(function (ContainerInterface $c) {
         return new Messages();
     }),
@@ -281,6 +337,10 @@ return [
     WorkshopInstallRepository::class => \DI\factory(function (ContainerInterface $c) {
         return $c->get(EntityManagerInterface::class)->getRepository(WorkshopInstall::class);
     }),
+
+    EventRepository::class => function (ContainerInterface $c) {
+        return $c->get(EntityManagerInterface::class)->getRepository(Event::class);
+    },
 
     AuthenticationService::class => \DI\factory(function (ContainerInterface $c) {
         $authService = new \Zend\Authentication\AuthenticationService;

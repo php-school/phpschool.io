@@ -1,0 +1,28 @@
+.event {
+  padding-top: $base-spacing;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.item {
+  width: 60%;
+  margin: auto !important;
+  padding-bottom: $half-spacing;
+}
+
+.event__date {
+}
+
+.event__name {
+  padding-bottom: $base-spacing;
+}
+
+.event__poster {
+    width: 250px;
+
+    img {
+      border-radius: 10px;
+    }
+}

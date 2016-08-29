@@ -1,6 +1,10 @@
 <?php
 
 use PhpSchool\Website\Action\Admin\ClearCache;
+use PhpSchool\Website\Action\Admin\Event\All as AllEvents;
+use PhpSchool\Website\Action\Admin\Event\Create as EventCreate;
+use PhpSchool\Website\Action\Admin\Event\Delete as EventDelete;
+use PhpSchool\Website\Action\Admin\Event\Update as EventUpdate;
 use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Delete;
@@ -15,9 +19,10 @@ use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\DocumentationAction;
-use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Entity\Workshop;
+use PhpSchool\Website\Form\FormFactory;
 use PhpSchool\Website\Middleware\AdminStyle;
+use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\AuthenticationService;
 use PhpSchool\Website\User\Middleware\Authenticator;
@@ -41,8 +46,6 @@ if (PHP_SAPI == 'cli-server') {
 }
 
 require __DIR__ . '/../vendor/autoload.php';
-
-session_start();
 
 $container = (new ContainerFactory)();
 $app = $container->get('app');
@@ -87,15 +90,8 @@ $app->get('/install', function (Request $request, Response $response, PhpRendere
 
 $app->get('/api-docs[/{namespace}[/{class}]]', ApiDocsAction::class);
 $app->get('/docs[/{group}[/{section}]]', DocsAction::class);
-$app->get('/submit', function (Request $request, Response $response, PhpRenderer $renderer) {
-    $inner = $renderer->fetch('submit.phtml');
-    return $renderer->render($response, 'layouts/layout.phtml', [
-        'pageTitle'       => 'Submit your workshop',
-        'pageDescription' => 'Submit your workshop to the workshop registry!',
-        'content'         => $inner
-    ]);
-});
-$app->post('/submit', SubmitWorkshop::class);
+$app->get('/submit', SubmitWorkshop::class . '::showSubmitForm');
+$app->post('/submit', SubmitWorkshop::class . '::submit');
 
 $app
     ->group('/admin', function () {
@@ -109,11 +105,24 @@ $app
         });
 
         $this->get('/cache/clear', ClearCache::class);
-        $this->get('/workshops/new', Requests::class);
-        $this->get('/workshops/all', All::class);
-        $this->get('/workshop/approve/{id}', Approve::class);
-        $this->get('/workshop/promote/{id}', Promote::class);
-        $this->get('/workshop/delete/{id}', Delete::class);
+
+        $this->group('/workshop', function () {
+            $this->get('/all', All::class);
+            $this->get('/new', Requests::class);
+            $this->get('/approve/{id}', Approve::class);
+            $this->get('/promote/{id}', Promote::class);
+            $this->get('/delete/{id}', Delete::class);
+        });
+
+        $this->group('/event', function () {
+            $this->get('/all', AllEvents::class);
+            $this->get('/create', EventCreate::class . '::showCreateForm');
+            $this->post('/create', EventCreate::class . '::create');
+            $this->get('/update/{id}', EventUpdate::class . '::showUpdateForm');
+            $this->post('/update/{id}', EventUpdate::class . '::update');
+            $this->get('/delete/{id}', EventDelete::class);
+        });
+
         $this->get(
             '/regenerate',
             function (Request $request, Response $response, Messages $messages, WorkshopFeed $workshopFeed) {
@@ -129,7 +138,7 @@ $app
 
                 return $response
                     ->withStatus(302)
-                    ->withHeader('Location', '/admin/workshops/all');
+                    ->withHeader('Location', '/admin/workshop/all');
             }
         );
 
@@ -158,9 +167,8 @@ $app
     })
     ->add(AdminStyle::class);
 
-$app
-    ->map(['GET', 'POST'], '/login', Login::class);
-
+$app->get('/login', Login::class . '::showLoginForm');
+$app->post('/login', Login::class . '::login');
 $app->get('/logout', function (AuthenticationService $auth, Response $response) {
     $auth->logout();
 
@@ -169,6 +177,19 @@ $app->get('/logout', function (AuthenticationService $auth, Response $response) 
         ->withHeader('Location', '/');
 });
 $app->post('/downloads/{workshop}/{version}', TrackDownloads::class)->add(new \RKA\Middleware\IpAddress());
+
+$app->get('/events', function (Request $request, Response $response, EventRepository $repository, PhpRenderer $renderer) {
+
+    $previousEvents = $repository->findPrevious();
+    $events = $repository->findUpcoming();
+
+    $inner = $renderer->fetch('events.phtml', ['events' => $events, 'previousEvents' => $previousEvents]);
+    return $renderer->render($response, 'layouts/layout.phtml', [
+        'pageTitle'       => 'Events',
+        'pageDescription' => 'PHP School Events!',
+        'content'         => $inner
+    ]);
+});
 
 // Run app
 $app->run();

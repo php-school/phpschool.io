@@ -34,7 +34,7 @@ class AuthenticationService
     {
         $this->authenticationService->clearIdentity();
     }
-    
+
     public function hasIdentity() : bool
     {
         return $this->authenticationService->hasIdentity();

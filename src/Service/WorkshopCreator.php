@@ -5,7 +5,7 @@ namespace PhpSchool\Website\Service;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Exception\WorkshopCreationException;
 use PhpSchool\Website\Repository\WorkshopRepository;
-use PhpSchool\Website\Validator\WorkshopComposerJson as WorkshopComposerJsonValidator;
+use PhpSchool\Website\InputFilter\WorkshopComposerJson as WorkshopComposerJsonInputFilter;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
@@ -16,9 +16,9 @@ class WorkshopCreator
     private static $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d-]+)\/?$/';
 
     /**
-     * @var WorkshopComposerJsonValidator
+     * @var WorkshopComposerJsonInputFilter
      */
-    private $composerJsonValidator;
+    private $composerJsonInputFilter;
 
     /**
      * @var WorkshopRepository
@@ -26,10 +26,10 @@ class WorkshopCreator
     private $workshopRepository;
 
     public function __construct(
-        WorkshopComposerJsonValidator $composerJsonValidator,
+        WorkshopComposerJsonInputFilter $composerJsonInputFilter,
         WorkshopRepository $workshopRepository
     ) {
-        $this->composerJsonValidator = $composerJsonValidator;
+        $this->composerJsonInputFilter = $composerJsonInputFilter;
         $this->workshopRepository = $workshopRepository;
     }
 
@@ -39,11 +39,13 @@ class WorkshopCreator
         $owner  = $matches[3];
         $repo   = $matches[4];
 
-        if (!$this->composerJsonValidator->validateArray($this->getComposerJsonContents($owner, $repo))) {
+        $this->composerJsonInputFilter->setData($this->getComposerJsonContents($owner, $repo));
+
+        if (!$this->composerJsonInputFilter->isValid()) {
             throw new WorkshopCreationException($this->composerJsonValidator->getMessages());
         }
 
-        $jsonData = $this->composerJsonValidator->getValues();
+        $jsonData = $this->composerJsonInputFilter->getValues();
 
         $workshop = new Workshop(
             $owner,

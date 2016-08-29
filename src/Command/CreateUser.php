@@ -30,7 +30,9 @@ class CreateUser
         try {
             $this->entityManager->flush();
         } catch (\Exception $e) {
-            $output->writeln(sprintf("\n<error>User %s was not created. Error: %s!</error>\n", $email, $e->getMessage()));
+            $output->writeln(
+                sprintf("\n<error>User %s was not created. Error: %s!</error>\n", $email, $e->getMessage())
+            );
             return 1;
         }
         $output->writeln(sprintf("\n<info>User %s was created!</info>\n", $email));
