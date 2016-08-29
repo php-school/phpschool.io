@@ -34,7 +34,7 @@
                             </a>
                         <?php endif ?>
 
-                        <p class="item event__description"><?= $event->getDescription() ?></p>
+                        <p class="item event__description"><?= nl2br($event->getDescription()) ?></p>
                         <?php if ($event->getLink()): ?>
                             <p class="item event__description">More info: <a target="_blank" href="<?= $event->getLink() ?>"><?= $event->getLink() ?></a></p>
                         <?php endif ?>
