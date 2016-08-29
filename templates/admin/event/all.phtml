@@ -27,7 +27,13 @@
                             <?php foreach ($events as $event): ?>
                                 <tr>
                                     <td><?= $event->getName(); ?></td>
-                                    <td><?= $event->getDescription(); ?></td>
+                                    <td>
+                                        <?php if (strlen($event->getDescription()) > 100) : ?>
+                                            <?= trim(substr($event->getDescription(), 0, 100)) ?>....
+                                        <?php else : ?>
+                                            <?= $event->getDescription() ?>
+                                        <?php endif ?>
+                                    </td>
                                     <td><?= $event->getLink(); ?></td>
                                     <td><?= $event->getDateTime()->format('d-m-Y'); ?></td>
                                     <td><?= $event->getVenue() ?></td>
