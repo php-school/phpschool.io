@@ -10,6 +10,7 @@ use Doctrine\ORM\Tools\Setup;
 use Github\Client;
 use Interop\Container\ContainerInterface;
 use League\CommonMark\CommonMarkConverter;
+use Mni\FrontYAML\Parser;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
@@ -29,9 +30,12 @@ use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\ApiDocsAction;
 use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Action\SubmitWorkshop;
+use PhpSchool\Website\Blog\Generate;
+use PhpSchool\Website\Blog\Generator;
 use PhpSchool\Website\Cache;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateUser;
+use PhpSchool\Website\Command\GenerateBlog;
 use PhpSchool\Website\Command\GenerateDoc;
 use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
@@ -72,6 +76,7 @@ return [
         $app->command('generate-docs', GenerateDoc::class);
         $app->command('clear-cache', ClearCache::class);
         $app->command('create-user name email password', CreateUser::class);
+        $app->command('generate-blog', GenerateBlog::class);
         return $app;
     }),
     'app' => factory(function (ContainerInterface $c) {
@@ -152,6 +157,9 @@ return [
     CreateUser::class => factory(function (ContainerInterface $c) {
        return new CreateUser($c->get(EntityManagerInterface::class));
     }),
+    GenerateBlog::class => function (ContainerInterface $c) {
+        return new GenerateBlog($c->get(Generator::class));
+    },
 
     Documentation::class => \DI\factory(function (ContainerInterface $c) {
         $tutorialGroup = new DocumentationGroup('tutorial', 'Workshop Tutorial');
@@ -388,6 +396,15 @@ return [
         return new EmailNotifier(
             new \SendGrid(getenv('SEND_GRID_API_KEY')),
             getenv('SEND_GRID_SENDER_EMAIL')
+        );
+    },
+
+    Generator::class => function (ContainerInterface $c) {
+        return new Generator(
+            new Parser,
+            __DIR__ . '/../posts/',
+            __DIR__ . '/../public/blog',
+            $c->get(PhpRenderer::class)
         );
     },
 

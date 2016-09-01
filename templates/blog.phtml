@@ -1,0 +1,22 @@
+<header class="site-header site-header--slim">
+    <?= $this->fetch('includes/site-nav.phtml') ?>
+    <div class="container">
+        <h1 class="site-header__title">Blog</h1>
+        <p class="site-header__desc">What's happening in the PHP School world?</p>
+    </div>
+</header>
+<section class="site-body">
+    <div class="container">
+        <div class="blog">
+            <div class="post">
+                <div class="post__meta">
+                    <h1 class="post__title"><?= $meta->getTitle() ?></h1>
+                    <span class="post__author"><?= $meta->getAuthor() ?></span>
+                    <span class="post__date"> - <?= $meta->getDate()->format('F j, Y') ?></span>
+                </div>
+
+                <?= $content; ?>
+            </div>
+        </div>
+    </div>
+</section>

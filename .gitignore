@@ -13,5 +13,6 @@ npm-debug.log
 
 /public/workshops.json
 /public/uploads
+/public/blog
 .env
 /var
