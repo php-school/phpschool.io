@@ -50,12 +50,11 @@ class Generator
     {
         $this->clearOutputDirectory();
 
-
         $posts = collect($this->getMarkDownFiles())
             ->ifEmpty(function () {
                 //generate blank index
                 $content = $this->rendererPostIndexPage(collect(), 1, 1);
-                file_put_contents(sprintf('%s/index.html', $this->outputDirectory), $content);
+                $this->write(sprintf('%s/index.html', $this->outputDirectory), $content);
             })
             ->map(function (\SplFileInfo $file) {
                 return $this->parser->parse(file_get_contents($file->getRealPath()));
@@ -83,13 +82,8 @@ class Generator
 
         $posts
             ->each(function (Post $post) {
-                $path = $this->getPostPath($post->getMeta());
-
-                if (!file_exists(dirname($path))) {
-                    mkdir(dirname($path), 0755, true);
-                }
-                
-                file_put_contents($path . '.html', $this->renderInLayout($post));
+                $path = $this->getPostPath($post->getMeta()) . '.html';
+                $this->write($path, $this->renderInLayout($post));
             });
 
         $numPages = ceil($posts->count() / 10);
@@ -106,10 +100,10 @@ class Generator
                 );
 
                 $content = $this->rendererPostIndexPage($posts, $pageNumber, $numPages);
-                file_put_contents($fileName, $content);
+                $this->write($fileName, $content);
 
                 if ($pageNumber === 1) {
-                    file_put_contents(sprintf('%s/index.html', $this->outputDirectory), $content);
+                    $this->write(sprintf('%s/index.html', $this->outputDirectory), $content);
                 }
             });
     }
@@ -174,5 +168,14 @@ class Generator
             $todo = $file->isDir() ? 'rmdir' : 'unlink';
             $todo($file->getRealPath());
         }
+    }
+
+    private function write(string $file, string $content)
+    {
+        if (!file_exists(dirname($file))) {
+            mkdir(dirname($file), 0755, true);
+        }
+
+        file_put_contents($file, $content);
     }
 }
