@@ -8,8 +8,10 @@
 <section class="site-body">
     <div class="container">
         <div class="blog clearfix">
-            <?php if (empty($posts)) : ?>
-                <h1>No posts yet!</h1>
+            <?php if ($posts->isEmpty()) : ?>
+                <div class="post">
+                    <h1>No posts yet!</h1>
+                </div>
             <?php endif ?>
 
             <?php foreach ($posts as $post) : ?>
@@ -40,7 +42,7 @@
                     <a href="/blog/page-<?= $pageNumber + 1 ?>">&laquo;&nbsp;Older</a>
                 </div>
             <?php endif ?>
-            <?php if ($pageNumber > 0) : ?>
+            <?php if ($pageNumber > 1) : ?>
                 <div class="pager next__page">
                     <a href="/blog/page-<?= $pageNumber - 1 ?>">NEWER&nbsp;&raquo;</a>
                 </div>

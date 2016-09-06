@@ -50,7 +50,13 @@ class Generator
     {
         $this->clearOutputDirectory();
 
+
         $posts = collect($this->getMarkDownFiles())
+            ->ifEmpty(function () {
+                //generate blank index
+                $content = $this->rendererPostIndexPage(collect(), 1, 1);
+                file_put_contents(sprintf('%s/index.html', $this->outputDirectory), $content);
+            })
             ->map(function (\SplFileInfo $file) {
                 return $this->parser->parse(file_get_contents($file->getRealPath()));
             })

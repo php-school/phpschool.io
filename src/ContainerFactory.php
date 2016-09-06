@@ -5,6 +5,7 @@ namespace PhpSchool\Website;
 use Cache\Bridge\DoctrineCacheBridge;
 use DI\ContainerBuilder;
 use Dotenv\Dotenv;
+use Illuminate\Support\Collection;
 use Interop\Container\ContainerInterface;
 use Predis\Client;
 use Symfony\Component\Cache\Adapter\NullAdapter;
@@ -22,6 +23,14 @@ class ContainerFactory
         $dotEnv->load();
 
         $config = include __DIR__ . '/../app/config.php';
+
+        Collection::macro('ifEmpty', function (callable $callback) : Collection {
+            if ($this->isEmpty()) {
+                $callback($this);
+            }
+
+            return $this;
+        });
 
         $containerBuilder = new ContainerBuilder;
         $containerBuilder->addDefinitions(__DIR__ . '/../vendor/php-di/slim-bridge/src/config.php');
