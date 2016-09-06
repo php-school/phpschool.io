@@ -155,6 +155,10 @@ class Generator
 
     private function clearOutputDirectory()
     {
+        if (!file_exists($this->outputDirectory)) {
+            return;
+        }
+
         $files = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($this->outputDirectory, RecursiveDirectoryIterator::SKIP_DOTS),
             RecursiveIteratorIterator::CHILD_FIRST
