@@ -40,11 +40,16 @@ gulp.task('serve', ['build-all'], function(cb) {
         });
     });
 
-    gulp.watch('scss/**', ['sass']);
+    gulp.watch('scss/**', ['sass', 'clear-cache', 'generate-blog', () => bs.reload()]);
     gulp.watch('public/img/icons/**', ['svg']);
 
     gulp.watch('templates/**/*.phtml', ['clear-cache', () => bs.reload()]);
     gulp.watch('vendor/php-school/php-workshop/src/**/*.php', ['rebuild-doc-cache', 'clear-cache', () => bs.reload()])
+    gulp.watch('posts/*.md', ['generate-blog', () => bs.reload()])
+});
+
+gulp.task('generate-blog', ['sass'], function () {
+    execSync('php bin/app generate-blog')
 });
 
 gulp.task('clear-cache', function () {

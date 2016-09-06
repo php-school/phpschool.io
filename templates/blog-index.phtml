@@ -1,0 +1,50 @@
+<header class="site-header site-header--slim">
+    <?= $this->fetch('includes/site-nav.phtml') ?>
+    <div class="container">
+        <h1 class="site-header__title">Blog</h1>
+        <p class="site-header__desc">What's happening in the PHP School world ?</p>
+    </div>
+</header>
+<section class="site-body">
+    <div class="container">
+        <div class="blog clearfix">
+            <?php if (empty($posts)) : ?>
+                <h1>No posts yet!</h1>
+            <?php endif ?>
+
+            <?php foreach ($posts as $post) : ?>
+                <div class="post">
+                    <div class="post__meta">
+                        <h1 class="post__title"><a href="/blog<?= $post->getMeta()->getLink() ?>"><?= $post->getMeta()->getTitle() ?></a></h1>
+                        <span class="post__author"><a href="<?= $post->getMeta()->getAuthorLink() ?>"><?= $post->getMeta()->getAuthor() ?><a/></span>
+                        <span class="post__date"> - <?= $post->getMeta()->getDate()->format('F j, Y') ?></span>
+                    </div>
+
+                    <?php if ($post->hasFeatureImage()) : ?>
+                        <div class="post__image">
+                            <a href="/blog<?= $post->getMeta()->getLink() ?>">
+                                <?= $post->getFeatureImage() ?>
+                            </a>
+                        </div>
+                    <?php endif ?>
+
+                    <div class="post__excerpt"> <?= $post->getExcerpt() ?></div>
+                    <p class="post__read__more">
+                        <a href="/blog<?= $post->getMeta()->getLink() ?>">Read more&nbsp;&nbsp;&rsaquo;</a>
+                    </p>
+                </div>
+            <?php endforeach ?>
+
+            <?php if ($pageNumber < $totalPages) : ?>
+                <div class="pager previous__page">
+                    <a href="/blog/page-<?= $pageNumber + 1 ?>">&laquo;&nbsp;Older</a>
+                </div>
+            <?php endif ?>
+            <?php if ($pageNumber > 0) : ?>
+                <div class="pager next__page">
+                    <a href="/blog/page-<?= $pageNumber - 1 ?>">NEWER&nbsp;&raquo;</a>
+                </div>
+            <?php endif ?>
+        </div>
+    </div>
+</section>

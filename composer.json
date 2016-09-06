@@ -24,10 +24,10 @@
     "psr/cache": "^1.0",
     "symfony/cache": "dev-master",
     "predis/predis": "^1.1",
-    "league/commonmark": "^0.13.4",
+    "league/commonmark": "^0.13",
     "doctrine/orm": "^2.5",
     "ramsey/uuid-doctrine": "^1.2",
-    "tightenco/collect": "^5.2",
+    "tightenco/collect": "^5.3",
     "slim/flash": "^0.1.0",
     "zendframework/zend-authentication": "^2.5",
     "zendframework/zend-session": "^2.7",
@@ -42,7 +42,8 @@
     "zendframework/zend-filter": "^2.7",
     "adamwathan/bootforms": "^0.8.1",
     "zendframework/zend-uri": "^2.5",
-    "akrabat/rka-slim-session-middleware": "^2.0"
+    "akrabat/rka-slim-session-middleware": "^2.0",
+    "mnapoli/front-yaml": "^1.5"
   },
   "autoload": {
     "psr-4": {
