@@ -16,7 +16,9 @@
     "easy-svg": "^1.0.5",
     "es6-promise": "^3.2.1",
     "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
     "gulp-cssnano": "^2.1.2",
+    "gulp-imagemin": "^3.0.3",
     "gulp-minify": "0.0.14",
     "gulp-postcss": "^6.1.1",
     "gulp-rename": "^1.2.2",
@@ -27,8 +29,7 @@
     "normalize.css": "^4.1.1",
     "postcss": "^5.0.21",
     "postcss-import": "^8.1.2",
-    "rx": "^4.1.0",
-    "gulp-concat": "^2.6.0"
+    "rx": "^4.1.0"
   },
   "dependencies": {}
 }

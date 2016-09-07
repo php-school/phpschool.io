@@ -13,6 +13,7 @@ var minify      = require('gulp-minify');
 var concat      = require('gulp-concat');
 var rename      = require('gulp-rename');
 var uglify      = require('gulp-uglify');
+var imagemin    = require('gulp-imagemin');
 
 gulp.task('serve', ['build-all'], function(cb) {
     
@@ -93,7 +94,7 @@ gulp.task('svg', function () {
         .pipe(gulp.dest('public/img/icons'))
 });
 
-gulp.task('minify', function() {
+gulp.task('minify', function () {
     gulp.src(['public/js/highlight.min.js', 'public/js/main.js'])
         .pipe(concat('main.min.js'))
         .pipe(gulp.dest('public/js'))
@@ -101,7 +102,13 @@ gulp.task('minify', function() {
         .pipe(gulp.dest('public/js'))
 });
 
-gulp.task('build-all', ['sass', 'svg', 'minify']);
+gulp.task('img', function () {
+    gulp.src('public/img/blog/*')
+        .pipe(imagemin())
+        .pipe(gulp.dest('public/img/blog-dist/'))
+});
+
+gulp.task('build-all', ['sass', 'svg', 'minify', 'img']);
 
 gulp.task('deploy', function () {
     execSync('cap production deploy');
