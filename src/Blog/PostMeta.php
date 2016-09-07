@@ -81,6 +81,6 @@ class PostMeta
 
     private function slugify($string) : string
     {
-        return strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $string));
+        return trim(strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)), '-');
     }
 }
