@@ -2,6 +2,10 @@
 
 namespace PhpSchool\Website\Form;
 
+use AdamWathan\BootForms\BasicFormBuilder;
+use AdamWathan\BootForms\BootForm;
+use AdamWathan\BootForms\HorizontalFormBuilder;
+use AdamWathan\Form\FormBuilder;
 use Psr\Http\Message\UploadedFileInterface;
 use RKA\Session;
 use Zend\InputFilter\InputFilter;
@@ -90,7 +94,7 @@ class FormHandler
 
     /**
      * @param $bind
-     * @return \AdamWathan\BootForms\BootForm
+     * @return BootForm
      */
     public function getForm($bind = null)
     {
@@ -107,7 +111,7 @@ class FormHandler
 
         $basicBootFormsBuilder = new BasicFormBuilder($formBuilder);
         $horizontalBootFormsBuilder = new HorizontalFormBuilder($formBuilder);
-        return new \AdamWathan\BootForms\BootForm($basicBootFormsBuilder, $horizontalBootFormsBuilder);
+        return new BootForm($basicBootFormsBuilder, $horizontalBootFormsBuilder);
     }
 
     public function getPreviousErrors()
