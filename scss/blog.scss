@@ -10,7 +10,11 @@
 
 .post {
   padding-top: $base-spacing;
-  text-align: center;
+
+  img {
+    display: block;
+    margin: auto;
+  }
 }
 
 .post:not(:last-child) {
@@ -72,6 +76,7 @@
 }
 
 .post__meta {
+  text-align: center;
   margin-bottom: $half-spacing;
 }
 
