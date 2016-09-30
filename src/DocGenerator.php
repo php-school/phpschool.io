@@ -5,13 +5,11 @@ namespace PhpSchool\Website;
 use BetterReflection\Reflection\ReflectionClass;
 use BetterReflection\Reflection\ReflectionMethod;
 use BetterReflection\Reflector\ClassReflector;
-use BetterReflection\SourceLocator\Type\AggregateSourceLocator;
-use BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
+use BetterReflection\SourceLocator\Type\FileIteratorSourceLocator;
 use phpDocumentor\Reflection\DocBlock;
 use BetterReflection\Reflection\ReflectionParameter;
 use phpDocumentor\Reflection\DocBlock\Tag\ThrowsTag;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 /**
  *
@@ -22,10 +20,7 @@ class DocGenerator
 {
     public function generate() : array
     {
-        $reflector = new ClassReflector(new AggregateSourceLocator(array_values(array_map(function (SplFileInfo $file) {
-            return new SingleFileSourceLocator($file->getRealPath());
-        }, iterator_to_array($this->getFiles())))));
-
+        $reflector = new ClassReflector(new FileIteratorSourceLocator($this->getFiles()->getIterator()));
         $namespaces = array_unique(array_map(function (ReflectionClass $class) {
             return $class->getNamespaceName();
         }, $reflector->getAllClasses()));
