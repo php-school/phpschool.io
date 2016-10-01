@@ -173,10 +173,10 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
 <p>First, lets create a factory for our exercise. Open up <code>app/config.php</code>.</p>
 
 <pre><code lang="php">return [
-    Mean::class => \DI\Object(),
+    Mean::class => \DI\object(),
 ];
 </code></pre>
-<p>The file <code>app/config.php</code> should return an array of service definitions for the container. The key being the name of the service and the value the actual factory. For the case of exercises the service name should <strong>always</strong> be the class name. <code>\DI\Object()</code> is a helper function to create a factory which will simply run <code>new $yourClassName</code> when asking for the service from the container.</p>
+<p>The file <code>app/config.php</code> should return an array of service definitions for the container. The key being the name of the service and the value the actual factory. For the case of exercises the service name should <strong>always</strong> be the class name. <code>\DI\object()</code> is a helper function to create a factory which will simply run <code>new $yourClassName</code> when asking for the service from the container.</p>
 
 <p class="note note-success">See the section on <a href="/docs/reference/container">The Container</a> for more information on service definitions.</p>
 
