@@ -1,15 +1,10 @@
 .team {
-  color: $black;
   text-align: center;
   padding: $base-spacing*2 0;
   background: $white;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  //h2 {
-  //  color: $white;
-  //}
 }
 
 .team__desc {
@@ -19,26 +14,27 @@
 }
 
 .team__list {
-  margin-left: -$base-spacing;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0;
 }
 
 .team__image {
   margin-bottom: $half-spacing;
   overflow: hidden;
-  img {
-    //border-radius: 100%;
-  }
 }
 
 .team__item {
-  padding-left: $base-spacing;
   width: 50%;
+  margin-bottom: $base-spacing;
+  padding: 0 $half-spacing;
 
   @media screen and (min-width: $lap-start) {
     width: 20%;
+    margin-bottom: 0;
   }
+
   a {
     display: block;
     transition: ease all .3s;

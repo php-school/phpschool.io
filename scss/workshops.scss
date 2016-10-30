@@ -1,52 +1,54 @@
-.core-workshop {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: -$base-spacing;
-  padding: $base-spacing*2 0;
-  border-top: 1px dotted $silver;
+.workshop {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-bottom: 1px dotted $silver;
+    padding: $base-spacing 0;
+
+    @media screen and (min-width: $lap-start) {
+    padding: $base-spacing*2 0;
+    }
 }
 
-.core-workshop__info {
-  width: 100%;
-  padding-left: $base-spacing;
+.workshop__image {
+    width: 100%;
+    margin-bottom: $base-spacing;
 
-  @media screen and (min-width: $lap-start) {
-    width: 33.33%;
-  }
+    img {
+        display: block;
+        width: 33.33%;
+        margin: 0 auto;
+    }
+
+    @media screen and (min-width: $lap-start) {
+        width: 33.33%;
+        img {
+            width: 75%;
+        }
+    }
 }
 
-.core-workshop__courses {
-  width: 100%;
-  padding-left: $base-spacing;
-
-  @media screen and (min-width: $lap-start) {
-    width: 66.66%;
-  }
+.workshop__info {
+    width: 100%;
+    @media screen and (min-width: $lap-start) {
+        width: calc(66.66% - #{$base-spacing});
+    }
 }
 
-.community-workshop {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: -$base-spacing;
-  padding: $base-spacing*2 0;
-  border-top: 1px dotted $silver;
-  border-bottom: 1px dotted $silver;
+.workshop__courses {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
-.community-workshop__info {
-  width: 100%;
-  padding-left: $base-spacing;
-
-  @media screen and (min-width: $lap-start) {
-    width: 33.33%;
-  }
+.workshop__course {
+    width: 100%;
+    @media screen and (min-width: $lap-start) {
+        width: calc(33.33% - #{$half-spacing});
+    }
 }
 
-.community-workshop__courses {
-  width: 100%;
-  padding-left: $base-spacing;
-
-  @media screen and (min-width: $lap-start) {
-    width: 66.66%;
-  }
+.workshop__description {
+    margin-bottom: $half-spacing;
 }

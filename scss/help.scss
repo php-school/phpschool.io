@@ -1,14 +1,12 @@
 .help {
   display: flex;
   flex-wrap: wrap;
-  margin-left: -$base-spacing;
   padding: $base-spacing*2 0;
   border-bottom: 1px dotted $silver;
 }
 
 .help__icons {
   width: 100%;
-  padding-left: $base-spacing;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,21 +26,19 @@
 
 .help__info {
   width: 100%;
-  padding-left: $base-spacing;
-
-  h2, p {
-      text-align: center;
-
-      @media screen and (min-width: $lap-start) {
-        text-align: left;
-      }
-  }
-
-  p {
-    margin-bottom: 0;
-  }
-
   @media screen and (min-width: $lap-start) {
-    width: 66.66%;
+    width: calc(66.66% - #{$base-spacing});
   }
+  //h2, p {
+  //    text-align: center;
+  //
+  //    @media screen and (min-width: $lap-start) {
+  //      text-align: left;
+  //    }
+  //}
+  //
+  //p {
+  //  margin-bottom: 0;
+  //}
+
 }
