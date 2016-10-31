@@ -2,37 +2,43 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    border-bottom: 1px dotted $silver;
-    padding: $base-spacing 0;
+    padding-bottom: $base-spacing;
 
     @media screen and (min-width: $lap-start) {
-    padding: $base-spacing*2 0;
+        padding: $base-spacing*2 0;
+        border-bottom: 1px dotted $silver;
     }
 }
 
 .workshop__image {
-    width: 100%;
-    margin-bottom: $base-spacing;
+    width: 15%;
+    margin-bottom: $half-spacing;
 
     img {
         display: block;
-        width: 33.33%;
+        width: 100%;
         margin: 0 auto;
     }
 
     @media screen and (min-width: $lap-start) {
         width: 33.33%;
         img {
-            width: 75%;
+            width: 65%;
         }
     }
 }
 
 .workshop__info {
-    width: 100%;
+    width: calc(85% - #{$base-spacing});
+    margin-bottom: $half-spacing;
+
     @media screen and (min-width: $lap-start) {
         width: calc(66.66% - #{$base-spacing});
     }
+}
+
+.workshop__title {
+    padding-top: 0;
 }
 
 .workshop__courses {
@@ -40,12 +46,18 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    border-bottom: 1px dotted $silver;
+
+    @media screen and (min-width: $lap-start) {
+        border: none;
+    }
 }
 
 .workshop__course {
     width: 100%;
+    margin-bottom: $base-spacing;
     @media screen and (min-width: $lap-start) {
-        width: calc(33.33% - #{$half-spacing});
+        width: calc(50% - #{$base-spacing});
     }
 }
 

@@ -3,6 +3,7 @@ h1, h2, h3 {
   font-family: $header-font-family;
   color: $secondary-colour;
   font-weight: 100;
+  padding-top: $half-spacing;
 }
 
 h1 {
@@ -12,7 +13,7 @@ h1 {
 
 h2 {
   font-size: $h2-font-size;
-  margin-bottom: $base-spacing;
+  margin-bottom: $half-spacing;
 }
 
 h3 {
@@ -32,11 +33,11 @@ h4 {
 p {
   font-size: $base-font-size;
   line-height: $base-line-height;
-  margin-bottom: $base-spacing;
+  margin-bottom: $half-spacing;
 }
 
 ul, ol {
-  margin-bottom: $base-spacing;
+  margin-bottom: $half-spacing;
 }
 
 li {
@@ -46,6 +47,7 @@ li {
 a {
   color: $secondary-colour;
   text-decoration: none;
+
   &:hover {
     text-decoration: underline;
   }

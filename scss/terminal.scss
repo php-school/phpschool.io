@@ -1,13 +1,6 @@
 .terminal {
-  margin-bottom: $half-spacing;
   background: $base-colour;
   border-radius: 5px;
-}
-
-.terminal__install {
-  width: 700px;
-  max-width: 100%;
-  margin: 0px auto;
 }
 
 .terminal-head {
@@ -33,7 +26,6 @@
 }
 
 .terminal__body {
-  // padding: $half-spacing;
   padding-left: 0;
   margin-bottom: $base-spacing;
   font-family: $header-font-family;
@@ -88,4 +80,6 @@
 .termianl__meta {
   font-size: 10px;
   color: $secondary-colour;
+  margin-top: -$half-spacing;
+  margin-bottom: 0;
 }
