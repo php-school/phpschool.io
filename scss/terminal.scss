@@ -40,6 +40,9 @@
     height: $base-spacing+$half-spacing;
     line-height: $base-spacing+$half-spacing;
 
+    &.terminal--comment {
+    }
+
     &:before {
       content: '$';
       margin-right: 15px;

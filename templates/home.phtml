@@ -6,19 +6,48 @@
                 <h2>What is PHP School?</h2>
                 <p>Welcome to PHP School! A dedicated community based learning platform that will teach you the core skills in PHP. The concept behind PHP School is simple, workshops are run from the command line, somewhere every developer should be familiar with. Each workshop covers a different topic, some beginner, some advanced. You're not restricted to a schedule, you go at your own pace with no pressure.</p>
             </div>
+            <figure class="introduction__image">
+                <figcaption class="introduction__caption">
+                    <span class="introduction__step">1</span>
+                    Select an exercise
+                </figcaption>
+                <img src="../img/intro-01.jpg">
+            </figure>
+            <figure class="introduction__image">
+                <figcaption class="introduction__caption">
+                    <span class="introduction__step">2</span>
+                    Complete the challenge
+                </figcaption>
+                <img src="../img/intro-02.jpg">
+            </figure>
+            <figure class="introduction__image">
+                <figcaption class="introduction__caption">
+                    <span class="introduction__step">3</span>
+                    Get instant feedback
+                </figcaption>
+                <img src="../img/intro-03.jpg">
+            </figure>
         </div>
-        <div class="installation" id="installation">
-            <h2>Getting Started</h2>
-            <div class="installation__info">
 
+        <div class="installation" id="installation">
+            <div class="installation__info">
+                <h2>Getting Started</h2>
                 <p>In order to get started with PHP School workshops, you first need to install the workshop manager. The workshop manager is a tool to search, install and remove PHP School workshops. Open up a terminal and enter the commands listed below, they will download the workshop manager and make it available to your computer.</p>
                 <p>The final command will verify your installation and will give you tips in how to resolve any issues.</p>
-
                 <?php if ($userAgent->is('Windows')) : ?>
                     <p>Windows users need to do a <a href="/install#windows">few more annoying things first</a>.</p>
                 <?php endif; ?>
-
-                <div class="terminal terminal__install">
+                <p>Run <code>workshop-manager list</code> to see the available commands and visit the <a href="https://github.com/php-school/workshop-manager" target="_blank">GitHub Repository</a> for the workshop manager to learn more.</p>
+                <p>The most important command is <code>workshop-manager install &lt;workshopname&gt;</workshopname></code>. You may also find <code>workshop-manager search &lt;topic&gt;</code> useful to find a workshop for a particular subject.</p>
+                <p><a class="button" href="#core-workshop">To the workshops!</a></p>
+            </div>
+            <div class="terminal__install">
+                <div class="terminal">
+                    <div class="terminal-head">
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                        <span class="terminal__button"></span>
+                    </div>
                     <div class="terminal__body">
                         <p>curl -O https://php-school.github.io/workshop-manager/workshop-manager.phar</p>
                         <p>mv workshop-manager.phar /usr/local/bin/workshop-manager</p>
@@ -26,10 +55,6 @@
                         <p>workshop-manager verify</p>
                     </div>
                 </div>
-
-                <p>Run <code>workshop-manager list</code> to see the available commands and visit the <a href="https://github.com/php-school/workshop-manager" target="_blank">GitHub Repository</a> for the workshop manager to learn more.</p>
-                <p>The most important command is <code>workshop-manager install &lt;workshopname&gt;</workshopname></code>. You may also find <code>workshop-manager search &lt;topic&gt;</code> useful to find a workshop for a particular subject.</p>
-                <p><a class="button" href="#core-workshop">To the workshops!</a></p>
             </div>
         </div>
 
@@ -73,7 +98,6 @@
                 <p>Visit the <a href="/docs">documentation</a> to learn how to build your own Workshop.</p>
                 <p>Check out <a href="/docs">this page</a> to submit your workshop so it appears here and can be installable with the workshop manager!</p>
             </div>
-
             <div class="workshop__courses">
                 <?php /** @var \PhpSchool\Website\Entity\Workshop $workshop */?>
                 <?php foreach ($communityWorkshops as $workshop): ?>
@@ -105,78 +129,22 @@
             </div>
         </div>
 
-        <div class="team">
-            <h2>Our team</h2>
-            <p class="team__desc">We are a couple of friends working in our spare time to improve the quality of PHP learning resources. We want to empower you to build, whether it be a hobbyist project or a tool to help educate the world. Neither skill nor age should be a barrier to learning, the PHP School team are committed to helping train the next generation of coders who will go on to change the world!</p>
-            <ul class="team__list">
-                <li class="team__item">
-                    <a href="https://github.com/AydinHassan" target="_blank">
-                        <figure class="team__image">
-                            <img src="/img/avatar/aydin.jpg" alt="@AydinHassan">
-                        </figure>
-                        <p class="team__name">Aydin Hassan</p>
-                        <p class="team__role">Developer</p>
-                        <?= $this->fetch('includes/icon.phtml', ['name' => "github"]) ?>
-                    </a>
-                </li>
-                <li class="team__item">
-                    <a href="https://github.com/mikeymike" target="_blank">
-                        <figure class="team__image">
-                            <img src="/img/avatar/mike.jpg" alt="@mikeymike">
-                        </figure>
-                        <p class="team__name">Michael Woodward</p>
-                        <p class="team__role">Developer</p>
-                        <?= $this->fetch('includes/icon.phtml', ['name' => "github"]) ?>
-                    </a>
-                </li>
-                <li class="team__item">
-                    <a href="https://github.com/shakyShane" target="_blank">
-                        <figure class="team__image">
-                            <img src="/img/avatar/shane.jpg" alt="@shakeyShane">
-                        </figure>
-                        <p class="team__name">Shane Osbourne</p>
-                        <p class="team__role">Developer</p>
-                        <?= $this->fetch('includes/icon.phtml', ['name' => "github"]) ?>
-                    </a>
-                </li>
-                <li class="team__item">
-                    <a href="https://github.com/chris3ailey" target="_blank">
-                        <figure class="team__image">
-                            <img src="../img/ChrisBailey.jpg" alt="@chris3ailey">
-                        </figure>
-                        <p class="team__name">Chris Bailey</p>
-                        <p class="team__role">Designer</p>
-                        <?= $this->fetch('includes/icon.phtml', ['name' => "github"]) ?>
-                    </a>
-                </li>
-                <li class="team__item">
-                    <a href="https://github.com/OliverChenery" target="_blank">
-                        <figure class="team__image">
-                            <img src="/img/avatar/oli.jpg" alt="@OliverChenery">
-                        </figure>
-                        <p class="team__name">Oliver Chenery</p>
-                        <p class="team__role">Designer</p>
-                        <?= $this->fetch('includes/icon.phtml', ['name' => "github"]) ?>
-                    </a>
-                </li>
-            </ul>
-        </div>
     </div>
-</section>
-
-<section class="inspiration">
-    <div class="container">
-        <div class="inspiration__content">
-            <figure class="inspiration__image">
-                <img src="/img/svg/node-school-logo.svg" />
-            </figure>
-            <article class="inspiration__info">
-                <h2 class="inspiration__title">Our inspiration</h2>
-                <p>As developers who regularly use and advocate open source software, we have always loved the spirit of giving back. We work in a truly unique industry which is held together by people providing for free.</p>
-                <p>Thank you <a href="http://nodeschool.io/" target="_blank">NodeSchool</a> for inspiring us to create PHP School, if Node & JavaScript is your thing, we recommend you check them out. When we saw what the NodeSchool community had achieved together, we knew we had to bring it over to the PHP world.</p>
-
-                <a href="http://nodeschool.io/" target="_blank" class="inspiration__link button">NodeSchool</a>
-            </article>
-        </div>
     </div>
-</section>
+
+    <section class="inspiration">
+        <div class="container">
+            <div class="inspiration__content">
+                <figure class="inspiration__image">
+                    <img src="/img/svg/node-school-logo.svg" />
+                </figure>
+                <article class="inspiration__info">
+                    <h2 class="inspiration__title">Our inspiration</h2>
+                    <p>As developers who regularly use and advocate open source software, we have always loved the spirit of giving back. We work in a truly unique industry which is held together by people providing for free.</p>
+                    <p>Thank you <a href="http://nodeschool.io/" target="_blank">NodeSchool</a> for inspiring us to create PHP School, if Node & JavaScript is your thing, we recommend you check them out. When we saw what the NodeSchool community had achieved together, we knew we had to bring it over to the PHP world.</p>
+
+                    <a href="http://nodeschool.io/" target="_blank" class="inspiration__link button">NodeSchool</a>
+                </article>
+            </div>
+        </div>
+    </section>

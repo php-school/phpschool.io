@@ -2,11 +2,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding-bottom: $base-spacing;
+    padding: $base-spacing 0;
+    border-bottom: 1px dashed $silver;
 
     @media screen and (min-width: $lap-start) {
         padding: $base-spacing*2 0;
-        border-bottom: 1px dotted $silver;
     }
 }
 
@@ -46,7 +46,6 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    border-bottom: 1px dotted $silver;
 
     @media screen and (min-width: $lap-start) {
         border: none;
@@ -56,6 +55,10 @@
 .workshop__course {
     width: 100%;
     margin-bottom: $base-spacing;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
     @media screen and (min-width: $lap-start) {
         width: calc(50% - #{$base-spacing});
     }
