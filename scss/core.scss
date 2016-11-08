@@ -1,6 +1,12 @@
 @import "vars";
-@import "reset";
-@import "base";
+@import "mixins";
+
+@import "base/reset";
+@import "base/base";
+@import "base/typography";
+@import "base/site-header";
+@import "base/site-footer";
+@import "base/site-nav"; 
 
 @import "vendor/solarise";
 @import "vendor/doc-search";
@@ -8,28 +14,24 @@
 //base styling
 @import "objects/buttons";
 @import "objects/forms";
-
-//global
-@import "site-header";
-@import "site-footer";
+@import "objects/terminal";
+@import "objects/social-nav";
 
 //Theme
-@import "introduction";
-@import "terminal";
-@import "workshops";
-@import "help";
-@import "team";
-@import "inspiration";
-@import "social-nav";
-@import "site-nav";
-@import "install";
+@import "theme/introduction";
+@import "theme/install";
+@import "theme/workshops";
+@import "theme/help";
+@import "theme/team";
+@import "theme/inspiration";
+
+@import "theme/notes";
+@import "theme/tabs";
+@import "theme/page-submit";
+@import "theme/page-events";
+@import "theme/blog";
+
 @import "docs/docs";
-@import "typography";
-@import "notes";
-@import "tabs";
-@import "page-submit";
-@import "page-events";
-@import "blog";
 
 
 

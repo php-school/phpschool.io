@@ -1,0 +1,31 @@
+.help {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-bottom: 1px dotted $silver;
+    padding: $base-spacing 0;
+
+    @media screen and (min-width: $lap-start) {
+        padding: $base-spacing*2 0;
+    }
+}
+
+.help__icons {
+    @include layout(33.33%, $half-spacing);
+    display: flex;
+    align-items: center;
+    @media screen and (min-width: $lap-start) {
+        justify-content: center;
+    }
+
+    .svg-icon {
+        width: 3em;
+        height: 3em;
+        color: $black;
+    }
+
+}
+
+.help__info {
+    @include layout(66.66%, $half-spacing);
+}

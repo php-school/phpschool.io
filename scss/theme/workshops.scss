@@ -2,8 +2,10 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+
     padding: $base-spacing 0;
     border-bottom: 1px dashed $silver;
+    width: 100%;
 
     @media screen and (min-width: $lap-start) {
         padding: $base-spacing*2 0;
@@ -11,30 +13,26 @@
 }
 
 .workshop__image {
-    width: 15%;
+    @include layout(33.33%, $half-spacing);
     margin-bottom: $half-spacing;
 
     img {
         display: block;
-        width: 100%;
-        margin: 0 auto;
-    }
-
-    @media screen and (min-width: $lap-start) {
-        width: 33.33%;
-        img {
-            width: 65%;
+        width: 30%;
+        @media screen and (min-width: $lap-start) {
+            margin: 0 auto;
+            width: 50%;
         }
     }
 }
 
 .workshop__info {
-    width: calc(85% - #{$base-spacing});
-    margin-bottom: $half-spacing;
+    @include layout(66.66%, $half-spacing);
 
     @media screen and (min-width: $lap-start) {
-        width: calc(66.66% - #{$base-spacing});
+        margin-bottom: $half-spacing;
     }
+
 }
 
 .workshop__title {

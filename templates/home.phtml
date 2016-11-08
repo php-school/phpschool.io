@@ -3,7 +3,7 @@
     <div class="container">
         <div class="introduction" id="getting-started">
             <div class="introduction__info">
-                <h2>What is PHP School?</h2>
+                <h2 class="introduction__title">What is PHP School?</h2>
                 <p>Welcome to PHP School! A dedicated community based learning platform that will teach you the core skills in PHP. The concept behind PHP School is simple, workshops are run from the command line, somewhere every developer should be familiar with. Each workshop covers a different topic, some beginner, some advanced. You're not restricted to a schedule, you go at your own pace with no pressure.</p>
             </div>
             <figure class="introduction__image">
@@ -31,7 +31,7 @@
 
         <div class="installation" id="installation">
             <div class="installation__info">
-                <h2>Getting Started</h2>
+                <h2 class="installation__title">Getting Started</h2>
                 <p>In order to get started with PHP School workshops, you first need to install the workshop manager. The workshop manager is a tool to search, install and remove PHP School workshops. Open up a terminal and enter the commands listed below, they will download the workshop manager and make it available to your computer.</p>
                 <p>The final command will verify your installation and will give you tips in how to resolve any issues.</p>
                 <?php if ($userAgent->is('Windows')) : ?>
@@ -39,7 +39,7 @@
                 <?php endif; ?>
                 <p>Run <code>workshop-manager list</code> to see the available commands and visit the <a href="https://github.com/php-school/workshop-manager" target="_blank">GitHub Repository</a> for the workshop manager to learn more.</p>
                 <p>The most important command is <code>workshop-manager install &lt;workshopname&gt;</workshopname></code>. You may also find <code>workshop-manager search &lt;topic&gt;</code> useful to find a workshop for a particular subject.</p>
-                <p><a class="button" href="#core-workshop">To the workshops!</a></p>
+                <a class="button" href="#core-workshop">To the workshops!</a>
             </div>
             <div class="terminal__install">
                 <div class="terminal">

@@ -1,0 +1,8 @@
+@import "vars";
+
+@mixin layout ($size, $spacing) {
+    width: 100%;
+    @media screen and (min-width: $lap-start) {
+        width: calc(#{$size} - #{$spacing});
+    }
+}

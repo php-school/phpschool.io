@@ -28,6 +28,7 @@
 .terminal__body {
   padding-left: 0;
   margin-bottom: $base-spacing;
+  margin-right: $base-spacing;
   font-family: $header-font-family;
   white-space: nowrap;
   overflow-x: auto;
@@ -37,7 +38,7 @@
   p {
     margin: 0;
     padding: 0;
-    height: $base-spacing+$half-spacing;
+    //height: $base-spacing+$half-spacing;
     line-height: $base-spacing+$half-spacing;
 
     &.terminal--comment {

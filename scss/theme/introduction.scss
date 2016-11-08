@@ -2,6 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+
     padding: $base-spacing 0;
     width: 100%;
     border-bottom: 1px dashed $silver;
@@ -18,8 +19,11 @@
     margin: 0 auto $half-spacing;
 }
 
+.introduction__title {
+    padding-top: 0;
+}
+
 .introduction__image {
-    width: 100%;
     margin-bottom: $base-spacing;
     position: relative;
 
@@ -96,38 +100,5 @@
 
     &:last-of-type {
         margin-bottom: 23px;
-    }
-}
-
-.installation {
-    //display: flex;
-    //flex-wrap: wrap;
-    //justify-content: space-between;
-    overflow: hidden;
-    padding: $base-spacing 0;
-    border-bottom: 1px dashed $silver;
-    align-items: flex-start;
-
-    @media screen and (min-width: $lap-start) {
-        padding: $base-spacing*2 0;
-    }
-}
-
-.installation__info {
-    float: left;
-    margin-bottom: $base-spacing;
-    @media screen and (min-width: $lap-start) {
-        width: calc(50% - #{$half-spacing});
-    }
-}
-
-.terminal__install {
-    float: left;
-    .terminal__body {
-        margin-bottom: 0;
-    }
-    @media screen and (min-width: $lap-start) {
-        float: right;
-        width: calc(50% - #{$half-spacing});
     }
 }
