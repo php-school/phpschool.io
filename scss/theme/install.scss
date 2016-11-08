@@ -14,11 +14,16 @@
 }
 
 .installation__info {
-    @include layout(50%, $half-spacing);
+    @include layout(50%, $base-spacing);
     margin-bottom: $base-spacing;
+
+    .terminal__body {
+        margin-bottom: 0;
+    }
 
     @media screen and (min-width: $lap-start) {
         margin-bottom: 0;
+
     }
 }
 
@@ -26,9 +31,9 @@
     padding-top: 0;
 }
 
-.terminal__install {
-    .terminal__body {
-        margin-bottom: 0;
+.installation__workshop {
+    h2 {
+        padding: 0;
     }
-    @include layout(50%, $half-spacing);
+    @include layout(50%, $base-spacing);
 }

@@ -34,14 +34,6 @@
                 <h2 class="installation__title">Getting Started</h2>
                 <p>In order to get started with PHP School workshops, you first need to install the workshop manager. The workshop manager is a tool to search, install and remove PHP School workshops. Open up a terminal and enter the commands listed below, they will download the workshop manager and make it available to your computer.</p>
                 <p>The final command will verify your installation and will give you tips in how to resolve any issues.</p>
-                <?php if ($userAgent->is('Windows')) : ?>
-                    <p>Windows users need to do a <a href="/install#windows">few more annoying things first</a>.</p>
-                <?php endif; ?>
-                <p>Run <code>workshop-manager list</code> to see the available commands and visit the <a href="https://github.com/php-school/workshop-manager" target="_blank">GitHub Repository</a> for the workshop manager to learn more.</p>
-                <p>The most important command is <code>workshop-manager install &lt;workshopname&gt;</workshopname></code>. You may also find <code>workshop-manager search &lt;topic&gt;</code> useful to find a workshop for a particular subject.</p>
-                <a class="button" href="#core-workshop">To the workshops!</a>
-            </div>
-            <div class="terminal__install">
                 <div class="terminal">
                     <div class="terminal-head">
                         <span class="terminal__button"></span>
@@ -55,6 +47,15 @@
                         <p>workshop-manager verify</p>
                     </div>
                 </div>
+                <?php if ($userAgent->is('Windows')) : ?>
+                    <p>Windows users need to do a <a href="/install#windows">few more annoying things first</a>.</p>
+                <?php endif; ?>
+            </div>
+            <div class="installation__workshop">
+                <h2>Worshop manager usage</h2>
+                <p>Run <code>workshop-manager list</code> to see the available commands and visit the <a href="https://github.com/php-school/workshop-manager" target="_blank">GitHub Repository</a> for the workshop manager to learn more.</p>
+                <p>The most important command is <code>workshop-manager install &lt;workshopname&gt;</workshopname></code>. You may also find <code>workshop-manager search &lt;topic&gt;</code> useful to find a workshop for a particular subject.</p>
+                <a class="button" href="#core-workshop">To the workshops!</a>
             </div>
         </div>
 
