@@ -1,0 +1,39 @@
+
+.installation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    padding: $base-spacing 0;
+    border-bottom: 1px dashed $silver;
+
+    @media screen and (min-width: $lap-start) {
+        padding: $base-spacing*2 0;
+    }
+}
+
+.installation__info {
+    @include layout(50%, $base-spacing);
+    margin-bottom: $base-spacing;
+
+    .terminal__body {
+        margin-bottom: 0;
+    }
+
+    @media screen and (min-width: $lap-start) {
+        margin-bottom: 0;
+
+    }
+}
+
+.installation__title {
+    padding-top: 0;
+}
+
+.installation__workshop {
+    h2 {
+        padding: 0;
+    }
+    @include layout(50%, $base-spacing);
+}

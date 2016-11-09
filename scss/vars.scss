@@ -1,12 +1,14 @@
 //COLOUR
 $black: #000000;
 $white: #ffffff;
+$silver-dk: #999999;
 $silver: #cccccc;
 $yellow: #cccccc;
 $red: #cc1717;
 $green: #72af2f;
 $base-colour: #002835;
 $secondary-colour: #E91E63;
+$blue: #0e90b2;
 
 //TYPOGRAPHY
 $base-font-family: 'Open Sans', sans-serif;
@@ -26,5 +28,6 @@ $half-spacing: $base-spacing / 2;
 $button-height: 48px;
 
 $page-width: 1024px;
+$palm-start: 600px;
 $lap-start: 700px;
-$desk-start: 900px;
+$desk-start: 960px;

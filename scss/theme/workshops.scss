@@ -1,0 +1,67 @@
+.workshop {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    padding: $base-spacing 0;
+    border-bottom: 1px dashed $silver;
+    width: 100%;
+
+    @media screen and (min-width: $lap-start) {
+        padding: $base-spacing*2 0;
+    }
+}
+
+.workshop__image {
+    @include layout(33.33%, $half-spacing);
+    margin-bottom: $half-spacing;
+
+    img {
+        display: block;
+        width: 30%;
+        @media screen and (min-width: $lap-start) {
+            margin: 0 auto;
+            width: 50%;
+        }
+    }
+}
+
+.workshop__info {
+    @include layout(66.66%, $half-spacing);
+
+    @media screen and (min-width: $lap-start) {
+        margin-bottom: $half-spacing;
+    }
+
+}
+
+.workshop__title {
+    padding-top: 0;
+}
+
+.workshop__courses {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    @media screen and (min-width: $lap-start) {
+        border: none;
+    }
+}
+
+.workshop__course {
+    width: 100%;
+    margin-bottom: $base-spacing;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+    @media screen and (min-width: $lap-start) {
+        width: calc(50% - #{$base-spacing});
+    }
+}
+
+.workshop__description {
+    margin-bottom: $half-spacing;
+}

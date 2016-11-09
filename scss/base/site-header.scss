@@ -1,7 +1,7 @@
 .site-header {
     text-align: center;
-    background-image: url('/img/header-bg.jpg');
-    background-size: 600px;
+    background-image: url('/img/svg/header-bg.svg');
+    background-size: cover;
     background-color: $base-colour;
     color: $white;
     padding: 0 $half-spacing $base-spacing;
@@ -18,13 +18,12 @@
 }
 
 .logo {
-    margin-bottom: $base-spacing;
-
     .svg-icon {
         height: 7em;
         width: 7em;
 
         @media screen and (min-width: $lap-start) {
+            margin-bottom: $half-spacing;
             height: 11em;
             width: 11em;
         }
@@ -47,7 +46,7 @@
 
 .site-header__desc {
     font-size: 14px;
-    margin: 0 auto $base-spacing + $half-spacing;
+    margin: 0 auto $base-spacing;
     width: 100%;
     max-width: $lap-start;
 

@@ -1,0 +1,43 @@
+.inspiration {
+    background-color: $base-colour;
+    background-image: url(/img/svg/header-bg.svg);
+    background-size: cover;
+    padding: $base-spacing 0;
+
+    @media screen and (min-width: $lap-start) {
+        padding: $base-spacing*2 0;
+    }
+}
+
+.inspiration__content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    color: $white;
+}
+
+.inspiration__title {
+    color: $white;
+}
+
+.inspiration__image {
+    margin-bottom: $half-spacing;
+    //margin-left: auto;
+    //margin-right: auto;
+    //text-align: center;
+
+    img {
+        display: block;
+        width: 30%;
+        @media screen and (min-width: $lap-start) {
+            margin: 0 auto;
+            width: 50%;
+        }
+    }
+
+    @include layout(33.333%, $half-spacing);
+}
+
+.inspiration__info {
+    @include layout(66.666%, $half-spacing);
+}

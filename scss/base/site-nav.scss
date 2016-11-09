@@ -1,0 +1,112 @@
+////Menu Icon only shown on mobile
+.menu-icon {
+    padding: $half-spacing;
+    .svg-icon {
+        width: 1.5em;
+        height: 1.5em;
+    }
+    @media screen and (min-width: $lap-start) {
+        display: none;
+    }
+}
+
+.site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba($white, 0.2);
+    max-width: 1024px;
+    margin: 0 auto $base-spacing;
+
+    @media screen and (min-width: $lap-start) {
+        margin-bottom: $base-spacing*2;
+        justify-content: center;
+    }
+
+    .social-nav {
+        padding: 0;
+        margin-left: auto;
+
+        @media screen and (min-width: $lap-start) {
+            order: 2;
+            margin-left: auto;
+            display: none;
+        }
+        @media screen and (min-width: $desk-start) {
+            display: flex;
+        }
+
+        .svg-icon {
+            width: 1.5em;
+            height: 1.5em;
+            color: $white;
+        }
+    }
+    .social-nav__link {
+        &:hover {
+            .svg-icon {
+                color: $secondary-colour;
+            }
+        }
+    }
+}
+
+.site-nav__list {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid rgba($white, 0.2);
+    display: none;
+    width: 100%;
+
+    @media screen and (min-width: $lap-start) {
+        display: flex;
+        justify-content: center;
+        border: none;
+    }
+
+    @media screen and (min-width: $desk-start) {
+        width: auto;
+        justify-content: flex-start;
+    }
+
+    &.active {
+        display: block;
+    }
+}
+
+.site-nav__item {
+    text-align: left;
+
+    @media screen and (min-width: $lap-start) {
+        display: flex;
+        align-items: center;
+        border-right: 1px solid rgba($white, 0.2);
+        flex-grow: 1;
+
+        &:last-child {
+            border: none;
+        }
+    }
+}
+
+.site-nav__link {
+    display: block;
+    width: 100%;
+    color: $white;
+    text-decoration: none;
+    transition: all ease .3s;
+    padding: $half-spacing;
+
+    @media screen and (min-width: $lap-start) {
+        padding: $half-spacing 8px;
+        text-align: center;
+    }
+    @media screen and (min-width: $desk-start) {
+        padding: $half-spacing;
+    }
+
+    &:hover {
+        color: $secondary-colour;
+        text-decoration: none;
+    }
+}
