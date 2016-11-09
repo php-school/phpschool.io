@@ -1,5 +1,4 @@
 require 'yaml'
-lock '3.4.0'
 
 set :application, 'phpschool'
 set :repo_url, 'git@github.com:php-school/phpschool.io.git'
