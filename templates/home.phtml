@@ -4,7 +4,8 @@
         <div class="introduction" id="getting-started">
             <div class="introduction__info">
                 <h2 class="introduction__title">What is PHP School?</h2>
-                <p>Welcome to PHP School! A dedicated community based learning platform that will teach you the core skills in PHP. The concept behind PHP School is simple, workshops are run from the command line, somewhere every developer should be familiar with. Each workshop covers a different topic, some beginner, some advanced. You're not restricted to a schedule, you go at your own pace with no pressure.</p>
+                <p>Welcome to PHP School! A dedicated community based learning platform that will teach you the core skills in PHP. The concept behind PHP School is small standalone workshops, workshops are run from the command line, somewhere every developer should be familiar with.</p>
+                <p>Each workshop covers a different topic, some beginner, some advanced. You're not restricted to a schedule, you go at your own pace with no pressure.</p>
             </div>
             <figure class="introduction__image">
                 <figcaption class="introduction__caption">
@@ -32,8 +33,15 @@
         <div class="installation" id="installation">
             <div class="installation__info">
                 <h2 class="installation__title">Getting Started</h2>
-                <p>In order to get started with PHP School workshops, you first need to install the workshop manager. The workshop manager is a tool to search, install and remove PHP School workshops. Open up a terminal and enter the commands listed below, they will download the workshop manager and make it available to your computer.</p>
-                <p>The final command will verify your installation and will give you tips in how to resolve any issues.</p>
+                <?php if ($userAgent->is('Windows')) : ?>
+                    <p>Windows users need to do a <a href="/install#windows">few more annoying things first</a>.</p>
+                <?php endif; ?>
+                <p>In order to get started with PHP School workshops, you first need to install the workshop manager. Before we can do this we need to check you have a few things:</p>
+                <ul>
+                    <li>You will need PHP with a version of at least 5.6 although we recommend using the <a href="https://secure.php.net/releases/">latest available.</a></li>
+                    <li>You will also need a Text Editor so you can work through the workshops. You can try <a href="https://atom.io/" target="_blank">Atom</a> or <a href="https://www.sublimetext.com/" target="_blank">Sublime</a> if you don't already have one.</li>
+                </ul>
+                <p>Once the above are satisfied, run the following commands in your terminal, to install the workshop manager. The final command will verify your installation and will give you tips on how to resolve any issues.</p>
                 <div class="terminal">
                     <div class="terminal-head">
                         <span class="terminal__button"></span>
@@ -47,14 +55,20 @@
                         <p>workshop-manager verify</p>
                     </div>
                 </div>
-                <?php if ($userAgent->is('Windows')) : ?>
-                    <p>Windows users need to do a <a href="/install#windows">few more annoying things first</a>.</p>
-                <?php endif; ?>
             </div>
             <div class="installation__workshop">
-                <h2>Worshop manager usage</h2>
-                <p>Run <code>workshop-manager list</code> to see the available commands and visit the <a href="https://github.com/php-school/workshop-manager" target="_blank">GitHub Repository</a> for the workshop manager to learn more.</p>
-                <p>The most important command is <code>workshop-manager install &lt;workshopname&gt;</workshopname></code>. You may also find <code>workshop-manager search &lt;topic&gt;</code> useful to find a workshop for a particular subject.</p>
+                <h2>Worshop Manager usage</h2>
+                <p>The workshop manager is a tool to search, install and remove PHP School workshops. See below for usage instructions. Please visit the <a href="https://github.com/php-school/workshop-manager" target="_blank">Workshop Manager GitHub Repository</a> for more detailed instructions.</p>
+                <p><code>workshop-manager list</code></p>
+                <p>Lists the available commands. </p>
+                <p><code>workshop-manager search &lt;topic&gt;</code></p>
+                <p>Search for a workshop covering a particular topic, providing no arguments will list all the available workshops.</p>
+                <p><code>workshop-manager install &lt;workshopname&gt;</code></p>
+                <p>Install a workshop.</p>
+                <p><code>workshop-manager uninstall &lt;workshopname&gt;</code></p>
+                <p>Remove a workshop.</p>
+                <br>
+                <p>Now we know how to use the Workshop Manager - go forth an install a workshop!</p>
                 <a class="button" href="#core-workshop">To the workshops!</a>
             </div>
         </div>
@@ -72,7 +86,7 @@
                 <?php /** @var \PhpSchool\Website\Entity\Workshop $workshop */?>
                 <?php foreach ($coreWorkshops as $workshop): ?>
                     <div class="workshop__course">
-                        <h3><?= $workshop->getDisplayName() ?></h3>
+                        <h3><a href="<?= $workshop->getRepoUrl() ?>"><?= $workshop->getDisplayName() ?></a></h3>
                         <p class="workshop__description"><?= $workshop->getDescription() ?></p>
 
                         <div class="terminal">
