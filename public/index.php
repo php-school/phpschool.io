@@ -80,7 +80,10 @@ $app->add(function (Request $request, Response $response, callable $next) {
 });
 
 $app->get('/install', function (Request $request, Response $response, PhpRenderer $renderer) {
-    $inner = $renderer->fetch('install.phtml');
+    $renderer->addJs('install-js', '/js/dist/install.min.js');
+    $inner = $renderer->fetch('install.phtml', [
+        'guides' => ['windows', 'mac-native', 'mac-docker', 'linux-debian', 'linux-centos', 'linux-docker']
+    ]);
     return $renderer->render($response, 'layouts/layout.phtml', [
         'pageTitle'       => 'Installation instructions',
         'pageDescription' => 'Installation instructions for PHPSchool',

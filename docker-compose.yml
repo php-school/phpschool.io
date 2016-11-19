@@ -25,12 +25,18 @@ services:
     depends_on:
       - "db"
 
+  db-data:
+    container_name: php-school-db-data
+    image: tianon/true
+    volumes:
+          - "./.docker/mysql:/var/lib/mysql"
+          - "./.docker/db/:/docker-entrypoint-initdb.d/"
+
   db:
     container_name: php-school-db
     image: mysql:latest
-    volumes:
-      - "./.docker/mysql:/var/lib/mysql"
-      - "./.docker/db/:/docker-entrypoint-initdb.d/"
+    volumes_from:
+        - "db-data"
     ports:
       - "3306"
     restart: always

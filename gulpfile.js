@@ -14,6 +14,11 @@ var concat      = require('gulp-concat');
 var rename      = require('gulp-rename');
 var uglify      = require('gulp-uglify');
 var imagemin    = require('gulp-imagemin');
+var babel       = require('gulp-babel');
+var browserify  = require('browserify');
+var source      = require('vinyl-source-stream');
+var buffer      = require('vinyl-buffer');
+var gutil       = require('gulp-util');
 
 gulp.task('serve', ['build-all'], function(cb) {
     
@@ -41,6 +46,7 @@ gulp.task('serve', ['build-all'], function(cb) {
         });
     });
 
+    gulp.watch('public/js/*.js', ['js', () => bs.reload()]);
     gulp.watch('scss/**', ['sass', 'clear-cache', 'generate-blog', () => bs.reload()]);
     gulp.watch('public/img/icons/**', ['svg']);
 
@@ -94,12 +100,33 @@ gulp.task('svg', function () {
         .pipe(gulp.dest('public/img/icons'))
 });
 
-gulp.task('minify', function () {
+gulp.task('js', function () {
+    // Main pages
     gulp.src(['public/js/highlight.min.js', 'public/js/main.js'])
+        .pipe(babel())
         .pipe(concat('main.min.js'))
-        .pipe(gulp.dest('public/js'))
+        .pipe(gulp.dest('public/js/dist'))
         .pipe(uglify())
-        .pipe(gulp.dest('public/js'))
+        .pipe(gulp.dest('public/js/dist'));
+
+    // Install page
+    var installJS = 'public/js/install.js';
+    var b = browserify({
+        entries: installJS,
+        debug: true
+    });
+
+    return b.bundle()
+        .pipe(source(installJS))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(babel())
+        .pipe(concat('install.min.js'))
+        .pipe(gulp.dest('public/js/dist'))
+        .pipe(uglify())
+        .on('error', gutil.log)
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('public/js/dist'));
 });
 
 gulp.task('img', function () {
@@ -108,7 +135,7 @@ gulp.task('img', function () {
         .pipe(gulp.dest('public/img/blog-dist/'))
 });
 
-gulp.task('build-all', ['sass', 'svg', 'minify', 'img']);
+gulp.task('build-all', ['sass', 'svg', 'js', 'img']);
 
 gulp.task('deploy', function () {
     execSync('cap production deploy');
