@@ -107,9 +107,12 @@ $failure = Failure::fromCheckAndReason($check, 'Something went wrong!');
 for some of the other checks:</p>
 
 <ul>
-    <li><code>PhpSchool\PhpWorkshop\Result\CgiOutRequestFailure</code></li>
+    <li><code>PhpSchool\PhpWorkshop\Result\Cgi\GenericFailure</code></li>
+    <li><code>PhpSchool\PhpWorkshop\Result\Cgi\RequestFailure</code></li>
+    <li><code>PhpSchool\PhpWorkshop\Result\Cli\GenericFailure</code></li>
+    <li><code>PhpSchool\PhpWorkshop\Result\Cli\RequestFailure</code></li>
     <li><code>PhpSchool\PhpWorkshop\Result\FunctionRequirementsFailure</code></li>
-    <li><code>PhpSchool\PhpWorkshop\Result\StdOutFailure</code></li>
+    <li><code>PhpSchool\PhpWorkshop\Result\ComparisonFailure</code></li>
 </ul>
 
 
@@ -154,8 +157,9 @@ it should return a string representation of the <code>ResultInterface</code> ins
     styling:</p>
 
 <ul>
-    <li><code>style($string, $colourOrStyle)</code> - Use to style a string, eg. <code>bold</code>, <code>green</code>.</li>
+    <li><code>style($string, $colourOrStyle)</code> - Use to style a string, eg. <code>bold</code>, <code>green</code>. It accepts an array of styles or one style as a string</li>
     <li><code>lineBreak()</code> - Use to render a line break, to separate content.</li>
+    <li><code>center()</code> - Pad a string according to the terminal width so it displays in the center</li>
 </ul>
 
 <?= $this->renderContentHeader('result-renderer-mappings', 'Result Renderer Mappings') ?>
@@ -172,12 +176,24 @@ it should return a string representation of the <code>ResultInterface</code> ins
     </thead>
     <tbody>
         <tr>
-            <td><code>PhpSchool\PhpWorkshop\Result\StdOutFailure</code></td>
-            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\OutputFailureRenderer</code></td>
+            <td><code>PhpSchool\PhpWorkshop\Result\Cgi\GenericFailure</code></td>
+            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\FailureRenderer</code></td>
         </tr>
         <tr>
-            <td><code>PhpSchool\PhpWorkshop\Result\CgiOutResult</code></td>
-            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\CgiOutResultRenderer</code></td>
+            <td><code>PhpSchool\PhpWorkshop\Result\Cgi\RequestFailure</code></td>
+            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\Cgi\RequestFailureRenderer</code></td>
+        </tr>
+        <tr>
+            <td><code>PhpSchool\PhpWorkshop\Result\Cli\GenericFailure</code></td>
+            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\FailureRenderer</code></td>
+        </tr>
+        <tr>
+            <td><code>PhpSchool\PhpWorkshop\Result\Cli\RequestFailure</code></td>
+            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\Cli\RequestFailureRenderer</code></td>
+        </tr>
+        <tr>
+            <td><code>PhpSchool\PhpWorkshop\Result\ComparisonFailure</code></td>
+            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\ComparisonFailureRenderer</code></td>
         </tr>
         <tr>
             <td><code>PhpSchool\PhpWorkshop\Result\FunctionRequirementsFailure</code></td>

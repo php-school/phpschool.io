@@ -125,7 +125,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
     }
 
     /**
-     * @return array
+     * @return string[][]
      */
     public function getArgs()
     {
@@ -136,7 +136,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
             $args[] = rand(0, 100);
         }
 
-        return $args;
+        return [$args];
     }
 
     /**
@@ -156,14 +156,14 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
 <p class="note note-info">You may need to override the methods <code>getSolution</code> and <code>getProblem</code> if you want to organise your problems and solutions in a different structure. We would advise against this in the name of consistency but if you have a good enough reason then the option is there. There may also be the case that your solution is not simply one file. Jump over to <a href="/docs/reference/exercise-solutions">Exercise Solutions</a> to learn more, if that is the case.</p>
 
 <h3 id="exercise-types">Exercise Type</h3>
-<p>Each exercise must have a type, there are currently two types of exercise: <code>CGI</code> & <code>CLI</code>. Head over to <a href="/docs/reference/exercise-types">Exercise Types</a> to learn more. We are currently building a
-    <code>CLI</code> type exercise, this means our reference solution and the student's solution programs will be invoked using the PHP CLI binary. The arguments will come from our exercise class. We inform the workshop of our exercise type by returning an instance of <code>ExerciseType</code> from the <code>getType</code> method. <code>ExerciseType</code> is an ENUM. In conjunction with this, our exercise should implement the respective interface. For <code>cli</code> type exercises this is <code>CliExercise</code>.
+<p>Each exercise must have a type, there are currently two types of exercise: <code>CGI</code>, <code>CLI</code> & <code>CUSTOM</code>. Head over to <a href="/docs/reference/exercise-types">Exercise Types</a> to learn more. We are currently building a
+    <code>CLI</code> type exercise, this means our reference solution and the student's solution programs will be invoked using the PHP CLI binary. The arguments will come from our exercise class. We inform the workshop of our exercise type by returning an instance of <code>ExerciseType</code> from the <code>getType</code> method. <code>ExerciseType</code> is an ENUM. In conjunction with this, our exercise should implement the respective interface. For <code>CLI</code> type exercises this is <code>CliExercise</code>.
 
 <h3 id="cli-exercise">CliExercise</h3>
-<p>This interface defines one method: <code>getArgs</code>. This method should return an array of string arguments which will be passed to our reference solution and the student's solution at runtime. This method can return random records and random numbers of arguments so that each time the student runs the verification process they receive different arguments. This makes sure the solution is robust.</p>
+<p>This interface defines one method: <code>getArgs</code>. This method should return an array of arrays containing string arguments which will be passed to our reference solution and the student's solution at runtime. Each set of arguments will be sent to the solution. So you could essentially run the student's solution as many times as you wanted with different arguments. This method can return random records and random numbers of arguments so that each time the student runs the verification process they receive different arguments. This makes sure the solution is robust.</p>
 <p class="note note-success">Try passing arguments which will test the boundaries of the student's solution, for example using minimum and maximum values and using random values on each invocation.</p>
 <p class="note note-info">Do note that although your implementation of <code>getArgs</code> may return random arguments, your reference solution and the student's solution will always receive the same arguments as the <code>getArgs</code> method is only called once.</p>
-<p>Our exercise simply returns a random number of arguments between 0 and 10, each being a random number between 0 and 100.</p>
+<p>Our exercise simply returns one set of random number of arguments between 0 and 10, each being a random number between 0 and 100.</p>
 
 <h3 id="name-and-description">Name and description</h3>
 <p>The remaining methods to implement are <code>getName</code> and <code>getDescription</code>. <code>getName</code> is the name of the exercise to be displayed in the menu and <code>getDescription</code> is a short description of the exercise. This is not actually used anywhere yet but is useful when glancing through the code.</p>
