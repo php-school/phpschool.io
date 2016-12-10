@@ -19,12 +19,11 @@
 
 <h3 id="can-run"><code>canRun(ExerciseType $exerciseType)</code></h3>
 <p>This method receives an <code>ExerciseType</code> instance which represents the type of exercise, we use this to
-    inform the workshop which exercise types our check works with: <code>CLI</code> or <code>CGI</code>. We will support both, so we will just
-    return <code>true</code> here.</p>
+    inform the workshop which exercise types our check works with: <code>CLI</code>, <code>CGI</code> or <code>CUSTOM</code>. We will support <code>CLI</code> & <code>CGI</code>.</p>
 
-<h3 id="check"><code>check(ExerciseInterface $exercise, $fileName)</code></h3>
+<h3 id="check"><code>check(ExerciseInterface $exercise, Input $input)</code></h3>
 <p>This is the method where we actually perform our check logic, executing PHP_CodeSniffer. This method receives an instance of
-    the current exercise and the file name of the student's solution.</p>
+    the current exercise and the input arguments passed to our workshop, which will contain the file name of the student's solution.</p>
 
 <p>This method needs to return an instance of <code>PhpSchool\PhpWorkshop\Result\ResultInterface</code>. Depending on
     whether you want a success or failure to be recorded it will be an instance of
@@ -132,13 +131,13 @@ class Psr2Check implements SimpleCheckInterface
 
     public function canRun(ExerciseType $exerciseType)
     {
-        return true;
+        return in_array($exerciseType->getValue(), [ExerciseType::CGI, ExerciseType::CLI]);
     }
 
-    public function check(ExerciseInterface $exercise, $fileName)
+    public function check(ExerciseInterface $exercise, Input $input)
     {
         $phpCsBinary = __DIR__ . '/../../vendor/bin/phpcs';
-        $cmd = sprintf('%s %s --standard=PSR2', $phpCsBinary, $fileName);
+        $cmd = sprintf('%s %s --standard=PSR2', $phpCsBinary, $input->getArgument('program'));
         exec($cmd, $output, $exitCode);
 
         if ($exitCode === 0) {
