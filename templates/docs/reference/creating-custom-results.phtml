@@ -121,7 +121,7 @@ rendering the results to the student by the workshop framework. This is the only
 look like the following:</p>
 
 <pre><code class="lang-php">&lt?php
-public function check(ExerciseInterface $exercise, $fileName)
+public function check(ExerciseInterface $exercise, Input $input)
 {
     if (!$exercise instanceof Psr2ExerciseCheck) {
         throw new \InvalidArgumentException;
@@ -134,14 +134,14 @@ public function check(ExerciseInterface $exercise, $fileName)
     }
 
     $phpCsBinary = __DIR__ . '/../../vendor/bin/phpcs';
-    $cmd = sprintf('%s %s --standard=%s --report=json', $phpCsBinary, $fileName, $standard);
+    $cmd = sprintf('%s %s --standard=%s --report=json', $phpCsBinary, $input->getArgument('program'), $standard);
     exec($cmd, $output, $exitCode);
 
     if ($exitCode === 0) {
         return new Success($this->getName());
     }
 
-    $errors = json_decode($output[0], true)['files'][$fileName];
+    $errors = json_decode($output[0], true)['files'][$input->getArgument('program')];
     $errors = array_map(function ($error) {
         return sprintf('Line %d, Column %d: %s', $error['line'], $error['column'], $error['message']);
     }, $errors['messages']);
