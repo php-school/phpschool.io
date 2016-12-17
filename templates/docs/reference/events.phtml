@@ -78,9 +78,31 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
             <h5 class="method-list-title">CLI Verify Events</h5>
             <ul class="method-list-group">
                 <li class="method-list-item">
-                    <h3 id="cli-verify-start" class="service-list-item-label">verify.start</h3>
+                    <h3 id="cli-verify-route-pre-resolve-args" class="service-list-item-label">route.pre.resolve.args</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered right at the start of the verification process.</small></p>
+                    <p><small>This event is triggered before the arguments to a command are resolved. Resolving
+                        arguments checks that all required arguments have been passed to the command.</small></p>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>command</dt>
+                        <dd><code>callable</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 id="cli-verify-route-pre-invoke" class="service-list-item-label">route.pre.invoke</h3>
+                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                    <p><small>This event is triggered just before a command is executed.</small></p>
+                    <p class="service-list-item-description">
+                        Arguments - None
+                        <dl class="check-description"></dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 id="cli-verify-start" class="service-list-item-label">verify.start</h3>
+                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                    <p><small>This event is triggered right at the start of the exercise dispatcher verification process.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -94,8 +116,22 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 </li>
                 <li class="method-list-item">
                     <h3 id="cli-verify-pre-execute" class="service-list-item-label">verify.pre.execute</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered after the <strong>before</strong> checks have successfully finished running.</small></p>
+                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                    <p><small>This event is triggered after the <strong>before</strong> checks have successfully finished running, and before the exercise is passed to the specific exercise runner.</small></p>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 id="cli-verify-runner-start" class="service-list-item-label">cli.verify.start</h3>
+                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                    <p><small>This event is triggered right at the start of the CLI runner verification process.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -109,7 +145,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 id="cli-verify-ref-execute-pre" class="service-list-item-label">cli.verify.reference-execute.pre</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
-                    <p><small>This event is triggered just before the reference solution is run.</small></p>
+                    <p><small>This event is triggered just before the reference solution is executed.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -138,8 +174,8 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 id="cli-verify-ref-execute-fail" class="service-list-item-label">cli.verify.reference-execute.fail</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is only triggered if the reference solution failed to finish correctly,
-                        that is, with a non-zero exit code.</small></p>
+                    <p><small>This event is only triggered if the reference solution failed to execute correctly,
+                        that is, it returned a non-zero exit code.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -153,7 +189,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 id="cli-verify-student-execute-pre" class="service-list-item-label">cli.verify.student-execute.pre</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
-                    <p><small>This event is triggered just before the student's solution is run.</small></p>
+                    <p><small>This event is triggered just before the student's solution is executed.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -182,8 +218,22 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <li class="method-list-item">
                     <h3 id="cli-verify-student-execute-fail" class="service-list-item-label">cli.verify.student-execute.fail</h3>
                     <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is only triggered if the student's solution failed to finish correctly,
-                        that is, with a non-zero exit code.</small></p>
+                    <p><small>This event is only triggered if the student's solution failed to execute correctly,
+                        that is, it returned a non-zero exit code.</small></p>
+                    <p class="service-list-item-description">
+                        Arguments
+                    <dl class="check-description">
+                        <dt>exercise</dt>
+                        <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                        <dt>fileName</dt>
+                        <dd><code>string</code></dd>
+                    </dl>
+                    </p>
+                </li>
+                <li class="method-list-item">
+                    <h3 id="cli-verify-runner-finish" class="service-list-item-label">cli.verify.finish</h3>
+                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                    <p><small>This event is triggered right at the end of the CLI runner verification process.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -196,8 +246,8 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 </li>
                 <li class="method-list-item">
                     <h3 id="cli-verify-post-execute" class="service-list-item-label">verify.post.execute</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered after the output verification and right before the after checks
+                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                    <p><small>This event is triggered after the exercise runner has finished and right before the after checks
                             are run.</small></p>
                     <p class="service-list-item-description">
                         Arguments
@@ -211,7 +261,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 </li>
                 <li class="method-list-item">
                     <h3 id="cli-verify-post-check" class="service-list-item-label">verify.post.check</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
                     <p><small>This event is triggered after the <strong>after</strong> checks have finished running.</small></p>
                     <p class="service-list-item-description">
                         Arguments
@@ -225,8 +275,8 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 </li>
                 <li class="method-list-item">
                     <h3 id="cli-verify-finish" class="service-list-item-label">verify.finish</h3>
-                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                    <p><small>This event is triggered right at the end of the verification process.</small></p>
+                    <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                    <p><small>This event is triggered right at the end of the exercise dispatcher verification process.</small></p>
                     <p class="service-list-item-description">
                         Arguments
                     <dl class="check-description">
@@ -245,9 +295,31 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <h5 class="method-list-title">CLI Run Events</h5>
                 <ul class="method-list-group">
                     <li class="method-list-item">
-                        <h3 id="cli-run-start" class="service-list-item-label">run.start</h3>
+                        <h3 id="cli-run-route-pre-resolve-args" class="service-list-item-label">route.pre.resolve.args</h3>
                         <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                        <p><small>This event is triggered right at the start of the running process.</small></p>
+                        <p><small>This event is triggered before the arguments to a command are resolved. Resolving
+                                arguments checks that all required arguments have been passed to the command.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>command</dt>
+                            <dd><code>callable</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cli-run-route-pre-invoke" class="service-list-item-label">route.pre.invoke</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is triggered just before a command is executed.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments - None
+                        <dl class="check-description"></dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cli-run-start" class="service-list-item-label">run.start</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered right at the start of the exercise dispatcher run process.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -256,13 +328,26 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                             <dt>fileName</dt>
                             <dd><code>string</code></dd>
                         </dl>
-
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cli-run-runner-start" class="service-list-item-label">cli.run.start</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered right at the start of the CLI runner run process.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
                         </p>
                     </li>
                     <li class="method-list-item">
                         <h3 id="cli-run-student-execute-pre" class="service-list-item-label">cli.run.student-execute.pre</h3>
                         <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CliExecuteEvent</code></p>
-                        <p><small>This event is triggered just before the student's solution is run.</small></p>
+                        <p><small>This event is triggered just before the student's solution is executed.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -289,9 +374,23 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                         </p>
                     </li>
                     <li class="method-list-item">
+                        <h3 id="cli-run-runner-finish" class="service-list-item-label">cli.run.finish</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered right at the end of the CLI runner run process.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
                         <h3 id="cli-run-finish" class="service-list-item-label">run.finish</h3>
-                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                        <p><small>This event is triggered right at the end of the verification process.</small></p>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered right at the end of the exercise dispatcher run process.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -310,9 +409,31 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <h5 class="method-list-title">CGI Verify Events</h5>
                 <ul class="method-list-group">
                     <li class="method-list-item">
-                        <h3 id="cgi-verify-start" class="service-list-item-label">verify.start</h3>
+                        <h3 id="cgi-verify-route-pre-resolve-args" class="service-list-item-label">route.pre.resolve.args</h3>
                         <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                        <p><small>This event is triggered right at the start of the verification process.</small></p>
+                        <p><small>This event is triggered before the arguments to a command are resolved. Resolving
+                                arguments checks that all required arguments have been passed to the command.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>command</dt>
+                            <dd><code>callable</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-route-pre-invoke" class="service-list-item-label">route.pre.invoke</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is triggered just before a command is executed.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments - None
+                        <dl class="check-description"></dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-start" class="service-list-item-label">verify.start</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered right at the start of the exercise dispatcher verification process.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -326,8 +447,22 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </li>
                     <li class="method-list-item">
                         <h3 id="cgi-verify-ref-execute" class="service-list-item-label">verify.pre.execute</h3>
-                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                        <p><small>This event is triggered after the <strong>before</strong> checks have successfully finished running.</small></p>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered after the <strong>before</strong> checks have successfully finished running, and before the exercise is passed to the specific exercise runner.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-runner-start" class="service-list-item-label">cgi.verify.start</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered right at the start of the CGI runner verification process.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -341,7 +476,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     <li class="method-list-item">
                         <h3 id="cgi-verify-ref-execute-pre" class="service-list-item-label">cgi.verify.reference-execute.pre</h3>
                         <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                        <p><small>This event is triggered just before the reference solution is run.</small></p>
+                        <p><small>This event is triggered just before the reference solution is executed.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -370,8 +505,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     <li class="method-list-item">
                         <h3 id="cgi-verify-ref-execute-fail" class="service-list-item-label">cgi.verify.reference-execute.fail</h3>
                         <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                        <p><small>This event is only triggered if the reference solution failed to finish correctly, that
-                                is, with a non-zero exit code.</small></p>
+                        <p><small>This event is only triggered if the reference solution failed to execute correctly, that is, it returned a non-zero exit code.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -385,7 +519,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     <li class="method-list-item">
                         <h3 id="cgi-verify-student-execute-pre" class="service-list-item-label">cgi.verify.student-execute.pre</h3>
                         <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                        <p><small>This event is triggered just before the student's solution is run.</small></p>
+                        <p><small>This event is triggered just before the student's solution is executed.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -414,8 +548,21 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     <li class="method-list-item">
                         <h3 id="cgi-verify-student-execute-fail" class="service-list-item-label">cgi.verify.student-execute.fail</h3>
                         <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                        <p><small>This event is only triggered if the student's solution failed to finish correctly,
-                                that is, with a non-zero exit code.</small></p>
+                        <p><small>This event is only triggered if the student's solution failed to execute correctly, that is, it returned a non-zero exit code.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-verify-runner-finish" class="service-list-item-label">cgi.verify.finish</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered right at the end of the CGI runner verification process.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -428,9 +575,8 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </li>
                     <li class="method-list-item">
                         <h3 id="cgi-verify-post-execute" class="service-list-item-label">verify.post.execute</h3>
-                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                        <p><small>This event is triggered after the output verification and right before the after
-                                checks are run.</small></p>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered after the exercise runner has finished and right before the after checks are run.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -443,7 +589,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </li>
                     <li class="method-list-item">
                         <h3 id="cgi-verify-post-check" class="service-list-item-label">verify.post.check</h3>
-                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
                         <p><small>This event is triggered after the <strong>after</strong> checks have finished running.</small></p>
                         <p class="service-list-item-description">
                             Arguments
@@ -457,8 +603,8 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                     </li>
                     <li class="method-list-item">
                         <h3 id="cgi-verify-finish" class="service-list-item-label">verify.finish</h3>
-                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                        <p><small>This event is triggered right at the end of the verification process.</small></p>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered right at the end of the exercise dispatcher verification process.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -477,9 +623,31 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 <h5 class="method-list-title">CGI Run Events</h5>
                 <ul class="method-list-group">
                     <li class="method-list-item">
-                        <h3 id="cgi-run-start" class="service-list-item-label">run.start</h3>
+                        <h3 id="cgi-run-route-pre-resolve-args" class="service-list-item-label">route.pre.resolve.args</h3>
                         <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                        <p><small>This event is triggered right at the start of the running process.</small></p>
+                        <p><small>This event is triggered before the arguments to a command are resolved. Resolving
+                                arguments checks that all required arguments have been passed to the command.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>command</dt>
+                            <dd><code>callable</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-run-route-pre-invoke" class="service-list-item-label">route.pre.invoke</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
+                        <p><small>This event is triggered just before a command is executed.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments - None
+                        <dl class="check-description"></dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-run-start" class="service-list-item-label">run.start</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered right at the start of the exercise dispatcher run process.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -488,13 +656,26 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                             <dt>fileName</dt>
                             <dd><code>string</code></dd>
                         </dl>
-
+                        </p>
+                    </li>
+                    <li class="method-list-item">
+                        <h3 id="cgi-run-runner-start" class="service-list-item-label">cgi.run.start</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered right at the start of the CGI runner run process.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
                         </p>
                     </li>
                     <li class="method-list-item">
                         <h3 id="cgi-run-student-execute-pre" class="service-list-item-label">cgi.run.student-execute.pre</h3>
                         <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\CgiExecuteEvent</code></p>
-                        <p><small>This event is triggered just before the student's solution is run.</small></p>
+                        <p><small>This event is triggered just before the student's solution is executed.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
@@ -521,9 +702,23 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                         </p>
                     </li>
                     <li class="method-list-item">
+                        <h3 id="cgi-run-runner-finish" class="service-list-item-label">cgi.run.finish</h3>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered right at the end of the CGI runner run process.</small></p>
+                        <p class="service-list-item-description">
+                            Arguments
+                        <dl class="check-description">
+                            <dt>exercise</dt>
+                            <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
+                            <dt>fileName</dt>
+                            <dd><code>string</code></dd>
+                        </dl>
+                        </p>
+                    </li>
+                    <li class="method-list-item">
                         <h3 id="cgi-run-finish" class="service-list-item-label">run.finish</h3>
-                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\Event</code></p>
-                        <p><small>This event is triggered right at the end of the verification process.</small></p>
+                        <p>Event Class: <code>PhpSchool\PhpWorkshop\Event\ExerciseRunnerEvent</code></p>
+                        <p><small>This event is triggered right at the end of the exercise dispatcher run process.</small></p>
                         <p class="service-list-item-description">
                             Arguments
                         <dl class="check-description">
