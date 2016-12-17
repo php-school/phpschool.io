@@ -177,9 +177,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 return [
     //Define your exercise factories here
-    Mean::class => factory(function (ContainerInterface $c) {
-        return new Mean($c->get(Filesystem::class));
-    }),
+    Mean::class => object(),
 
     //my checks
     Psr2Check::class => object(),
@@ -327,7 +325,7 @@ interface Psr2ExerciseCheck
     }
 
     $phpCsBinary = __DIR__ . '/../../vendor/bin/phpcs';
-    $cmd = sprintf('%s %s --standard=%s', $phpCsBinary, $fileName, $standard);
+    $cmd = sprintf('%s %s --standard=%s', $phpCsBinary, $input->getArgument('program'), $standard);
     exec($cmd, $output, $exitCode);
 
     if ($exitCode === 0) {
