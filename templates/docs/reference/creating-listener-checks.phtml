@@ -206,7 +206,7 @@ just defined earlier. This is so the workshop framework can check the exercise i
 properties which describe the names of the Couch DB databases we will setup: one for the student and one for the reference
 solution.</p>
 
-<p>The most important thing to note in this check if that we implement
+<p>The most important thing to note in this check is that we implement
     <code>PhpSchool\PhpWorkshop\Check\ListenableCheckInterface</code> instead of
     <code>PhpSchool\PhpWorkshop\Check\SimpleCheckInterface</code>. They both inherit from
     <code>PhpSchool\PhpWorkshop\Check\CheckInterface</code> which introduces <code>getName()</code> &
@@ -280,8 +280,7 @@ private function replicateDbFromStudentToSolution(CouchDBClient $studentClient, 
         try {
             $solutionClient->putDocument(
                 $data,
-                $doc['_id'],
-                $doc['_rev']
+                $doc['_id']
             );
         } catch (HTTPException $e) {
         }
@@ -479,8 +478,7 @@ class CouchDbCheck implements ListenableCheckInterface
             try {
                 $solutionClient->putDocument(
                     $data,
-                    $doc['_id'],
-                    $doc['_rev']
+                    $doc['_id']
                 );
             } catch (HTTPException $e) {
             }
@@ -809,7 +807,7 @@ $app->addExercise(Mean::class);
 $app->addExercise(CouchDbExercise::class);
 $app->addCheck(CouchDbCheck::class);
 
-$art = <<<ART
+$art = &lt;&lt;&lt;ART
   ∞ ÷ ∑ ×
 
  PHP SCHOOL

@@ -9,7 +9,8 @@
 
 <p>The Self Checking feature allows your exercise to implement an interface which contains one method -
     <code>check()</code>during the verification process of the student's solution, your method will be called and
-    passed the absolute path to the student's solution. In this method you can do whatever you want: parse the code
+    passed the input arguments passed to our workshop, which will contain the file name of the student's solution.
+    In this method you can do whatever you want: parse the code
     into an AST using the <code>PhpParser\Parser</code> service, lint it using a third party tool or whatever else you
     can think of.</p>
 
@@ -28,14 +29,18 @@
 namespace PhpSchool\PhpWorkshop\ExerciseCheck;
 
 use PhpSchool\PhpWorkshop\Result\ResultInterface;
+use PhpSchool\PhpWorkshop\Input\Input;
 
 interface SelfCheck
 {
     /**
-     * @param string $fileName
-     * @return ResultInterface
+     * The method is passed the absolute file path to the student's solution and should return a result
+     * object which indicates the success or not of the check.
+     *
+     * @param Input $input The command line arguments passed to the command.
+     * @return ResultInterface The result of the check.
      */
-    public function check($fileName);
+    public function check(Input $input);
 }
 </code></pre>
 
@@ -45,15 +50,15 @@ interface SelfCheck
 class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, SelfCheck
 {
 
-    ...ommiting methods described in ExerciseInterface
+    ...omitting methods described in ExerciseInterface
 
     /**
-     * @param string $fileName
+     * @param Input $input
      * @return ResultInterface
      */
-    public function check($fileName)
+    public function check(Input $input)
     {
-        //do some checking with $fileName
+        //do some checking with $input
 
         if ($someResult) {
             return new Success('My Check');
@@ -112,6 +117,7 @@ use PhpSchool\PhpWorkshop\Exercise\CliExercise;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseType;
 use PhpSchool\PhpWorkshop\ExerciseCheck\SelfCheck;
+use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\PhpWorkshop\Result\Failure;
 use PhpSchool\PhpWorkshop\Result\ResultInterface;
 use PhpSchool\PhpWorkshop\Result\Success;
@@ -162,10 +168,10 @@ class Mean extends AbstractExercise implements
     }
 
     /**
-     * @param string $fileName
+     * @param Input $input
      * @return ResultInterface
      */
-    public function check($fileName)
+    public function check(Input $input)
     {
 
     }
@@ -179,13 +185,13 @@ class Mean extends AbstractExercise implements
 <p>Our method might look something like this - nothing new going on:</p>
 
 <pre><code class="lang-php">/**
- * @param string $fileName
+ * @param Input $input
  * @return ResultInterface
  */
-public function check($fileName)
+public function check(Input $input)
 {
     $phpCsBinary = __DIR__ . '/../../vendor/bin/phpcs';
-    $cmd = sprintf('%s %s --standard=PSR2', $phpCsBinary, $fileName);
+    $cmd = sprintf('%s %s --standard=PSR2', $phpCsBinary, $input->getArgument('program'));
     exec($cmd, $output, $exitCode);
 
     if ($exitCode === 0) {

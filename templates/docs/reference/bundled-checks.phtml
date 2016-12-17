@@ -1,9 +1,10 @@
 <p>This article documents each of the checks bundled with the workshop framework and how to use them. Remember the
     exercise types from the <a href="/docs/reference/exercise-types">Exercise Types documentation</a>?
-    <a href="/docs/reference/exercise-types#cli">CLI</a> &
-    <a href="/docs/reference/exercise-types#cgi">CGI</a>?</p>
+    <a href="/docs/reference/exercise-types#cli">CLI</a>,
+    <a href="/docs/reference/exercise-types#cgi">CGI</a> &
+    <a href="/docs/reference/exercise-types#custom">CUSTOM</a>?</p>
 
-<p>Well, checks can support one or both exercise
+<p>Well, checks can support one or more of these exercise types
     types. So inspect the table below to see if the check you want to use actually supports your exercise type.</p>
 
 <div class="method-list">
@@ -144,7 +145,7 @@
      */
     public function getRequiredFunctions()
     {
-        return ['curl_exec']
+        return ['curl_exec'];
     }
 
     /**
@@ -152,7 +153,7 @@
      */
     public function getBannedFunctions()
     {
-        return ['file_get_contents']
+        return ['file_get_contents'];
     }
 }
 </code></pre>

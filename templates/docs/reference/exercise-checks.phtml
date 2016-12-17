@@ -10,7 +10,7 @@
 <h3 id="simple-checks">Simple Checks</h3>
 <p>Simple checks are basically a block of code that can run before or after verifying the output of the students
     solution. There can be many checks, which will be run sequentially - each check can return a success or
-    failure and this will be injected into the feedback.</p>
+    failure and this will be injected into the result set.</p>
 
 <h3 id="listener-checks">Listener Checks</h3>
 <p>Listener checks are more advanced - when you add a listener type check, it will be passed an event dispatcher
@@ -21,7 +21,7 @@
 <?= $this->renderContentHeader('check-types', 'How to use a check in your exercise?') ?>
 
 <h3 id="step-1">1. Tell the dispatcher about your check requirements</h3>
-<p>In order to specify that your exercise requires additional checks you should implement the function
+<p>In order to specify that your exercise requires additional checks you should implement the method
     <code>configure</code> in your exercise. It will be passed an instance of <code>ExerciseDispatcher</code> which
     you can interact with and tell it which checks your exercise requires. The method <code>configure</code> is already
     implemented in <code>AbstractExercise</code>, but is empty, so you don't need to call
