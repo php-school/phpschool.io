@@ -55,7 +55,7 @@ class FormHandler
         $this->session->set('__old_input', $request->getParsedBody());
         $this->session->set('__errors', $errors);
 
-        return $response->withRedirect($request->getHeader('referer'));
+        return $response->withRedirect($request->getHeaderLine('referer'));
     }
 
     public function validateJsonRequest(Request $request, Response $response)
