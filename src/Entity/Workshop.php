@@ -3,6 +3,7 @@
 namespace PhpSchool\Website\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
@@ -113,6 +114,13 @@ class Workshop
      */
     private $createdAt;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="WorkshopInstall", mappedBy="workshop")
+     */
+    private $installs;
+
     public function __construct(
         string $gitHubOwner,
         string $gitHubRepoName,
@@ -134,6 +142,7 @@ class Workshop
         $this->submitterContact = $submitterContact;
         $this->approved = $approved;
         $this->createdAt = new DateTime;
+        $this->installs = new ArrayCollection;
     }
 
     public function getId() : string
@@ -232,6 +241,11 @@ class Workshop
     public function getCreatedAt() : DateTime
     {
         return $this->createdAt;
+    }
+
+    public function getTotalInstalls() : int
+    {
+        return $this->installs->count();
     }
 
     public function toArray() : array

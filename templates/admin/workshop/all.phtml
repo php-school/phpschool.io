@@ -27,6 +27,7 @@
                             <th>Submitter E-mail</th>
                             <th>Status</th>
                             <th>Type</th>
+                            <th>Total Downloads</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -51,6 +52,9 @@
                                     <span class="label label-<?= $workshop->isCore() ? 'success' : 'info' ?>">
                                         <?= $workshop->getTypeName() ?>
                                     </span>
+                                </td>
+                                <td>
+                                    <?= $workshop->getTotalInstalls() ?>
                                 </td>
                                 <td>
                                     <ul class="nav navbar-right panel_toolbox" style="min-width: 0px;">
