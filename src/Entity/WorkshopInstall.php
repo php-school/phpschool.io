@@ -28,7 +28,7 @@ class WorkshopInstall
     /**
      * @var Workshop
      *
-     * @ORM\ManyToOne(targetEntity="Workshop")
+     * @ORM\ManyToOne(targetEntity="Workshop", inversedBy="installs")
      * @ORM\JoinColumn(name="workshop_id", referencedColumnName="id")
      */
     private $workshop;
