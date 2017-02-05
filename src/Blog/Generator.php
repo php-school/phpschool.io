@@ -30,7 +30,7 @@ class Generator
      * @var string
      */
     private $outputDirectory;
-    
+
     /**
      * @var PhpRenderer
      */
@@ -39,7 +39,7 @@ class Generator
     public function __construct(Parser $parser, string $postsDirectory, string $outputDirectory, PhpRenderer $renderer)
     {
         $this->parser = $parser;
-        $this->postsDirectory = rtrim($postsDirectory, '/');;
+        $this->postsDirectory = rtrim($postsDirectory, '/');
         $this->outputDirectory = rtrim($outputDirectory, '/');
         $this->renderer = $renderer;
 
@@ -121,7 +121,7 @@ class Generator
             $postMeta->getLink()
         );
     }
-    
+
     private function renderInLayout(Post $post) : string
     {
         return $this->renderer->fetch('layouts/layout.phtml', [
