@@ -8,6 +8,7 @@ use Dotenv\Dotenv;
 use Illuminate\Support\Collection;
 use Interop\Container\ContainerInterface;
 use Predis\Client;
+use Predis\Connection\ConnectionException;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Doctrine\Common\Cache\Cache as DoctrineCache;
@@ -39,9 +40,15 @@ class ContainerFactory
         $cache = new NullAdapter;
         if ($config['config']['enableCache']) {
             $redisConnection = new Client(['host' => $config['config']['redisHost']]);
-            if (!$redisConnection->isConnected()) {
+            try {
+                $redisConnection->connect();
+            } catch (ConnectionException $e) {
                 throw new \RuntimeException(
-                    sprintf('Could not connect to redis using host: "%s"', $config['config']['redisHost'])
+                    sprintf(
+                        'Could not connect to redis using host: "%s". Message: "%s"',
+                        $config['config']['redisHost'],
+                        $e->getMessage()
+                    )
                 );
             }
 
