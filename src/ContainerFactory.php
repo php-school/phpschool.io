@@ -36,9 +36,17 @@ class ContainerFactory
         $containerBuilder->addDefinitions(__DIR__ . '/../vendor/php-di/slim-bridge/src/config.php');
         $containerBuilder->addDefinitions($config);
 
-        $cache = $config['config']['enableCache']
-            ? new RedisAdapter(new Client(['host' => $config['config']['redisHost']]), 'default')
-            : new NullAdapter();
+        $cache = new NullAdapter;
+        if ($config['config']['enableCache']) {
+            $redisConnection = new Client(['host' => $config['config']['redisHost']]);
+            if (!$redisConnection->isConnected()) {
+                throw new \RuntimeException(
+                    sprintf('Could not connect to redis using host: "%s"', $config['config']['redisHost'])
+                );
+            }
+
+            $cache = new RedisAdapter($redisConnection, 'default');
+        }
 
         $doctrineCache = new DoctrineCacheBridge($cache);
         $containerBuilder->setDefinitionCache($doctrineCache);
