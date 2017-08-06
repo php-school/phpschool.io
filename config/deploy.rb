@@ -3,7 +3,7 @@ require 'yaml'
 set :application, 'phpschool'
 set :repo_url, 'git@github.com:php-school/phpschool.io.git'
 set :branch, 'master'
-set :deploy_to, '/var/www/html'
+set :deploy_to, '/var/www/phpschool.io/'
 set :pty, true
 set :log_level, :debug
 set :keep_releases, 2
