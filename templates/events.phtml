@@ -39,7 +39,7 @@
                             <p class="item event__description">More info: <a target="_blank" href="<?= $event->getLink() ?>"><?= $event->getLink() ?></a></p>
                         <?php endif ?>
                         <p class="item event_venue">
-                            <a target="_blank" href="http://maps.google.com/?q=<?= implode(',', $event->getVenueLines()) ?>">
+                            <a target="_blank" href="http://maps.google.com/?q=<?= urlencode(implode(',', $event->getVenueLines())) ?>">
                                 <address>
                                     <?php foreach ($event->getVenueLines() as $line): ?>
                                         <?= $line ?><br>
