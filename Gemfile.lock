@@ -9,12 +9,12 @@ GEM
       capistrano (>= 3.0.0.pre)
     capistrano-npm (1.0.2)
       capistrano (>= 3.0.0)
-    i18n (0.7.0)
+    i18n (0.8.6)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
-    net-ssh (3.2.0)
-    rake (11.3.0)
-    sshkit (1.11.4)
+    net-ssh (4.1.0)
+    rake (12.0.0)
+    sshkit (1.14.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
 
@@ -27,4 +27,4 @@ DEPENDENCIES
   capistrano-npm
 
 BUNDLED WITH
-   1.13.6
+   1.15.3

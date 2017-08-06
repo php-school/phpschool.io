@@ -1,1 +1,1 @@
-role :web, %w{phpschool@45.55.150.212}
+role :web, %w{phpschool@104.236.81.166}

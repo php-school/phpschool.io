@@ -410,7 +410,6 @@ return [
 
     'config' => [
         'determineRouteBeforeAppMiddleware' => true,
-        'displayErrorDetails' => filter_var(getenv('DISPLAY_ERRORS'), FILTER_VALIDATE_BOOLEAN),
         // Renderer settings
         'renderer' => [
             'template_path' => __DIR__ . '/../templates/',
@@ -454,5 +453,5 @@ return [
     ],
 
     //slim settings
-    'settings.displayErrorDetails' => true,
+    'settings.displayErrorDetails' => filter_var(getenv('DISPLAY_ERRORS'), FILTER_VALIDATE_BOOLEAN),
  ];

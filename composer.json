@@ -22,7 +22,7 @@
     "phpdocumentor/reflection-docblock": "^2.0",
     "symfony/finder": "^3.0",
     "psr/cache": "^1.0",
-    "symfony/cache": "dev-master",
+    "symfony/cache": "^3.2",
     "predis/predis": "^1.1",
     "league/commonmark": "^0.13",
     "doctrine/orm": "^2.5",

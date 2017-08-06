@@ -1,4 +1,4 @@
-FROM php:7.0-fpm
+FROM php:7.1-fpm
 
 RUN apt-get -qq update && apt-get install -qqy git zlib1g-dev \
 	&& rm -rf /var/lib/apt/lists/* \
@@ -8,7 +8,7 @@ RUN apt-get -qq update && apt-get install -qqy git zlib1g-dev \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Xdebug
-RUN pecl install -o -f xdebug-2.4.0
+RUN pecl install -o -f xdebug-2.5.5
 
 ADD .docker/etc/php-xdebug.ini /usr/local/etc/php/conf.d/php-xdebug.ini
 RUN docker-php-ext-enable xdebug
