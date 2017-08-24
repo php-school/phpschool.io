@@ -23,6 +23,15 @@
   margin-bottom: $half-spacing;
 }
 
-#sponsor__do {
-  width: 80px;
+.sponsor {
+    margin-top: 10px;
+
+    a:hover {
+        text-decoration: none;
+    }
+}
+
+.sponsor__logo {
+  height: 20px;
+  padding-right: 20px;
 }
