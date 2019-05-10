@@ -24,7 +24,7 @@ namespace :deploy do
     on roles(:web) do |host|
       within release_path do
           execute('php', 'bin/app', 'clear-cache')
-          execute('cachetool', 'opcache:reset', '--fcgi=/var/run/php/php7.1-fpm.sock')
+          execute('cachetool', 'opcache:reset', '--fcgi=/var/run/php/php7.2-fpm.sock')
       end
     end
   end
