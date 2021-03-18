@@ -20,14 +20,7 @@ namespace :deploy do
     end
   end
 
-  task :clear_cache do
-    on roles(:web) do |host|
-      within release_path do
-          execute('php', 'bin/app', 'clear-cache')
-          execute('cachetool', 'opcache:reset', '--fcgi=/var/run/php/php7.2-fpm.sock')
-      end
-    end
-  end
+
 
   task :generate_blog do
       on roles(:web) do |host|
@@ -38,6 +31,5 @@ namespace :deploy do
     end
 
   after "deploy:finished", "deploy:schema_update"
-  after "deploy:schema_update", "deploy:clear_cache"
-  after "deploy:clear_cache", "deploy:generate_blog"
+  after "deploy:schema_update", "deploy:generate_blog"
 end
