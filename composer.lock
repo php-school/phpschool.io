@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8cf2614ab90110e0dda7b2b9afd3f264",
+    "content-hash": "37cca9d14e09f2cb929f338349bb2dbf",
     "packages": [
         {
             "name": "adamwathan/bootforms",
-            "version": "v0.8.5",
+            "version": "v0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/adamwathan/bootforms.git",
-                "reference": "7f9928805ffe6736486b246e4ab22c811934237b"
+                "reference": "2d5a8baa79cf6818cfa418276567c6ee6f40ed54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/adamwathan/bootforms/zipball/7f9928805ffe6736486b246e4ab22c811934237b",
-                "reference": "7f9928805ffe6736486b246e4ab22c811934237b",
+                "url": "https://api.github.com/repos/adamwathan/bootforms/zipball/2d5a8baa79cf6818cfa418276567c6ee6f40ed54",
+                "reference": "2d5a8baa79cf6818cfa418276567c6ee6f40ed54",
                 "shasum": ""
             },
             "require": {
-                "adamwathan/form": "^0.8.11",
+                "adamwathan/form": "^0.9.0",
                 "php": ">=5.4.0"
             },
             "require-dev": {
@@ -51,20 +51,20 @@
                 "source": "https://github.com/adamwathan/bootforms/tree/master"
             },
             "abandoned": true,
-            "time": "2017-04-26T13:23:10+00:00"
+            "time": "2017-07-18T15:25:51+00:00"
         },
         {
             "name": "adamwathan/form",
-            "version": "v0.8.13",
+            "version": "v0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/adamwathan/form.git",
-                "reference": "5000dcf4b667ef5ddeacbf050c484312469d6a98"
+                "reference": "d44534bf812512daa9d5a3b68d0ef7928def99b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/adamwathan/form/zipball/5000dcf4b667ef5ddeacbf050c484312469d6a98",
-                "reference": "5000dcf4b667ef5ddeacbf050c484312469d6a98",
+                "url": "https://api.github.com/repos/adamwathan/form/zipball/d44534bf812512daa9d5a3b68d0ef7928def99b8",
+                "reference": "d44534bf812512daa9d5a3b68d0ef7928def99b8",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                 "source": "https://github.com/adamwathan/form/tree/master"
             },
             "abandoned": true,
-            "time": "2017-03-04T18:30:37+00:00"
+            "time": "2017-07-07T16:13:45+00:00"
         },
         {
             "name": "akrabat/ip-address-middleware",

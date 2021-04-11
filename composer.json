@@ -27,7 +27,7 @@
     "jenssegers/agent": "^2.3",
     "sendgrid/sendgrid": "^7.9",
     "vlucas/phpdotenv": "^2.3",
-    "adamwathan/bootforms": "^0.8.1",
+    "adamwathan/bootforms": "^0.9",
     "akrabat/rka-slim-session-middleware": "^2.0",
     "mnapoli/front-yaml": "^1.5",
     "laminas/laminas-inputfilter": "^2.12",
