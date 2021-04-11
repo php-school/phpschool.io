@@ -3,7 +3,6 @@
 namespace PhpSchool\Website\Action\Admin\Event;
 
 use PhpSchool\Website\Entity\Event;
-use PhpSchool\Website\Form\FormFactory;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
@@ -11,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Zend\Filter\Exception\RuntimeException;
+use Laminas\Filter\Exception\RuntimeException;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>

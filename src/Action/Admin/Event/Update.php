@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Zend\Filter\Exception\RuntimeException;
+use Laminas\Filter\Exception\RuntimeException;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>

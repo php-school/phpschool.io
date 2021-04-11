@@ -3,7 +3,7 @@
 namespace PhpSchool\Website\Form;
 
 use RKA\Session;
-use Zend\InputFilter\InputFilterInterface;
+use Laminas\InputFilter\InputFilterInterface;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>

@@ -30,7 +30,6 @@
     "jenssegers/agent": "^2.3",
     "sendgrid/sendgrid": "^5.0",
     "vlucas/phpdotenv": "^2.3",
-    "zendframework/zend-filter": "^2.7",
     "adamwathan/bootforms": "^0.8.1",
     "akrabat/rka-slim-session-middleware": "^2.0",
     "mnapoli/front-yaml": "^1.5",
@@ -39,7 +38,8 @@
     "laminas/laminas-authentication": "^2.8",
     "laminas/laminas-session": "^2.10",
     "tightenco/collect": "^8.34",
-    "symfony/finder": "^5.2"
+    "symfony/finder": "^5.2",
+    "laminas/laminas-filter": "^2.11"
   },
   "autoload": {
     "psr-4": {
