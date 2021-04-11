@@ -17,8 +17,6 @@
     "php-di/slim-bridge": "^0.2.1",
     "php-school/php-workshop": "^1.0",
     "mnapoli/silly-php-di": "^1.0",
-    "phpdocumentor/reflection-common": "^1.0@dev",
-    "phpdocumentor/reflection-docblock": "^2.0",
     "symfony/finder": "^3.0",
     "psr/cache": "^1.0",
     "symfony/cache": "^3.2",
