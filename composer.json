@@ -23,7 +23,6 @@
     "league/commonmark": "^0.13",
     "doctrine/orm": "^2.5",
     "ramsey/uuid-doctrine": "^1.2",
-    "tightenco/collect": "^5.8",
     "slim/flash": "^0.1.0",
     "knplabs/github-api": "^1.7",
     "cache/psr-6-doctrine-bridge": "^2.1",
@@ -40,7 +39,8 @@
     "laminas/laminas-inputfilter": "^2.12",
     "laminas/laminas-uri": "^2.8",
     "laminas/laminas-authentication": "^2.8",
-    "laminas/laminas-session": "^2.10"
+    "laminas/laminas-session": "^2.10",
+    "tightenco/collect": "^8.34"
   },
   "autoload": {
     "psr-4": {
