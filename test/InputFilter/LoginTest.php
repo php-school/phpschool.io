@@ -3,12 +3,12 @@
 namespace PhpSchool\WebsiteTest\InputFilter;
 
 use PhpSchool\Website\InputFilter\Login;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */
-class LoginTest extends PHPUnit_Framework_TestCase
+class LoginTest extends TestCase
 {
     /**
      * @param array $input

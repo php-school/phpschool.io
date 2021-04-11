@@ -3,12 +3,12 @@
 namespace PhpSchool\WebsiteTest\InputFilter;
 
 use PhpSchool\Website\InputFilter\Event;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */
-class EventTest extends PHPUnit_Framework_TestCase
+class EventTest extends TestCase
 {
     /**
      * @param array $input

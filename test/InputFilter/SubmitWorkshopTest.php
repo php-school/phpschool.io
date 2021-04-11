@@ -7,12 +7,12 @@ use Github\Client;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\InputFilter\SubmitWorkshop;
 use PhpSchool\Website\Repository\WorkshopRepository;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */
-class SubmitWorkshopTest extends PHPUnit_Framework_TestCase
+class SubmitWorkshopTest extends TestCase
 {
     /**
      * @param array $input

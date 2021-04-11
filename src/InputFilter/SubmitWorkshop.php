@@ -16,7 +16,7 @@ use Zend\Validator\StringLength;
 class SubmitWorkshop extends InputFilter
 {
     private static $gitHubComposerJsonUrlFormat = 'https://raw.githubusercontent.com/%s/%s/master/composer.json';
-    private static $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d-\.]+)\/?$/';
+    private static $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d\-\.]+)\/?$/';
 
     public function __construct(Client $gitHubClient, WorkshopRepository $workshopRepository)
     {
