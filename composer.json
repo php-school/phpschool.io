@@ -22,7 +22,7 @@
     "league/commonmark": "^0.13",
     "doctrine/orm": "^2.5",
     "ramsey/uuid-doctrine": "^1.2",
-    "slim/flash": "^0.1.0",
+    "slim/flash": "^0.4.0",
     "knplabs/github-api": "^1.7",
     "cache/psr-6-doctrine-bridge": "^3.1",
     "akrabat/rka-ip-address-middleware": "^0.4.0",
