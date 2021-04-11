@@ -16,7 +16,6 @@
     "monolog/monolog": "^1.17",
     "php-di/slim-bridge": "^0.2.1",
     "mnapoli/silly-php-di": "^1.0",
-    "symfony/finder": "^3.0",
     "psr/cache": "^1.0",
     "symfony/cache": "^3.2",
     "predis/predis": "^1.1",
@@ -40,7 +39,8 @@
     "laminas/laminas-uri": "^2.8",
     "laminas/laminas-authentication": "^2.8",
     "laminas/laminas-session": "^2.10",
-    "tightenco/collect": "^8.34"
+    "tightenco/collect": "^8.34",
+    "symfony/finder": "^5.2"
   },
   "autoload": {
     "psr-4": {
