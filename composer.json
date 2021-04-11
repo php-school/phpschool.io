@@ -25,7 +25,7 @@
     "knplabs/github-api": "^3.1",
     "cache/psr-6-doctrine-bridge": "^3.1",
     "jenssegers/agent": "^2.3",
-    "sendgrid/sendgrid": "^5.0",
+    "sendgrid/sendgrid": "^7.9",
     "vlucas/phpdotenv": "^2.3",
     "adamwathan/bootforms": "^0.8.1",
     "akrabat/rka-slim-session-middleware": "^2.0",
