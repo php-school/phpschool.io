@@ -25,7 +25,6 @@
     "slim/flash": "^0.4.0",
     "knplabs/github-api": "^3.1",
     "cache/psr-6-doctrine-bridge": "^3.1",
-    "akrabat/rka-ip-address-middleware": "^0.4.0",
     "jenssegers/agent": "^2.3",
     "sendgrid/sendgrid": "^5.0",
     "vlucas/phpdotenv": "^2.3",
@@ -41,7 +40,8 @@
     "laminas/laminas-filter": "^2.11",
     "laminas/laminas-servicemanager": "^3.6",
     "guzzlehttp/guzzle": "^7.0.1",
-    "http-interop/http-factory-guzzle": "^1.0"
+    "http-interop/http-factory-guzzle": "^1.0",
+    "akrabat/ip-address-middleware": "^2.0"
   },
   "autoload": {
     "psr-4": {

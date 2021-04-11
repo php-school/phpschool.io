@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f390e873aa67f17d22a67b6b6e9347f",
+    "content-hash": "6e2e9f6868884f696da074de5a862638",
     "packages": [
         {
             "name": "adamwathan/bootforms",
@@ -101,26 +101,31 @@
             "time": "2017-03-04T18:30:37+00:00"
         },
         {
-            "name": "akrabat/rka-ip-address-middleware",
-            "version": "0.4",
+            "name": "akrabat/ip-address-middleware",
+            "version": "2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/akrabat/rka-ip-address-middleware.git",
-                "reference": "1c9947fdbaad04614e8b15d55f191f11c39293d1"
+                "url": "https://github.com/akrabat/ip-address-middleware.git",
+                "reference": "90c38ef95d46c59e12eea236a4d592c03889bbaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/akrabat/rka-ip-address-middleware/zipball/1c9947fdbaad04614e8b15d55f191f11c39293d1",
-                "reference": "1c9947fdbaad04614e8b15d55f191f11c39293d1",
+                "url": "https://api.github.com/repos/akrabat/ip-address-middleware/zipball/90c38ef95d46c59e12eea236a4d592c03889bbaa",
+                "reference": "90c38ef95d46c59e12eea236a4d592c03889bbaa",
                 "shasum": ""
             },
             "require": {
-                "psr/http-message": "^1.0"
+                "php": "^7.2 || ^8.0",
+                "psr/http-message": "^1.0",
+                "psr/http-server-middleware": "^1.0"
+            },
+            "replace": {
+                "akrabat/rka-ip-address-middleware": "*"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8",
-                "squizlabs/php_codesniffer": "^2.3",
-                "zendframework/zend-diactoros": "^1.1"
+                "laminas/laminas-diactoros": "^2.4",
+                "phpunit/phpunit": "^8.5.8 || ^9.4",
+                "squizlabs/php_codesniffer": "^3.2"
             },
             "type": "library",
             "autoload": {
@@ -139,7 +144,7 @@
                     "homepage": "http://akrabat.com"
                 }
             ],
-            "description": "PSR-7 Middleware that determines the client IP address and stores it as an ServerRequest attribute",
+            "description": "PSR-15 middleware that determines the client IP address and stores it as a ServerRequest attribute",
             "homepage": "http://github.com/akrabat/rka-ip-address-middleware",
             "keywords": [
                 "IP",
@@ -147,11 +152,10 @@
                 "psr7"
             ],
             "support": {
-                "issues": "https://github.com/akrabat/rka-ip-address-middleware/issues",
-                "source": "https://github.com/akrabat/rka-ip-address-middleware/tree/master"
+                "issues": "https://github.com/akrabat/ip-address-middleware/issues",
+                "source": "https://github.com/akrabat/ip-address-middleware/tree/2.0"
             },
-            "abandoned": "akrabat/ip-address-middleware",
-            "time": "2015-11-06T10:38:17+00:00"
+            "time": "2020-12-07T11:04:16+00:00"
         },
         {
             "name": "akrabat/rka-slim-session-middleware",
@@ -4321,6 +4325,120 @@
                 "source": "https://github.com/php-fig/http-message/tree/master"
             },
             "time": "2016-08-06T14:39:51+00:00"
+        },
+        {
+            "name": "psr/http-server-handler",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-handler.git",
+                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
+                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side request handler",
+            "keywords": [
+                "handler",
+                "http",
+                "http-interop",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response",
+                "server"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-handler/issues",
+                "source": "https://github.com/php-fig/http-server-handler/tree/master"
+            },
+            "time": "2018-10-30T16:46:14+00:00"
+        },
+        {
+            "name": "psr/http-server-middleware",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-middleware.git",
+                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-middleware/zipball/2296f45510945530b9dceb8bcedb5cb84d40c5f5",
+                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0",
+                "psr/http-server-handler": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side middleware",
+            "keywords": [
+                "http",
+                "http-interop",
+                "middleware",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-middleware/issues",
+                "source": "https://github.com/php-fig/http-server-middleware/tree/master"
+            },
+            "time": "2018-10-30T17:12:04+00:00"
         },
         {
             "name": "psr/log",
