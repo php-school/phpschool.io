@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1d7c6b0ebe358c862e6011e0e2e6bf4",
+    "content-hash": "daae55013f945a006ca488352e3b0f7f",
     "packages": [
         {
             "name": "adamwathan/bootforms",
