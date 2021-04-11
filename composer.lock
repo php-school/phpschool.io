@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84581242a85ff499c0c3b04ca1cfac69",
+    "content-hash": "cc3f313ed0cc378b9769cbed3db184a8",
     "packages": [
         {
             "name": "adamwathan/bootforms",
@@ -7213,7 +7213,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~7.0"
+        "php": "^7.4"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"
