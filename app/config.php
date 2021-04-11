@@ -155,7 +155,7 @@ return [
         return new ClearCache($c->get('cache.fpc'));
     }),
     CreateUser::class => factory(function (ContainerInterface $c) {
-       return new CreateUser($c->get(EntityManagerInterface::class));
+        return new CreateUser($c->get(EntityManagerInterface::class));
     }),
     GenerateBlog::class => function (ContainerInterface $c) {
         return new GenerateBlog($c->get(Generator::class));
