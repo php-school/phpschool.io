@@ -2,43 +2,25 @@
 
 namespace PhpSchool\Website\Action;
 
-use AdamWathan\Form\Facades\Form;
 use PhpSchool\Website\Exception\WorkshopCreationException;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Service\WorkshopCreator;
-use PhpSchool\Website\Validator\SubmitWorkshop as SubmitWorkshopValidator;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class SubmitWorkshop
 {
-    /**
-     * @var FormHandler
-     */
-    private $formHandler;
+    use JsonUtils;
 
-    /**
-     * @var WorkshopCreator
-     */
-    private $workshopCreator;
-
-    /**
-     * @var EmailNotifier
-     */
-    private $emailNotifier;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private FormHandler $formHandler;
+    private WorkshopCreator $workshopCreator;
+    private EmailNotifier $emailNotifier;
+    private LoggerInterface $logger;
 
     public function __construct(
         FormHandler $formHandler,
@@ -52,7 +34,7 @@ class SubmitWorkshop
         $this->logger = $logger;
     }
 
-    public function showSubmitForm(Request $request, Response $response, PhpRenderer $renderer)
+    public function showSubmitForm(Request $request, Response $response, PhpRenderer $renderer): Response
     {
         return $renderer->render($response, 'layouts/layout.phtml', [
             'pageTitle'       => 'Submit your workshop',
@@ -61,7 +43,7 @@ class SubmitWorkshop
         ]);
     }
 
-    public function submit(Request $request, Response $response)
+    public function submit(Request $request, Response $response): Response
     {
         $res = $this->formHandler->validateJsonRequest($request, $response);
 
@@ -72,10 +54,7 @@ class SubmitWorkshop
         try {
             $workshop = $this->workshopCreator->create($this->formHandler->getData());
         } catch (WorkshopCreationException $e) {
-            return $response->withJson([
-               'success' => false,
-               'workshop_errors' => $e->getErrors()
-            ]);
+            return $this->withJson(['success' => false, 'workshop_errors' => $e->getErrors()], $response);
         }
 
         try {
@@ -83,9 +62,6 @@ class SubmitWorkshop
         } catch (RuntimeException $e) {
             $this->logger->error(sprintf('Email could not be sent. Error: "%s"', $e->getMessage()));
         }
-
-        return $response->withJson([
-            'success' => true,
-        ]);
+        return $this->jsonSuccess($response);
     }
 }

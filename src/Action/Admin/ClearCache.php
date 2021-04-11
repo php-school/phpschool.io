@@ -4,24 +4,13 @@ namespace PhpSchool\Website\Action\Admin;
 
 use Psr\Cache\CacheItemPoolInterface;
 use Slim\Flash\Messages;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class ClearCache
 {
-
-    /**
-     * @var CacheItemPoolInterface
-     */
-    private $cache;
-
-    /**
-     * @var Messages
-     */
-    private $messages;
+    private CacheItemPoolInterface $cache;
+    private Messages $messages;
 
     public function __construct(CacheItemPoolInterface $cache, Messages $messages)
     {
@@ -29,7 +18,7 @@ class ClearCache
         $this->messages = $messages;
     }
 
-    public function __invoke(Request $request, Response $response) : Response
+    public function __invoke(Request $request, Response $response): Response
     {
         $this->cache->clear();
 

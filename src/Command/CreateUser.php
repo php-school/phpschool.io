@@ -7,22 +7,16 @@ use PhpSchool\Website\Cache;
 use PhpSchool\Website\User\Entity\User;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class CreateUser
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    public function __invoke(OutputInterface $output, string $name, string $email, string $password)
+    public function __invoke(OutputInterface $output, string $name, string $email, string $password): int
     {
         $this->entityManager->persist(
             new User($name, $email, password_hash($password, PASSWORD_DEFAULT))

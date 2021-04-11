@@ -8,34 +8,16 @@ use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Laminas\Filter\Exception\RuntimeException;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class Create
 {
-    /**
-     * @var EventRepository
-     */
-    private $repository;
-
-    /**
-     * @var FormHandler
-     */
-    private $formHandler;
-
-    /**
-     * @var PhpRenderer
-     */
-    private $renderer;
-
-    /**
-     * @var Messages
-     */
-    private $messages;
+    private EventRepository $repository;
+    private FormHandler $formHandler;
+    private PhpRenderer $renderer;
+    private Messages $messages;
 
     public function __construct(
         EventRepository $repository,
@@ -76,7 +58,7 @@ class Create
                 $request,
                 $response,
                 [ 'poster' => [
-                    'There was a problem uploading the file. Please try again.'
+                    'There was a problem uploading the file. Please try again.' . $e->getPrevious()->getMessage()
                 ]]
             );
         }

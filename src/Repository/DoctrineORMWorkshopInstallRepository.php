@@ -7,12 +7,9 @@ use Doctrine\ORM\EntityRepository;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class DoctrineORMWorkshopInstallRepository extends EntityRepository implements WorkshopInstallRepository
 {
-    public function totalInstallsInLast30Days(Workshop $workshop) : int
+    public function totalInstallsInLast30Days(Workshop $workshop): int
     {
         $now            = new \DateTimeImmutable;
         $thirtyDaysAgo  = $now->sub(new \DateInterval("P30D"));
@@ -37,7 +34,7 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
         return $qb->getQuery()->getSingleScalarResult() ?? 0;
     }
 
-    public function totalInstalls(Workshop $workshop) : int
+    public function totalInstalls(Workshop $workshop): int
     {
         $qb = $this->createQueryBuilder('s')
             ->select('COUNT(*)')
@@ -47,7 +44,7 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
         return $qb->getQuery()->getSingleScalarResult() ?? 0;
     }
 
-    public function findInstallsInLast30Days(Workshop $workshop) : array
+    public function findInstallsInLast30Days(Workshop $workshop): array
     {
         $now            = new \DateTimeImmutable;
         $thirtyDaysAgo  = $now->sub(new \DateInterval("P30D"));
@@ -70,18 +67,15 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
         return $qb->getQuery()->getResult();
     }
 
-    /**
-     * @param WorkshopInstall $workshopInstall
-     */
-    public function save(WorkshopInstall $workshopInstall)
+    public function save(WorkshopInstall $workshopInstall): void
     {
         $this->_em->persist($workshopInstall);
         $this->_em->flush();
     }
 
-    public function removeAllByWorkshop(Workshop $workshop)
+    public function removeAllByWorkshop(Workshop $workshop): void
     {
-        $qb = $this->createQueryBuilder()
+        $qb = $this->createQueryBuilder('s')
             ->delete(WorkshopInstall::class, 's')
             ->where('s.workshop = :workshop')
             ->setParameter('workshop', $workshop);

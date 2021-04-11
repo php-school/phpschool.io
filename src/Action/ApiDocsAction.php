@@ -7,28 +7,12 @@ use PhpSchool\Website\PhpRenderer;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Routing\RouteContext;
 
-/**
- * Class ApiDocsAction
- * @package PhpSchool\Website
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class ApiDocsAction
 {
-
-    /**
-     * @var PhpRenderer
-     */
-    private $renderer;
-
-    /**
-     * @var DocGenerator
-     */
-    private $docGenerator;
-
-    /**
-     * @var CacheItemPoolInterface
-     */
+    private PhpRenderer $renderer;
+    private DocGenerator $docGenerator;
     private $cache;
 
     public function __construct(PhpRenderer $renderer, DocGenerator $docGenerator, CacheItemPoolInterface $cache)
@@ -40,8 +24,10 @@ class ApiDocsAction
 
     public function __invoke(Request $request, Response $response) : Response
     {
-        $namespace  = $request->getAttribute('route')->getArgument('namespace');
-        $class      = $request->getAttribute('route')->getArgument('class');
+        $route = RouteContext::fromRequest($request)->getRoute();
+
+        $namespace  = $route->getArgument('namespace');
+        $class      = $route->getArgument('class');
 
         $apiDocs = $this->cache->getItem('api-docs');
         if (!$apiDocs->isHit()) {

@@ -10,26 +10,11 @@ use PhpSchool\Website\PhpRenderer;
 use RuntimeException;
 use Slim\Flash\Messages;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class Delete
 {
-    /**
-     * @var EventRepository
-     */
-    private $repository;
-
-    /**
-     * @var CacheItemPoolInterface
-     */
-    private $cache;
-
-    /**
-     * @var Messages
-     */
-    private $messages;
-
+    private EventRepository $repository;
+    private CacheItemPoolInterface $cache;
+    private Messages $messages;
 
     public function __construct(
         EventRepository $repository,
@@ -41,7 +26,7 @@ class Delete
         $this->messages = $messages;
     }
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, $id)
+    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, $id): Response
     {
         try {
             $event = $this->repository->findById($id);
