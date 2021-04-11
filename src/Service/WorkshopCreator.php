@@ -69,8 +69,6 @@ class WorkshopCreator
      */
     private function getComposerJsonContents(string $owner, string $repo)
     {
-        $url = sprintf(static::$gitHubComposerJsonUrlFormat, $owner, $repo);
-        $composerJson = file_get_contents($url);
-        return json_decode($composerJson, true);
+        return json_decode(file_get_contents(sprintf(static::$gitHubComposerJsonUrlFormat, $owner, $repo)), true);
     }
 }
