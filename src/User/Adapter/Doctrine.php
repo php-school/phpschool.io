@@ -4,17 +4,16 @@ namespace PhpSchool\Website\User\Adapter;
 
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSchool\Website\User\Entity\User;
-use Zend\Authentication\Adapter\AbstractAdapter;
-use Zend\Authentication\Adapter\AdapterInterface;
-use Zend\Authentication\Adapter\Exception\ExceptionInterface;
-use Zend\Authentication\Result as AuthenticationResult;
+use Laminas\Authentication\Adapter\AbstractAdapter;
+use Laminas\Authentication\Adapter\AdapterInterface;
+use Laminas\Authentication\Adapter\Exception\ExceptionInterface;
+use Laminas\Authentication\Result as AuthenticationResult;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
  */
 class Doctrine extends AbstractAdapter implements AdapterInterface
 {
-
     /**
      * @var EntityManagerInterface
      */

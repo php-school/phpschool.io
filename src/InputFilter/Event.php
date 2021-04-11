@@ -2,16 +2,16 @@
 
 namespace PhpSchool\Website\InputFilter;
 
-use Zend\Filter\File\RenameUpload;
-use Zend\InputFilter\InputFilter;
-use Zend\Validator\Date;
-use Zend\Validator\File\IsImage;
-use Zend\Validator\File\Size;
-use Zend\Validator\File\UploadFile;
-use Zend\InputFilter\FileInput;
-use Zend\InputFilter\Input;
-use Zend\Validator\StringLength;
-use Zend\Validator\Uri;
+use Laminas\Filter\File\RenameUpload;
+use Laminas\InputFilter\InputFilter;
+use Laminas\Validator\Date;
+use Laminas\Validator\File\IsImage;
+use Laminas\Validator\File\Size;
+use Laminas\Validator\File\UploadFile;
+use Laminas\InputFilter\FileInput;
+use Laminas\InputFilter\Input;
+use Laminas\Validator\StringLength;
+use Laminas\Validator\Uri;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>

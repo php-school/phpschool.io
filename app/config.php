@@ -351,12 +351,12 @@ return [
     },
 
     AuthenticationService::class => \DI\factory(function (ContainerInterface $c) {
-        $authService = new \Zend\Authentication\AuthenticationService;
+        $authService = new \Laminas\Authentication\AuthenticationService;
         $authService->setAdapter(new Doctrine($c->get(EntityManagerInterface::class)));
         return new AuthenticationService($authService);
     }),
 
-    Authenticator::class => \DI\factory(function(ContainerInterface $c) {
+    Authenticator::class => \DI\factory(function (ContainerInterface $c) {
         return new Authenticator($c->get(AuthenticationService::class));
     }),
 

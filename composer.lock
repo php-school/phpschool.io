@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "629dd057631a0cfc5a78162144033753",
+    "content-hash": "ad7e35d58f791cfb3a7528574eb4c927",
     "packages": [
         {
             "name": "adamwathan/bootforms",
@@ -1761,6 +1761,82 @@
                 "source": "https://github.com/KnpLabs/php-github-api/tree/master"
             },
             "time": "2016-07-26T08:49:38+00:00"
+        },
+        {
+            "name": "laminas/laminas-authentication",
+            "version": "2.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-authentication.git",
+                "reference": "0b77d353a3a039d65c15318c98dd055d62f010b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-authentication/zipball/0b77d353a3a039d65c15318c98dd055d62f010b6",
+                "reference": "0b77d353a3a039d65c15318c98dd055d62f010b6",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-stdlib": "^3.2.1",
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "php": "^7.3 || ~8.0.0"
+            },
+            "replace": {
+                "zendframework/zend-authentication": "^2.7.0"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "laminas/laminas-crypt": "^2.6 || ^3.2.1",
+                "laminas/laminas-db": "^2.8.2",
+                "laminas/laminas-http": "^2.7",
+                "laminas/laminas-ldap": "^2.8",
+                "laminas/laminas-session": "^2.8",
+                "laminas/laminas-uri": "^2.5.2",
+                "laminas/laminas-validator": "^2.10.1",
+                "phpunit/phpunit": "^9.3",
+                "psalm/plugin-phpunit": "^0.15.1",
+                "vimeo/psalm": "^4.6"
+            },
+            "suggest": {
+                "laminas/laminas-crypt": "Laminas\\Crypt component",
+                "laminas/laminas-db": "Laminas\\Db component",
+                "laminas/laminas-http": "Laminas\\Http component",
+                "laminas/laminas-ldap": "Laminas\\Ldap component",
+                "laminas/laminas-session": "Laminas\\Session component",
+                "laminas/laminas-uri": "Laminas\\Uri component",
+                "laminas/laminas-validator": "Laminas\\Validator component"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Authentication\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "provides an API for authentication and includes concrete authentication adapters for common use case scenarios",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "Authentication",
+                "laminas"
+            ],
+            "support": {
+                "chat": "https://laminas.dev/chat",
+                "docs": "https://docs.laminas.dev/laminas-authentication/",
+                "forum": "https://discourse.laminas.dev",
+                "issues": "https://github.com/laminas/laminas-authentication/issues",
+                "rss": "https://github.com/laminas/laminas-authentication/releases.atom",
+                "source": "https://github.com/laminas/laminas-authentication"
+            },
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2021-03-17T13:48:31+00:00"
         },
         {
             "name": "laminas/laminas-escaper",
@@ -4859,77 +4935,6 @@
                 }
             ],
             "time": "2021-01-20T14:39:13+00:00"
-        },
-        {
-            "name": "zendframework/zend-authentication",
-            "version": "2.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zendframework/zend-authentication.git",
-                "reference": "1f379f6384fca34b3bfe94d953abd65e9e7ee746"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-authentication/zipball/1f379f6384fca34b3bfe94d953abd65e9e7ee746",
-                "reference": "1f379f6384fca34b3bfe94d953abd65e9e7ee746",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6 || ^7.0",
-                "zendframework/zend-stdlib": "^3.2.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.2",
-                "zendframework/zend-coding-standard": "~1.0.0",
-                "zendframework/zend-crypt": "^2.6 || ^3.2.1",
-                "zendframework/zend-db": "^2.8.2",
-                "zendframework/zend-http": "^2.7",
-                "zendframework/zend-ldap": "^2.8",
-                "zendframework/zend-session": "^2.8",
-                "zendframework/zend-uri": "^2.5.2",
-                "zendframework/zend-validator": "^2.10.1"
-            },
-            "suggest": {
-                "zendframework/zend-crypt": "Zend\\Crypt component",
-                "zendframework/zend-db": "Zend\\Db component",
-                "zendframework/zend-http": "Zend\\Http component",
-                "zendframework/zend-ldap": "Zend\\Ldap component",
-                "zendframework/zend-session": "Zend\\Session component",
-                "zendframework/zend-uri": "Zend\\Uri component",
-                "zendframework/zend-validator": "Zend\\Validator component"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7.x-dev",
-                    "dev-develop": "2.8.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Zend\\Authentication\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "provides an API for authentication and includes concrete authentication adapters for common use case scenarios",
-            "keywords": [
-                "Authentication",
-                "ZendFramework",
-                "zf"
-            ],
-            "support": {
-                "docs": "https://docs.zendframework.com/zend-authentication/",
-                "forum": "https://discourse.zendframework.com/c/questions/components",
-                "issues": "https://github.com/zendframework/zend-authentication/issues",
-                "rss": "https://github.com/zendframework/zend-authentication/releases.atom",
-                "slack": "https://zendframework-slack.herokuapp.com",
-                "source": "https://github.com/zendframework/zend-authentication"
-            },
-            "abandoned": "laminas/laminas-authentication",
-            "time": "2019-05-14T18:06:07+00:00"
         },
         {
             "name": "zendframework/zend-eventmanager",

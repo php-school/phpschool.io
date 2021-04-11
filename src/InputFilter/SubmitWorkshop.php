@@ -4,11 +4,11 @@ namespace PhpSchool\Website\InputFilter;
 
 use Github\Client;
 use PhpSchool\Website\Repository\WorkshopRepository;
-use Zend\InputFilter\InputFilter;
-use Zend\Validator\Callback;
-use Zend\Validator\EmailAddress;
-use Zend\Validator\Regex;
-use Zend\Validator\StringLength;
+use Laminas\InputFilter\InputFilter;
+use Laminas\Validator\Callback;
+use Laminas\Validator\EmailAddress;
+use Laminas\Validator\Regex;
+use Laminas\Validator\StringLength;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
