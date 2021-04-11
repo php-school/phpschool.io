@@ -9,7 +9,6 @@ use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Setup;
 use Github\Client;
 use Interop\Container\ContainerInterface;
-use League\CommonMark\CommonMarkConverter;
 use Mni\FrontYAML\Parser;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -112,7 +111,6 @@ return [
         $settings = $c->get('config')['renderer'];
 
         $renderer = new PhpRenderer(
-            new CommonMarkConverter,
             $settings['template_path'],
             [
                 'links'     => $c->get('config')['links'],

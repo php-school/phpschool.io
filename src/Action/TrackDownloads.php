@@ -46,7 +46,7 @@ class TrackDownloads
         $this->workshopInstallRepository->save(
             new WorkshopInstall($workshop, $request->getAttribute('ip_address'), $version)
         );
-        
+
         return (new SlimResponse())->withJson(['status' => 'success'], 201);
     }
 }

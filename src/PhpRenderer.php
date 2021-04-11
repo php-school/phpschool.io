@@ -21,20 +21,12 @@ class PhpRenderer extends SlimPhpRenderer
     private $js = [];
 
     /**
-     * @var CommonMarkConverter
-     */
-    private $markdownConverter;
-
-    /**
-     * SlimRenderer constructor.
      *
-     * @param CommonMarkConverter $markdownConverter
      * @param string $templatePath
      * @param array $attributes
      */
-    public function __construct(CommonMarkConverter $markdownConverter, $templatePath = "", $attributes = [])
+    public function __construct($templatePath = "", $attributes = [])
     {
-        $this->markdownConverter = $markdownConverter;
         $this->templatePath = $templatePath;
         $this->attributes = $attributes;
     }
@@ -155,10 +147,5 @@ class PhpRenderer extends SlimPhpRenderer
     public function slugClass(string $class) : string
     {
         return str_replace('\\', '-', strtolower($class));
-    }
-
-    public function markdownToHtml($markdown) : string
-    {
-        return $this->markdownConverter->convertToHtml($markdown);
     }
 }
