@@ -22,7 +22,7 @@ class Event
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private Uuid $id;
+    private UuidInterface $id;
 
     /**
      * @ORM\Column(type="string", length=255)

@@ -4,6 +4,7 @@ namespace PhpSchool\Website\User\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
@@ -19,7 +20,7 @@ class User
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private Uuid $id;
+    private UuidInterface $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
