@@ -9,17 +9,10 @@ services:
     volumes:
       - .:/var/www/html
     environment:
-      - MYSQL_HOST=db
-      - MYSQL_DATABASE=phpschool
-      - MYSQL_USER=phpschool
-      - MYSQL_PASSWORD=phpschool
-      - SEND_GRID_API_KEY
-      - SEND_GRID_SENDER_EMAIL=phpschool.team+test@gmail.com
-      - CACHE.FPC.ENABLE=false
-      - CACHE.ENABLE=false
-      - REDIS_HOST=redis
       - DISPLAY_ERRORS=true
       - XDEBUG_CONFIG="idekey=PHPSTORM"
+    env_file:
+      - .env
     ports:
       - 9000
     depends_on:

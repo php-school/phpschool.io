@@ -30,15 +30,12 @@ use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
 use PhpSchool\Website\Action\DocsAction;
-use PhpSchool\Website\Action\ApiDocsAction;
 use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Blog\Generator;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateUser;
 use PhpSchool\Website\Command\GenerateBlog;
-use PhpSchool\Website\Command\GenerateDoc;
-use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
 use PhpSchool\Website\DocumentationGroup;
 use PhpSchool\Website\Entity\Event;
@@ -70,7 +67,6 @@ use Symfony\Component\Cache\Adapter\RedisAdapter;
 return [
     'console' => factory(function (ContainerInterface $c) {
         $app = new Silly\Edition\PhpDi\Application('PHP School Website', 'UNKNOWN', $c);
-        $app->command('generate-docs', GenerateDoc::class);
         $app->command('clear-cache', ClearCache::class);
         $app->command('create-user name email password', CreateUser::class);
         $app->command('generate-blog', GenerateBlog::class);
@@ -155,7 +151,6 @@ return [
         $logger->pushHandler(new StreamHandler($settings['path'], Logger::DEBUG));
         return $logger;
     }),
-    DocGenerator::class => \DI\create(),
 
     Session::class => function (ContainerInterface $c) {
         return new Session;
@@ -166,9 +161,6 @@ return [
     },
 
     //commands
-    GenerateDoc::class => factory(function (ContainerInterface $c) {
-        return new GenerateDoc($c->get(DocGenerator::class), $c->get('cache'));
-    }),
     ClearCache::class => factory(function (ContainerInterface $c) {
         return new ClearCache($c->get('cache.fpc'));
     }),
@@ -204,8 +196,6 @@ return [
         $referenceGroup->addSection('exercise-events', 'Exercise Events', 'docs/reference/exercise-events.phtml');
         $referenceGroup->addSection('patching-exercise-solutions', 'Patching Exercise Submissions', 'docs/reference/patching-exercise-solutions.phtml');
 
-        $apiGroup = new DocumentationGroup('api', 'API');
-        $apiGroup->addExternalSection('api', 'API Reference', '/api-docs');
 
         $indexGroup = new DocumentationGroup('index', 'Documentation Home');
         $indexGroup->addSection('index', 'Documentation Home', 'docs/index.phtml');
@@ -214,17 +204,12 @@ return [
         $docs->addGroup($indexGroup);
         $docs->addGroup($tutorialGroup);
         $docs->addGroup($referenceGroup);
-        $docs->addGroup($apiGroup);
 
         return $docs;
     }),
 
     DocsAction::class => \DI\factory(function (ContainerInterface $c) {
         return new DocsAction($c->get(PhpRenderer::class), $c->get(Documentation::class));
-    }),
-
-    ApiDocsAction::class => \DI\factory(function (ContainerInterface $c) {
-        return new ApiDocsAction($c->get(PhpRenderer::class), $c->get(DocGenerator::class), $c->get('cache'));
     }),
 
     TrackDownloads::class => function (ContainerInterface $c) {
@@ -450,9 +435,9 @@ return [
             'github-website' => 'https://github.com/php-school/phpschool.io',
         ],
 
-        'enablePageCache'   => filter_var(getenv('CACHE.FPC.ENABLE'), FILTER_VALIDATE_BOOLEAN),
-        'enableCache'       => filter_var(getenv('CACHE.ENABLE'), FILTER_VALIDATE_BOOLEAN),
-        'redisHost'         => getenv('REDIS_HOST'),
+        'enablePageCache'   => filter_var($_ENV['CACHE.FPC.ENABLE'], FILTER_VALIDATE_BOOLEAN),
+        'enableCache'       => filter_var($_ENV['CACHE.ENABLE'], FILTER_VALIDATE_BOOLEAN),
+        'redisHost'         => $_ENV['REDIS_HOST'],
 
         'doctrine' => [
             'meta' => [
@@ -465,14 +450,14 @@ return [
             ],
             'connection' => [
                 'driver'   => 'pdo_mysql',
-                'host'     => getenv('MYSQL_HOST'),
-                'dbname'   => getenv('MYSQL_DATABASE'),
-                'user'     => getenv('MYSQL_USER'),
-                'password' => getenv('MYSQL_PASSWORD'),
+                'host'     => $_ENV['MYSQL_HOST'],
+                'dbname'   => $_ENV['MYSQL_DATABASE'],
+                'user'     => $_ENV['MYSQL_USER'],
+                'password' => $_ENV['MYSQL_PASSWORD'],
             ]
         ]
     ],
 
     //slim settings
-    'settings.displayErrorDetails' => filter_var(getenv('DISPLAY_ERRORS'), FILTER_VALIDATE_BOOLEAN),
+    'settings.displayErrorDetails' => filter_var($_ENV['DISPLAY_ERRORS'], FILTER_VALIDATE_BOOLEAN),
  ];

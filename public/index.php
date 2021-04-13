@@ -12,15 +12,11 @@ use PhpSchool\Website\Action\Admin\Workshop\Promote;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
-use PhpSchool\Website\Action\ApiDocsAction;
 use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Action\TrackDownloads;
-use PhpSchool\Website\Cache;
 use PhpSchool\Website\ContainerFactory;
-use PhpSchool\Website\DocumentationAction;
 use PhpSchool\Website\Entity\Workshop;
-use PhpSchool\Website\Form\FormFactory;
 use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
@@ -35,9 +31,6 @@ use Jenssegers\Agent\Agent;
 use Slim\Routing\RouteCollectorProxy;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
-
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 
 if (PHP_SAPI == 'cli-server') {
     // To help the built-in PHP dev server, check if the request was actually for
@@ -101,7 +94,6 @@ $app->get('/install', function (Request $request, Response $response, PhpRendere
     ]);
 });
 
-$app->get('/api-docs[/{namespace}[/{class}]]', ApiDocsAction::class);
 $app->get('/docs[/{group}[/{section}]]', DocsAction::class);
 $app->get('/submit', SubmitWorkshop::class . '::showSubmitForm');
 $app->post('/submit', SubmitWorkshop::class . '::submit');

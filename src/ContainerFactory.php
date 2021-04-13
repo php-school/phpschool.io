@@ -3,7 +3,6 @@
 namespace PhpSchool\Website;
 
 use DI\ContainerBuilder;
-use Dotenv\Dotenv;
 use Illuminate\Support\Collection;
 use Psr\Container\ContainerInterface;
 
@@ -14,7 +13,8 @@ class ContainerFactory
 {
     public function __invoke(): ContainerInterface
     {
-        $dotEnv = new Dotenv(__DIR__ . '/../');
+
+        $dotEnv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
         $dotEnv->load();
 
         $config = include __DIR__ . '/../app/config.php';
