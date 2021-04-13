@@ -2,20 +2,10 @@
 
 namespace PhpSchool\Website\Blog;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class Post
 {
-    /**
-     * @var PostMeta
-     */
-    private $meta;
-
-    /**
-     * @var string
-     */
-    private $content;
+    private PostMeta $meta;
+    private string $content;
 
     public function __construct(PostMeta $meta, string $content)
     {
@@ -23,17 +13,11 @@ class Post
         $this->content = $content;
     }
 
-    /**
-     * @return PostMeta
-     */
     public function getMeta(): PostMeta
     {
         return $this->meta;
     }
 
-    /**
-     * @return string
-     */
     public function getContent(): string
     {
         return $this->content;
@@ -43,7 +27,7 @@ class Post
     {
         $content = $this->getContent();
 
-        return preg_match('/<img\s[^>]*?src\s*=\s*[\'\"]([^\'\"]*?)[\'\"][^>]*?>/', $content, $matches);
+        return (bool) preg_match('/<img\s[^>]*?src\s*=\s*[\'\"]([^\'\"]*?)[\'\"][^>]*?>/', $content, $matches);
     }
 
     public function getFeatureImage(): string

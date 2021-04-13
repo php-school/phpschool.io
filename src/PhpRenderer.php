@@ -2,83 +2,53 @@
 
 namespace PhpSchool\Website;
 
-use League\CommonMark\CommonMarkConverter;
 use Slim\Views\PhpRenderer as SlimPhpRenderer;
 
 /**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class PhpRenderer extends SlimPhpRenderer
 {
     /**
-     * @var array
+     * @var list<array{id: string, url: string, type: "local"|"remote"}>
      */
-    private $css = [];
+    private array $css = [];
 
     /**
-     * @var array
+     * @var list<array{id: string, url: string}>
      */
-    private $js = [];
+    private array $js = [];
 
-    /**
-     *
-     * @param string $templatePath
-     * @param array $attributes
-     */
-    public function __construct($templatePath = "", $attributes = [])
+    public function __construct(string $templatePath = "", array $attributes = [])
     {
         $this->templatePath = $templatePath;
         $this->attributes = $attributes;
     }
 
-    /**
-     * @param string $id
-     * @param string $cssFile
-     * @return PhpRenderer
-     */
     public function prependLocalCss(string $id, string $cssFile): PhpRenderer
     {
         array_unshift($this->css, ['id' => $id, 'url' => $cssFile, 'type' => 'local']);
         return $this;
     }
 
-    /**
-     * @param string $id
-     * @param string $cssFile
-     * @return PhpRenderer
-     */
     public function appendLocalCss(string $id, string $cssFile): PhpRenderer
     {
         $this->css[] = ['id' => $id, 'url' => $cssFile, 'type' => 'local'];
         return $this;
     }
 
-    /**
-     * @param string $id
-     * @param string $cssFile
-     * @return PhpRenderer
-     */
     public function prependRemoteCss(string $id, string $cssFile): PhpRenderer
     {
         array_unshift($this->css, ['id' => $id, 'url' => $cssFile, 'type' => 'remote']);
         return $this;
     }
 
-    /**
-     * @param string $id
-     * @param string $cssFile
-     * @return PhpRenderer
-     */
     public function appendRemoteCss(string $id, string $cssFile): PhpRenderer
     {
         $this->css[] = ['id' => $id, 'url' => $cssFile, 'type' => 'remote'];
         return $this;
     }
 
-    /**
-     * @param string $id
-     * @return PhpRenderer
-     */
     public function removeCss(string $id): PhpRenderer
     {
         $this->css = array_values(array_filter($this->css, function (array $css) use ($id) {
@@ -87,35 +57,23 @@ class PhpRenderer extends SlimPhpRenderer
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function renderCss(): string
     {
         return implode("\n", array_map(function (array $css) {
             if ($css['type'] === 'local') {
                 return sprintf('<style>%s</style>', file_get_contents($css['url']));
-            } elseif ($css['type'] === 'remote') {
+            } else {
                 return sprintf('<link rel="stylesheet" type="text/css"  href="%s">', $css['url']);
             }
         }, $this->css));
     }
 
-    /**
-     * @param string $id
-     * @param string $jsFile
-     * @return PhpRenderer
-     */
     public function addJs(string $id, string $jsFile): PhpRenderer
     {
         $this->js[] = ['id' => $id, 'url' => $jsFile];
         return $this;
     }
 
-    /**
-     * @param string $id
-     * @return PhpRenderer
-     */
     public function removeJs(string $id): PhpRenderer
     {
         $this->js = array_values(array_filter($this->js, function (array $js) use ($id) {
@@ -124,12 +82,9 @@ class PhpRenderer extends SlimPhpRenderer
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getJs(): array
     {
-        return array_map(function (array $js) {
+        return array_map(function (array $js): string {
             return $js['url'];
         }, $this->js);
     }

@@ -5,6 +5,7 @@ namespace PhpSchool\Website\Action\Admin\Workshop;
 use DateInterval;
 use DatePeriod;
 use DateTimeImmutable;
+use PhpSchool\Website\Action\RedirectUtils;
 use PhpSchool\Website\Entity\WorkshopInstall;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
@@ -13,25 +14,13 @@ use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
 use RuntimeException;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class View
 {
-    /**
-     * @var WorkshopRepository
-     */
-    private $repository;
+    use RedirectUtils;
 
-    /**
-     * @var WorkshopInstallRepository
-     */
-    private $workshopInstallRepository;
-
-    /**
-     * @var PhpRenderer
-     */
-    private $renderer;
+    private WorkshopRepository $repository;
+    private WorkshopInstallRepository $workshopInstallRepository;
+    private PhpRenderer $renderer;
 
     public function __construct(
         WorkshopRepository $repository,
@@ -43,14 +32,12 @@ class View
         $this->renderer = $renderer;
     }
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, $id)
+    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): Response
     {
         try {
             $workshop = $this->repository->findById($id);
         } catch (RuntimeException $e) {
-            return $response
-                ->withStatus(302)
-                ->withHeader('Location', '/admin/workshop/all');
+            return $this->redirect('/admin/workshop/all');
         }
 
         $this->renderer->addJs('charts', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.min.js');

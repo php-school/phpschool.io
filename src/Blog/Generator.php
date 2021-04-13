@@ -11,30 +11,12 @@ use PhpSchool\Website\PhpRenderer;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class Generator
 {
-    /**
-     * @var Parser
-     */
-    private $parser;
-
-    /**
-     * @var string
-     */
-    private $postsDirectory;
-
-    /**
-     * @var string
-     */
-    private $outputDirectory;
-
-    /**
-     * @var PhpRenderer
-     */
-    private $renderer;
+    private Parser $parser;
+    private string $postsDirectory;
+    private string $outputDirectory;
+    private PhpRenderer $renderer;
 
     public function __construct(Parser $parser, string $postsDirectory, string $outputDirectory, PhpRenderer $renderer)
     {
@@ -46,7 +28,7 @@ class Generator
         $this->renderer->addAttribute('route', '/blog');
     }
 
-    public function generate()
+    public function generate(): void
     {
         $this->clearOutputDirectory();
 
@@ -86,11 +68,11 @@ class Generator
                 $this->write($path, $this->renderInLayout($post));
             });
 
-        $numPages = ceil($posts->count() / 10);
+        $numPages = (int) ceil($posts->count() / 10);
 
         $posts
             ->chunk(10)
-            ->each(function (Collection $posts, $i) use ($numPages) {
+            ->each(function (Collection $posts, int $i) use ($numPages) {
                 $pageNumber = $i + 1;
 
                 $fileName = sprintf(
@@ -108,12 +90,12 @@ class Generator
             });
     }
 
-    private function getMarkdownFiles()
+    private function getMarkdownFiles(): GlobIterator
     {
         return new GlobIterator(sprintf('%s/*.md', rtrim($this->postsDirectory, '/')));
     }
 
-    private function getPostPath(PostMeta $postMeta)
+    private function getPostPath(PostMeta $postMeta): string
     {
         return sprintf(
             '%s%s',
@@ -153,7 +135,7 @@ class Generator
         ]);
     }
 
-    private function clearOutputDirectory()
+    private function clearOutputDirectory(): void
     {
         if (!file_exists($this->outputDirectory)) {
             return;
@@ -170,7 +152,7 @@ class Generator
         }
     }
 
-    private function write(string $file, string $content)
+    private function write(string $file, string $content): void
     {
         if (!file_exists(dirname($file))) {
             mkdir(dirname($file), 0755, true);

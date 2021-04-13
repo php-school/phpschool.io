@@ -21,10 +21,10 @@ final class Session implements \ArrayAccess
                 session_name(),
                 '',
                 time() - 42000,
-                $params["path"],
-                $params["domain"],
-                $params["secure"],
-                $params["httponly"]
+                (string) $params["path"],
+                (string) $params["domain"],
+                (bool) $params["secure"],
+                (bool) $params["httponly"]
             );
         }
 
@@ -46,7 +46,8 @@ final class Session implements \ArrayAccess
     }
 
     /**
-     * @param mixed $value
+     * @param string $key
+     * @param string|array|null $value
      */
     public function set(string $key, $value): void
     {
@@ -65,22 +66,36 @@ final class Session implements \ArrayAccess
         $_SESSION = [];
     }
 
-    public function offsetExists($offset)
+    /**
+     * @param string $offset
+     */
+    public function offsetExists($offset): bool
     {
         return isset($_SESSION[$offset]);
     }
 
+    /**
+     * @param string $offset
+     * @return mixed
+     */
     public function offsetGet($offset)
     {
         return $this->get($offset);
     }
 
-    public function offsetSet($offset, $value)
+    /**
+     * @param string $offset
+     * @param string|array|null $value
+     */
+    public function offsetSet($offset, $value): void
     {
         $this->set($offset, $value);
     }
 
-    public function offsetUnset($offset)
+    /**
+     * @param string $offset
+     */
+    public function offsetUnset($offset): void
     {
         $this->delete($offset);
     }

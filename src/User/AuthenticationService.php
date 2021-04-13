@@ -2,35 +2,33 @@
 
 namespace PhpSchool\Website\User;
 
-use Laminas\Authentication\AuthenticationServiceInterface;
+use Laminas\Authentication\Adapter\AbstractAdapter;
+use Laminas\Authentication\AuthenticationService as LaminasAuthService;
 use Laminas\Authentication\Result;
+use PhpSchool\Website\User\Entity\User;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class AuthenticationService
 {
-    /**
-     * @var AuthenticationServiceInterface
-     */
-    private $authenticationService;
+    private LaminasAuthService $authenticationService;
 
-    public function __construct(AuthenticationServiceInterface $authenticationService)
+    public function __construct(LaminasAuthService $authenticationService)
     {
         $this->authenticationService = $authenticationService;
     }
 
-    public function login($username, $password): Result
+    public function login(string $username, string $password): Result
     {
-        $this->authenticationService
-            ->getAdapter()
-            ->setIdentity($username)
+        /** @var AbstractAdapter $adapter */
+        $adapter = $this->authenticationService
+            ->getAdapter();
+
+        $adapter->setIdentity($username)
             ->setCredential($password);
 
         return $this->authenticationService->authenticate();
     }
 
-    public function logout()
+    public function logout(): void
     {
         $this->authenticationService->clearIdentity();
     }
@@ -40,7 +38,11 @@ class AuthenticationService
         return $this->authenticationService->hasIdentity();
     }
 
-    public function getIdentity()
+    /**
+     * @psalm-suppress MixedInferredReturnType
+     * @psalm-suppress MixedReturnStatement
+     */
+    public function getIdentity(): ?User
     {
         return $this->authenticationService->getIdentity();
     }

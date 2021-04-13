@@ -31,7 +31,7 @@ class Create
         $this->formHandler = $formHandler;
     }
 
-    public function showCreateForm(Request $request, Response $response)
+    public function showCreateForm(Request $request, Response $response): Response
     {
         return $this->renderer->render($response, 'layouts/admin.phtml', [
             'pageTitle'       => 'Admin Area - Create Event',
@@ -58,7 +58,7 @@ class Create
                 $request,
                 $response,
                 [ 'poster' => [
-                    'There was a problem uploading the file. Please try again.' . $e->getPrevious()->getMessage()
+                    'There was a problem uploading the file. Please try again.'
                 ]]
             );
         }

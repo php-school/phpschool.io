@@ -5,27 +5,15 @@ namespace PhpSchool\Website;
 use ArrayIterator;
 use IteratorAggregate;
 
-/**
- * Class DocumentationGroup
- * @package PhpSchool\Website
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class DocumentationGroup implements IteratorAggregate
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
+    private string $title;
 
     /**
-     * @var string
+     * @var list<DocumentationSectionInterface>
      */
-    private $title;
-
-    /**
-     * @var DocumentationSectionInterface[]
-     */
-    private $sections = [];
+    private array $sections = [];
 
     public function __construct(string $name, string $title)
     {
@@ -33,7 +21,7 @@ class DocumentationGroup implements IteratorAggregate
         $this->title = $title;
     }
 
-    public function addSection(string $name, string $title, string $template)
+    public function addSection(string $name, string $title, string $template): void
     {
         $this->sections[] = new DocumentationSection(
             $name,
@@ -43,9 +31,9 @@ class DocumentationGroup implements IteratorAggregate
         );
     }
 
-    public function addExternalSection(string $name, string $title, string $href, bool $enabled = true)
+    public function addExternalSection(string $name, string $title, string $href, bool $enabled = true): void
     {
-        $this->sections[] = new ExternalDocumentationSection($name, $title, $href, $enabled);
+        $this->sections[] = new ExternalDocumentationSection($name, $title, $href);
     }
 
     public function getName(): string
@@ -65,7 +53,7 @@ class DocumentationGroup implements IteratorAggregate
 
     public function getSectionOffset(DocumentationSectionInterface $section): int
     {
-        return array_search($section, $this->sections);
+        return (int) array_search($section, $this->sections);
     }
 
     public function sectionExists(int $offset): bool

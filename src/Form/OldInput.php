@@ -4,32 +4,29 @@ namespace PhpSchool\Website\Form;
 
 use AdamWathan\Form\OldInput\OldInputInterface;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class OldInput implements OldInputInterface
 {
-    /**
-     * @var array
-     */
-    private $oldInput;
+    private array $oldInput;
 
     public function __construct(array $oldInput = [])
     {
         $this->oldInput = $oldInput;
     }
 
-    public function setOldInput(array $oldInput)
+    public function setOldInput(array $oldInput): void
     {
         $this->oldInput = $oldInput;
     }
 
-    public function hasOldInput()
+    public function hasOldInput(): bool
     {
         return count($this->oldInput) > 0;
     }
 
-    public function getOldInput($key)
+    /**
+     * @param string $key
+     */
+    public function getOldInput($key): ?string
     {
         return $this->oldInput[$key] ?? null;
     }

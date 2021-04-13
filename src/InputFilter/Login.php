@@ -7,7 +7,7 @@ use Laminas\Validator\EmailAddress;
 use Laminas\Validator\StringLength;
 
 /**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class Login extends InputFilter
 {

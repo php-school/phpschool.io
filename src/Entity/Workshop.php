@@ -9,7 +9,6 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
  *
  * @ORM\Entity
  * @ORM\Table(name="workshop"))
@@ -20,107 +19,80 @@ class Workshop
     public const TYPE_COMMUNITY = 0;
     public const TYPE_CORE = 1;
 
-    /**
-     * @var array
-     */
-    private $typeMap = [
+    private array $typeMap = [
         self::TYPE_COMMUNITY => 'community',
         self::TYPE_CORE => 'core',
     ];
 
     /**
-     * @var Uuid
+     * @psalm-suppress PropertyNotSetInConstructor
      *
      * @ORM\Id
      * @ORM\Column(type="uuid")
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private $id;
+    private Uuid $id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    private $gitHubOwner;
+    private string $gitHubOwner;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    private $gitHubRepoName;
+    private string $gitHubRepoName;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    private $code;
+    private string $code;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $displayName;
+    private string $displayName;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=512)
      */
-    private $description;
+    private string $description;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    private $submitterEmail;
+    private string $submitterEmail;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    private $submitterName;
+    private string $submitterName;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(type="string", length=512, nullable=true)
      */
-    private $submitterContact;
+    private ?string $submitterContact;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean")
      */
-    private $approved;
+    private bool $approved;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer")
      */
-    private $type = self::TYPE_COMMUNITY;
+    private int $type = self::TYPE_COMMUNITY;
 
     /**
-     * @var DateTime
-     *
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private DateTime $createdAt;
 
     /**
-     * @var ArrayCollection
-     *
      * @ORM\OneToMany(targetEntity="WorkshopInstall", mappedBy="workshop")
      */
-    private $installs;
+    private ArrayCollection $installs;
 
     public function __construct(
         string $gitHubOwner,
@@ -191,10 +163,7 @@ class Workshop
         return $this->submitterName;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getSubmitterContact()
+    public function getSubmitterContact(): ?string
     {
         return $this->submitterContact;
     }
@@ -204,7 +173,7 @@ class Workshop
         return $this->approved;
     }
 
-    public function approve()
+    public function approve(): void
     {
         $this->approved = true;
     }
@@ -234,7 +203,7 @@ class Workshop
         return ucfirst($this->getTypeCode());
     }
 
-    public function promoteToCore()
+    public function promoteToCore(): void
     {
         $this->type = self::TYPE_CORE;
     }

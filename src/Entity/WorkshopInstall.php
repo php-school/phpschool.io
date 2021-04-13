@@ -8,8 +8,6 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- *
  * @ORM\Entity
  * @ORM\Table(name="workshop_installs"))
  * @ORM\Entity(repositoryClass="PhpSchool\Website\Repository\DoctrineORMWorkshopInstallRepository")
@@ -17,43 +15,36 @@ use Ramsey\Uuid\UuidInterface;
 class WorkshopInstall
 {
     /**
-     * @var Uuid
+     * @psalm-suppress PropertyNotSetInConstructor
      *
      * @ORM\Id
      * @ORM\Column(type="uuid")
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private $id;
+    private Uuid $id;
 
     /**
-     * @var Workshop
-     *
      * @ORM\ManyToOne(targetEntity="Workshop", inversedBy="installs")
      * @ORM\JoinColumn(name="workshop_id", referencedColumnName="id")
      */
-    private $workshop;
+    private Workshop $workshop;
 
     /**
-     * @var DateTime
-     *
      * @ORM\Column(type="datetime")
      */
-    private $dateTime;
+    private DateTime $dateTime;
 
     /**
-     * @var string
      *
      * @ORM\Column(type="string", length=255)
      */
-    private $ipAddress;
+    private string $ipAddress;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    private $version;
+    private string $version;
 
     public function __construct(Workshop $workshop, string $ipAddress, string $version)
     {

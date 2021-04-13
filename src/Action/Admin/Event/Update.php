@@ -30,7 +30,7 @@ class Update
         $this->formHandler = $formHandler;
     }
 
-    public function showUpdateForm(Request $request, Response $response, string $id)
+    public function showUpdateForm(Request $request, Response $response, string $id): Response
     {
         try {
             $event = $this->repository->findById($id);

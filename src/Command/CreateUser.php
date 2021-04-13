@@ -18,8 +18,15 @@ class CreateUser
 
     public function __invoke(OutputInterface $output, string $name, string $email, string $password): int
     {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+
+        if (!is_string($password)) {
+            $output->writeln("\n<error>Invalid password given</error>\n");
+            return 1;
+        }
+
         $this->entityManager->persist(
-            new User($name, $email, password_hash($password, PASSWORD_DEFAULT))
+            new User($name, $email, $password)
         );
         try {
             $this->entityManager->flush();
@@ -30,5 +37,6 @@ class CreateUser
             return 1;
         }
         $output->writeln(sprintf("\n<info>User %s was created!</info>\n", $email));
+        return 0;
     }
 }

@@ -11,12 +11,12 @@ use Laminas\Validator\Regex;
 use Laminas\Validator\StringLength;
 
 /**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class SubmitWorkshop extends InputFilter
 {
-    private static $gitHubComposerJsonUrlFormat = 'https://raw.githubusercontent.com/%s/%s/master/composer.json';
-    private static $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d\-\.]+)\/?$/';
+    private static string $gitHubComposerJsonUrlFormat = 'https://raw.githubusercontent.com/%s/%s/master/composer.json';
+    private static string $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d\-\.]+)\/?$/';
 
     public function __construct(Client $gitHubClient, WorkshopRepository $workshopRepository)
     {
@@ -37,7 +37,7 @@ class SubmitWorkshop extends InputFilter
                 [
                     'name' => Callback::class,
                     'options' => [
-                        'callback' => function ($url) {
+                        'callback' => function (string $url) {
                             preg_match(static::$gitHubRepoUrlRegex, $url, $matches);
                             $owner = $matches[3];
                             $repo = $matches[4];
@@ -53,12 +53,15 @@ class SubmitWorkshop extends InputFilter
                 [
                     'name' => Callback::class,
                     'options' => [
-                        'callback' => function ($url) use ($gitHubClient) {
+                        'callback' => function (string $url) use ($gitHubClient) {
                             preg_match(static::$gitHubRepoUrlRegex, $url, $matches);
                             $owner = $matches[3];
-                            $repo = $matches[4];
+                            $repository = $matches[4];
 
-                            return count($gitHubClient->api('repo')->tags($owner, $repo)) > 0;
+                            /** @var \Github\Api\Repo $repo */
+                            $repo = $gitHubClient->api('repo');
+
+                            return count($repo->tags($owner, $repository)) > 0;
                         },
                         'messages' => [
                             Callback::INVALID_VALUE => 'Cannot find any git tags in "%value%". Make sure you tag a release.',
@@ -122,7 +125,7 @@ class SubmitWorkshop extends InputFilter
                 [
                     'name' => Callback::class,
                     'options' => [
-                        'callback' => function ($name) use ($workshopRepository) {
+                        'callback' => function (string $name) use ($workshopRepository) {
                             try {
                                 $workshopRepository->findByDisplayName($name);
                             } catch (\RuntimeException $e) {

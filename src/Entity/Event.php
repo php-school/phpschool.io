@@ -8,8 +8,6 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- *
  * @ORM\Entity
  * @ORM\Table(name="event"))
  * @ORM\Entity(repositoryClass="PhpSchool\Website\Repository\DoctrineORMEventRepository")
@@ -17,72 +15,52 @@ use Ramsey\Uuid\UuidInterface;
 class Event
 {
     /**
-     * @var Uuid
      *
+     * @psalm-suppress PropertyNotSetInConstructor
      * @ORM\Id
      * @ORM\Column(type="uuid")
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private $id;
+    private Uuid $id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=512)
      */
-    private $description;
+    private string $description;
 
     /**
-     * @var string|null
-     *
      * @ORM\Column(type="string", length=512, nullable=true)
      */
-    private $link;
+    private ?string $link;
 
     /**
-     * @var DateTime
-     *
      * @ORM\Column(type="datetime", length=512)
      */
-    private $dateTime;
+    private DateTime $dateTime;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=512)
      */
-    private $venue;
+    private string $venue;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=512, nullable=true)
      */
-    private $poster;
+    private ?string $poster;
 
-    /**
-     * @param string $name
-     * @param string $description
-     * @param string|null $link
-     * @param DateTime $dateTime
-     * @param string $venue
-     * @param string|null $poster
-     */
     public function __construct(
         string $name,
         string $description,
-        $link,
+        ?string $link,
         DateTime $dateTime,
         string $venue,
-        string $poster = null
+        ?string $poster
     ) {
         $this->name = $name;
         $this->description = $description;
@@ -102,7 +80,7 @@ class Event
         return $this->name;
     }
 
-    public function setName(string $name)
+    public function setName(string $name): Event
     {
         $this->name = $name;
         return $this;
@@ -113,21 +91,18 @@ class Event
         return $this->description;
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description): Event
     {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getLink()
+    public function getLink(): ?string
     {
         return $this->link;
     }
 
-    public function setLink(string $link = null)
+    public function setLink(string $link = null): Event
     {
         $this->link = $link;
         return $this;
@@ -138,7 +113,7 @@ class Event
         return $this->dateTime;
     }
 
-    public function setDateTime(DateTime $dateTime)
+    public function setDateTime(DateTime $dateTime): Event
     {
         $this->dateTime = $dateTime;
         return $this;
@@ -149,7 +124,7 @@ class Event
         return $this->venue;
     }
 
-    public function setVenue(string $venue)
+    public function setVenue(string $venue): Event
     {
         $this->venue = $venue;
         return $this;
@@ -160,21 +135,18 @@ class Event
         return explode("\n", $this->venue);
     }
 
-    /**
-     * @return null|string
-     */
-    public function getPoster()
+    public function getPoster(): ?string
     {
         return $this->poster;
     }
 
-    public function setPoster(string $poster = null)
+    public function setPoster(?string $poster): Event
     {
         $this->poster = $poster;
         return $this;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'name' => $this->getName(),

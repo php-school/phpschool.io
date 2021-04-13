@@ -8,16 +8,15 @@ use PhpSchool\Website\Entity\Workshop;
 use RuntimeException;
 
 /**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
+ * @template-extends EntityRepository<Event>
  */
 class DoctrineORMEventRepository extends EntityRepository implements EventRepository
 {
 
     /**
-     * @param int $limit
-     * @return Event[]
+     * @return list<Event>
      */
-    public function findPrevious($limit = 10): array
+    public function findPrevious(int $limit = 10): array
     {
         return $this->createQueryBuilder('e')
             ->where('e.dateTime < :now')
@@ -29,10 +28,9 @@ class DoctrineORMEventRepository extends EntityRepository implements EventReposi
     }
 
     /**
-     * @param int $limit
-     * @return Event[]
+     * @return list<Event>
      */
-    public function findUpcoming($limit = 10): array
+    public function findUpcoming(int $limit = 10): array
     {
         return $this->createQueryBuilder('e')
             ->where('e.dateTime > :now')
@@ -44,18 +42,13 @@ class DoctrineORMEventRepository extends EntityRepository implements EventReposi
     }
 
     /**
-     * @return Event[]
+     * @return list<Event>
      */
     public function findAll(): array
     {
         return parent::findBy([], ['dateTime' => 'DESC']);
     }
 
-    /**
-     * @param string $id
-     * @return Event
-     * @throws RuntimeException
-     */
     public function findById(string $id): Event
     {
         $event = parent::find($id);
@@ -66,13 +59,13 @@ class DoctrineORMEventRepository extends EntityRepository implements EventReposi
         throw new RuntimeException(sprintf('Cannot find event with id: "%s"', $id));
     }
 
-    public function save(Event $event)
+    public function save(Event $event): void
     {
         $this->_em->persist($event);
         $this->_em->flush();
     }
 
-    public function remove(Event $event)
+    public function remove(Event $event): void
     {
         $this->_em->remove($event);
         $this->_em->flush();

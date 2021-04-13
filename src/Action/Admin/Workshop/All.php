@@ -7,31 +7,17 @@ use DatePeriod;
 use DateTimeImmutable;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
+use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
-use Slim\Views\PhpRenderer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class All
 {
-    /**
-     * @var WorkshopRepository
-     */
-    private $repository;
-
-    /**
-     * @var WorkshopInstallRepository
-     */
-    private $workshopInstallRepository;
-
-    /**
-     * @var PhpRenderer
-     */
-    private $renderer;
+    private WorkshopRepository $repository;
+    private WorkshopInstallRepository $workshopInstallRepository;
+    private PhpRenderer $renderer;
 
     public function __construct(
         WorkshopRepository $repository,
@@ -43,7 +29,7 @@ class All
         $this->repository = $repository;
     }
 
-    public function __invoke(Request $request, Response $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $this->renderer->addJs('charts', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.min.js');
 

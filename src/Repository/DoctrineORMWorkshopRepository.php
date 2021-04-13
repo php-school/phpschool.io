@@ -7,13 +7,12 @@ use PhpSchool\Website\Entity\Workshop;
 use RuntimeException;
 
 /**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
+ * @template-extends EntityRepository<Workshop>
  */
 class DoctrineORMWorkshopRepository extends EntityRepository implements WorkshopRepository
 {
-
     /**
-     * @return Workshop[]
+     * @return list<Workshop>
      */
     public function findAllPendingApproval(): array
     {
@@ -21,26 +20,22 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
     }
 
     /**
-     * @return Workshop[]
+     * @return list<Workshop>
      */
     public function findAllApproved(): array
     {
         return $this->findBy(['approved' => true]);
     }
 
+
     /**
-     * @return Workshop[]
+     * @return list<Workshop>
      */
     public function findAll(): array
     {
         return parent::findAll();
     }
 
-    /**
-     * @param string $id
-     * @return Workshop
-     * @throws RuntimeException
-     */
     public function findById(string $id): Workshop
     {
         $workshop = parent::find($id);
@@ -51,11 +46,6 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
         throw new RuntimeException(sprintf('Cannot find workshop with id: "%s"', $id));
     }
 
-    /**
-     * @param string $displayName
-     * @return Workshop
-     * @throws RuntimeException
-     */
     public function findByDisplayName(string $displayName): Workshop
     {
         $workshop = parent::findOneBy(['displayName' => $displayName]);
@@ -66,11 +56,6 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
         throw new RuntimeException(sprintf('Cannot find workshop with display name: "%s"', $displayName));
     }
 
-    /**
-     * @param string $name
-     * @return Workshop
-     * @throws RuntimeException
-     */
     public function findByCode(string $name): Workshop
     {
         $workshop = parent::findOneBy(['code' => $name]);
@@ -81,16 +66,13 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
         throw new RuntimeException(sprintf('Cannot find workshop with code: "%s"', $name));
     }
 
-    /**
-     * @param Workshop $workshopSubmission
-     */
-    public function save(Workshop $workshopSubmission)
+    public function save(Workshop $workshopSubmission): void
     {
         $this->_em->persist($workshopSubmission);
         $this->_em->flush();
     }
 
-    public function remove(Workshop $workshop)
+    public function remove(Workshop $workshop): void
     {
         $this->_em->remove($workshop);
         $this->_em->flush();

@@ -5,9 +5,6 @@ namespace PhpSchool\Website\Repository;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 interface WorkshopInstallRepository
 {
     public function totalInstallsInLast30Days(Workshop $workshop): int;
@@ -16,7 +13,7 @@ interface WorkshopInstallRepository
 
     public function findInstallsInLast30Days(Workshop $workshop): array;
 
-    public function save(WorkshopInstall $workshopInstall);
+    public function save(WorkshopInstall $workshopInstall): void;
 
-    public function removeAllByWorkshop(Workshop $workshop);
+    public function removeAllByWorkshop(Workshop $workshop): void;
 }
