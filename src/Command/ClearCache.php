@@ -17,13 +17,13 @@ class ClearCache
 
     public function __invoke(OutputInterface $output): void
     {
-        $this->cache->clear();
+        $res = $this->cache->clear();
 
         //clear route cache
         if (file_exists(__DIR__ . '/../../var/cache/router.php')) {
             unlink(__DIR__ . '/../../var/cache/router.php');
         }
 
-        $output->writeln('<info>FPC Cleared!</info>');
+        $output->writeln(sprintf('<info>FPC Cleared! Result: %s</info>', $res ? 'true' : 'false'));
     }
 }
