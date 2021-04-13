@@ -323,8 +323,7 @@ return [
     },
 
     Messages::class => \DI\factory(function (ContainerInterface $c): Messages {
-        $session = $c->get(Session::class);
-        return new Messages($session);
+        return new Messages();
     }),
 
     WorkshopFeed::class => \DI\factory(function (ContainerInterface $c): WorkshopFeed {
