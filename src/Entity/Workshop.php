@@ -4,6 +4,7 @@ namespace PhpSchool\Website\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -32,7 +33,7 @@ class Workshop
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private Uuid $id;
+    private UuidInterface $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -92,7 +93,7 @@ class Workshop
     /**
      * @ORM\OneToMany(targetEntity="WorkshopInstall", mappedBy="workshop")
      */
-    private ArrayCollection $installs;
+    private Collection $installs;
 
     public function __construct(
         string $gitHubOwner,
