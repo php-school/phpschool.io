@@ -9,6 +9,6 @@ trait RedirectUtils
     private function redirect(string $url): Response
     {
         return (new Response(302))
-            ->withHeader('Location', '/login');
+            ->withHeader('Location', $url);
     }
 }
