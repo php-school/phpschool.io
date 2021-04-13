@@ -2,6 +2,7 @@
 
 namespace PhpSchool\Website\User\Middleware;
 
+use PhpSchool\Website\Action\RedirectUtils;
 use PhpSchool\Website\User\AuthenticationService;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -10,6 +11,8 @@ use Slim\Routing\RouteContext;
 
 class Authenticator
 {
+    use RedirectUtils;
+
     private AuthenticationService $authenticationService;
 
     public function __construct(AuthenticationService $authenticationService)
@@ -36,7 +39,6 @@ class Authenticator
             return $handler->handle($request);
         }
 
-        return (new \GuzzleHttp\Psr7\Response(302))
-            ->withHeader('Location', '/login');
+        return $this->redirect('/login');
     }
 }

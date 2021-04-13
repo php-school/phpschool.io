@@ -107,25 +107,24 @@ return [
         return new RedisAdapter(new Predis\Client(['host' => $c->get('config')['redisHost']]), 'fpc');
     }),
     'cache' => factory(function (ContainerInterface $c) {
-        $cache = new NullAdapter;
-        if ($c->get('config')['enableCache']) {
-            $redisConnection = new \Predis\Client(['host' => $c->get('config')['redisHost']]);
-            try {
-                $redisConnection->connect();
-            } catch (ConnectionException $e) {
-                throw new \RuntimeException(
-                    sprintf(
-                        'Could not connect to redis using host: "%s". Message: "%s"',
-                        $c->get('config')['redisHost'],
-                        $e->getMessage()
-                    )
-                );
-            }
-
-            $cache = new RedisAdapter($redisConnection, 'default');
+        if (!$c->get('config')['enableCache']) {
+            return new NullAdapter;
         }
 
-        return $cache;
+        $redisConnection = new \Predis\Client(['host' => $c->get('config')['redisHost']]);
+        try {
+            $redisConnection->connect();
+        } catch (ConnectionException $e) {
+            throw new \RuntimeException(
+                sprintf(
+                    'Could not connect to redis using host: "%s". Message: "%s"',
+                    $c->get('config')['redisHost'],
+                    $e->getMessage()
+                )
+            );
+        }
+
+        return new RedisAdapter($redisConnection, 'default');
     }),
     DoctrineCache::class => factory(function (ContainerInterface $c) {
         return new DoctrineCacheBridge($c->get('cache'));

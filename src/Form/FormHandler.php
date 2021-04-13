@@ -6,6 +6,8 @@ use AdamWathan\BootForms\BasicFormBuilder;
 use AdamWathan\BootForms\BootForm;
 use AdamWathan\BootForms\HorizontalFormBuilder;
 use AdamWathan\Form\FormBuilder;
+use PhpSchool\Website\Action\JsonUtils;
+use PhpSchool\Website\Action\RedirectUtils;
 use Psr\Http\Message\UploadedFileInterface;
 use Laminas\InputFilter\InputFilter;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -14,6 +16,9 @@ use PhpSchool\Website\User\Session;
 
 class FormHandler
 {
+    use RedirectUtils;
+    use JsonUtils;
+
     private InputFilter $inputFilter;
     private Session $session;
 
@@ -35,9 +40,7 @@ class FormHandler
         $this->session->set('__old_input', $request->getParsedBody());
         $this->session->set('__errors', $this->inputFilter->getMessages());
 
-        return $response
-            ->withHeader('Location', $request->getHeaderLine('referer'))
-            ->withStatus(302);
+        return $this->redirect($request->getHeaderLine('referer'));
     }
 
     public function redirectWithErrors(Request $request, Response $response, array $errors): Response
@@ -45,9 +48,7 @@ class FormHandler
         $this->session->set('__old_input', $request->getParsedBody());
         $this->session->set('__errors', $errors);
 
-        return $response
-            ->withHeader('Location', $request->getHeaderLine('referer'))
-            ->withStatus(302);
+        return $this->redirect($request->getHeaderLine('referer'));
     }
 
     public function validateJsonRequest(Request $request, Response $response)
@@ -56,14 +57,10 @@ class FormHandler
             return true;
         }
 
-        $response
-            ->getBody()
-            ->write(json_encode([
-                'success' => false,
-                'form_errors' => $this->inputFilter->getMessages(),
-            ]));
-
-        return $response->withHeader('Content-Type', 'application/json');
+        return $this->withJson([
+            'success' => false,
+            'form_errors' => $this->inputFilter->getMessages(),
+        ], $response);
     }
 
     public function validateRequest(Request $request) : bool
