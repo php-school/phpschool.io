@@ -12,36 +12,13 @@ use PhpSchool\Website\PhpRenderer;
 use RuntimeException;
 use Slim\Flash\Messages;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class Delete
 {
-    /**
-     * @var WorkshopRepository
-     */
-    private $repository;
-
-    /**
-     * @var WorkshopInstallRepository
-     */
-    private $installRepository;
-
-    /**
-     * @var WorkshopFeed
-     */
-    private $workshopFeed;
-
-    /**
-     * @var CacheItemPoolInterface
-     */
-    private $cache;
-
-    /**
-     * @var Messages
-     */
-    private $messages;
-
+    private WorkshopRepository $repository;
+    private WorkshopInstallRepository $installRepository;
+    private WorkshopFeed $workshopFeed;
+    private CacheItemPoolInterface $cache;
+    private Messages $messages;
 
     public function __construct(
         WorkshopRepository $repository,
@@ -57,7 +34,7 @@ class Delete
         $this->installRepository = $installRepository;
     }
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, $id)
+    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, $id): Response
     {
         try {
             $workshop = $this->repository->findById($id);

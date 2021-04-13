@@ -6,26 +6,21 @@ use AdamWathan\BootForms\BasicFormBuilder;
 use AdamWathan\BootForms\BootForm;
 use AdamWathan\BootForms\HorizontalFormBuilder;
 use AdamWathan\Form\FormBuilder;
+use PhpSchool\Website\Action\JsonUtils;
+use PhpSchool\Website\Action\RedirectUtils;
 use Psr\Http\Message\UploadedFileInterface;
-use RKA\Session;
 use Laminas\InputFilter\InputFilter;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+use PhpSchool\Website\User\Session;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class FormHandler
 {
-    /**
-     * @var InputFilter
-     */
-    private $inputFilter;
+    use RedirectUtils;
+    use JsonUtils;
 
-    /**
-     * @var Session
-     */
-    private $session;
+    private InputFilter $inputFilter;
+    private Session $session;
 
     public function __construct(InputFilter $inputFilter, Session $session)
     {
@@ -34,8 +29,6 @@ class FormHandler
     }
 
     /**
-     * @param Request $request
-     * @param Response $response
      * @return bool|Response
      */
     public function validateAndRedirectIfErrors(Request $request, Response $response)
@@ -47,15 +40,15 @@ class FormHandler
         $this->session->set('__old_input', $request->getParsedBody());
         $this->session->set('__errors', $this->inputFilter->getMessages());
 
-        return $response->withRedirect($request->getHeaderLine('referer'));
+        return $this->redirect($request->getHeaderLine('referer'));
     }
 
-    public function redirectWithErrors(Request $request, Response $response, array $errors)
+    public function redirectWithErrors(Request $request, Response $response, array $errors): Response
     {
         $this->session->set('__old_input', $request->getParsedBody());
         $this->session->set('__errors', $errors);
 
-        return $response->withRedirect($request->getHeaderLine('referer'));
+        return $this->redirect($request->getHeaderLine('referer'));
     }
 
     public function validateJsonRequest(Request $request, Response $response)
@@ -64,10 +57,10 @@ class FormHandler
             return true;
         }
 
-        return $response->withJson([
-           'success'        => false,
-           'form_errors'    => $this->inputFilter->getMessages(),
-        ]);
+        return $this->withJson([
+            'success' => false,
+            'form_errors' => $this->inputFilter->getMessages(),
+        ], $response);
     }
 
     public function validateRequest(Request $request) : bool
@@ -92,11 +85,7 @@ class FormHandler
         return $this->inputFilter->isValid();
     }
 
-    /**
-     * @param $bind
-     * @return BootForm
-     */
-    public function getForm($bind = null)
+    public function getForm($bind = null): BootForm
     {
         $formBuilder = new FormBuilder;
         $formBuilder->setOldInputProvider(new OldInput($this->session->get('__old_input', [])));
@@ -114,14 +103,14 @@ class FormHandler
         return new BootForm($basicBootFormsBuilder, $horizontalBootFormsBuilder);
     }
 
-    public function getPreviousErrors()
+    public function getPreviousErrors(): array
     {
         $errors = $this->session->get('__errors', []);
         $this->session->delete('__errors');
         return $errors;
     }
 
-    public function getData()
+    public function getData(): array
     {
         return $this->inputFilter->getValues();
     }

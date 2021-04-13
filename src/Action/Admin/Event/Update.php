@@ -7,34 +7,16 @@ use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Laminas\Filter\Exception\RuntimeException;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class Update
 {
-    /**
-     * @var EventRepository
-     */
-    private $repository;
-
-    /**
-     * @var FormHandler
-     */
-    private $formHandler;
-
-    /**
-     * @var PhpRenderer
-     */
-    private $renderer;
-
-    /**
-     * @var Messages
-     */
-    private $messages;
+    private EventRepository $repository;
+    private FormHandler $formHandler;
+    private PhpRenderer $renderer;
+    private Messages $messages;
 
     public function __construct(
         EventRepository $repository,
@@ -71,7 +53,7 @@ class Update
         ]);
     }
 
-    public function update(Request $request, Response $response, string $id) : Response
+    public function update(Request $request, Response $response, string $id): Response
     {
         try {
             $event = $this->repository->findById($id);
@@ -104,7 +86,7 @@ class Update
             ->setLink($values['link'])
             ->setDateTime(\DateTime::createFromFormat('Y-m-d\TH:i', $values['date']))
             ->setVenue($values['venue'])
-            ->setPoster($values['poster']['tmp_name'] ? basename($values['poster']['tmp_name']) : $event->getPoster());
+            ->setPoster(isset($values['poster']['tmp_name']) ? basename($values['poster']['tmp_name']) : $event->getPoster());
 
         $this->repository->save($event);
 

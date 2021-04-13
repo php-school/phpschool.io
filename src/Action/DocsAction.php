@@ -6,23 +6,12 @@ use PhpSchool\Website\Documentation;
 use PhpSchool\Website\PhpRenderer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Routing\RouteContext;
 
-/**
- * Class DocsAction
- * @package PhpSchool\Website
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class DocsAction
 {
-    /**
-     * @var PhpRenderer
-     */
-    private $renderer;
-
-    /**
-     * @var Documentation
-     */
-    private $documentation;
+    private PhpRenderer $renderer;
+    private Documentation $documentation;
 
     public function __construct(PhpRenderer $renderer, Documentation $documentation)
     {
@@ -32,10 +21,12 @@ class DocsAction
 
     public function __invoke(Request $request, Response $response) : Response
     {
-        $group      = $request->getAttribute('route')->getArgument('group', 'index');
-        $section    = $request->getAttribute('route')->getArgument('section', 'index');
+        $route = RouteContext::fromRequest($request)->getRoute();
 
-        $document   = $this->documentation->findSectionByGroupAndSection($group, $section);
+        $group = $route->getArgument('group', 'index');
+        $section = $route->getArgument('section', 'index');
+
+        $document = $this->documentation->findSectionByGroupAndSection($group, $section);
         $docContent = $this->renderer->fetch($document->getTemplateFile(), ['doc' => $document]);
 
         $title = $this->renderer->renderDocHeader(

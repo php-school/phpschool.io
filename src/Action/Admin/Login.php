@@ -6,28 +6,14 @@ use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\User\AuthenticationService;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class Login
 {
-    /**
-     * @var AuthenticationService
-     */
-    private $authenticationService;
-
-    /**
-     * @var FormHandler
-     */
-    private $formHandler;
-
-    /**
-     * @var PhpRenderer
-     */
-    private $renderer;
+    private AuthenticationService $authenticationService;
+    private FormHandler $formHandler;
+    private PhpRenderer $renderer;
 
     public function __construct(
         AuthenticationService $authenticationService,
@@ -49,6 +35,8 @@ class Login
 
         $this->renderer->appendLocalCss('login', __DIR__ . '/../../../public/css/page-login.css');
 
+        $response = $response->withAddedHeader('Cache-Control', 'no-cache');
+
         return $this->renderer->render($response, 'admin/login.phtml', [
             'pageTitle'       => 'Login to Admin',
             'pageDescription' => 'Login to Admin',
@@ -65,8 +53,8 @@ class Login
         }
 
         $result = $this->authenticationService->login(
-            $request->getParam('email'),
-            $request->getParam('password')
+            $this->formHandler->getData()['email'],
+            $this->formHandler->getData()['password']
         );
 
         if (!$result->isValid()) {

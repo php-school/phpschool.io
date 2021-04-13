@@ -1,5 +1,9 @@
 <?php
 
+use Cache\Bridge\Doctrine\DoctrineCacheBridge;
+use DI\Bridge\Slim\Bridge;
+use PhpSchool\Website\Middleware\Session as SessionMiddleware;
+use Predis\Connection\ConnectionException;
 use function DI\factory;
 use Doctrine\Common\Cache\Cache as DoctrineCache;
 use Doctrine\DBAL\Types\Type;
@@ -8,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Setup;
 use Github\Client;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Mni\FrontYAML\Parser;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -29,9 +33,7 @@ use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\ApiDocsAction;
 use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Action\SubmitWorkshop;
-use PhpSchool\Website\Blog\Generate;
 use PhpSchool\Website\Blog\Generator;
-use PhpSchool\Website\Cache;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateUser;
 use PhpSchool\Website\Command\GenerateBlog;
@@ -39,11 +41,9 @@ use PhpSchool\Website\Command\GenerateDoc;
 use PhpSchool\Website\DocGenerator;
 use PhpSchool\Website\Documentation;
 use PhpSchool\Website\DocumentationGroup;
-use PhpSchool\Website\DownloadManager;
 use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
-use PhpSchool\Website\Form\FormFactory;
 use PhpSchool\Website\Form\FormHandlerFactory;
 use PhpSchool\Website\InputFilter\SubmitWorkshop as SubmitWorkshopInputFilter;
 use PhpSchool\Website\Middleware\FpcCache;
@@ -62,16 +62,14 @@ use PhpSchool\Website\WorkshopFeed;
 use Psr\Log\LoggerInterface;
 use PhpSchool\Website\PhpRenderer;
 use Ramsey\Uuid\Doctrine\UuidType;
-use RKA\Session;
-use RKA\SessionMiddleware;
+use PhpSchool\Website\User\Session;
 use Slim\Flash\Messages;
-use Slim\Router;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 return [
     'console' => factory(function (ContainerInterface $c) {
-        $app = new Silly\Edition\PhpDi\Application('PHP School Website', null, $c);
+        $app = new Silly\Edition\PhpDi\Application('PHP School Website', 'UNKNOWN', $c);
         $app->command('generate-docs', GenerateDoc::class);
         $app->command('clear-cache', ClearCache::class);
         $app->command('create-user name email password', CreateUser::class);
@@ -79,7 +77,8 @@ return [
         return $app;
     }),
     'app' => factory(function (ContainerInterface $c) {
-        $app = new \Slim\App($c);
+        $app =  Bridge::create($c);
+        $app->addRoutingMiddleware();
         $app->add($c->get(FpcCache::class));
         $app->add(new SessionMiddleware(['name' => 'phpschool']));
 
@@ -107,14 +106,35 @@ return [
         }
         return new RedisAdapter(new Predis\Client(['host' => $c->get('config')['redisHost']]), 'fpc');
     }),
+    'cache' => factory(function (ContainerInterface $c) {
+        if (!$c->get('config')['enableCache']) {
+            return new NullAdapter;
+        }
+
+        $redisConnection = new \Predis\Client(['host' => $c->get('config')['redisHost']]);
+        try {
+            $redisConnection->connect();
+        } catch (ConnectionException $e) {
+            throw new \RuntimeException(
+                sprintf(
+                    'Could not connect to redis using host: "%s". Message: "%s"',
+                    $c->get('config')['redisHost'],
+                    $e->getMessage()
+                )
+            );
+        }
+
+        return new RedisAdapter($redisConnection, 'default');
+    }),
+    DoctrineCache::class => factory(function (ContainerInterface $c) {
+        return new DoctrineCacheBridge($c->get('cache'));
+    }),
     PhpRenderer::class => factory(function (ContainerInterface $c) {
         $settings = $c->get('config')['renderer'];
-
         $renderer = new PhpRenderer(
             $settings['template_path'],
             [
-                'links'     => $c->get('config')['links'],
-                'route'     => $c->get('request')->getUri()->getPath(),
+                'links'  => $c->get('config')['links'],
             ]
         );
 
@@ -135,7 +155,7 @@ return [
         $logger->pushHandler(new StreamHandler($settings['path'], Logger::DEBUG));
         return $logger;
     }),
-    DocGenerator::class => \DI\object(),
+    DocGenerator::class => \DI\create(),
 
     Session::class => function (ContainerInterface $c) {
         return new Session;
@@ -326,7 +346,8 @@ return [
     },
 
     Messages::class => \DI\factory(function (ContainerInterface $c) {
-        return new Messages();
+        $session = $c->get(Session::class);
+        return new Messages($session);
     }),
 
     WorkshopFeed::class => \DI\factory(function (ContainerInterface $c) {
@@ -407,6 +428,8 @@ return [
     },
 
     'config' => [
+        'containerCacheDir' => __DIR__ . '/../var/container_cache',
+
         'determineRouteBeforeAppMiddleware' => true,
         // Renderer settings
         'renderer' => [
