@@ -66,6 +66,13 @@
     "phpunit": "phpunit",
     "cs" : "phpcs",
     "cs-fix": "phpcbf",
-    "static": "psalm"
+    "static": "psalm",
+    "app:cc": "php bin/app clear-cache",
+    "app:gen:blog": "php bin/app generate-blog",
+    "app:db:validate": "doctrine orm:validate-schema",
+    "app:db:update": [
+      "doctrine orm:clear-cache:metadata",
+      "doctrine orm:schema-tool:update -f"
+    ]
   }
 }
