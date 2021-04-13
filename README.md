@@ -24,7 +24,7 @@ docker compose exec php composer app:db:update
 docker compose exec php composer app:gen:blog
 ```
 
-Then navigate to `localhost:8000` !
+Then navigate to `http://localhost` !
 
 Pages are cached on first view.
 If you need to clear the cache, run `docker compose exec php composer app:cc`.
