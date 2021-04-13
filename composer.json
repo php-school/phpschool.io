@@ -65,6 +65,7 @@
     ],
     "phpunit": "phpunit",
     "cs" : "phpcs",
-    "cs-fix": "phpcbf"
+    "cs-fix": "phpcbf",
+    "static": "psalm"
   }
 }
