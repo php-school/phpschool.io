@@ -44,7 +44,7 @@ class User
         $this->passwordHash = $passwordHash;
     }
 
-    public function getId(): Uuid
+    public function getId(): UuidInterface
     {
         return $this->id;
     }
