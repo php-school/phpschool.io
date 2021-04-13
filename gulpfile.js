@@ -110,10 +110,6 @@ gulp.task('img', function () {
 
 gulp.task('build-all', ['sass', 'svg', 'minify', 'img']);
 
-gulp.task('deploy', function () {
-    execSync('cap production deploy');
-});
-
 gulp.task('default', ['serve']);
 
 
