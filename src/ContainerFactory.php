@@ -19,7 +19,8 @@ class ContainerFactory
 
         $config = include __DIR__ . '/../app/config.php';
 
-        Collection::macro('ifEmpty', function (callable $callback): Collection {
+        Collection::macro('ifEmpty', function (callable $callback) {
+            /** @var Collection $this */
             if ($this->isEmpty()) {
                 $callback($this);
             }

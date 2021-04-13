@@ -6,21 +6,10 @@ use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use RuntimeException;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class WorkshopFeed
 {
-
-    /**
-     * @var WorkshopRepository
-     */
-    private $workshopRepository;
-
-    /**
-     * @var string
-     */
-    private $outputFile;
+    private WorkshopRepository $workshopRepository;
+    private string $outputFile;
 
     public function __construct(WorkshopRepository $workshopRepository, string $outputFile)
     {
@@ -28,9 +17,9 @@ class WorkshopFeed
         $this->outputFile = $outputFile;
     }
 
-    public function generate()
+    public function generate(): void
     {
-        $workshops = $this->workshopRepository->findBy(['approved' => true]);
+        $workshops = $this->workshopRepository->findAllApproved();
 
         $workshops = ['workshops' => collect($workshops)
             ->map(function (Workshop $workshop) {

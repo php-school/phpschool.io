@@ -4,35 +4,13 @@ namespace PhpSchool\Website\Blog;
 
 use DateTime;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class PostMeta
 {
-    /**
-     * @var string
-     */
-    private $title;
-
-    /**
-     * @var DateTime
-     */
-    private $date;
-
-    /**
-     * @var string
-     */
-    private $link;
-
-    /**
-     * @var string
-     */
-    private $author;
-
-    /**
-     * @var string
-     */
-    private $authorLink;
+    private string $title;
+    private DateTime $date;
+    private string $link;
+    private string $author;
+    private string $authorLink;
 
     public function __construct(string $title, DateTime $date, string $author, string $authorLink)
     {
@@ -51,7 +29,7 @@ class PostMeta
 
     public static function fromArray(array $data): self
     {
-        return new static($data['title'], new DateTime('@' . $data['date']), $data['author'], $data['author_link']);
+        return new self($data['title'], new DateTime('@' . $data['date']), $data['author'], $data['author_link']);
     }
 
     public function getTitle(): string
@@ -79,7 +57,7 @@ class PostMeta
         return $this->authorLink;
     }
 
-    private function slugify($string): string
+    private function slugify(string $string): string
     {
         return trim(strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)), '-');
     }

@@ -14,7 +14,7 @@ use Laminas\Validator\StringLength;
 use Laminas\Validator\Uri;
 
 /**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class Event extends InputFilter
 {

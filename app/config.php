@@ -2,8 +2,13 @@
 
 use Cache\Bridge\Doctrine\DoctrineCacheBridge;
 use DI\Bridge\Slim\Bridge;
+use Doctrine\ORM\Configuration;
+use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
 use Predis\Connection\ConnectionException;
+use Slim\App;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Contracts\Cache\CacheInterface;
 use function DI\factory;
 use Doctrine\Common\Cache\Cache as DoctrineCache;
 use Doctrine\DBAL\Types\Type;
@@ -65,14 +70,14 @@ use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 return [
-    'console' => factory(function (ContainerInterface $c) {
+    'console' => factory(function (DI\Container $c): Silly\Edition\PhpDi\Application {
         $app = new Silly\Edition\PhpDi\Application('PHP School Website', 'UNKNOWN', $c);
         $app->command('clear-cache', ClearCache::class);
         $app->command('create-user name email password', CreateUser::class);
         $app->command('generate-blog', GenerateBlog::class);
         return $app;
     }),
-    'app' => factory(function (ContainerInterface $c) {
+    'app' => factory(function (ContainerInterface $c): App {
         $app =  Bridge::create($c);
         $app->addRoutingMiddleware();
         $app->add($c->get(FpcCache::class));
@@ -80,29 +85,16 @@ return [
 
         return $app;
     }),
-    'router' => function (ContainerInterface $c) {
-        $router = new Router;
-
-        if ($c->get('config')['enableCache']) {
-            if (!file_exists('../var/cache')) {
-                mkdir('../var/cache', 0777, true);
-            }
-
-            $router->setCacheFile('../var/cache/router.php');
-        }
-
-        return $router;
-    },
-    FpcCache::class => factory(function (ContainerInterface $c) {
+    FpcCache::class => factory(function (ContainerInterface $c): FpcCache {
         return new FpcCache($c->get('cache.fpc'));
     }),
-    'cache.fpc' => factory(function (ContainerInterface $c) {
+    'cache.fpc' => factory(function (ContainerInterface $c): CacheInterface {
         if (!$c->get('config')['enablePageCache']) {
             return new NullAdapter;
         }
         return new RedisAdapter(new Predis\Client(['host' => $c->get('config')['redisHost']]), 'fpc');
     }),
-    'cache' => factory(function (ContainerInterface $c) {
+    'cache' => factory(function (ContainerInterface $c): CacheInterface {
         if (!$c->get('config')['enableCache']) {
             return new NullAdapter;
         }
@@ -122,10 +114,10 @@ return [
 
         return new RedisAdapter($redisConnection, 'default');
     }),
-    DoctrineCache::class => factory(function (ContainerInterface $c) {
+    DoctrineCache::class => factory(function (ContainerInterface $c): DoctrineCache {
         return new DoctrineCacheBridge($c->get('cache'));
     }),
-    PhpRenderer::class => factory(function (ContainerInterface $c) {
+    PhpRenderer::class => factory(function (ContainerInterface $c): PhpRenderer {
         $settings = $c->get('config')['renderer'];
         $renderer = new PhpRenderer(
             $settings['template_path'],
@@ -144,7 +136,7 @@ return [
 
         return $renderer;
     }),
-    LoggerInterface::class => factory(function (ContainerInterface $c) {
+    LoggerInterface::class => factory(function (ContainerInterface $c): LoggerInterface{
         $settings = $c->get('config')['logger'];
         $logger = new Logger($settings['name']);
         $logger->pushProcessor(new UidProcessor);
@@ -152,26 +144,26 @@ return [
         return $logger;
     }),
 
-    Session::class => function (ContainerInterface $c) {
+    Session::class => function (ContainerInterface $c): Session {
         return new Session;
     },
 
-    FormHandlerFactory::class => function (ContainerInterface $c) {
+    FormHandlerFactory::class => function (ContainerInterface $c): FormHandlerFactory {
         return new FormHandlerFactory($c->get(Session::class));
     },
 
     //commands
-    ClearCache::class => factory(function (ContainerInterface $c) {
+    ClearCache::class => factory(function (ContainerInterface $c): ClearCache {
         return new ClearCache($c->get('cache.fpc'));
     }),
-    CreateUser::class => factory(function (ContainerInterface $c) {
+    CreateUser::class => factory(function (ContainerInterface $c): CreateUser {
         return new CreateUser($c->get(EntityManagerInterface::class));
     }),
-    GenerateBlog::class => function (ContainerInterface $c) {
+    GenerateBlog::class => function (ContainerInterface $c): GenerateBlog {
         return new GenerateBlog($c->get(Generator::class));
     },
 
-    Documentation::class => \DI\factory(function (ContainerInterface $c) {
+    Documentation::class => \DI\factory(function (ContainerInterface $c): Documentation {
         $tutorialGroup = new DocumentationGroup('tutorial', 'Workshop Tutorial');
         $tutorialGroup->addSection('index', 'Workshop Tutorial', 'docs/tutorial/index.phtml');
         $tutorialGroup->addSection('creating-your-own-workshop', 'Creating your own workshop', 'docs/tutorial/creating-your-own-workshop.phtml');
@@ -208,15 +200,15 @@ return [
         return $docs;
     }),
 
-    DocsAction::class => \DI\factory(function (ContainerInterface $c) {
+    DocsAction::class => \DI\factory(function (ContainerInterface $c): DocsAction {
         return new DocsAction($c->get(PhpRenderer::class), $c->get(Documentation::class));
     }),
 
-    TrackDownloads::class => function (ContainerInterface $c) {
+    TrackDownloads::class => function (ContainerInterface $c): TrackDownloads {
         return new TrackDownloads($c->get(WorkshopRepository::class), $c->get(WorkshopInstallRepository::class));
     },
 
-    SubmitWorkshop::class => \DI\factory(function (ContainerInterface $c) {
+    SubmitWorkshop::class => \DI\factory(function (ContainerInterface $c): SubmitWorkshop {
         return new SubmitWorkshop(
             $c->get(FormHandlerFactory::class)->create(
                 new SubmitWorkshopInputFilter(new Client, $c->get(WorkshopRepository::class))
@@ -228,7 +220,7 @@ return [
     }),
 
     //admin
-    Login::class => \DI\factory(function (ContainerInterface $c) {
+    Login::class => \DI\factory(function (ContainerInterface $c): Login {
         return new Login(
             $c->get(AuthenticationService::class),
             $c->get(FormHandlerFactory::class)->create(new LoginInputFilter),
@@ -236,21 +228,21 @@ return [
         );
     }),
 
-    ClearCacheAction::class => function (ContainerInterface $c) {
+    ClearCacheAction::class => function (ContainerInterface $c): ClearCacheAction {
         return new ClearCacheAction(
             $c->get('cache.fpc'),
             $c->get(Messages::class)
         );
     },
 
-    Requests::class => \DI\factory(function (ContainerInterface $c) {
+    Requests::class => \DI\factory(function (ContainerInterface $c): Requests {
         return new Requests(
             $c->get(WorkshopRepository::class),
             $c->get(PhpRenderer::class)
         );
     }),
 
-    All::class => \DI\factory(function (ContainerInterface $c) {
+    All::class => \DI\factory(function (ContainerInterface $c): All {
         return new All(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopInstallRepository::class),
@@ -258,7 +250,7 @@ return [
         );
     }),
 
-    Approve::class => \DI\factory(function (ContainerInterface $c) {
+    Approve::class => \DI\factory(function (ContainerInterface $c): Approve {
         return new Approve(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopFeed::class),
@@ -269,7 +261,7 @@ return [
         );
     }),
 
-    Promote::class => \DI\factory(function (ContainerInterface $c) {
+    Promote::class => \DI\factory(function (ContainerInterface $c): Promote {
         return new Promote(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopFeed::class),
@@ -278,7 +270,7 @@ return [
         );
     }),
 
-    Delete::class => \DI\factory(function (ContainerInterface $c) {
+    Delete::class => \DI\factory(function (ContainerInterface $c): Delete {
         return new Delete(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopInstallRepository::class),
@@ -288,7 +280,7 @@ return [
         );
     }),
 
-    View::class => function (ContainerInterface $c) {
+    View::class => function (ContainerInterface $c): View {
         return new View(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopInstallRepository::class),
@@ -296,15 +288,15 @@ return [
         );
     },
 
-    'form.event' => function (ContainerInterface $c) {
+    'form.event' => function (ContainerInterface $c): FormHandler {
         return $c->get(FormHandlerFactory::class)->create(new EventInputFilter);
     },
 
-    EventAll::class => function (ContainerInterface $c) {
+    EventAll::class => function (ContainerInterface $c): EventAll {
         return new EventAll($c->get(EventRepository::class), $c->get(PhpRenderer::class));
     },
 
-    EventCreate::class => function (ContainerInterface $c) {
+    EventCreate::class => function (ContainerInterface $c): EventCreate {
         return new EventCreate(
             $c->get(EventRepository::class),
             $c->get('form.event'),
@@ -313,7 +305,7 @@ return [
         );
     },
 
-    EventUpdate::class => function (ContainerInterface $c) {
+    EventUpdate::class => function (ContainerInterface $c): EventUpdate {
         return new EventUpdate(
             $c->get(EventRepository::class),
             $c->get('form.event'),
@@ -322,7 +314,7 @@ return [
         );
     },
 
-    EventDelete::class => function (ContainerInterface $c) {
+    EventDelete::class => function (ContainerInterface $c): EventDelete {
         return new EventDelete(
             $c->get(EventRepository::class),
             $c->get('cache.fpc'),
@@ -330,41 +322,41 @@ return [
         );
     },
 
-    Messages::class => \DI\factory(function (ContainerInterface $c) {
+    Messages::class => \DI\factory(function (ContainerInterface $c): Messages {
         $session = $c->get(Session::class);
         return new Messages($session);
     }),
 
-    WorkshopFeed::class => \DI\factory(function (ContainerInterface $c) {
+    WorkshopFeed::class => \DI\factory(function (ContainerInterface $c): WorkshopFeed {
         return new WorkshopFeed(
             $c->get(WorkshopRepository::class),
             __DIR__ . '/../public/workshops.json'
         );
     }),
 
-    WorkshopRepository::class => \DI\factory(function (ContainerInterface $c) {
+    WorkshopRepository::class => \DI\factory(function (ContainerInterface $c): WorkshopRepository {
         return $c->get(EntityManagerInterface::class)->getRepository(Workshop::class);
     }),
 
-    WorkshopInstallRepository::class => \DI\factory(function (ContainerInterface $c) {
+    WorkshopInstallRepository::class => \DI\factory(function (ContainerInterface $c): WorkshopInstallRepository {
         return $c->get(EntityManagerInterface::class)->getRepository(WorkshopInstall::class);
     }),
 
-    EventRepository::class => function (ContainerInterface $c) {
+    EventRepository::class => function (ContainerInterface $c): EventRepository {
         return $c->get(EntityManagerInterface::class)->getRepository(Event::class);
     },
 
-    AuthenticationService::class => \DI\factory(function (ContainerInterface $c) {
+    AuthenticationService::class => \DI\factory(function (ContainerInterface $c): AuthenticationService {
         $authService = new \Laminas\Authentication\AuthenticationService;
         $authService->setAdapter(new Doctrine($c->get(EntityManagerInterface::class)));
         return new AuthenticationService($authService);
     }),
 
-    Authenticator::class => \DI\factory(function (ContainerInterface $c) {
+    Authenticator::class => \DI\factory(function (ContainerInterface $c): Authenticator {
         return new Authenticator($c->get(AuthenticationService::class));
     }),
 
-    Setup::class => \DI\factory(function (ContainerInterface $c) {
+    Setup::class => \DI\factory(function (ContainerInterface $c): Configuration {
         $doctrineConfig = $c->get('config')['doctrine'];
 
         $config =  Setup::createAnnotationMetadataConfiguration(
@@ -383,7 +375,7 @@ return [
         return $config;
     }),
 
-    EntityManagerInterface::class => \DI\factory(function (ContainerInterface $c) {
+    EntityManagerInterface::class => \DI\factory(function (ContainerInterface $c): EntityManagerInterface {
         Type::addType('uuid', UuidType::class);
 
         return EntityManager::create(
@@ -392,18 +384,18 @@ return [
         );
     }),
 
-    ConsoleRunner::class => \DI\factory(function (ContainerInterface $c) {
+    ConsoleRunner::class => \DI\factory(function (ContainerInterface $c): HelperSet {
         return ConsoleRunner::createHelperSet($c->get(EntityManagerInterface::class));
     }),
 
-    EmailNotifier::class => function (ContainerInterface $c) {
+    EmailNotifier::class => function (ContainerInterface $c): EmailNotifier {
         return new EmailNotifier(
-            new \SendGrid(getenv('SEND_GRID_API_KEY')),
-            getenv('SEND_GRID_SENDER_EMAIL')
+            new \SendGrid((string) getenv('SEND_GRID_API_KEY')),
+            (string) getenv('SEND_GRID_SENDER_EMAIL')
         );
     },
 
-    Generator::class => function (ContainerInterface $c) {
+    Generator::class => function (ContainerInterface $c): Generator {
         return new Generator(
             new Parser,
             __DIR__ . '/../posts/',

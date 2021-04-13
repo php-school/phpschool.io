@@ -5,19 +5,14 @@ namespace PhpSchool\Website;
 use ArrayIterator;
 use IteratorAggregate;
 
-/**
- * Class Documentation
- * @package PhpSchool\Website
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class Documentation implements IteratorAggregate
 {
     /**
-     * @var DocumentationGroup[]
+     * @var list<DocumentationGroup>
      */
-    private $groups = [];
+    private array $groups = [];
 
-    public function addGroup(DocumentationGroup $group)
+    public function addGroup(DocumentationGroup $group): void
     {
         $this->groups[] = $group;
     }
@@ -74,7 +69,7 @@ class Documentation implements IteratorAggregate
         return $group->getSectionAtOffset($offset);
     }
 
-    public function hasNextSection(DocumentationSectionInterface $section)
+    public function hasNextSection(DocumentationSectionInterface $section): bool
     {
         $group = $this->findGroupForSection($section);
         return $group->sectionExists($group->getSectionOffset($section) + 1);
@@ -106,10 +101,7 @@ class Documentation implements IteratorAggregate
         return $this->findGroupForSection($section)->getSectionAtOffset(0);
     }
 
-    /**
-     * @return null|DocumentationGroup
-     */
-    private function findGroupForSection(DocumentationSectionInterface $section)
+    private function findGroupForSection(DocumentationSectionInterface $section): DocumentationGroup
     {
         foreach ($this->groups as $group) {
             if ($group->hasSection($section)) {
@@ -117,6 +109,6 @@ class Documentation implements IteratorAggregate
             }
         }
 
-        return null;
+        throw new \RuntimeException(sprintf('Section: "%s" belongs to no group', $section->getName()));
     }
 }

@@ -18,7 +18,7 @@ class Session
         'cache_limiter' => 'nocache',
     ];
 
-    public function __construct($options = [])
+    public function __construct(array $options = [])
     {
         $keys = array_keys($this->options);
         foreach ($keys as $key) {

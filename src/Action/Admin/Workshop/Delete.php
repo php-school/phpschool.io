@@ -2,6 +2,7 @@
 
 namespace PhpSchool\Website\Action\Admin\Workshop;
 
+use PhpSchool\Website\Action\RedirectUtils;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\WorkshopFeed;
@@ -14,6 +15,8 @@ use Slim\Flash\Messages;
 
 class Delete
 {
+    use RedirectUtils;
+
     private WorkshopRepository $repository;
     private WorkshopInstallRepository $installRepository;
     private WorkshopFeed $workshopFeed;
@@ -34,14 +37,12 @@ class Delete
         $this->installRepository = $installRepository;
     }
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, $id): Response
+    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): Response
     {
         try {
             $workshop = $this->repository->findById($id);
         } catch (RuntimeException $e) {
-            return $response
-                ->withStatus(302)
-                ->withHeader('Location', '/admin/workshop/all');
+            return $this->redirect('/admin/workshop/all');
         }
 
         $this->installRepository->removeAllByWorkshop($workshop);
@@ -62,8 +63,6 @@ class Delete
             );
         }
 
-        return $response
-            ->withStatus(302)
-            ->withHeader('Location', '/admin/workshop/all');
+        return $this->redirect('/admin/workshop/all');
     }
 }

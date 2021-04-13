@@ -26,7 +26,7 @@ class Delete
         $this->messages = $messages;
     }
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, $id): Response
+    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): Response
     {
         try {
             $event = $this->repository->findById($id);

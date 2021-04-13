@@ -6,30 +6,17 @@ use Doctrine\ORM\EntityManagerInterface;
 use PhpSchool\Website\User\Entity\User;
 use Laminas\Authentication\Adapter\AbstractAdapter;
 use Laminas\Authentication\Adapter\AdapterInterface;
-use Laminas\Authentication\Adapter\Exception\ExceptionInterface;
 use Laminas\Authentication\Result as AuthenticationResult;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class Doctrine extends AbstractAdapter implements AdapterInterface
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * Performs an authentication attempt
-     *
-     * @return AuthenticationResult
-     * @throws ExceptionInterface If authentication cannot be performed
-     */
     public function authenticate(): AuthenticationResult
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $this->getIdentity()]);
@@ -39,6 +26,14 @@ class Doctrine extends AbstractAdapter implements AdapterInterface
                 AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND,
                 null,
                 ['User not found.']
+            );
+        }
+
+        if (!is_string($this->credential)) {
+            return new AuthenticationResult(
+                AuthenticationResult::FAILURE_CREDENTIAL_INVALID,
+                null,
+                ['No credential found.']
             );
         }
 

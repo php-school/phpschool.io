@@ -9,7 +9,7 @@ use Laminas\Validator\NotEmpty;
 use Laminas\Validator\StringLength;
 
 /**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class WorkshopComposerJson extends InputFilter
 {
@@ -55,7 +55,7 @@ class WorkshopComposerJson extends InputFilter
                [
                    'name' => Callback::class,
                    'options' => [
-                       'callback' => function ($bin) {
+                       'callback' => /** @psalm-suppress MissingClosureParamType */ function ($bin) {
                            return is_array($bin) && count($bin) === 1;
                        },
                        'messages' => [
