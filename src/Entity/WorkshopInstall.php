@@ -58,7 +58,7 @@ class WorkshopInstall
     public function __construct(Workshop $workshop, string $ipAddress, string $version)
     {
         $this->workshop = $workshop;
-        $this->dateTime = new \DateTime;
+        $this->dateTime = new \DateTime();
         $this->ipAddress = $ipAddress;
         $this->version = $version;
     }
@@ -68,7 +68,7 @@ class WorkshopInstall
         return $this->id;
     }
 
-    public function getWorkshop() : Workshop
+    public function getWorkshop(): Workshop
     {
         return $this->workshop;
     }

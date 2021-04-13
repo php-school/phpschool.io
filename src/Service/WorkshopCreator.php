@@ -33,7 +33,7 @@ class WorkshopCreator
         $this->workshopRepository = $workshopRepository;
     }
 
-    public function create(array $data) : Workshop
+    public function create(array $data): Workshop
     {
         preg_match(static::$gitHubRepoUrlRegex, $data['github-url'], $matches);
         $owner  = $matches[3];

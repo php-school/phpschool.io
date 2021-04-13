@@ -69,7 +69,7 @@ class View
         ]);
     }
 
-    private function getLast30DayInstallGraphData(array $installs) : array
+    private function getLast30DayInstallGraphData(array $installs): array
     {
         $end    = new DateTimeImmutable();
         $begin  = $end->sub(new DateInterval("P30D"));

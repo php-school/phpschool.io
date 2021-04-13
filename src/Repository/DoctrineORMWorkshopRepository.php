@@ -15,7 +15,7 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
     /**
      * @return Workshop[]
      */
-    public function findAllPendingApproval() : array
+    public function findAllPendingApproval(): array
     {
         return $this->findBy(['approved' => false]);
     }
@@ -23,7 +23,7 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
     /**
      * @return Workshop[]
      */
-    public function findAllApproved() : array
+    public function findAllApproved(): array
     {
         return $this->findBy(['approved' => true]);
     }
@@ -31,7 +31,7 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
     /**
      * @return Workshop[]
      */
-    public function findAll() : array
+    public function findAll(): array
     {
         return parent::findAll();
     }
@@ -41,7 +41,7 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
      * @return Workshop
      * @throws RuntimeException
      */
-    public function findById(string $id) : Workshop
+    public function findById(string $id): Workshop
     {
         $workshop = parent::find($id);
 
@@ -56,7 +56,7 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
      * @return Workshop
      * @throws RuntimeException
      */
-    public function findByDisplayName(string $displayName) : Workshop
+    public function findByDisplayName(string $displayName): Workshop
     {
         $workshop = parent::findOneBy(['displayName' => $displayName]);
 
@@ -71,7 +71,7 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
      * @return Workshop
      * @throws RuntimeException
      */
-    public function findByCode(string $name) : Workshop
+    public function findByCode(string $name): Workshop
     {
         $workshop = parent::findOneBy(['code' => $name]);
 

@@ -17,8 +17,8 @@ use Ramsey\Uuid\UuidInterface;
  */
 class Workshop
 {
-    const TYPE_COMMUNITY = 0;
-    const TYPE_CORE = 1;
+    public const TYPE_COMMUNITY = 0;
+    public const TYPE_CORE = 1;
 
     /**
      * @var array
@@ -142,8 +142,8 @@ class Workshop
         $this->submitterName = $submitterName;
         $this->submitterContact = $submitterContact;
         $this->approved = $approved;
-        $this->createdAt = new DateTime;
-        $this->installs = new ArrayCollection;
+        $this->createdAt = new DateTime();
+        $this->installs = new ArrayCollection();
     }
 
     public function getId(): UuidInterface
@@ -156,37 +156,37 @@ class Workshop
         return sprintf('https://github.com/%s/%s', $this->getGitHubOwner(), $this->getGitHubRepoName());
     }
 
-    public function getGitHubOwner() : string
+    public function getGitHubOwner(): string
     {
         return $this->gitHubOwner;
     }
 
-    public function getGitHubRepoName() : string
+    public function getGitHubRepoName(): string
     {
         return $this->gitHubRepoName;
     }
 
-    public function getCode() : string
+    public function getCode(): string
     {
         return $this->code;
     }
 
-    public function getDisplayName() : string
+    public function getDisplayName(): string
     {
         return $this->displayName;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getSubmitterEmail() : string
+    public function getSubmitterEmail(): string
     {
         return $this->submitterEmail;
     }
 
-    public function getSubmitterName() : string
+    public function getSubmitterName(): string
     {
         return $this->submitterName;
     }
@@ -199,7 +199,7 @@ class Workshop
         return $this->submitterContact;
     }
 
-    public function isApproved() : bool
+    public function isApproved(): bool
     {
         return $this->approved;
     }
@@ -209,27 +209,27 @@ class Workshop
         $this->approved = true;
     }
 
-    public function isCommunity() : bool
+    public function isCommunity(): bool
     {
         return $this->type === self::TYPE_COMMUNITY;
     }
 
-    public function isCore() : bool
+    public function isCore(): bool
     {
         return $this->type === self::TYPE_CORE;
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return $this->type;
     }
 
-    public function getTypeCode() : string
+    public function getTypeCode(): string
     {
         return $this->typeMap[$this->getType()];
     }
 
-    public function getTypeName() : string
+    public function getTypeName(): string
     {
         return ucfirst($this->getTypeCode());
     }
@@ -239,17 +239,17 @@ class Workshop
         $this->type = self::TYPE_CORE;
     }
 
-    public function getCreatedAt() : DateTime
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
-    public function getTotalInstalls() : int
+    public function getTotalInstalls(): int
     {
         return $this->installs->count();
     }
 
-    public function toArray() : array
+    public function toArray(): array
     {
         return [
             "workshop_code" => $this->getCode(),

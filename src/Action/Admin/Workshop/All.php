@@ -74,7 +74,7 @@ class All
         ]);
     }
 
-    private function getDateRange() : array
+    private function getDateRange(): array
     {
         $end    = new DateTimeImmutable();
         $begin  = $end->sub(new DateInterval("P30D"));
@@ -84,7 +84,7 @@ class All
         return iterator_to_array(new DatePeriod($begin, $interval, $end));
     }
 
-    private function getLast30DayInstallGraphData(array $installs, array $dateRange) : array
+    private function getLast30DayInstallGraphData(array $installs, array $dateRange): array
     {
         return array_map(function (DateTimeImmutable $dateTime) use ($installs) {
             return count(array_filter($installs, function (WorkshopInstall $install) use ($dateTime) {

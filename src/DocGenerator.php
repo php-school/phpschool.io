@@ -18,7 +18,7 @@ use Symfony\Component\Finder\Finder;
  */
 class DocGenerator
 {
-    public function generate() : array
+    public function generate(): array
     {
         $reflector = new ClassReflector(new FileIteratorSourceLocator($this->getFiles()->getIterator()));
         $namespaces = array_unique(array_map(function (ReflectionClass $class) {
@@ -80,12 +80,12 @@ class DocGenerator
         return $documentation;
     }
 
-    private function getFiles() : Finder
+    private function getFiles(): Finder
     {
         return Finder::create()
             ->files()
             ->name('*.php')
-            ->in(__DIR__ .'/../vendor/php-school/php-workshop/src')
+            ->in(__DIR__ . '/../vendor/php-school/php-workshop/src')
             ->exclude('Command')
             ->exclude('Factory')
             ->exclude('Listener')
@@ -96,14 +96,14 @@ class DocGenerator
             ->sortByName();
     }
 
-    private function processClasses(array $classes) : array
+    private function processClasses(array $classes): array
     {
         return array_values(array_map(function (ReflectionClass $class) {
             return $this->processClass($class);
         }, $classes));
     }
 
-    private function processClass(ReflectionClass $class) : array
+    private function processClass(ReflectionClass $class): array
     {
         $publicMethods = array_filter($class->getImmediateMethods(), function (ReflectionMethod $method) {
             return $method->isPublic();
@@ -127,7 +127,7 @@ class DocGenerator
         ];
     }
 
-    private function processMethod(ReflectionMethod $method) : array
+    private function processMethod(ReflectionMethod $method): array
     {
         $phpdoc = new DocBlock($method->getDocComment());
         $params = $phpdoc->getTagsByName('param');
@@ -166,7 +166,7 @@ class DocGenerator
         ];
     }
 
-    private function processParam(ReflectionParameter $parameter, array $params) : array
+    private function processParam(ReflectionParameter $parameter, array $params): array
     {
         $typeHint = $parameter->getTypeHint()
             ? $parameter->getTypeHint()->__toString()

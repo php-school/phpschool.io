@@ -92,7 +92,7 @@ class Event
         $this->poster = $poster;
     }
 
-    public function getId() : UuidInterface
+    public function getId(): UuidInterface
     {
         return $this->id;
     }

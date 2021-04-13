@@ -63,7 +63,7 @@ class FormHandler
         ], $response);
     }
 
-    public function validateRequest(Request $request) : bool
+    public function validateRequest(Request $request): bool
     {
         $files = collect($request->getUploadedFiles())
             //filter out missing files
@@ -87,7 +87,7 @@ class FormHandler
 
     public function getForm($bind = null): BootForm
     {
-        $formBuilder = new FormBuilder;
+        $formBuilder = new FormBuilder();
         $formBuilder->setOldInputProvider(new OldInput($this->session->get('__old_input', [])));
         $formBuilder->setErrorStore(new ErrorStore($this->session->get('__errors', [])));
 

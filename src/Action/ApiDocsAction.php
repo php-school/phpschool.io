@@ -22,7 +22,7 @@ class ApiDocsAction
         $this->cache = $cache;
     }
 
-    public function __invoke(Request $request, Response $response) : Response
+    public function __invoke(Request $request, Response $response): Response
     {
         $route = RouteContext::fromRequest($request)->getRoute();
 
@@ -65,7 +65,7 @@ class ApiDocsAction
         ]);
     }
 
-    private function findNamespace(array $docs, $namespace = null) : array
+    private function findNamespace(array $docs, $namespace = null): array
     {
         if (null === $namespace) {
             return $docs[0];
@@ -82,7 +82,7 @@ class ApiDocsAction
         throw new \InvalidArgumentException(sprintf('Namespace: "%s" does not exist', $namespace));
     }
 
-    private function findClass(array $namespace, $class) : array
+    private function findClass(array $namespace, $class): array
     {
         $classes = array_merge(
             $namespace['classes'],
@@ -100,7 +100,7 @@ class ApiDocsAction
         throw new \InvalidArgumentException(sprintf('Class: "%s" does not exist', $class));
     }
 
-    private function slugify(string $title) : string
+    private function slugify(string $title): string
     {
         return str_replace('\\', '-', strtolower($title));
     }

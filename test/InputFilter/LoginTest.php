@@ -18,7 +18,7 @@ class LoginTest extends TestCase
      */
     public function testInputFilter(array $input, array $output = null, array $messages = null)
     {
-        $filter = new Login;
+        $filter = new Login();
         $filter->setData($input);
         if ($output === null) {
             $this->assertFalse($filter->isValid(), 'Input must not be valid');

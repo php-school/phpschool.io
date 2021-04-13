@@ -12,14 +12,14 @@ use Psr\Container\ContainerInterface;
  */
 class ContainerFactory
 {
-    public function __invoke() : ContainerInterface
+    public function __invoke(): ContainerInterface
     {
         $dotEnv = new Dotenv(__DIR__ . '/../');
         $dotEnv->load();
 
         $config = include __DIR__ . '/../app/config.php';
 
-        Collection::macro('ifEmpty', function (callable $callback) : Collection {
+        Collection::macro('ifEmpty', function (callable $callback): Collection {
             if ($this->isEmpty()) {
                 $callback($this);
             }
@@ -27,7 +27,7 @@ class ContainerFactory
             return $this;
         });
 
-        $containerBuilder = new ContainerBuilder;
+        $containerBuilder = new ContainerBuilder();
         $containerBuilder->addDefinitions($config);
 
         if ($config['config']['enableCache']) {

@@ -39,14 +39,14 @@ class Post
         return $this->content;
     }
 
-    public function hasFeatureImage() : bool
+    public function hasFeatureImage(): bool
     {
         $content = $this->getContent();
 
         return preg_match('/<img\s[^>]*?src\s*=\s*[\'\"]([^\'\"]*?)[\'\"][^>]*?>/', $content, $matches);
     }
 
-    public function getFeatureImage() : string
+    public function getFeatureImage(): string
     {
         $content = $this->getContent();
 
@@ -55,7 +55,7 @@ class Post
         return $matches[0];
     }
 
-    public function getExcerpt() : string
+    public function getExcerpt(): string
     {
         $content = $this->getContent();
         $content = strip_tags($content);

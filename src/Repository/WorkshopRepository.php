@@ -13,38 +13,38 @@ interface WorkshopRepository
     /**
      * @return Workshop[]
      */
-    public function findAllPendingApproval() : array;
+    public function findAllPendingApproval(): array;
 
     /**
      * @return Workshop[]
      */
-    public function findAllApproved() : array;
+    public function findAllApproved(): array;
 
     /**
      * @return Workshop[]
      */
-    public function findAll() : array;
+    public function findAll(): array;
 
     /**
      * @param string $id
      * @return Workshop
      * @throws RuntimeException
      */
-    public function findById(string $id) : Workshop;
+    public function findById(string $id): Workshop;
 
     /**
      * @param string $displayName
      * @return Workshop
      * @throws RuntimeException
      */
-    public function findByDisplayName(string $displayName) : Workshop;
+    public function findByDisplayName(string $displayName): Workshop;
 
     /**
      * @param string $name
      * @return Workshop
      * @throws RuntimeException
      */
-    public function findByCode(string $name) : Workshop;
+    public function findByCode(string $name): Workshop;
 
     /**
      * @param Workshop $workshopSubmission

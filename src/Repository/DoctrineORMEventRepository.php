@@ -17,13 +17,13 @@ class DoctrineORMEventRepository extends EntityRepository implements EventReposi
      * @param int $limit
      * @return Event[]
      */
-    public function findPrevious($limit = 10) : array
+    public function findPrevious($limit = 10): array
     {
         return $this->createQueryBuilder('e')
             ->where('e.dateTime < :now')
             ->orderBy('e.dateTime', 'DESC')
             ->setMaxResults($limit)
-            ->setParameter(':now', new \DateTime)
+            ->setParameter(':now', new \DateTime())
             ->getQuery()
             ->getResult();
     }
@@ -32,13 +32,13 @@ class DoctrineORMEventRepository extends EntityRepository implements EventReposi
      * @param int $limit
      * @return Event[]
      */
-    public function findUpcoming($limit = 10) : array
+    public function findUpcoming($limit = 10): array
     {
         return $this->createQueryBuilder('e')
             ->where('e.dateTime > :now')
             ->orderBy('e.dateTime', 'ASC')
             ->setMaxResults($limit)
-            ->setParameter(':now', new \DateTime)
+            ->setParameter(':now', new \DateTime())
             ->getQuery()
             ->getResult();
     }
@@ -46,7 +46,7 @@ class DoctrineORMEventRepository extends EntityRepository implements EventReposi
     /**
      * @return Event[]
      */
-    public function findAll() : array
+    public function findAll(): array
     {
         return parent::findBy([], ['dateTime' => 'DESC']);
     }
@@ -56,7 +56,7 @@ class DoctrineORMEventRepository extends EntityRepository implements EventReposi
      * @return Event
      * @throws RuntimeException
      */
-    public function findById(string $id) : Event
+    public function findById(string $id): Event
     {
         $event = parent::find($id);
 

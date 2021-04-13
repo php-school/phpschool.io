@@ -22,7 +22,7 @@ class WorkshopCreationException extends RuntimeException
         $this->errors = $errors;
     }
 
-    public function getErrors() : array
+    public function getErrors(): array
     {
         return $this->errors;
     }

@@ -122,7 +122,7 @@ class Generator
         );
     }
 
-    private function renderInLayout(Post $post) : string
+    private function renderInLayout(Post $post): string
     {
         return $this->renderer->fetch('layouts/layout.phtml', [
             'pageTitle'       => 'Blog',
@@ -137,7 +137,7 @@ class Generator
         ]);
     }
 
-    private function rendererPostIndexPage(Collection $posts, int $pageNumber, int $numPages) : string
+    private function rendererPostIndexPage(Collection $posts, int $pageNumber, int $numPages): string
     {
         return $this->renderer->fetch('layouts/layout.phtml', [
             'pageTitle'       => 'PHP School Blog - Page ' . $pageNumber,

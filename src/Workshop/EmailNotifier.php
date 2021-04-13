@@ -65,14 +65,14 @@ class EmailNotifier
         }
     }
 
-    private function getMail(Workshop $workshop, string $to, string $template) : Mail
+    private function getMail(Workshop $workshop, string $to, string $template): Mail
     {
 
-        $personalisation = new Personalization;
+        $personalisation = new Personalization();
         $personalisation->addSubstitution('%workshop%', $workshop->getDisplayName());
         $personalisation->addTo(new SendGrid\Email(null, $to));
 
-        $mail = new Mail;
+        $mail = new Mail();
         $mail->setTemplateId($template);
         $mail->addPersonalization($personalisation);
         $mail->setFrom($this->phpSchoolEmail, 'PHP School');

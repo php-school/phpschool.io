@@ -49,37 +49,37 @@ class PostMeta
         );
     }
 
-    public static function fromArray(array $data) : self
+    public static function fromArray(array $data): self
     {
         return new static($data['title'], new DateTime('@' . $data['date']), $data['author'], $data['author_link']);
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getDate() : DateTime
+    public function getDate(): DateTime
     {
         return $this->date;
     }
 
-    public function getLink() : string
+    public function getLink(): string
     {
         return $this->link;
     }
 
-    public function getAuthor() : string
+    public function getAuthor(): string
     {
         return $this->author;
     }
 
-    public function getAuthorLink() : string
+    public function getAuthorLink(): string
     {
         return $this->authorLink;
     }
 
-    private function slugify($string) : string
+    private function slugify($string): string
     {
         return trim(strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)), '-');
     }

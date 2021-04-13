@@ -22,7 +22,7 @@ class Documentation implements IteratorAggregate
         $this->groups[] = $group;
     }
 
-    public function findSectionByGroupAndSection(string $group, string $sectionName) : DocumentationSection
+    public function findSectionByGroupAndSection(string $group, string $sectionName): DocumentationSection
     {
         $group      = $this->findGroupByName($group);
         $sections   = $group->getSections();
@@ -38,7 +38,7 @@ class Documentation implements IteratorAggregate
         return $doc;
     }
 
-    public function findGroupByName(string $name) : DocumentationGroup
+    public function findGroupByName(string $name): DocumentationGroup
     {
         $group = current(array_filter($this->groups, function (DocumentationGroup $group) use ($name) {
             return $group->getName() === $name;
@@ -51,18 +51,18 @@ class Documentation implements IteratorAggregate
         return $group;
     }
 
-    public function getIterator() : ArrayIterator
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->groups);
     }
 
-    public function hasPreviousSection(DocumentationSectionInterface $section) : bool
+    public function hasPreviousSection(DocumentationSectionInterface $section): bool
     {
         $group = $this->findGroupForSection($section);
         return $group->sectionExists($group->getSectionOffset($section) - 1);
     }
 
-    public function getPreviousSection(DocumentationSectionInterface $section) : DocumentationSectionInterface
+    public function getPreviousSection(DocumentationSectionInterface $section): DocumentationSectionInterface
     {
         $group      = $this->findGroupForSection($section);
         $offset     = $group->getSectionOffset($section) - 1;
@@ -80,7 +80,7 @@ class Documentation implements IteratorAggregate
         return $group->sectionExists($group->getSectionOffset($section) + 1);
     }
 
-    public function getNextSection(DocumentationSectionInterface $section) : DocumentationSectionInterface
+    public function getNextSection(DocumentationSectionInterface $section): DocumentationSectionInterface
     {
         $group      = $this->findGroupForSection($section);
         $offset     = $group->getSectionOffset($section) + 1;
@@ -92,7 +92,7 @@ class Documentation implements IteratorAggregate
         return $group->getSectionAtOffset($offset);
     }
 
-    public function hasHome(DocumentationSectionInterface $section) : bool
+    public function hasHome(DocumentationSectionInterface $section): bool
     {
         if ($section->getName() === 'index') {
             return false;
@@ -101,7 +101,7 @@ class Documentation implements IteratorAggregate
         return $this->findGroupForSection($section)->sectionExists(0);
     }
 
-    public function getHome(DocumentationSectionInterface $section) : DocumentationSectionInterface
+    public function getHome(DocumentationSectionInterface $section): DocumentationSectionInterface
     {
         return $this->findGroupForSection($section)->getSectionAtOffset(0);
     }

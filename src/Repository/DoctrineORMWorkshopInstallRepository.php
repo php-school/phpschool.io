@@ -11,7 +11,7 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
 {
     public function totalInstallsInLast30Days(Workshop $workshop): int
     {
-        $now            = new \DateTimeImmutable;
+        $now            = new \DateTimeImmutable();
         $thirtyDaysAgo  = $now->sub(new \DateInterval("P30D"));
         $qb = $this->createQueryBuilder('s')
             ->select('COUNT(*)');
@@ -46,7 +46,7 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
 
     public function findInstallsInLast30Days(Workshop $workshop): array
     {
-        $now            = new \DateTimeImmutable;
+        $now            = new \DateTimeImmutable();
         $thirtyDaysAgo  = $now->sub(new \DateInterval("P30D"));
         $qb = $this->createQueryBuilder('s');
         $where = $qb->expr()->between(

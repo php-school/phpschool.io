@@ -43,7 +43,7 @@ class Create
         ]);
     }
 
-    public function create(Request $request, Response $response) : Response
+    public function create(Request $request, Response $response): Response
     {
         $res = $this->formHandler->validateAndRedirectIfErrors($request, $response);
 

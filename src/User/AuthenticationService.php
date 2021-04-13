@@ -20,7 +20,7 @@ class AuthenticationService
         $this->authenticationService = $authenticationService;
     }
 
-    public function login($username, $password) : Result
+    public function login($username, $password): Result
     {
         $this->authenticationService
             ->getAdapter()
@@ -35,7 +35,7 @@ class AuthenticationService
         $this->authenticationService->clearIdentity();
     }
 
-    public function hasIdentity() : bool
+    public function hasIdentity(): bool
     {
         return $this->authenticationService->hasIdentity();
     }

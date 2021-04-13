@@ -25,7 +25,7 @@ class Login
         $this->renderer              = $renderer;
     }
 
-    public function showLoginForm(Request $request, Response $response) : Response
+    public function showLoginForm(Request $request, Response $response): Response
     {
         if ($this->authenticationService->hasIdentity()) {
             return $response
@@ -44,7 +44,7 @@ class Login
         ]);
     }
 
-    public function login(Request $request, Response $response) : Response
+    public function login(Request $request, Response $response): Response
     {
         $res = $this->formHandler->validateAndRedirectIfErrors($request, $response);
 

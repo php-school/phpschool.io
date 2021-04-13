@@ -19,7 +19,7 @@ class DocsAction
         $this->documentation = $documentation;
     }
 
-    public function __invoke(Request $request, Response $response) : Response
+    public function __invoke(Request $request, Response $response): Response
     {
         $route = RouteContext::fromRequest($request)->getRoute();
 
@@ -50,7 +50,7 @@ class DocsAction
         ]);
     }
 
-    private function slugify(string $title) : string
+    private function slugify(string $title): string
     {
         return str_replace(' ', '-', strtolower($title));
     }

@@ -16,7 +16,7 @@ class SessionTest extends TestCase
 
     public function testGet(): void
     {
-        $session = new Session;
+        $session = new Session();
         $a = $session->get('a');
         $b = $session->get('b', '2');
 
@@ -26,7 +26,7 @@ class SessionTest extends TestCase
 
     public function testSet(): void
     {
-        $session = new Session;
+        $session = new Session();
 
         $session->set('c', '3');
         $this->assertEquals('3', $session->get('c'));
@@ -37,7 +37,7 @@ class SessionTest extends TestCase
 
     public function testDelete(): void
     {
-        $session = new Session;
+        $session = new Session();
 
         $session->set('c', '3');
         $this->assertEquals('3', $session->get('c'));
@@ -48,7 +48,7 @@ class SessionTest extends TestCase
 
     public function testClearAll(): void
     {
-        $session = new Session;
+        $session = new Session();
 
         $this->assertEquals('1', $session->get('a'));
 

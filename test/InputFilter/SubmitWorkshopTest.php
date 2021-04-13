@@ -40,7 +40,7 @@ class SubmitWorkshopTest extends TestCase
                 if ($displayName === 'Learn You PHP!') {
                     return $this->createMock(Workshop::class);
                 }
-                throw new \RuntimeException;
+                throw new \RuntimeException();
             });
 
         $filter = new SubmitWorkshop($client, $workshopRepo);

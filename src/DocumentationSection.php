@@ -42,22 +42,22 @@ class DocumentationSection implements DocumentationSectionInterface
         $this->href = $href;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getTemplateFile() : string
+    public function getTemplateFile(): string
     {
         return $this->templateFile;
     }
 
-    public function getHref() : string
+    public function getHref(): string
     {
         //strip off trainling `/index`
         return preg_replace('/(\/index)+$/', '', $this->href);

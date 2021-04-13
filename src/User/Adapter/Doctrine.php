@@ -30,7 +30,7 @@ class Doctrine extends AbstractAdapter implements AdapterInterface
      * @return AuthenticationResult
      * @throws ExceptionInterface If authentication cannot be performed
      */
-    public function authenticate() : AuthenticationResult
+    public function authenticate(): AuthenticationResult
     {
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $this->getIdentity()]);
 
