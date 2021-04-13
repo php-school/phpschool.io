@@ -2,8 +2,8 @@
 
 namespace PhpSchool\Website\User;
 
-use Zend\Authentication\AuthenticationServiceInterface;
-use Zend\Authentication\Result;
+use Laminas\Authentication\AuthenticationServiceInterface;
+use Laminas\Authentication\Result;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>

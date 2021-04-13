@@ -8,7 +8,7 @@ use AdamWathan\BootForms\HorizontalFormBuilder;
 use AdamWathan\Form\FormBuilder;
 use Psr\Http\Message\UploadedFileInterface;
 use RKA\Session;
-use Zend\InputFilter\InputFilter;
+use Laminas\InputFilter\InputFilter;
 use Slim\Http\Request;
 use Slim\Http\Response;
 

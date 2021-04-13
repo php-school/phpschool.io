@@ -4,11 +4,11 @@ namespace PhpSchool\Website\InputFilter;
 
 use Github\Client;
 use PhpSchool\Website\Repository\WorkshopRepository;
-use Zend\InputFilter\InputFilter;
-use Zend\Validator\Callback;
-use Zend\Validator\EmailAddress;
-use Zend\Validator\Regex;
-use Zend\Validator\StringLength;
+use Laminas\InputFilter\InputFilter;
+use Laminas\Validator\Callback;
+use Laminas\Validator\EmailAddress;
+use Laminas\Validator\Regex;
+use Laminas\Validator\StringLength;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
@@ -16,7 +16,7 @@ use Zend\Validator\StringLength;
 class SubmitWorkshop extends InputFilter
 {
     private static $gitHubComposerJsonUrlFormat = 'https://raw.githubusercontent.com/%s/%s/master/composer.json';
-    private static $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d-\.]+)\/?$/';
+    private static $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d\-\.]+)\/?$/';
 
     public function __construct(Client $gitHubClient, WorkshopRepository $workshopRepository)
     {

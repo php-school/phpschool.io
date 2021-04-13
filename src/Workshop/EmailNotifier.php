@@ -5,8 +5,8 @@ namespace PhpSchool\Website\Workshop;
 use PhpSchool\Website\Entity\Workshop;
 use RuntimeException;
 use SendGrid;
-use SendGrid\Mail;
-use SendGrid\Personalization;
+use SendGrid\Mail\Personalization;
+use SendGrid\Mail\Mail;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
@@ -40,6 +40,8 @@ class EmailNotifier
 
     public function approved(Workshop $workshop)
     {
+        return;
+
         $mail = $this->getMail($workshop, $workshop->getSubmitterEmail(), $this->templates['Workshop Approved']);
 
         $this->sendMail($mail);
@@ -47,6 +49,8 @@ class EmailNotifier
 
     public function new(Workshop $workshop)
     {
+        return;
+
         $mail = $this->getMail($workshop, $this->phpSchoolEmail, $this->templates['Workshop Submitted']);
 
         $this->sendMail($mail);
@@ -63,7 +67,6 @@ class EmailNotifier
 
     private function getMail(Workshop $workshop, string $to, string $template) : Mail
     {
-        $from = new SendGrid\Email('PHP School', $this->phpSchoolEmail);
 
         $personalisation = new Personalization;
         $personalisation->addSubstitution('%workshop%', $workshop->getDisplayName());
@@ -72,7 +75,7 @@ class EmailNotifier
         $mail = new Mail;
         $mail->setTemplateId($template);
         $mail->addPersonalization($personalisation);
-        $mail->setFrom($from);
+        $mail->setFrom($this->phpSchoolEmail, 'PHP School');
 
         return $mail;
     }

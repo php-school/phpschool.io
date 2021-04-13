@@ -5,6 +5,7 @@ namespace PhpSchool\Website\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
@@ -91,7 +92,7 @@ class Event
         $this->poster = $poster;
     }
 
-    public function getId() : Uuid
+    public function getId() : UuidInterface
     {
         return $this->id;
     }

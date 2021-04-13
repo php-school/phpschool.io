@@ -9,7 +9,6 @@ use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Setup;
 use Github\Client;
 use Interop\Container\ContainerInterface;
-use League\CommonMark\CommonMarkConverter;
 use Mni\FrontYAML\Parser;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -112,7 +111,6 @@ return [
         $settings = $c->get('config')['renderer'];
 
         $renderer = new PhpRenderer(
-            new CommonMarkConverter,
             $settings['template_path'],
             [
                 'links'     => $c->get('config')['links'],
@@ -155,7 +153,7 @@ return [
         return new ClearCache($c->get('cache.fpc'));
     }),
     CreateUser::class => factory(function (ContainerInterface $c) {
-       return new CreateUser($c->get(EntityManagerInterface::class));
+        return new CreateUser($c->get(EntityManagerInterface::class));
     }),
     GenerateBlog::class => function (ContainerInterface $c) {
         return new GenerateBlog($c->get(Generator::class));
@@ -351,12 +349,12 @@ return [
     },
 
     AuthenticationService::class => \DI\factory(function (ContainerInterface $c) {
-        $authService = new \Zend\Authentication\AuthenticationService;
+        $authService = new \Laminas\Authentication\AuthenticationService;
         $authService->setAdapter(new Doctrine($c->get(EntityManagerInterface::class)));
         return new AuthenticationService($authService);
     }),
 
-    Authenticator::class => \DI\factory(function(ContainerInterface $c) {
+    Authenticator::class => \DI\factory(function (ContainerInterface $c) {
         return new Authenticator($c->get(AuthenticationService::class));
     }),
 

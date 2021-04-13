@@ -2,7 +2,7 @@
 
 namespace PhpSchool\Website;
 
-use Cache\Bridge\DoctrineCacheBridge;
+use Cache\Bridge\Doctrine\DoctrineCacheBridge;
 use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 use Illuminate\Support\Collection;

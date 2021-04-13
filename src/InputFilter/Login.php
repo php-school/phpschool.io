@@ -2,9 +2,9 @@
 
 namespace PhpSchool\Website\InputFilter;
 
-use Zend\InputFilter\InputFilter;
-use Zend\Validator\EmailAddress;
-use Zend\Validator\StringLength;
+use Laminas\InputFilter\InputFilter;
+use Laminas\Validator\EmailAddress;
+use Laminas\Validator\StringLength;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>

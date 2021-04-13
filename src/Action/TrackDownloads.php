@@ -9,7 +9,7 @@ use PhpSchool\Website\Repository\WorkshopRepository;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use RuntimeException;
-use Zend\Diactoros\Response\JsonResponse;
+use Slim\Http\Response as SlimResponse;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
@@ -39,15 +39,14 @@ class TrackDownloads
         try {
             $workshop = $this->workshopRepository->findByCode($workshop);
         } catch (RuntimeException $e) {
-            return new JsonResponse(
-                ['status' => 'error', 'message' => sprintf('Workshop: "%s" not found.', $workshop)]
-            );
+            return (new SlimResponse())
+                ->withJson(['status' => 'error', 'message' => sprintf('Workshop: "%s" not found.', $workshop)], 404);
         }
 
         $this->workshopInstallRepository->save(
             new WorkshopInstall($workshop, $request->getAttribute('ip_address'), $version)
         );
 
-        return new JsonResponse(['status' => 'success'], 201);
+        return (new SlimResponse())->withJson(['status' => 'success'], 201);
     }
 }

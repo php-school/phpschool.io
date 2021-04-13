@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @author Aydin Hassan <aydin@hotmail.co.uk>
@@ -145,7 +146,7 @@ class Workshop
         $this->installs = new ArrayCollection;
     }
 
-    public function getId() : string
+    public function getId(): UuidInterface
     {
         return $this->id;
     }
