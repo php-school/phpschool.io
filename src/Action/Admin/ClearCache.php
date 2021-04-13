@@ -2,6 +2,7 @@
 
 namespace PhpSchool\Website\Action\Admin;
 
+use PhpSchool\Website\Action\RedirectUtils;
 use Psr\Cache\CacheItemPoolInterface;
 use Slim\Flash\Messages;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -9,6 +10,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class ClearCache
 {
+    use RedirectUtils;
+
     private CacheItemPoolInterface $cache;
     private Messages $messages;
 
@@ -24,8 +27,6 @@ class ClearCache
 
         $this->messages->addMessage('admin.success', 'Successfully cleared full page cache');
 
-        return $response
-            ->withStatus(302)
-            ->withHeader('Location', '/admin');
+        return $this->redirect('/admin');
     }
 }
