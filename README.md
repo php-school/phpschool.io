@@ -11,17 +11,23 @@ docker-compose build
 
 ## Run
 ```shell
-gulp
+docker-compose up -d
 ```
 
-Then navigate to `localhost:3000` !
+### Create DB Scheme
+```shell
+docker compose exec php composer app:db:update
+```
 
-All SASS modifications will be auto inject live to the browser with [Browsersync](https://www.browsersync.io)
-Any changes to `.phtml` will cause the browser to reload.
+### Generate Blog
+```shell
+docker compose exec php composer app:gen:blog
+```
 
-Pages are cached on first view, but any changes to the `.phtml` files will cause the cache to be removed. If you need to clear it manually, run `docker exec php-school-fpm php bin/app clear-cache`.
+Then navigate to `http://localhost` !
 
-Gulp will boot up the docker infrastructure automatically, which includes PHP 7, Nginx & Redis.
+Pages are cached on first view.
+If you need to clear the cache, run `docker compose exec php composer app:cc`.
 
 ## Build CSS
 
@@ -37,13 +43,13 @@ gulp svg
 ### View cache keys
 
 ```shell
-docker exec php-school-redis redis-cli keys '*'
+docker-compose exec redis redis-cli keys '*'
 ```
 
 ### Clear cache
 
 ```shell
-docker exec php-school-fpm php bin/app clear-cache
+docker compose exec php composer app:cc
 ```
 
 ## Deploy
@@ -51,7 +57,7 @@ docker exec php-school-fpm php bin/app clear-cache
 You will need capistrano installed and SSH access to the production server.
 
 ```shell
-gulp deploy
+cap production deploy
 ```
 
 ## Production deploy requisites

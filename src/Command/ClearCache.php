@@ -19,6 +19,10 @@ class ClearCache
     {
         $res = $this->cache->clear();
 
+        //clear container cache
+        if (file_exists(__DIR__ . '/../../var/container_cache/CompiledContainer.php')) {
+            unlink(__DIR__ . '/../../var/container_cache/CompiledContainer.php');
+        }
         //clear route cache
         if (file_exists(__DIR__ . '/../../var/cache/router.php')) {
             unlink(__DIR__ . '/../../var/cache/router.php');
