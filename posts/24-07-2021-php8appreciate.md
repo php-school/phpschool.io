@@ -5,7 +5,7 @@ author: Aydin Hassan, Michael Woodward
 author_link: https://twitter.com/PHPSchoolTeam
 ---
 
-It’s been a little while since the initial PHP 8 release but [we know you’ve not all made the jump just yet]([PHP Programming - The State of Developer Ecosystem in 2021 Infographic | JetBrains: Developer Tools for Professionals and Teams](https://www.jetbrains.com/lp/devecosystem-2021/php/#PHP_which-version-of-php-do-you-regularly-use)) 😄 
+It’s been a little while since the initial PHP 8 release but [we know you’ve not all made the jump just yet](https://www.jetbrains.com/lp/devecosystem-2021/php/#PHP_which-version-of-php-do-you-regularly-use) 😄 
 
 ## What it Covers
 
