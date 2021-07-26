@@ -29,22 +29,72 @@ As usual a major release of PHP comes with a variety of improvements to the lang
 
 ## How to Get Started
 
-install instructions etc [Aydin]
+### 1. Install Workshop Manager
+
+All workshops are installed and managed with `workshop-manager`, so first we need to install that (that is, if you don't already have it):
+
+```shell
+curl -O https://php-school.github.io/workshop-manager/workshop-manager.phar
+mv workshop-manager.phar /usr/local/bin/workshop-manager
+chmod +x /usr/local/bin/workshop-manager
+```
+
+Then you can run `workshop-manager verify` and it will alert you to any things that you might need to fix. Most likely, you will need to add `~/.php-school/bin` to your PATH.
+
+### 2. Install PHP 8 Appreciate
+
+Now that you have `workshop-manager` installed, you can use it to install workshops, including PHP 8 Appreciate:
+
+```shell
+workshop-manager install php8appreciate
+```
+
+### 3. Run PHP 8 Appreciate
+
+The workshop can be started by typing `php8appreciate` and hitting enter.
 
 ## What to Expect
 
-Once you’ve got the PHP 8 Appreciate workshop installed then running `php8appreciate` will (assuming all things have gone to plan) present you with a menu of 13 exercises to choose from. 
+When you start the PHP 8 Appreciate workshop you will be presented with a menu consisting of 13 exercises to choose from. 
 
 ![PHP8 Appreciate Terminal](https://user-images.githubusercontent.com/2817002/124182783-3fd52f80-daaf-11eb-973a-82ae81451efc.png)
 
-These exercises have been put in an order we believe increases in difficulty as you go along. Don’t worry though some things may click easier than others!
+These exercises have been put in an order we believe increases in difficulty as you go along. Don’t worry though, some things may click easier than others!
 
-From this point you can select any exercise, read the problem (along with any hints and tips) and try to put together your own solution. 
+From this point you can select any exercise (navigate around with your arrow keys, and select an exercise with enter), read the problem (along with any hints and tips) and try to put together your own solution. 
+
+You will create and edit your solutions using your own preferred text editor. 
+
+Some exercises will present you with files which contain bugs or starting points for solutions, they will be created in the directory you run `php8appreciate` from. If you want to keep organised, you could create a directory for your solutions and run `php8appreciate` from there.
+
+When you want to verify your solution, you pass it as a command line argument to the verify command:
+
+```shell
+php8appreciate verify my-solution.php
+```
+
+If you are unsuccessful, you will be presented with hints or information describing the problem, so you can rectify and try again.
+
+To execute your program and see the output without verifying it, you can use the `run` command like so:
+
+```shell
+php8appreciate run my-solution.php
+```
+
+This allows the exercise to pass arguments to your program and do other setup tasks, it should help iron out bugs in your solution.
 
 ## How we Verify
 
-… [Aydin]
+There are lots of techniques we use to verify the correctness of your solution, each exercise decides how thorough the checks should be. Some will simply verify that the output of your program is the same as expected, which itself is more complicated that it sounds since arguments which might be passed to your program can be and are random.
 
-We’re really looking forward to seeing how you do, please get in touch with us on [Twitter @PHPSchoolTeam](https://twitter.com/phpschoolteam)
+For more advanced checks, we parse your solution in to an AST and use it verify that certain functions are called, variables are named correctly and classes are defined.
 
-Look out for a deep dive article coming soon and more workshops to follow (8.1 beta1 was just tagged 😏) !
+We check that you have required necessary dependencies with composer, have created required files and their contents are correct.
+
+For some exercises, we even inject code to your solutions such as creating variables populated with data and wrapping code in `try/catch` statements!
+
+## What are you waiting for!
+
+We’re excited to see how you get along, please get in touch with us on [Twitter @PHPSchoolTeam](https://twitter.com/phpschoolteam).
+
+Look out for a deep dive article coming soon and more workshops to follow (PHP 8.1 beta1 was just tagged 😏) !
