@@ -1,4 +1,6 @@
-version: '2'
+version: '3'
+volumes:
+  db_data: {}
 
 services:
   php:
@@ -22,8 +24,7 @@ services:
     container_name: php-school-db
     image: mysql:latest
     volumes:
-      - "./.docker/mysql:/var/lib/mysql"
-      - "./.docker/db/:/docker-entrypoint-initdb.d/"
+      - db_data:/var/lib/mysql
     ports:
       - 3306:3306
     restart: always
