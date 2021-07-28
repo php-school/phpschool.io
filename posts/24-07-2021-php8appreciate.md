@@ -53,17 +53,18 @@ workshop-manager install php8appreciate
 
 The workshop can be started by typing `php8appreciate` and hitting enter.
 
-## What to Expect
-
-When you start the PHP 8 Appreciate workshop you will be presented with a menu consisting of 13 exercises to choose from. 
-
 ![PHP8 Appreciate Terminal](https://user-images.githubusercontent.com/2817002/124182783-3fd52f80-daaf-11eb-973a-82ae81451efc.png)
 
-These exercises have been put in an order we believe increases in difficulty as you go along. Don’t worry though, some things may click easier than others!
+## What to Expect
 
-From this point you can select any exercise (navigate around with your arrow keys, and select an exercise with enter), read the problem (along with any hints and tips) and try to put together your own solution. 
+When you start the PHP 8 Appreciate workshop you will be presented with the following menu: 
 
-You will create and edit your solutions using your own preferred text editor. 
+
+These exercises have been put in an order we believe increases in difficulty as you go along. Don’t worry though, some things may click easier than others.
+
+Select an exercise, using your arrow keys to navigate, and enter to select. Read the problem (along with any hints and tips) and try to put together your own solution. 
+
+You will create and edit your solution using your preferred text editor. 
 
 Some exercises will present you with files which contain bugs or starting points for solutions, they will be created in the directory you run `php8appreciate` from. If you want to keep organised, you could create a directory for your solutions and run `php8appreciate` from there.
 
@@ -73,7 +74,7 @@ When you want to verify your solution, you pass it as a command line argument to
 php8appreciate verify my-solution.php
 ```
 
-If you are unsuccessful, you will be presented with hints or information describing the problem, so you can rectify and try again.
+If you are unsuccessful, you will be presented with hints and information describing the problem, so you can rectify and try again.
 
 To execute your program and see the output without verifying it, you can use the `run` command like so:
 
@@ -81,13 +82,13 @@ To execute your program and see the output without verifying it, you can use the
 php8appreciate run my-solution.php
 ```
 
-This allows the exercise to pass arguments to your program and do other setup tasks, it should help iron out bugs in your solution.
+This allows the exercise to pass arguments to your program and do other setup tasks, it will help iron out bugs in your solution.
 
 ## How we Verify
 
-There are lots of techniques we use to verify the correctness of your solution, each exercise decides how thorough the checks should be. Some will simply verify that the output of your program is the same as expected, which itself is more complicated that it sounds since arguments which might be passed to your program can be and are random.
+There are lots of techniques we use to verify the correctness of your solution, each exercise decides how thorough the checks should be. Some will simply verify that the output of your program is the same as the expected output, which itself is more complicated that it sounds since arguments which might be passed to your program can be, and are, random.
 
-For more advanced checks, we parse your solution in to an AST and use it verify that certain functions are called, variables are named correctly and classes are defined.
+For more advanced checks, we parse your solution in to an AST and use that to verify that certain functions are called, variables are named correctly and classes are defined.
 
 We check that you have required necessary dependencies with composer, have created required files and their contents are correct.
 
@@ -95,6 +96,6 @@ For some exercises, we even inject code to your solutions such as creating varia
 
 ## What are you waiting for!
 
-We’re excited to see how you get along, please get in touch with us on [Twitter @PHPSchoolTeam](https://twitter.com/phpschoolteam).
+We’re excited to see how you get along, so please get in touch with us on [Twitter @PHPSchoolTeam](https://twitter.com/phpschoolteam).
 
 Look out for a deep dive article coming soon and more workshops to follow (PHP 8.1 beta1 was just tagged 😏) !
