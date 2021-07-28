@@ -11,7 +11,7 @@
             <div class="post">
                 <div class="post__meta">
                     <h1 class="post__title"><?= $meta->getTitle() ?></h1>
-                    <span class="post__author"><?= $meta->getAuthor() ?></span>
+                    <span class="post__author"><a href="<?= $meta->getAuthorLink() ?>"><?= $meta->getAuthor() ?></a></span>
                     <span class="post__date"> - <?= $meta->getDate()->format('F j, Y') ?></span>
                 </div>
 
