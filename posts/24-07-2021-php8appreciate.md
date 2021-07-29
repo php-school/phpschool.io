@@ -5,15 +5,17 @@ author: Aydin Hassan, Michael Woodward
 author_link: https://twitter.com/PHPSchoolTeam
 ---
 
-_PHP School is a community based learning platform that will teach you the core skills in PHP using command line based interactive workshops._ 
+_PHP School is a community based learning platform that will teach you the core skills of PHP using command line based interactive workshops._ 
 
-PHP 8 appreciate is our newest workshop demonstrating the new features of the latest PHP release. In this post we will teach you how to install and run the workshop, solving challenging problems with code as you go. We also dive in to how the workshop verifies your solutions and what to expect from the future. 
+PHP 8 Appreciate is our newest workshop demonstrating the new features of the latest PHP release. In this post we will teach you how to install and run the workshop, solving challenging problems with code as you go. We also dive in to how the workshop verifies your solutions and what to expect from the future. 
 
 It’s been a little while since the initial PHP 8 release but [we know you’ve not all made the jump just yet](https://www.jetbrains.com/lp/devecosystem-2021/php/#PHP_which-version-of-php-do-you-regularly-use) 😄.
 
-## What it Covers
+![PHP8 Appreciate Terminal](https://user-images.githubusercontent.com/2817002/124182783-3fd52f80-daaf-11eb-973a-82ae81451efc.png)
 
-PHP 8 Appreciate covers the majority of new additions that came in PHP 8. 
+## What the Workshop Covers
+
+PHP 8 Appreciate covers the majority of new additions that were introduced with PHP 8: 
 
 * [Constructor Property Promotion](https://wiki.php.net/rfc/constructor_promotion)
 * [Match Expression](https://wiki.php.net/rfc/match_expression_v2)
@@ -29,7 +31,7 @@ PHP 8 Appreciate covers the majority of new additions that came in PHP 8.
 * [Static Return Type](https://wiki.php.net/rfc/static_return_type)
 * [Attributes](https://wiki.php.net/rfc/attributes_v2)
 
-As usual a major release of PHP comes with a variety of improvements to the language that developers can immediately benefit from without having to learn anything new, unfortunately it’s hard to incorporate these into a workshop as many don’t change the way you code
+As usual, a major release of PHP comes with a variety of improvements to the language that developers can immediately benefit from without having to learn anything new, unfortunately it’s hard to incorporate these into a workshop as many don’t change the way you code
 
 ## How to Get Started
 
@@ -43,7 +45,7 @@ mv workshop-manager.phar /usr/local/bin/workshop-manager
 chmod +x /usr/local/bin/workshop-manager
 ```
 
-Then you can run `workshop-manager verify` and it will alert you to any things that you might need to fix. Most likely, you will need to add `~/.php-school/bin` to your PATH.
+Then you can run `workshop-manager verify` and it will alert you to any things that you might need to fix. Most likely, you will need to add `~/.php-school/bin` to your PATH environment variable.
 
 ### 2. Install PHP 8 Appreciate
 
@@ -83,11 +85,11 @@ To execute your program and see the output without verifying it, you can use the
 php8appreciate run my-solution.php
 ```
 
-This allows the exercise to pass arguments to your program and do other setup tasks, it will help iron out bugs in your solution.
+This allows the exercise to pass arguments to your program and do other setup tasks. It will help iron out bugs in your solution.
 
 ## How we Verify
 
-There are lots of techniques we use to verify the correctness of your solution, each exercise decides how thorough the checks should be. Some will simply verify that the output of your program is the same as the expected output, which itself is more complicated that it sounds since arguments which might be passed to your program can be, and are, random.
+There are lots of techniques we use to verify the correctness of your solution. Each exercise decides how thorough the checks should be. Some will simply verify that the output of your program is the same as the expected output. This in itself is more complicated than it sounds since arguments which might be passed to your program can be, and are, random.
 
 For more advanced checks, we parse your solution in to an AST and use that to verify that certain functions are called, variables are named correctly and classes are defined.
 
@@ -99,7 +101,7 @@ _If you're interested in how all this works and want to get involved building wo
 
 ## What are you waiting for!
 
-We’re excited to see how you get along, so please get in touch with us on [Twitter @PHPSchoolTeam](https://twitter.com/phpschoolteam).
+We’re excited to see how you get along, so please get in touch with us on [Twitter @PHPSchoolTeam](https://twitter.com/phpschoolteam). Any appreciation for our pun skills will also be warmly received! 
 
 Look out for a deep dive article coming soon and more workshops to follow (PHP 8.1 beta1 was just tagged 😏) !
 
