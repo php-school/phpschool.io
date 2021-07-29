@@ -4,7 +4,7 @@
     margin: 0 auto;
 
     @media screen and (min-width: $lap-start) {
-        width: 70%;
+        width: 80%;
     }
 }
 
@@ -15,6 +15,25 @@
         display: block;
         margin: auto;
     }
+
+    font-size: 21px;
+
+    p {
+        margin-top: $base-spacing;
+        font-size: 21px;
+    }
+
+    pre {
+        margin-top: $base-spacing;
+    }
+
+    h2 {
+        font-weight: bold;
+    }
+
+    h3 {
+        font-weight: bold;
+    }
 }
 
 .post:not(:last-child) {
@@ -22,8 +41,8 @@
 }
 
 .post__title {
-    font-size: 25px;
-    line-height: 32px;
+    font-size: 42px;
+    line-height: $base-line-height;
     font-weight: bold;
     margin: 9px 0 12px;
 
@@ -71,7 +90,7 @@
 }
 
 .post__excerpt {
-    margin-bottom: $half-spacing;
+    margin-bottom: $base-spacing;
     color: #888;
 }
 
