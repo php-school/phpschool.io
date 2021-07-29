@@ -105,4 +105,4 @@ We’re excited to see how you get along, so please get in touch with us on [Twi
 
 Look out for a deep dive article coming soon and more workshops to follow (PHP 8.1 beta1 was just tagged 😏) !
 
-_Check out the other PHP School workshops on our homepage: [www.phpschool.io/](/)_
+_Check out the other PHP School workshops on our homepage: [www.phpschool.io](/)_
