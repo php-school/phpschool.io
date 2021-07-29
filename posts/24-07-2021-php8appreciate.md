@@ -5,7 +5,11 @@ author: Aydin Hassan, Michael Woodward
 author_link: https://twitter.com/PHPSchoolTeam
 ---
 
-It’s been a little while since the initial PHP 8 release but [we know you’ve not all made the jump just yet](https://www.jetbrains.com/lp/devecosystem-2021/php/#PHP_which-version-of-php-do-you-regularly-use) 😄 
+_PHP School is a community based learning platform that will teach you the core skills in PHP using command line based interactive workshops._ 
+
+PHP 8 appreciate is our newest workshop demonstrating the new features of the latest PHP release. In this post we will teach you how to install and run the workshop, solving challenging problems with code as you go. We also dive in to how the workshop verifies your solutions and what to expect from the future. 
+
+It’s been a little while since the initial PHP 8 release but [we know you’ve not all made the jump just yet](https://www.jetbrains.com/lp/devecosystem-2021/php/#PHP_which-version-of-php-do-you-regularly-use) 😄.
 
 ## What it Covers
 
@@ -21,7 +25,7 @@ PHP 8 Appreciate covers the majority of new additions that came in PHP 8.
 * [fdiv() Function](https://github.com/php/php-src/pull/4769)
 * [Nullsafe Operator](https://wiki.php.net/rfc/nullsafe_operator)
 * [Stringable Interface](https://wiki.php.net/rfc/stringable)
-* New String Functions:[str_contains](https://wiki.php.net/rfc/str_contains), [str_starts_with and str_ends_with](https://wiki.php.net/rfc/add_str_starts_with_and_ends_with_functions)
+* [New String Functions: ](https://www.php.net/manual/en/ref.strings.php)[str_contains](https://wiki.php.net/rfc/str_contains), [str_starts_with and str_ends_with](https://wiki.php.net/rfc/add_str_starts_with_and_ends_with_functions)
 * [Static Return Type](https://wiki.php.net/rfc/static_return_type)
 * [Attributes](https://wiki.php.net/rfc/attributes_v2)
 
@@ -55,12 +59,9 @@ The workshop can be started by typing `php8appreciate` and hitting enter.
 
 ![PHP8 Appreciate Terminal](https://user-images.githubusercontent.com/2817002/124182783-3fd52f80-daaf-11eb-973a-82ae81451efc.png)
 
-## What to Expect
+## Pick an Exercise and Start Solving the Problem
 
-When you start the PHP 8 Appreciate workshop you will be presented with the following menu: 
-
-
-These exercises have been put in an order we believe increases in difficulty as you go along. Don’t worry though, some things may click easier than others.
+The exercises have been put in an order we believe increases in difficulty as you go along. Don’t worry though, some things may click easier than others.
 
 Select an exercise, using your arrow keys to navigate, and enter to select. Read the problem (along with any hints and tips) and try to put together your own solution. 
 
@@ -94,8 +95,12 @@ We check that you have required necessary dependencies with composer, have creat
 
 For some exercises, we even inject code to your solutions such as creating variables populated with data and wrapping code in `try/catch` statements!
 
+_If you're interested in how all this works and want to get involved building workshops, [check out the docs](/docs)._
+
 ## What are you waiting for!
 
 We’re excited to see how you get along, so please get in touch with us on [Twitter @PHPSchoolTeam](https://twitter.com/phpschoolteam).
 
 Look out for a deep dive article coming soon and more workshops to follow (PHP 8.1 beta1 was just tagged 😏) !
+
+_Check out the other PHP School workshops on our homepage: [www.phpschool.io/](/)_
