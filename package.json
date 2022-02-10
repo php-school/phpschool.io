@@ -23,7 +23,7 @@
     "gulp-sass": "^4.1.0",
     "gulp-uglify": "^3.0.2",
     "natives": "^1.1.6",
-    "node-sass": "^5.0.0",
+    "node-sass": "^7.0.0",
     "normalize.css": "^8.0.1",
     "postcss": "^8.2",
     "postcss-import": "^14.0.1"
