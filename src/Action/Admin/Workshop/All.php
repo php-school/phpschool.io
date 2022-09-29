@@ -75,10 +75,13 @@ class All
 
     private function getLast30DayInstallGraphData(array $installs, array $dateRange): array
     {
-        return array_map(function (DateTimeImmutable $dateTime) use ($installs) {
-            return count(array_filter($installs, function (WorkshopInstall $install) use ($dateTime) {
-                return $install->getDateTime()->format('d-m-Y') === $dateTime->format('d-m-Y');
-            }));
-        }, $dateRange);
+        return array_map(
+            function (DateTimeImmutable $dateTime) use ($installs) {
+                return count(array_filter($installs, function (WorkshopInstall $install) use ($dateTime) {
+                    return $install->getDateTime()->format('d-m-Y') === $dateTime->format('d-m-Y');
+                }));
+            },
+            $dateRange
+        );
     }
 }

@@ -35,7 +35,7 @@ class PhpRenderer
         $this->attributes[$key] = $value;
     }
 
-    public function getAttribute(string $key)
+    public function getAttribute(string $key): mixed
     {
         if (!isset($this->attributes[$key])) {
             return false;
@@ -165,6 +165,9 @@ class PhpRenderer
         return is_file($path) && is_readable($path);
     }
 
+    /**
+     * @psalm-suppress UnresolvableInclude
+     */
     private function protectedIncludeScope(string $template, array $data): void
     {
         extract($data);
