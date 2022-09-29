@@ -4,6 +4,7 @@ namespace PhpSchool\Website\Action\Admin;
 
 use PhpSchool\Website\Action\RedirectUtils;
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Http\Message\MessageInterface;
 use Slim\Flash\Messages;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -21,7 +22,7 @@ class ClearCache
         $this->messages = $messages;
     }
 
-    public function __invoke(Request $request, Response $response): Response
+    public function __invoke(Request $request, Response $response): MessageInterface
     {
         $this->cache->clear();
 

@@ -7,6 +7,7 @@ use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
@@ -41,7 +42,7 @@ class Approve
         $this->logger = $logger;
     }
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): Response
+    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): MessageInterface
     {
         try {
             $workshop = $this->repository->findById($id);

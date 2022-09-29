@@ -62,9 +62,12 @@ class All
 
     private function getDateRange(): array
     {
-        $end    = new DateTimeImmutable();
-        $begin  = $end->sub(new DateInterval("P30D"));
-        $end    = $end->add(new DateInterval("P1D"));
+        $end = new DateTimeImmutable();
+
+        $begin = $end->sub(new DateInterval("P30D"));
+        assert(false !== $begin);
+
+        $end  = $end->add(new DateInterval("P1D"));
 
         $interval   = new DateInterval('P1D');
         return iterator_to_array(new DatePeriod($begin, $interval, $end));

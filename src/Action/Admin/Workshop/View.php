@@ -9,6 +9,7 @@ use PhpSchool\Website\Action\RedirectUtils;
 use PhpSchool\Website\Entity\WorkshopInstall;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
@@ -32,7 +33,7 @@ class View
         $this->renderer = $renderer;
     }
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): Response
+    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): MessageInterface
     {
         try {
             $workshop = $this->repository->findById($id);
@@ -58,9 +59,11 @@ class View
 
     private function getLast30DayInstallGraphData(array $installs): array
     {
-        $end    = new DateTimeImmutable();
-        $begin  = $end->sub(new DateInterval("P30D"));
-        $end    = $end->add(new DateInterval("P1D"));
+        $end = new DateTimeImmutable();
+        $begin = $end->sub(new DateInterval("P30D"));
+        assert(false !== $begin);
+
+        $end = $end->add(new DateInterval("P1D"));
 
         $interval   = new DateInterval('P1D');
         $dateRange  = new DatePeriod($begin, $interval, $end);
