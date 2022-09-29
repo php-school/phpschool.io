@@ -2,8 +2,8 @@
 
 namespace PhpSchool\Website\Action\Admin\Event;
 
+use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
-use Slim\Views\PhpRenderer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 

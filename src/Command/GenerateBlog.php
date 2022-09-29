@@ -3,7 +3,6 @@
 namespace PhpSchool\Website\Command;
 
 use Exception;
-use PhpSchool\Website\Blog\Generate;
 use PhpSchool\Website\Blog\Generator;
 use Symfony\Component\Console\Output\OutputInterface;
 

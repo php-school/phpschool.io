@@ -78,7 +78,7 @@ final class Session implements \ArrayAccess
      * @param string $offset
      * @return mixed
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
     }
