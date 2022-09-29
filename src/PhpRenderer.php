@@ -2,13 +2,18 @@
 
 namespace PhpSchool\Website;
 
-use Slim\Views\PhpRenderer as SlimPhpRenderer;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Views\Exception\PhpTemplateNotFoundException;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
  */
-class PhpRenderer extends SlimPhpRenderer
+class PhpRenderer
 {
+    private string $templatePath;
+
+    private array $attributes;
+
     /**
      * @var list<array{id: string, url: string, type: "local"|"remote"}>
      */
@@ -19,10 +24,24 @@ class PhpRenderer extends SlimPhpRenderer
      */
     private array $js = [];
 
-    public function __construct(string $templatePath = "", array $attributes = [])
+    public function __construct(string $templatePath = '', array $attributes = [])
     {
-        $this->templatePath = $templatePath;
+        $this->templatePath = rtrim($templatePath, '/\\') . '/';
         $this->attributes = $attributes;
+    }
+
+    public function addAttribute(string $key, mixed $value): void
+    {
+        $this->attributes[$key] = $value;
+    }
+
+    public function getAttribute(string $key)
+    {
+        if (!isset($this->attributes[$key])) {
+            return false;
+        }
+
+        return $this->attributes[$key];
     }
 
     public function prependLocalCss(string $id, string $cssFile): PhpRenderer
@@ -102,5 +121,53 @@ class PhpRenderer extends SlimPhpRenderer
     public function slugClass(string $class): string
     {
         return str_replace('\\', '-', strtolower($class));
+    }
+
+    public function render(ResponseInterface $response, string $template, array $data = []): ResponseInterface
+    {
+        $output = $this->fetch($template, $data, true);
+        $response->getBody()->write($output);
+        return $response;
+    }
+
+    public function fetch(string $template, array $data = [], bool $useLayout = false): string
+    {
+        return $this->fetchTemplate($template, $data);
+    }
+
+    public function fetchTemplate(string $template, array $data = []): string
+    {
+        if (isset($data['template'])) {
+            throw new \InvalidArgumentException('Duplicate template key found');
+        }
+
+        if (!$this->templateExists($template)) {
+            throw new \InvalidArgumentException('View cannot render "' . $template
+                . '" because the template does not exist');
+        }
+
+        $data = array_merge($this->attributes, $data);
+        try {
+            ob_start();
+            $this->protectedIncludeScope($this->templatePath . $template, $data);
+            $output = ob_get_clean();
+        } catch (\Throwable $e) {
+            ob_end_clean();
+            throw $e;
+        }
+
+        return $output;
+    }
+
+    public function templateExists(string $template): bool
+    {
+        $path = $this->templatePath . $template;
+        return is_file($path) && is_readable($path);
+    }
+
+    private function protectedIncludeScope(string $template, array $data): void
+    {
+        extract($data);
+        include func_get_arg(0);
     }
 }
