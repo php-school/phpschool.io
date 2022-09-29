@@ -1,4 +1,4 @@
-FROM php:8.0-fpm
+FROM php:8.1-fpm
 
 RUN apt-get -qq update && apt-get install -qqy git zlib1g-dev libzip-dev \
 	&& rm -rf /var/lib/apt/lists/* \
