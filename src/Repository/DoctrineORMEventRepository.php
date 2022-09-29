@@ -12,7 +12,6 @@ use RuntimeException;
  */
 class DoctrineORMEventRepository extends EntityRepository implements EventRepository
 {
-
     /**
      * @return list<Event>
      */
