@@ -3,6 +3,8 @@
 use Cache\Bridge\Doctrine\DoctrineCacheBridge;
 use DI\Bridge\Slim\Bridge;
 use Doctrine\ORM\Configuration;
+use Doctrine\ORM\ORMSetup;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
 use Predis\Connection\ConnectionException;
@@ -10,12 +12,10 @@ use Slim\App;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Contracts\Cache\CacheInterface;
 use function DI\factory;
-use Doctrine\Common\Cache\Cache as DoctrineCache;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
-use Doctrine\ORM\Tools\Setup;
 use Github\Client;
 use Psr\Container\ContainerInterface;
 use Mni\FrontYAML\Parser;
@@ -75,6 +75,9 @@ return [
         $app->command('clear-cache', ClearCache::class);
         $app->command('create-user name email password', CreateUser::class);
         $app->command('generate-blog', GenerateBlog::class);
+
+        ConsoleRunner::addCommands($app, new SingleManagerProvider($c->get(EntityManagerInterface::class)));
+
         return $app;
     }),
     'app' => factory(function (ContainerInterface $c): App {
@@ -113,9 +116,6 @@ return [
         }
 
         return new RedisAdapter($redisConnection, 'default');
-    }),
-    DoctrineCache::class => factory(function (ContainerInterface $c): DoctrineCache {
-        return new DoctrineCacheBridge($c->get('cache'));
     }),
     PhpRenderer::class => factory(function (ContainerInterface $c): PhpRenderer {
         $settings = $c->get('config')['renderer'];
@@ -355,21 +355,19 @@ return [
         return new Authenticator($c->get(AuthenticationService::class));
     }),
 
-    Setup::class => \DI\factory(function (ContainerInterface $c): Configuration {
+    ORMSetup::class => \DI\factory(function (ContainerInterface $c): Configuration {
         $doctrineConfig = $c->get('config')['doctrine'];
 
-        $config =  Setup::createAnnotationMetadataConfiguration(
+        $config = ORMSetup::createAnnotationMetadataConfiguration(
             $doctrineConfig['meta']['entity_path'],
             $doctrineConfig['meta']['auto_generate_proxies'],
             $doctrineConfig['meta']['proxy_dir'],
-            null,
-            false
         );
 
-        $config->setMetadataCacheImpl($c->get(DoctrineCache::class));
-        $config->setQueryCacheImpl($c->get(DoctrineCache::class));
-        $config->setHydrationCacheImpl($c->get(DoctrineCache::class));
-        $config->setResultCacheImpl($c->get(DoctrineCache::class));
+        $config->setMetadataCache($c->get('cache'));
+        $config->setQueryCache($c->get('cache'));
+        $config->setHydrationCache($c->get('cache'));
+        $config->setResultCache($c->get('cache'));
 
         return $config;
     }),
@@ -379,12 +377,8 @@ return [
 
         return EntityManager::create(
             $c->get('config')['doctrine']['connection'],
-            $c->get(Setup::class)
+            $c->get(ORMSetup::class)
         );
-    }),
-
-    ConsoleRunner::class => \DI\factory(function (ContainerInterface $c): HelperSet {
-        return ConsoleRunner::createHelperSet($c->get(EntityManagerInterface::class));
     }),
 
     EmailNotifier::class => function (ContainerInterface $c): EmailNotifier {
