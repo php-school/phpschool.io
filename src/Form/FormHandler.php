@@ -9,6 +9,7 @@ use AdamWathan\Form\FormBuilder;
 use Laminas\InputFilter\InputFilterInterface;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Action\RedirectUtils;
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -29,7 +30,7 @@ class FormHandler
     }
 
     /**
-     * @return bool|Response
+     * @return bool|MessageInterface
      */
     public function validateAndRedirectIfErrors(Request $request, Response $response)
     {
@@ -43,7 +44,7 @@ class FormHandler
         return $this->redirect($request->getHeaderLine('referer'));
     }
 
-    public function redirectWithErrors(Request $request, Response $response, array $errors): Response
+    public function redirectWithErrors(Request $request, Response $response, array $errors): MessageInterface
     {
         $this->session->set('__old_input', (array) $request->getParsedBody());
         $this->session->set('__errors', $errors);
@@ -52,7 +53,7 @@ class FormHandler
     }
 
     /**
-     * @return bool|Response
+     * @return bool|MessageInterface
      */
     public function validateJsonRequest(Request $request, Response $response)
     {

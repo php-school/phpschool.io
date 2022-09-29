@@ -4,6 +4,7 @@ namespace PhpSchool\Website\User\Middleware;
 
 use PhpSchool\Website\Action\RedirectUtils;
 use PhpSchool\Website\User\AuthenticationService;
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
@@ -20,7 +21,7 @@ class Authenticator
         $this->authenticationService = $authenticationService;
     }
 
-    public function __invoke(Request $request, RequestHandler $handler): Response
+    public function __invoke(Request $request, RequestHandler $handler): MessageInterface
     {
 
         $routeContext = RouteContext::fromRequest($request);

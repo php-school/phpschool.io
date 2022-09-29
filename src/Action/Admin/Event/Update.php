@@ -5,6 +5,7 @@ namespace PhpSchool\Website\Action\Admin\Event;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -30,7 +31,7 @@ class Update
         $this->formHandler = $formHandler;
     }
 
-    public function showUpdateForm(Request $request, Response $response, string $id): Response
+    public function showUpdateForm(Request $request, Response $response, string $id): MessageInterface
     {
         try {
             $event = $this->repository->findById($id);
@@ -53,7 +54,7 @@ class Update
         ]);
     }
 
-    public function update(Request $request, Response $response, string $id): Response
+    public function update(Request $request, Response $response, string $id): MessageInterface
     {
         try {
             $event = $this->repository->findById($id);

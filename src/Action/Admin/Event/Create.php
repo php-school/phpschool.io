@@ -6,6 +6,7 @@ use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Flash\Messages;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -43,7 +44,7 @@ class Create
         ]);
     }
 
-    public function create(Request $request, Response $response): Response
+    public function create(Request $request, Response $response): MessageInterface
     {
         $res = $this->formHandler->validateAndRedirectIfErrors($request, $response);
 

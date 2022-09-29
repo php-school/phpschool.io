@@ -5,6 +5,7 @@ namespace PhpSchool\Website\Action\Admin;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\User\AuthenticationService;
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -25,7 +26,7 @@ class Login
         $this->renderer              = $renderer;
     }
 
-    public function showLoginForm(Request $request, Response $response): Response
+    public function showLoginForm(Request $request, Response $response): MessageInterface
     {
         if ($this->authenticationService->hasIdentity()) {
             return $response
@@ -44,7 +45,7 @@ class Login
         ]);
     }
 
-    public function login(Request $request, Response $response): Response
+    public function login(Request $request, Response $response): MessageInterface
     {
         $res = $this->formHandler->validateAndRedirectIfErrors($request, $response);
 

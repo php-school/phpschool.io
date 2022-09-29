@@ -39,7 +39,7 @@ final class Session implements \ArrayAccess
      */
     public function get(string $key, $default = null)
     {
-        if (array_key_exists($key, $_SESSION)) {
+        if (array_key_exists($key, $_SESSION ?? [])) {
             return $_SESSION[$key];
         }
         return $default;
@@ -56,7 +56,7 @@ final class Session implements \ArrayAccess
 
     public function delete(string $key): void
     {
-        if (array_key_exists($key, $_SESSION)) {
+        if (array_key_exists($key, $_SESSION ?? [])) {
             unset($_SESSION[$key]);
         }
     }

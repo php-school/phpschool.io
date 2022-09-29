@@ -20,11 +20,6 @@ class CreateUser
     {
         $password = password_hash($password, PASSWORD_DEFAULT);
 
-        if (!is_string($password)) {
-            $output->writeln("\n<error>Invalid password given</error>\n");
-            return 1;
-        }
-
         $this->entityManager->persist(
             new User($name, $email, $password)
         );
