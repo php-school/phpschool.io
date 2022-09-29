@@ -9,7 +9,6 @@ namespace PhpSchool\Website;
  */
 class DocumentationSection implements DocumentationSectionInterface
 {
-
     /**
      * @var string
      */
