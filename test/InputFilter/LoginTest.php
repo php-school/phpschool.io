@@ -5,18 +5,12 @@ namespace PhpSchool\WebsiteTest\InputFilter;
 use PhpSchool\Website\InputFilter\Login;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class LoginTest extends TestCase
 {
     /**
-     * @param array $input
-     * @param array $output
-     * @param array $messages
      * @dataProvider inputDataProvider
      */
-    public function testInputFilter(array $input, array $output = null, array $messages = null)
+    public function testInputFilter(array $input, array $output = null, array $messages = null): void
     {
         $filter = new Login();
         $filter->setData($input);
@@ -29,7 +23,7 @@ class LoginTest extends TestCase
         }
     }
 
-    public function inputDataProvider()
+    public function inputDataProvider(): array
     {
         return [
             'completely-valid-input' => [
