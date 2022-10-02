@@ -4,19 +4,10 @@ namespace PhpSchool\Website\Exception;
 
 use RuntimeException;
 
-/**
- * @author Aydin Hassan <aydin@hotmail.co.uk>
- */
 class WorkshopCreationException extends RuntimeException
 {
-    /**
-     * @var array
-     */
-    private $errors;
+    private array $errors;
 
-    /**
-     * @param array $errors
-     */
     public function __construct(array $errors)
     {
         $this->errors = $errors;
