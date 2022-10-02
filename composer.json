@@ -57,7 +57,8 @@
     "phpunit/phpunit": "^9.5",
     "vimeo/psalm": "^4.7",
     "weirdan/doctrine-psalm-plugin": "^1.0",
-    "fig/log-test": "dev-main"
+    "fig/log-test": "dev-main",
+    "doctrine/data-fixtures": "^1.5"
   },
   "scripts" : {
     "test": [

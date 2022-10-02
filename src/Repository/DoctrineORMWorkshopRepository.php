@@ -27,7 +27,6 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
         return $this->findBy(['approved' => true]);
     }
 
-
     /**
      * @return list<Workshop>
      */
