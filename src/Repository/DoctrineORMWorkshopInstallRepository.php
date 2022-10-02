@@ -44,6 +44,9 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
         return $qb->getQuery()->getSingleScalarResult() ?? 0;
     }
 
+    /**
+     * @return array<WorkshopInstall>
+     */
     public function findInstallsInLast30Days(Workshop $workshop): array
     {
         $now            = new \DateTimeImmutable();

@@ -3,11 +3,7 @@
 namespace PhpSchool\Website;
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\Views\Exception\PhpTemplateNotFoundException;
 
-/**
- * @psalm-suppress PropertyNotSetInConstructor
- */
 class PhpRenderer
 {
     private string $templatePath;
