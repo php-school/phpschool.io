@@ -18,7 +18,7 @@ class DoctrineORMEventRepository extends EntityRepository implements EventReposi
     public function findPrevious(int $limit = 10): array
     {
         return $this->createQueryBuilder('e')
-            ->where('e.dateTime < :now')
+            ->where('e.dateTime <= :now')
             ->orderBy('e.dateTime', 'DESC')
             ->setMaxResults($limit)
             ->setParameter(':now', new \DateTime())
