@@ -40,7 +40,10 @@
     "ext-json": "*",
     "illuminate/collections": "^8.36",
     "doctrine/annotations": "^1.13",
-    "psr/log": "^3.0"
+    "psr/log": "^1.0 | ^2.0 | ^3.0",
+    "php-school/php-workshop": "dev-master",
+    "php-school/learn-you-php": "dev-master",
+    "php-school/php8-appreciate": "dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -57,7 +60,6 @@
     "phpunit/phpunit": "^9.5",
     "vimeo/psalm": "^4.7",
     "weirdan/doctrine-psalm-plugin": "^1.0",
-    "fig/log-test": "dev-main",
     "doctrine/data-fixtures": "^1.5"
   },
   "scripts" : {
@@ -71,10 +73,10 @@
     "static": "psalm",
     "app:cc": "php bin/app clear-cache",
     "app:gen:blog": "php bin/app generate-blog",
-    "app:db:validate": "doctrine orm:validate-schema",
+    "app:db:validate": "php bin/app orm:validate-schema",
     "app:db:update": [
-      "doctrine orm:clear-cache:metadata",
-      "doctrine orm:schema-tool:update -f"
+      "php bin/app orm:clear-cache:metadata",
+      "php bin/app orm:schema-tool:update -f"
     ]
   }
 }
