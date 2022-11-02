@@ -5,6 +5,7 @@ use DI\Bridge\Slim\Bridge;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
 use Predis\Connection\ConnectionException;
@@ -395,6 +396,10 @@ return [
             __DIR__ . '/../public/blog',
             $c->get(PhpRenderer::class)
         );
+    },
+
+    CloudWorkshopRepository::class => function(ContainerInterface $c): CloudWorkshopRepository {
+        return new CloudWorkshopRepository($c->get(WorkshopRepository::class));
     },
 
     'config' => [
