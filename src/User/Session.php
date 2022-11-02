@@ -34,6 +34,7 @@ final class Session implements \ArrayAccess
     }
 
     /**
+     * @param non-empty-string $key
      * @param mixed $default
      * @return mixed
      */
@@ -75,7 +76,7 @@ final class Session implements \ArrayAccess
     }
 
     /**
-     * @param string $offset
+     * @param non-empty-string $offset
      * @return mixed
      */
     public function offsetGet(mixed $offset): mixed
