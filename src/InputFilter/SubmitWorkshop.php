@@ -3,6 +3,7 @@
 namespace PhpSchool\Website\InputFilter;
 
 use Github\Client;
+use GuzzleHttp\Exception\TransferException;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use Laminas\InputFilter\InputFilter;
 use Laminas\Validator\Callback;
@@ -42,7 +43,13 @@ class SubmitWorkshop extends InputFilter
                             $owner = $matches[3];
                             $repo = $matches[4];
 
-                            return (bool) @file_get_contents(sprintf(static::$gitHubComposerJsonUrlFormat, $owner, $repo));
+                            try {
+                                $response = (new \GuzzleHttp\Client())
+                                    ->request('GET', sprintf(static::$gitHubComposerJsonUrlFormat, $owner, $repo));
+                                return $response->getStatusCode() === 200;
+                            } catch (TransferException $e) {
+                                return false;
+                            }
                         },
                         'messages' => [
                             Callback::INVALID_VALUE => 'Cannot download the contents of composer.json from "%value%". Does it exist?',
