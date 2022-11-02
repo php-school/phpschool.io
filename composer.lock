@@ -4658,12 +4658,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/php-workshop.git",
-                "reference": "507c23cf1cac18a0f3e169b10c62c5f865a563d3"
+                "reference": "69b8723e2491e0a4f59b0a43b098c2b0052f0c55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/507c23cf1cac18a0f3e169b10c62c5f865a563d3",
-                "reference": "507c23cf1cac18a0f3e169b10c62c5f865a563d3",
+                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/69b8723e2491e0a4f59b0a43b098c2b0052f0c55",
+                "reference": "69b8723e2491e0a4f59b0a43b098c2b0052f0c55",
                 "shasum": ""
             },
             "require": {
@@ -4690,7 +4690,7 @@
                 "phpstan/extension-installer": "^1.0",
                 "phpstan/phpstan": "^1.8",
                 "phpunit/phpunit": "^8.5",
-                "squizlabs/php_codesniffer": "^3.4",
+                "squizlabs/php_codesniffer": "^3.7",
                 "yoast/phpunit-polyfills": "^0.2.0"
             },
             "default-branch": true,
@@ -4732,9 +4732,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-school/php-workshop/issues",
-                "source": "https://github.com/php-school/php-workshop/tree/master"
+                "source": "https://github.com/php-school/php-workshop/tree/4.0.1"
             },
-            "time": "2022-10-19T09:21:55+00:00"
+            "time": "2022-11-02T15:07:24+00:00"
         },
         {
             "name": "php-school/php8-appreciate",
