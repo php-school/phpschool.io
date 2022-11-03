@@ -40,7 +40,7 @@ gulp sass
 The cloud styles are built using the Tailwind CSS tool and use the builtin watcher:
 
 ```shell
-npx tailwindcss -i ./public/css/cloud.css -o ./public/css/cloud.min.css --watch
+composer tw
 ```
 
 ## Build SVG's
