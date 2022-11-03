@@ -12,7 +12,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 
-class CloudInstalledWorkshop
+class CloudInstalledWorkshop implements \JsonSerializable
 {
     private Application $application;
     private \DI\Container $container;
@@ -95,5 +95,22 @@ class CloudInstalledWorkshop
         $logger = new Logger(__DIR__ . "/../../var/logs/{$this->getCode()}.log");
 
         $this->container->set(LoggerInterface::class, $logger);
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'name' => $this->getName(),
+            'code' => $this->getCode(),
+            'description' => $this->getDescription(),
+            'type' => $this->getType(),
+            'exercises' => array_map(function (ExerciseInterface $exercise) {
+                return [
+                    'name' => $exercise->getName(),
+                    'description' => $exercise->getDescription(),
+                    'type' => $exercise->getType()->getValue()
+                ];
+            }, $this->findAllExercises())
+        ];
     }
 }
