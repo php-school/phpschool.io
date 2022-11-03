@@ -1,0 +1,303 @@
+<header class="site-header site-header--slim">
+    <?= $this->fetch('includes/site-nav.phtml') ?>
+    <div class="container flex flex-col items-center">
+        <h1 class="site-header__title">PHP School Cloud</h1>
+
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="/cloud" class="inline-flex items-center text-sm font-medium text-white hover:text-pink-500">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                        <?= $workshop->getName() ?>
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-pink-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                        <a href="#" class="ml-1 text-sm font-medium text-white hover:text-pink-500 md:ml-2"><?= $exercise->getName() ?></a>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</header>
+    <section id="app" class="site-body flex flex-col bg-gray-900">
+        <div v-cloak v-if="openPassNotification" id="pass-notification" class="bg-green-500">
+            <div class="mx-auto py-3 px-3 sm:px-6 lg:px-8">
+                <div class="flex flex-wrap items-center justify-center">
+                    <div class="flex items-center">
+                        <span class="flex rounded-lg bg-yellow-400 p-2">
+                            <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
+                            </svg>
+                        </span>
+                        <p class="ml-3 truncate font-medium text-white">
+                            <span class="md:hidden">Congratulations! your solution passed.</span>
+                            <span class="hidden md:inline">Congratulations! your solution passed.</span>
+                        </p>
+                    </div>
+                    <div v-if="nextExerciseLink" class="order-3 mt-2 w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
+                        <a id="next-exercise-link" :href="nextExerciseLink" class="flex items-center justify-center px-2 py-2 text-sm font-bold text-white underline">
+                            Next exercise &rarr;
+                        </a>
+                    </div>
+                    <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
+                        <button @click="dismissPassNotification" type="button" class="-mr-1 flex rounded-md p-2 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
+                            <span class="sr-only">Dismiss</span>
+                            <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-cloak v-if="openRunModal" @keydown.esc="openRunModal = false" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <!--
+              Background backdrop, show/hide based on modal state.
+
+              Entering: "ease-out duration-300"
+                From: "opacity-0"
+                To: "opacity-100"
+              Leaving: "ease-in duration-200"
+                From: "opacity-100"
+                To: "opacity-0"
+            -->
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+            <div class="fixed inset-0 z-10 overflow-y-auto">
+                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0" >
+                    <!--
+                      Modal panel, show/hide based on modal state.
+
+                      Entering: "ease-out duration-300"
+                        From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        To: "opacity-100 translate-y-0 sm:scale-100"
+                      Leaving: "ease-in duration-200"
+                        From: "opacity-100 translate-y-0 sm:scale-100"
+                        To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    -->
+                    <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl">
+                        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                            <div class="sm:flex sm:items-start">
+                                <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                                    <!-- Heroicon name: outline/exclamation-triangle -->
+                                    <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+                                    </svg>
+
+                                </div>
+                                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left flex-1 overflow-x-auto">
+                                    <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Program output</h3>
+                                    <div class="mt-2 flex" v-if="programOutput">
+                                        <p class="p-4 rounded text-sm font-mono bg-gray-800 text-white whitespace-pre-wrap flex-1 overflow-x-scroll">{{ programOutput }}</p>
+                                    </div>
+                                    <div v-if="!programOutput" class="" role="alert">
+                                        <span class="sr-only">Info</span>
+                                        <div>Your program produced no output.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                            <button type="button" class="inline-flex items-center  w-full justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm" @click="runSolution">
+                                <svg :class="{ 'animate-spin': loadingRun}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2 -ml-1">
+                                    <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z" clip-rule="evenodd" />
+                                </svg>
+                                Run again
+                            </button>
+                            <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" @click="openRunModal = false">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex p-4">
+            <div class="w-4/5 flex flex-col justify-center">
+                <Tabs>
+                    <Tab title="Problem.md">
+                        <pre id="editor-problem" class="h-screen w-full border-0">
+                        </pre>
+                    </Tab>
+                    <Tab title="solution.php">
+                        <pre id="editor" class="h-screen w-full border-0">
+                        </pre>
+                    </Tab>
+                    <Tab title="+"></Tab>
+                </Tabs>
+            </div>
+            <div class="w-1/5 flex flex-col ml-4">
+                <button id="run" class="button mt-10 flex items-center justify-center" @click="runSolution">
+                    <svg :class="{ 'animate-spin': loadingRun}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2 -ml-1">
+                        <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z" clip-rule="evenodd" />
+                    </svg>
+                    Run
+                </button>
+                <button id="verify" class="button mt-2 flex items-center justify-center" @click="verifySolution">
+                    <svg :class="{ 'animate-spin': loadingVerify}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2 -ml-1">
+                        <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z" clip-rule="evenodd" />
+                    </svg>
+                    Verify
+                </button>
+                <ul id="results" class="my-8 space-y-4 text-left text-gray-500 dark:text-gray-400" v-html="verifyResults">
+                </ul>
+            </div>
+        </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        const problemEditor = ace.edit("editor-problem");
+        problemEditor.setTheme("ace/theme/monokai");
+        problemEditor.session.setMode("ace/mode/markdown");
+        const problem = <?= json_encode($problem) ?>;
+        problemEditor.setValue(problem);
+
+        var editor = ace.edit("editor");
+        window.editor = editor;
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/php");
+        editor.setValue('<' + '?php' + "\n");
+
+        editor.session.on('change', function(delta) {
+            //nuke the results
+            const results = document.getElementById("results");
+            results.innerHTML = '';
+        });
+    });
+</script>
+<script type="module">
+    const { createApp, ref, provide, inject } = Vue;
+
+    const app = createApp({
+        data() {
+            return {
+                openRunModal: false,
+                programOutput: '',
+                loadingRun: false,
+                loadingVerify: false,
+                verifyResults: '',
+                openPassNotification: false,
+                nextExerciseLink: null
+            }
+        },
+        methods: {
+            runSolution() {
+                this.loadingRun = true;
+                const url = '/cloud/workshop/<?= $workshop->getCode() ?>/exercise/<?= $exercise->getName() ?>/run';
+                const content = window.editor.getValue();
+
+                const opts = {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({script: content})
+                };
+                fetch(url, opts)
+                    .then(response => response.json())
+                    .then(json => {
+                        this.programOutput = json.output;
+                        this.openRunModal = true;
+                        this.loadingRun = false;
+                    })
+            },
+            verifySolution() {
+                this.loadingVerify = true;
+
+                const url = '/cloud/workshop/<?= $workshop->getCode() ?>/exercise/<?= $exercise->getName() ?>/verify';
+                const content = window.editor.getValue();
+
+                const opts = {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({script: content})
+                };
+                fetch(url, opts)
+                    .then(response => response.json())
+                    .then(json => {
+                        this.verifyResults = json.results;
+
+                        if (json.success === true) {
+                            this.openPassNotification = true;
+
+                            if (json.next_exercise) {
+                                this.nextExerciseLink = '/cloud/workshop/<?= $workshop->getCode() ?>/exercise/' + json.next_exercise + '/editor';
+                            } else {
+                                this.nextExerciseLink = null;
+                            }
+                        }
+
+                        this.loadingVerify = false;
+                    })
+            },
+            dismissPassNotification() {
+                this.openPassNotification = false;
+            }
+        }
+    });
+
+    app.directive('click-outside', {
+        mounted(el, binding, vnode) {
+            el.clickOutsideEvent = function(event) {
+                if (!(el === event.target || el.contains(event.target))) {
+                    binding.value(event, el);
+                }
+            };
+            document.body.addEventListener('click', el.clickOutsideEvent);
+        },
+        unmounted(el) {
+            document.body.removeEventListener('click', el.clickOutsideEvent);
+        }
+    });
+
+    const tabs = {
+        setup(props, { slots }) {
+            const tabTitles = ref(slots.default().map(tab => tab.props.title));
+            const selectedTitle = ref(tabTitles.value[0]);
+
+            provide('selectedTitle', selectedTitle);
+
+            return {
+                selectedTitle,
+                tabTitles
+            }
+        },
+        template: `
+        <div class="tabs">
+            <ul class="tabs list-reset flex justify-start mb-1">
+                <li v-for="title in tabTitles" @click="selectedTitle = title">
+                    <a :class="{ 'border-pink-500' : title === selectedTitle }" class="border-t-2 mr-1 bg-stone-700 inline-block py-2 px-4 text-white hover:text-pink-500 text-xs no-underline">
+                        {{ title }}
+                    </a>
+                </li>
+            </ul>
+            <slot />
+        </div>`
+    }
+
+    const tab = {
+        props: ['title'],
+        setup() {
+            const selectedTitle = inject("selectedTitle");
+
+            return {
+                selectedTitle
+            }
+        },
+        template: `
+        <div class="tabs-panel flex" v-show="title === selectedTitle">
+            <slot />
+        </div>`
+    }
+
+    app.component('tabs', tabs);
+    app.component('tab', tab);
+
+    app.mount('#app')
+</script>
