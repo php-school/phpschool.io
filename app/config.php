@@ -2,44 +2,44 @@
 
 use Cache\Bridge\Doctrine\DoctrineCacheBridge;
 use DI\Bridge\Slim\Bridge;
-use Doctrine\ORM\Configuration;
-use Doctrine\ORM\ORMSetup;
-use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
-use PhpSchool\Website\Cloud\CloudWorkshopRepository;
-use PhpSchool\Website\Cloud\Middleware\Styles;
-use PhpSchool\Website\Form\FormHandler;
-use PhpSchool\Website\Middleware\Session as SessionMiddleware;
-use Predis\Connection\ConnectionException;
-use Slim\App;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Contracts\Cache\CacheInterface;
-use function DI\factory;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 use Github\Client;
-use Psr\Container\ContainerInterface;
+use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Mni\FrontYAML\Parser;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
+use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\Website\Action\Admin\ClearCache as ClearCacheAction;
 use PhpSchool\Website\Action\Admin\Event\All as EventAll;
 use PhpSchool\Website\Action\Admin\Event\Create as EventCreate;
-use PhpSchool\Website\Action\Admin\Event\Update as EventUpdate;
 use PhpSchool\Website\Action\Admin\Event\Delete as EventDelete;
+use PhpSchool\Website\Action\Admin\Event\Update as EventUpdate;
 use PhpSchool\Website\Action\Admin\Login;
+use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Delete;
 use PhpSchool\Website\Action\Admin\Workshop\Promote;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
-use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
 use PhpSchool\Website\Action\DocsAction;
-use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Action\SubmitWorkshop;
+use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Blog\Generator;
+use PhpSchool\Website\Cloud\Action\ListWorkshops;
+use PhpSchool\Website\Cloud\Action\RunExercise;
+use PhpSchool\Website\Cloud\Action\ShowExerciseProblem;
+use PhpSchool\Website\Cloud\Action\VerifyExercise;
+use PhpSchool\Website\Cloud\CloudWorkshopRepository;
+use PhpSchool\Website\Cloud\Middleware\Styles;
+use PhpSchool\Website\Cloud\ProblemFileConverter;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateAdminUser;
 use PhpSchool\Website\Command\GenerateBlog;
@@ -48,9 +48,15 @@ use PhpSchool\Website\DocumentationGroup;
 use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
+use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Form\FormHandlerFactory;
+use PhpSchool\Website\InputFilter\Event as EventInputFilter;
+use PhpSchool\Website\InputFilter\Login as LoginInputFilter;
 use PhpSchool\Website\InputFilter\SubmitWorkshop as SubmitWorkshopInputFilter;
+use PhpSchool\Website\InputFilter\WorkshopComposerJson as WorkshopComposerJsonInputFilter;
 use PhpSchool\Website\Middleware\FpcCache;
+use PhpSchool\Website\Middleware\Session as SessionMiddleware;
+use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
@@ -58,18 +64,19 @@ use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\User\Adapter\Doctrine;
 use PhpSchool\Website\User\AdminAuthenticationService;
 use PhpSchool\Website\User\Middleware\AdminAuthenticator;
-use PhpSchool\Website\InputFilter\Event as EventInputFilter;
-use PhpSchool\Website\InputFilter\WorkshopComposerJson as WorkshopComposerJsonInputFilter;
-use PhpSchool\Website\InputFilter\Login as LoginInputFilter;
+use PhpSchool\Website\User\Session;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use PhpSchool\Website\WorkshopFeed;
+use Predis\Connection\ConnectionException;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use PhpSchool\Website\PhpRenderer;
 use Ramsey\Uuid\Doctrine\UuidType;
-use PhpSchool\Website\User\Session;
+use Slim\App;
 use Slim\Flash\Messages;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Symfony\Contracts\Cache\CacheInterface;
+use function DI\factory;
 
 return [
     'console' => factory(function (DI\Container $c): Silly\Edition\PhpDi\Application {
@@ -399,12 +406,38 @@ return [
         );
     },
 
+    //cloud utils
     Styles::class => function (ContainerInterface $c) {
         return new Styles($c->get(PhpRenderer::class));
     },
 
-    CloudWorkshopRepository::class => function(ContainerInterface $c): CloudWorkshopRepository {
+    CloudWorkshopRepository::class => function (ContainerInterface $c): CloudWorkshopRepository {
         return new CloudWorkshopRepository($c->get(WorkshopRepository::class));
+    },
+
+    CommonMarkConverter::class => function (ContainerInterface $c): CommonMarkConverter {
+        return new GithubFlavoredMarkdownConverter();
+    },
+
+    ProblemFileConverter::class => function (ContainerInterface $c): ProblemFileConverter {
+        return new ProblemFileConverter($c->get(CommonMarkConverter::class));
+    },
+
+    //cloud actions
+    ListWorkshops::class => function (ContainerInterface $c): ListWorkshops {
+        return new ListWorkshops($c->get(CloudWorkshopRepository::class));
+    },
+
+    ShowExerciseProblem::class => function (ContainerInterface $c): ShowExerciseProblem {
+        return new ShowExerciseProblem($c->get(CloudWorkshopRepository::class), $c->get(ProblemFileConverter::class));
+    },
+
+    RunExercise::class => function (ContainerInterface $c): RunExercise {
+        return new RunExercise($c->get(CloudWorkshopRepository::class), $c->get(ExerciseDispatcher::class));
+    },
+
+    VerifyExercise::class => function (ContainerInterface $c): VerifyExercise {
+        return new VerifyExercise($c->get(CloudWorkshopRepository::class), $c->get(ExerciseDispatcher::class));
     },
 
     'config' => [
