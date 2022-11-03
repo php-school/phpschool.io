@@ -1,0 +1,13 @@
+<header class="site-header site-header--slim">
+    <?= $this->fetch('includes/site-nav.phtml') ?>
+    <h1 class="site-header__title">Exercise: <?= $exercise->getName() ?></h1>
+</header>
+<section class="site-body">
+    <div class="container w-2/3 p-10 flex flex-col items-center">
+        <div class="w-full">
+            <?= $problem ?>
+        </div>
+
+        <a class="button" href="/cloud/workshop/<?= $workshop->getCode() ?>/exercise/<?= $exercise->getName() ?>/editor">Start </a>
+    </div>
+</section>
