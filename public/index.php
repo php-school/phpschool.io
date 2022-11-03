@@ -1,36 +1,37 @@
 <?php
 
+use Jenssegers\Agent\Agent;
 use PhpSchool\Website\Action\Admin\ClearCache;
 use PhpSchool\Website\Action\Admin\Event\All as AllEvents;
 use PhpSchool\Website\Action\Admin\Event\Create as EventCreate;
 use PhpSchool\Website\Action\Admin\Event\Delete as EventDelete;
 use PhpSchool\Website\Action\Admin\Event\Update as EventUpdate;
 use PhpSchool\Website\Action\Admin\Login;
+use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Delete;
 use PhpSchool\Website\Action\Admin\Workshop\Promote;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
-use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
 use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Action\TrackDownloads;
+use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\AdminStyle;
+use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\AuthenticationService;
 use PhpSchool\Website\User\Middleware\Authenticator;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Http\Message\ResponseInterface as Response;
-use PhpSchool\Website\PhpRenderer;
-use Psr\Log\LoggerInterface;
-use Slim\Flash\Messages;
-use Jenssegers\Agent\Agent;
-use Slim\Routing\RouteCollectorProxy;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Psr\Log\LoggerInterface;
+use Slim\Flash\Messages;
+use Slim\Routing\RouteCollectorProxy;
 
 if (PHP_SAPI == 'cli-server') {
     // To help the built-in PHP dev server, check if the request was actually for
@@ -193,6 +194,12 @@ $app->get('/events', function (Request $request, Response $response, EventReposi
         'content'         => $inner
     ]);
 });
+
+$app
+    ->group('/cloud', function (RouteCollectorProxy $group) {
+
+    })
+    ->add(Styles::class);
 
 // Run app
 $app->run();

@@ -35,6 +35,14 @@ If you need to clear the cache, run `docker compose exec php composer app:cc`.
 gulp sass
 ```
 
+## Building CSS for cloud
+
+The cloud styles are built using the Tailwind CSS tool and use the builtin watcher:
+
+```shell
+composer tw
+```
+
 ## Build SVG's
 ```shell
 gulp svg
