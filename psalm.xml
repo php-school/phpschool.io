@@ -12,4 +12,11 @@
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <UnresolvableInclude>
+            <errorLevel type="suppress">
+                <file name="src/Cloud/CloudWorkshopRepository.php" />
+            </errorLevel>
+        </UnresolvableInclude>
+    </issueHandlers>
 <plugins><pluginClass class="Weirdan\DoctrinePsalmPlugin\Plugin"/></plugins></psalm>
