@@ -4658,12 +4658,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/php-workshop.git",
-                "reference": "69b8723e2491e0a4f59b0a43b098c2b0052f0c55"
+                "reference": "37184f8e396004f7c59cb24ad9942e3b7934195e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/69b8723e2491e0a4f59b0a43b098c2b0052f0c55",
-                "reference": "69b8723e2491e0a4f59b0a43b098c2b0052f0c55",
+                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/37184f8e396004f7c59cb24ad9942e3b7934195e",
+                "reference": "37184f8e396004f7c59cb24ad9942e3b7934195e",
                 "shasum": ""
             },
             "require": {
@@ -4732,9 +4732,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-school/php-workshop/issues",
-                "source": "https://github.com/php-school/php-workshop/tree/4.0.1"
+                "source": "https://github.com/php-school/php-workshop/tree/master"
             },
-            "time": "2022-11-02T15:07:24+00:00"
+            "time": "2022-11-03T10:12:01+00:00"
         },
         {
             "name": "php-school/php8-appreciate",
