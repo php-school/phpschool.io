@@ -11,16 +11,16 @@
         <link href="/img/apple-touch-icon-144x144.png" rel="apple-touch-icon-precomposed" sizes="144x144">
 
         <?= $this->renderCss() ?>
+
+        <?php foreach ($this->getJs() as $js) : ?>
+            <script defer src="<?= $js ?>"></script>
+        <?php endforeach; ?>
     </head>
     <body id="page-top">
 
         <?= $content; ?>
 
         <?= $this->fetch('includes/footer.phtml') ?>
-
-        <?php foreach ($this->getJs() as $js) : ?>
-            <script defer src="<?= $js ?>"></script>
-        <?php endforeach; ?>
     </body>
 </html>
 

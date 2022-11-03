@@ -6,6 +6,7 @@ use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
+use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
 use Predis\Connection\ConnectionException;
@@ -396,6 +397,10 @@ return [
             __DIR__ . '/../public/blog',
             $c->get(PhpRenderer::class)
         );
+    },
+
+    Styles::class => function (ContainerInterface $c) {
+        return new Styles($c->get(PhpRenderer::class));
     },
 
     CloudWorkshopRepository::class => function(ContainerInterface $c): CloudWorkshopRepository {
