@@ -30,9 +30,9 @@ class StudentLogin
 
     public function __invoke(Request $request, Response $response): MessageInterface
     {
-//        if ($this->session->get('student') instanceof Student) {
-//            return $this->redirect('/cloud');
-//        }
+        if ($this->session->get('student') instanceof Student) {
+            return $this->redirect('/cloud');
+        }
 
         $params = $request->getQueryParams();
 
