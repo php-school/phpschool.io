@@ -4,10 +4,10 @@ namespace PhpSchool\Website\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSchool\Website\Cache;
-use PhpSchool\Website\User\Entity\User;
+use PhpSchool\Website\User\Entity\Admin;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateUser
+class CreateAdminUser
 {
     private EntityManagerInterface $entityManager;
 
@@ -21,7 +21,7 @@ class CreateUser
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         $this->entityManager->persist(
-            new User($name, $email, $password)
+            new Admin($name, $email, $password)
         );
         try {
             $this->entityManager->flush();

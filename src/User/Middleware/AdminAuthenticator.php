@@ -3,20 +3,20 @@
 namespace PhpSchool\Website\User\Middleware;
 
 use PhpSchool\Website\Action\RedirectUtils;
-use PhpSchool\Website\User\AuthenticationService;
+use PhpSchool\Website\User\AdminAuthenticationService;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Routing\RouteContext;
 
-class Authenticator
+class AdminAuthenticator
 {
     use RedirectUtils;
 
-    private AuthenticationService $authenticationService;
+    private AdminAuthenticationService $authenticationService;
 
-    public function __construct(AuthenticationService $authenticationService)
+    public function __construct(AdminAuthenticationService $authenticationService)
     {
         $this->authenticationService = $authenticationService;
     }

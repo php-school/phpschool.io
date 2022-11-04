@@ -8,9 +8,9 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user"))
+ * @ORM\Table(name="admin_user"))
  */
-class User
+class Admin
 {
     /**
      * @psalm-suppress PropertyNotSetInConstructor

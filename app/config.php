@@ -41,7 +41,7 @@ use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Blog\Generator;
 use PhpSchool\Website\Command\ClearCache;
-use PhpSchool\Website\Command\CreateUser;
+use PhpSchool\Website\Command\CreateAdminUser;
 use PhpSchool\Website\Command\GenerateBlog;
 use PhpSchool\Website\Documentation;
 use PhpSchool\Website\DocumentationGroup;
@@ -56,8 +56,8 @@ use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\User\Adapter\Doctrine;
-use PhpSchool\Website\User\AuthenticationService;
-use PhpSchool\Website\User\Middleware\Authenticator;
+use PhpSchool\Website\User\AdminAuthenticationService;
+use PhpSchool\Website\User\Middleware\AdminAuthenticator;
 use PhpSchool\Website\InputFilter\Event as EventInputFilter;
 use PhpSchool\Website\InputFilter\WorkshopComposerJson as WorkshopComposerJsonInputFilter;
 use PhpSchool\Website\InputFilter\Login as LoginInputFilter;
@@ -75,7 +75,7 @@ return [
     'console' => factory(function (DI\Container $c): Silly\Edition\PhpDi\Application {
         $app = new Silly\Edition\PhpDi\Application('PHP School Website', 'UNKNOWN', $c);
         $app->command('clear-cache', ClearCache::class);
-        $app->command('create-user name email password', CreateUser::class);
+        $app->command('create-admin-user name email password', CreateAdminUser::class);
         $app->command('generate-blog', GenerateBlog::class);
 
         ConsoleRunner::addCommands($app, new SingleManagerProvider($c->get(EntityManagerInterface::class)));
@@ -158,8 +158,8 @@ return [
     ClearCache::class => factory(function (ContainerInterface $c): ClearCache {
         return new ClearCache($c->get('cache.fpc'));
     }),
-    CreateUser::class => factory(function (ContainerInterface $c): CreateUser {
-        return new CreateUser($c->get(EntityManagerInterface::class));
+    CreateAdminUser::class => factory(function (ContainerInterface $c): CreateAdminUser {
+        return new CreateAdminUser($c->get(EntityManagerInterface::class));
     }),
     GenerateBlog::class => function (ContainerInterface $c): GenerateBlog {
         return new GenerateBlog($c->get(Generator::class));
@@ -224,7 +224,7 @@ return [
     //admin
     Login::class => \DI\factory(function (ContainerInterface $c): Login {
         return new Login(
-            $c->get(AuthenticationService::class),
+            $c->get(AdminAuthenticationService::class),
             $c->get(FormHandlerFactory::class)->create(new LoginInputFilter),
             $c->get(PhpRenderer::class)
         );
@@ -347,14 +347,14 @@ return [
         return $c->get(EntityManagerInterface::class)->getRepository(Event::class);
     },
 
-    AuthenticationService::class => \DI\factory(function (ContainerInterface $c): AuthenticationService {
+    AdminAuthenticationService::class => \DI\factory(function (ContainerInterface $c): AdminAuthenticationService {
         $authService = new \Laminas\Authentication\AuthenticationService;
         $authService->setAdapter(new Doctrine($c->get(EntityManagerInterface::class)));
-        return new AuthenticationService($authService);
+        return new AdminAuthenticationService($authService);
     }),
 
-    Authenticator::class => \DI\factory(function (ContainerInterface $c): Authenticator {
-        return new Authenticator($c->get(AuthenticationService::class));
+    AdminAuthenticator::class => \DI\factory(function (ContainerInterface $c): AdminAuthenticator {
+        return new AdminAuthenticator($c->get(AdminAuthenticationService::class));
     }),
 
     ORMSetup::class => \DI\factory(function (ContainerInterface $c): Configuration {
