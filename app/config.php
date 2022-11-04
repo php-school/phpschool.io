@@ -5,6 +5,8 @@ use DI\Bridge\Slim\Bridge;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use League\OAuth2\Client\Provider\Github;
+use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\Form\FormHandler;
@@ -220,6 +222,21 @@ return [
             $c->get(LoggerInterface::class)
         );
     }),
+
+    Github::class => function (ContainerInterface $c): Github {
+        return new Github([
+            'clientId' => $c->get('config')['github']['clientId'],
+            'clientSecret' => $c->get('config')['github']['clientSecret'],
+        ]);
+    },
+
+    StudentLogin::class => function (ContainerInterface $c): StudentLogin {
+        return new StudentLogin(
+            $c->get(Github::class),
+            $c->get(Session::class),
+            $c->get(EntityManagerInterface::class)
+        );
+    },
 
     //admin
     Login::class => \DI\factory(function (ContainerInterface $c): Login {
@@ -450,6 +467,11 @@ return [
                 'user'     => $_ENV['MYSQL_USER'],
                 'password' => $_ENV['MYSQL_PASSWORD'],
             ]
+        ],
+
+        'github' => [
+            'clientId' => $_ENV['GITHUB_CLIENT_ID'],
+            'clientSecret' => $_ENV['GITHUB_CLIENT_SECRET'],
         ]
     ],
 

@@ -4,6 +4,7 @@ namespace PhpSchool\Website\Action;
 
 use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use League\OAuth2\Client\Provider\Github;
 use League\OAuth2\Client\Provider\GithubResourceOwner;
 use League\OAuth2\Client\Token\AccessToken;
 use PhpSchool\Website\User\Entity\Student;
@@ -18,11 +19,13 @@ class StudentLogin
 
     private Session $session;
     private EntityManagerInterface $entityManager;
+    private Github $githubProvider;
 
-    public function __construct(Session $session, EntityManagerInterface $entityManager)
+    public function __construct(Github $githubProvider, Session $session, EntityManagerInterface $entityManager)
     {
         $this->session = $session;
         $this->entityManager = $entityManager;
+        $this->githubProvider = $githubProvider;
     }
 
     public function __invoke(Request $request, Response $response): MessageInterface
@@ -31,23 +34,11 @@ class StudentLogin
 //            return $this->redirect('/cloud');
 //        }
 
-//        $provider = new \League\OAuth2\Client\Provider\Github([
-//            'clientId'          => '73f5718e4f24ca2f955c',
-//            'clientSecret'      => 'cb38ab5d8fa3e8da4913cf102432091fce085e89',
-//        ]);
-
-        //dev
-        $provider = new \League\OAuth2\Client\Provider\Github([
-            'clientId'          => 'a1473555b64653495b46',
-            'clientSecret'      => '4124b0d6b15e51734b2a1f4ee2d32490e61c1c3c',
-        ]);
-
-
         $params = $request->getQueryParams();
 
         if ($request->getMethod() === 'GET' && !isset($params['code'])) {
-            $authUrl = $provider->getAuthorizationUrl();
-            $this->session->set('oauth2state', $provider->getState());
+            $authUrl = $this->githubProvider->getAuthorizationUrl();
+            $this->session->set('oauth2state', $this->githubProvider->getState());
             return $this->redirect($authUrl);
         }
 
@@ -58,13 +49,13 @@ class StudentLogin
         }
 
         /** @var AccessToken $token */
-        $token = $provider->getAccessToken('authorization_code', [
+        $token = $this->githubProvider->getAccessToken('authorization_code', [
             'code' => $params['code']
         ]);
 
         try {
             /** @var GithubResourceOwner $user */
-            $user = $provider->getResourceOwner($token);
+            $user = $this->githubProvider->getResourceOwner($token);
 
             $student = $this->findStudent($user);
 
