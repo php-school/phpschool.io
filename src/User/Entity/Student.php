@@ -10,7 +10,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Entity
  * @ORM\Table(name="student"))
  */
-class Student implements \PhpSchool\Website\User\Student, \JsonSerializable
+class Student implements \JsonSerializable
 {
     /**
      * @psalm-suppress PropertyNotSetInConstructor
