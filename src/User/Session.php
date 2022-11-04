@@ -48,7 +48,7 @@ final class Session implements \ArrayAccess
 
     /**
      * @param string $key
-     * @param string|array|null $value
+     * @param string|array|object|null $value
      */
     public function set(string $key, $value): void
     {

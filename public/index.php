@@ -13,6 +13,7 @@ use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
 use PhpSchool\Website\Action\DocsAction;
+use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Cloud\Action\ListWorkshops;
@@ -24,6 +25,7 @@ use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\AdminAuthenticationService;
 use PhpSchool\Website\User\Middleware\AdminAuthenticator;
+use PhpSchool\Website\User\Session;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
@@ -196,9 +198,24 @@ $app->get('/events', function (Request $request, Response $response, EventReposi
     ]);
 });
 
+$app->get('/student-login', StudentLogin::class);
+
 $app
     ->group('/cloud', function (RouteCollectorProxy $group) {
         $group->get('', ListWorkshops::class);
+    })
+    ->add(function (Request $request, RequestHandler $handler): Response {
+        $renderer = $this->get(PhpRenderer::class);
+        /** @var Session $session */
+        $session  = $this->get(Session::class);
+
+        $student = $session->get('student');
+
+        $request = $request->withAttribute('student', $student);
+        $renderer->addAttribute('student', $student);
+
+        return $handler->handle($request)
+            ->withHeader('cache-control', 'no-cache');
     })
     ->add(Styles::class);
 
