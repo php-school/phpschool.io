@@ -189,4 +189,49 @@ class CloudInstalledWorkshopTest extends TestCase
 
         $this->assertEquals('Exercise 3', $next->getName());
     }
+
+    public function testJsonSerialise(): void
+    {
+        $workshop = new Workshop(
+            'php-school',
+            'my-workshop',
+            'myworkshop',
+            'My Workshop',
+            'My Workshop Description',
+            'aydin@hotmail.co.uk',
+            'Aydin Hassan'
+        );
+
+        $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
+        $app->addExercise('Exercise1');
+        $app->addExercise('Exercise2');
+        $app->addExercise('Exercise3');
+
+        $this->assertEquals(
+            [
+                'name' => 'My Workshop',
+                'code' => 'myworkshop',
+                'description' => 'My Workshop Description',
+                'type' => 'community',
+                'exercises' => [
+                    [
+                        'name' => 'Exercise 1',
+                        'description' => 'Exercise 1',
+                        'type' => 'CLI'
+                    ],
+                    [
+                        'name' => 'Exercise 2',
+                        'description' => 'Exercise 2',
+                        'type' => 'CLI'
+                    ],
+                    [
+                        'name' => 'Exercise 3',
+                        'description' => 'Exercise 3',
+                        'type' => 'CLI'
+                    ]
+                ]
+            ],
+            (new CloudInstalledWorkshop($app, $workshop))->jsonSerialize()
+        );
+    }
 }
