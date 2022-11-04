@@ -11,6 +11,7 @@ use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
+use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use Predis\Connection\ConnectionException;
 use Slim\App;
 use Symfony\Component\Console\Helper\HelperSet;
@@ -373,6 +374,10 @@ return [
     AdminAuthenticator::class => \DI\factory(function (ContainerInterface $c): AdminAuthenticator {
         return new AdminAuthenticator($c->get(AdminAuthenticationService::class));
     }),
+
+    StudentAuthenticator::class => function(ContainerInterface $c): StudentAuthenticator {
+        return new StudentAuthenticator($c->get(Session::class));
+    },
 
     ORMSetup::class => \DI\factory(function (ContainerInterface $c): Configuration {
         $doctrineConfig = $c->get('config')['doctrine'];

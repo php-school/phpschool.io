@@ -25,6 +25,7 @@ use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\AdminAuthenticationService;
 use PhpSchool\Website\User\Middleware\AdminAuthenticator;
+use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use PhpSchool\Website\User\Session;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -204,6 +205,7 @@ $app
     ->group('/cloud', function (RouteCollectorProxy $group) {
         $group->get('', ListWorkshops::class);
     })
+    ->add($container->get(StudentAuthenticator::class))
     ->add(function (Request $request, RequestHandler $handler): Response {
         $renderer = $this->get(PhpRenderer::class);
         /** @var Session $session */
