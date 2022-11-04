@@ -85,14 +85,14 @@ class Student implements \JsonSerializable
         return $this->githubId;
     }
 
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
     public function getUsername(): string
     {
         return $this->username;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
     }
 
     public function getName(): string
@@ -113,6 +113,31 @@ class Student implements \JsonSerializable
     public function getJoinDate(): DateTime
     {
         return $this->joinDate;
+    }
+
+    public function setUsername(string $username): void
+    {
+        $this->username = $username;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function setProfilePicture(?string $profilePicture): void
+    {
+        $this->profilePicture = $profilePicture;
+    }
+
+    public function setLocation(?string $location): void
+    {
+        $this->location = $location;
     }
 
     public function jsonSerialize(): array

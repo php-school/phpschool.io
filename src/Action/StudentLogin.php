@@ -59,6 +59,10 @@ class StudentLogin
 
             $student = $this->findStudent($user);
 
+            if ($student) {
+                $this->updateStudent($student, $user);
+            }
+
             if ($student === null) {
                 try {
                     $student = $this->createStudent($user);
@@ -83,7 +87,7 @@ class StudentLogin
 
     private function createStudent(GithubResourceOwner $user): Student
     {
-        $id = is_int($user->getId()) ? (string) $user->getId() : null;
+        $id = $this->parseId($user->getId());
         $username = $user->getNickname();
         $email = $user->getEmail();
         $name = $user->getName();
@@ -108,10 +112,35 @@ class StudentLogin
         return $student;
     }
 
+    private function parseId(?int $id): ?string
+    {
+        return is_int($id) ? (string) $id : null;
+    }
+
     private function assertHasValue(?string $value): void
     {
         if ($value === null || $value === '') {
             throw new \RuntimeException('Missing data from GitHub');
         }
+    }
+
+    private function updateStudent(Student $student, GithubResourceOwner $user): void
+    {
+        $username = $user->getNickname();
+        $email = $user->getEmail();
+        $name = $user->getName();
+
+        $this->assertHasValue($username);
+        $this->assertHasValue($email);
+        $this->assertHasValue($name);
+
+        $student->setUsername($username);
+        $student->setEmail($email);
+        $student->setName($name);
+        $student->setProfilePicture($user->toArray()['avatar_url'] ?? null);
+        $student->setLocation($user->toArray()['location'] ?? null);
+
+        $this->entityManager->persist($student);
+        $this->entityManager->flush();
     }
 }
