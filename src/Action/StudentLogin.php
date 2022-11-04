@@ -73,6 +73,7 @@ class StudentLogin
             }
 
             $this->session->set('student', $student->toDTO());
+            $this->session->regenerate();
 
             return $this->redirect('/cloud');
         } catch (IdentityProviderException $e) {
