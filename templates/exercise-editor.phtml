@@ -88,7 +88,7 @@
 
                                 </div>
                                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left flex-1 overflow-x-auto">
-                                    <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Program output</h3>
+                                    <h3 class="text-lg font-medium leading-6 text-gray-900 pt-0" id="modal-title">Program output</h3>
                                     <div class="mt-2 flex" v-if="programOutput">
                                         <p class="p-4 rounded text-sm font-mono bg-gray-800 text-white whitespace-pre-wrap flex-1 overflow-x-scroll">{{ programOutput }}</p>
                                     </div>
@@ -129,16 +129,16 @@
             </div>
             <div class="w-1/5 flex flex-col ml-4">
                 <button id="run" class="button mt-10 flex items-center justify-center" @click="runSolution">
-                    <svg :class="{ 'animate-spin': loadingRun}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2 -ml-1">
+                    <svg v-cloak v-if="loadingRun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 animate-spin">
                         <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z" clip-rule="evenodd" />
                     </svg>
-                    Run
+                    <span v-if="!loadingRun">Run</span>
                 </button>
                 <button id="verify" class="button mt-2 flex items-center justify-center" @click="verifySolution">
-                    <svg :class="{ 'animate-spin': loadingVerify}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2 -ml-1">
+                    <svg v-cloak v-if="loadingVerify" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 animate-spin">
                         <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z" clip-rule="evenodd" />
                     </svg>
-                    Verify
+                    <span v-if="!loadingVerify">Verify</span>
                 </button>
                 <ul id="results" class="my-8 space-y-4 text-left text-gray-500 dark:text-gray-400" v-html="verifyResults">
                 </ul>
@@ -206,6 +206,7 @@
             },
             verifySolution() {
                 this.loadingVerify = true;
+                this.verifyResults = '';
 
                 const url = '/cloud/workshop/<?= $workshop->getCode() ?>/exercise/<?= $exercise->getName() ?>/verify';
                 const content = window.editor.getValue();
