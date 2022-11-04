@@ -33,14 +33,21 @@ class StudentAuthenticator
             return $handler->handle($request);
         }
 
+        //if not a cloud route
         if (strpos($route->getPattern(), '/cloud') !== 0) {
             return $handler->handle($request);
         }
 
+        //if on cloud home page allow guests
+        if ($route->getPattern() === '/cloud') {
+            return $handler->handle($request);
+        }
+
+        //if on any other cloud route, student must be logged in
         if ($this->session->get('student') instanceof Student) {
             return $handler->handle($request);
         }
 
-        return $this->redirect('/student-login');
+        return $this->redirect('/cloud');
     }
 }
