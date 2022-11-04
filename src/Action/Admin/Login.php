@@ -4,7 +4,7 @@ namespace PhpSchool\Website\Action\Admin;
 
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
-use PhpSchool\Website\User\AuthenticationService;
+use PhpSchool\Website\User\AdminAuthenticationService;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -12,12 +12,12 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class Login
 {
-    private AuthenticationService $authenticationService;
+    private AdminAuthenticationService $authenticationService;
     private FormHandler $formHandler;
     private PhpRenderer $renderer;
 
     public function __construct(
-        AuthenticationService $authenticationService,
+        AdminAuthenticationService $authenticationService,
         FormHandler $formHandler,
         PhpRenderer $renderer
     ) {

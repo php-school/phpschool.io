@@ -23,8 +23,8 @@ use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
-use PhpSchool\Website\User\AuthenticationService;
-use PhpSchool\Website\User\Middleware\Authenticator;
+use PhpSchool\Website\User\AdminAuthenticationService;
+use PhpSchool\Website\User\Middleware\AdminAuthenticator;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -150,15 +150,15 @@ $app
 
         $group->get('/workshop/view/{id}', View::class);
     })
-    ->add($container->get(Authenticator::class))
+    ->add($container->get(AdminAuthenticator::class))
     ->add(function (Request $request, RequestHandler $handler): Response {
         $renderer = $this->get(PhpRenderer::class);
 
         $request = $request
-            ->withAttribute('user', $this->get(AuthenticationService::class));
+            ->withAttribute('user', $this->get(AdminAuthenticationService::class));
 
         $renderer
-            ->addAttribute('user', $this->get(AuthenticationService::class)->getIdentity());
+            ->addAttribute('user', $this->get(AdminAuthenticationService::class)->getIdentity());
 
         $renderer
             ->addAttribute('successMessages', $this->get(Messages::class)->getMessage('admin.success') ?? []);
@@ -173,7 +173,7 @@ $app
 
 $app->get('/login', Login::class . '::showLoginForm');
 $app->post('/login', Login::class . '::login');
-$app->get('/logout', function (AuthenticationService $auth, Response $response) {
+$app->get('/logout', function (AdminAuthenticationService $auth, Response $response) {
     $auth->logout();
 
     return $response

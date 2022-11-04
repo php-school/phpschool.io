@@ -5,9 +5,9 @@ namespace PhpSchool\Website\User;
 use Laminas\Authentication\Adapter\AbstractAdapter;
 use Laminas\Authentication\AuthenticationService as LaminasAuthService;
 use Laminas\Authentication\Result;
-use PhpSchool\Website\User\Entity\User;
+use PhpSchool\Website\User\Entity\Admin;
 
-class AuthenticationService
+class AdminAuthenticationService
 {
     private LaminasAuthService $authenticationService;
 
@@ -42,7 +42,7 @@ class AuthenticationService
      * @psalm-suppress MixedInferredReturnType
      * @psalm-suppress MixedReturnStatement
      */
-    public function getIdentity(): ?User
+    public function getIdentity(): ?Admin
     {
         return $this->authenticationService->getIdentity();
     }
