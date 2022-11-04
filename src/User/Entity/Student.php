@@ -4,13 +4,14 @@ namespace PhpSchool\Website\User\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use PhpSchool\Website\User\StudentDTO;
 use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="student"))
  */
-class Student implements \JsonSerializable
+class Student
 {
     /**
      * @psalm-suppress PropertyNotSetInConstructor
@@ -25,12 +26,12 @@ class Student implements \JsonSerializable
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private string $username;
+    private string $githubId;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private string $githubId;
+    private string $username;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -56,7 +57,6 @@ class Student implements \JsonSerializable
      * @ORM\Column(type="datetime")
      */
     private DateTime $joinDate;
-
 
     public function __construct(
         string $githubId,
@@ -140,15 +140,15 @@ class Student implements \JsonSerializable
         $this->location = $location;
     }
 
-    public function jsonSerialize(): array
+    public function toDTO(): StudentDTO
     {
-        return [
-            'email' => $this->getEmail(),
-            'username' => $this->getUsername(),
-            'name' => $this->getName(),
-            'profile_picture' => $this->getProfilePicture(),
-            'location' => $this->getLocation(),
-            'join_date' => $this->getJoinDate()->format('F Y')
-        ];
+        return new StudentDTO(
+            $this->username,
+            $this->email,
+            $this->name,
+            $this->profilePicture,
+            $this->location,
+            $this->joinDate
+        );
     }
 }

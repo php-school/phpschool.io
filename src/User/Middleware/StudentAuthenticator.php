@@ -6,6 +6,7 @@ use PhpSchool\Website\Action\RedirectUtils;
 use PhpSchool\Website\User\AdminAuthenticationService;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\Session;
+use PhpSchool\Website\User\StudentDTO;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -44,7 +45,7 @@ class StudentAuthenticator
         }
 
         //if on any other cloud route, student must be logged in
-        if ($this->session->get('student') instanceof Student) {
+        if ($this->session->get('student') instanceof StudentDTO) {
             return $handler->handle($request);
         }
 
