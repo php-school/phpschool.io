@@ -5,9 +5,9 @@ namespace PhpSchool\Website\Action\Admin\Event;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
+use PhpSchool\Website\User\FlashMessages;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Flash\Messages;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Laminas\Filter\Exception\RuntimeException;
@@ -17,13 +17,13 @@ class Update
     private EventRepository $repository;
     private FormHandler $formHandler;
     private PhpRenderer $renderer;
-    private Messages $messages;
+    private FlashMessages $messages;
 
     public function __construct(
         EventRepository $repository,
         FormHandler $formHandler,
         PhpRenderer $renderer,
-        Messages $messages
+        FlashMessages $messages
     ) {
         $this->repository = $repository;
         $this->messages = $messages;

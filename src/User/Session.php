@@ -2,7 +2,7 @@
 
 namespace PhpSchool\Website\User;
 
-final class Session implements \ArrayAccess
+final class Session implements \ArrayAccess, SessionStorageInterface
 {
     public function regenerate(): void
     {
