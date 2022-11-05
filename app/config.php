@@ -238,7 +238,8 @@ return [
         return new StudentLogin(
             $c->get(Github::class),
             $c->get(Session::class),
-            $c->get(EntityManagerInterface::class)
+            $c->get(EntityManagerInterface::class),
+            $c->get(FlashMessages::class)
         );
     },
 

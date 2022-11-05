@@ -8,6 +8,7 @@ use League\OAuth2\Client\Provider\Github;
 use League\OAuth2\Client\Provider\GithubResourceOwner;
 use League\OAuth2\Client\Token\AccessToken;
 use PhpSchool\Website\User\Entity\Student;
+use PhpSchool\Website\User\FlashMessages;
 use PhpSchool\Website\User\Session;
 use PhpSchool\Website\User\StudentDTO;
 use Psr\Http\Message\MessageInterface;
@@ -21,12 +22,18 @@ class StudentLogin
     private Session $session;
     private EntityManagerInterface $entityManager;
     private Github $githubProvider;
+    private FlashMessages $messages;
 
-    public function __construct(Github $githubProvider, Session $session, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        Github $githubProvider,
+        Session $session,
+        EntityManagerInterface $entityManager,
+        FlashMessages $messages
+    ) {
         $this->session = $session;
         $this->entityManager = $entityManager;
         $this->githubProvider = $githubProvider;
+        $this->messages = $messages;
     }
 
     public function __invoke(Request $request, Response $response): MessageInterface
@@ -68,6 +75,7 @@ class StudentLogin
                 try {
                     $student = $this->createStudent($user);
                 } catch (\Exception $e) {
+                    $this->messages->addMessage('error', 'Could not authenticate with GitHub. Please try again later.');
                     return $this->redirect('/cloud');
                 }
             }
@@ -75,9 +83,13 @@ class StudentLogin
             $this->session->set('student', $student->toDTO());
             $this->session->regenerate();
 
+            $this->messages->addMessage('success', 'Successfully authenticated with GitHub.');
+
             return $this->redirect('/cloud');
         } catch (IdentityProviderException $e) {
-            return $this->redirect('/');
+            $this->messages->addMessage('error', 'Could not authenticate with GitHub. Please try again later.');
+
+            return $this->redirect('/cloud');
         }
     }
 
