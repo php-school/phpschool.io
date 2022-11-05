@@ -4,6 +4,7 @@ namespace PhpSchool\Website\Action\Admin\Workshop;
 
 use PhpSchool\Website\Action\RedirectUtils;
 use PhpSchool\Website\Repository\WorkshopRepository;
+use PhpSchool\Website\User\FlashMessages;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\MessageInterface;
@@ -11,7 +12,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
 use RuntimeException;
-use Slim\Flash\Messages;
 
 class Promote
 {
@@ -20,13 +20,13 @@ class Promote
     private WorkshopRepository $repository;
     private WorkshopFeed $workshopFeed;
     private CacheItemPoolInterface $cache;
-    private Messages $messages;
+    private FlashMessages $messages;
 
     public function __construct(
         WorkshopRepository $repository,
         WorkshopFeed $workshopFeed,
         CacheItemPoolInterface $cache,
-        Messages $messages
+        FlashMessages $messages
     ) {
         $this->workshopFeed = $workshopFeed;
         $this->repository = $repository;
