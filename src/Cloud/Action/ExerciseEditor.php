@@ -38,7 +38,7 @@ class ExerciseEditor
         return $renderer->render($response, 'layouts/layout.phtml', [
             'pageTitle'       => 'PHP School Cloud',
             'pageDescription' => 'PHP School Cloud',
-            'content'         => $renderer->fetch('exercise-editor.phtml', [
+            'content'         => $renderer->fetch('cloud/exercise-editor.phtml', [
                 'workshop' => $workshop,
                 'exercise' => $exercise,
                 'problem' => $this->problemFileConverter->markdownFromExercise($exercise)

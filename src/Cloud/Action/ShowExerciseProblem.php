@@ -35,7 +35,7 @@ class ShowExerciseProblem
         return $renderer->render($response, 'layouts/layout.phtml', [
             'pageTitle'       => 'PHP School Cloud',
             'pageDescription' => 'PHP School Cloud',
-            'content'         => $renderer->fetch('cloud-exercise-problem.phtml', [
+            'content'         => $renderer->fetch('cloud/exercise-problem.phtml', [
                 'workshop' => $workshop,
                 'exercise' => $exercise,
                 'problem' => $this->problemFileConverter->htmlFromExercise($exercise)
