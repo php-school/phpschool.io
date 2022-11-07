@@ -30,7 +30,7 @@ class ExerciseEditor
         string $exercise
     ): Response {
 
-        $renderer->addJs('ace', '/js/ace/src-min-noconflict/ace.js');
+        $renderer->addJs('ace', '/js/ace/ace.js');
 
         $workshop = $this->installedWorkshops->findByCode($workshop);
         $exercise = $workshop->findExerciseByName($exercise);
