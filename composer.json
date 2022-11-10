@@ -42,7 +42,8 @@
     "psr/log": "^1.0 | ^2.0 | ^3.0",
     "php-school/php-workshop": "dev-master",
     "php-school/learn-you-php": "dev-master",
-    "php-school/php8-appreciate": "dev-master"
+    "php-school/php8-appreciate": "dev-master",
+    "league/oauth2-github": "^3.0"
   },
   "autoload": {
     "psr-4": {

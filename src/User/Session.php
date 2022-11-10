@@ -4,7 +4,7 @@ namespace PhpSchool\Website\User;
 
 final class Session implements \ArrayAccess, SessionStorageInterface
 {
-    public static function regenerate(): void
+    public function regenerate(): void
     {
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_regenerate_id(true);
