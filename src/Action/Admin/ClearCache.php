@@ -3,9 +3,9 @@
 namespace PhpSchool\Website\Action\Admin;
 
 use PhpSchool\Website\Action\RedirectUtils;
+use PhpSchool\Website\User\FlashMessages;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\MessageInterface;
-use Slim\Flash\Messages;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
@@ -14,9 +14,9 @@ class ClearCache
     use RedirectUtils;
 
     private CacheItemPoolInterface $cache;
-    private Messages $messages;
+    private FlashMessages $messages;
 
-    public function __construct(CacheItemPoolInterface $cache, Messages $messages)
+    public function __construct(CacheItemPoolInterface $cache, FlashMessages $messages)
     {
         $this->cache = $cache;
         $this->messages = $messages;
