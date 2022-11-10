@@ -6,9 +6,9 @@ use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
+use PhpSchool\Website\User\FlashMessages;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Flash\Messages;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Laminas\Filter\Exception\RuntimeException;
@@ -18,13 +18,13 @@ class Create
     private EventRepository $repository;
     private FormHandler $formHandler;
     private PhpRenderer $renderer;
-    private Messages $messages;
+    private FlashMessages $messages;
 
     public function __construct(
         EventRepository $repository,
         FormHandler $formHandler,
         PhpRenderer $renderer,
-        Messages $messages
+        FlashMessages $messages
     ) {
         $this->repository = $repository;
         $this->messages = $messages;
@@ -70,7 +70,7 @@ class Create
             $values['link'] ?? null,
             \DateTime::createFromFormat('Y-m-d\TH:i', $values['date']),
             $values['venue'],
-            $values['poster']['tmp_name'] ? basename($values['poster']['tmp_name']) : null
+            isset($values['poster']['tmp_name']) ? basename($values['poster']['tmp_name']) : null
         );
 
         $this->repository->save($event);

@@ -23,12 +23,12 @@ use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\AdminAuthenticationService;
+use PhpSchool\Website\User\FlashMessages;
 use PhpSchool\Website\User\Middleware\AdminAuthenticator;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
 use Psr\Log\LoggerInterface;
-use Slim\Flash\Messages;
 use Jenssegers\Agent\Agent;
 use Slim\Routing\RouteCollectorProxy;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -132,7 +132,7 @@ $app
 
         $group->get(
             '/regenerate',
-            function (Request $request, Response $response, Messages $messages, WorkshopFeed $workshopFeed) {
+            function (Request $request, Response $response, FlashMessages $messages, WorkshopFeed $workshopFeed) {
                 try {
                     $workshopFeed->generate();
                     $messages->addMessage('admin.success', 'Workshop feed was successfully regenerated!');
@@ -162,10 +162,10 @@ $app
             ->addAttribute('user', $this->get(AdminAuthenticationService::class)->getIdentity());
 
         $renderer
-            ->addAttribute('successMessages', $this->get(Messages::class)->getMessage('admin.success') ?? []);
+            ->addAttribute('successMessages', $this->get(FlashMessages::class)->getMessage('admin.success') ?? []);
 
         $renderer
-            ->addAttribute('errorMessages', $this->get(Messages::class)->getMessage('admin.error') ?? []);
+            ->addAttribute('errorMessages', $this->get(FlashMessages::class)->getMessage('admin.error') ?? []);
 
         return $handler->handle($request)
             ->withHeader('cache-control', 'no-cache');

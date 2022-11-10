@@ -4,6 +4,7 @@ namespace PhpSchool\Website\Action\Admin\Workshop;
 
 use PhpSchool\Website\Action\RedirectUtils;
 use PhpSchool\Website\Repository\WorkshopRepository;
+use PhpSchool\Website\User\FlashMessages;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Cache\CacheItemPoolInterface;
@@ -13,7 +14,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
-use Slim\Flash\Messages;
 
 class Approve
 {
@@ -22,7 +22,7 @@ class Approve
     private WorkshopRepository $repository;
     private WorkshopFeed $workshopFeed;
     private CacheItemPoolInterface $cache;
-    private Messages $messages;
+    private FlashMessages $messages;
     private EmailNotifier $emailNotifier;
     private LoggerInterface $logger;
 
@@ -30,7 +30,7 @@ class Approve
         WorkshopRepository $repository,
         WorkshopFeed $workshopFeed,
         CacheItemPoolInterface $cache,
-        Messages $messages,
+        FlashMessages $messages,
         EmailNotifier $emailNotifier,
         LoggerInterface $logger
     ) {

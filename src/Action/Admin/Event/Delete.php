@@ -3,23 +3,23 @@
 namespace PhpSchool\Website\Action\Admin\Event;
 
 use PhpSchool\Website\Repository\EventRepository;
+use PhpSchool\Website\User\FlashMessages;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
 use RuntimeException;
-use Slim\Flash\Messages;
 
 class Delete
 {
     private EventRepository $repository;
     private CacheItemPoolInterface $cache;
-    private Messages $messages;
+    private FlashMessages $messages;
 
     public function __construct(
         EventRepository $repository,
         CacheItemPoolInterface $cache,
-        Messages $messages
+        FlashMessages $messages
     ) {
         $this->repository = $repository;
         $this->cache = $cache;

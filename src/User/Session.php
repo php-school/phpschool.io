@@ -2,7 +2,7 @@
 
 namespace PhpSchool\Website\User;
 
-final class Session implements \ArrayAccess
+final class Session implements \ArrayAccess, SessionStorageInterface
 {
     public static function regenerate(): void
     {
@@ -48,7 +48,7 @@ final class Session implements \ArrayAccess
 
     /**
      * @param string $key
-     * @param string|array|null $value
+     * @param string|array|object|null $value
      */
     public function set(string $key, $value): void
     {
