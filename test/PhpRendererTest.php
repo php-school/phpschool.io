@@ -91,4 +91,10 @@ class PhpRendererTest extends TestCase
         $this->assertTrue($renderer->templateExists('layout.phtml'));
         $this->assertFalse($renderer->templateExists('non-existant-template'));
     }
+
+    public function testJson(): void
+    {
+        $renderer = new PhpRenderer(__DIR__ . '/_files/');
+        $this->assertEquals('[["exercise-1"],["exercise-2"]]', $renderer->json([['exercise-1'], ['exercise-2']]));
+    }
 }

@@ -20,6 +20,8 @@ class PhpRenderer
      */
     private array $js = [];
 
+    private static int $jsonFlags = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_THROW_ON_ERROR;
+
     public function __construct(string $templatePath = '', array $attributes = [])
     {
         $this->templatePath = rtrim($templatePath, '/\\') . '/';
@@ -168,5 +170,10 @@ class PhpRenderer
     {
         extract($data);
         include func_get_arg(0);
+    }
+
+    public function json(mixed $var): string
+    {
+        return json_encode($var, self::$jsonFlags);
     }
 }
