@@ -10,7 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 class Styles
 {
     private const VITE_HOST = 'http://localhost:5133';
-    /** @var array<string, array>  */
+    /** @var array<string, array{file: string, src?: string, imports?: array<string>}>  */
     private array $manifest;
 
     private PhpRenderer $renderer;
@@ -69,8 +69,8 @@ class Styles
 
     private function importsUrls(string $entry): array
     {
-        return array_map(function (array $import) {
-            return '/dist/' . $this->manifest[$import]['file'];
+        return array_map(function (string $import) {
+            return '/dist/' . $this->manifest[$import]['file'] ?? '';
         }, $this->manifest[$entry]['imports'] ?? []);
     }
 
