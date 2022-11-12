@@ -91,4 +91,16 @@ class PhpRendererTest extends TestCase
         $this->assertTrue($renderer->templateExists('layout.phtml'));
         $this->assertFalse($renderer->templateExists('non-existant-template'));
     }
+
+    public function testAddJs(): void
+    {
+        $renderer = new PhpRenderer(__DIR__ . '/_files/');
+        $renderer->addJs('main', '/main.js');
+        $renderer->addJs('vue.js', '/vue.js', ['async', 'type' => 'module']);
+
+        $this->assertEquals(
+            [['src' => '/main.js', 'tags' => 'defer'], ['src' => '/vue.js', 'tags' => 'async type="module"']],
+            $renderer->getJs()
+        );
+    }
 }

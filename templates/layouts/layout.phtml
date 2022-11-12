@@ -13,7 +13,7 @@
         <?= $this->renderCss() ?>
 
         <?php foreach ($this->getJs() as $js) : ?>
-            <script defer src="<?= $js ?>"></script>
+            <script <?= $js['tags'] ?> src="<?= $js['src'] ?>"></script>
         <?php endforeach; ?>
     </head>
     <body id="page-top">
