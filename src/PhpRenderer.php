@@ -20,6 +20,12 @@ class PhpRenderer
      */
     private array $js = [];
 
+    /**
+     * @var list<array{id: string, url: string}>
+     */
+    private array $preload = [];
+
+
     public function __construct(string $templatePath = '', array $attributes = [])
     {
         $this->templatePath = rtrim($templatePath, '/\\') . '/';
@@ -102,6 +108,17 @@ class PhpRenderer
         return array_map(function (array $js): string {
             return $js['url'];
         }, $this->js);
+    }
+
+    public function addPreload(string $id, string $file): PhpRenderer
+    {
+        $this->preload[] = ['id' => $id, 'url' => $file];
+        return $this;
+    }
+
+    public function getPreload(): array
+    {
+        return array_map(fn ($preload) => $preload['url'], $this->preload);
     }
 
     public function renderDocHeader(string $id, string $title, string $file = null): string
