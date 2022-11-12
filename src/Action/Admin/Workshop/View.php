@@ -61,8 +61,6 @@ class View
     {
         $end = new DateTimeImmutable();
         $begin = $end->sub(new DateInterval("P30D"));
-        assert(false !== $begin);
-
         $end = $end->add(new DateInterval("P1D"));
 
         $interval   = new DateInterval('P1D');
