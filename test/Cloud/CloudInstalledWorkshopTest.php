@@ -94,6 +94,54 @@ class CloudInstalledWorkshopTest extends TestCase
         $this->assertCount(3, $exercises);
     }
 
+    public function testFindExerciseBySlugThrowsExceptionWhenExerciseWithSlugDoesNotExist(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Cannot find workshop exercise with slug: "Exercise-5"');
+
+        $workshop = new Workshop(
+            'php-school',
+            'my-workshop',
+            'myworkshop',
+            'My Workshop',
+            'My Workshop',
+            'aydin@hotmail.co.uk',
+            'Aydin Hassan'
+        );
+
+        $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
+        $app->addExercise('Exercise1');
+        $app->addExercise('Exercise2');
+        $app->addExercise('Exercise3');
+
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop);
+        $cloudWorkshop->findExerciseBySlug('Exercise-5');
+    }
+
+    public function testFindExerciseBySlug(): void
+    {
+        $workshop = new Workshop(
+            'php-school',
+            'my-workshop',
+            'myworkshop',
+            'My Workshop',
+            'My Workshop',
+            'aydin@hotmail.co.uk',
+            'Aydin Hassan'
+        );
+
+        $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
+        $app->addExercise('Exercise1');
+        $app->addExercise('Exercise2');
+        $app->addExercise('Exercise3');
+
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop);
+
+        $exercise = $cloudWorkshop->findExerciseBySlug('Exercise-2');
+
+        $this->assertEquals('Exercise 2', $exercise->getName());
+    }
+
     public function testFindExerciseByNameThrowsExceptionWhenExerciseWithNameDoesNotExist(): void
     {
         $this->expectException(\RuntimeException::class);
@@ -215,16 +263,19 @@ class CloudInstalledWorkshopTest extends TestCase
                 'type' => 'community',
                 'exercises' => [
                     [
+                        'slug' => 'Exercise-1',
                         'name' => 'Exercise 1',
                         'description' => 'Exercise 1',
                         'type' => 'CLI'
                     ],
                     [
+                        'slug' => 'Exercise-2',
                         'name' => 'Exercise 2',
                         'description' => 'Exercise 2',
                         'type' => 'CLI'
                     ],
                     [
+                        'slug' => 'Exercise-3',
                         'name' => 'Exercise 3',
                         'description' => 'Exercise 3',
                         'type' => 'CLI'
