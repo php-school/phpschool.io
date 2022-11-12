@@ -27,6 +27,7 @@
     "normalize.css": "^8.0.1",
     "postcss": "^8.2",
     "postcss-import": "^14.0.1",
-    "tailwindcss": "^3.1.8"
+    "tailwindcss": "^3.1.8",
+    "ace-builds": "^1.13.0"
   }
 }
