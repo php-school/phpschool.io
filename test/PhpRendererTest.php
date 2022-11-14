@@ -106,7 +106,7 @@ class PhpRendererTest extends TestCase
         $renderer = new PhpRenderer(__DIR__ . '/_files/');
         $this->assertEquals('[["exercise-1"],["exercise-2"]]', $renderer->json([['exercise-1'], ['exercise-2']]));
     }
-    
+
     public function testAddJs(): void
     {
         $renderer = new PhpRenderer(__DIR__ . '/_files/');
