@@ -3,6 +3,7 @@
 namespace PhpSchool\Website;
 
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class PhpRenderer
 {
@@ -19,6 +20,8 @@ class PhpRenderer
      * @var list<array{id: string, url: string}>
      */
     private array $js = [];
+
+    private static int $jsonFlags = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_THROW_ON_ERROR;
 
     public function __construct(string $templatePath = '', array $attributes = [])
     {
@@ -176,5 +179,15 @@ class PhpRenderer
     {
         extract($data);
         include func_get_arg(0);
+    }
+
+    public function slug(string $string): string
+    {
+        return (new AsciiSlugger())->slug($string)->toString();
+    }
+
+    public function json(mixed $var): string
+    {
+        return json_encode($var, self::$jsonFlags);
     }
 }
