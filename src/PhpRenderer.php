@@ -21,6 +21,11 @@ class PhpRenderer
      */
     private array $js = [];
 
+    /**
+     * @var list<array{id: string, url: string}>
+     */
+    private array $preload = [];
+
     private static int $jsonFlags = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_THROW_ON_ERROR;
 
     public function __construct(string $templatePath = '', array $attributes = [])
@@ -113,6 +118,17 @@ class PhpRenderer
                 return ['src' => $js['url'], 'tags' => $tags];
             })
             ->toArray();
+    }
+
+    public function addPreload(string $id, string $file): PhpRenderer
+    {
+        $this->preload[] = ['id' => $id, 'url' => $file];
+        return $this;
+    }
+
+    public function getPreload(): array
+    {
+        return array_map(fn ($preload) => $preload['url'], $this->preload);
     }
 
     public function renderDocHeader(string $id, string $title, string $file = null): string

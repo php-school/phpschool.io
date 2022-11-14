@@ -92,6 +92,13 @@ class PhpRendererTest extends TestCase
         $this->assertFalse($renderer->templateExists('non-existant-template'));
     }
 
+    public function testAddPreload(): void
+    {
+        $renderer = new PhpRenderer(__DIR__ . '/_files/');
+        $renderer->addPreload('main', '/main.js');
+        $this->assertEquals(['/main.js'], $renderer->getPreload());
+    }
+
     public function testSlug(): void
     {
         $renderer = new PhpRenderer(__DIR__ . '/_files/');
