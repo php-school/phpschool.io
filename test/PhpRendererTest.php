@@ -91,6 +91,15 @@ class PhpRendererTest extends TestCase
         $this->assertTrue($renderer->templateExists('layout.phtml'));
         $this->assertFalse($renderer->templateExists('non-existant-template'));
     }
+    
+    public function testSlug(): void
+    {
+        $renderer = new PhpRenderer(__DIR__ . '/_files/');
+
+        $this->assertEquals('some-string', $renderer->slug('some string'));
+        $this->assertEquals('Some-string', $renderer->slug('Some string'));
+        $this->assertEquals('Some-string', $renderer->slug('Some%string'));
+    }
 
     public function testJson(): void
     {

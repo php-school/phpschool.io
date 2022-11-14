@@ -43,7 +43,9 @@
     "php-school/php-workshop": "dev-master",
     "php-school/learn-you-php": "dev-master",
     "php-school/php8-appreciate": "dev-master",
-    "league/oauth2-github": "^3.0"
+    "league/oauth2-github": "^3.0",
+    "symfony/string": "^6.1",
+    "symfony/translation-contracts": "^3.1"
   },
   "autoload": {
     "psr-4": {

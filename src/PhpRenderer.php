@@ -3,6 +3,7 @@
 namespace PhpSchool\Website;
 
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class PhpRenderer
 {
@@ -170,6 +171,11 @@ class PhpRenderer
     {
         extract($data);
         include func_get_arg(0);
+    }
+    
+    public function slug(string $string): string
+    {
+        return (new AsciiSlugger())->slug($string)->toString();
     }
 
     public function json(mixed $var): string
