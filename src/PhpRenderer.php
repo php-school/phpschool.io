@@ -86,9 +86,9 @@ class PhpRenderer
         }, $this->css));
     }
 
-    public function addJs(string $id, string $jsFile): PhpRenderer
+    public function addJs(string $id, string $jsFile, array $tags = ['defer']): PhpRenderer
     {
-        $this->js[] = ['id' => $id, 'url' => $jsFile];
+        $this->js[] = ['id' => $id, 'url' => $jsFile, 'tags' => $tags];
         return $this;
     }
 
@@ -102,9 +102,17 @@ class PhpRenderer
 
     public function getJs(): array
     {
-        return array_map(function (array $js): string {
-            return $js['url'];
-        }, $this->js);
+        return collect($this->js)
+            ->map(function (array $js) {
+                $tags = collect($js['tags'] ?? [])
+                    ->map(function (string $value, string|int $key) {
+                        return is_int($key) ? $value : sprintf('%s="%s"', $key, $value);
+                    })
+                    ->implode(' ');
+
+                return ['src' => $js['url'], 'tags' => $tags];
+            })
+            ->toArray();
     }
 
     public function renderDocHeader(string $id, string $title, string $file = null): string
