@@ -172,7 +172,7 @@ class PhpRenderer
         extract($data);
         include func_get_arg(0);
     }
-    
+
     public function slug(string $string): string
     {
         return (new AsciiSlugger())->slug($string)->toString();
