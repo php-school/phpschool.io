@@ -11,12 +11,14 @@ use PhpSchool\Website\Entity\Workshop;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class CloudInstalledWorkshop implements \JsonSerializable
 {
     private Application $application;
     private \DI\Container $container;
     private Workshop $workshop;
+    private AsciiSlugger $slugger;
 
     public function __construct(Application $application, Workshop $workshop)
     {
@@ -25,6 +27,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $container = $application->configure();
         $this->container = $container;
         $this->workshop = $workshop;
+        $this->slugger = new AsciiSlugger();
 
         $this->configureLogger();
     }
@@ -55,6 +58,17 @@ class CloudInstalledWorkshop implements \JsonSerializable
     public function findAllExercises(): array
     {
         return $this->container->get(ExerciseRepository::class)->findAll();
+    }
+
+    public function findExerciseBySlug(string $slug): ExerciseInterface
+    {
+        foreach ($this->findAllExercises() as $exercise) {
+            if ($this->slugger->slug($exercise->getName())->equalsTo($slug)) {
+                return $exercise;
+            }
+        }
+
+        throw new RuntimeException(sprintf('Cannot find workshop exercise with slug: "%s"', $slug));
     }
 
     public function findExerciseByName(string $name): ExerciseInterface
@@ -106,6 +120,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
             'type' => $this->getType(),
             'exercises' => array_map(function (ExerciseInterface $exercise) {
                 return [
+                    'slug' => $this->slugger->slug($exercise->getName())->toString(),
                     'name' => $exercise->getName(),
                     'description' => $exercise->getDescription(),
                     'type' => $exercise->getType()->getValue()

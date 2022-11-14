@@ -98,4 +98,31 @@ class PhpRendererTest extends TestCase
         $renderer->addPreload('main', '/main.js');
         $this->assertEquals(['/main.js'], $renderer->getPreload());
     }
+
+    public function testSlug(): void
+    {
+        $renderer = new PhpRenderer(__DIR__ . '/_files/');
+
+        $this->assertEquals('some-string', $renderer->slug('some string'));
+        $this->assertEquals('Some-string', $renderer->slug('Some string'));
+        $this->assertEquals('Some-string', $renderer->slug('Some%string'));
+    }
+
+    public function testJson(): void
+    {
+        $renderer = new PhpRenderer(__DIR__ . '/_files/');
+        $this->assertEquals('[["exercise-1"],["exercise-2"]]', $renderer->json([['exercise-1'], ['exercise-2']]));
+    }
+
+    public function testAddJs(): void
+    {
+        $renderer = new PhpRenderer(__DIR__ . '/_files/');
+        $renderer->addJs('main', '/main.js');
+        $renderer->addJs('vue.js', '/vue.js', ['async', 'type' => 'module']);
+
+        $this->assertEquals(
+            [['src' => '/main.js', 'tags' => 'defer'], ['src' => '/vue.js', 'tags' => 'async type="module"']],
+            $renderer->getJs()
+        );
+    }
 }

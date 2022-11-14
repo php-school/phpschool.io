@@ -3,6 +3,7 @@
 namespace PhpSchool\Website;
 
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class PhpRenderer
 {
@@ -25,6 +26,7 @@ class PhpRenderer
      */
     private array $preload = [];
 
+    private static int $jsonFlags = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_THROW_ON_ERROR;
 
     public function __construct(string $templatePath = '', array $attributes = [])
     {
@@ -89,9 +91,9 @@ class PhpRenderer
         }, $this->css));
     }
 
-    public function addJs(string $id, string $jsFile): PhpRenderer
+    public function addJs(string $id, string $jsFile, array $tags = ['defer']): PhpRenderer
     {
-        $this->js[] = ['id' => $id, 'url' => $jsFile];
+        $this->js[] = ['id' => $id, 'url' => $jsFile, 'tags' => $tags];
         return $this;
     }
 
@@ -105,9 +107,17 @@ class PhpRenderer
 
     public function getJs(): array
     {
-        return array_map(function (array $js): string {
-            return $js['url'];
-        }, $this->js);
+        return collect($this->js)
+            ->map(function (array $js) {
+                $tags = collect($js['tags'] ?? [])
+                    ->map(function (string $value, string|int $key) {
+                        return is_int($key) ? $value : sprintf('%s="%s"', $key, $value);
+                    })
+                    ->implode(' ');
+
+                return ['src' => $js['url'], 'tags' => $tags];
+            })
+            ->toArray();
     }
 
     public function addPreload(string $id, string $file): PhpRenderer
@@ -185,5 +195,15 @@ class PhpRenderer
     {
         extract($data);
         include func_get_arg(0);
+    }
+
+    public function slug(string $string): string
+    {
+        return (new AsciiSlugger())->slug($string)->toString();
+    }
+
+    public function json(mixed $var): string
+    {
+        return json_encode($var, self::$jsonFlags);
     }
 }
