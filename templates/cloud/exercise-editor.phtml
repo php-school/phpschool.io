@@ -22,7 +22,7 @@
     </div>
 </header>
     <section id="app" class="site-body flex flex-col bg-gray-900">
-        <exercise-editor next-exercise-slug='<?= $nextExerciseLink ?>'
+        <exercise-editor next-exercise-link='<?= $nextExerciseLink ?>'
                          :official-solution='<?= $this->json($official_solution ?? null) ?>'
                          workshop-code='<?= $workshop->getCode() ?>'
                          exercise-slug='<?= $this->slug($exercise->getName()) ?>'>
