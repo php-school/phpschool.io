@@ -21,7 +21,7 @@ class ListWorkshops
         return $renderer->render($response, 'layouts/layout.phtml', [
             'pageTitle'       => 'PHP School Cloud',
             'pageDescription' => 'PHP School Cloud',
-            'content'         => $renderer->fetch('cloud.phtml', [
+            'content'         => $renderer->fetch('cloud/cloud.phtml', [
                 'workshops' => $this->installedWorkshops->findAll(),
             ])
         ]);
