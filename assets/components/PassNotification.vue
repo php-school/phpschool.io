@@ -108,8 +108,9 @@ export default {
           <div class="w-2/3">
             <template v-for="file in officialSolution" >
               <AceEditor v-show="isSelectedFile(file)"
-                         :file_path="file.file_path"
                          :file_content="atob(file.content)"
+                         :min-lines="20"
+                         :max-lines="20"
                          readonly> </AceEditor>
             </template>
 

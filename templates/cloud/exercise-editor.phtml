@@ -32,20 +32,3 @@
 
         </exercise-editor>
 </section>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function(event) {
-
-        var editor = ace.edit("editor");
-        window.editor = editor;
-        editor.setTheme("ace/theme/monokai");
-        editor.session.setMode("ace/mode/php");
-        editor.setValue('<' + '?php' + "\n");
-
-        editor.session.on('change', function(delta) {
-            //nuke the results
-            const results = document.getElementById("results");
-            results.innerHTML = '';
-        });
-    });
-</script>

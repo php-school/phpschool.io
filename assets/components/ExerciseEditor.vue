@@ -6,6 +6,9 @@ import ExerciseVerify from "./ExerciseVerify.vue";
 import Tabs from "./Tabs.vue";
 import Tab from "./Tab.vue";
 import Modal from "./Modal.vue";
+import AceEditor from "./AceEditor.vue";
+import {results} from "./stores/results.js";
+import {editor} from "./stores/editor.js";
 
 export default {
   components: {
@@ -14,7 +17,8 @@ export default {
     ExerciseVerify,
     Tabs,
     Tab,
-    Modal
+    Modal,
+    AceEditor
   },
   props: {
     nextExerciseLink: String,
@@ -28,8 +32,13 @@ export default {
       openProblemModel: true,
       studentFiles: [
         {'name': 'solution.php'}
-      ]
+      ],
+      results,
+      editor
     }
+  },
+  created() {
+    this.editor.addFile('solution.php', '<' + '?php' + "\n");
   },
   methods: {
     studentSelectFile(file) {
@@ -38,6 +47,9 @@ export default {
     dismissPassNotification() {
       this.openPassNotification = false;
     },
+    resetResults() {
+      this.results.reset();
+    }
   }
 }
 </script>
@@ -63,8 +75,9 @@ export default {
       <div class="w-3/5 flex flex-col justify-center">
         <Tabs>
           <Tab title="solution.php">
-              <pre id="editor" class="h-screen w-full border-0">
-              </pre>
+            <div class="h-screen w-full border-0">
+              <AceEditor @change="resetResults" class="h-screen w-full border-0"/>
+            </div>
           </Tab>
         </Tabs>
       </div>
