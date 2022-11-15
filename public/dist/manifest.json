@@ -1,20 +1,27 @@
 {
+  "img/core-workshops.png": {
+    "file": "assets/core-workshops.3ee706aa.png",
+    "src": "img/core-workshops.png"
+  },
   "main.js": {
-    "file": "assets/main.5c184a8f.js",
+    "file": "assets/main.d6e95eb4.js",
     "src": "main.js",
     "isEntry": true,
     "imports": [
-      "_vendor.a2b61d55.js"
+      "_vendor.ae6acc5d.js"
     ],
     "css": [
-      "assets/main.53feff36.css"
+      "assets/main.28105942.css"
+    ],
+    "assets": [
+      "assets/core-workshops.3ee706aa.png"
     ]
   },
-  "_vendor.a2b61d55.js": {
-    "file": "assets/vendor.a2b61d55.js"
+  "_vendor.ae6acc5d.js": {
+    "file": "assets/vendor.ae6acc5d.js"
   },
   "main.css": {
-    "file": "assets/main.53feff36.css",
+    "file": "assets/main.28105942.css",
     "src": "main.css"
   }
 }
