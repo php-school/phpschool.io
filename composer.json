@@ -79,7 +79,6 @@
     "app:db:update": [
       "php bin/app orm:clear-cache:metadata",
       "php bin/app orm:schema-tool:update -f"
-    ],
-    "tw": "npx tailwindcss -i ./public/css/cloud.css -o ./public/css/cloud.min.css --watch"
+    ]
   }
 }
