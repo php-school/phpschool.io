@@ -1,0 +1,12 @@
+<header class="site-header site-header--slim">
+    <?= $this->fetch('includes/site-nav.phtml') ?>
+    <h1 class="site-header__title">PHP School Online</h1>
+    <p class="site-header__desc">Select a workshop and an exercise to start hacking!</p>
+</header>
+<section id="app" class="site-body">
+    <div class="container flex flex-col">
+        <student-progress :student='<?= $this->json($student) ?>'></student-progress>
+
+        <workshop-exercise-selection-list :workshops='<?= $this->json($workshops) ?>'></workshop-exercise-selection-list>
+    </div>
+</section>

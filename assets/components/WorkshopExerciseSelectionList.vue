@@ -19,7 +19,7 @@ export default {
       this.selectedWorkshop = this.workshops.find(workshop => workshop.code === workshopCode);
     },
     selectExercise(exercise) {
-      window.location.href = '/cloud/workshop/' + this.selectedWorkshop.code + '/exercise/' + exercise.slug;
+      window.location.href = '/cloud/workshop/' + this.selectedWorkshop.code + '/exercise/' + exercise.slug + '/editor';
     },
   }
 }
