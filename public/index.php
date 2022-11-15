@@ -206,6 +206,8 @@ $app->get('/student-login', StudentLogin::class);
 $app
     ->group('/cloud', function (RouteCollectorProxy $group) {
         $group->get('', ListWorkshops::class);
+        $group->post('/workshop/{workshop}/exercise/{exercise}/run', RunExercise::class);
+        $group->post('/workshop/{workshop}/exercise/{exercise}/verify', VerifyExercise::class);
     })
     ->add($container->get(StudentAuthenticator::class))
     ->add(function (Request $request, RequestHandler $handler): Response {

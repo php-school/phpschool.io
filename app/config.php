@@ -5,7 +5,11 @@ use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 use League\OAuth2\Client\Provider\Github;
+use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\Website\Action\StudentLogin;
+use PhpSchool\Website\Cloud\Action\ListWorkshops;
+use PhpSchool\Website\Cloud\Action\RunExercise;
+use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\Form\FormHandler;
@@ -308,6 +312,27 @@ return [
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopInstallRepository::class),
             $c->get(PhpRenderer::class)
+        );
+    },
+
+    //cloud
+    ListWorkshops::class => function (ContainerInterface $c): ListWorkshops {
+        return new ListWorkshops(
+            $c->get(CloudWorkshopRepository::class),
+        );
+    },
+
+    RunExercise::class => function (ContainerInterface $c): RunExercise {
+        return new RunExercise(
+            $c->get(CloudWorkshopRepository::class),
+            $c->get(ExerciseDispatcher::class)
+        );
+    },
+
+    VerifyExercise::class => function (ContainerInterface $c): VerifyExercise {
+        return new VerifyExercise(
+            $c->get(CloudWorkshopRepository::class),
+            $c->get(ExerciseDispatcher::class)
         );
     },
 
