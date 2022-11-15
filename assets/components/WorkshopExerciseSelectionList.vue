@@ -1,5 +1,11 @@
 <script>
+
+import { ArrowRightIcon } from '@heroicons/vue/24/solid'
+
 export default {
+  components: {
+    ArrowRightIcon
+  },
   props: {
     workshops: Object,
   },
@@ -45,10 +51,7 @@ export default {
               </div>
               <div class="text-gray-200 text-xs bg-pink-600 py-1 px-3 rounded-full">{{ workshop.type }}</div>
               <a href="#" class="w-24 text-right flex justify-end">
-                <svg width="20" fill="currentColor" height="20" class="group-hover:text-pink-600 text-gray-200" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z">
-                  </path>
-                </svg>
+                <ArrowRightIcon class="group-hover:text-pink-600 text-gray-200 h-8 w-8"/>
               </a>
             </div>
           </li>
@@ -84,10 +87,7 @@ export default {
               </div>
               <div class="text-gray-200 text-xs bg-pink-600 py-1 px-3 rounded-full">{{ exercise.type }}</div>
               <a href="#" class="w-24 text-right flex justify-end">
-                <svg width="20" fill="currentColor" height="20" class="group-hover:text-pink-600 text-gray-200" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z">
-                  </path>
-                </svg>
+                <ArrowRightIcon class="group-hover:text-pink-600 text-gray-200 h-8 w-8"/>
               </a>
             </div>
           </li>

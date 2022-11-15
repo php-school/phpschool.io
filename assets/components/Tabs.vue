@@ -1,7 +1,12 @@
 <script>
 import { ref, provide } from 'vue'
+import { XMarkIcon } from '@heroicons/vue/24/solid'
+
 
 export default {
+  components: {
+    XMarkIcon
+  },
   setup(props, { slots }) {
     const tabTitles = ref(slots.default().map(tab => {
       return tab.props.title;
@@ -33,11 +38,7 @@ export default {
         <a href="#" class="">
           {{ title }}
         </a>
-        <svg v-show="false" @click="closeTab(tab)" class="cursor-pointer ml-2" width="12" height="12"
-             viewBox="0 0 24 24" data-v-cbb0a4e5="">
-          <line stroke="#999" x1="18" y1="6" x2="6" y2="18" data-v-cbb0a4e5=""></line>
-          <line stroke="#999" x1="6" y1="6" x2="18" y2="18" data-v-cbb0a4e5=""></line>
-        </svg>
+        <XMarkIcon @click="closeTab(tab)" class="cursor-pointer ml-2 w-3 h-3 text-zinc-400"  />
       </li>
     </ul>
     <slot/>
