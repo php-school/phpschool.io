@@ -30,6 +30,7 @@ class ContainerFactory
 
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->addDefinitions($config);
+        $containerBuilder->addDefinitions(include __DIR__ . '/../vendor/php-school/php-workshop/app/config.php');
 
         if ($config['config']['enableCache']) {
             $containerBuilder->enableCompilation($config['config']['containerCacheDir']);
