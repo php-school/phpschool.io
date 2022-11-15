@@ -4,14 +4,18 @@ use DI\Bridge\Slim\Bridge;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 use League\OAuth2\Client\Provider\Github;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\Website\Action\StudentLogin;
+use PhpSchool\Website\Cloud\Action\ExerciseEditor;
 use PhpSchool\Website\Cloud\Action\ListWorkshops;
 use PhpSchool\Website\Cloud\Action\RunExercise;
 use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\Middleware\Styles;
+use PhpSchool\Website\Cloud\ProblemFileConverter;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Middleware\FlashMessages as FlashMessagesMiddleware;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
@@ -316,9 +320,24 @@ return [
     },
 
     //cloud
+    CommonMarkConverter::class => function (ContainerInterface $c): CommonMarkConverter {
+        return new GithubFlavoredMarkdownConverter();
+    },
+
+    ProblemFileConverter::class => function (ContainerInterface $c): ProblemFileConverter {
+        return new ProblemFileConverter($c->get(CommonMarkConverter::class));
+    },
+
     ListWorkshops::class => function (ContainerInterface $c): ListWorkshops {
         return new ListWorkshops(
             $c->get(CloudWorkshopRepository::class),
+        );
+    },
+
+    ExerciseEditor::class => function (ContainerInterface $c): ExerciseEditor {
+        return new ExerciseEditor(
+            $c->get(CloudWorkshopRepository::class),
+            $c->get(ProblemFileConverter::class)
         );
     },
 

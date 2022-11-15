@@ -38,14 +38,14 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="">
     <div class="bg-gray-900 bg-opacity-80 fixed inset-0 z-40"/>
     <div
         tabindex="-1"
-        class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex"
+        class="overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex"
     >
-      <div class="relative p-4 w-full h-full md:h-auto" :class="modalSizeClasses[size]">
-        <div class="relative rounded-lg shadow bg-gray-800">
+      <div class="relative p-4 w-full max-h-screen" :class="modalSizeClasses[size]">
+        <div class="relative max-h-full rounded-lg shadow bg-gray-800">
           <div class="p-4 rounded-t flex justify-between items-center"
                :class="$slots.header ? 'border-b border-solid border-gray-600' : ''">
             <slot name="header"/>
@@ -56,7 +56,7 @@ export default {
               </button>
             </div>
           </div>
-          <div class="p-6" :class="$slots.header ? '' : 'pt-0'">
+          <div class="p-6 max-h-full overflow-y-auto" :class="$slots.header ? '' : 'pt-0'">
             <slot name="body"/>
           </div>
           <div v-if="$slots.footer" class="p-6 rounded-b border-t border-gray-600">
