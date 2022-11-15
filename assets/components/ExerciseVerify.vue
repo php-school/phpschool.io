@@ -2,6 +2,8 @@
 
 import Modal from "./Modal.vue";
 import { ArrowPathIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid'
+import {results} from "./stores/results.js";
+import {editor} from "./stores/editor.js";
 
 export default {
   components: {
@@ -12,7 +14,7 @@ export default {
   emits: ["verify-success"],
   props: {
     workshopCode: String,
-    exerciseSlug: String
+    exerciseSlug: String,
   },
   data() {
     return {
@@ -20,14 +22,15 @@ export default {
       programOutput: '',
       openRunModal: false,
       loadingVerify: false,
-      verifyResults: '',
+      results,
+      editor
     }
   },
   methods: {
     runSolution() {
       this.loadingRun = true;
       const url = '/cloud/workshop/' + this.workshopCode + '/exercise/' + this.exerciseSlug + '/run';
-      const content = window.editor.getValue();
+      const content = this.editor.getFileContent('solution.php');
 
       const opts = {
         method: 'POST',
@@ -47,10 +50,9 @@ export default {
     },
     verifySolution() {
       this.loadingVerify = true;
-      this.verifyResults = '';
+      this.results.reset();
 
       const url = '/cloud/workshop/' + this.workshopCode + '/exercise/' + this.exerciseSlug + '/verify';
-      const content = window.editor.getValue();
 
       const opts = {
         method: 'POST',
@@ -58,12 +60,12 @@ export default {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({script: content})
+        body: JSON.stringify({script: this.editor.getFileContent('solution.php')})
       };
       fetch(url, opts)
           .then(response => response.json())
           .then(json => {
-            this.verifyResults = json.results;
+            this.results.set(json.results);
 
             if (json.success === true) {
               this.$emit('verify-success');
@@ -85,7 +87,7 @@ export default {
     <ArrowPathIcon v-cloak v-show="loadingVerify" class="w-4 h-4 animate-spin"/>
     <span v-if="!loadingVerify">Verify</span>
   </button>
-  <ul id="results" class="my-8 space-y-4 text-left text-gray-500 dark:text-gray-400" v-html="verifyResults">
+  <ul id="results" class="my-8 space-y-4 text-left text-gray-500 dark:text-gray-400" v-html="results.results">
   </ul>
 
   <Modal size="xl" v-if="openRunModal" @keydown.esc="openRunModal = false" @close="openRunModal = false">
