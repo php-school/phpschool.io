@@ -5,3 +5,24 @@
 [v-cloak] {
     display: none;
 }
+
+#problem-file p {
+    @apply mt-2 mb-4;
+}
+
+#problem-file h2 {
+    @apply mt-2 mb-4 text-2xl;
+}
+
+#problem-file pre {
+    @apply mt-2 mb-4;
+}
+
+#problem-file ul {
+    @apply mt-2 mb-4 list-disc list-inside;
+}
+
+#problem-file ul li {
+    @apply list-item;
+}
+
