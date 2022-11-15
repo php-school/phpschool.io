@@ -1,0 +1,50 @@
+import { defineConfig, splitVendorChunkPlugin } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import liveReload from 'vite-plugin-live-reload'
+import path from 'path'
+
+export default defineConfig({
+
+    plugins: [
+        vue(),
+        liveReload([
+            // edit live reload paths according to your source code
+            // for example:
+            __dirname + '/(app|src)/**/*.php',
+            // using this for our example:
+            __dirname + '/public/*.php',
+            __dirname + '/templates/**/*.phtml',
+        ]),
+        splitVendorChunkPlugin(),
+    ],
+
+    // config
+    root: 'assets',
+    base: process.env.APP_ENV === 'development'
+        ? '/'
+        : '/dist/',
+
+    build: {
+        // output dir for production build
+        outDir: '../public/dist',
+        emptyOutDir: true,
+
+        manifest: true,
+
+        // our entry
+        rollupOptions: {
+            input: path.resolve(__dirname, 'assets/main.js'),
+        }
+    },
+
+    server: {
+        strictPort: true,
+        port: 5133
+    },
+
+    resolve: {
+        alias: {
+            vue: 'vue/dist/vue.esm-bundler.js'
+        }
+    }
+})

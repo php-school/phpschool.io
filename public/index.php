@@ -18,6 +18,8 @@ use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Cloud\Action\ListWorkshops;
 use PhpSchool\Website\Cloud\Middleware\Styles;
+use PhpSchool\Website\Cloud\Middleware\ViteDevAssets;
+use PhpSchool\Website\Cloud\Middleware\ViteProductionAssets;
 use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\AdminStyle;
@@ -219,7 +221,10 @@ $app
         return $handler->handle($request)
             ->withHeader('cache-control', 'no-cache');
     })
-    ->add(Styles::class);
+    ->add(Styles::class)
+    ->add($this->get('config')['devMode'] ? ViteDevAssets::class : ViteProductionAssets::class);
+
+
 
 // Run app
 $app->run();

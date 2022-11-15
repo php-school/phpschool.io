@@ -20,10 +20,9 @@ class Styles
     {
         $this->renderer
             ->removeCss('code-blocks')
+            ->removeJs('jquery')
             ->removeJs('main-js')
-            ->removeJs('highlight-js')
-            ->appendLocalCss('tailwindcss', __DIR__ . '/../../../public/css/cloud.min.css')
-            ->addJs('vue', 'https://unpkg.com/vue@3/dist/vue.global.js');
+            ->removeJs('highlight-js');
 
         return $handler->handle($request);
     }
