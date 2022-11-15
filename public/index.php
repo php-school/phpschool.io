@@ -16,7 +16,10 @@ use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Action\TrackDownloads;
+use PhpSchool\Website\Cloud\Action\ExerciseEditor;
 use PhpSchool\Website\Cloud\Action\ListWorkshops;
+use PhpSchool\Website\Cloud\Action\RunExercise;
+use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\Cloud\Middleware\ViteDevAssets;
 use PhpSchool\Website\Cloud\Middleware\ViteProductionAssets;
@@ -206,6 +209,7 @@ $app->get('/student-login', StudentLogin::class);
 $app
     ->group('/cloud', function (RouteCollectorProxy $group) {
         $group->get('', ListWorkshops::class);
+        $group->get('/workshop/{workshop}/exercise/{exercise}/editor', ExerciseEditor::class);
         $group->post('/workshop/{workshop}/exercise/{exercise}/run', RunExercise::class);
         $group->post('/workshop/{workshop}/exercise/{exercise}/verify', VerifyExercise::class);
     })
@@ -224,7 +228,7 @@ $app
             ->withHeader('cache-control', 'no-cache');
     })
     ->add(Styles::class)
-    ->add($this->get('config')['devMode'] ? ViteDevAssets::class : ViteProductionAssets::class);
+    ->add($container->get('config')['devMode'] ? ViteDevAssets::class : ViteProductionAssets::class);
 
 
 
