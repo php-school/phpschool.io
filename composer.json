@@ -45,7 +45,8 @@
     "php-school/php8-appreciate": "dev-master",
     "league/oauth2-github": "^3.0",
     "symfony/string": "^6.1",
-    "symfony/translation-contracts": "^3.1"
+    "symfony/translation-contracts": "^3.1",
+    "spatie/commonmark-highlighter": "^2.1"
   },
   "autoload": {
     "psr-4": {

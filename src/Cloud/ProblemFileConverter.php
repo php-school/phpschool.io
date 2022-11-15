@@ -2,15 +2,15 @@
 
 namespace PhpSchool\Website\Cloud;
 
-use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\MarkdownConverterInterface;
 use PhpSchool\PhpWorkshop\Exception\ProblemFileDoesNotExistException;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 
 class ProblemFileConverter
 {
-    private CommonMarkConverter $commonMarkConverter;
+    private MarkdownConverterInterface $commonMarkConverter;
 
-    public function __construct(CommonMarkConverter $commonMarkConverter)
+    public function __construct(MarkdownConverterInterface $commonMarkConverter)
     {
         $this->commonMarkConverter = $commonMarkConverter;
     }

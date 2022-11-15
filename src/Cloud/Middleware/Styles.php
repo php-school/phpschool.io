@@ -21,8 +21,7 @@ class Styles
         $this->renderer
             ->removeCss('code-blocks')
             ->removeJs('jquery')
-            ->removeJs('main-js')
-            ->removeJs('highlight-js');
+            ->removeJs('main-js');
 
         return $handler->handle($request);
     }

@@ -4,8 +4,15 @@ use DI\Bridge\Slim\Bridge;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use League\CommonMark\Block\Element\FencedCode;
+use League\CommonMark\Block\Element\IndentedCode;
 use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\ConverterInterface;
+use League\CommonMark\Extension\CommonMarkCoreExtension;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
+use League\CommonMark\MarkdownConverter;
+use League\CommonMark\MarkdownConverterInterface;
 use League\OAuth2\Client\Provider\Github;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\Website\Action\StudentLogin;
@@ -23,6 +30,8 @@ use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use PhpSchool\Website\User\FlashMessages;
 use Predis\Connection\ConnectionException;
 use Slim\App;
+use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
+use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
 use Symfony\Contracts\Cache\CacheInterface;
 use function DI\factory;
 use Doctrine\DBAL\Types\Type;
@@ -320,12 +329,17 @@ return [
     },
 
     //cloud
-    CommonMarkConverter::class => function (ContainerInterface $c): CommonMarkConverter {
-        return new GithubFlavoredMarkdownConverter();
+    MarkdownConverterInterface::class => function (ContainerInterface $c): MarkdownConverterInterface {
+        $environment = \League\CommonMark\Environment::createCommonMarkEnvironment();
+        $environment->addExtension(new GithubFlavoredMarkdownExtension());
+        $environment->addBlockRenderer(FencedCode::class, new FencedCodeRenderer(['html', 'php', 'js', 'bash']));
+        $environment->addBlockRenderer(IndentedCode::class, new IndentedCodeRenderer(['html', 'php', 'js', 'bash']));
+
+        return new MarkdownConverter($environment);
     },
 
     ProblemFileConverter::class => function (ContainerInterface $c): ProblemFileConverter {
-        return new ProblemFileConverter($c->get(CommonMarkConverter::class));
+        return new ProblemFileConverter($c->get(MarkdownConverterInterface::class));
     },
 
     ListWorkshops::class => function (ContainerInterface $c): ListWorkshops {
