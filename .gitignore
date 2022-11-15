@@ -12,6 +12,8 @@ npm-debug.log
 .docker/db/*
 .docker/mysql/*
 
+/public/dist/**/*.*
+!/public/dist/.gitkeep
 /public/workshops.json
 /public/uploads
 /public/blog
