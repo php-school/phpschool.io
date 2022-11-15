@@ -5,6 +5,7 @@ import FileTree from "./FileTree.vue";
 import ExerciseVerify from "./ExerciseVerify.vue";
 import Tabs from "./Tabs.vue";
 import Tab from "./Tab.vue";
+import Modal from "./Modal.vue";
 
 export default {
   components: {
@@ -12,7 +13,8 @@ export default {
     FileTree,
     ExerciseVerify,
     Tabs,
-    Tab
+    Tab,
+    Modal
   },
   props: {
     nextExerciseLink: String,
@@ -23,6 +25,7 @@ export default {
   data() {
     return {
       openPassNotification: false,
+      openProblemModel: true,
       studentFiles: [
         {'name': 'solution.php'}
       ]
@@ -59,10 +62,6 @@ export default {
       </div>
       <div class="w-3/5 flex flex-col justify-center">
         <Tabs>
-          <Tab title="Problem.md">
-              <pre id="editor-problem" class="h-screen w-full border-0">
-              </pre>
-          </Tab>
           <Tab title="solution.php">
               <pre id="editor" class="h-screen w-full border-0">
               </pre>
@@ -75,5 +74,30 @@ export default {
         </exercise-verify>
       </div>
     </div>
+
+    <Modal size="4xl" v-if="openProblemModel" @keydown.esc="openProblemModel = false" @close="openProblemModel = false">
+      <template #header>
+        <div class="flex items-center ">
+
+          <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
+            The problem...
+          </h3>
+        </div>
+
+      </template>
+      <template #body class="">
+        <div id="problem-file" class="text-white">
+          <slot name="problem"></slot>
+        </div>
+      </template>
+
+      <template #footer>
+        <div class="flex justify-end">
+          <button @click="openProblemModel = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+            Let's go!
+          </button>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
