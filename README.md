@@ -1,6 +1,6 @@
 ## Install
 
-You will need `composer`, `gulp` and `docker`.
+You will need `composer`, `node` and `docker`.
 
 ```shell
 composer install
@@ -29,23 +29,22 @@ Then navigate to `http://localhost` !
 Pages are cached on first view.
 If you need to clear the cache, run `docker compose exec php composer app:cc`.
 
-## Build CSS
+You can disable the cache by setting `CACHE.FPC.ENABLE` to `false` in your `.env` file.
+
+## Build CSS & JS
 
 ```shell
-gulp sass
+npm run build
 ```
 
-## Building CSS for cloud
+## Building CSS & JS for cloud dev
 
-The cloud styles are built using the Tailwind CSS tool and use the builtin watcher:
+The cloud styles and JS are built using `vite.js` and therefore has a dev/watcher mode with hot/live reloading.
+
+Run:
 
 ```shell
-composer tw
-```
-
-## Build SVG's
-```shell
-gulp svg
+npm run dev
 ```
 
 ### View cache keys
@@ -57,7 +56,7 @@ docker-compose exec redis redis-cli keys '*'
 ### Clear cache
 
 ```shell
-docker compose exec php composer app:cc
+docker-compose exec php composer app:cc
 ```
 
 ## Deploy
