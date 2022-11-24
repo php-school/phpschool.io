@@ -1,6 +1,6 @@
 var $ = jQuery;
 
-import "../../scss/core.scss";
+import "../scss/core.scss";
 
 $(function () {
 

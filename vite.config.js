@@ -33,8 +33,8 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 cloud: path.resolve(__dirname, 'assets/cloud.js'),
-                main: path.resolve(__dirname, 'public/js/main.js'),
-                login: path.resolve(__dirname, 'public/js/login.js'),
+                main: path.resolve(__dirname, 'assets/main.js'),
+                login: path.resolve(__dirname, 'assets/login.js'),
             }
         }
     },

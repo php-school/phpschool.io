@@ -166,9 +166,9 @@ return [
         $renderer->addJs('highlight.js', '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js');
 
         $manifest = $c->get(ViteManifest::class);
-        $renderer->addJs('main-js', $manifest->assetUrl('../public/js/main.js'));
+        $renderer->addJs('main-js', $manifest->assetUrl('main.js'));
 
-        foreach ($manifest->cssUrls('../public/js/main.js') as $i => $url) {
+        foreach ($manifest->cssUrls('main.js') as $i => $url) {
             $renderer->appendRemoteCss($i, $url);
         }
 
