@@ -129,7 +129,7 @@
         </div>
 
         <?php foreach ($this->getJs() as $js) : ?>
-            <script src="<?= $js ?>"></script>
+            <script <?= $js['tags'] ?> src="<?= $js['src'] ?>"></script>
         <?php endforeach; ?>
     </body>
 </html>
