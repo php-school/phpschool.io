@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .introduction {
     display: flex;
     flex-wrap: wrap;
@@ -79,7 +81,7 @@
     z-index: 1;
     position: relative;
     display: block;
-    margin: 0 auto $half-spacing/2;
+    margin: 0 auto math.div($half-spacing,2);
     text-align: center;
     width: $base-spacing;
     height: $base-spacing;
