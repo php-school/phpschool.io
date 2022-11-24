@@ -55,8 +55,12 @@
                             <div class="loader-wapper">
                                 <div class="loader"></div>
                             </div>
-                            <div class="button-submit__success"><?= $this->fetch('includes/icon.phtml', ['name' => "tick"]) ?></div>
-                            <div class="button-submit__error"><?= $this->fetch('includes/icon.phtml', ['name' => "cross"]) ?></div>
+                            <div class="button-submit__success">
+                                <svg class="svg-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="167.2px" height="121.5px" viewBox="0 0 167.2 121.5" enable-background="new 0 0 167.2 121.5" xml:space="preserve"><defs></defs><g><path d="M60.7,121.5L60.7,121.5c-4,0-7.8-1.6-10.6-4.4L4.4,71.4c-5.9-5.9-5.9-15.4,0-21.2c5.9-5.9,15.4-5.9,21.2,0l35.1,35.1l80.9-80.9c5.9-5.9,15.4-5.9,21.2,0c5.9,5.9,5.9,15.4,0,21.2l-91.5,91.5C68.5,119.9,64.7,121.5,60.7,121.5z"/></g></svg>
+                            </div>
+                            <div class="button-submit__error">
+                                <svg class="svg-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="47.9px" height="47.9px" viewBox="0 0 47.9 47.9" enable-background="new 0 0 47.9 47.9" xml:space="preserve"><defs></defs><path fill="#231F20" d="M31.7,23.9L46.3,9.4c2.1-2.1,2.1-5.6,0-7.8c-2.1-2.1-5.6-2.1-7.8,0L23.9,16.2L9.4,1.6c-2.1-2.1-5.6-2.1-7.8,0c-2.1,2.1-2.1,5.6,0,7.8l14.6,14.6L1.6,38.5c-2.1,2.1-2.1,5.6,0,7.8c1.1,1.1,2.5,1.6,3.9,1.6s2.8-0.5,3.9-1.6l14.6-14.6l14.6,14.6c1.1,1.1,2.5,1.6,3.9,1.6s2.8-0.5,3.9-1.6c2.1-2.1,2.1-5.6,0-7.8L31.7,23.9z"/></svg>
+                            </div>
                         </button>
                     </div>
                     <ul class="form__errors workshop-errors"></ul>
