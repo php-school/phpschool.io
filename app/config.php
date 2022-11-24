@@ -22,12 +22,14 @@ use PhpSchool\Website\Cloud\Action\RunExercise;
 use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\Middleware\Styles;
+use PhpSchool\Website\Cloud\Middleware\ViteProductionAssets;
 use PhpSchool\Website\Cloud\ProblemFileConverter;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Middleware\FlashMessages as FlashMessagesMiddleware;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use PhpSchool\Website\User\FlashMessages;
+use PhpSchool\Website\ViteManifest;
 use Predis\Connection\ConnectionException;
 use Slim\App;
 use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
@@ -142,6 +144,15 @@ return [
 
         return new RedisAdapter($redisConnection, 'default');
     }),
+    ViteProductionAssets::class => function (ContainerInterface $c): ViteProductionAssets {
+        return new ViteProductionAssets(
+            $c->get(PhpRenderer::class),
+            $c->get(ViteManifest::class)
+        );
+    },
+    ViteManifest::class => function (ContainerInterface $c): ViteManifest {
+        return new ViteManifest();
+    },
     PhpRenderer::class => factory(function (ContainerInterface $c): PhpRenderer {
         $settings = $c->get('config')['renderer'];
         $renderer = new PhpRenderer(
@@ -151,13 +162,17 @@ return [
             ]
         );
 
-        //default CSS
-        $renderer->appendLocalCss('main-css', __DIR__ . '/../public/css/core.css');
-        $renderer->appendRemoteCss('font', 'https://fonts.googleapis.com/css?family=Open+Sans: 400,700');
-
-        //default JS
         $renderer->addJs('jquery', '//code.jquery.com/jquery-1.12.0.min.js');
-        $renderer->addJs('main-js', '/js/main.min.js');
+        $renderer->addJs('highlight.js', '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js');
+
+        $manifest = $c->get(ViteManifest::class);
+        $renderer->addJs('main-js', $manifest->assetUrl('../public/js/main.js'));
+
+        foreach ($manifest->cssUrls('../public/js/main.js') as $i => $url) {
+            $renderer->appendRemoteCss($i, $url);
+        }
+
+        $renderer->appendRemoteCss('font', 'https://fonts.googleapis.com/css?family=Open+Sans: 400,700');
 
         return $renderer;
     }),
@@ -264,7 +279,8 @@ return [
         return new Login(
             $c->get(AdminAuthenticationService::class),
             $c->get(FormHandlerFactory::class)->create(new LoginInputFilter),
-            $c->get(PhpRenderer::class)
+            $c->get(PhpRenderer::class),
+            $c->get(ViteManifest::class)
         );
     }),
 

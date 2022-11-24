@@ -17,7 +17,7 @@ class ViteDevAssets
 
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
-        $this->renderer->addJs('cloud', self::VITE_HOST . '/main.js', ['type' => 'module', 'crossorigin']);
+        $this->renderer->addJs('cloud', self::VITE_HOST . '/cloud.js', ['type' => 'module', 'crossorigin']);
 
         return $handler->handle($request);
     }
