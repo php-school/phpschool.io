@@ -1,4 +1,4 @@
-import { defineConfig, splitVendorChunkPlugin } from 'vite'
+import {defineConfig, splitVendorChunkPlugin} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import liveReload from 'vite-plugin-live-reload'
 import path from 'path'
@@ -20,9 +20,7 @@ export default defineConfig({
 
     // config
     root: 'assets',
-    base: process.env.APP_ENV === 'development'
-        ? '/'
-        : '/dist/',
+    base: process.env.APP_ENV === 'development' ? '/' : '/dist/',
 
     build: {
         // output dir for production build
@@ -33,7 +31,11 @@ export default defineConfig({
 
         // our entry
         rollupOptions: {
-            input: path.resolve(__dirname, 'assets/main.js'),
+            input: {
+                cloud: path.resolve(__dirname, 'assets/cloud.js'),
+                main: path.resolve(__dirname, 'public/js/main.js'),
+                login: path.resolve(__dirname, 'public/js/login.js'),
+            }
         }
     },
 

@@ -1,5 +1,7 @@
 var $ = jQuery;
 
+import "../../scss/core.scss";
+
 $(function () {
 
     var $submitForm = $('#ws-submit-form');
@@ -253,6 +255,6 @@ $(function () {
     }
 });
 
-hljs.initHighlightingOnLoad();
+hljs.highlightAll();
 
 

@@ -5,6 +5,7 @@ namespace PhpSchool\Website\Action\Admin;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\User\AdminAuthenticationService;
+use PhpSchool\Website\ViteManifest;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -15,15 +16,18 @@ class Login
     private AdminAuthenticationService $authenticationService;
     private FormHandler $formHandler;
     private PhpRenderer $renderer;
+    private ViteManifest $viteManifest;
 
     public function __construct(
         AdminAuthenticationService $authenticationService,
         FormHandler $formHandler,
-        PhpRenderer $renderer
+        PhpRenderer $renderer,
+        ViteManifest $viteManifest
     ) {
         $this->authenticationService = $authenticationService;
-        $this->formHandler           = $formHandler;
-        $this->renderer              = $renderer;
+        $this->formHandler = $formHandler;
+        $this->renderer = $renderer;
+        $this->viteManifest = $viteManifest;
     }
 
     public function showLoginForm(Request $request, Response $response): MessageInterface
@@ -34,7 +38,7 @@ class Login
                 ->withHeader('Location', '/admin');
         }
 
-        $this->renderer->appendLocalCss('login', __DIR__ . '/../../../public/css/page-login.css');
+        $this->renderer->appendRemoteCss('login', $this->viteManifest->cssUrls('../public/js/login.js')[0]);
 
         $response = $response->withAddedHeader('Cache-Control', 'no-cache');
 
