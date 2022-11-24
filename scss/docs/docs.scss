@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .docs {
   display: flex;
   flex-wrap: wrap;
@@ -29,7 +31,7 @@
 
 .install__title {
   border-bottom: 1px dotted $silver;
-  padding-bottom: $half-spacing/2;
+  padding-bottom: math.div($half-spacing, 2);
   display: inline-block;
   align-items: center;
   text-align: center;
@@ -125,7 +127,7 @@
     color: inherit;
   }
 
-  padding-bottom: $half-spacing / 2;
+  padding-bottom: math.div($half-spacing, 2);
 
   @media screen and (min-width: $lap-start) {
     border-bottom: 1px dotted $silver;
@@ -341,7 +343,7 @@ ul.docs__std__list__note {
 
 .doc__title {
   border-bottom: 1px dotted $silver;
-  padding-bottom: $half-spacing / 2;
+  padding-bottom: math.div($half-spacing, 2);
   display: inline-block;
   align-items: center;
   text-align: left;
@@ -392,7 +394,7 @@ ul.docs__std__list__note {
 
 .content__header {
   border-bottom: 1px dotted $silver;
-  padding-bottom: $half-spacing / 2;
+  padding-bottom: math.div($half-spacing, 2);
   display: inline-block;
   align-items: center;
   text-align: left;

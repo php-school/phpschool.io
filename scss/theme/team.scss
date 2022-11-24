@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .team {
     text-align: center;
     padding: $base-spacing*2 0;
@@ -44,7 +46,7 @@
 
 .team__name {
     font-family: $header-font-family;
-    margin-bottom: $half-spacing/2;
+    margin-bottom: math.div($half-spacing, 2);
 }
 
 .team__role {

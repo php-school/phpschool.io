@@ -1,3 +1,5 @@
+@use "sass:math";
+
 //COLOUR
 $black: #000000;
 $white: #ffffff;
@@ -23,7 +25,7 @@ $small-font-size: 12px;
 
 $base-spacing: 27px;
 $large-spacing: $base-spacing * 2;
-$half-spacing: $base-spacing / 2;
+$half-spacing: math.div($base-spacing, 2);
 
 $button-height: 48px;
 
