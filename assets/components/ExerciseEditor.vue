@@ -88,7 +88,7 @@ export default {
       </div>
     </div>
 
-    <Modal size="4xl" v-if="openProblemModel" @keydown.esc="openProblemModel = false" @close="openProblemModel = false">
+    <Modal size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openProblemModel" @keydown.esc="openProblemModel = false" @close="openProblemModel = false">
       <template #header>
         <div class="flex items-center ">
 
