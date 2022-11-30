@@ -103,7 +103,29 @@ export default {
               </div>
             </div>
 
-            <ul id="results" class="my-8 space-y-4 text-left text-gray-500 dark:text-gray-400" v-html="results">
+            <div v-show="!results" class="animate-pulse flex space-x-4 mt-4">
+              <div class="flex-1 space-y-6 py-1">
+                <div class="h-2 bg-slate-700 rounded"></div>
+                <div class="space-y-3">
+                  <div class="grid grid-cols-3 gap-4">
+                    <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                    <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  </div>
+                  <div class="h-2 bg-slate-700 rounded"></div>
+                </div>
+                <div class="h-2 bg-slate-700 rounded"></div>
+                <div class="space-y-3">
+                  <div class="grid grid-cols-3 gap-4">
+                    <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                    <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                  </div>
+                  <div class="h-2 bg-slate-700 rounded"></div>
+                </div>
+              </div>
+            </div>
+
+            <ul v-show="results" id="results" class="my-8 space-y-4 text-left text-gray-500 dark:text-gray-400" v-html="results">
+
             </ul>
         </div>
 
