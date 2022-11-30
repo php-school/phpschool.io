@@ -20,7 +20,7 @@ export default {
 </script>
 
 <template>
-  <div class="tabs-panel flex" v-show="title === selectedTitle">
+  <div class="tabs-panel h-full flex flex-1" v-show="title === selectedTitle">
     <slot />
   </div>
 </template>

@@ -53,7 +53,7 @@ class ExerciseEditor
 
         $data = $this->maybeAddOfficialSolution($data, $exercise);
 
-        return $renderer->render($response, 'layouts/layout.phtml', [
+        return $renderer->render($response, 'layouts/cloud-editor.phtml', [
             'pageTitle' => 'PHP School Cloud',
             'pageDescription' => 'PHP School Cloud',
             'content' => $renderer->fetch('cloud/exercise-editor.phtml', $data)
