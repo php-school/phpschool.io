@@ -2,7 +2,6 @@
 
 import Modal from "./Modal.vue";
 import { ArrowPathIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid'
-import {results} from "./stores/results.js";
 import {editor} from "./stores/editor.js";
 
 export default {
@@ -11,7 +10,7 @@ export default {
     ArrowPathIcon,
     ExclamationTriangleIcon
   },
-  emits: ["verify-success"],
+  emits: ["verify-loading", "verify-success", "verify-fail"],
   props: {
     workshopCode: String,
     exerciseSlug: String,
@@ -22,7 +21,6 @@ export default {
       programOutput: '',
       openRunModal: false,
       loadingVerify: false,
-      results,
       editor
     }
   },
@@ -49,8 +47,8 @@ export default {
           })
     },
     verifySolution() {
+      this.$emit('verify-loading');
       this.loadingVerify = true;
-      this.results.reset();
 
       const url = '/cloud/workshop/' + this.workshopCode + '/exercise/' + this.exerciseSlug + '/verify';
 
@@ -65,10 +63,10 @@ export default {
       fetch(url, opts)
           .then(response => response.json())
           .then(json => {
-            this.results.set(json.results);
-
             if (json.success === true) {
               this.$emit('verify-success');
+            } else {
+              this.$emit('verify-fail', json.results);
             }
 
             this.loadingVerify = false;
@@ -79,16 +77,16 @@ export default {
 </script>
 
 <template>
-  <button id="run" class="button mt-10 flex items-center justify-center" @click="runSolution">
-    <ArrowPathIcon v-cloak v-show="loadingRun" class="w-4 h-4 animate-spin"/>
-    <span v-if="!loadingRun">Run</span>
-  </button>
-  <button id="verify" class="button mt-2 flex items-center justify-center" @click="verifySolution">
-    <ArrowPathIcon v-cloak v-show="loadingVerify" class="w-4 h-4 animate-spin"/>
-    <span v-if="!loadingVerify">Verify</span>
-  </button>
-  <ul id="results" class="my-8 space-y-4 text-left text-gray-500 dark:text-gray-400" v-html="results.results">
-  </ul>
+  <div class="flex items-center">
+    <button id="run" class="button flex items-center justify-center mt-0 mr-2 px-4 w-36 rounded" @click="runSolution">
+      <ArrowPathIcon v-cloak v-show="loadingRun" class="w-4 h-4 animate-spin"/>
+      <span v-if="!loadingRun">Run</span>
+    </button>
+    <button id="verify" class="button flex items-center justify-center mt-0 px-4 w-36 rounded" @click="verifySolution">
+      <ArrowPathIcon v-cloak v-show="loadingVerify" class="w-4 h-4 animate-spin"/>
+      <span v-if="!loadingVerify">Verify</span>
+    </button>
+  </div>
 
   <Modal size="xl" v-if="openRunModal" @keydown.esc="openRunModal = false" @close="openRunModal = false">
     <template #header>

@@ -30,8 +30,8 @@ export default {
 </script>
 
 <template>
-  <div class="tabs">
-    <ul class="tabs list-reset flex justify-start mb-1">
+  <div class="tabs w-full flex flex-col">
+    <ul class="tabs list-reset flex justify-start mb-1 flex-none">
       <li v-for="title in tabTitles" :key="title" :class="{ 'border-pink-500' : title === selectedTitle }"
           @click="selectedTitle = title"
           class="flex border-solid border-t-2 mr-1 bg-stone-700 inline-block py-2 px-4 text-white hover:text-pink-500 text-xs no-underline items-center">
