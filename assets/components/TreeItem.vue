@@ -1,6 +1,7 @@
 <script>
 
 import { FolderIcon, FolderOpenIcon, DocumentIcon, PencilIcon, FolderPlusIcon, PlusIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import uniqueName from "./utils/uniqueName.js";
 
 export default {
   components: {
@@ -33,6 +34,11 @@ export default {
       isEditing: false,
     }
   },
+  mounted() {
+    if (this.model.isNew()) {
+      this.$nextTick(() => this.$refs.name.focus());
+    }
+  },
   computed: {
     isFolder() {
       return this.model.children
@@ -40,26 +46,26 @@ export default {
     hasChildren() {
       return this.model.children.length;
     },
-    sortedChildren() {
-      const dirs = this.model.children.filter(child => child.children);
-      const files = this.model.children.filter(child => !child.children);
-
-      const sorter = (a, b) => {
-        if (a.name.toLowerCase() < b.name.toLowerCase()) {
-          return -1;
-        }
-
-        if (a.name.toLowerCase() > b.name.toLowerCase()) {
-          return 1;
-        }
-
-        return 0;
-      };
-
-      return dirs.sort(sorter).concat(files.sort(sorter));
-    },
+    // sortedChildren() {
+    //   const dirs = this.model.children.filter(child => child.children);
+    //   const files = this.model.children.filter(child => !child.children);
+    //
+    //   const sorter = (a, b) => {
+    //     if (a.name.toLowerCase() < b.name.toLowerCase()) {
+    //       return -1;
+    //     }
+    //
+    //     if (a.name.toLowerCase() > b.name.toLowerCase()) {
+    //       return 1;
+    //     }
+    //
+    //     return 0;
+    //   };
+    //
+    //   return dirs.sort(sorter).concat(files.sort(sorter));
+    // },
     isBeingEdited() {
-      return this.isEditing || ('new' in this.model && this.model.new);
+      return this.isEditing || this.model.isNew();
     },
   },
   methods: {
@@ -79,15 +85,25 @@ export default {
         this.fileSelectFunction(child);
       }
     },
+    edit() {
+      this.isEditing = true;
+      this.$nextTick(() => this.$refs.name.focus());
+    },
     addFile() {
       if (this.model.children.filter(file => 'new' in file).length) {
         return;
       }
 
-      this.model.children.push({
-        name: 'new file',
-        new: true
-      });
+      const file = {
+        name: uniqueName('new file', this.model.children),
+        new: true,
+        parent: this.model,
+        isNew() {
+          return 'new' in this && this.new === true;
+        }
+      }
+
+      this.model.children.push(file);
 
       this.isOpen = true;
     },
@@ -97,9 +113,13 @@ export default {
       }
 
       this.model.children.push({
-        name: 'new folder',
+        name: uniqueName('new folder', this.model.children),
         children: [],
-        new: true
+        parent: this.model,
+        new: true,
+        isNew() {
+          return 'new' in this && this.new === true;
+        }
       });
 
       this.isOpen = true;
@@ -140,11 +160,11 @@ export default {
         <FolderOpenIcon v-if="isFolder && hasChildren" v-show="isOpen" class="mr-1 h-5 w-5" style="fill: none !important;"/>
         <DocumentIcon v-if="!isFolder" class="mr-1 h-5 w-5" style="fill: none !important;"/>
         <span v-show="!isBeingEdited" class="hover:text-white">{{ model.name }}</span>
-        <input @keyup.enter="saveName" v-show="isBeingEdited" class="bg-gray-700 p-1 rounded-sm" v-model="model.name"/>
+        <input ref="name" @keyup.enter="saveName" v-show="isBeingEdited" class="bg-gray-700 p-1 rounded-sm" v-model="model.name"/>
         <span class="ml-2" v-if="isFolder && hasChildren">[{{ isOpen ? '-' : '+' }}]</span>
       </div>
       <div v-if="showControls" v-show="!isBeingEdited" class="hidden group-hover:flex">
-        <PencilIcon @click.stop="isEditing = true" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important;"/>
+        <PencilIcon @click.stop="edit" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important;"/>
         <FolderPlusIcon @click.stop="addFolder" v-if="isFolder" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important;"/>
         <PlusIcon @click.stop="addFile" v-if="isFolder" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important;"/>
         <TrashIcon @click.stop="deleteChild(model)" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500 fill-none" style="fill: none !important;"/>
@@ -153,7 +173,7 @@ export default {
 
     <div v-show="isOpen" v-if="isFolder" class="ml-3">
       <ul :class="{'mt-1': hasChildren}" class="w-full text-gray-300 ">
-        <tree-item v-for="child in sortedChildren"
+        <tree-item v-for="child in model.children"
                    :parent="model.children"
                    :model="child"
                    :delete-function="deleteFunction"

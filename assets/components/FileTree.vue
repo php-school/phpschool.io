@@ -3,6 +3,7 @@
 import { computed } from 'vue'
 import TreeItem from "./TreeItem.vue";
 import { FolderPlusIcon, PlusIcon } from '@heroicons/vue/24/outline'
+import uniqueName from "./utils/uniqueName.js";
 
 export default {
   components: {
@@ -36,15 +37,22 @@ export default {
     }
   },
   methods: {
+
     addFile() {
       if (this.files.filter(file => 'new' in file).length) {
         return;
       }
 
-      this.files.push({
-        name: 'new file',
-        new: true
-      });
+      const file = {
+        name: uniqueName('new file', this.files),
+        new: true,
+        parent: null,
+        isNew() {
+          return 'new' in this && this.new === true;
+        }
+      }
+
+      this.files.push(file);
     },
     addFolder() {
       if (this.files.filter(file => 'new' in file).length) {
@@ -52,9 +60,13 @@ export default {
       }
 
       this.files.push({
-        name: 'new folder',
+        name: uniqueName('new folder', this.files),
         children: [],
-        new: true
+        parent: null,
+        new: true,
+        isNew() {
+          return 'new' in this && this.new === true;
+        }
       });
     },
   }

@@ -4,11 +4,10 @@ import PassNotification from "./PassNotification.vue";
 import FileTree from "./FileTree.vue";
 import ExerciseVerify from "./ExerciseVerify.vue";
 import Tabs from "./Tabs.vue";
-import Tab from "./Tab.vue";
 import Modal from "./Modal.vue";
 import AceEditor from "./AceEditor.vue";
 import {editor} from "./stores/editor.js";
-import { XMarkIcon } from '@heroicons/vue/24/solid'
+import {XMarkIcon} from '@heroicons/vue/24/solid'
 
 export default {
   components: {
@@ -16,7 +15,6 @@ export default {
     FileTree,
     ExerciseVerify,
     Tabs,
-    Tab,
     Modal,
     AceEditor,
     XMarkIcon
@@ -28,23 +26,43 @@ export default {
     exerciseSlug: String,
   },
   data() {
+    const studentFiles = this.toTree([
+      {
+        'name': 'solution.php',
+        'content': "<?php\n",
+        isNew() {
+          return false;
+        }
+      }
+    ]);
+
     return {
       openPassNotification: false,
       openProblemModel: true,
-      studentFiles: [
-        {'name': 'solution.php'}
-      ],
+      studentFiles: studentFiles,
       openResults : false,
       results: '',
       editor,
+      openFiles: [studentFiles[0]],
+      activeTab: 0,
     }
   },
-  created() {
-    this.editor.addFile('solution.php', '<' + '?php' + "\n");
-  },
   methods: {
-    studentSelectFile(file) {
-      console.log(file);
+    studentSelectFile(selectedFile) {
+      if (selectedFile.isNew()) {
+        return;
+      }
+
+      const found = this.openFiles.find(file => file === selectedFile);
+
+      if (!found) {
+        //10 files open max
+        if (this.openFiles.length === 10) {
+          this.openFiles.shift();
+        }
+
+        this.activeTab = this.openFiles.push(selectedFile) - 1;
+      }
     },
     dismissPassNotification() {
       this.openPassNotification = false;
@@ -59,7 +77,23 @@ export default {
     verifyFail(results) {
       this.results = results;
       this.openResults = true;
-    }
+    },
+    closeTab(tab) {
+      const index = this.openFiles.findIndex(file => file === tab);
+
+      this.openFiles.splice(index, 1);
+    },
+    toTree(files, parent = null) {
+      return files.map((file) => {
+        file.parent = parent;
+
+        if (file.children) {
+          file.children = this.toTree(file.children, file);
+        }
+
+        return file;
+      })
+    },
   }
 }
 </script>
@@ -84,12 +118,10 @@ export default {
               show-controls/>
         </div>
         <div class="w-4/5 flex border-l border-solid border-gray-600 p-4" :class="[openResults ? 'w-3/5' : 'w-4/5']">
-          <Tabs>
-            <Tab title="solution.php">
-              <div class="w-full border-0">
-                <AceEditor @change="resetResults" class="w-full h-full border-0"/>
-              </div>
-            </Tab>
+          <Tabs :tabList="openFiles.map(file => file.name)" @close-tab="closeTab" :active-tab="activeTab">
+            <template v-slot:[`tab-content-`+index] v-for="(file, index) in openFiles">
+              <AceEditor :file="file" @change="resetResults" class="w-full h-full border-0"/>
+            </template>
           </Tabs>
         </div>
         <div v-show="openResults" class="w-1/5 flex flex-col border-l border-solid border-gray-600 p-4">
@@ -153,7 +185,7 @@ export default {
             <span>Show problem</span>
           </button>
           <exercise-verify @verify-loading="results = ''" @verify-fail="verifyFail" @verify-success="verifySuccess" :workshopCode='workshop.code'
-                           :exercise-slug='exerciseSlug'>
+                           :exercise-slug='exerciseSlug' :files="studentFiles">
           </exercise-verify>
         </div>
       </div>
