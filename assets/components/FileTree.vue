@@ -37,7 +37,6 @@ export default {
     }
   },
   methods: {
-
     addFile() {
       if (this.files.filter(file => 'new' in file).length) {
         return;
@@ -47,9 +46,6 @@ export default {
         name: uniqueName('new file', this.files),
         new: true,
         parent: null,
-        isNew() {
-          return 'new' in this && this.new === true;
-        }
       }
 
       this.files.push(file);
@@ -64,9 +60,6 @@ export default {
         children: [],
         parent: null,
         new: true,
-        isNew() {
-          return 'new' in this && this.new === true;
-        }
       });
     },
   }
