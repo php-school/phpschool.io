@@ -11,13 +11,13 @@ import WorkshopExerciseSelectionList from './components/WorkshopExerciseSelectio
 import PassNotification from "./components/PassNotification.vue";
 import ExerciseVerify from "./components/ExerciseVerify.vue";
 import ExerciseEditor from "./components/ExerciseEditor.vue";
+import VueClickAway from "vue3-click-away";
 
 const components = {
     AceEditor,
     FileTree,
     TreeItem,
     Tabs,
-    Tab,
     Modal,
     StudentProgress,
     WorkshopExerciseSelectionList,
@@ -32,18 +32,6 @@ const app = createApp({
 
 app.config.unwrapInjectedRef = true;
 
-app.directive('click-outside', {
-    mounted(el, binding, vnode) {
-        el.clickOutsideEvent = function(event) {
-            if (!(el === event.target || el.contains(event.target))) {
-                binding.value(event, el);
-            }
-        };
-        document.body.addEventListener('click', el.clickOutsideEvent);
-    },
-    unmounted(el) {
-        document.body.removeEventListener('click', el.clickOutsideEvent);
-    }
-});
+app.use(VueClickAway)
 
 app.mount('#app');

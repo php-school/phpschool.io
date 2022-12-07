@@ -28,8 +28,10 @@
     "vite-plugin-live-reload": "^3.0.1"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.4",
     "@heroicons/vue": "^2.0.13",
     "ace-builds": "^1.13.0",
-    "vue": "^3.2.41"
+    "vue": "^3.2.41",
+    "vue3-click-away": "^1.2.4"
   }
 }
