@@ -46,7 +46,12 @@ class ExerciseEditor
 
         $data = [
             'workshop' => $workshop,
-            'exercise' => $exercise,
+            'exercise' => [
+                'name' => $exercise->getName(),
+                'slug' => $renderer->slug($exercise->getName()),
+                'description' => $exercise->getDescription(),
+                'type' => $exercise->getType()
+            ],
             'nextExerciseLink' => $link,
             'problem' => $this->problemFileConverter->htmlFromExercise($exercise)
         ];

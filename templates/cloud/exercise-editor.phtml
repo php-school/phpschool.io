@@ -5,7 +5,7 @@
     <exercise-editor next-exercise-link='<?= $nextExerciseLink ?>'
                      :official-solution='<?= $this->json($official_solution ?? null) ?>'
                      :workshop='<?= $this->json($workshop) ?>'
-                     exercise-slug='<?= $this->slug($exercise->getName()) ?>'>
+                     :exercise='<?= $this->json($exercise) ?>'>
         <template #problem>
             <?= $problem ?>
         </template>
