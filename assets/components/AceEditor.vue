@@ -34,10 +34,9 @@ export default {
 
     if (this.readonly) {
       this._editor.setReadOnly(true);
+    } else {
+      this._editor.session.on('change', this.change);
     }
-
-    this._editor.session.on('change', this.change);
-
   },
   methods: {
       change() {
