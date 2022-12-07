@@ -11,10 +11,26 @@ export default {
       type: String,
       default: '2xl',
     },
+    scrollContent: {
+      type: Boolean,
+      default: false,
+    },
     maxHeight: {
       type: String,
       default: null
     }
+  },
+  mounted() {
+    this.$el.escapeEventHandler = (evt) => {
+      if (evt.code === 'Escape') {
+        this.closeModal();
+      }
+    };
+
+    document.addEventListener('keyup', this.$el.escapeEventHandler);
+  },
+  unmounted() {
+    document.removeEventListener('keyup', this.$el.escapeEventHandler);
   },
   data() {
     return {
@@ -41,14 +57,14 @@ export default {
 }
 </script>
 
-<template>
+<template >
   <div class="">
     <div class="bg-gray-900 bg-opacity-80 fixed inset-0 z-40"/>
     <div
         tabindex="-1"
         class="overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 md:h-full justify-center items-center flex"
     >
-      <div class="relative w-full rounded-lg shadow bg-gray-800 flex flex-col justify-start" :class="[modalSizeClasses[size], maxHeight]">
+      <div v-click-away="closeModal" class="relative rounded-lg shadow bg-gray-800 flex flex-col justify-start w-full" :class="[modalSizeClasses[size], maxHeight]">
           <div class="p-4 rounded-t flex-none flex justify-between items-center "
                :class="$slots.header ? 'border-b border-solid border-slate-600' : ''">
             <slot name="header"/>
@@ -59,7 +75,7 @@ export default {
               </button>
             </div>
           </div>
-          <div class="p-6 flex-1 overflow-y-auto" :class="$slots.header ? '' : 'pt-0'">
+          <div class="p-6 flex-1" :class="{'pt-0' : !$slots.header, 'overflow-y-auto' : scrollContent}" >
             <slot name="body"/>
           </div>
           <div v-if="$slots.footer" class="p-6 rounded-b border-t border-solid border-slate-600 flex-none">
