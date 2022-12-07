@@ -1,29 +1,23 @@
 <script>
-import { ref, provide } from 'vue'
 import { XMarkIcon } from '@heroicons/vue/24/solid'
-
 
 export default {
   components: {
     XMarkIcon
   },
-  setup(props, { slots }) {
-    const tabTitles = ref(slots.default().map(tab => {
-      return tab.props.title;
-    }));
-
-    const selectedTitle = ref(tabTitles.value[0]);
-
-    provide('selectedTitle', selectedTitle);
-
-    return {
-      tabTitles,
-      selectedTitle,
-    }
+  props: {
+    activeTab: {
+      type: Number,
+      default: 0
+    },
+    tabList: {
+      type: Array,
+      required: true,
+    },
   },
   methods: {
     closeTab(tab) {
-      console.log("close tab")
+      this.$emit('close-tab', tab);
     }
   }
 }
@@ -32,15 +26,19 @@ export default {
 <template>
   <div class="tabs w-full flex flex-col">
     <ul class="tabs list-reset flex justify-start mb-1 flex-none">
-      <li v-for="title in tabTitles" :key="title" :class="{ 'border-pink-500' : title === selectedTitle }"
-          @click="selectedTitle = title"
+      <li v-for="(tab, index) in tabList" :key="index" :class="{ 'border-pink-500' : activeTab === index }"
+          @click="activeTab = index"
           class="flex border-solid border-t-2 mr-1 bg-stone-700 inline-block py-2 px-4 text-white hover:text-pink-500 text-xs no-underline items-center">
         <a href="#" class="">
-          {{ title }}
+          {{ tab }}
         </a>
         <XMarkIcon @click="closeTab(tab)" class="cursor-pointer ml-2 w-3 h-3 text-zinc-400"  />
       </li>
     </ul>
-    <slot/>
+    <template v-for="(tab, index) in tabList">
+      <div class="tabs-panel h-full flex flex-1" :key="index" v-if="index === activeTab">
+        <slot :name="`tab-content-${index}`" />
+      </div>
+    </template>
   </div>
 </template>

@@ -5,6 +5,8 @@ namespace PhpSchool\Website\Cloud\Action;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\PhpWorkshop\UserState;
+use PhpSchool\PhpWorkshop\Utils\Path;
+use PhpSchool\PhpWorkshop\Utils\System;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ResultsRenderer;
@@ -36,15 +38,23 @@ class VerifyExercise
         $exercise = $workshop->findExerciseBySlug($exercise);
 
         $data = json_decode($request->getBody()->__toString(), true);
-        $script = $data['script'];
 
-        $tmp = tempnam(sys_get_temp_dir(), 'phpschool');
+        $basePath = System::tempDir(); //TODO: unique per user
+        foreach ($data['scripts'] ?? [] as $filePath => $content) {
+            $fileName = basename($filePath);
+            $path = dirname($filePath);
 
-        file_put_contents($tmp, $script);
+            //TODO: directory reversal hacks
+            if (!file_exists(Path::join($basePath, $path))) {
+                mkdir(Path::join($basePath, $path), 0777, true); //TODO: must not do 0777
+            }
+
+            file_put_contents(Path::join($basePath, $path, $fileName), $content);
+        }
 
         $results = $workshop->getExerciseDispatcher()->verify(
             $exercise,
-            new Input($workshop->getCode(), ['program' => $tmp])
+            new Input($workshop->getCode(), ['program' => Path::join($basePath, 'solution.php')]),
         );
 
         $renderer = new ResultsRenderer();

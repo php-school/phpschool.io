@@ -2,7 +2,7 @@
 
 import Modal from "./Modal.vue";
 import { ArrowPathIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid'
-import {editor} from "./stores/editor.js";
+import toFilePath from "./utils/toFilePath";
 
 export default {
   components: {
@@ -14,6 +14,7 @@ export default {
   props: {
     workshopCode: String,
     exerciseSlug: String,
+    files: Array
   },
   data() {
     return {
@@ -21,14 +22,22 @@ export default {
       programOutput: '',
       openRunModal: false,
       loadingVerify: false,
-      editor
     }
   },
   methods: {
+    flattenFiles(nodes, files = {}) {
+      nodes.forEach((node) => {
+        if (!node.children) {
+          files[toFilePath(node)] = node.content ?? '';
+        } else {
+          this.flattenFiles(node.children, files);
+        }
+      })
+      return files;
+    },
     runSolution() {
       this.loadingRun = true;
       const url = '/cloud/workshop/' + this.workshopCode + '/exercise/' + this.exerciseSlug + '/run';
-      const content = this.editor.getFileContent('solution.php');
 
       const opts = {
         method: 'POST',
@@ -36,7 +45,7 @@ export default {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({script: content})
+        body: JSON.stringify({scripts: this.flattenFiles(this.files)})
       };
       fetch(url, opts)
           .then(response => response.json())
@@ -58,7 +67,7 @@ export default {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({script: this.editor.getFileContent('solution.php')})
+        body: JSON.stringify({scripts: this.flattenFiles(this.files)})
       };
       fetch(url, opts)
           .then(response => response.json())

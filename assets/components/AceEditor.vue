@@ -4,19 +4,14 @@ import ace from 'ace-builds';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/mode-php';
 import { markRaw} from "vue";
-import {editor} from "./stores/editor.js";
 
 export default {
-  data() {
-    return {
-      editor
-    }
-  },
   props: {
     readonly: {
       default: false,
       type: Boolean
     },
+    file: Object,
     minLines: Number,
     maxLines: Number,
   },
@@ -35,7 +30,7 @@ export default {
     this._editor.setOption('useWorker', false);
     this._editor.setTheme("ace/theme/monokai");
     this._editor.session.setMode("ace/mode/php");
-    this._editor.setValue(this.editor.getFileContent('solution.php'));
+    this._editor.setValue(this.file.content, 1);
 
     if (this.readonly) {
       this._editor.setReadOnly(true);
@@ -47,7 +42,7 @@ export default {
   methods: {
       change() {
         const content = this._editor.session.getValue();
-        this.editor.setFileContent('solution.php', content);
+        this.file.content = content;
         this.$emit('change', content)
       }
   },
