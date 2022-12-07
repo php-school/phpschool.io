@@ -35,7 +35,7 @@ export default {
     }
   },
   mounted() {
-    if (this.model.isNew()) {
+    if (this.isNew(this.model)) {
       this.$nextTick(() => this.$refs.name.focus());
     }
   },
@@ -65,10 +65,13 @@ export default {
     //   return dirs.sort(sorter).concat(files.sort(sorter));
     // },
     isBeingEdited() {
-      return this.isEditing || this.model.isNew();
+      return this.isEditing || this.isNew(this.model);
     },
   },
   methods: {
+    isNew(file) {
+      return 'new' in file && file.new === true;
+    },
     selectNode(child) {
       if (this.isEditing) {
         return;
@@ -98,9 +101,6 @@ export default {
         name: uniqueName('new file', this.model.children),
         new: true,
         parent: this.model,
-        isNew() {
-          return 'new' in this && this.new === true;
-        }
       }
 
       this.model.children.push(file);
@@ -117,9 +117,6 @@ export default {
         children: [],
         parent: this.model,
         new: true,
-        isNew() {
-          return 'new' in this && this.new === true;
-        }
       });
 
       this.isOpen = true;
