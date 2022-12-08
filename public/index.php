@@ -17,6 +17,7 @@ use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Cloud\Action\ComposerPackageAdd;
+use PhpSchool\Website\Cloud\Action\ComposerPackageSearch;
 use PhpSchool\Website\Cloud\Action\ExerciseEditor;
 use PhpSchool\Website\Cloud\Action\ListWorkshops;
 use PhpSchool\Website\Cloud\Action\RunExercise;
@@ -214,6 +215,7 @@ $app
         $group->post('/workshop/{workshop}/exercise/{exercise}/run', RunExercise::class);
         $group->post('/workshop/{workshop}/exercise/{exercise}/verify', VerifyExercise::class);
         $group->get('/composer-package/add', ComposerPackageAdd::class);
+        $group->get('/composer-package/search', ComposerPackageSearch::class);
     })
     ->add($container->get(StudentAuthenticator::class))
     ->add(function (Request $request, RequestHandler $handler): Response {
