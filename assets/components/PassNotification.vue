@@ -19,6 +19,18 @@ export default {
     nextExerciseLink: String,
     officialSolution: Array,
   },
+  mounted() {
+    this.$el.escapeEventHandler = (evt) => {
+      if (evt.code === 'Escape') {
+        this.dismissPassNotification();
+      }
+    };
+
+    document.addEventListener('keyup', this.$el.escapeEventHandler);
+  },
+  unmounted() {
+    document.removeEventListener('keyup', this.$el.escapeEventHandler);
+  },
   data() {
     return {
       hasOfficialSolution: this.officialSolution !== null,
@@ -37,6 +49,16 @@ export default {
       }
     }
   },
+  computed: {
+    files() {
+      return this.officialSolution.map(file => {
+        return {
+          name: file.file_path,
+          content: this.atob(file.content)
+        }
+      })
+    }
+  },
   methods: {
     dismissPassNotification() {
       this.$emit('close');
@@ -51,7 +73,7 @@ export default {
       return atob(file);
     },
     isSelectedFile(file) {
-      return this.currentSolutionFile && file === toRaw(this.currentSolutionFile)
+      return this.currentSolutionFile && file.name === this.currentSolutionFile.file_path
     }
   },
 }
@@ -60,7 +82,7 @@ export default {
 <template>
   <div>
     <div v-cloak class="bg-gray-900 bg-opacity-70 fixed inset-0 z-40"/>
-    <div v-cloak id="pass-notification" class="absolute top-4 z-40 shadow-lg w-full flex justify-center">
+    <div v-click-away="dismissPassNotification" v-cloak id="pass-notification" class="absolute top-4 z-40 shadow-lg w-full flex justify-center">
 
       <div class="mx-auto py-3 px-3 sm:px-6 lg:px-8 bg-green-500 rounded-lg">
         <div class="flex flex-wrap items-center justify-center">
@@ -92,7 +114,7 @@ export default {
           </div>
         </div>
       </div>
-      <Modal size="4xl" v-if="openOfficialSolutionModal" @keydown.esc="openOfficialSolutionModal = false" @close="openOfficialSolutionModal = false">
+      <Modal size="4xl" v-if="openOfficialSolutionModal" @close="openOfficialSolutionModal = false">
         <template #header>
           <h3 class="text-base font-semibold lg:text-xl text-white">
             Official Solution
@@ -109,9 +131,9 @@ export default {
 
             </div>
             <div class="w-2/3">
-              <template v-for="file in officialSolution" >
+              <template v-for="file in files" >
                 <AceEditor v-show="isSelectedFile(file)"
-                           :file_content="atob(file.content)"
+                           :file="file"
                            :min-lines="20"
                            :max-lines="20"
                            readonly> </AceEditor>
