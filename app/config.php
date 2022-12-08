@@ -21,6 +21,7 @@ use PhpSchool\Website\Cloud\Action\ListWorkshops;
 use PhpSchool\Website\Cloud\Action\RunExercise;
 use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
+use PhpSchool\Website\Cloud\Command\DownloadComposerPackageList;
 use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\Cloud\Middleware\ViteProductionAssets;
 use PhpSchool\Website\Cloud\ProblemFileConverter;
@@ -98,6 +99,7 @@ return [
         $app->command('clear-cache', ClearCache::class);
         $app->command('create-admin-user name email password', CreateAdminUser::class);
         $app->command('generate-blog', GenerateBlog::class);
+        $app->command('download-composer-packages', DownloadComposerPackageList::class);
 
         ConsoleRunner::addCommands($app, new SingleManagerProvider($c->get(EntityManagerInterface::class)));
 
