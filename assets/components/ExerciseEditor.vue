@@ -23,7 +23,7 @@ export default {
     nextExerciseLink: String,
     officialSolution: Array,
     workshop: Object,
-    exerciseSlug: String,
+    exercise: Object,
   },
   data() {
     const studentFiles = this.toTree([
@@ -174,7 +174,7 @@ export default {
             <li>
               <div class="flex items-center">
                 <svg class="w-6 h-6 text-pink-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                <a href="#" class="ml-1 text-sm font-medium text-white hover:text-pink-500 md:ml-2"> {{ exerciseSlug }}</a>
+                <a href="#" class="ml-1 text-sm font-medium text-white hover:text-pink-500 md:ml-2"> {{ exercise.name }}</a>
               </div>
             </li>
           </ol>
@@ -184,8 +184,8 @@ export default {
           <button class="button flex items-center justify-center mt-0 mr-2 rounded px-4 w-36" @click="openProblemModel = true">
             <span>Show problem</span>
           </button>
-          <exercise-verify @verify-loading="results = ''" @verify-fail="verifyFail" @verify-success="verifySuccess" :workshopCode='workshop.code'
-                           :exercise-slug='exerciseSlug' :files="studentFiles">
+          <exercise-verify @verify-loading="results = ''" @ verify-fail="verifyFail" @verify-success="verifySuccess" :workshopCode='workshop.code'
+                           :exercise-slug='exercise.slug' :files="studentFiles">
           </exercise-verify>
         </div>
       </div>
