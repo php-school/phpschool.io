@@ -45,6 +45,7 @@ export default {
       studentFiles: studentFiles,
       openResults : false,
       results: '',
+      loadingResults: false,
       editor,
       openFiles: [studentFiles[0]],
       activeTab: 0,
@@ -73,13 +74,19 @@ export default {
     resetResults() {
       this.results = '';
     },
+    verifyLoading() {
+      this.resetResults();
+      this.loadingResults = true;
+    },
     verifySuccess() {
       this.openPassNotification = true;
       this.openResults = false;
+      this.loadingResults = false;
     },
     verifyFail(results) {
       this.results = results;
       this.openResults = true;
+      this.loadingResults = false;
     },
     closeTab(tab) {
       const index = this.openFiles.findIndex(file => file === tab);
@@ -138,7 +145,7 @@ export default {
               </div>
             </div>
 
-            <div v-show="!results" class="animate-pulse flex space-x-4 mt-4">
+            <div v-show="loadingResults" class="animate-pulse flex space-x-4 mt-4">
               <div class="flex-1 space-y-6 py-1">
                 <div class="h-2 bg-slate-700 rounded"></div>
                 <div class="space-y-3">
@@ -188,8 +195,12 @@ export default {
             <span>Show problem</span>
             <MapIcon v-cloak class="ml-2 w-5 h-5" />
           </button>
-          <exercise-verify @verify-loading="results = ''" @ verify-fail="verifyFail" @verify-success="verifySuccess" :workshopCode='workshop.code'
-                           :exercise-slug='exercise.slug' :files="studentFiles">
+          <exercise-verify @verify-loading="verifyLoading"
+                           @verify-fail="verifyFail"
+                           @verify-success="verifySuccess"
+                           :workshopCode='workshop.code'
+                           :exercise-slug='exercise.slug'
+                           :files="studentFiles">
           </exercise-verify>
         </div>
       </div>
