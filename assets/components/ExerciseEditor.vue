@@ -130,7 +130,7 @@ export default {
         <div class="w-4/5 flex border-l border-solid border-gray-600 p-4" :class="[openResults ? 'w-3/5' : 'w-4/5']">
           <Tabs :tabList="openFiles.map(file => file.name)" @close-tab="closeTab" :active-tab="activeTab">
             <template v-slot:[`tab-content-`+index] v-for="(file, index) in openFiles">
-              <AceEditor :file="file" @change="resetResults" class="w-full h-full border-0"/>
+              <AceEditor :file="file" @change="" class="w-full h-full border-0"/>
             </template>
           </Tabs>
         </div>
