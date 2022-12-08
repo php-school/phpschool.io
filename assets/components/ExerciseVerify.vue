@@ -1,14 +1,16 @@
 <script>
 
 import Modal from "./Modal.vue";
-import { ArrowPathIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/solid'
+import { ArrowPathIcon, ExclamationTriangleIcon, CommandLineIcon, SparklesIcon } from '@heroicons/vue/24/solid'
 import toFilePath from "./utils/toFilePath";
 
 export default {
   components: {
     Modal,
     ArrowPathIcon,
-    ExclamationTriangleIcon
+    ExclamationTriangleIcon,
+    CommandLineIcon,
+    SparklesIcon
   },
   emits: ["verify-loading", "verify-success", "verify-fail"],
   props: {
@@ -87,17 +89,19 @@ export default {
 
 <template>
   <div class="flex items-center">
-    <button id="run" class="button flex items-center justify-center mt-0 mr-2 px-4 w-36 rounded" @click="runSolution">
+    <button id="run" class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white h-full flex items-center justify-center mt-0 mr-2 px-4 w-36 rounded" @click="runSolution">
       <ArrowPathIcon v-cloak v-show="loadingRun" class="w-4 h-4 animate-spin"/>
       <span v-if="!loadingRun">Run</span>
+      <CommandLineIcon v-if="!loadingRun" v-cloak class="ml-2 w-5 h-5"/>
     </button>
     <button id="verify" class="button flex items-center justify-center mt-0 px-4 w-36 rounded" @click="verifySolution">
       <ArrowPathIcon v-cloak v-show="loadingVerify" class="w-4 h-4 animate-spin"/>
       <span v-if="!loadingVerify">Verify</span>
+      <SparklesIcon v-if="!loadingVerify" v-cloak class="ml-2 w-5 h-5"/>
     </button>
   </div>
 
-  <Modal size="xl" v-if="openRunModal" @keydown.esc="openRunModal = false" @close="openRunModal = false">
+  <Modal size="xl" v-if="openRunModal" @close="openRunModal = false">
     <template #header>
       <div class="flex items-center ">
         <ExclamationTriangleIcon class="h-6 w-6 text-green-600 mr-2"/>
