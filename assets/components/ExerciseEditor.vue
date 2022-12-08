@@ -7,7 +7,7 @@ import Tabs from "./Tabs.vue";
 import Modal from "./Modal.vue";
 import AceEditor from "./AceEditor.vue";
 import {editor} from "./stores/editor.js";
-import {XMarkIcon} from '@heroicons/vue/24/solid'
+import {XMarkIcon, ArrowPathIcon, CircleStackIcon, MapIcon} from '@heroicons/vue/24/solid'
 
 export default {
   components: {
@@ -17,7 +17,10 @@ export default {
     Tabs,
     Modal,
     AceEditor,
-    XMarkIcon
+    XMarkIcon,
+    ArrowPathIcon,
+    CircleStackIcon,
+    MapIcon,
   },
   props: {
     nextExerciseLink: String,
@@ -38,7 +41,7 @@ export default {
 
     return {
       openPassNotification: false,
-      openProblemModel: true,
+      openProblemModal: true,
       studentFiles: studentFiles,
       openResults : false,
       results: '',
@@ -181,8 +184,9 @@ export default {
         </nav>
         <div class="flex">
 
-          <button class="button flex items-center justify-center mt-0 mr-2 rounded px-4 w-36" @click="openProblemModel = true">
+          <button class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white flex items-center justify-center mt-0 mr-2 rounded px-4 w-44" @click="openProblemModal = true">
             <span>Show problem</span>
+            <MapIcon v-cloak class="ml-2 w-5 h-5" />
           </button>
           <exercise-verify @verify-loading="results = ''" @ verify-fail="verifyFail" @verify-success="verifySuccess" :workshopCode='workshop.code'
                            :exercise-slug='exercise.slug' :files="studentFiles">
@@ -191,7 +195,7 @@ export default {
       </div>
     </div>
 
-    <Modal size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openProblemModel" @keydown.esc="openProblemModel = false" @close="openProblemModel = false">
+    <Modal :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openProblemModal" @close="openProblemModal = false">
       <template #header>
         <div class="flex items-center ">
 
@@ -209,7 +213,7 @@ export default {
 
       <template #footer>
         <div class="flex justify-end">
-          <button @click="openProblemModel = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+          <button @click="openProblemModal = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
             Let's go!
           </button>
         </div>
