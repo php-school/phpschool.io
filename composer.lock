@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd0c2bb49279d15b287942c40f0d4727",
+    "content-hash": "fe2d21d4f646e7c0e3b328c8efc5e3dc",
     "packages": [
         {
             "name": "adamwathan/bootforms",
@@ -102,16 +102,16 @@
         },
         {
             "name": "ahinkle/packagist-latest-version",
-            "version": "dev-custom-guzzle-client",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/AydinHassan/packagist-latest-version.git",
-                "reference": "858d2f65f4b552b5f30099cfaca9e204322a1d8b"
+                "url": "https://github.com/ahinkle/packagist-latest-version.git",
+                "reference": "2dd96a4d854a1ba1ad43db72e7fc967548338ba4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AydinHassan/packagist-latest-version/zipball/858d2f65f4b552b5f30099cfaca9e204322a1d8b",
-                "reference": "858d2f65f4b552b5f30099cfaca9e204322a1d8b",
+                "url": "https://api.github.com/repos/ahinkle/packagist-latest-version/zipball/2dd96a4d854a1ba1ad43db72e7fc967548338ba4",
+                "reference": "2dd96a4d854a1ba1ad43db72e7fc967548338ba4",
                 "shasum": ""
             },
             "require": {
@@ -127,19 +127,7 @@
                     "ahinkle\\PackagistLatestVersion\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "ahinkle\\PackagistLatestVersion\\Tests\\": "tests"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ],
-                "test-coverage": [
-                    "vendor/bin/phpunit --coverage-html coverage"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -162,9 +150,10 @@
                 "version"
             ],
             "support": {
-                "source": "https://github.com/AydinHassan/packagist-latest-version/tree/custom-guzzle-client"
+                "issues": "https://github.com/ahinkle/packagist-latest-version/issues",
+                "source": "https://github.com/ahinkle/packagist-latest-version/tree/2.1.0"
             },
-            "time": "2022-12-09T20:05:23+00:00"
+            "time": "2022-12-09T21:06:56+00:00"
         },
         {
             "name": "akrabat/ip-address-middleware",
@@ -11184,8 +11173,7 @@
     "stability-flags": {
         "php-school/php-workshop": 20,
         "php-school/learn-you-php": 20,
-        "php-school/php8-appreciate": 20,
-        "ahinkle/packagist-latest-version": 20
+        "php-school/php8-appreciate": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
