@@ -47,8 +47,14 @@
     "symfony/string": "^6.1",
     "symfony/translation-contracts": "^3.1",
     "spatie/commonmark-highlighter": "^2.1",
-    "ahinkle/packagist-latest-version": "^2.0"
+    "ahinkle/packagist-latest-version": "dev-custom-guzzle-client"
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:AydinHassan/packagist-latest-version.git"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "PhpSchool\\Website\\": "src/"
