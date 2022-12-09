@@ -9,9 +9,11 @@ use PhpSchool\PhpWorkshop\Utils\Path;
 use PhpSchool\PhpWorkshop\Utils\System;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
+use PhpSchool\Website\Cloud\UploadProject;
 use PhpSchool\Website\PhpRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Symfony\Component\Process\Process;
 
 class RunExercise
 {
@@ -36,21 +38,7 @@ class RunExercise
         $workshop = $this->installedWorkshops->findByCode($workshop);
         $exercise = $workshop->findExerciseBySlug($exercise);
 
-        $data = json_decode($request->getBody()->__toString(), true);
-
-        $basePath = System::tempDir(); //TODO: unique per user
-        foreach ($data['scripts'] ?? [] as $filePath => $content) {
-            $fileName = basename($filePath);
-            $path = dirname($filePath);
-
-            //TODO: directory reversal hacks
-            if (!file_exists(Path::join($basePath, $path))) {
-                mkdir(Path::join($basePath, $path), 0777, true); //TODO: must not do 0777
-            }
-
-
-            file_put_contents(Path::join($basePath, $path, $fileName), $content);
-        }
+        $basePath = (new UploadProject())->upload($request);
 
         $result = $workshop->getExerciseDispatcher()->run(
             $exercise,
@@ -62,7 +50,6 @@ class RunExercise
             'output' => rtrim($output->fetch(), "\n"),
             'success' => $result
         ];
-
 
         return $this->withJson($data, $response);
     }
