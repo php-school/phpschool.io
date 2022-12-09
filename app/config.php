@@ -1,5 +1,6 @@
 <?php
 
+use ahinkle\PackagistLatestVersion\PackagistLatestVersion;
 use DI\Bridge\Slim\Bridge;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMSetup;
@@ -16,6 +17,7 @@ use League\CommonMark\MarkdownConverterInterface;
 use League\OAuth2\Client\Provider\Github;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\Website\Action\StudentLogin;
+use PhpSchool\Website\Cloud\Action\ComposerPackageAdd;
 use PhpSchool\Website\Cloud\Action\ExerciseEditor;
 use PhpSchool\Website\Cloud\Action\ListWorkshops;
 use PhpSchool\Website\Cloud\Action\RunExercise;
@@ -204,6 +206,9 @@ return [
     GenerateBlog::class => function (ContainerInterface $c): GenerateBlog {
         return new GenerateBlog($c->get(Generator::class));
     },
+    DownloadComposerPackageList::class => function (ContainerInterface $c): DownloadComposerPackageList {
+        return new DownloadComposerPackageList($c->get('guzzle.packagist'), $c->get(LoggerInterface::class));
+    },
 
     Documentation::class => \DI\factory(function (ContainerInterface $c): Documentation {
         $tutorialGroup = new DocumentationGroup('tutorial', 'Workshop Tutorial');
@@ -345,6 +350,18 @@ return [
             $c->get(PhpRenderer::class)
         );
     },
+
+    'guzzle.packagist' => function (ContainerInterface $c) {
+        return new \GuzzleHttp\Client(['headers' => ['User-Agent' => 'PHP School: phpschool.team@gmail.com']]);
+    },
+
+    ComposerPackageAdd::class => function (ContainerInterface $c): ComposerPackageAdd {
+        return new ComposerPackageAdd(
+            new PackagistLatestVersion($c->get('guzzle.packagist')),
+        );
+    },
+
+
 
     //cloud
     MarkdownConverterInterface::class => function (ContainerInterface $c): MarkdownConverterInterface {
