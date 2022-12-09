@@ -276,7 +276,7 @@ export default {
           <li v-for="dep in composerDeps" class="text-white pl-2 mb-2 flex items-center">
             <p class="text-base">{{ dep.name }}</p>
             <p class="bg-gray-900 ml-2 px-2 py-1 rounded">{{ dep.version }}</p>
-            <XMarkIcon @click="removeDependency(dep.name)" class="cursor-pointer ml-2 w-5 h-5 text-zinc-400 hover:text-pink-600"  />
+            <XMarkIcon @click.stop="removeDependency(dep.name)" class="cursor-pointer ml-2 w-5 h-5 text-zinc-400 hover:text-pink-600"  />
           </li>
         </ul>
         <div v-show="composerDeps.length === 0" class="pt-6" >
