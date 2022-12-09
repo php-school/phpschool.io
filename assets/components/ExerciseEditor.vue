@@ -7,7 +7,8 @@ import Tabs from "./Tabs.vue";
 import Modal from "./Modal.vue";
 import AceEditor from "./AceEditor.vue";
 import {editor} from "./stores/editor.js";
-import {XMarkIcon, ArrowPathIcon, CircleStackIcon, MapIcon} from '@heroicons/vue/24/solid'
+import {XMarkIcon, ArrowPathIcon, CircleStackIcon, MapIcon} from '@heroicons/vue/24/solid';
+import PackageSearch from './PackageSearch.vue';
 
 export default {
   components: {
@@ -21,6 +22,7 @@ export default {
     ArrowPathIcon,
     CircleStackIcon,
     MapIcon,
+    PackageSearch
   },
   props: {
     nextExerciseLink: String,
@@ -42,6 +44,7 @@ export default {
     return {
       openPassNotification: false,
       openProblemModal: true,
+      openComposerModal: false,
       studentFiles: studentFiles,
       openResults : false,
       results: '',
@@ -49,11 +52,14 @@ export default {
       editor,
       openFiles: [studentFiles[0]],
       activeTab: 0,
+      newDependency: '',
+      composerDeps: [],
+      loadingComposerAdd: false
     }
   },
   methods: {
     studentSelectFile(selectedFile) {
-      if (selectedFile.isNew()) {
+      if ('new' in selectedFile && selectedFile.new === true) {
         return;
       }
 
@@ -103,6 +109,45 @@ export default {
 
         return file;
       })
+    },
+    packageSelected(composerPackage) {
+      this.newDependency = composerPackage;
+    },
+    addDependency() {
+      this.loadingComposerAdd = true;
+      const index = this.composerDeps.find(p => p.name === this.newDependency);
+
+      if (index) {
+        this.newDependency = '';
+        return;
+      }
+
+      const opts = {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      };
+      fetch('/cloud/composer-package/add?package=' + encodeURIComponent(this.newDependency), opts)
+          .then(response => response.json())
+          .then(json => {
+            this.composerDeps.push({name: this.newDependency, version: json.latest_version, versions: json.versions});
+            this.newDependency = '';
+            this.loadingComposerAdd = false;
+            this.$refs.packageSearch.reset();
+          })
+          .catch((error) => {
+            this.loadingComposerAdd = false;
+            this.$refs.packageSearch.reset();
+          })
+    },
+    removeDependency(packageName) {
+      const index = this.composerDeps.find(p => p.name === packageName);
+
+      if (index) {
+        this.composerDeps.splice(index, 1);
+      }
     },
   }
 }
@@ -190,7 +235,10 @@ export default {
           </ol>
         </nav>
         <div class="flex">
-
+          <button class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white flex items-center justify-center mt-0 mr-2 rounded px-4 w-44" @click="openComposerModal = true">
+            <span>Composer deps</span>
+            <CircleStackIcon v-cloak class="ml-2 w-5 h-5" />
+          </button>
           <button class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white flex items-center justify-center mt-0 mr-2 rounded px-4 w-44" @click="openProblemModal = true">
             <span>Show problem</span>
             <MapIcon v-cloak class="ml-2 w-5 h-5" />
@@ -200,11 +248,50 @@ export default {
                            @verify-success="verifySuccess"
                            :workshopCode='workshop.code'
                            :exercise-slug='exercise.slug'
-                           :files="studentFiles">
-          </exercise-verify>
+                           :files="studentFiles"
+                           :composer-deps="composerDeps" />
         </div>
       </div>
     </div>
+
+    <Modal size="sm" max-height="max-h-[calc(1/2*100%)]" v-if="openComposerModal" @close="openComposerModal = false">
+      <template #header>
+        <div class="flex items-center ">
+
+          <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
+            Composer Dependencies
+          </h3>
+        </div>
+
+      </template>
+      <template #body>
+        <div class="flex justify-between items-center">
+          <package-search ref="packageSearch" @package-selected="packageSelected" v-model="newDependency" class="w-full"></package-search>
+          <button :disabled="newDependency === ''" @click.stop="addDependency" type="button" class="inline-flex items-center h-9 justify-center rounded-full border border-transparent w-16 bg-pink-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:text-sm disabled:opacity-70 disabled:hover:bg-pink-600">
+            <ArrowPathIcon v-cloak v-show="loadingComposerAdd" class="w-4 h-4 animate-spin"/>
+            <span v-if="!loadingComposerAdd">Add</span>
+          </button>
+        </div>
+        <ul v-show="composerDeps.length > 0" class="mt-4 overflow-y-scroll ">
+          <li v-for="dep in composerDeps" class="text-white pl-2 mb-2 flex items-center">
+            <p class="text-base">{{ dep.name }}</p>
+            <p class="bg-gray-900 ml-2 px-2 py-1 rounded">{{ dep.version }}</p>
+            <XMarkIcon @click="removeDependency(dep.name)" class="cursor-pointer ml-2 w-5 h-5 text-zinc-400 hover:text-pink-600"  />
+          </li>
+        </ul>
+        <div v-show="composerDeps.length === 0" class="pt-6" >
+          <p class="text-white ">You currently have no dependencies.</p>
+        </div>
+      </template>
+
+      <template #footer>
+        <div class="flex justify-end">
+          <button @click="openComposerModal = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+            Close
+          </button>
+        </div>
+      </template>
+    </Modal>
 
     <Modal :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openProblemModal" @close="openProblemModal = false">
       <template #header>
@@ -214,8 +301,8 @@ export default {
             The problem...
           </h3>
         </div>
-
       </template>
+
       <template #body class="">
         <div id="problem-file" class="text-white">
           <slot name="problem"></slot>
