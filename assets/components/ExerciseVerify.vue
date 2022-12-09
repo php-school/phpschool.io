@@ -16,7 +16,8 @@ export default {
   props: {
     workshopCode: String,
     exerciseSlug: String,
-    files: Array
+    files: Array,
+    composerDeps: Array
   },
   data() {
     return {
@@ -47,7 +48,10 @@ export default {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({scripts: this.flattenFiles(this.files)})
+        body: JSON.stringify({
+          scripts: this.flattenFiles(this.files),
+          composerDeps: this.composerDeps
+        })
       };
       fetch(url, opts)
           .then(response => response.json())
@@ -69,7 +73,10 @@ export default {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({scripts: this.flattenFiles(this.files)})
+        body: JSON.stringify({
+          scripts: this.flattenFiles(this.files),
+          composerDeps: this.composerDeps
+        })
       };
       fetch(url, opts)
           .then(response => response.json())
