@@ -14,7 +14,7 @@ class ContainerFactory
     public function __invoke(): ContainerInterface
     {
 
-        $dotEnv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+        $dotEnv = \Dotenv\Dotenv::createMutable(__DIR__ . '/../');
         $dotEnv->load();
 
         $config = include __DIR__ . '/../app/config.php';
