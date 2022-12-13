@@ -4,17 +4,16 @@ namespace PhpSchool\Website\Cloud\Action;
 
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\Input\Input;
-use PhpSchool\PhpWorkshop\UserState;
+use PhpSchool\PhpWorkshop\UserState\UserState;
 use PhpSchool\PhpWorkshop\Utils\Path;
-use PhpSchool\PhpWorkshop\Utils\System;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ResultsRenderer;
+use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\Cloud\UploadProject;
 use PhpSchool\Website\PhpRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Symfony\Component\Process\Process;
 
 class VerifyExercise
 {
@@ -22,11 +21,16 @@ class VerifyExercise
 
     private CloudWorkshopRepository $installedWorkshops;
     private ExerciseDispatcher $exerciseDispatcher;
+    private StudentWorkshopState $studentState;
 
-    public function __construct(CloudWorkshopRepository $installedWorkshops, ExerciseDispatcher $exerciseDispatcher)
-    {
+    public function __construct(
+        CloudWorkshopRepository $installedWorkshops,
+        ExerciseDispatcher $exerciseDispatcher,
+        StudentWorkshopState $studentState,
+    ) {
         $this->installedWorkshops = $installedWorkshops;
         $this->exerciseDispatcher = $exerciseDispatcher;
+        $this->studentState = $studentState;
     }
 
     public function __invoke(
@@ -52,6 +56,13 @@ class VerifyExercise
             'results' => $renderer->render($results, $exercise, new UserState()),
             'success' => $results->isSuccessful()
         ];
+
+        if ($results->isSuccessful()) {
+            $this->studentState->completeExercise(
+                $workshop->getCode(),
+                $exercise->getName()
+            );
+        }
 
         return $this->withJson($data, $response);
     }

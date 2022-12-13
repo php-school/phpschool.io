@@ -3,49 +3,49 @@
 namespace PhpSchool\Website\User\Middleware;
 
 use PhpSchool\Website\Action\RedirectUtils;
-use PhpSchool\Website\User\AdminAuthenticationService;
-use PhpSchool\Website\User\Entity\Student;
-use PhpSchool\Website\User\Session;
+use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
+use PhpSchool\Website\User\StudentRepository;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
-use Slim\Routing\RouteContext;
 
 class StudentAuthenticator
 {
     use RedirectUtils;
 
-    private Session $session;
+    private SessionStorageInterface $session;
+    private StudentRepository $studentRepository;
 
-    public function __construct(Session $session)
+    public function __construct(SessionStorageInterface $session, StudentRepository $studentRepository)
     {
         $this->session = $session;
+        $this->studentRepository = $studentRepository;
     }
 
     public function __invoke(Request $request, RequestHandler $handler): MessageInterface
     {
-        $routeContext = RouteContext::fromRequest($request);
-        $route = $routeContext->getRoute();
-
-        if ($route === null) {
-            // Student likely accessing a nonexistent route. Calling next middleware.
-            return $handler->handle($request);
-        }
+        $path = $request->getUri()->getPath();
 
         //if not a cloud route
-        if (strpos($route->getPattern(), '/cloud') !== 0) {
+        if (!str_starts_with($path, '/cloud')) {
             return $handler->handle($request);
         }
 
+        $student = $this->session->get('student');
+
         //if on cloud home page allow guests
-        if ($route->getPattern() === '/cloud') {
+        if ($student === null && $path === '/cloud') {
             return $handler->handle($request);
         }
 
         //if on any other cloud route, student must be logged in
-        if ($this->session->get('student') instanceof StudentDTO) {
+        if ($student instanceof StudentDTO) {
+            //refresh user from database
+            $this->session->set(
+                'student',
+                $this->studentRepository->findById($student->id)->toDTO()
+            );
             return $handler->handle($request);
         }
 
