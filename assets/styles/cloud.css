@@ -6,34 +6,4 @@
     display: none;
 }
 
-#problem-file p {
-    @apply mt-2 mb-4 leading-loose tracking-wide;
-}
 
-#problem-file h2 {
-    @apply mt-2 mb-4 text-2xl;
-}
-
-#problem-file pre {
-    background-color: initial;
-    @apply mt-2 mb-4 p-0 border-none rounded-none;
-}
-#problem-file pre code {
-    background-color: #2a2c2d !important;
-    @apply p-4 rounded-lg;
-}
-
-#problem-file :not(pre)>code {
-    font-size: 90%;
-    background-color: #2a2c2d;
-    @apply px-2 py-1 rounded;
-    color: #ff75b5;
-}
-
-#problem-file ul {
-    @apply mt-2 mb-4 list-disc list-inside;
-}
-
-#problem-file ul li {
-    @apply list-item;
-}
