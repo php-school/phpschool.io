@@ -2,7 +2,7 @@ FROM php:8.1-fpm
 
 RUN apt-get -qq update && apt-get install -qqy git zlib1g-dev libzip-dev \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& docker-php-ext-install pdo pdo_mysql zip
+	&& docker-php-ext-install pdo pdo_mysql zip sockets
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -13,6 +13,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY . /var/www/html
 WORKDIR /var/www/html
 
-RUN cd /var/www/html && composer install -q --no-dev -o
+RUN cd /var/www/html && composer install --no-dev -o
 
 CMD ["php-fpm"]
