@@ -532,31 +532,34 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "1.13.3",
+            "version": "1.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "648b0343343565c4a056bfc8392201385e8d89f0"
+                "reference": "9e034d7a70032d422169f27d8759e8d84abb4f51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/648b0343343565c4a056bfc8392201385e8d89f0",
-                "reference": "648b0343343565c4a056bfc8392201385e8d89f0",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/9e034d7a70032d422169f27d8759e8d84abb4f51",
+                "reference": "9e034d7a70032d422169f27d8759e8d84abb4f51",
                 "shasum": ""
             },
             "require": {
-                "doctrine/lexer": "1.*",
+                "doctrine/lexer": "^1 || ^2",
                 "ext-tokenizer": "*",
                 "php": "^7.1 || ^8.0",
                 "psr/cache": "^1 || ^2 || ^3"
             },
             "require-dev": {
                 "doctrine/cache": "^1.11 || ^2.0",
-                "doctrine/coding-standard": "^6.0 || ^8.1",
-                "phpstan/phpstan": "^1.4.10 || ^1.8.0",
-                "phpunit/phpunit": "^7.5 || ^8.0 || ^9.1.5",
-                "symfony/cache": "^4.4 || ^5.2",
+                "doctrine/coding-standard": "^9 || ^10",
+                "phpstan/phpstan": "~1.4.10 || ^1.8.0",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
+                "symfony/cache": "^4.4 || ^5.4 || ^6",
                 "vimeo/psalm": "^4.10"
+            },
+            "suggest": {
+                "php": "PHP 8.0 or higher comes with attributes, a native replacement for annotations"
             },
             "type": "library",
             "autoload": {
@@ -599,9 +602,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/annotations/issues",
-                "source": "https://github.com/doctrine/annotations/tree/1.13.3"
+                "source": "https://github.com/doctrine/annotations/tree/1.14.1"
             },
-            "time": "2022-07-02T10:48:51+00:00"
+            "time": "2022-12-12T12:46:12+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -1592,20 +1595,20 @@
         },
         {
             "name": "fakerphp/faker",
-            "version": "v1.20.0",
+            "version": "v1.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FakerPHP/Faker.git",
-                "reference": "37f751c67a5372d4e26353bd9384bc03744ec77b"
+                "reference": "92efad6a967f0b79c499705c69b662f738cc9e4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/37f751c67a5372d4e26353bd9384bc03744ec77b",
-                "reference": "37f751c67a5372d4e26353bd9384bc03744ec77b",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/92efad6a967f0b79c499705c69b662f738cc9e4d",
+                "reference": "92efad6a967f0b79c499705c69b662f738cc9e4d",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1 || ^8.0",
+                "php": "^7.4 || ^8.0",
                 "psr/container": "^1.0 || ^2.0",
                 "symfony/deprecation-contracts": "^2.2 || ^3.0"
             },
@@ -1616,7 +1619,8 @@
                 "bamarni/composer-bin-plugin": "^1.4.1",
                 "doctrine/persistence": "^1.3 || ^2.0",
                 "ext-intl": "*",
-                "symfony/phpunit-bridge": "^4.4 || ^5.2"
+                "phpunit/phpunit": "^9.5.26",
+                "symfony/phpunit-bridge": "^5.4.16"
             },
             "suggest": {
                 "doctrine/orm": "Required to use Faker\\ORM\\Doctrine",
@@ -1628,7 +1632,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "v1.20-dev"
+                    "dev-main": "v1.21-dev"
                 }
             },
             "autoload": {
@@ -1653,9 +1657,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FakerPHP/Faker/issues",
-                "source": "https://github.com/FakerPHP/Faker/tree/v1.20.0"
+                "source": "https://github.com/FakerPHP/Faker/tree/v1.21.0"
             },
-            "time": "2022-07-20T13:12:54+00:00"
+            "time": "2022-12-13T13:54:32+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -2674,16 +2678,16 @@
         },
         {
             "name": "laminas/laminas-eventmanager",
-            "version": "3.8.0",
+            "version": "3.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-eventmanager.git",
-                "reference": "51e73899f14026fdf2626569a7ff04ae93554b0b"
+                "reference": "74c091fb0da37744e7d215ef5bd3564c77f6385e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-eventmanager/zipball/51e73899f14026fdf2626569a7ff04ae93554b0b",
-                "reference": "51e73899f14026fdf2626569a7ff04ae93554b0b",
+                "url": "https://api.github.com/repos/laminas/laminas-eventmanager/zipball/74c091fb0da37744e7d215ef5bd3564c77f6385e",
+                "reference": "74c091fb0da37744e7d215ef5bd3564c77f6385e",
                 "shasum": ""
             },
             "require": {
@@ -2738,7 +2742,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-12-03T06:30:11+00:00"
+            "time": "2022-12-10T16:36:52+00:00"
         },
         {
             "name": "laminas/laminas-filter",
@@ -4914,12 +4918,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/learn-you-php.git",
-                "reference": "0fafcd5a6b6f0af326ccccbaed35ef0a7e5e0275"
+                "reference": "a9987d7fba5f8fa22a4e84bef98b5f651801101d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/learn-you-php/zipball/0fafcd5a6b6f0af326ccccbaed35ef0a7e5e0275",
-                "reference": "0fafcd5a6b6f0af326ccccbaed35ef0a7e5e0275",
+                "url": "https://api.github.com/repos/php-school/learn-you-php/zipball/a9987d7fba5f8fa22a4e84bef98b5f651801101d",
+                "reference": "a9987d7fba5f8fa22a4e84bef98b5f651801101d",
                 "shasum": ""
             },
             "require": {
@@ -4970,7 +4974,7 @@
                 "issues": "https://github.com/php-school/learn-you-php/issues",
                 "source": "https://github.com/php-school/learn-you-php/tree/master"
             },
-            "time": "2022-10-19T07:37:51+00:00"
+            "time": "2022-12-11T21:18:00+00:00"
         },
         {
             "name": "php-school/php-workshop",
@@ -4978,12 +4982,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/php-workshop.git",
-                "reference": "37184f8e396004f7c59cb24ad9942e3b7934195e"
+                "reference": "839688e5f514c9fabcaca6e4c4c18c2ba307bed6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/37184f8e396004f7c59cb24ad9942e3b7934195e",
-                "reference": "37184f8e396004f7c59cb24ad9942e3b7934195e",
+                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/839688e5f514c9fabcaca6e4c4c18c2ba307bed6",
+                "reference": "839688e5f514c9fabcaca6e4c4c18c2ba307bed6",
                 "shasum": ""
             },
             "require": {
@@ -5054,7 +5058,7 @@
                 "issues": "https://github.com/php-school/php-workshop/issues",
                 "source": "https://github.com/php-school/php-workshop/tree/master"
             },
-            "time": "2022-11-03T10:12:01+00:00"
+            "time": "2022-12-13T19:49:15+00:00"
         },
         {
             "name": "php-school/php8-appreciate",
@@ -5062,12 +5066,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/php8-appreciate.git",
-                "reference": "c41f1e302c40c7691a275edb3efb4e04c15d293b"
+                "reference": "03958f555e61102bace02601f0ceee310a93af2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/php8-appreciate/zipball/c41f1e302c40c7691a275edb3efb4e04c15d293b",
-                "reference": "c41f1e302c40c7691a275edb3efb4e04c15d293b",
+                "url": "https://api.github.com/repos/php-school/php8-appreciate/zipball/03958f555e61102bace02601f0ceee310a93af2a",
+                "reference": "03958f555e61102bace02601f0ceee310a93af2a",
                 "shasum": ""
             },
             "require": {
@@ -5116,7 +5120,7 @@
                 "issues": "https://github.com/php-school/php8-appreciate/issues",
                 "source": "https://github.com/php-school/php8-appreciate/tree/master"
             },
-            "time": "2022-10-19T09:24:21+00:00"
+            "time": "2022-12-11T13:09:28+00:00"
         },
         {
             "name": "php-school/terminal",
@@ -9386,16 +9390,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.19",
+            "version": "9.2.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "c77b56b63e3d2031bd8997fcec43c1925ae46559"
+                "reference": "af7463c955007de36db0c5e26d03e2f933c2e980"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/c77b56b63e3d2031bd8997fcec43c1925ae46559",
-                "reference": "c77b56b63e3d2031bd8997fcec43c1925ae46559",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/af7463c955007de36db0c5e26d03e2f933c2e980",
+                "reference": "af7463c955007de36db0c5e26d03e2f933c2e980",
                 "shasum": ""
             },
             "require": {
@@ -9451,7 +9455,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.19"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.20"
             },
             "funding": [
                 {
@@ -9459,7 +9463,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-11-18T07:47:47+00:00"
+            "time": "2022-12-13T07:49:28+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
