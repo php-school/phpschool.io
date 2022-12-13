@@ -8,11 +8,6 @@ export default defineConfig({
     plugins: [
         vue(),
         liveReload([
-            // edit live reload paths according to your source code
-            // for example:
-            __dirname + '/(app|src)/**/*.php',
-            // using this for our example:
-            __dirname + '/public/*.php',
             __dirname + '/templates/**/*.phtml',
         ]),
         splitVendorChunkPlugin(),
