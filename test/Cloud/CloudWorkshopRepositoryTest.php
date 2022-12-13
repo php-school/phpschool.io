@@ -54,4 +54,12 @@ class CloudWorkshopRepositoryTest extends TestCase
 
         $this->assertInstanceOf(CloudInstalledWorkshop::class, $workshop);
     }
+
+    public function testTotalExerciseCount(): void
+    {
+        $workshopRepo = $this->createMock(WorkshopRepository::class);
+        $repo = new CloudWorkshopRepository($workshopRepo);
+
+        $this->assertEquals(24, $repo->totalExerciseCount());
+    }
 }

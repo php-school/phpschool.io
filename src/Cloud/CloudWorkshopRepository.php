@@ -51,6 +51,13 @@ class CloudWorkshopRepository
         );
     }
 
+    public function totalExerciseCount(): int
+    {
+        return collect($this->findAll())
+            ->map(fn (CloudInstalledWorkshop $worksop) => count($worksop->findAllExercises()))
+            ->sum();
+    }
+
     /**
      * The workshop code is the bin entry point in the workshop
      * so we need to decode
