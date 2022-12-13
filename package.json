@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "APP_ENV=development vite",
+    "dev": "cross-env APP_ENV=development vite",
     "build": "vite build"
   },
   "author": "",
@@ -31,6 +31,7 @@
     "@headlessui/vue": "^1.7.4",
     "@heroicons/vue": "^2.0.13",
     "ace-builds": "^1.13.0",
+    "cross-env": "^7.0.3",
     "vue": "^3.2.41",
     "vue3-click-away": "^1.2.4"
   }
