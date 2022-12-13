@@ -108,11 +108,10 @@ export default {
     </button>
   </div>
 
-  <Modal size="xl" v-if="openRunModal" @close="openRunModal = false">
+  <Modal :scroll-content="true" size="xl" max-height="max-h-[calc(5/6*100%)]" v-if="openRunModal" @close="openRunModal = false">
     <template #header>
       <div class="flex items-center ">
-        <ExclamationTriangleIcon class="h-6 w-6 text-green-600 mr-2"/>
-
+        <CommandLineIcon class="h-6 w-6 text-pink-500 mr-2"/>
         <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
           Program output
         </h3>
@@ -120,7 +119,7 @@ export default {
 
     </template>
     <template #body>
-      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left flex-1 overflow-x-auto">
+      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left flex-1">
         <div class="mt-2 flex" v-if="programOutput">
           <p class="p-4 rounded text-sm font-mono bg-gray-800 text-white whitespace-pre-wrap flex-1 overflow-x-scroll">{{ programOutput }}</p>
         </div>
@@ -132,7 +131,7 @@ export default {
     </template>
     <template #footer>
       <div class="flex justify-end">
-        <button type="button" class="inline-flex items-center  w-full justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm" @click="runSolution">
+        <button type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm" @click="runSolution">
           <ArrowPathIcon :class="{ 'animate-spin': loadingRun}" class="w-4 h-4 mr-2 -ml-1"/>
           Run again
         </button>

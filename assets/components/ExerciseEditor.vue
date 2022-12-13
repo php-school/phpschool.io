@@ -257,7 +257,7 @@ export default {
     <Modal size="sm" max-height="max-h-[calc(1/2*100%)]" v-if="openComposerModal" @close="openComposerModal = false">
       <template #header>
         <div class="flex items-center ">
-
+          <CircleStackIcon class="h-6 w-6 text-pink-500 mr-2"/>
           <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
             Composer Dependencies
           </h3>
@@ -296,7 +296,7 @@ export default {
     <Modal :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openProblemModal" @close="openProblemModal = false">
       <template #header>
         <div class="flex items-center ">
-
+          <MapIcon class="h-6 w-6 text-pink-500 mr-2"/>
           <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
             The problem...
           </h3>
@@ -319,3 +319,46 @@ export default {
     </Modal>
   </div>
 </template>
+
+<style>
+#problem-file p {
+  @apply mt-2 mb-4 leading-loose tracking-wide;
+}
+
+#problem-file h2 {
+  @apply mt-2 mb-4 text-2xl;
+}
+
+#problem-file h3 {
+  color: #E91E63;
+  @apply mt-2 mb-4 text-xl;
+}
+
+#problem-file a {
+  color: #E91E63;
+}
+
+#problem-file pre {
+  background-color: initial;
+  @apply mt-2 mb-4 p-0 border-none rounded-none;
+}
+#problem-file pre code {
+  background-color: #2a2c2d !important;
+  @apply p-4 rounded-lg;
+}
+
+#problem-file :not(pre)>code {
+  font-size: 90%;
+  background-color: #2a2c2d;
+  @apply px-2 py-1 rounded;
+  color: #ff75b5;
+}
+
+#problem-file ul {
+  @apply mt-2 mb-4 list-disc list-inside;
+}
+
+#problem-file ul li {
+  @apply list-item p-1;
+}
+</style>
