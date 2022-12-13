@@ -4,6 +4,7 @@ You will need `composer`, `node` and `docker`.
 
 ```shell
 npm install
+npm run build
 cp .env.dist .env
 docker-compose build
 ```
@@ -17,6 +18,11 @@ docker compose exec php composer install
 ### Create DB Scheme
 ```shell
 docker compose exec php composer app:db:update
+```
+
+### Import DB
+```shell
+docker-compose exec -T db mysql -uroot phpschool -proot < phpschool.sql
 ```
 
 ### Generate Blog
@@ -48,6 +54,18 @@ Run:
 ```shell
 npm run dev
 ```
+
+## For GitHub login
+
+Add `127.0.0.1 www.phpschool.local` to `/etc/hosts`
+
+Create a GitHub oauth App:
+
+Application Name: PHP School Local
+Homepage: http://www.phpschool.local
+Authorization Callback URL: http://www.phpschool.local/student-login: 
+
+Take the client secret and client ID and place them in your `.env` file under the keys: `GITHUB_CLIENT_ID` & `GITHUB_CLIENT_SECRET`.
 
 ### View cache keys
 
