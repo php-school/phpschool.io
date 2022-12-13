@@ -53,7 +53,7 @@ class VerifyExercise
         $renderer = new ResultsRenderer();
 
         $data = [
-            'results' => $renderer->render($results, $exercise, new UserState()),
+            'results' => $renderer->render($results, $exercise),
             'success' => $results->isSuccessful()
         ];
 
