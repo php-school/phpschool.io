@@ -65,7 +65,7 @@ export default {
         class="overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 md:h-full justify-center items-center flex"
     >
       <div v-click-away="closeModal" class="relative rounded-lg shadow bg-gray-800 flex flex-col justify-start w-full" :class="[modalSizeClasses[size], maxHeight]">
-          <div class="p-4 rounded-t flex-none flex justify-between items-center "
+          <div class="p-4 rounded-t flex-none flex justify-between items-top "
                :class="$slots.header ? 'border-b border-solid border-slate-600' : ''">
             <slot name="header"/>
             <div>

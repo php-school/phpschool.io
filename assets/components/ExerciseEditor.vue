@@ -295,11 +295,15 @@ export default {
 
     <Modal :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openProblemModal" @close="openProblemModal = false">
       <template #header>
-        <div class="flex items-center ">
-          <MapIcon class="h-6 w-6 text-pink-500 mr-2"/>
-          <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
-            The problem...
-          </h3>
+        <div class="flex flex-col">
+          <div class="flex items-center ">
+            <MapIcon class="h-6 w-6 text-pink-500 mr-2"/>
+            <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
+              The problem...
+
+            </h3>
+          </div>
+          <h2 class="mt-2 mb-2 ml-3 text-2xl">{{ exercise.name }}</h2>
         </div>
       </template>
 
