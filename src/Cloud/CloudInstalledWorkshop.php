@@ -8,7 +8,6 @@ use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\ExerciseRepository;
 use PhpSchool\PhpWorkshop\Logger\Logger;
 use PhpSchool\Website\Entity\Workshop;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Symfony\Component\String\Slugger\AsciiSlugger;
