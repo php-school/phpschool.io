@@ -13,6 +13,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY . /var/www/html
 WORKDIR /var/www/html
 
-RUN cd /var/www/html && composer install --no-dev -o
+RUN cd /var/www/html
 
 CMD ["php-fpm"]

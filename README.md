@@ -3,7 +3,6 @@
 You will need `composer`, `node` and `docker`.
 
 ```shell
-composer install
 npm install
 cp .env.dist .env
 docker-compose build
@@ -12,6 +11,7 @@ docker-compose build
 ## Run
 ```shell
 docker-compose up -d
+docker compose exec php composer install
 ```
 
 ### Create DB Scheme
@@ -32,6 +32,8 @@ If you need to clear the cache, run `docker compose exec php composer app:cc`.
 You can disable the cache by setting `CACHE.FPC.ENABLE` to `false` in your `.env` file.
 
 ## Build CSS & JS
+
+This needs to be done for the main website (non cloud) to run in development mode.
 
 ```shell
 npm run build
