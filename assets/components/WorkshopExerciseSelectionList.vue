@@ -1,11 +1,11 @@
 <script>
 
-import { ArrowRightIcon, CheckBadgeIcon } from '@heroicons/vue/24/solid'
+import { ArrowRightIcon, CheckCircleIcon } from '@heroicons/vue/24/solid'
 
 export default {
   components: {
     ArrowRightIcon,
-    CheckBadgeIcon
+    CheckCircleIcon
   },
   props: {
     student: {
@@ -144,7 +144,7 @@ export default {
               </div>
               <div class="text-gray-200 text-xs bg-pink-600 py-1 px-3 rounded-full">{{ exercise.type }}</div>
               <a href="#" class="w-24 text-right flex justify-end">
-                <CheckBadgeIcon v-if="isExerciseComplete(selectedWorkshop.code, exercise.name)" class="text-green-400 h-8 w-8"/>
+                <CheckCircleIcon v-if="isExerciseComplete(selectedWorkshop.code, exercise.name)" class="text-pink-500 h-8 w-8 rounded-full border-2 border-solid border-pink-300" />
                 <ArrowRightIcon v-else class="group-hover:text-pink-600 text-gray-200 h-8 w-8" :class="{ 'animate-bounce': isNextWorkshop(exercise)}"/>
               </a>
             </div>
