@@ -4,12 +4,15 @@ namespace PhpSchool\Website\User\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use PhpSchool\PhpWorkshop\UserState\UserState;
+use PhpSchool\Website\Cloud\StudentCloudState;
 use PhpSchool\Website\User\StudentDTO;
 use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="student"))
+ * @ORM\Entity(repositoryClass="PhpSchool\Website\User\DoctrineORMStudentRepository")
  */
 class Student
 {
@@ -58,13 +61,19 @@ class Student
      */
     private DateTime $joinDate;
 
+    /**
+     * @ORM\Column(type="json", nullable=false)
+     */
+    private array $workshopState ;
+
     public function __construct(
         string $githubId,
         string $username,
         string $email,
         string $name,
         ?string $profilePicture,
-        ?string $location
+        ?string $location,
+        array $workshopState = [],
     ) {
         $this->githubId = $githubId;
         $this->username = $username;
@@ -73,6 +82,7 @@ class Student
         $this->profilePicture = $profilePicture;
         $this->location = $location;
         $this->joinDate = new DateTime();
+        $this->workshopState = $workshopState;
     }
 
     public function getId(): UuidInterface
@@ -140,15 +150,35 @@ class Student
         $this->location = $location;
     }
 
+    public function getWorkshopState(): array
+    {
+        return $this->workshopState;
+    }
+
+    public function setWorkshopState(array $state): void
+    {
+        $this->workshopState = $state;
+    }
+
+    public function updateWorkshopState(string $workshop, UserState $state): void
+    {
+        $this->workshopState[$workshop] = [
+            'completedExercises' => $state->getCompletedExercises(),
+            'currentExercise' => $state->getCurrentExercise(),
+        ];
+    }
+
     public function toDTO(): StudentDTO
     {
         return new StudentDTO(
+            $this->getId(),
             $this->username,
             $this->email,
             $this->name,
             $this->profilePicture,
             $this->location,
-            $this->joinDate
+            $this->joinDate,
+            new StudentCloudState($this->workshopState)
         );
     }
 }

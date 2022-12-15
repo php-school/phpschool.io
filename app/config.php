@@ -27,11 +27,14 @@ use PhpSchool\Website\Cloud\Command\DownloadComposerPackageList;
 use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\Cloud\Middleware\ViteProductionAssets;
 use PhpSchool\Website\Cloud\ProblemFileConverter;
+use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Middleware\FlashMessages as FlashMessagesMiddleware;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
+use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use PhpSchool\Website\User\FlashMessages;
+use PhpSchool\Website\User\StudentRepository;
 use PhpSchool\Website\ViteManifest;
 use Predis\Connection\ConnectionException;
 use Slim\App;
@@ -386,7 +389,8 @@ return [
     ExerciseEditor::class => function (ContainerInterface $c): ExerciseEditor {
         return new ExerciseEditor(
             $c->get(CloudWorkshopRepository::class),
-            $c->get(ProblemFileConverter::class)
+            $c->get(ProblemFileConverter::class),
+            $c->get(StudentWorkshopState::class)
         );
     },
 
@@ -400,7 +404,8 @@ return [
     VerifyExercise::class => function (ContainerInterface $c): VerifyExercise {
         return new VerifyExercise(
             $c->get(CloudWorkshopRepository::class),
-            $c->get(ExerciseDispatcher::class)
+            $c->get(ExerciseDispatcher::class),
+            $c->get(StudentWorkshopState::class)
         );
     },
 
@@ -461,6 +466,10 @@ return [
         return $c->get(EntityManagerInterface::class)->getRepository(Event::class);
     },
 
+    StudentRepository::class => function (ContainerInterface $c): StudentRepository {
+        return $c->get(EntityManagerInterface::class)->getRepository(Student::class);
+    },
+
     AdminAuthenticationService::class => \DI\factory(function (ContainerInterface $c): AdminAuthenticationService {
         $authService = new \Laminas\Authentication\AuthenticationService;
         $authService->setAdapter(new Doctrine($c->get(EntityManagerInterface::class)));
@@ -471,8 +480,11 @@ return [
         return new AdminAuthenticator($c->get(AdminAuthenticationService::class));
     }),
 
-    StudentAuthenticator::class => function(ContainerInterface $c): StudentAuthenticator {
-        return new StudentAuthenticator($c->get(Session::class));
+    StudentAuthenticator::class => function (ContainerInterface $c): StudentAuthenticator {
+        return new StudentAuthenticator(
+            $c->get(Session::class),
+            $c->get(StudentRepository::class)
+        );
     },
 
     ORMSetup::class => \DI\factory(function (ContainerInterface $c): Configuration {

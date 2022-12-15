@@ -6,6 +6,7 @@ use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\Exercise\ProvidesSolution;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ProblemFileConverter;
+use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\PhpRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -14,13 +15,16 @@ class ExerciseEditor
 {
     private CloudWorkshopRepository $installedWorkshops;
     private ProblemFileConverter $problemFileConverter;
+    private StudentWorkshopState $studentState;
 
     public function __construct(
         CloudWorkshopRepository $installedWorkshops,
-        ProblemFileConverter $problemFileConverter
+        ProblemFileConverter $problemFileConverter,
+        StudentWorkshopState $studentProgress,
     ) {
         $this->installedWorkshops = $installedWorkshops;
         $this->problemFileConverter = $problemFileConverter;
+        $this->studentState = $studentProgress;
     }
 
     public function __invoke(
@@ -34,6 +38,8 @@ class ExerciseEditor
         $workshop = $this->installedWorkshops->findByCode($workshop);
         $exercise = $workshop->findExerciseBySlug($exercise);
         $nextExercise = $workshop->findNextExercise($exercise);
+
+        $this->studentState->setCurrentExercise($workshop->getCode(), $exercise->getName());
 
         $link = null;
         if ($nextExercise) {

@@ -14,7 +14,6 @@ use PhpSchool\PhpWorkshop\Result\ResultGroupInterface;
 use PhpSchool\PhpWorkshop\Result\ResultInterface;
 use PhpSchool\PhpWorkshop\Result\SuccessInterface;
 use PhpSchool\PhpWorkshop\ResultAggregator;
-use PhpSchool\PhpWorkshop\UserState;
 use PhpSchool\PhpWorkshop\Result\Cgi\GenericFailure as CgiGenericFailure;
 use PhpSchool\PhpWorkshop\Result\Cli\GenericFailure as CliGenericFailure;
 use PhpSchool\PhpWorkshop\Result\Cgi\RequestFailure as CgiRequestFailure;
@@ -24,8 +23,7 @@ class ResultsRenderer
 {
     public function render(
         ResultAggregator $results,
-        ExerciseInterface $exercise,
-        UserState $userState,
+        ExerciseInterface $exercise
     ): string {
 
         $successes  = [];

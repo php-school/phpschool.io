@@ -217,7 +217,6 @@ $app
         $group->get('/composer-package/add', ComposerPackageAdd::class);
         $group->get('/composer-package/search', ComposerPackageSearch::class);
     })
-    ->add($container->get(StudentAuthenticator::class))
     ->add(function (Request $request, RequestHandler $handler): Response {
         $renderer = $this->get(PhpRenderer::class);
         /** @var Session $session */
@@ -231,6 +230,7 @@ $app
         return $handler->handle($request)
             ->withHeader('cache-control', 'no-cache');
     })
+    ->add($container->get(StudentAuthenticator::class))
     ->add(Styles::class)
     ->add($container->get('config')['devMode'] ? ViteDevAssets::class : ViteProductionAssets::class);
 
