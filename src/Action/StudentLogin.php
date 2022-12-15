@@ -105,7 +105,7 @@ class StudentLogin
             $email,
             $name,
             $user->toArray()['avatar_url'] ?? null,
-            $user->toArray()['location'] ?? null
+            $user->toArray()['location'] ?? null,
         );
 
         $this->entityManager->persist($student);

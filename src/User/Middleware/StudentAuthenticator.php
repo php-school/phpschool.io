@@ -41,11 +41,16 @@ class StudentAuthenticator
 
         //if on any other cloud route, student must be logged in
         if ($student instanceof StudentDTO) {
+            $entity = $this->studentRepository->findById($student->id);
+
+            //student no longer exists
+            if (null === $entity) {
+                $this->session->delete('student');
+                return $this->redirect('/cloud');
+            }
+
             //refresh user from database
-            $this->session->set(
-                'student',
-                $this->studentRepository->findById($student->id)->toDTO()
-            );
+            $this->session->set('student', $entity->toDTO());
             return $handler->handle($request);
         }
 

@@ -98,7 +98,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
         return $this->container->get(ExerciseDispatcher::class);
     }
 
-    public function getService(string $service): object
+    public function getService(string $service): mixed
     {
         return $this->container->get($service);
     }
@@ -115,6 +115,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
         return [
             'name' => $this->getName(),
             'code' => $this->getCode(),
+            'logo' => $this->getService('workshopLogo'),
             'description' => $this->getDescription(),
             'type' => $this->getType(),
             'exercises' => array_map(function (ExerciseInterface $exercise) {
