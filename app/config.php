@@ -34,6 +34,7 @@ use PhpSchool\Website\Middleware\Session as SessionMiddleware;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use PhpSchool\Website\User\FlashMessages;
+use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentRepository;
 use PhpSchool\Website\ViteManifest;
 use Predis\Connection\ConnectionException;
@@ -97,6 +98,7 @@ use Ramsey\Uuid\Doctrine\UuidType;
 use PhpSchool\Website\User\Session;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
+use function DI\get;
 
 return [
     'console' => factory(function (DI\Container $c): Silly\Edition\PhpDi\Application {
@@ -190,6 +192,8 @@ return [
         $logger->pushHandler(new StreamHandler($settings['path'], Logger::DEBUG));
         return $logger;
     }),
+
+    SessionStorageInterface::class => get(Session::class),
 
     Session::class => function (ContainerInterface $c): Session {
         return new Session;

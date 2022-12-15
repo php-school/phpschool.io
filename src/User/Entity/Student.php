@@ -64,7 +64,7 @@ class Student
     /**
      * @ORM\Column(type="json", nullable=false)
      */
-    private array $workshopState ;
+    private array $workshopState = [];
 
     public function __construct(
         string $githubId,

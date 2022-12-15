@@ -8,7 +8,7 @@ use Ramsey\Uuid\UuidInterface;
 
 class DoctrineORMStudentRepository extends EntityRepository implements StudentRepository
 {
-    public function findById(UuidInterface $id): Student
+    public function findById(UuidInterface $id): ?Student
     {
         return $this->find($id->toString());
     }

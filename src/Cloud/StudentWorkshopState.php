@@ -3,6 +3,7 @@
 namespace PhpSchool\Website\Cloud;
 
 use PhpSchool\PhpWorkshop\UserState\UserState;
+use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\Session;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
@@ -50,6 +51,7 @@ class StudentWorkshopState
     {
         $studentDTO = $this->getStudent();
 
+        /** @var Student $student */
         $student = $this->studentRepository->findById($studentDTO->id);
         $student->updateWorkshopState($workshopCode, $state);
 

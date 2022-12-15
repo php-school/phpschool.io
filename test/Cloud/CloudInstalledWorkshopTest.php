@@ -280,7 +280,8 @@ class CloudInstalledWorkshopTest extends TestCase
                         'description' => 'Exercise 3',
                         'type' => 'CLI'
                     ]
-                ]
+                ],
+                'logo' => null
             ],
             (new CloudInstalledWorkshop($app, $workshop))->jsonSerialize()
         );

@@ -102,10 +102,21 @@ class StudentAuthenticatorTest extends TestCase
 
         $handler = $this->getRequestHandler();
 
+        $student = $this->getStudent();
+
+        $entity = $this->createMock(Student::class);
+        $entity->expects($this->once())->method('toDTO')->willReturn($student);
+
         $this->session->expects($this->once())
             ->method('get')
             ->with('student')
-            ->willReturn($this->getStudent());
+            ->willReturn($student);
+
+        $this->studentRepository
+            ->expects($this->once())
+            ->method('findById')
+            ->with($student->id)
+            ->willReturn($entity);
 
         $middleware = new StudentAuthenticator(
             $this->session,
@@ -124,10 +135,21 @@ class StudentAuthenticatorTest extends TestCase
 
         $handler = $this->getRequestHandler();
 
+        $student = $this->getStudent();
+
+        $entity = $this->createMock(Student::class);
+        $entity->expects($this->once())->method('toDTO')->willReturn($student);
+
         $this->session->expects($this->once())
             ->method('get')
             ->with('student')
-            ->willReturn($this->getStudent());
+            ->willReturn($student);
+
+        $this->studentRepository
+            ->expects($this->once())
+            ->method('findById')
+            ->with($student->id)
+            ->willReturn($entity);
 
         $middleware = new StudentAuthenticator(
             $this->session,
