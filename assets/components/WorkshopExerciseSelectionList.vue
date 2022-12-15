@@ -31,11 +31,11 @@ export default {
         return false;
       }
 
-      if (!this.student.state.hasOwnProperty(workshopCode)) {
+      if (!this.student.state.workshops.hasOwnProperty(workshopCode)) {
         return false;
       }
 
-      const workshop = this.student.state[workshopCode];
+      const workshop = this.student.state.workshops[workshopCode];
       return workshop.completedExercises.includes(exercise);
     },
     isWorkshopComplete(workshop) {
@@ -115,13 +115,21 @@ export default {
       </div>
       <div v-if="selectedWorkshop" id="workshop-exercises" class="flex flex-col items-center justify-center bg-gray-800 rounded-lg shadow">
         <div class="px-4 py-5 sm:px-6 border-b w-full">
-          <h3 class="text-lg leading-6 font-medium text-white">
-            {{ selectedWorkshop.name }} Exercises
-          </h3>
-          <p class="mt-1 max-w-2xl text-sm text-gray-200">
-            Pick an exercise to start hacking!
-          </p>
+          <div class="w-full flex flex-col items-center">
+
+            <h3 class="text-lg leading-6 font-medium text-white">
+              {{ selectedWorkshop.name }} Exercises
+            </h3>
+            <p class="mt-1 mb-4 max-w-2xl text-sm text-gray-200">
+              Pick an exercise to start hacking!
+            </p>
+            <p class="text-white whitespace-pre tracking-wide font-mono text-pink-500">
+              {{ selectedWorkshop.logo }}
+            </p>
+          </div>
+
         </div>
+        {{ student}}
         <ul id="workshop-exercises-list" class="flex flex-col w-full divide divide-y">
           <li v-for="exercise in selectedWorkshop.exercises" @click="selectExercise(exercise)" class="group flex flex-row hover:bg-gray-600 last:hover:rounded-b-lg">
             <div class="select-none cursor-pointer flex flex-1 items-center p-4">

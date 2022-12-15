@@ -7,7 +7,8 @@ import Tabs from "./Tabs.vue";
 import Modal from "./Modal.vue";
 import AceEditor from "./AceEditor.vue";
 import {editor} from "./stores/editor.js";
-import {XMarkIcon, ArrowPathIcon, CircleStackIcon, MapIcon} from '@heroicons/vue/24/solid';
+import {XMarkIcon, ArrowPathIcon, CircleStackIcon, MapIcon, HomeIcon, ChevronRightIcon} from '@heroicons/vue/24/solid';
+import { TrophyIcon } from '@heroicons/vue/24/outline'
 import PackageSearch from './PackageSearch.vue';
 
 export default {
@@ -22,13 +23,17 @@ export default {
     ArrowPathIcon,
     CircleStackIcon,
     MapIcon,
-    PackageSearch
+    PackageSearch,
+    TrophyIcon,
+    HomeIcon,
+    ChevronRightIcon
   },
   props: {
     nextExerciseLink: String,
     officialSolution: Array,
     workshop: Object,
     exercise: Object,
+    student: Object,
   },
   data() {
     const studentFiles = this.toTree([
@@ -56,6 +61,14 @@ export default {
       composerDeps: [],
       loadingComposerAdd: false
     }
+  },
+  computed: {
+    exerciseCompleted() {
+        return this.student
+            .state
+            .workshops[this.workshop.code]
+            .completedExercises.includes(this.exercise.name);
+    },
   },
   methods: {
     studentSelectFile(selectedFile) {
@@ -222,14 +235,21 @@ export default {
           <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li class="inline-flex items-center">
               <a href="/cloud" class="inline-flex items-center text-sm font-medium text-white hover:text-pink-500">
-                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                <HomeIcon class="w-4 h-4 mr-2"></HomeIcon>
                 {{ workshop.name }}
               </a>
             </li>
             <li>
               <div class="flex items-center">
-                <svg class="w-6 h-6 text-pink-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                <ChevronRightIcon class="w-4 h-4 text-pink-500"></ChevronRightIcon>
                 <a href="#" class="ml-1 text-sm font-medium text-white hover:text-pink-500 md:ml-2"> {{ exercise.name }}</a>
+              </div>
+            </li>
+            <li>
+              <div class="flex items-center">
+                <span v-if="exerciseCompleted" title="You've already completed this exercise!">
+                  <TrophyIcon class="h-6 w-6 text-yellow-400" />
+                </span>
               </div>
             </li>
           </ol>

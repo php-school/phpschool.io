@@ -114,7 +114,7 @@ export default {
           </div>
         </div>
       </div>
-      <Modal size="4xl" v-if="openOfficialSolutionModal" @close="openOfficialSolutionModal = false">
+      <Modal size="4xl" v-if="openOfficialSolutionModal" @close.stop="openOfficialSolutionModal = false">
         <template #header>
           <h3 class="text-base font-semibold lg:text-xl text-white">
             Official Solution

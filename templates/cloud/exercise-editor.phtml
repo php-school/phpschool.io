@@ -5,7 +5,8 @@
     <exercise-editor next-exercise-link='<?= $nextExerciseLink ?>'
                      :official-solution='<?= $this->json($official_solution ?? null) ?>'
                      :workshop='<?= $this->json($workshop) ?>'
-                     :exercise='<?= $this->json($exercise) ?>'>
+                     :exercise='<?= $this->json($exercise) ?>'
+                     :student='<?= $this->json($student) ?>'>
         <template #problem>
             <?= $problem ?>
         </template>
