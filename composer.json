@@ -47,7 +47,8 @@
     "symfony/string": "^6.1",
     "symfony/translation-contracts": "^3.1",
     "spatie/commonmark-highlighter": "^2.1",
-    "ahinkle/packagist-latest-version": "^2.1"
+    "ahinkle/packagist-latest-version": "^2.1",
+    "symfony/rate-limiter": "^6.2"
   },
   "autoload": {
     "psr-4": {

@@ -1,7 +1,7 @@
 <script>
 
 import Modal from "./Modal.vue";
-import { ArrowPathIcon, ExclamationTriangleIcon, CommandLineIcon, SparklesIcon } from '@heroicons/vue/24/solid'
+import {ArrowPathIcon, ExclamationTriangleIcon, CommandLineIcon, SparklesIcon, XMarkIcon} from '@heroicons/vue/24/solid'
 import toFilePath from "./utils/toFilePath";
 
 export default {
@@ -10,7 +10,8 @@ export default {
     ArrowPathIcon,
     ExclamationTriangleIcon,
     CommandLineIcon,
-    SparklesIcon
+    SparklesIcon,
+    XMarkIcon
   },
   emits: ["verify-loading", "verify-success", "verify-fail"],
   props: {
@@ -25,6 +26,7 @@ export default {
       programOutput: '',
       openRunModal: false,
       loadingVerify: false,
+      showRateLimitError: false,
     }
   },
   methods: {
@@ -38,7 +40,16 @@ export default {
       })
       return files;
     },
+    enableRateLimitError() {
+      this.showRateLimitError = true;
+
+      setTimeout(() => this.showRateLimitError = false, 3000);
+    },
     runSolution() {
+      if (this.loadingRun) {
+        return;
+      }
+
       this.loadingRun = true;
       const url = '/cloud/workshop/' + this.workshopCode + '/exercise/' + this.exerciseSlug + '/run';
 
@@ -54,14 +65,32 @@ export default {
         })
       };
       fetch(url, opts)
-          .then(response => response.json())
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            }
+
+            if (response.status === 429) {
+              this.enableRateLimitError();
+            }
+
+            throw Error(response.statusText)
+          })
           .then(json => {
             this.programOutput = json.output;
             this.openRunModal = true;
             this.loadingRun = false;
           })
+          .catch(error => {
+            this.loadingRun = false;
+          })
+
     },
     verifySolution() {
+      if (this.loadingVerify) {
+        return;
+      }
+
       this.$emit('verify-loading');
       this.loadingVerify = true;
 
@@ -79,7 +108,17 @@ export default {
         })
       };
       fetch(url, opts)
-          .then(response => response.json())
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            }
+
+            if (response.status === 429) {
+              this.enableRateLimitError();
+            }
+
+            throw Error(response.statusText)
+          })
           .then(json => {
             if (json.success === true) {
               this.$emit('verify-success');
@@ -89,19 +128,40 @@ export default {
 
             this.loadingVerify = false;
           })
+          .catch(error => {
+            this.loadingVerify = false;
+          })
     },
   }
 }
 </script>
 
 <template>
+  <div  v-show="showRateLimitError"  v-cloak class="absolute top-4 left-0 z-[51] shadow-lg w-full flex justify-center">
+    <div class="mx-auto py-3 px-3 sm:px-6 lg:px-8 bg-red-600 rounded-lg">
+      <div class="flex flex-wrap items-center justify-center">
+        <div class="flex items-center">
+          <ExclamationTriangleIcon class="h-6 w-6 text-white"/>
+          <p class="ml-3 truncate font-medium text-white">
+            <span class="">Too many requests. Please try again in a few minutes.</span>
+          </p>
+        </div>
+        <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
+          <button @click="showRateLimitError = false" type="button" class="-mr-1 flex rounded-md p-2 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
+            <span class="sr-only">Dismiss</span>
+            <XMarkIcon class="h-6 w-6 text-white"/>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="flex items-center">
-    <button id="run" class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white h-full flex items-center justify-center mt-0 mr-2 px-4 w-36 rounded" @click="runSolution">
+    <button id="run" class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white h-full flex items-center justify-center mt-0 mr-2 px-4 w-36 rounded" @click.stop="runSolution" :disabled="loadingRun">
       <ArrowPathIcon v-cloak v-show="loadingRun" class="w-4 h-4 animate-spin"/>
       <span v-if="!loadingRun">Run</span>
       <CommandLineIcon v-if="!loadingRun" v-cloak class="ml-2 w-5 h-5"/>
     </button>
-    <button id="verify" class="button flex items-center justify-center mt-0 px-4 w-36 rounded" @click="verifySolution">
+    <button id="verify" class="button flex items-center justify-center mt-0 px-4 w-36 rounded" @click="verifySolution" :disabled="loadingVerify">
       <ArrowPathIcon v-cloak v-show="loadingVerify" class="w-4 h-4 animate-spin"/>
       <span v-if="!loadingVerify">Verify</span>
       <SparklesIcon v-if="!loadingVerify" v-cloak class="ml-2 w-5 h-5"/>
