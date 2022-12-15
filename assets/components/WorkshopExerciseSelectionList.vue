@@ -129,7 +129,6 @@ export default {
           </div>
 
         </div>
-        {{ student}}
         <ul id="workshop-exercises-list" class="flex flex-col w-full divide divide-y">
           <li v-for="exercise in selectedWorkshop.exercises" @click="selectExercise(exercise)" class="group flex flex-row hover:bg-gray-600 last:hover:rounded-b-lg">
             <div class="select-none cursor-pointer flex flex-1 items-center p-4">
