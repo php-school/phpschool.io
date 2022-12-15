@@ -9,7 +9,17 @@ export default {
     UserCircleIcon
   },
   props: {
-    student: Object,
+    student: {
+      type: Object,
+      required: false
+    },
+    totalExercises: Number
+  },
+  data() {
+    return {
+       percentComplete: this.student === undefined ? 0 : (this.student.state.total_completed / this.totalExercises) * 100,
+      totalCompleted: this.student === undefined ? 0 : this.student.state.total_completed
+    }
   },
   methods: {
     login() {
@@ -46,12 +56,12 @@ export default {
           <span class="flex rounded-lg bg-yellow-400 p-2">
             <TrophyIcon class="h-6 w-6 text-white"/>
           </span>
-        <p class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">8 out of 23</p>
+        <p class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">{{ totalCompleted }} out of {{ totalExercises }}</p>
       </div>
     </div>
 
     <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-4">
-      <div class="bg-pink-600 h-2.5 rounded-full dark:bg-pink-500" style="width: 45%"></div>
+      <div class="bg-pink-600 h-2.5 rounded-full dark:bg-pink-500" :style="{ 'width': percentComplete + '%' }"></div>
     </div>
   </div>
 </template>

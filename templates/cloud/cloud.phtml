@@ -5,8 +5,16 @@
 </header>
 <section id="app" class="site-body">
     <div class="container flex flex-col">
-        <student-progress :student='<?= $this->json($student) ?>'></student-progress>
+        <student-progress
+                <?php if ($student): ?>
+                :student='<?= $this->json($student) ?>'
+                <?php endif; ?>
+                :total-exercises='<?= $this->json($totalExerciseCount) ?>'></student-progress>
 
-        <workshop-exercise-selection-list :workshops='<?= $this->json($workshops) ?>'></workshop-exercise-selection-list>
+        <workshop-exercise-selection-list
+                <?php if ($student): ?>
+                :student='<?= $this->json($student) ?>'
+                <?php endif; ?>
+                :workshops='<?= $this->json($workshops) ?>'></workshop-exercise-selection-list>
     </div>
 </section>

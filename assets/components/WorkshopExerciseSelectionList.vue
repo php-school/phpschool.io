@@ -1,12 +1,17 @@
 <script>
 
-import { ArrowRightIcon } from '@heroicons/vue/24/solid'
+import { ArrowRightIcon, CheckBadgeIcon } from '@heroicons/vue/24/solid'
 
 export default {
   components: {
-    ArrowRightIcon
+    ArrowRightIcon,
+    CheckBadgeIcon
   },
   props: {
+    student: {
+      type: Object,
+      required: false
+    },
     workshops: Object,
   },
   data() {
@@ -21,6 +26,49 @@ export default {
     selectExercise(exercise) {
       window.location.href = '/cloud/workshop/' + this.selectedWorkshop.code + '/exercise/' + exercise.slug + '/editor';
     },
+    isExerciseComplete(workshopCode, exercise) {
+      if (this.student === undefined) {
+        return false;
+      }
+
+      if (!this.student.state.hasOwnProperty(workshopCode)) {
+        return false;
+      }
+
+      const workshop = this.student.state[workshopCode];
+      return workshop.completedExercises.includes(exercise);
+    },
+    isWorkshopComplete(workshop) {
+      if (this.student === undefined) {
+        return false;
+      }
+
+      if (!this.student.state.hasOwnProperty(workshop.code)) {
+        return false;
+      }
+
+      const completedExercises = this.student.state[workshop.code].completedExercises;
+      return workshop.exercises.length === completedExercises.length;
+    },
+    isNextWorkshop(exercise) {
+      const pos = this.selectedWorkshop.exercises.findIndex((e) => e.name === exercise.name);
+
+      if (pos - 1 in this.selectedWorkshop.exercises) {
+        const prevComplete = this.isExerciseComplete(
+            this.selectedWorkshop.code,
+            this.selectedWorkshop.exercises[pos - 1].name
+        )
+
+        const thisComplete = this.isExerciseComplete(
+            this.selectedWorkshop.code,
+            exercise.name
+        )
+
+        return prevComplete && !thisComplete;
+      }
+
+      return true
+    }
   }
 }
 </script>
@@ -51,7 +99,8 @@ export default {
               </div>
               <div class="text-gray-200 text-xs bg-pink-600 py-1 px-3 rounded-full">{{ workshop.type }}</div>
               <a href="#" class="w-24 text-right flex justify-end">
-                <ArrowRightIcon class="group-hover:text-pink-600 text-gray-200 h-8 w-8"/>
+                <CheckBadgeIcon v-if="isWorkshopComplete(workshop)" class="text-green-400 h-8 w-8"/>
+                <ArrowRightIcon v-else class="group-hover:text-pink-600 text-gray-200 h-8 w-8"/>
               </a>
             </div>
           </li>
@@ -76,6 +125,7 @@ export default {
         <ul id="workshop-exercises-list" class="flex flex-col w-full divide divide-y">
           <li v-for="exercise in selectedWorkshop.exercises" @click="selectExercise(exercise)" class="group flex flex-row hover:bg-gray-600 last:hover:rounded-b-lg">
             <div class="select-none cursor-pointer flex flex-1 items-center p-4">
+
               <div class="flex flex-col w-10 h-10 justify-center items-center mr-4">
                 <a href="#" class="block relative">
                   <img alt="workshop" src="../img/core-workshops.png" class="mx-auto object-cover h-10 w-10 "/>
@@ -87,7 +137,8 @@ export default {
               </div>
               <div class="text-gray-200 text-xs bg-pink-600 py-1 px-3 rounded-full">{{ exercise.type }}</div>
               <a href="#" class="w-24 text-right flex justify-end">
-                <ArrowRightIcon class="group-hover:text-pink-600 text-gray-200 h-8 w-8"/>
+                <CheckBadgeIcon v-if="isExerciseComplete(selectedWorkshop.code, exercise.name)" class="text-green-400 h-8 w-8"/>
+                <ArrowRightIcon v-else class="group-hover:text-pink-600 text-gray-200 h-8 w-8" :class="{ 'animate-bounce': isNextWorkshop(exercise)}"/>
               </a>
             </div>
           </li>
