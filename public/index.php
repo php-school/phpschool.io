@@ -22,6 +22,7 @@ use PhpSchool\Website\Cloud\Action\ExerciseEditor;
 use PhpSchool\Website\Cloud\Action\ListWorkshops;
 use PhpSchool\Website\Cloud\Action\RunExercise;
 use PhpSchool\Website\Cloud\Action\VerifyExercise;
+use PhpSchool\Website\Cloud\Middleware\ExerciseRunnerRateLimiter;
 use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\Cloud\Middleware\ViteDevAssets;
 use PhpSchool\Website\Cloud\Middleware\ViteProductionAssets;
@@ -207,13 +208,14 @@ $app->get('/events', function (Request $request, Response $response, EventReposi
 });
 
 $app->get('/student-login', StudentLogin::class);
-
 $app
-    ->group('/cloud', function (RouteCollectorProxy $group) {
+    ->group('/cloud', function (RouteCollectorProxy $group) use ($container) {
+        $rateLimiter = $container->get(ExerciseRunnerRateLimiter::class);
+
         $group->get('', ListWorkshops::class);
         $group->get('/workshop/{workshop}/exercise/{exercise}/editor', ExerciseEditor::class);
-        $group->post('/workshop/{workshop}/exercise/{exercise}/run', RunExercise::class);
-        $group->post('/workshop/{workshop}/exercise/{exercise}/verify', VerifyExercise::class);
+        $group->post('/workshop/{workshop}/exercise/{exercise}/run', RunExercise::class)->add($rateLimiter);
+        $group->post('/workshop/{workshop}/exercise/{exercise}/verify', VerifyExercise::class)->add($rateLimiter);
         $group->get('/composer-package/add', ComposerPackageAdd::class);
         $group->get('/composer-package/search', ComposerPackageSearch::class);
     })
@@ -233,8 +235,6 @@ $app
     ->add($container->get(StudentAuthenticator::class))
     ->add(Styles::class)
     ->add($container->get('config')['devMode'] ? ViteDevAssets::class : ViteProductionAssets::class);
-
-
 
 // Run app
 $app->run();

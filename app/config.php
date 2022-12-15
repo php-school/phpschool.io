@@ -24,6 +24,7 @@ use PhpSchool\Website\Cloud\Action\RunExercise;
 use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\Command\DownloadComposerPackageList;
+use PhpSchool\Website\Cloud\Middleware\ExerciseRunnerRateLimiter;
 use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\Cloud\Middleware\ViteProductionAssets;
 use PhpSchool\Website\Cloud\ProblemFileConverter;
@@ -41,6 +42,8 @@ use Predis\Connection\ConnectionException;
 use Slim\App;
 use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
 use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\Storage\CacheStorage;
 use Symfony\Contracts\Cache\CacheInterface;
 use function DI\factory;
 use Doctrine\DBAL\Types\Type;
@@ -401,7 +404,7 @@ return [
     RunExercise::class => function (ContainerInterface $c): RunExercise {
         return new RunExercise(
             $c->get(CloudWorkshopRepository::class),
-            $c->get(ExerciseDispatcher::class)
+            $c->get(ExerciseDispatcher::class),
         );
     },
 
@@ -537,8 +540,42 @@ return [
         return new Styles($c->get(PhpRenderer::class));
     },
 
-    CloudWorkshopRepository::class => function(ContainerInterface $c): CloudWorkshopRepository {
+    CloudWorkshopRepository::class => function (ContainerInterface $c): CloudWorkshopRepository {
         return new CloudWorkshopRepository($c->get(WorkshopRepository::class));
+    },
+
+    'exerciseRunnerRateLimiterFactory' => function (ContainerInterface $c): RateLimiterFactory {
+        $redisConnection = new \Predis\Client(['host' => $c->get('config')['redisHost']]);
+        try {
+            $redisConnection->connect();
+        } catch (ConnectionException $e) {
+            throw new \RuntimeException(
+                sprintf(
+                    'Could not connect to redis using host: "%s". Message: "%s"',
+                    $c->get('config')['redisHost'],
+                    $e->getMessage()
+                )
+            );
+        }
+
+        $adapter = new RedisAdapter($redisConnection, 'rate_limiter');
+
+        return new RateLimiterFactory(
+            [
+                'id' => 'exerciseRunner',
+                'policy' => 'fixed_window',
+                'limit' => 10,
+                'interval' => '1 minute',
+            ],
+            new CacheStorage($adapter)
+        );
+    },
+
+    ExerciseRunnerRateLimiter::class => function (ContainerInterface $c): ExerciseRunnerRateLimiter {
+        return new ExerciseRunnerRateLimiter(
+            $c->get(SessionStorageInterface::class),
+            $c->get('exerciseRunnerRateLimiterFactory')
+        );
     },
 
     'config' => [
