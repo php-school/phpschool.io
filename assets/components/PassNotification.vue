@@ -84,11 +84,11 @@ export default {
     <div v-cloak class="bg-gray-900 bg-opacity-70 fixed inset-0 z-40"/>
     <div v-click-away="dismissPassNotification" v-cloak id="pass-notification" class="absolute top-4 z-40 shadow-lg w-full flex justify-center">
 
-      <div class="mx-auto py-3 px-3 sm:px-6 lg:px-8 bg-green-500 rounded-lg">
+      <div class="mx-auto py-3 px-3 sm:px-6 lg:px-8 border-2 bg-gradient-to-r from-pink-500 to-purple-500  rounded-lg">
         <div class="flex flex-wrap items-center justify-center">
           <div class="flex items-center">
-          <span class="flex rounded-lg bg-yellow-400 p-2">
-            <TrophyIcon class="h-6 w-6 text-white"/>
+          <span class="flex rounded-lg  p-2">
+            <TrophyIcon class="h-6 w-6 text-yellow-400 "/>
           </span>
             <p class="ml-3 truncate font-medium text-white">
               <span class="md:hidden">Congratulations! your solution passed.</span>
