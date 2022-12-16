@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@vitejs/plugin-vue": "^3.2.0",
+    "@vitejs/plugin-vue": "^4.0",
     "@vue/compiler-sfc": "^3.2.41",
     "autoprefixer": "^10.4.13",
     "bourbon": "^7.0.0",
@@ -24,7 +24,7 @@
     "postcss-import": "^14.0.1",
     "sass": "^1.56.1",
     "tailwindcss": "^3.2.3",
-    "vite": "^3.2.1",
+    "vite": "^4.0",
     "vite-plugin-live-reload": "^3.0.1"
   },
   "dependencies": {
