@@ -49,4 +49,4 @@ services:
     container_name: php-school-redis
     image: redis
     ports:
-      - "6379"
+      - 6379:6379
