@@ -169,7 +169,7 @@ export default {
 <template>
   <div class="h-full relative">
     <pass-notification
-        v-show="openPassNotification"
+        v-if="openPassNotification"
         :next-exercise-link="nextExerciseLink"
         :official-solution="officialSolution"
         @close="dismissPassNotification">
@@ -185,50 +185,49 @@ export default {
               :initial-selected-item="studentFiles[0]"
               show-controls/>
         </div>
-        <div class="w-4/5 flex border-l border-solid border-gray-600 p-4" :class="[openResults ? 'w-3/5' : 'w-4/5']">
+        <div class="flex border-l border-solid border-gray-600 p-4" :class="[openResults ? 'w-3/5' : 'w-4/5']">
           <Tabs :tabList="openFiles.map(file => file.name)" @close-tab="closeTab" :active-tab="activeTab">
             <template v-slot:[`tab-content-`+index] v-for="(file, index) in openFiles">
               <AceEditor :file="file" @change="" class="w-full h-full border-0"/>
             </template>
           </Tabs>
         </div>
-        <div v-show="openResults" class="w-1/5 flex flex-col border-l border-solid border-gray-600 p-4">
-            <div class="ml-8 flex justify-between items-center">
-              <h1 class="text-2xl pt-0 ">Results</h1>
-              <div>
-                <button @click="openResults = false" type="button"
-                        class="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-gray-600 hover:text-white">
-                  <XMarkIcon class="w-5 h-5"/>
-                </button>
-              </div>
+        <div v-if="openResults" class="w-1/5 flex flex-col border-l border-solid border-gray-600 p-4">
+          <div class="ml-8 flex justify-between items-center">
+            <h1 class="text-2xl pt-0 ">Results</h1>
+            <div>
+              <button @click="openResults = false" type="button"
+                      class="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-gray-600 hover:text-white">
+                <XMarkIcon class="w-5 h-5"/>
+              </button>
             </div>
+          </div>
 
-            <div v-show="loadingResults" class="animate-pulse flex space-x-4 mt-4">
-              <div class="flex-1 space-y-6 py-1">
-                <div class="h-2 bg-slate-700 rounded"></div>
-                <div class="space-y-3">
-                  <div class="grid grid-cols-3 gap-4">
-                    <div class="h-2 bg-slate-700 rounded col-span-2"></div>
-                    <div class="h-2 bg-slate-700 rounded col-span-1"></div>
-                  </div>
-                  <div class="h-2 bg-slate-700 rounded"></div>
+          <div v-show="loadingResults" class="animate-pulse flex space-x-4 mt-4">
+            <div class="flex-1 space-y-6 py-1">
+              <div class="h-2 bg-slate-700 rounded"></div>
+              <div class="space-y-3">
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
                 </div>
                 <div class="h-2 bg-slate-700 rounded"></div>
-                <div class="space-y-3">
-                  <div class="grid grid-cols-3 gap-4">
-                    <div class="h-2 bg-slate-700 rounded col-span-1"></div>
-                    <div class="h-2 bg-slate-700 rounded col-span-2"></div>
-                  </div>
-                  <div class="h-2 bg-slate-700 rounded"></div>
+              </div>
+              <div class="h-2 bg-slate-700 rounded"></div>
+              <div class="space-y-3">
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
                 </div>
+                <div class="h-2 bg-slate-700 rounded"></div>
               </div>
             </div>
+          </div>
 
-            <ul v-show="results" id="results" class="my-8 space-y-4 text-left text-gray-500 dark:text-gray-400" v-html="results">
+          <ul v-show="results" id="results" class="my-8 space-y-4 text-left text-gray-500 dark:text-gray-400" v-html="results">
 
-            </ul>
+          </ul>
         </div>
-
       </div>
       <div class="border-t border-solid border-gray-600 h-16 flex-none flex items-center justify-between p-2">
         <nav class="flex" aria-label="Breadcrumb">
@@ -274,73 +273,76 @@ export default {
       </div>
     </div>
 
-    <Modal size="sm" max-height="max-h-[calc(1/2*100%)]" v-if="openComposerModal" @close="openComposerModal = false">
-      <template #header>
-        <div class="flex items-center ">
-          <CircleStackIcon class="h-6 w-6 text-pink-500 mr-2"/>
-          <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
-            Composer Dependencies
-          </h3>
-        </div>
-
-      </template>
-      <template #body>
-        <div class="flex justify-between items-center">
-          <package-search ref="packageSearch" @package-selected="packageSelected" v-model="newDependency" class="w-full"></package-search>
-          <button :disabled="newDependency === ''" @click.stop="addDependency" type="button" class="inline-flex items-center h-9 justify-center rounded-full border border-transparent w-16 bg-pink-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:text-sm disabled:opacity-70 disabled:hover:bg-pink-600">
-            <ArrowPathIcon v-cloak v-show="loadingComposerAdd" class="w-4 h-4 animate-spin"/>
-            <span v-if="!loadingComposerAdd">Add</span>
-          </button>
-        </div>
-        <ul v-show="composerDeps.length > 0" class="mt-4 overflow-y-scroll ">
-          <li v-for="dep in composerDeps" class="text-white pl-2 mb-2 flex items-center">
-            <p class="text-base">{{ dep.name }}</p>
-            <p class="bg-gray-900 ml-2 px-2 py-1 rounded">{{ dep.version }}</p>
-            <XMarkIcon @click.stop="removeDependency(dep.name)" class="cursor-pointer ml-2 w-5 h-5 text-zinc-400 hover:text-pink-600"  />
-          </li>
-        </ul>
-        <div v-show="composerDeps.length === 0" class="pt-6" >
-          <p class="text-white ">You currently have no dependencies.</p>
-        </div>
-      </template>
-
-      <template #footer>
-        <div class="flex justify-end">
-          <button @click="openComposerModal = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
-            Close
-          </button>
-        </div>
-      </template>
-    </Modal>
-
-    <Modal :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openProblemModal" @close="openProblemModal = false">
-      <template #header>
-        <div class="flex flex-col">
+    <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
+      <Modal size="sm" max-height="max-h-[calc(1/2*100%)]" v-if="openComposerModal" @close="openComposerModal = false">
+        <template #header>
           <div class="flex items-center ">
-            <MapIcon class="h-6 w-6 text-pink-500 mr-2"/>
+            <CircleStackIcon class="h-6 w-6 text-pink-500 mr-2"/>
             <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
-              The problem...
-
+              Composer Dependencies
             </h3>
           </div>
-          <h2 class="mt-2 mb-2 ml-3 text-2xl">{{ exercise.name }}</h2>
-        </div>
-      </template>
 
-      <template #body class="">
-        <div id="problem-file" class="text-white">
-          <slot name="problem"></slot>
-        </div>
-      </template>
+        </template>
+        <template #body>
+          <div class="flex justify-between items-center">
+            <package-search ref="packageSearch" @package-selected="packageSelected" v-model="newDependency" class="w-full"></package-search>
+            <button :disabled="newDependency === ''" @click.stop="addDependency" type="button" class="inline-flex items-center h-9 justify-center rounded-full border border-transparent w-16 bg-pink-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:text-sm disabled:opacity-70 disabled:hover:bg-pink-600">
+              <ArrowPathIcon v-cloak v-show="loadingComposerAdd" class="w-4 h-4 animate-spin"/>
+              <span v-if="!loadingComposerAdd">Add</span>
+            </button>
+          </div>
+          <ul v-show="composerDeps.length > 0" class="mt-4 overflow-y-scroll ">
+            <li v-for="dep in composerDeps" class="text-white pl-2 mb-2 flex items-center">
+              <p class="text-base">{{ dep.name }}</p>
+              <p class="bg-gray-900 ml-2 px-2 py-1 rounded">{{ dep.version }}</p>
+              <XMarkIcon @click.stop="removeDependency(dep.name)" class="cursor-pointer ml-2 w-5 h-5 text-zinc-400 hover:text-pink-600"  />
+            </li>
+          </ul>
+          <div v-show="composerDeps.length === 0" class="pt-6" >
+            <p class="text-white ">You currently have no dependencies.</p>
+          </div>
+        </template>
 
-      <template #footer>
-        <div class="flex justify-end">
-          <button @click="openProblemModal = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
-            Let's go!
-          </button>
-        </div>
-      </template>
-    </Modal>
+        <template #footer>
+          <div class="flex justify-end">
+            <button @click="openComposerModal = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+              Close
+            </button>
+          </div>
+        </template>
+      </Modal>
+    </Transition>
+    <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
+      <Modal :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openProblemModal" @close="openProblemModal = false">
+        <template #header>
+          <div class="flex flex-col">
+            <div class="flex items-center ">
+              <MapIcon class="h-6 w-6 text-pink-500 mr-2"/>
+              <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
+                The problem...
+
+              </h3>
+            </div>
+            <h2 class="mt-2 mb-2 ml-3 text-2xl">{{ exercise.name }}</h2>
+          </div>
+        </template>
+
+        <template #body class="">
+          <div id="problem-file" class="text-white">
+            <slot name="problem"></slot>
+          </div>
+        </template>
+
+        <template #footer>
+          <div class="flex justify-end">
+            <button @click="openProblemModal = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+              Let's go!
+            </button>
+          </div>
+        </template>
+      </Modal>
+    </Transition>
   </div>
 </template>
 

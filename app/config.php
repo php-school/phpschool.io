@@ -563,7 +563,7 @@ return [
         return new RateLimiterFactory(
             [
                 'id' => 'exerciseRunner',
-                'policy' => 'fixed_window',
+                'policy' => 'sliding_window',
                 'limit' => 10,
                 'interval' => '1 minute',
             ],

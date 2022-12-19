@@ -101,8 +101,8 @@ export default {
               </div>
               <div class="text-gray-200 text-xs bg-pink-600 py-1 px-3 rounded-full">{{ workshop.type }}</div>
               <a href="#" class="w-24 text-right flex justify-end">
-                <CheckBadgeIcon v-if="isWorkshopComplete(workshop)" class="text-green-400 h-8 w-8"/>
-                <ArrowRightIcon v-else class="group-hover:text-pink-600 text-gray-200 h-8 w-8"/>
+                <CheckCircleIcon v-if="isWorkshopComplete(workshop)" class="text-pink-500 h-8 w-8 rounded-full border-2 border-solid border-pink-300" />
+                <ArrowRightCircleIcon v-else class="text-pink-200 h-8 w-8 rounded-full border-2 border-solid border-pink-500 !fill-none"/>
               </a>
             </div>
           </li>
