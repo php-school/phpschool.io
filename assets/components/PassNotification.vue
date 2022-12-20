@@ -6,6 +6,7 @@ import FileTree from "./FileTree.vue";
 import AceEditor from "./AceEditor.vue";
 import { TrophyIcon } from '@heroicons/vue/24/outline'
 import { XMarkIcon } from '@heroicons/vue/24/solid'
+import { CodeBracketSquareIcon } from '@heroicons/vue/24/solid'
 
 export default {
   components: {
@@ -13,7 +14,8 @@ export default {
     FileTree,
     AceEditor,
     TrophyIcon,
-    XMarkIcon
+    XMarkIcon, 
+    CodeBracketSquareIcon
   },
   props: {
     nextExerciseLink: String,
@@ -116,9 +118,14 @@ export default {
       </div>
       <Modal size="4xl" v-if="openOfficialSolutionModal" @close.stop="openOfficialSolutionModal = false">
         <template #header>
-          <h3 class="text-base font-semibold lg:text-xl text-white">
-            Official Solution
-          </h3>
+          <div class="flex flex-col">
+            <div class="flex items-center ">
+              <CodeBracketSquareIcon class="h-10 w-10 text-pink-500 mr-2" />
+              <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0">
+                Official Solution
+              </h3>
+            </div>
+          </div>
         </template>
         <template #body>
           <div class="flex space-x-3">
