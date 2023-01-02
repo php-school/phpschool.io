@@ -12,6 +12,9 @@ import PassNotification from "./components/PassNotification.vue";
 import ExerciseVerify from "./components/ExerciseVerify.vue";
 import ExerciseEditor from "./components/ExerciseEditor.vue";
 import VueClickAway from "vue3-click-away";
+import VueDiff from 'vue-diff';
+import 'vue-diff/dist/index.css';
+
 
 const components = {
     AceEditor,
@@ -23,7 +26,7 @@ const components = {
     WorkshopExerciseSelectionList,
     PassNotification,
     ExerciseVerify,
-    ExerciseEditor
+    ExerciseEditor,
 }
 
 const app = createApp({
@@ -32,6 +35,7 @@ const app = createApp({
 
 app.config.unwrapInjectedRef = true;
 
-app.use(VueClickAway)
+app.use(VueClickAway);
+app.use(VueDiff);
 
 app.mount('#app');

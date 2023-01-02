@@ -10,9 +10,12 @@ import {editor} from "./stores/editor.js";
 import {XMarkIcon, ArrowPathIcon, CircleStackIcon, MapIcon, HomeIcon, ChevronRightIcon} from '@heroicons/vue/24/solid';
 import { TrophyIcon } from '@heroicons/vue/24/outline'
 import PackageSearch from './PackageSearch.vue';
+import OutputMismatch from './results/CliOutputMismatch.vue';
+import ResultList from "./results/ResultList.vue";
 
 export default {
   components: {
+    ResultList,
     PassNotification,
     FileTree,
     ExerciseVerify,
@@ -26,7 +29,8 @@ export default {
     PackageSearch,
     TrophyIcon,
     HomeIcon,
-    ChevronRightIcon
+    ChevronRightIcon,
+    OutputMismatch,
   },
   props: {
     nextExerciseLink: String,
@@ -41,9 +45,6 @@ export default {
       {
         'name': 'solution.php',
         'content': "<?php\n",
-        isNew() {
-          return false;
-        }
       }
     ]);
 
@@ -53,7 +54,7 @@ export default {
       openComposerModal: false,
       studentFiles: studentFiles,
       openResults : false,
-      results: '',
+      results: [],
       loadingResults: false,
       editor,
       openFiles: [studentFiles[0]],
@@ -94,7 +95,7 @@ export default {
       this.openPassNotification = false;
     },
     resetResults() {
-      this.results = '';
+      this.results = [];
     },
     verifyLoading() {
       this.resetResults();
@@ -180,7 +181,7 @@ export default {
     </pass-notification>
 
     <div class="h-full flex flex-col">
-      <div class="flex flex-1">
+      <div class="flex flex-1 h-full relative">
         <div class="w-1/5 p-4">
           <file-tree
               :files="studentFiles"
@@ -188,14 +189,14 @@ export default {
               :initial-selected-item="studentFiles[0]"
               show-controls/>
         </div>
-        <div class="flex border-l border-solid border-gray-600 p-4" :class="[openResults ? 'w-3/5' : 'w-4/5']">
+        <div class="flex border-l border-solid border-gray-600 p-4 h-full" :class="[openResults ? 'w-3/5' : 'w-4/5']">
           <Tabs :tabList="openFiles.map(file => file.name)" @close-tab="closeTab" :active-tab="activeTab">
             <template v-slot:[`tab-content-`+index] v-for="(file, index) in openFiles">
               <AceEditor :file="file" @change="" class="w-full h-full border-0"/>
             </template>
           </Tabs>
         </div>
-        <div v-if="openResults" class="w-1/5 flex flex-col border-l border-solid border-gray-600 p-4">
+        <div v-if="openResults" class="w-1/5 flex flex-col border-l border-solid border-gray-600 p-4 h-full absolute right-0 overflow-y-scroll">
           <div class="ml-8 flex justify-between items-center">
             <h1 class="text-2xl pt-0 ">Results</h1>
             <div>
@@ -227,9 +228,7 @@ export default {
             </div>
           </div>
 
-          <ul v-show="results" id="results" class="my-8 space-y-4 text-left text-gray-500 dark:text-gray-400" v-html="results">
-
-          </ul>
+          <ResultList :results="results"></ResultList>
         </div>
       </div>
       <!-- start footer -->
@@ -296,7 +295,7 @@ export default {
         <template #body>
           <div class="flex justify-between items-center">
             <package-search ref="packageSearch" @package-selected="packageSelected" v-model="newDependency" class="w-full"></package-search>
-            <button :disabled="newDependency === ''" @click.stop="addDependency" type="button" class="inline-flex items-center h-9 justify-center rounded-full border border-transparent w-16 bg-pink-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:text-sm disabled:opacity-70 disabled:hover:bg-pink-600">
+            <button :disabled="newDependency === ''" @click.stop="addDependency" type="button" class="inline-flex items-center h-9 justify-center rounded-full border border-transparent w-16 bg-pink-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none sm:ml-3 sm:text-sm disabled:opacity-70 disabled:hover:bg-pink-600">
               <ArrowPathIcon v-cloak v-show="loadingComposerAdd" class="w-4 h-4 animate-spin"/>
               <span v-if="!loadingComposerAdd">Add</span>
             </button>
@@ -315,7 +314,7 @@ export default {
 
         <template #footer>
           <div class="flex justify-end">
-            <button @click="openComposerModal = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+            <button @click="openComposerModal = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
               Close
             </button>
           </div>
@@ -345,7 +344,7 @@ export default {
 
         <template #footer>
           <div class="flex justify-end">
-            <button @click="openProblemModal = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
+            <button @click="openProblemModal = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
               Let's go!
             </button>
           </div>

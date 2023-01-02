@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a0985d03f2d31e4ccd454736ffd88db",
+    "content-hash": "e99c8d5367657ca3d3097221dd315f64",
     "packages": [
         {
             "name": "adamwathan/bootforms",
@@ -4978,16 +4978,16 @@
         },
         {
             "name": "php-school/php-workshop",
-            "version": "dev-master",
+            "version": "dev-result-rendering-json",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/php-workshop.git",
-                "reference": "839688e5f514c9fabcaca6e4c4c18c2ba307bed6"
+                "reference": "078b19fa27fc0f7a61d7766fd9f075a1e9ffd563"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/839688e5f514c9fabcaca6e4c4c18c2ba307bed6",
-                "reference": "839688e5f514c9fabcaca6e4c4c18c2ba307bed6",
+                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/078b19fa27fc0f7a61d7766fd9f075a1e9ffd563",
+                "reference": "078b19fa27fc0f7a61d7766fd9f075a1e9ffd563",
                 "shasum": ""
             },
             "require": {
@@ -5017,7 +5017,6 @@
                 "squizlabs/php_codesniffer": "^3.7",
                 "yoast/phpunit-polyfills": "^0.2.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -5056,9 +5055,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-school/php-workshop/issues",
-                "source": "https://github.com/php-school/php-workshop/tree/master"
+                "source": "https://github.com/php-school/php-workshop/tree/result-rendering-json"
             },
-            "time": "2022-12-13T19:49:15+00:00"
+            "time": "2023-01-02T20:30:43+00:00"
         },
         {
             "name": "php-school/php8-appreciate",
@@ -11245,7 +11244,14 @@
             "time": "2021-10-31T17:59:51+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "php-school/php-workshop",
+            "version": "dev-result-rendering-json",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        }
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
         "php-school/php-workshop": 20,

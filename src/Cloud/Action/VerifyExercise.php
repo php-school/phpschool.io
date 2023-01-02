@@ -2,6 +2,7 @@
 
 namespace PhpSchool\Website\Cloud\Action;
 
+use Kadet\Highlighter\Language\Php;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\PhpWorkshop\UserState\UserState;
@@ -11,6 +12,7 @@ use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ResultsRenderer;
 use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\Cloud\UploadProject;
+use PhpSchool\Website\Cloud\VueResultsRenderer;
 use PhpSchool\Website\PhpRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -50,7 +52,7 @@ class VerifyExercise
             new Input($workshop->getCode(), ['program' => Path::join($basePath, 'solution.php')]),
         );
 
-        $renderer = new ResultsRenderer();
+        $renderer = new VueResultsRenderer();
 
         $data = [
             'results' => $renderer->render($results, $exercise),
