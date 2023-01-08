@@ -15,6 +15,7 @@ import VueClickAway from "vue3-click-away";
 import VueDiff from 'vue-diff';
 import 'vue-diff/dist/index.css';
 
+import results from "./components/results/results.js";
 
 const components = {
     AceEditor,
@@ -31,6 +32,10 @@ const components = {
 
 const app = createApp({
     components
+});
+
+Object.entries(results).forEach(([name, resultComponent]) => {
+    app.component(name, resultComponent);
 });
 
 app.config.unwrapInjectedRef = true;

@@ -40,7 +40,7 @@
     "illuminate/collections": "^8.36",
     "doctrine/annotations": "^1.13",
     "psr/log": "^1.0 | ^2.0 | ^3.0",
-    "php-school/php-workshop": "dev-result-rendering-json as dev-master",
+    "php-school/php-workshop": "dev-master",
     "php-school/learn-you-php": "dev-master",
     "php-school/php8-appreciate": "dev-master",
     "league/oauth2-github": "^3.0",

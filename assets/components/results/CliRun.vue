@@ -1,19 +1,16 @@
 <script>
 
 import Modal from "../Modal.vue";
-import {ExclamationTriangleIcon, Cog6ToothIcon} from '@heroicons/vue/24/solid'
-import CliOutputMismatch from "./CliOutputMismatch.vue";
-import Failure from "./Failure.vue";
+import {Cog6ToothIcon} from '@heroicons/vue/24/solid';
 
 export default {
   components: {
     Modal,
     Cog6ToothIcon,
-    CliOutputMismatch,
-    Failure
   },
   props: {
-    data: Object
+    data: Object,
+    renderers: Object
   },
   computed: {
     resultCount() {
@@ -28,10 +25,6 @@ export default {
   },
   data() {
     return {
-      typesToComponents:  {
-        'PhpSchool\\PhpWorkshop\\Result\\Cli\\RequestFailure': 'CliOutputMismatch',
-        'PhpSchool\\PhpWorkshop\\Result\\Cli\\GenericFailure': 'Failure',
-      },
       openModal: false,
       currentFailure: null
     }
@@ -51,7 +44,7 @@ export default {
       <span class="w-2/3 inline text-gray-300 italic">Run #{{i + 1}}</span>
       <button class="ml-2 underline text-[#E91E63] text-left p-x2" @click="openInfoModal(failure)">Show info</button>
     </div>
-    <component v-if="typesToComponents.hasOwnProperty(failure.type)" :is="typesToComponents[failure.type]" :data="failure"></component>
+    <component v-if="renderers.hasOwnProperty(failure.type)" :is="renderers[failure.type]" :data="failure"></component>
   </div>
 
   <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">

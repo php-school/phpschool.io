@@ -4,6 +4,8 @@ namespace PhpSchool\Website\Cloud;
 
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\Result\FailureInterface;
+use PhpSchool\PhpWorkshop\Result\Cli\FailureInterface as CliFailure;
+use PhpSchool\PhpWorkshop\Result\Cgi\FailureInterface as CgiFailure;
 use PhpSchool\PhpWorkshop\Result\ResultGroupInterface;
 use PhpSchool\PhpWorkshop\Result\ResultInterface;
 use PhpSchool\PhpWorkshop\Result\SuccessInterface;
@@ -50,22 +52,22 @@ class VueResultsRenderer
                 'name' => $result->getCheckName(),
                 'type' => $result::class,
                 'results' => array_map(
-                    function (ResultInterface $result) {
+                    function (ResultInterface $innerResult) use ($result) {
 
-                        if (!$result instanceof FailureInterface) {
+                        if ($result->isResultSuccess($innerResult)) {
                             return [
                                 'success' => true,
-                                'name' => $result->getCheckName(),
+                                'name' => $innerResult->getCheckName(),
                             ];
                         }
 
                         return array_merge(
                             [
                                 'success' => false,
-                                'name' => $result->getCheckName(),
-                                'type' => $result::class,
+                                'name' => $innerResult->getCheckName(),
+                                'type' => $innerResult::class,
                             ],
-                            $result->toArray()
+                            $innerResult->toArray()
                         );
                     },
                     $result->getResults()

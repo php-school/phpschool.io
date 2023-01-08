@@ -23,7 +23,7 @@ export default {
 </script>
 
 <template>
-  <div class="mt-1 w-full flex justify-between">
+  <div class="mt-1 w-full flex justify-between items-start">
     <p class="text-red-500 w-2/3">Functions requirements were not fulfilled</p>
     <button class="underline text-[#E91E63] text-left p-x2" @click="openModal = true">More info...</button>
 

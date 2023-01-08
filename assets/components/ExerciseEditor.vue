@@ -228,7 +228,7 @@ export default {
             </div>
           </div>
 
-          <ResultList :results="results"></ResultList>
+          <ResultList :workshop="workshop" :results="results"></ResultList>
         </div>
       </div>
       <!-- start footer -->

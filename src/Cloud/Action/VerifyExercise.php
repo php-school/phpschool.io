@@ -2,7 +2,6 @@
 
 namespace PhpSchool\Website\Cloud\Action;
 
-use Kadet\Highlighter\Language\Php;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\PhpWorkshop\UserState\UserState;
@@ -16,6 +15,7 @@ use PhpSchool\Website\Cloud\VueResultsRenderer;
 use PhpSchool\Website\PhpRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Symfony\Component\Filesystem\Filesystem;
 
 class VerifyExercise
 {
@@ -65,6 +65,9 @@ class VerifyExercise
                 $exercise->getName()
             );
         }
+
+        //clean up
+        (new Filesystem())->remove($basePath);
 
         return $this->withJson($data, $response);
     }
