@@ -42,7 +42,7 @@ export default {
           <div class="flex flex-wrap items-center">
             <div class="flex items-center">
               <p class=" truncate font-medium text-white">
-                <span class="">The content of the file <code>{{data.file_name}}</code> your program was supposed to create, did not match the expected content.</span>
+                <span class="">The content of the file <code>{{data.file_name}}</code> your program was required to create, did not match the expected content.</span>
               </p>
             </div>
           </div>

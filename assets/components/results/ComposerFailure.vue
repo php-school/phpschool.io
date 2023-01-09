@@ -26,7 +26,6 @@ export default {
     <button class="underline text-[#E91E63] text-left p-x2" @click="openModal = true">More info...</button>
   </div>
 
-
   <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
     <Modal :scroll-content="true" size="xl" max-height="max-h-[calc(5/6*100%)]" v-if="openModal" @close="openModal = false">
       <template #header>
