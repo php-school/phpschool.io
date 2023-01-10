@@ -18,7 +18,7 @@ export default {
   data() {
     return {
        percentComplete: this.student === undefined ? 0 : (this.student.state.total_completed / this.totalExercises) * 100,
-      totalCompleted: this.student === undefined ? 0 : this.student.state.total_completed
+       totalCompleted: this.student === undefined ? 0 : this.student.state.total_completed,
     }
   },
   methods: {
@@ -64,4 +64,6 @@ export default {
       <div class="bg-pink-600 h-2.5 rounded-full dark:bg-pink-500" :style="{ 'width': percentComplete + '%' }"></div>
     </div>
   </div>
+
+  
 </template>

@@ -34,6 +34,8 @@ export default {
     workshop: Object,
     exercise: Object,
     student: Object,
+    totalExercises: Number,
+    
   },
   data() {
     const studentFiles = this.toTree([
@@ -59,7 +61,9 @@ export default {
       activeTab: 0,
       newDependency: '',
       composerDeps: [],
-      loadingComposerAdd: false
+      loadingComposerAdd: false,
+      percentComplete: (this.student.state.total_completed / this.totalExercises) * 100,
+      totalCompleted:  this.student.state.total_completed,
     }
   },
   computed: {
@@ -183,7 +187,7 @@ export default {
               :files="studentFiles"
               :file-select-function="studentSelectFile"
               :initial-selected-item="studentFiles[0]"
-              show-controls/>
+              show-controls/>      
         </div>
         <div class="flex border-l border-solid border-gray-600 p-4" :class="[openResults ? 'w-3/5' : 'w-4/5']">
           <Tabs :tabList="openFiles.map(file => file.name)" @close-tab="closeTab" :active-tab="activeTab">
@@ -209,7 +213,7 @@ export default {
               <div class="space-y-3">
                 <div class="grid grid-cols-3 gap-4">
                   <div class="h-2 bg-slate-700 rounded col-span-2"></div>
-                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>oud
                 </div>
                 <div class="h-2 bg-slate-700 rounded"></div>
               </div>
@@ -229,6 +233,7 @@ export default {
           </ul>
         </div>
       </div>
+      <!-- start footer -->
       <div class="border-t border-solid border-gray-600 h-16 flex-none flex items-center justify-between p-2">
         <nav class="flex" aria-label="Breadcrumb">
           <ol class="inline-flex items-center space-x-1 md:space-x-3">
@@ -249,10 +254,16 @@ export default {
                 <span v-if="exerciseCompleted" title="You've already completed this exercise!">
                   <TrophyIcon class="h-6 w-6 text-yellow-400" />
                 </span>
+                <!-- Progress Tracker -->
+                <p class="inline-flex items-center text-sm font-medium text-white ml-2">{{ totalCompleted }} / {{ totalExercises }} Completed</p>
               </div>
             </li>
           </ol>
         </nav>
+        <!-- Progress Tracker Bar -->
+        <div class="w-1/4 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-0" >  
+          <div class="bg-pink-600 h-2.5 rounded-full dark:bg-pink-500" :style="{ 'width': percentComplete + '%' }"></div>
+        </div>
         <div class="flex">
           <button class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white flex items-center justify-center mt-0 mr-2 rounded px-4 w-44" @click="openComposerModal = true">
             <span>Composer deps</span>
@@ -273,6 +284,9 @@ export default {
       </div>
     </div>
 
+    <div>
+    </div>
+    
     <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
       <Modal size="sm" max-height="max-h-[calc(1/2*100%)]" v-if="openComposerModal" @close="openComposerModal = false">
         <template #header>

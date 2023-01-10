@@ -6,7 +6,10 @@
                      :official-solution='<?= $this->json($official_solution ?? null) ?>'
                      :workshop='<?= $this->json($workshop) ?>'
                      :exercise='<?= $this->json($exercise) ?>'
-                     :student='<?= $this->json($student) ?>'>
+                     :student='<?= $this->json($student) ?>'
+                     :total-exercises='<?= $this->json($totalExerciseCount) ?>'
+                     >
+
         <template #problem>
             <?= $problem ?>
         </template>
