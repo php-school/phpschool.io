@@ -59,7 +59,8 @@ class ExerciseEditor
                 'type' => $exercise->getType()
             ],
             'nextExerciseLink' => $link,
-            'problem' => $this->problemFileConverter->htmlFromExercise($exercise)
+            'problem' => $this->problemFileConverter->htmlFromExercise($exercise),
+            'totalExerciseCount' => $this->installedWorkshops->totalExerciseCount(),
         ];
 
         $data = $this->maybeAddOfficialSolution($data, $exercise);

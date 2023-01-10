@@ -18,7 +18,7 @@ export default {
   data() {
     return {
        percentComplete: this.student === undefined ? 0 : (this.student.state.total_completed / this.totalExercises) * 100,
-      totalCompleted: this.student === undefined ? 0 : this.student.state.total_completed
+       totalCompleted: this.student === undefined ? 0 : this.student.state.total_completed,
     }
   },
   methods: {
