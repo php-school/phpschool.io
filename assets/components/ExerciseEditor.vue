@@ -34,8 +34,7 @@ export default {
     workshop: Object,
     exercise: Object,
     student: Object,
-    totalExercises: Number,
-    
+    totalExercises: Number
   },
   data() {
     const studentFiles = this.toTree([
