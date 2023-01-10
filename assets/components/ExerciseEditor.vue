@@ -62,7 +62,7 @@ export default {
       composerDeps: [],
       loadingComposerAdd: false,
       percentComplete: (this.student.state.total_completed / this.totalExercises) * 100,
-      totalCompleted:  this.student.state.total_completed,
+      totalCompleted: this.student.state.total_completed,
     }
   },
   computed: {
@@ -186,7 +186,7 @@ export default {
               :files="studentFiles"
               :file-select-function="studentSelectFile"
               :initial-selected-item="studentFiles[0]"
-              show-controls/>      
+              show-controls/>
         </div>
         <div class="flex border-l border-solid border-gray-600 p-4" :class="[openResults ? 'w-3/5' : 'w-4/5']">
           <Tabs :tabList="openFiles.map(file => file.name)" @close-tab="closeTab" :active-tab="activeTab">
@@ -212,7 +212,7 @@ export default {
               <div class="space-y-3">
                 <div class="grid grid-cols-3 gap-4">
                   <div class="h-2 bg-slate-700 rounded col-span-2"></div>
-                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>oud
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
                 </div>
                 <div class="h-2 bg-slate-700 rounded"></div>
               </div>
@@ -283,9 +283,6 @@ export default {
       </div>
     </div>
 
-    <div>
-    </div>
-    
     <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
       <Modal size="sm" max-height="max-h-[calc(1/2*100%)]" v-if="openComposerModal" @close="openComposerModal = false">
         <template #header>

@@ -64,6 +64,4 @@ export default {
       <div class="bg-pink-600 h-2.5 rounded-full dark:bg-pink-500" :style="{ 'width': percentComplete + '%' }"></div>
     </div>
   </div>
-
-  
 </template>
