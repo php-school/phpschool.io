@@ -33,6 +33,7 @@
     "ace-builds": "^1.13.0",
     "cross-env": "^7.0.3",
     "vue": "^3.2.41",
+    "vue-diff": "^1.2.4",
     "vue3-click-away": "^1.2.4"
   }
 }
