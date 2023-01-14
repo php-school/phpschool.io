@@ -253,15 +253,14 @@ export default {
                 <span v-if="exerciseCompleted" title="You've already completed this exercise!">
                   <TrophyIcon class="h-6 w-6 text-yellow-400" />
                 </span>
-                <!-- Progress Tracker -->
-                <p class="inline-flex items-center text-sm font-medium text-white ml-2">{{ totalCompleted }} / {{ totalExercises }} Completed</p>
               </div>
             </li>
           </ol>
         </nav>
         <!-- Progress Tracker Bar -->
-        <div class="w-1/4 bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-0" >  
-          <div class="bg-pink-600 h-2.5 rounded-full dark:bg-pink-500" :style="{ 'width': percentComplete + '%' }"></div>
+        <div class="w-1/6 bg-gray-200 rounded-full h-5 bg-gray-700 mt-0 relative flex justify-center items-center" >
+          <div class="absolute left-0 h-5 rounded-full bg-pink-500" :style="{ 'width': percentComplete + '%' }"></div>
+          <p class="absolute  inline-flex items-center text-xs font-bold text-white ml-2 mx-auto">{{ totalCompleted }} / {{ totalExercises }} completed</p>
         </div>
         <div class="flex">
           <button class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white flex items-center justify-center mt-0 mr-2 rounded px-4 w-44" @click="openComposerModal = true">
