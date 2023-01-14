@@ -61,6 +61,8 @@ class VueResultsRenderer
                             ];
                         }
 
+                        /** @var FailureInterface $innerResult  */
+
                         return array_merge(
                             [
                                 'success' => false,
