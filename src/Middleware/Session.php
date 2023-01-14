@@ -10,7 +10,7 @@ class Session
 {
     private array $options = [
         'name' => 'phpschool',
-        'lifetime' => 7200,
+        'lifetime' => 0, //until the browser is closed
         'path' => null,
         'domain' => null,
         'secure' => false,
