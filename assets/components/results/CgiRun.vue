@@ -33,6 +33,11 @@ export default {
     },
     haveHeaders(headers) {
       return Object.keys(headers).length > 0;
+    },
+    headers(headers) {
+      return Object.entries(headers).reduce((carry, [header, value]) => {
+        return carry + header + ': ' + value.join(', ') + "\n";
+      }, '');
     }
   }
 }
@@ -69,7 +74,7 @@ export default {
 
           <div v-if="haveHeaders(currentFailure.request.headers)" class="mb-8">
             <h2 class="mb-2 text-lg pt-0">Request headers</h2>
-            <code class="block mb-2 last:mb-0" v-for="(value, header) in currentFailure.request.headers">{{header}}: {{value.join(', ')}}</code>
+            <pre><code class="block mb-2 last:mb-0 text-[#ff75b5]">{{headers(currentFailure.request.headers)}}</code></pre>
           </div>
 
           <div v-if="currentFailure.request.body">
@@ -98,13 +103,6 @@ export default {
 #cgi-run-info pre code {
   background-color: #2a2c2d !important;
   @apply p-4 rounded-lg;
-}
-
-#cgi-run-info :not(pre)>code {
-  font-size: 90%;
-  background-color: #2a2c2d;
-  @apply px-2 py-1 rounded;
-  color: #ff75b5;
 }
 
 </style>

@@ -73,7 +73,7 @@ export default {
             </div>
 
 
-            <p class="text-sm mb-4">Your program was executed like so:</p>
+            <p class="text-sm text-white mb-4">Your program was executed like so:</p>
             <pre><code class="language-sh hljs bash">php solution.php {{currentFailure.args.join(' ')}}</code></pre>
           </div>
 
