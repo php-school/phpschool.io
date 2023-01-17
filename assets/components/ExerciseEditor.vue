@@ -274,7 +274,7 @@ export default {
                            @verify-fail="verifyFail"
                            @verify-success="verifySuccess"
                            :workshopCode='workshop.code'
-                           :exercise-slug='exercise.slug'
+                           :exercise='exercise'
                            :files="studentFiles"
                            :composer-deps="composerDeps" />
         </div>

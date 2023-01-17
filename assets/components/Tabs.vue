@@ -14,6 +14,11 @@ export default {
       type: Array,
       required: true,
     },
+    disableClose: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
   },
   methods: {
     closeTab(tab) {
@@ -32,7 +37,7 @@ export default {
         <a href="#" class="">
           {{ tab }}
         </a>
-        <XMarkIcon @click="closeTab(tab)" class="cursor-pointer ml-2 w-3 h-3 text-zinc-400"  />
+        <XMarkIcon v-show="disableClose === false" @click="closeTab(tab)" class="cursor-pointer ml-2 w-3 h-3 text-zinc-400"  />
       </li>
     </ul>
     <template v-for="(tab, index) in tabList">

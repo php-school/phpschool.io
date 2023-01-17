@@ -1,29 +1,41 @@
 <script>
 
 import Modal from "./Modal.vue";
-import {ArrowPathIcon, ExclamationTriangleIcon, CommandLineIcon, SparklesIcon, XMarkIcon} from '@heroicons/vue/24/solid'
+import Tabs from "./Tabs.vue";
+import {ArrowPathIcon, ExclamationTriangleIcon, CommandLineIcon, SparklesIcon, XMarkIcon, ChevronRightIcon} from '@heroicons/vue/24/solid'
 import toFilePath from "./utils/toFilePath";
+import RunResult from "./RunResult.vue";
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+
 
 export default {
   components: {
+    TabGroup,
+    TabList,
+    Tab,
+    TabPanels,
+    TabPanel,
+    RunResult,
     Modal,
+    Tabs,
     ArrowPathIcon,
     ExclamationTriangleIcon,
     CommandLineIcon,
     SparklesIcon,
-    XMarkIcon
+    XMarkIcon,
+    ChevronRightIcon
   },
   emits: ["verify-loading", "verify-success", "verify-fail"],
   props: {
     workshopCode: String,
-    exerciseSlug: String,
+    exercise: Object,
     files: Array,
     composerDeps: Array
   },
   data() {
     return {
       loadingRun: false,
-      programOutput: '',
+      programRunResult: null,
       openRunModal: false,
       loadingVerify: false,
       showRateLimitError: false,
@@ -45,13 +57,14 @@ export default {
 
       setTimeout(() => this.showRateLimitError = false, 3000);
     },
+
     runSolution() {
       if (this.loadingRun) {
         return;
       }
 
       this.loadingRun = true;
-      const url = '/cloud/workshop/' + this.workshopCode + '/exercise/' + this.exerciseSlug + '/run';
+      const url = '/cloud/workshop/' + this.workshopCode + '/exercise/' + this.exercise.slug + '/run';
 
       const opts = {
         method: 'POST',
@@ -77,7 +90,7 @@ export default {
             throw Error(response.statusText)
           })
           .then(json => {
-            this.programOutput = json.output;
+            this.programRunResult = json;
             this.openRunModal = true;
             this.loadingRun = false;
           })
@@ -94,7 +107,7 @@ export default {
       this.$emit('verify-loading');
       this.loadingVerify = true;
 
-      const url = '/cloud/workshop/' + this.workshopCode + '/exercise/' + this.exerciseSlug + '/verify';
+      const url = '/cloud/workshop/' + this.workshopCode + '/exercise/' + this.exercise.slug + '/verify';
 
       const opts = {
         method: 'POST',
@@ -171,7 +184,7 @@ export default {
   </div>
 
   <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
-    <Modal :scroll-content="true" size="xl" max-height="max-h-[calc(5/6*100%)]" v-if="openRunModal" @close="openRunModal = false">
+    <Modal :scroll-content="true" size="3xl" max-height="max-h-[calc(5/6*100%)]" v-if="openRunModal" @close="openRunModal = false">
       <template #header>
         <div class="flex items-center ">
           <CommandLineIcon class="h-6 w-6 text-pink-500 mr-2"/>
@@ -182,15 +195,25 @@ export default {
 
       </template>
       <template #body>
-        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left flex-1">
-          <div class="mt-2 flex" v-if="programOutput">
-            <p class="p-4 rounded text-sm font-mono bg-gray-800 text-white whitespace-pre-wrap flex-1 overflow-x-scroll">{{ programOutput }}</p>
-          </div>
-          <div v-if="!programOutput" class="" role="alert">
-            <span class="sr-only">Info</span>
-            <div class="text-white">Your program produced no output.</div>
-          </div>
+        <div class="">
+          <TabGroup v-if="programRunResult && programRunResult.runs.length > 1">
+            <TabList className="flex justify-center border-b border-solid border-gray-600">
+              <Tab as="template" v-slot="{ selected }" v-for="(run, i) in programRunResult.runs" >
+                <button :class="{ 'border-b-2 border-pink-500 py-3 px-4 text-pink-400': selected, ' py-3 px-4 text-white': !selected }">
+                  Run #{{ i + 1 }}
+                </button>
+              </Tab>
+            </TabList>
+            <TabPanels>
+                <TabPanel v-for="(run, i) in programRunResult.runs">
+                  <run-result :exercise="exercise" :run="run" class="mt-6"/>
+                </TabPanel>
+            </TabPanels>
+          </TabGroup>
+
+          <run-result v-else :exercise="exercise" :run="programRunResult.runs[0]"/>
         </div>
+
       </template>
       <template #footer>
         <div class="flex justify-end">

@@ -7,6 +7,8 @@ use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\ExerciseRepository;
 use PhpSchool\PhpWorkshop\Logger\Logger;
+use PhpSchool\PhpWorkshop\Output\BufferedOutput;
+use PhpSchool\PhpWorkshop\Output\OutputInterface;
 use PhpSchool\Website\Entity\Workshop;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -108,6 +110,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $logger = new Logger(__DIR__ . "/../../var/logs/{$this->getCode()}.log");
 
         $this->container->set(LoggerInterface::class, $logger);
+        $this->container->set(OutputInterface::class, new BufferedOutput());
     }
 
     public function jsonSerialize(): array
