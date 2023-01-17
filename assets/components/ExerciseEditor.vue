@@ -182,7 +182,7 @@ export default {
 
     <div class="h-full flex flex-col">
       <div class="flex flex-1 h-full relative">
-        <div class="w-1/5 p-4">
+        <div class="w-1/5 p-4 min-w-[300px]">
           <file-tree
               :files="studentFiles"
               :file-select-function="studentSelectFile"
