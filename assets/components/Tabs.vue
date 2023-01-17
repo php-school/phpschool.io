@@ -37,7 +37,7 @@ export default {
         <a href="#" class="">
           {{ tab }}
         </a>
-        <XMarkIcon v-show="disableClose === false" @click="closeTab(tab)" class="cursor-pointer ml-2 w-3 h-3 text-zinc-400"  />
+        <XMarkIcon v-show="disableClose === false" @click.stop="closeTab(tab)" class="cursor-pointer ml-2 w-3 h-3 text-zinc-400 hover:text-white"  />
       </li>
     </ul>
     <template v-for="(tab, index) in tabList">
