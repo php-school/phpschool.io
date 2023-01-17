@@ -130,13 +130,10 @@ export default {
         alert('Name must be unique');
         return;
       }
-      // Limit file name size depen
-      if(this.model.name.includes(" ")) {
-        this.model.name = this.model.name.slice(0,30); ;
-      }else if(this.model.name.length > 14 && !this.model.name.includes(" ")){
+      // Limit file name size
+      if(this.model.name.length > 14) {
         this.model.name = this.model.name.slice(0,14); 
       }
-
       if (this.model.new) {
         delete this.model.new;
       }
