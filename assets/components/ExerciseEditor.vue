@@ -112,9 +112,24 @@ export default {
       this.loadingResults = false;
     },
     closeTab(tab) {
-      const index = this.openFiles.findIndex(file => file === tab);
+      let index = this.openFiles.findIndex(file => file.name === tab);
 
       this.openFiles.splice(index, 1);
+
+      //if there is a file to the right open, set that as active
+      if (index in this.openFiles) {
+        this.activeTab = index;
+        return;
+      }
+
+      //if there is a file to the left open, set that as active
+      if (index - 1 in this.openFiles) {
+        this.activeTab = index - 1;
+        return;
+      }
+
+      //if there are no more files open
+      this.activeTab = null;
     },
     toTree(files, parent = null) {
       return files.map((file) => {
