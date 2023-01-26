@@ -94,6 +94,16 @@ export default {
     dismissPassNotification() {
       this.openPassNotification = false;
     },
+
+    deleteFileOrFolder(file) {
+      if (confirm("Are you sure?")){
+        const index = this.openFiles.findIndex((elem) => elem === file);
+        this.openFiles.splice(index, 1);
+        return true;
+      }
+      return false
+    },
+
     resetResults() {
       this.results = [];
     },
@@ -202,6 +212,7 @@ export default {
               :files="studentFiles"
               :file-select-function="studentSelectFile"
               :initial-selected-item="studentFiles[0]"
+              :delete-function="deleteFileOrFolder"
               show-controls/>
         </div>
         <div class="flex border-l border-solid border-gray-600 p-4 h-full" :class="[openResults ? 'w-3/5' : 'w-4/5']">
