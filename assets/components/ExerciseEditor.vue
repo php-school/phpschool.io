@@ -98,10 +98,13 @@ export default {
     deleteFileOrFolder(file) {
       if (confirm("Are you sure?")){
 
-        //close tab
+        //if this file has an active tab, close it
         const index = this.openFiles.findIndex((elem) => elem === file);
-        this.openFiles.splice(index, 1);
-        this.findAndActivateNearestTab(index);
+        if (index !== -1) {
+          this.openFiles.splice(index, 1  );
+          this.findAndActivateNearestTab(index);
+        }
+
 
         return true;
       }
