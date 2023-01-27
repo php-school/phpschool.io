@@ -97,8 +97,12 @@ export default {
 
     deleteFileOrFolder(file) {
       if (confirm("Are you sure?")){
+
+        //close tab
         const index = this.openFiles.findIndex((elem) => elem === file);
         this.openFiles.splice(index, 1);
+        this.findAndActivateNearestTab(index);
+
         return true;
       }
       return false
@@ -126,6 +130,9 @@ export default {
 
       this.openFiles.splice(index, 1);
 
+      this.findAndActivateNearestTab(index);
+    },
+    findAndActivateNearestTab(index) {
       //if there is a file to the right open, set that as active
       if (index in this.openFiles) {
         this.activeTab = index;
