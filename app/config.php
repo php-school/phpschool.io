@@ -15,7 +15,16 @@ use League\CommonMark\GithubFlavoredMarkdownConverter;
 use League\CommonMark\MarkdownConverter;
 use League\CommonMark\MarkdownConverterInterface;
 use League\OAuth2\Client\Provider\Github;
+use PhpSchool\CliMdRenderer\CliExtension;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
+use PhpSchool\PhpWorkshop\Markdown\CurrentContext;
+use PhpSchool\PhpWorkshop\Markdown\ProblemFileExtension;
+use PhpSchool\PhpWorkshop\Markdown\Renderer\ContextSpecificRenderer;
+use PhpSchool\PhpWorkshop\Markdown\Shorthands\Cloud\AppName;
+use PhpSchool\PhpWorkshop\Markdown\Shorthands\Cloud\Run;
+use PhpSchool\PhpWorkshop\Markdown\Shorthands\Cloud\Verify;
+use PhpSchool\PhpWorkshop\Markdown\Shorthands\Context;
+use PhpSchool\PhpWorkshop\Markdown\Shorthands\Documentation as DocumentationShorthand;
 use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Cloud\Action\ComposerPackageAdd;
 use PhpSchool\Website\Cloud\Action\ExerciseEditor;
@@ -371,7 +380,9 @@ return [
         );
     },
 
-
+    CurrentContext::class => function (): CurrentContext {
+        return CurrentContext::cloud();
+    },
 
     //cloud
     MarkdownConverterInterface::class => function (ContainerInterface $c): MarkdownConverterInterface {
@@ -379,6 +390,18 @@ return [
         $environment->addExtension(new GithubFlavoredMarkdownExtension());
         $environment->addBlockRenderer(FencedCode::class, new FencedCodeRenderer(['html', 'php', 'js', 'bash']));
         $environment->addBlockRenderer(IndentedCode::class, new IndentedCodeRenderer(['html', 'php', 'js', 'bash']));
+
+        $environment
+            ->addExtension(new ProblemFileExtension(
+                $c->get(ContextSpecificRenderer::class),
+                [
+                    'appname' => new AppName(),
+                    'doc' => new DocumentationShorthand(),
+                    'run' => new Run(),
+                    'verify' => new Verify(),
+                    'context' => $c->get(Context::class)
+                ]
+            ));
 
         return new MarkdownConverter($environment);
     },
