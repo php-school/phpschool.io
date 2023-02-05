@@ -38,12 +38,10 @@ class AdminAuthenticationService
         return $this->authenticationService->hasIdentity();
     }
 
-    /**
-     * @psalm-suppress MixedInferredReturnType
-     * @psalm-suppress MixedReturnStatement
-     */
     public function getIdentity(): ?Admin
     {
-        return $this->authenticationService->getIdentity();
+        /** @var ?Admin $admin */
+        $admin = $this->authenticationService->getIdentity();
+        return $admin;
     }
 }

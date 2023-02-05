@@ -35,7 +35,7 @@ class WorkshopCreator
      */
     public function create(array $data): Workshop
     {
-        preg_match(static::$gitHubRepoUrlRegex, $data['github-url'], $matches);
+        preg_match(self::$gitHubRepoUrlRegex, $data['github-url'], $matches);
         $owner  = $matches[3];
         $repo   = $matches[4];
 
@@ -63,10 +63,13 @@ class WorkshopCreator
         return $workshop;
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getComposerJsonContents(string $owner, string $repo): array
     {
         return (array) json_decode(
-            file_get_contents(sprintf(static::$gitHubComposerJsonUrlFormat, $owner, $repo)),
+            file_get_contents(sprintf(self::$gitHubComposerJsonUrlFormat, $owner, $repo)) ?: '',
             true
         );
     }

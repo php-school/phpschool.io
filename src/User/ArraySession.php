@@ -4,6 +4,9 @@ namespace PhpSchool\Website\User;
 
 class ArraySession implements SessionStorageInterface
 {
+    /**
+     * @param array<string, mixed> $data
+     */
     public function __construct(private array $data = [])
     {
     }

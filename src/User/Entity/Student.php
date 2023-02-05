@@ -13,6 +13,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Entity
  * @ORM\Table(name="student"))
  * @ORM\Entity(repositoryClass="PhpSchool\Website\User\DoctrineORMStudentRepository")
+ * @phpstan-type WorkshopState array<string, array{completedExercises: array<string>, currentExercise: string}>
  */
 class Student
 {
@@ -68,9 +69,13 @@ class Student
 
     /**
      * @ORM\Column(type="json", nullable=false)
+     * @var WorkshopState
      */
     private array $workshopState = [];
 
+    /**
+     * @param WorkshopState $workshopState
+     */
     public function __construct(
         string $githubId,
         string $username,
@@ -157,11 +162,17 @@ class Student
         $this->location = $location;
     }
 
+    /**
+     * @return WorkshopState
+     */
     public function getWorkshopState(): array
     {
         return $this->workshopState;
     }
 
+    /**
+     * @param WorkshopState $state
+     */
     public function setWorkshopState(array $state): void
     {
         $this->workshopState = $state;

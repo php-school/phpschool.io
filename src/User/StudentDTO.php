@@ -21,6 +21,18 @@ class StudentDTO implements \JsonSerializable
     ) {
     }
 
+    /**
+     * @return array{
+     *     username: string,
+     *     email: string,
+     *     name: string,
+     *     profile_picture: ?string,
+     *     location: ?string,
+     *     join_date: string,
+     *     tour_complete: bool,
+     *     state: StudentCloudState
+     * }
+     */
     public function jsonSerialize(): array
     {
         return [

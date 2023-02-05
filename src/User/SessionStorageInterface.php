@@ -13,7 +13,7 @@ interface SessionStorageInterface
 
     /**
      * @param string $key
-     * @param string|array|object|null $value
+     * @param string|array<mixed>|object|null $value
      */
     public function set(string $key, $value): void;
 
@@ -34,7 +34,7 @@ interface SessionStorageInterface
 
     /**
      * @param string $offset
-     * @param string|array|null $value
+     * @param string|array<mixed>|null $value
      */
     public function offsetSet($offset, $value): void;
 

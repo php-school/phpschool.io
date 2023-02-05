@@ -11,7 +11,7 @@ class FlashMessages
     /**
      * Messages from previous request
      *
-     * @var array<string>
+     * @var array<string, array<string>>
      */
     private array $fromPrevious = [];
 
@@ -21,13 +21,6 @@ class FlashMessages
      * @var array<string, array<string>>
      */
     private array $forNow = [];
-
-    /**
-     * Messages for next request
-     *
-     * @var array<string>
-     */
-    private array $forNext = [];
 
     private SessionStorageInterface $storage;
 
@@ -57,6 +50,9 @@ class FlashMessages
      */
     public function addMessage(string $key, string $message): void
     {
+        /**
+         * @var array<array<string>> $data
+         */
         $data = $this->storage->offsetGet($this->storageKey);
 
         if (!isset($data[$key])) {
@@ -83,7 +79,7 @@ class FlashMessages
     /**
      * Get flash messages
      *
-     * @return array Messages to show for current request
+     * @return array<string, array<string>> Messages to show for current request
      */
     public function getMessages(): array
     {
@@ -104,6 +100,7 @@ class FlashMessages
 
     /**
      * Get Flash Message
+     * @return array<string>
      */
     public function getMessage(string $key): ?array
     {

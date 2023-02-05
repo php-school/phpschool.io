@@ -2,7 +2,12 @@
 
 namespace PhpSchool\Website\User;
 
-final class Session implements \ArrayAccess, SessionStorageInterface
+use ArrayAccess;
+
+/**
+ * @implements ArrayAccess<string, mixed>
+ */
+final class Session implements ArrayAccess, SessionStorageInterface
 {
     public function regenerate(): void
     {
@@ -18,7 +23,7 @@ final class Session implements \ArrayAccess, SessionStorageInterface
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(
-                session_name(),
+                session_name() ?: 'phpschool',
                 '',
                 time() - 42000,
                 (string) $params["path"],
@@ -48,7 +53,7 @@ final class Session implements \ArrayAccess, SessionStorageInterface
 
     /**
      * @param string $key
-     * @param string|array|object|null $value
+     * @param string|array<mixed>|object|null $value
      */
     public function set(string $key, $value): void
     {
@@ -86,7 +91,7 @@ final class Session implements \ArrayAccess, SessionStorageInterface
 
     /**
      * @param string $offset
-     * @param string|array|null $value
+     * @param string|array<mixed>|null $value
      */
     public function offsetSet($offset, $value): void
     {
