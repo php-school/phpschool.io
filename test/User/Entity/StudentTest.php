@@ -37,6 +37,7 @@ class StudentTest extends TestCase
         $this->assertEquals('Student 1', $dto->name);
         $this->assertNull($dto->profilePicture);
         $this->assertNull($dto->location);
+        $this->assertFalse($dto->tourComplete);
         $this->assertInstanceOf(\DateTime::class, $dto->joinDate);
 
         $state = $dto->workshopState;
@@ -91,5 +92,16 @@ class StudentTest extends TestCase
             ],
             $student->getWorkshopState()
         );
+    }
+
+    public function testSetTourComplete(): void
+    {
+        $student = new Student('GH1', 'Student 1', 'student@phpschool.com', 'Student 1', null, null, []);
+
+        $this->assertFalse($student->isTourComplete());
+
+        $student->setTourComplete();
+
+        $this->assertTrue($student->isTourComplete());
     }
 }

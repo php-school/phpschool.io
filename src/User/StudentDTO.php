@@ -16,6 +16,7 @@ class StudentDTO implements \JsonSerializable
         public readonly ?string $profilePicture,
         public readonly ?string $location,
         public readonly DateTime $joinDate,
+        public readonly bool $tourComplete,
         public readonly StudentCloudState $workshopState
     ) {
     }
@@ -29,6 +30,7 @@ class StudentDTO implements \JsonSerializable
             'profile_picture' => $this->profilePicture,
             'location' => $this->location,
             'join_date' => $this->joinDate->format('F Y'),
+            'tour_complete' => $this->tourComplete,
             'state' => $this->workshopState
         ];
     }

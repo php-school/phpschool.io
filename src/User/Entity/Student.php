@@ -62,6 +62,11 @@ class Student
     private DateTime $joinDate;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $tourComplete = false;
+
+    /**
      * @ORM\Column(type="json", nullable=false)
      */
     private array $workshopState = [];
@@ -74,6 +79,7 @@ class Student
         ?string $profilePicture,
         ?string $location,
         array $workshopState = [],
+        bool $tourComplete = false,
     ) {
         $this->githubId = $githubId;
         $this->username = $username;
@@ -83,6 +89,7 @@ class Student
         $this->location = $location;
         $this->joinDate = new DateTime();
         $this->workshopState = $workshopState;
+        $this->tourComplete = $tourComplete;
     }
 
     public function getId(): UuidInterface
@@ -160,6 +167,16 @@ class Student
         $this->workshopState = $state;
     }
 
+    public function isTourComplete(): bool
+    {
+        return $this->tourComplete;
+    }
+
+    public function setTourComplete(): void
+    {
+        $this->tourComplete = true;
+    }
+
     public function updateWorkshopState(string $workshop, UserState $state): void
     {
         $this->workshopState[$workshop] = [
@@ -178,6 +195,7 @@ class Student
             $this->profilePicture,
             $this->location,
             $this->joinDate,
+            $this->tourComplete,
             new StudentCloudState($this->workshopState)
         );
     }

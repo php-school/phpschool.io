@@ -209,6 +209,7 @@ class StudentAuthenticatorTest extends TestCase
             null,
             null,
             new \DateTime(),
+            false,
             new StudentCloudState([])
         );
     }
