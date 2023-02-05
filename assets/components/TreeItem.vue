@@ -141,12 +141,18 @@ export default {
       this.isEditing = false;
     },
     deleteChild(child) {
-      const result = this.deleteFunction(child);
-
-      if (result) {
-        const index = this.parent.findIndex((elem) => elem === child);
-        this.parent.splice(index, 1);
+      if (!this.deleteFunction) {
+        return;
       }
+
+      this.deleteFunction(child)
+          .then((shouldDelete) => {
+            if (shouldDelete) {
+              const index = this.parent.findIndex((elem) => elem === child);
+              this.parent.splice(index, 1);
+            }
+          })
+
     }
   }
 }
