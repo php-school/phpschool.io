@@ -1,5 +1,6 @@
 <script>
 import {offset} from "@floating-ui/dom";
+import waitUntil from "./utils/waitUntil.js";
 
 export default {
   props: {
@@ -156,18 +157,6 @@ export default {
         advanceOn: {selector: '#run', event: 'click'},
       });
 
-      const waitUntil = (condition, checkInterval = 10000) => {
-        return new Promise(resolve => {
-          let interval = setInterval(() => {
-            if (!condition()) {
-              return;
-            }
-            clearInterval(interval);
-            resolve();
-          }, checkInterval)
-        })
-      }
-
       const component = this;
       const isFirstRunLoaded = function () {
         return component.firstRunLoaded === true;
@@ -179,17 +168,7 @@ export default {
           on: 'right'
         },
         text: 'Your program output is displayed here. You can execute your program multiple times.',
-        beforeShowPromise: function () {
-          return new Promise(resolve => {
-            let interval = setInterval(() => {
-              if (!isFirstRunLoaded()) {
-                return;
-              }
-              clearInterval(interval);
-              resolve();
-            }, 500)
-          })
-        },
+        beforeShowPromise: () => waitUntil(isFirstRunLoaded),
         buttons: [
           {
             text: 'Next',
@@ -225,17 +204,7 @@ export default {
           on: 'right-start'
         },
         text: 'The results of verifying your program are displayed here. ❌ It appears your program\'s output did not match the expected output.',
-        beforeShowPromise: function () {
-          return new Promise(resolve => {
-            let interval = setInterval(() => {
-              if (!isFirstVerifyLoaded()) {
-                return;
-              }
-              clearInterval(interval);
-              resolve();
-            }, 500)
-          })
-        },
+        beforeShowPromise: () => waitUntil(isFirstVerifyLoaded),
         buttons: [
           {
             text: 'Next',
@@ -258,9 +227,6 @@ export default {
       });
 
       ['close', 'cancel',  'complete'].forEach(event => this.tour.on(event, () => {
-        //let's set this as done
-
-        const url = '/cloud/tour/complete';
 
         const opts = {
           method: 'POST',
@@ -270,7 +236,7 @@ export default {
           },
         };
 
-        fetch(url, opts)
+        fetch('/cloud/tour/complete', opts)
             .then(response => {
               if (!response.ok) {
                 console.log('Could not set tour complete');
@@ -285,7 +251,6 @@ export default {
 }
 </script>
 
-
 <template>
   <div id="tour" ref="tour"></div>
 </template>
@@ -293,34 +258,27 @@ export default {
 <style>
 
 .shepherd-element > .shepherd-arrow {
-  position: absolute;
-  height: 20px;
-  width: 20px;
+  @apply absolute h-[20px] w-[20px] border-[10px] border-solid border-transparent;
 }
 
 .shepherd-element[data-popper-placement^=top] > .shepherd-arrow {
-  @apply border-[10px] border-solid border-transparent border-t-purple-600;
-  bottom: -23px;
+  @apply border-t-purple-600 bottom-[-23px];
 }
 
 .shepherd-element[data-popper-placement^=bottom] > .shepherd-arrow {
-  @apply border-[10px] border-solid border-transparent border-b-purple-600;
-  top: -23px;
+  @apply border-b-purple-600 top-[-23px];
 }
 
 .shepherd-element[data-popper-placement^=left] > .shepherd-arrow {
-  @apply border-[10px] border-solid border-transparent border-l-purple-600;
-  right: -23px;
-
+  @apply border-l-purple-600 right-[-23px];
 }
 
 .shepherd-element[data-popper-placement^=right] > .shepherd-arrow {
-  @apply border-[10px] border-solid border-transparent border-r-purple-600;
-  left: -23px;
+  @apply border-r-purple-600 left-[-23px];
 }
 
 .shepherd-element.shepherd-centered > .shepherd-arrow {
-  opacity: 0
+  @apply opacity-0;
 }
 
 .shepherd-content .shepherd-footer {
@@ -331,22 +289,30 @@ export default {
   @apply inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none sm:w-auto sm:text-sm
 }
 
-.shepherd-modal-overlay-container{height:0;left:0;opacity:0;overflow:hidden;pointer-events:none;position:fixed;top:0;transition:all .3s ease-out,height 0ms .3s,opacity .3s 0ms;width:100vw;z-index:9997}.shepherd-modal-overlay-container.shepherd-modal-is-visible{height:100vh;opacity:.5;transform:translateZ(0);transition:all .3s ease-out,height 0s 0s,opacity .3s 0s}.shepherd-modal-overlay-container.shepherd-modal-is-visible path{pointer-events:all}
+.shepherd-modal-overlay-container {
+  @apply h-0 left-0 opacity-0 overflow-hidden pointer-events-none fixed top-0 w-screen z-[9997];
+  transition: all .3s ease-out, height 0ms .3s, opacity .3s 0ms;
+}
+
+.shepherd-modal-overlay-container.shepherd-modal-is-visible {
+  @apply h-screen opacity-50;
+  transform: translateZ(0);
+  transition: all .3s ease-out, height 0s 0s, opacity .3s 0s
+}
+
+.shepherd-modal-overlay-container.shepherd-modal-is-visible path {
+  @apply pointer-events-auto;
+}
 
 .shepherd-target-click-disabled.shepherd-enabled.shepherd-target,
 .shepherd-target-click-disabled.shepherd-enabled.shepherd-target * {
-  pointer-events: none;
+  @apply pointer-events-none;
 }
 .shepherd-content .shepherd-cancel-icon {
-  position: absolute;
-  right: 7px;
-  top: 1px;
+  @apply absolute right-[7px] top-[1px];
 }
 
 .absolute-center {
-  position: absolute;
-  left: 50%;
-
-  transform: translate(-50%, 0);
+  @apply absolute left-1/2 -translate-x-1/2;
 }
 </style>
