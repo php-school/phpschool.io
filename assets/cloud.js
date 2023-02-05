@@ -14,7 +14,7 @@ import ExerciseEditor from "./components/ExerciseEditor.vue";
 import VueClickAway from "vue3-click-away";
 import VueDiff from 'vue-diff';
 import 'vue-diff/dist/index.css';
-
+import VueShepherdPlugin from './shepherd-plugin';
 import results from "./components/results/results.js";
 
 const components = {
@@ -42,5 +42,6 @@ app.config.unwrapInjectedRef = true;
 
 app.use(VueClickAway);
 app.use(VueDiff);
+app.use(VueShepherdPlugin);
 
 app.mount('#app');

@@ -43,5 +43,8 @@ export default defineConfig({
         alias: {
             vue: 'vue/dist/vue.esm-bundler.js'
         }
-    }
+    },
+    define: {
+        'process.env.ES_BUILD': process.env.ES_BUILD,
+    },
 })
