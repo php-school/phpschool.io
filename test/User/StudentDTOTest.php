@@ -21,6 +21,7 @@ class StudentDTOTest extends TestCase
             null,
             null,
             new \DateTime('14 February 2022'),
+            false,
             $state
         );
 
@@ -32,6 +33,7 @@ class StudentDTOTest extends TestCase
                 'profile_picture' => null,
                 'location' => null,
                 'join_date' => 'February 2022',
+                'tour_complete' => false,
                 'state' => $state
             ],
             $student->jsonSerialize()

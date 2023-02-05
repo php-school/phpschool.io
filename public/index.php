@@ -21,6 +21,7 @@ use PhpSchool\Website\Cloud\Action\ComposerPackageSearch;
 use PhpSchool\Website\Cloud\Action\ExerciseEditor;
 use PhpSchool\Website\Cloud\Action\ListWorkshops;
 use PhpSchool\Website\Cloud\Action\RunExercise;
+use PhpSchool\Website\Cloud\Action\TourComplete;
 use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\Middleware\ExerciseRunnerRateLimiter;
 use PhpSchool\Website\Cloud\Middleware\Styles;
@@ -218,6 +219,7 @@ $app
         $group->post('/workshop/{workshop}/exercise/{exercise}/verify', VerifyExercise::class)->add($rateLimiter);
         $group->get('/composer-package/add', ComposerPackageAdd::class);
         $group->get('/composer-package/search', ComposerPackageSearch::class);
+        $group->post('/tour/complete', TourComplete::class);
     })
     ->add(function (Request $request, RequestHandler $handler): Response {
         $renderer = $this->get(PhpRenderer::class);

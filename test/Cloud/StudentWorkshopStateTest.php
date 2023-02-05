@@ -33,6 +33,7 @@ class StudentWorkshopStateTest extends TestCase
             null,
             null,
             new \DateTime(),
+            false,
             new StudentCloudState($state)
         );
     }
