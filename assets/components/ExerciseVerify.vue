@@ -25,7 +25,7 @@ export default {
     XMarkIcon,
     ChevronRightIcon
   },
-  emits: ["verify-loading", "verify-success", "verify-fail"],
+  emits: ["verify-loading", "verify-success", "verify-fail", "run-loaded"],
   props: {
     workshopCode: String,
     exercise: Object,
@@ -93,6 +93,8 @@ export default {
             this.programRunResult = json;
             this.openRunModal = true;
             this.loadingRun = false;
+
+            this.$emit('run-loaded');
           })
           .catch(error => {
             this.loadingRun = false;
@@ -184,7 +186,7 @@ export default {
   </div>
 
   <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
-    <Modal :scroll-content="true" size="3xl" max-height="max-h-[calc(5/6*100%)]" v-if="openRunModal" @close="openRunModal = false">
+    <Modal id="run-modal" :scroll-content="true" size="3xl" max-height="max-h-[calc(5/6*100%)]" v-if="openRunModal" @close="openRunModal = false">
       <template #header>
         <div class="flex items-center ">
           <CommandLineIcon class="h-6 w-6 text-pink-500 mr-2"/>

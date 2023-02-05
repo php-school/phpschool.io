@@ -7,6 +7,10 @@ export default {
     XMarkIcon
   },
   props: {
+    id: {
+      type: String,
+      default: null
+    },
     size: {
       type: String,
       default: '2xl',
@@ -50,6 +54,18 @@ export default {
     }
   },
   methods: {
+    clickAway(e) {
+      if (this.shepherd.activeTour) {
+        return;
+      }
+
+      if (e.target.parentElement && e.target.parentElement.classList.contains('shepherd-cancel-icon')) {
+        return;
+      }
+
+      this.closeModal(e);
+    },
+
     closeModal($event) {
       this.$emit('close', $event);
     },
@@ -60,16 +76,15 @@ export default {
 <template >
   <div class="">
     <div class="bg-gray-900 bg-opacity-80 fixed inset-0 z-40"/>
-    <div
-        tabindex="-1"
+    <div tabindex="-1"
         class="overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 md:h-full justify-center items-center flex"
     >
-      <div v-click-away="closeModal" class="relative rounded-lg shadow bg-gray-800 flex flex-col justify-start w-full" :class="[modalSizeClasses[size], maxHeight]">
+      <div :id="id" v-click-away="clickAway" class="relative rounded-lg shadow bg-gray-800 flex flex-col justify-start w-full" :class="[modalSizeClasses[size], maxHeight]">
           <div class="p-4 rounded-t flex-none flex justify-between items-top"
                :class="$slots.header ? 'border-b border-solid border-slate-600' : ''">
             <slot name="header"/>
             <div>
-              <button @click="closeModal($event)" type="button"
+              <button :id="id + '-close'" @click="closeModal($event)" type="button"
                       class="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-gray-600 hover:text-white">
                 <XMarkIcon class="w-5 h-5"/>
               </button>

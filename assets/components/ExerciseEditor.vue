@@ -6,15 +6,16 @@ import ExerciseVerify from "./ExerciseVerify.vue";
 import Tabs from "./Tabs.vue";
 import Modal from "./Modal.vue";
 import AceEditor from "./AceEditor.vue";
-import {editor} from "./stores/editor.js";
-import {XMarkIcon, ArrowPathIcon, CircleStackIcon, MapIcon, HomeIcon, ChevronRightIcon} from '@heroicons/vue/24/solid';
+import {XMarkIcon, ArrowPathIcon, CircleStackIcon, MapIcon, HomeIcon, ChevronRightIcon, ExclamationCircleIcon} from '@heroicons/vue/24/solid';
 import { TrophyIcon } from '@heroicons/vue/24/outline'
 import PackageSearch from './PackageSearch.vue';
 import OutputMismatch from './results/CliOutputMismatch.vue';
 import ResultList from "./results/ResultList.vue";
+import Tour from "./Tour.vue";
 
 export default {
   components: {
+    Tour,
     ResultList,
     PassNotification,
     FileTree,
@@ -30,6 +31,7 @@ export default {
     TrophyIcon,
     HomeIcon,
     ChevronRightIcon,
+    ExclamationCircleIcon,
     OutputMismatch,
   },
   props: {
@@ -49,6 +51,8 @@ export default {
     ]);
 
     return {
+      firstRunLoaded: false,
+      firstVerifyLoaded: false,
       openPassNotification: false,
       openProblemModal: true,
       openComposerModal: false,
@@ -56,7 +60,6 @@ export default {
       openResults : false,
       results: [],
       loadingResults: false,
-      editor,
       openFiles: [studentFiles[0]],
       activeTab: 0,
       newDependency: '',
@@ -124,6 +127,7 @@ export default {
       this.loadingResults = false;
     },
     verifyFail(results) {
+      this.firstVerifyLoaded = true;
       this.results = results;
       this.openResults = true;
       this.loadingResults = false;
@@ -207,6 +211,8 @@ export default {
 
 <template>
   <div class="h-full relative">
+    <tour :student="student" :solution-file="studentFiles[0]" :first-run-loaded="firstRunLoaded" :first-verify-loaded="firstVerifyLoaded"></tour>
+
     <pass-notification
         v-if="openPassNotification"
         :next-exercise-link="nextExerciseLink"
@@ -228,11 +234,11 @@ export default {
         <div class="flex border-l border-solid border-gray-600 p-4 h-full" :class="[openResults ? 'w-3/5' : 'w-4/5']">
           <Tabs :tabList="openFiles.map(file => file.name)" @close-tab="closeTab" :active-tab="activeTab">
             <template v-slot:[`tab-content-`+index] v-for="(file, index) in openFiles">
-              <AceEditor :file="file" @change="" class="w-full h-full border-0"/>
+              <AceEditor :id="'editor-' + (index + 1)" :file="file" @change="" class="w-full h-full border-0"/>
             </template>
           </Tabs>
         </div>
-        <div v-if="openResults" class="w-1/5 flex flex-col border-l border-solid border-gray-600 p-4 h-full absolute right-0 overflow-y-scroll">
+        <div v-if="openResults" id="results-col" class="w-1/5 flex flex-col border-l border-solid border-gray-600 p-4 h-full absolute right-0 overflow-y-scroll">
           <div class="ml-8 flex justify-between items-center">
             <h1 class="text-2xl pt-0 ">Results</h1>
             <div>
@@ -302,7 +308,7 @@ export default {
             <span>Composer deps</span>
             <CircleStackIcon v-cloak class="ml-2 w-5 h-5" />
           </button>
-          <button class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white flex items-center justify-center mt-0 mr-2 rounded px-4 w-44" @click="openProblemModal = true">
+          <button id="show-problem" class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white flex items-center justify-center mt-0 mr-2 rounded px-4 w-44" @click="openProblemModal = true">
             <span>Show problem</span>
             <MapIcon v-cloak class="ml-2 w-5 h-5" />
           </button>
@@ -312,7 +318,7 @@ export default {
                            :workshopCode='workshop.code'
                            :exercise='exercise'
                            :files="studentFiles"
-                           :composer-deps="composerDeps" />
+                           :composer-deps="composerDeps" @run-loaded="firstRunLoaded = true"/>
         </div>
       </div>
     </div>
@@ -358,7 +364,7 @@ export default {
       </Modal>
     </Transition>
     <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
-      <Modal :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openProblemModal" @close="openProblemModal = false">
+      <Modal id="problem-modal" :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openProblemModal" @close="openProblemModal = false">
         <template #header>
           <div class="flex flex-col">
             <div class="flex items-center ">
@@ -380,7 +386,7 @@ export default {
 
         <template #footer>
           <div class="flex justify-end">
-            <button @click="openProblemModal = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+            <button id="lets-go" @click="openProblemModal = false" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
               Let's go!
             </button>
           </div>
@@ -431,4 +437,5 @@ export default {
 #problem-file ul li {
   @apply list-item p-1;
 }
+
 </style>
