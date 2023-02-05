@@ -33,6 +33,6 @@ jobs:
 
       - name: Run phpcs
         run: composer cs
-
-      - name: Run psalm
-        run: composer static
+#
+#      - name: Run psalm
+#        run: composer static

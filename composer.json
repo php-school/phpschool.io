@@ -41,7 +41,7 @@
     "doctrine/annotations": "^1.13",
     "psr/log": "^1.0 | ^2.0 | ^3.0",
     "php-school/php-workshop": "dev-master",
-    "php-school/learn-you-php": "dev-master",
+    "php-school/learn-you-php": "dev-problem-files-common-language as dev-master",
     "php-school/php8-appreciate": "dev-master",
     "league/oauth2-github": "^3.0",
     "symfony/string": "^6.1",
@@ -63,9 +63,9 @@
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.6",
     "phpunit/phpunit": "^9.5",
-    "vimeo/psalm": "^4.7",
     "weirdan/doctrine-psalm-plugin": "^1.0",
-    "doctrine/data-fixtures": "^1.5"
+    "doctrine/data-fixtures": "^1.5",
+    "phpstan/phpstan": "^1.9"
   },
   "scripts" : {
     "test": [
@@ -75,7 +75,7 @@
     "phpunit": "phpunit",
     "cs" : "phpcs",
     "cs-fix": "phpcbf",
-    "static": "psalm",
+    "static": "phpstan --ansi analyse --level max src",
     "app:cc": "php bin/app clear-cache",
     "app:gen:blog": "php bin/app generate-blog",
     "app:db:validate": "php bin/app orm:validate-schema",
