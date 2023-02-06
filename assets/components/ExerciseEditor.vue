@@ -107,9 +107,26 @@ toggleAlert(){
     },
 
     deleteFileOrFolder(file) {
-      console.log(file);
-      this.alertIsOpen = true;
-      this.deletingFile = file;
+      const confirm = this.$refs.deleteFileAlert;
+      const openFiles = this.openFiles;
+      const findAndActivateNearestTab = this.findAndActivateNearestTab;
+
+      return new Promise(async function(resolve,reject){
+        const ok = await confirm.show({
+          title: "Deleting...",
+          message: "Selection will be permanently deleted, would you like to proceed?",
+          okMessage: "Confirm",
+        });
+        if(!ok) {
+          return resolve(false);
+        }
+        resolve(true);
+        const index = openFiles.findIndex((elem) => elem === file);
+        if(index !== -1){
+          openFiles.splice(index,1);
+          findAndActivateNearestTab(index);
+        }
+      })
     },
 
 
@@ -229,8 +246,7 @@ toggleAlert(){
     <tour :student="student" :solution-file="studentFiles[0]" :first-run-loaded="firstRunLoaded" :first-verify-loaded="firstVerifyLoaded"></tour>
 
     <!-- File Delete Alert -->
-    <!-- <button @click="toggleAlert">Test</button> -->
-    <alert :is-open="alertIsOpen" @confirm="confirmDelete" @decline="this.alertIsOpen = false"></alert>
+    <alert ref="deleteFileAlert"></alert>
 
 
     <pass-notification
