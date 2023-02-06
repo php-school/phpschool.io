@@ -12,6 +12,7 @@ import PackageSearch from './PackageSearch.vue';
 import OutputMismatch from './results/CliOutputMismatch.vue';
 import ResultList from "./results/ResultList.vue";
 import Tour from "./Tour.vue";
+import Alert from "./Alert.vue";
 
 export default {
   components: {
@@ -33,6 +34,7 @@ export default {
     ChevronRightIcon,
     ExclamationCircleIcon,
     OutputMismatch,
+    Alert,
   },
   props: {
     nextExerciseLink: String,
@@ -53,6 +55,7 @@ export default {
     return {
       firstRunLoaded: false,
       firstVerifyLoaded: false,
+      alertIsOpen: false,
       openPassNotification: false,
       openProblemModal: true,
       openComposerModal: false,
@@ -77,7 +80,12 @@ export default {
             .completedExercises.includes(this.exercise.name);
     },
   },
+
+  // METHODS
   methods: {
+toggleAlert(){
+  this.alertIsOpen = !this.alertIsOpen;
+},
     studentSelectFile(selectedFile) {
       if ('new' in selectedFile && selectedFile.new === true) {
         return;
@@ -99,20 +107,26 @@ export default {
     },
 
     deleteFileOrFolder(file) {
-      if (confirm("Are you sure?")){
+      console.log(file);
+      this.alertIsOpen = true;
+      this.deletingFile = file;
+    },
 
-        //if this file has an active tab, close it
-        const index = this.openFiles.findIndex((elem) => elem === file);
-        if (index !== -1) {
+
+    confirmDelete(){
+      this.alertIsOpen = false;
+      const file = this.deletingFile;
+      console.log(file);
+      //if this file has an active tab, close it
+      const index = this.openFiles.findIndex((elem) => elem === file);
+          console.log(index);
+          if (index !== -1) {
           this.openFiles.splice(index, 1  );
           this.findAndActivateNearestTab(index);
-        }
-
-
-        return true;
-      }
-      return false
+        }  
     },
+
+
 
     resetResults() {
       this.results = [];
@@ -211,14 +225,19 @@ export default {
 
 <template>
   <div class="h-full relative">
+
     <tour :student="student" :solution-file="studentFiles[0]" :first-run-loaded="firstRunLoaded" :first-verify-loaded="firstVerifyLoaded"></tour>
+
+    <!-- File Delete Alert -->
+    <!-- <button @click="toggleAlert">Test</button> -->
+    <alert :is-open="alertIsOpen" @confirm="confirmDelete" @decline="this.alertIsOpen = false"></alert>
+
 
     <pass-notification
         v-if="openPassNotification"
         :next-exercise-link="nextExerciseLink"
         :official-solution="officialSolution"
         @close="dismissPassNotification">
-
     </pass-notification>
 
     <div class="h-full flex flex-col">
