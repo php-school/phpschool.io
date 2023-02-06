@@ -55,7 +55,6 @@ export default {
     return {
       firstRunLoaded: false,
       firstVerifyLoaded: false,
-      alertIsOpen: false,
       openPassNotification: false,
       openProblemModal: true,
       openComposerModal: false,
@@ -81,11 +80,7 @@ export default {
     },
   },
 
-  // METHODS
   methods: {
-toggleAlert(){
-  this.alertIsOpen = !this.alertIsOpen;
-},
     studentSelectFile(selectedFile) {
       if ('new' in selectedFile && selectedFile.new === true) {
         return;
@@ -111,39 +106,23 @@ toggleAlert(){
       const openFiles = this.openFiles;
       const findAndActivateNearestTab = this.findAndActivateNearestTab;
 
-      return new Promise(async function(resolve,reject){
+      return new Promise(async function (resolve, reject) {
         const ok = await confirm.show({
           title: "Deleting...",
           message: "Selection will be permanently deleted, would you like to proceed?",
           okMessage: "Confirm",
         });
-        if(!ok) {
+        if (!ok) {
           return resolve(false);
         }
         resolve(true);
         const index = openFiles.findIndex((elem) => elem === file);
-        if(index !== -1){
-          openFiles.splice(index,1);
+        if (index !== -1) {
+          openFiles.splice(index, 1);
           findAndActivateNearestTab(index);
         }
       })
     },
-
-
-    confirmDelete(){
-      this.alertIsOpen = false;
-      const file = this.deletingFile;
-      console.log(file);
-      //if this file has an active tab, close it
-      const index = this.openFiles.findIndex((elem) => elem === file);
-          console.log(index);
-          if (index !== -1) {
-          this.openFiles.splice(index, 1  );
-          this.findAndActivateNearestTab(index);
-        }  
-    },
-
-
 
     resetResults() {
       this.results = [];
@@ -247,7 +226,6 @@ toggleAlert(){
 
     <!-- File Delete Alert -->
     <alert ref="deleteFileAlert"></alert>
-
 
     <pass-notification
         v-if="openPassNotification"
