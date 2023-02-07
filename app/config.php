@@ -10,6 +10,7 @@ use League\CommonMark\Block\Element\IndentedCode;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\ConverterInterface;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
+use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use League\CommonMark\MarkdownConverter;
@@ -386,8 +387,19 @@ return [
 
     //cloud
     MarkdownConverterInterface::class => function (ContainerInterface $c): MarkdownConverterInterface {
-        $environment = \League\CommonMark\Environment::createCommonMarkEnvironment();
+        $environment = new \League\CommonMark\Environment([
+            'external_link' => [
+                'internal_hosts' => 'www.phpschool.io',
+                'open_in_new_window' => true,
+                'nofollow' => '',
+                'noopener' => 'external',
+                'noreferrer' => 'external',
+            ],
+        ]);
+
+        $environment->addExtension(new CommonMarkCoreExtension());
         $environment->addExtension(new GithubFlavoredMarkdownExtension());
+        $environment->addExtension(new ExternalLinkExtension());
         $environment->addBlockRenderer(FencedCode::class, new FencedCodeRenderer(['html', 'php', 'js', 'bash']));
         $environment->addBlockRenderer(IndentedCode::class, new IndentedCodeRenderer(['html', 'php', 'js', 'bash']));
 
