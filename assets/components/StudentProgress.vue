@@ -49,19 +49,19 @@ export default {
 
         <div class="font-medium">
           <div>{{ student.name }}</div>
-          <div class="text-sm text-gray-500 dark:text-gray-400">Joined in {{ student.join_date }}</div>
+          <div class="text-sm text-gray-500">Joined in {{ student.join_date }}</div>
         </div>
       </div>
       <div class="flex items-center">
-          <span class="flex rounded-lg bg-yellow-400 p-2">
-            <TrophyIcon class="h-6 w-6 text-white"/>
+          <span class="flex rounded-lg p-2">
+            <TrophyIcon class="h-6 w-6 text-yellow-400"/>
           </span>
-        <p class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">{{ totalCompleted }} out of {{ totalExercises }}</p>
+        <p class="ml-2 text-sm font-medium text-gray-500">{{ totalCompleted }} out of {{ totalExercises }}</p>
       </div>
     </div>
 
-    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-4">
-      <div class="bg-pink-600 h-2.5 rounded-full dark:bg-pink-500" :style="{ 'width': percentComplete + '%' }"></div>
+    <div class="w-full rounded-full h-2.5 bg-gray-700 mt-4">
+      <div class="h-2.5 rounded-full bg-pink-500" :style="{ 'width': percentComplete + '%' }"></div>
     </div>
   </div>
 </template>
