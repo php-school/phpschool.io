@@ -3,6 +3,7 @@
 namespace PhpSchool\Website\Cloud\Action;
 
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
+use PhpSchool\PhpWorkshop\Exercise\ProvidesInitialCode;
 use PhpSchool\PhpWorkshop\Exercise\ProvidesSolution;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ProblemFileConverter;
@@ -64,6 +65,7 @@ class ExerciseEditor
         ];
 
         $data = $this->maybeAddOfficialSolution($data, $exercise);
+        $data = $this->addInitialCode($data, $exercise);
 
         return $renderer->render($response, 'layouts/cloud-editor.phtml', [
             'pageTitle' => 'PHP School Cloud',
@@ -89,6 +91,34 @@ class ExerciseEditor
                 'content'  => base64_encode($file->getContents())
             ];
         }
+
+        return $data;
+    }
+
+    private function addInitialCode(array $data, ExerciseInterface $exercise): array
+    {
+        if (!$exercise instanceof ProvidesInitialCode) {
+            $data['initial_files'][] = [
+                'name' => 'solution.php',
+                'content' => '<?php ',
+            ];
+            $data['entry_point'] = 'solution.php';
+
+            return $data;
+        }
+
+        $data['initial_files'] = [];
+        foreach ($exercise->getInitialCode()->getFiles() as $file) {
+            $data['initial_files'][] = [
+                'name' => $file->getRelativePath(),
+                'content' => $file->getContents(),
+            ];
+        }
+
+        $entryPoint = $exercise->getInitialCode()->getEntryPoint();
+        $relativeEntryPoint = str_replace($exercise->getInitialCode()->getBaseDirectory() . '/', '', $entryPoint);
+
+        $data['entry_point'] = $relativeEntryPoint;
 
         return $data;
     }

@@ -40,7 +40,7 @@ class RunExercise
         $workshop = $this->installedWorkshops->findByCode($workshop);
         $exercise = $workshop->findExerciseBySlug($exercise);
 
-        $basePath = (new UploadProject())->upload($request);
+        $basePath = ($project = new UploadProject())->upload($request);
 
         $output = new BufferedOutput();
 
@@ -52,7 +52,7 @@ class RunExercise
 
         $result = $workshop->getExerciseDispatcher()->run(
             $exercise,
-            new Input($workshop->getCode(), ['program' => Path::join($basePath, 'solution.php')]),
+            new Input($workshop->getCode(), ['program' => Path::join($basePath, $project->getEntryPoint())]),
             $output
         );
 

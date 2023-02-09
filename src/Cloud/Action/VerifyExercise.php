@@ -45,11 +45,11 @@ class VerifyExercise
         $workshop = $this->installedWorkshops->findByCode($workshop);
         $exercise = $workshop->findExerciseBySlug($exercise);
 
-        $basePath = (new UploadProject())->upload($request);
+        $basePath = ($project = new UploadProject())->upload($request);
 
         $results = $workshop->getExerciseDispatcher()->verify(
             $exercise,
-            new Input($workshop->getCode(), ['program' => Path::join($basePath, 'solution.php')]),
+            new Input($workshop->getCode(), ['program' => Path::join($basePath, $project->getEntryPoint())]),
         );
 
         $renderer = new VueResultsRenderer();

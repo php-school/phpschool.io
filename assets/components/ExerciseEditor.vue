@@ -39,18 +39,20 @@ export default {
   props: {
     nextExerciseLink: String,
     officialSolution: Array,
+    initialFiles: Array,
+    entryPoint: String,
     workshop: Object,
     exercise: Object,
     student: Object,
     totalExercises: Number
   },
   data() {
-    const studentFiles = this.toTree([
-      {
-        'name': 'solution.php',
-        'content': "<?php\n",
-      }
-    ]);
+    const entryPointIndex = this.initialFiles.findIndex(file => file.name === this.entryPoint);
+    const entryPointFile = this.initialFiles[entryPointIndex];
+    this.initialFiles.splice(entryPointIndex, 1);
+    this.initialFiles.splice(0, 0, entryPointFile);
+
+    const studentFiles = this.toTree(this.initialFiles);
 
     return {
       firstRunLoaded: false,
@@ -331,6 +333,7 @@ export default {
                            :workshopCode='workshop.code'
                            :exercise='exercise'
                            :files="studentFiles"
+                           :entry-point="entryPoint"
                            :composer-deps="composerDeps" @run-loaded="firstRunLoaded = true"/>
         </div>
       </div>

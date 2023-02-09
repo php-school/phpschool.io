@@ -9,6 +9,8 @@ use Symfony\Component\Process\Process;
 
 class UploadProject
 {
+    private ?string $entryPoint = 'solution.php';
+
     public function upload(Request $request): string
     {
         $data = json_decode($request->getBody()->__toString(), true);
@@ -40,6 +42,15 @@ class UploadProject
             $process->run();
         }
 
+        if (isset($data['entry_point']) && isset($data['scripts'][$data['entry_point']])) {
+            $this->entryPoint = $data['entry_point'];
+        }
+
         return $basePath;
+    }
+
+    public function getEntryPoint(): string
+    {
+        return $this->entryPoint;
     }
 }
