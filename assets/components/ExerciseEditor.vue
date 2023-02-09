@@ -423,6 +423,11 @@ export default {
   @apply mt-2 mb-4 text-xl;
 }
 
+#problem-file h4 {
+  color: #E91E63;
+  @apply mt-2 mb-4 text-lg not-italic;
+}
+
 #problem-file a {
   color: #E91E63;
 }
