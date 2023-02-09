@@ -39,6 +39,7 @@ export default {
       openRunModal: false,
       loadingVerify: false,
       showRateLimitError: false,
+      rateLimitTimerId: null
     }
   },
   methods: {
@@ -55,7 +56,11 @@ export default {
     enableRateLimitError() {
       this.showRateLimitError = true;
 
-      setTimeout(() => this.showRateLimitError = false, 3000);
+      if (this.rateLimitTimerId) {
+        clearInterval(this.rateLimitTimerId);
+      }
+
+      this.rateLimitTimerId = setTimeout(() => this.showRateLimitError = false, 3000);
     },
 
     runSolution() {
