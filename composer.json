@@ -41,7 +41,7 @@
     "doctrine/annotations": "^1.13",
     "psr/log": "^1.0 | ^2.0 | ^3.0",
     "php-school/php-workshop": "dev-master",
-    "php-school/learn-you-php": "dev-problem-files-common-language as dev-master",
+    "php-school/learn-you-php": "dev-master",
     "php-school/php8-appreciate": "dev-master",
     "league/oauth2-github": "^3.0",
     "symfony/string": "^6.1",
@@ -83,5 +83,11 @@
       "php bin/app orm:clear-cache:metadata",
       "php bin/app orm:schema-tool:update -f"
     ]
+  },
+  "config": {
+    "allow-plugins": {
+      "phpstan/extension-installer": true,
+      "php-http/discovery": true
+    }
   }
 }
