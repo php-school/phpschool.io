@@ -407,11 +407,11 @@ return [
             ->addExtension(new ProblemFileExtension(
                 $c->get(ContextSpecificRenderer::class),
                 [
-                    'appname' => new AppName(),
-                    'doc' => new DocumentationShorthand(),
-                    'run' => new Run(),
-                    'verify' => new Verify(),
-                    'context' => $c->get(Context::class)
+                    new AppName(),
+                    new DocumentationShorthand(),
+                    new Run(),
+                    new Verify(),
+                    $c->get(Context::class)
                 ]
             ));
 
