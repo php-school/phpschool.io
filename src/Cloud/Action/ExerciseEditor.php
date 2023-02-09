@@ -5,6 +5,7 @@ namespace PhpSchool\Website\Cloud\Action;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\Exercise\ProvidesInitialCode;
 use PhpSchool\PhpWorkshop\Exercise\ProvidesSolution;
+use PhpSchool\PhpWorkshop\Solution\SolutionFile;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ProblemFileConverter;
 use PhpSchool\Website\Cloud\StudentWorkshopState;
@@ -107,18 +108,15 @@ class ExerciseEditor
             return $data;
         }
 
-        $data['initial_files'] = [];
-        foreach ($exercise->getInitialCode()->getFiles() as $file) {
-            $data['initial_files'][] = [
+        $data['initial_files'] = array_map(
+            fn (SolutionFile $file) => [
                 'name' => $file->getRelativePath(),
                 'content' => $file->getContents(),
-            ];
-        }
+            ],
+            $exercise->getInitialCode()->getFiles()
+        );
 
-        $entryPoint = $exercise->getInitialCode()->getEntryPoint();
-        $relativeEntryPoint = str_replace($exercise->getInitialCode()->getBaseDirectory() . '/', '', $entryPoint);
-
-        $data['entry_point'] = $relativeEntryPoint;
+        $data['entry_point'] = $exercise->getInitialCode()->getEntryPoint()->getRelativePath();
 
         return $data;
     }
