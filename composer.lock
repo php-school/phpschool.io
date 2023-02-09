@@ -5088,12 +5088,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/php8-appreciate.git",
-                "reference": "a888a76faef7d3c6223e22d13ac441752b652f11"
+                "reference": "d871ff856f3455f04d9446b3b943dfe52f84ac11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/php8-appreciate/zipball/a888a76faef7d3c6223e22d13ac441752b652f11",
-                "reference": "a888a76faef7d3c6223e22d13ac441752b652f11",
+                "url": "https://api.github.com/repos/php-school/php8-appreciate/zipball/d871ff856f3455f04d9446b3b943dfe52f84ac11",
+                "reference": "d871ff856f3455f04d9446b3b943dfe52f84ac11",
                 "shasum": ""
             },
             "require": {
@@ -5142,7 +5142,7 @@
                 "issues": "https://github.com/php-school/php8-appreciate/issues",
                 "source": "https://github.com/php-school/php8-appreciate/tree/master"
             },
-            "time": "2022-12-16T11:48:05+00:00"
+            "time": "2023-02-09T21:44:15+00:00"
         },
         {
             "name": "php-school/terminal",
