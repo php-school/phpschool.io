@@ -47,10 +47,11 @@ export default {
     totalExercises: Number
   },
   data() {
-    const entryPointIndex = this.initialFiles.findIndex(file => file.name === this.entryPoint);
-    const entryPointFile = this.initialFiles[entryPointIndex];
-    this.initialFiles.splice(entryPointIndex, 1);
-    this.initialFiles.splice(0, 0, entryPointFile);
+    //sort the initial files so entry point is at the top
+    //and opened in a tab
+    this.initialFiles.sort((a, b)  => {
+      return a.name === this.entryPoint ? -1 : 0;
+    });
 
     const studentFiles = this.toTree(this.initialFiles);
 
