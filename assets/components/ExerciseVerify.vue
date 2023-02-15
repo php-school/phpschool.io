@@ -81,7 +81,7 @@ export default {
         body: JSON.stringify({
           entry_point: this.entryPoint,
           scripts: this.flattenFiles(this.files),
-          composerDeps: this.composerDeps
+          composer_deps: this.composerDeps
         })
       };
       fetch(url, opts)
@@ -127,7 +127,7 @@ export default {
         body: JSON.stringify({
           entry_point: this.entryPoint,
           scripts: this.flattenFiles(this.files),
-          composerDeps: this.composerDeps
+          composer_deps: this.composerDeps
         })
       };
       fetch(url, opts)
