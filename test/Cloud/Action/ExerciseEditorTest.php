@@ -7,60 +7,19 @@ use GuzzleHttp\Psr7\ServerRequest;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\Solution\DirectorySolution;
-use PhpSchool\PhpWorkshop\Utils\Path;
-use PhpSchool\PhpWorkshop\Utils\System;
 use PhpSchool\Website\Cloud\Action\ExerciseEditor;
 use PhpSchool\Website\Cloud\CloudInstalledWorkshop;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ProblemFileConverter;
 use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\PhpRenderer;
+use PhpSchool\Website\TestUtils\BaseFilesystemTest;
 use PhpSchool\WebsiteTest\Asset\CliExerciseImpl;
 use PhpSchool\WebsiteTest\Asset\ExerciseImpl;
-use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Symfony\Component\Filesystem\Filesystem;
 
-class ExerciseEditorTest extends TestCase
+class ExerciseEditorTest extends BaseFilesystemTest
 {
-    private ?string $tempDirectory = null;
-
-    public function getTemporaryDirectory(): string
-    {
-        if (!$this->tempDirectory) {
-            $this->tempDirectory = System::tempDir($this->getName());
-            mkdir($this->tempDirectory, 0777, true);
-        }
-
-        return $this->tempDirectory;
-    }
-
-    public function getTemporaryFile(string $filename, string $content = null): string
-    {
-        $file = Path::join($this->getTemporaryDirectory(), $filename);
-
-        if (file_exists($file)) {
-            return $file;
-        }
-
-        if (!file_exists(dirname($file))) {
-            mkdir(dirname($file), 0777, true);
-        }
-
-        $content !== null
-            ? file_put_contents($file, $content)
-            : touch($file);
-
-        return $file;
-    }
-
-    public function tearDown(): void
-    {
-        if (file_exists(System::tempDir($this->getName()))) {
-            (new Filesystem())->remove(System::tempDir($this->getName()));
-        }
-    }
-
     public function testRedirectIsReturnedIfWorkshopDoesNotExist(): void
     {
         $installedWorkshopRepo = $this->createMock(CloudWorkshopRepository::class);

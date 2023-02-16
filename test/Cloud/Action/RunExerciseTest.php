@@ -7,24 +7,18 @@ use GuzzleHttp\Psr7\ServerRequest;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\Input\Input;
-use PhpSchool\PhpWorkshop\Result\Failure;
-use PhpSchool\PhpWorkshop\ResultAggregator;
 use PhpSchool\PhpWorkshop\Solution\DirectorySolution;
 use PhpSchool\PhpWorkshop\Utils\System;
 use PhpSchool\Website\Cloud\Action\RunExercise;
-use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\CloudInstalledWorkshop;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ProjectUploader;
 use PhpSchool\Website\Cloud\StudentCloudState;
-use PhpSchool\Website\Cloud\StudentWorkshopState;
-use PhpSchool\Website\Cloud\VueResultsRenderer;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use RuntimeException;
-use Symfony\Component\Filesystem\Filesystem;
 
 class RunExerciseTest extends TestCase
 {
@@ -195,7 +189,6 @@ class RunExerciseTest extends TestCase
     private function createProjectSolution(string $entryPoint = 'solution.php'): DirectorySolution
     {
         $base = System::tempDir($this->getName());
-        (new Filesystem())->remove($base);
         mkdir($base, 0777, true);
         file_put_contents($base . '/' . $entryPoint, '<?php echo "Hello World";');
         return new DirectorySolution($base, $entryPoint, []);

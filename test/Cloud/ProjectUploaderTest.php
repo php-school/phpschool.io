@@ -8,19 +8,14 @@ use PhpSchool\PhpWorkshop\Utils\System;
 use PhpSchool\Website\Cloud\PathGenerator;
 use PhpSchool\Website\Cloud\ProjectUploader;
 use PhpSchool\Website\Cloud\StudentCloudState;
+use PhpSchool\Website\TestUtils\BaseFilesystemTest;
 use PhpSchool\Website\User\StudentDTO;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Filesystem\Filesystem;
 
-class ProjectUploaderTest extends TestCase
+class ProjectUploaderTest extends BaseFilesystemTest
 {
-    private Filesystem $filesystem;
-    public function setUp(): void
-    {
-        $this->filesystem = new Filesystem();
-    }
-
     public function testExceptionIsThrownIfNoScriptsFound(): void
     {
         $this->expectException(\RuntimeException::class);
@@ -45,14 +40,12 @@ class ProjectUploaderTest extends TestCase
 
         $student = $this->getStudent();
 
-        $path = System::tempDir($this->getName());
+        $path = $this->getTemporaryDirectory();
         $generator = $this->createMock(PathGenerator::class);
         $generator->expects($this->once())
             ->method('random')
             ->with($student)
             ->willReturn($path);
-
-        $this->filesystem->mkdir($path);
 
         $uploader = new ProjectUploader($generator);
 
@@ -111,7 +104,7 @@ class ProjectUploaderTest extends TestCase
     public function testBaseFolderIsRemovedIfInvalidPathFound(): void
     {
         $student = $this->getStudent();
-        $path = System::tempDir($this->getName());
+        $path = $this->getTemporaryDirectoryWithoutCreating();
         $generator = $this->createMock(PathGenerator::class);
         $generator->expects($this->once())
             ->method('random')
@@ -144,7 +137,7 @@ class ProjectUploaderTest extends TestCase
     public function testScriptsAreCorrectlyWrittenInGeneratedPath(): void
     {
         $student = $this->getStudent();
-        $path = System::tempDir($this->getName());
+        $path = $this->getTemporaryDirectoryWithoutCreating();
         $generator = $this->createMock(PathGenerator::class);
         $generator->expects($this->once())
             ->method('random')
@@ -187,14 +180,12 @@ class ProjectUploaderTest extends TestCase
         $this->assertEquals('<?php', file_get_contents($path . '/solution.php'));
         $this->assertEquals('<?php', file_get_contents($path . '/folder/file2.php'));
         $this->assertEquals('<?php', file_get_contents($path . '/folder/nested/file3.php'));
-
-        $this->filesystem->remove($path);
     }
 
     public function testComposerDependenciesAreInstalledIfDependenciesAreSpecified(): void
     {
         $student = $this->getStudent();
-        $path = System::tempDir($this->getName());
+        $path = $this->getTemporaryDirectoryWithoutCreating();
         $generator = $this->createMock(PathGenerator::class);
         $generator->expects($this->once())
             ->method('random')
@@ -236,8 +227,6 @@ class ProjectUploaderTest extends TestCase
 
         $this->assertFileExists($path . '/composer.json');
         $this->assertEquals('{"require":{"symfony\/console":"6.2.0"}}', file_get_contents($path . '/composer.json'));
-
-        $this->filesystem->remove($path);
     }
 
     public function testWithAlternateEntryPoint(): void
@@ -287,8 +276,6 @@ class ProjectUploaderTest extends TestCase
         $this->assertEquals('<?php', file_get_contents($path . '/program.php'));
         $this->assertEquals('<?php', file_get_contents($path . '/folder/file2.php'));
         $this->assertEquals('<?php', file_get_contents($path . '/folder/nested/file3.php'));
-
-        $this->filesystem->remove($path);
     }
 
     private function getStudent(): StudentDTO
