@@ -16,10 +16,15 @@ use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\CloudInstalledWorkshop;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ProjectUploader;
+use PhpSchool\Website\Cloud\StudentCloudState;
 use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\Cloud\VueResultsRenderer;
+use PhpSchool\Website\User\SessionStorageInterface;
+use PhpSchool\Website\User\StudentDTO;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use RuntimeException;
+use Symfony\Component\Filesystem\Filesystem;
 
 class RunExerciseTest extends TestCase
 {
@@ -32,8 +37,9 @@ class RunExerciseTest extends TestCase
             ->willThrowException(new RuntimeException('Cannot find workshop'));
 
         $uploader = $this->createMock(ProjectUploader::class);
+        $session = $this->createMock(SessionStorageInterface::class);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $session);
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
         $response = new Response();
 
@@ -65,8 +71,9 @@ class RunExerciseTest extends TestCase
             ->willReturn($workshop);
 
         $uploader = $this->createMock(ProjectUploader::class);
+        $session = $this->createMock(SessionStorageInterface::class);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $session);
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
         $response = new Response();
 
@@ -85,7 +92,7 @@ class RunExerciseTest extends TestCase
 
     public function testErrorIsReturnedIfUploaderThrowsException(): void
     {
-        [$installedWorkshopRepo] = $this->getDependencies();
+        [$installedWorkshopRepo,,,$session, $student] = $this->getDependencies();
         $uploader = $this->createMock(ProjectUploader::class);
 
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
@@ -94,7 +101,7 @@ class RunExerciseTest extends TestCase
             ->with($request)
             ->willThrowException(new \RuntimeException('Some error'));
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $session);
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -114,7 +121,7 @@ class RunExerciseTest extends TestCase
     {
         $solution = $this->createProjectSolution();
 
-        [$installedWorkshopRepo, $exercise, $exerciseDispatcher] = $this->getDependencies();
+        [$installedWorkshopRepo, $exercise, $exerciseDispatcher, $session, $student] = $this->getDependencies();
         $exerciseDispatcher->expects($this->once())
             ->method('run')
             ->with($exercise, $this->callback(function (Input $input) use ($solution) {
@@ -128,9 +135,9 @@ class RunExerciseTest extends TestCase
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
 
         $uploader = $this->createMock(ProjectUploader::class);
-        $uploader->expects($this->once())->method('upload')->with($request)->willReturn($solution);
+        $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $session);
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -147,12 +154,11 @@ class RunExerciseTest extends TestCase
         $this->assertFileDoesNotExist($solution->getBaseDirectory());
     }
 
-
     public function testRunFail(): void
     {
         $solution = $this->createProjectSolution();
 
-        [$installedWorkshopRepo, $exercise, $exerciseDispatcher] = $this->getDependencies();
+        [$installedWorkshopRepo, $exercise, $exerciseDispatcher, $session, $student] = $this->getDependencies();
 
         $exerciseDispatcher->expects($this->once())
             ->method('run')
@@ -166,11 +172,10 @@ class RunExerciseTest extends TestCase
 
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
 
-        $renderer = $this->createMock(VueResultsRenderer::class);
         $uploader = $this->createMock(ProjectUploader::class);
-        $uploader->expects($this->once())->method('upload')->with($request)->willReturn($solution);
+        $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $session);
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -190,6 +195,7 @@ class RunExerciseTest extends TestCase
     private function createProjectSolution(string $entryPoint = 'solution.php'): DirectorySolution
     {
         $base = System::tempDir($this->getName());
+        (new Filesystem())->remove($base);
         mkdir($base, 0777, true);
         file_put_contents($base . '/' . $entryPoint, '<?php echo "Hello World";');
         return new DirectorySolution($base, $entryPoint, []);
@@ -224,6 +230,28 @@ class RunExerciseTest extends TestCase
             ->with('workshop')
             ->willReturn($workshop);
 
-        return [$installedWorkshopRepo, $exercise, $dispatcher];
+        $student = $this->getStudent();
+        $session = $this->createMock(SessionStorageInterface::class);
+        $session->expects($this->any())
+            ->method('get')
+            ->with('student')
+            ->willReturn($student);
+
+        return [$installedWorkshopRepo, $exercise, $dispatcher, $session, $student];
+    }
+
+    private function getStudent(): StudentDTO
+    {
+        return new StudentDTO(
+            Uuid::uuid4(),
+            'Student',
+            'student@phpschool.io',
+            'Student',
+            null,
+            null,
+            new \DateTime(),
+            false,
+            new StudentCloudState([])
+        );
     }
 }

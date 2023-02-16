@@ -7,7 +7,10 @@ use PhpSchool\PhpWorkshop\Solution\SolutionFile;
 use PhpSchool\PhpWorkshop\Utils\System;
 use PhpSchool\Website\Cloud\PathGenerator;
 use PhpSchool\Website\Cloud\ProjectUploader;
+use PhpSchool\Website\Cloud\StudentCloudState;
+use PhpSchool\Website\User\StudentDTO;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ProjectUploaderTest extends TestCase
@@ -32,7 +35,7 @@ class ProjectUploaderTest extends TestCase
             json_encode([])
         );
 
-        $uploader->upload($request);
+        $uploader->upload($request, $this->getStudent());
     }
 
     public function testExceptionIsThrownIfGeneratedBasePathExists(): void
@@ -40,10 +43,13 @@ class ProjectUploaderTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Temporary directory already exists');
 
+        $student = $this->getStudent();
+
         $path = System::tempDir($this->getName());
         $generator = $this->createMock(PathGenerator::class);
         $generator->expects($this->once())
             ->method('random')
+            ->with($student)
             ->willReturn($path);
 
         $this->filesystem->mkdir($path);
@@ -61,7 +67,7 @@ class ProjectUploaderTest extends TestCase
             ])
         );
 
-        $uploader->upload($request);
+        $uploader->upload($request, $student);
     }
 
     /**
@@ -85,7 +91,7 @@ class ProjectUploaderTest extends TestCase
             ])
         );
 
-        $uploader->upload($request);
+        $uploader->upload($request, $this->getStudent());
     }
 
     /**
@@ -104,10 +110,12 @@ class ProjectUploaderTest extends TestCase
 
     public function testBaseFolderIsRemovedIfInvalidPathFound(): void
     {
+        $student = $this->getStudent();
         $path = System::tempDir($this->getName());
         $generator = $this->createMock(PathGenerator::class);
         $generator->expects($this->once())
             ->method('random')
+            ->with($student)
             ->willReturn($path);
 
         $uploader = new ProjectUploader($generator);
@@ -124,7 +132,7 @@ class ProjectUploaderTest extends TestCase
         );
 
         try {
-            $uploader->upload($request);
+            $uploader->upload($request, $student);
         } catch (\RuntimeException $e) {
         }
 
@@ -135,10 +143,12 @@ class ProjectUploaderTest extends TestCase
 
     public function testScriptsAreCorrectlyWrittenInGeneratedPath(): void
     {
+        $student = $this->getStudent();
         $path = System::tempDir($this->getName());
         $generator = $this->createMock(PathGenerator::class);
         $generator->expects($this->once())
             ->method('random')
+            ->with($student)
             ->willReturn($path);
 
         $uploader = new ProjectUploader($generator);
@@ -156,7 +166,7 @@ class ProjectUploaderTest extends TestCase
             ])
         );
 
-        $result = $uploader->upload($request);
+        $result = $uploader->upload($request, $student);
 
         $this->assertEquals($path, $result->getBaseDirectory());
         $this->assertEquals($path . '/solution.php', $result->getEntryPoint()->getAbsolutePath());
@@ -183,10 +193,12 @@ class ProjectUploaderTest extends TestCase
 
     public function testComposerDependenciesAreInstalledIfDependenciesAreSpecified(): void
     {
+        $student = $this->getStudent();
         $path = System::tempDir($this->getName());
         $generator = $this->createMock(PathGenerator::class);
         $generator->expects($this->once())
             ->method('random')
+            ->with($student)
             ->willReturn($path);
 
         $uploader = new ProjectUploader($generator);
@@ -205,7 +217,7 @@ class ProjectUploaderTest extends TestCase
             ])
         );
 
-        $result = $uploader->upload($request);
+        $result = $uploader->upload($request, $student);
 
         $this->assertEquals($path, $result->getBaseDirectory());
 
@@ -230,10 +242,12 @@ class ProjectUploaderTest extends TestCase
 
     public function testWithAlternateEntryPoint(): void
     {
+        $student = $this->getStudent();
         $path = System::tempDir($this->getName());
         $generator = $this->createMock(PathGenerator::class);
         $generator->expects($this->once())
             ->method('random')
+            ->with($student)
             ->willReturn($path);
 
         $uploader = new ProjectUploader($generator);
@@ -252,7 +266,7 @@ class ProjectUploaderTest extends TestCase
             ])
         );
 
-        $result = $uploader->upload($request);
+        $result = $uploader->upload($request, $student);
 
         $this->assertEquals($path, $result->getBaseDirectory());
         $this->assertEquals($path . '/program.php', $result->getEntryPoint()->getAbsolutePath());
@@ -275,5 +289,20 @@ class ProjectUploaderTest extends TestCase
         $this->assertEquals('<?php', file_get_contents($path . '/folder/nested/file3.php'));
 
         $this->filesystem->remove($path);
+    }
+
+    private function getStudent(): StudentDTO
+    {
+        return new StudentDTO(
+            Uuid::uuid4(),
+            'Student',
+            'student@phpschool.io',
+            'Student',
+            null,
+            null,
+            new \DateTime(),
+            false,
+            new StudentCloudState([])
+        );
     }
 }

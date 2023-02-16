@@ -438,6 +438,7 @@ return [
         return new RunExercise(
             $c->get(CloudWorkshopRepository::class),
             $c->get(ProjectUploader::class),
+            $c->get(SessionStorageInterface::class),
         );
     },
 
@@ -445,6 +446,7 @@ return [
         return new VerifyExercise(
             $c->get(CloudWorkshopRepository::class),
             $c->get(ProjectUploader::class),
+            $c->get(SessionStorageInterface::class),
             $c->get(StudentWorkshopState::class),
             new VueResultsRenderer()
         );

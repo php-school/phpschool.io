@@ -10,6 +10,8 @@ use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ProjectUploader;
+use PhpSchool\Website\User\SessionStorageInterface;
+use PhpSchool\Website\User\StudentDTO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Symfony\Component\Filesystem\Filesystem;
@@ -23,6 +25,7 @@ class RunExercise
     public function __construct(
         private readonly CloudWorkshopRepository $installedWorkshops,
         private readonly ProjectUploader $projectUploader,
+        private readonly SessionStorageInterface $session,
     ) {
     }
 
@@ -40,7 +43,7 @@ class RunExercise
         }
 
         try {
-            $project = $this->projectUploader->upload($request);
+            $project = $this->projectUploader->upload($request, $this->getStudent());
         } catch (\RuntimeException $e) {
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
         }
@@ -69,6 +72,17 @@ class RunExercise
         (new Filesystem())->remove($project->getBaseDirectory());
 
         return $this->withJson($data, $response);
+    }
+
+    private function getStudent(): StudentDTO
+    {
+        $student = $this->session->get('student');
+
+        if (!$student instanceof StudentDTO) {
+            throw new \RuntimeException('Needs a logged in user');
+        }
+
+        return $student;
     }
 
     private function collectRunInfo(Event $event, BufferedOutput $output): void

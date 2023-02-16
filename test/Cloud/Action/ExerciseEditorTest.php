@@ -23,7 +23,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ExerciseEditorTest extends TestCase
 {
-    private string $tempDirectory;
+    private ?string $tempDirectory = null;
 
     public function getTemporaryDirectory(): string
     {
@@ -199,8 +199,12 @@ class ExerciseEditorTest extends TestCase
 
         $renderer->expects($this->exactly(2))
             ->method('slug')
-            ->withConsecutive(['Next Exercise'], ['my-exercise'])
-            ->willReturnOnConsecutiveCalls('next-exercise', 'my-exercise');
+            ->willReturnCallback(function ($arg0) {
+                return match ($arg0) {
+                    'Next Exercise' => 'next-exercise',
+                    'my-exercise' => 'my-exercise',
+                };
+            });
 
         $renderer->expects($this->once())
             ->method('fetch')
@@ -254,7 +258,6 @@ class ExerciseEditorTest extends TestCase
         $exercise->setSolution($solution);
 
         [$installedWorkshopRepo, $workshop] = $this->getDependencies($exercise);
-
 
         $problemFileConverter = $this->createMock(ProblemFileConverter::class);
         $problemFileConverter->expects($this->once())

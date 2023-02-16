@@ -8,6 +8,8 @@ use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ProjectUploader;
 use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\Cloud\VueResultsRenderer;
+use PhpSchool\Website\User\SessionStorageInterface;
+use PhpSchool\Website\User\StudentDTO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Symfony\Component\Filesystem\Filesystem;
@@ -19,6 +21,7 @@ class VerifyExercise
     public function __construct(
         private readonly CloudWorkshopRepository $installedWorkshops,
         private readonly ProjectUploader $projectUploader,
+        private readonly SessionStorageInterface $session,
         private readonly StudentWorkshopState $studentState,
         private readonly VueResultsRenderer $resultsRenderer
     ) {
@@ -38,7 +41,7 @@ class VerifyExercise
         }
 
         try {
-            $project = $this->projectUploader->upload($request);
+            $project = $this->projectUploader->upload($request, $this->getStudent());
         } catch (\RuntimeException $e) {
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
         }
@@ -64,5 +67,16 @@ class VerifyExercise
         (new Filesystem())->remove($project->getBaseDirectory());
 
         return $this->withJson($data, $response);
+    }
+
+    private function getStudent(): StudentDTO
+    {
+        $student = $this->session->get('student');
+
+        if (!$student instanceof StudentDTO) {
+            throw new \RuntimeException('Needs a logged in user');
+        }
+
+        return $student;
     }
 }

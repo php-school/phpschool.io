@@ -15,9 +15,13 @@ use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\CloudInstalledWorkshop;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ProjectUploader;
+use PhpSchool\Website\Cloud\StudentCloudState;
 use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\Cloud\VueResultsRenderer;
+use PhpSchool\Website\User\SessionStorageInterface;
+use PhpSchool\Website\User\StudentDTO;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use RuntimeException;
 
 class VerifyExerciseTest extends TestCase
@@ -33,8 +37,9 @@ class VerifyExerciseTest extends TestCase
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(VueResultsRenderer::class);
         $uploader = $this->createMock(ProjectUploader::class);
+        $session = $this->createMock(SessionStorageInterface::class);
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $state, $renderer);
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
         $response = new Response();
 
@@ -68,8 +73,9 @@ class VerifyExerciseTest extends TestCase
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(VueResultsRenderer::class);
         $uploader = $this->createMock(ProjectUploader::class);
+        $session = $this->createMock(SessionStorageInterface::class);
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $state, $renderer);
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
         $response = new Response();
 
@@ -88,7 +94,7 @@ class VerifyExerciseTest extends TestCase
 
     public function testErrorIsReturnedIfUploaderThrowsException(): void
     {
-        [$installedWorkshopRepo] = $this->getDependencies();
+        [$installedWorkshopRepo,,,$session, $student] = $this->getDependencies();
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(VueResultsRenderer::class);
         $uploader = $this->createMock(ProjectUploader::class);
@@ -99,7 +105,7 @@ class VerifyExerciseTest extends TestCase
             ->with($request)
             ->willThrowException(new \RuntimeException('Some error'));
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $state, $renderer);
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -119,7 +125,7 @@ class VerifyExerciseTest extends TestCase
     {
         $solution = $this->createProjectSolution();
 
-        [$installedWorkshopRepo, $exercise, $exerciseDispatcher] = $this->getDependencies();
+        [$installedWorkshopRepo, $exercise, $exerciseDispatcher, $session, $student] = $this->getDependencies();
         $exerciseDispatcher->expects($this->once())
             ->method('verify')
             ->with($exercise, $this->callback(function (Input $input) use ($solution) {
@@ -134,11 +140,11 @@ class VerifyExerciseTest extends TestCase
 
         $renderer = $this->createMock(VueResultsRenderer::class);
         $uploader = $this->createMock(ProjectUploader::class);
-        $uploader->expects($this->once())->method('upload')->with($request)->willReturn($solution);
+        $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
         $state = $this->createMock(StudentWorkshopState::class);
         $state->expects($this->once())->method('completeExercise')->with('workshop', 'Exercise');
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $state, $renderer);
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -159,7 +165,7 @@ class VerifyExerciseTest extends TestCase
     {
         $solution = $this->createProjectSolution('program.php');
 
-        [$installedWorkshopRepo, $exercise, $exerciseDispatcher] = $this->getDependencies();
+        [$installedWorkshopRepo, $exercise, $exerciseDispatcher, $session, $student] = $this->getDependencies();
         $exerciseDispatcher->expects($this->once())
             ->method('verify')
             ->with($exercise, $this->callback(function (Input $input) use ($solution) {
@@ -174,11 +180,11 @@ class VerifyExerciseTest extends TestCase
 
         $renderer = $this->createMock(VueResultsRenderer::class);
         $uploader = $this->createMock(ProjectUploader::class);
-        $uploader->expects($this->once())->method('upload')->with($request)->willReturn($solution);
+        $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
         $state = $this->createMock(StudentWorkshopState::class);
         $state->expects($this->once())->method('completeExercise')->with('workshop', 'Exercise');
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $state, $renderer);
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -199,7 +205,7 @@ class VerifyExerciseTest extends TestCase
     {
         $solution = $this->createProjectSolution();
 
-        [$installedWorkshopRepo, $exercise, $exerciseDispatcher] = $this->getDependencies();
+        [$installedWorkshopRepo, $exercise, $exerciseDispatcher, $session, $student] = $this->getDependencies();
 
         $results = new ResultAggregator();
         $results->add(new Failure('Failure', 'Failure'));
@@ -217,11 +223,11 @@ class VerifyExerciseTest extends TestCase
 
         $renderer = $this->createMock(VueResultsRenderer::class);
         $uploader = $this->createMock(ProjectUploader::class);
-        $uploader->expects($this->once())->method('upload')->with($request)->willReturn($solution);
+        $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
         $state = $this->createMock(StudentWorkshopState::class);
         $state->expects($this->never())->method('completeExercise')->with('workshop', 'Exercise');
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $state, $renderer);
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -275,6 +281,28 @@ class VerifyExerciseTest extends TestCase
             ->with('workshop')
             ->willReturn($workshop);
 
-        return [$installedWorkshopRepo, $exercise, $dispatcher];
+        $student = $this->getStudent();
+        $session = $this->createMock(SessionStorageInterface::class);
+        $session->expects($this->any())
+            ->method('get')
+            ->with('student')
+            ->willReturn($student);
+
+        return [$installedWorkshopRepo, $exercise, $dispatcher, $session, $student];
+    }
+
+    private function getStudent(): StudentDTO
+    {
+        return new StudentDTO(
+            Uuid::uuid4(),
+            'Student',
+            'student@phpschool.io',
+            'Student',
+            null,
+            null,
+            new \DateTime(),
+            false,
+            new StudentCloudState([])
+        );
     }
 }

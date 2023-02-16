@@ -4,17 +4,18 @@ namespace PhpSchool\Website\Cloud;
 
 use PhpSchool\PhpWorkshop\Solution\DirectorySolution;
 use PhpSchool\PhpWorkshop\Utils\Path;
+use PhpSchool\Website\User\StudentDTO;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 class ProjectUploader
 {
-    public function __construct(private PathGenerator $pathGenerator)
+    public function __construct(private readonly PathGenerator $pathGenerator)
     {
     }
 
-    public function upload(Request $request): DirectorySolution
+    public function upload(Request $request, StudentDTO $student): DirectorySolution
     {
         $data = json_decode($request->getBody()->__toString(), true);
 
@@ -22,7 +23,7 @@ class ProjectUploader
             throw new \RuntimeException('No files were uploaded');
         }
 
-        $basePath = $this->pathGenerator->random();
+        $basePath = $this->pathGenerator->random($student);
 
         if (file_exists($basePath)) {
             throw new \RuntimeException('Temporary directory already exists');
