@@ -6,15 +6,19 @@ use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\Exercise\ProvidesInitialCode;
 use PhpSchool\PhpWorkshop\Exercise\ProvidesSolution;
 use PhpSchool\PhpWorkshop\Solution\SolutionFile;
+use PhpSchool\Website\Action\RedirectUtils;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ProblemFileConverter;
 use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\PhpRenderer;
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class ExerciseEditor
 {
+    use RedirectUtils;
+
     private CloudWorkshopRepository $installedWorkshops;
     private ProblemFileConverter $problemFileConverter;
     private StudentWorkshopState $studentState;
@@ -35,10 +39,13 @@ class ExerciseEditor
         PhpRenderer $renderer,
         string $workshop,
         string $exercise
-    ): Response {
-
-        $workshop = $this->installedWorkshops->findByCode($workshop);
-        $exercise = $workshop->findExerciseBySlug($exercise);
+    ): MessageInterface {
+        try {
+            $workshop = $this->installedWorkshops->findByCode($workshop);
+            $exercise = $workshop->findExerciseBySlug($exercise);
+        } catch (\RuntimeException $e) {
+            return $this->redirect('/cloud');
+        }
         $nextExercise = $workshop->findNextExercise($exercise);
 
         $this->studentState->setCurrentExercise($workshop->getCode(), $exercise->getName());
@@ -83,12 +90,12 @@ class ExerciseEditor
 
         $data['official_solution'] = [];
 
-        $entryPointPath = $exercise->getSolution()->getEntryPoint();
+        $entryPoint = $exercise->getSolution()->getEntryPoint();
 
         foreach ($exercise->getSolution()->getFiles() as $file) {
             $data['official_solution'][] = [
                 'file_path' => $file->getRelativePath(),
-                'entry_point' => $file->getAbsolutePath() === $entryPointPath,
+                'entry_point' => $file === $entryPoint,
                 'content'  => base64_encode($file->getContents())
             ];
         }
