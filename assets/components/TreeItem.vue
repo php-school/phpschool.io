@@ -2,9 +2,11 @@
 
 import { FolderIcon, FolderOpenIcon, DocumentIcon, PencilIcon, FolderPlusIcon, PlusIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import uniqueName from "./utils/uniqueName.js";
+import Alert from "./Alert.vue";
 
 export default {
   components: {
+    Alert,
     FolderIcon,
     DocumentIcon,
     FolderOpenIcon,
@@ -46,24 +48,6 @@ export default {
     hasChildren() {
       return this.model.children.length;
     },
-    // sortedChildren() {
-    //   const dirs = this.model.children.filter(child => child.children);
-    //   const files = this.model.children.filter(child => !child.children);
-    //
-    //   const sorter = (a, b) => {
-    //     if (a.name.toLowerCase() < b.name.toLowerCase()) {
-    //       return -1;
-    //     }
-    //
-    //     if (a.name.toLowerCase() > b.name.toLowerCase()) {
-    //       return 1;
-    //     }
-    //
-    //     return 0;
-    //   };
-    //
-    //   return dirs.sort(sorter).concat(files.sort(sorter));
-    // },
     isBeingEdited() {
       return this.isEditing || this.isNew(this.model);
     },
@@ -121,18 +105,41 @@ export default {
 
       this.isOpen = true;
     },
-    saveName() {
+    async saveName() {
       const names = this.parent
           .filter(child => child !== this.model)
           .map(child => child.name);
 
+      const confirm = this.$refs.fileAlert;
+
       if (names.includes(this.model.name)) {
-        alert('Name must be unique');
+          await confirm.show({
+              title: "Error",
+              message: "The filename must be unique.",
+              okMessage: "OK",
+              disableCancel: true,
+          });
         return;
       }
+
+      let regex = /^[a-zA-Z0-9_ -]+\.[a-zA-Z0-9]+$/;
+      if (this.isFolder) {
+          regex = /^[a-zA-Z0-9_ -]+$/;
+      }
+
+      if (!this.model.name.match(regex)) {
+          await confirm.show({
+              title: "Error",
+              message: "Files and folder name must contain only alphanumerics, dashes, underscores and spaces. Additionally, files must have an extension.",
+              okMessage: "OK",
+              disableCancel: true,
+          });
+          return;
+      }
+
       // Limit file name size
       if(this.model.name.length > 14) {
-        this.model.name = this.model.name.slice(0,14); 
+        this.model.name = this.model.name.slice(0,14);
       }
       if (this.model.new) {
         delete this.model.new;
@@ -159,7 +166,8 @@ export default {
 </script>
 
 <template>
-  <li :class="[model === state.selectedFile ? (customStyles?.selectedFileClasses ?? '') : '']" class="flex flex-col pl-3 py-2 w-full">
+    <alert ref="fileAlert"/>
+    <li :class="[model === state.selectedFile ? (customStyles?.selectedFileClasses ?? '') : '']" class="flex flex-col pl-3 py-2 w-full">
     <div @click="selectNode(model)" class="group flex w-full items-center justify-between cursor-pointer">
       <div class="flex items-center min-w-0">
         <FolderIcon v-if="isFolder" v-show="!isOpen || !hasChildren" class="mr-1 h-5 w-5" style="fill: none !important;"/>
