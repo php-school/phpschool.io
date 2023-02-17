@@ -232,7 +232,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
     public function testWithAlternateEntryPoint(): void
     {
         $student = $this->getStudent();
-        $path = System::tempDir($this->getName());
+        $path = $this->getTemporaryDirectoryWithoutCreating();
         $generator = $this->createMock(PathGenerator::class);
         $generator->expects($this->once())
             ->method('random')
