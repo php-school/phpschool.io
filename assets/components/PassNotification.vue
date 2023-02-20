@@ -99,13 +99,13 @@ export default {
           </div>
           <div v-if="hasOfficialSolution" class="order-3 mt-2 w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
             <button @click="showOfficialSolution" class="flex items-center justify-center px-2 py-2 text-sm font-bold text-white underline">
-              See official solution
+              See the official solution
             </button>
           </div>
           <div v-if="nextExerciseLink" class="order-3 mt-2 w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto flex">
             <span v-if="hasOfficialSolution" class="flex items-center justify-center text-sm text-white">or</span>
             <a id="next-exercise-link" :href="nextExerciseLink" class="flex items-center justify-center px-2 py-2 text-sm font-bold text-white underline">
-              Continue to next exercise &rarr;
+              Continue to the next exercise &rarr;
             </a>
           </div>
           <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-3">

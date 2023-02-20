@@ -13,6 +13,7 @@ export default {
     cancelMessage: "Cancel",
     resolvePromise: null,
     rejectPromise: null,
+    showCancel: true,
   }),
   methods: {
     open() {
@@ -30,6 +31,11 @@ export default {
       if(options.cancelMessage) {
         this.cancelMessage = options.cancelMessage;
       }
+
+      if (options.disableCancel) {
+          this.showCancel = false;
+      }
+
       this.open();
       return new Promise((resolve,reject)=>{
         this.resolvePromise = resolve;
@@ -65,7 +71,7 @@ export default {
         </div>
         <div class="p-6 rounded-b border-solid border-slate-600 flex-none">
           <div class="flex justify-end">
-            <button @click="decline" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-pink-600 px-8 py-2 text-base font-medium text-gray-400 hover:text-white shadow-sm hover:bg-pink-600 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">{{ cancelMessage }}</button>
+            <button v-if="showCancel" @click="decline" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-pink-600 px-8 py-2 text-base font-medium text-gray-400 hover:text-white shadow-sm hover:bg-pink-600 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">{{ cancelMessage }}</button>
             <button @click="confirm" type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">{{ okMessage }}</button>
           </div>
         </div>

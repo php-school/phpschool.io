@@ -30,7 +30,8 @@ export default {
     workshopCode: String,
     exercise: Object,
     files: Array,
-    composerDeps: Array
+    composerDeps: Array,
+    entryPoint: String,
   },
   data() {
     return {
@@ -78,8 +79,9 @@ export default {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          entry_point: this.entryPoint,
           scripts: this.flattenFiles(this.files),
-          composerDeps: this.composerDeps
+          composer_deps: this.composerDeps
         })
       };
       fetch(url, opts)
@@ -123,8 +125,9 @@ export default {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          entry_point: this.entryPoint,
           scripts: this.flattenFiles(this.files),
-          composerDeps: this.composerDeps
+          composer_deps: this.composerDeps
         })
       };
       fetch(url, opts)

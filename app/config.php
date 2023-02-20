@@ -7,17 +7,12 @@ use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 use League\CommonMark\Block\Element\FencedCode;
 use League\CommonMark\Block\Element\IndentedCode;
-use League\CommonMark\CommonMarkConverter;
-use League\CommonMark\ConverterInterface;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
-use League\CommonMark\GithubFlavoredMarkdownConverter;
 use League\CommonMark\MarkdownConverter;
 use League\CommonMark\MarkdownConverterInterface;
 use League\OAuth2\Client\Provider\Github;
-use PhpSchool\CliMdRenderer\CliExtension;
-use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\Markdown\CurrentContext;
 use PhpSchool\PhpWorkshop\Markdown\ProblemFileExtension;
 use PhpSchool\PhpWorkshop\Markdown\Renderer\ContextSpecificRenderer;
@@ -37,8 +32,11 @@ use PhpSchool\Website\Cloud\Command\DownloadComposerPackageList;
 use PhpSchool\Website\Cloud\Middleware\ExerciseRunnerRateLimiter;
 use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\Cloud\Middleware\ViteProductionAssets;
+use PhpSchool\Website\Cloud\PathGenerator;
 use PhpSchool\Website\Cloud\ProblemFileConverter;
+use PhpSchool\Website\Cloud\ProjectUploader;
 use PhpSchool\Website\Cloud\StudentWorkshopState;
+use PhpSchool\Website\Cloud\VueResultsRenderer;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Middleware\FlashMessages as FlashMessagesMiddleware;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
@@ -439,16 +437,23 @@ return [
     RunExercise::class => function (ContainerInterface $c): RunExercise {
         return new RunExercise(
             $c->get(CloudWorkshopRepository::class),
-            $c->get(ExerciseDispatcher::class),
+            $c->get(ProjectUploader::class),
+            $c->get(SessionStorageInterface::class),
         );
     },
 
     VerifyExercise::class => function (ContainerInterface $c): VerifyExercise {
         return new VerifyExercise(
             $c->get(CloudWorkshopRepository::class),
-            $c->get(ExerciseDispatcher::class),
-            $c->get(StudentWorkshopState::class)
+            $c->get(ProjectUploader::class),
+            $c->get(SessionStorageInterface::class),
+            $c->get(StudentWorkshopState::class),
+            new VueResultsRenderer()
         );
+    },
+
+    ProjectUploader::class => function (ContainerInterface $c): ProjectUploader {
+        return new ProjectUploader(new PathGenerator());
     },
 
     'form.event' => function (ContainerInterface $c): FormHandler {

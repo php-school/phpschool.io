@@ -3,9 +3,12 @@
 namespace PhpSchool\Website\Cloud;
 
 use PhpSchool\PhpWorkshop\Application;
+use PhpSchool\PhpWorkshop\Event\EventDispatcher;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\ExerciseRepository;
+use PhpSchool\PhpWorkshop\Listener\InitialCodeListener;
+use PhpSchool\PhpWorkshop\Listener\OutputRunInfoListener;
 use PhpSchool\PhpWorkshop\Logger\Logger;
 use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\PhpWorkshop\Output\OutputInterface;
@@ -31,6 +34,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $this->slugger = new AsciiSlugger();
 
         $this->configureLogger();
+        $this->configureEvents();
     }
 
     public function getCode(): string
@@ -111,6 +115,19 @@ class CloudInstalledWorkshop implements \JsonSerializable
 
         $this->container->set(LoggerInterface::class, $logger);
         $this->container->set(OutputInterface::class, new BufferedOutput());
+    }
+
+    private function configureEvents(): void
+    {
+        /** @var EventDispatcher $eventDispatch */
+        $eventDispatch = $this->container->get(EventDispatcher::class);
+
+        $initialCodeListener = $this->container->get(InitialCodeListener::class);
+        $outputRunInfoListener = $this->container->get(OutputRunInfoListener::class);
+
+        $eventDispatch->removeListener('exercise.selected', [$initialCodeListener, '__invoke']);
+        $eventDispatch->removeListener('cli.run.student-execute.pre', [$outputRunInfoListener, '__invoke']);
+        $eventDispatch->removeListener('cgi.run.student-execute.pre', [$outputRunInfoListener, '__invoke']);
     }
 
     public function jsonSerialize(): array

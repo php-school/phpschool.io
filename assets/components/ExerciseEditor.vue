@@ -39,18 +39,21 @@ export default {
   props: {
     nextExerciseLink: String,
     officialSolution: Array,
+    initialFiles: Array,
+    entryPoint: String,
     workshop: Object,
     exercise: Object,
     student: Object,
     totalExercises: Number
   },
   data() {
-    const studentFiles = this.toTree([
-      {
-        'name': 'solution.php',
-        'content': "<?php\n",
-      }
-    ]);
+    //sort the initial files so entry point is at the top
+    //and opened in a tab
+    this.initialFiles.sort((a, b)  => {
+      return a.name === this.entryPoint ? -1 : 0;
+    });
+
+    const studentFiles = this.toTree(this.initialFiles);
 
     return {
       firstRunLoaded: false,
@@ -100,22 +103,37 @@ export default {
     dismissPassNotification() {
       this.openPassNotification = false;
     },
-
     deleteFileOrFolder(file) {
       const confirm = this.$refs.deleteFileAlert;
       const openFiles = this.openFiles;
       const findAndActivateNearestTab = this.findAndActivateNearestTab;
+      const entryPoint = this.entryPoint;
 
       return new Promise(async function (resolve, reject) {
+        if (file.name === entryPoint && file.parent === null) {
+          //cannot delete entry point
+          await confirm.show({
+            title: "Error",
+            message: "Cannot delete the entry point file. This file is required to run your solution.",
+            okMessage: "OK",
+            disableCancel: true
+          });
+
+          return resolve(false);
+        }
+
         const ok = await confirm.show({
           title: "Deleting...",
           message: "Selection will be permanently deleted, would you like to proceed?",
           okMessage: "Confirm",
         });
+
         if (!ok) {
           return resolve(false);
         }
+
         resolve(true);
+
         const index = openFiles.findIndex((elem) => elem === file);
         if (index !== -1) {
           openFiles.splice(index, 1);
@@ -331,6 +349,7 @@ export default {
                            :workshopCode='workshop.code'
                            :exercise='exercise'
                            :files="studentFiles"
+                           :entry-point="entryPoint"
                            :composer-deps="composerDeps" @run-loaded="firstRunLoaded = true"/>
         </div>
       </div>
