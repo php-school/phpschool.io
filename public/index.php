@@ -14,12 +14,15 @@ use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
 use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\StudentLogin;
+use PhpSchool\Website\Action\StudentLogout;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Cloud\Action\ComposerPackageAdd;
 use PhpSchool\Website\Cloud\Action\ComposerPackageSearch;
 use PhpSchool\Website\Cloud\Action\ExerciseEditor;
 use PhpSchool\Website\Cloud\Action\ListWorkshops;
+use PhpSchool\Website\Cloud\Action\ResetState;
+use PhpSchool\Website\Cloud\Action\ResetStateFromEditor;
 use PhpSchool\Website\Cloud\Action\RunExercise;
 use PhpSchool\Website\Cloud\Action\TourComplete;
 use PhpSchool\Website\Cloud\Action\VerifyExercise;
@@ -212,6 +215,10 @@ $app->get('/student-login', StudentLogin::class);
 $app
     ->group('/cloud', function (RouteCollectorProxy $group) use ($container) {
         $rateLimiter = $container->get(ExerciseRunnerRateLimiter::class);
+
+        $group->post('/reset', ResetState::class);
+        $group->get('/logout', StudentLogout::class);
+        $group->post('/workshop/{workshop}/exercise/{exercise}/reset', ResetStateFromEditor::class);
 
         $group->get('', ListWorkshops::class);
         $group->get('/workshop/{workshop}/exercise/{exercise}/editor', ExerciseEditor::class);

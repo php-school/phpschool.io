@@ -11,6 +11,7 @@ use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\ProblemFileConverter;
 use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\PhpRenderer;
+use PhpSchool\Website\User\SessionStorageInterface;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -22,15 +23,18 @@ class ExerciseEditor
     private CloudWorkshopRepository $installedWorkshops;
     private ProblemFileConverter $problemFileConverter;
     private StudentWorkshopState $studentState;
+    private SessionStorageInterface $session;
 
     public function __construct(
         CloudWorkshopRepository $installedWorkshops,
         ProblemFileConverter $problemFileConverter,
         StudentWorkshopState $studentProgress,
+        SessionStorageInterface $session
     ) {
         $this->installedWorkshops = $installedWorkshops;
         $this->problemFileConverter = $problemFileConverter;
         $this->studentState = $studentProgress;
+        $this->session = $session;
     }
 
     public function __invoke(
@@ -60,6 +64,7 @@ class ExerciseEditor
         }
 
         $data = [
+            'student' => $this->session->get('student'),
             'workshop' => $workshop,
             'exercise' => [
                 'name' => $exercise->getName(),
@@ -75,7 +80,7 @@ class ExerciseEditor
         $data = $this->maybeAddOfficialSolution($data, $exercise);
         $data = $this->addInitialCode($data, $exercise);
 
-        return $renderer->render($response, 'layouts/cloud-editor.phtml', [
+        return $renderer->render($response, 'layouts/cloud.phtml', [
             'pageTitle' => 'PHP School Cloud',
             'pageDescription' => 'PHP School Cloud',
             'content' => $renderer->fetch('cloud/exercise-editor.phtml', $data)

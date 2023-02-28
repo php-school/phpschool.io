@@ -1,0 +1,9 @@
+<list-workshops
+    <?php if ($student): ?>
+        :student='<?= $this->json($student) ?>'
+    <?php endif; ?>
+    :total-exercises='<?= $this->json($totalExerciseCount) ?>'
+    :workshops='<?= $this->json($workshops) ?>'
+    :links='<?= $this->json($links) ?>'
+>
+</list-workshops>

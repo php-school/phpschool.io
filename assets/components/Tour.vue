@@ -14,6 +14,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    problemModalOpen: Boolean,
   },
 
   data() {
@@ -44,7 +45,7 @@ export default {
         useModalOverlay: true,
         defaultStepOptions: {
           canClickTarget: false,
-          classes: 'rounded-lg shadow-lg p-5 bg-gradient-to-r from-pink-600 to-purple-500 right-4 text-center text-white max-w-xs leading-6 border-4 border-solid border-purple-600 font-mono text-xs absolute top-[20px] z-[9998]',
+          classes: 'rounded-lg shadow-lg p-4 bg-gradient-to-r from-pink-600 to-purple-500 right-4 text-center text-white max-w-xs leading-6 border-4 border-solid border-purple-600 font-mono text-xs absolute top-[20px] z-[9998]',
           scrollTo: true,
           floatingUIOptions: {
             middleware: [offset({ mainAxis: 10,  })]
@@ -91,8 +92,21 @@ export default {
         ],
       });
 
+      const component = this;
+
+      const problemModalIsOpen = function () {
+        return component.problemModalOpen === true;
+      };
+
       this.tour.addStep({
-        attachTo: { element: '#problem-modal', on: 'right-start' },
+        attachTo: {
+          element: '#problem-modal',
+          on: 'right-start'
+        },
+        beforeShowPromise: function () {
+          component.$emit('tour-starting');
+          return waitUntil(problemModalIsOpen)
+        },
         text: 'For each exercise, there will be a problem you need to solve. It will open automatically when you enter the editor.',
         buttons: [
           {
@@ -157,7 +171,6 @@ export default {
         advanceOn: {selector: '#run', event: 'click'},
       });
 
-      const component = this;
       const isFirstRunLoaded = function () {
         return component.firstRunLoaded === true;
       };
@@ -247,6 +260,10 @@ export default {
             })
       }));
     },
+    forceTour() {
+      this.createTour();
+      this.tour.start();
+    }
   }
 }
 </script>

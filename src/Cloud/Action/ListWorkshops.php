@@ -19,10 +19,10 @@ class ListWorkshops
 
     public function __invoke(Request $request, Response $response, PhpRenderer $renderer): Response
     {
-        return $renderer->render($response, 'layouts/layout.phtml', [
+        return $renderer->render($response, 'layouts/cloud.phtml', [
             'pageTitle'       => 'PHP School Cloud',
             'pageDescription' => 'PHP School Cloud',
-            'content'         => $renderer->fetch('cloud/cloud.phtml', [
+            'content'         => $renderer->fetch('cloud/list-workshops.phtml', [
                 'totalExerciseCount' => $this->installedWorkshops->totalExerciseCount(),
                 'workshops' => $this->installedWorkshops->findAll(),
             ])

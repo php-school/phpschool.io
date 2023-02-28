@@ -27,8 +27,7 @@ export default {
   },
   emits: ["verify-loading", "verify-success", "verify-fail", "run-loaded"],
   props: {
-    workshopCode: String,
-    exercise: Object,
+    currentExercise: Object,
     files: Array,
     composerDeps: Array,
     entryPoint: String,
@@ -40,7 +39,7 @@ export default {
       openRunModal: false,
       loadingVerify: false,
       showRateLimitError: false,
-      rateLimitTimerId: null
+      rateLimitTimerId: null,
     }
   },
   methods: {
@@ -70,7 +69,7 @@ export default {
       }
 
       this.loadingRun = true;
-      const url = '/cloud/workshop/' + this.workshopCode + '/exercise/' + this.exercise.slug + '/run';
+      const url = '/cloud/workshop/' + this.currentExercise.workshop.code + '/exercise/' + this.currentExercise.exercise.slug + '/run';
 
       const opts = {
         method: 'POST',
@@ -116,7 +115,7 @@ export default {
       this.$emit('verify-loading');
       this.loadingVerify = true;
 
-      const url = '/cloud/workshop/' + this.workshopCode + '/exercise/' + this.exercise.slug + '/verify';
+      const url = '/cloud/workshop/' + this.currentExercise.workshop.code + '/exercise/' + this.currentExercise.exercise.slug + '/verify';
 
       const opts = {
         method: 'POST',
