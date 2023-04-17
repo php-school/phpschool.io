@@ -29,7 +29,7 @@ class StudentLogout
 
     public function __invoke(Request $request, Response $response): MessageInterface
     {
-       $this->session->delete('student');
-       return $this->redirect('/cloud');
+        $this->session->delete('student');
+        return $this->redirect('/cloud');
     }
 }
