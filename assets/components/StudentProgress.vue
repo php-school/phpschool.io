@@ -13,13 +13,31 @@ export default {
       type: Object,
       required: false
     },
-    totalExercises: Number
+    totalExercises: Number,
+    studentState: Object,
   },
-  data() {
-    return {
-       percentComplete: this.student === undefined ? 0 : (this.student.state.total_completed / this.totalExercises) * 100,
-       totalCompleted: this.student === undefined ? 0 : this.student.state.total_completed,
-    }
+  computed: {
+    percentComplete() {
+      if (this.student === undefined) {
+        return 0;
+      }
+
+      return (this.studentState.totalCompleted / this.totalExercises) * 100;
+    },
+    exerciseCompleted() {
+      if (this.student === undefined) {
+        return 0;
+      }
+
+      return this.studentState.completedExercises.includes(this.exercise.name);
+    },
+    totalCompleted() {
+      if (this.student === undefined) {
+        return 0;
+      }
+
+      return this.studentState.totalCompleted;
+    },
   },
   methods: {
     login() {
@@ -30,7 +48,7 @@ export default {
 </script>
 
 <template>
-  <div class="w-1/3 mx-auto mt-10">
+  <div class="grow-0 w-1/3 mx-auto mt-10 bg-gray-800 p-8 rounded-xl">
     <div class="flex justify-between">
       <button v-cloak v-if="!student" @click="login"
               class="w-1/2 flex items-center p-2 bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 font-medium focus:outline-none focus:ring-[#24292F]/50 text-center text-white rounded-lg">
@@ -42,13 +60,13 @@ export default {
         <span>Log in with GitHub</span>
       </button>
       <div v-cloak v-if="student" class="flex items-center space-x-4">
-        <img v-if="student.profile_picture" class="w-10 h-10 rounded-full" :src="student.profile_picture" alt="">
+        <img v-if="student.profile_picture" class="w-10 h-10 rounded-full" :src="student.profile_picture" alt="{{ student.name }}">
         <div v-if="!student.profile_picture" class="w-10 h-10 rounded-full">
           <UserCircleIcon class="text-pink-600"/>
         </div>
 
         <div class="font-medium">
-          <div>{{ student.name }}</div>
+          <p class="text-white">{{ student.name }}</p>
           <div class="text-sm text-gray-500">Joined in {{ student.join_date }}</div>
         </div>
       </div>
@@ -56,7 +74,7 @@ export default {
           <span class="flex rounded-lg p-2">
             <TrophyIcon class="h-6 w-6 text-yellow-400"/>
           </span>
-        <p class="ml-2 text-sm font-medium text-gray-500">{{ totalCompleted }} out of {{ totalExercises }}</p>
+        <p class="ml-2 text-sm font-medium text-white">{{ totalCompleted }} out of {{ totalExercises }}</p>
       </div>
     </div>
 

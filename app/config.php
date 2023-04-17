@@ -430,7 +430,8 @@ return [
         return new ExerciseEditor(
             $c->get(CloudWorkshopRepository::class),
             $c->get(ProblemFileConverter::class),
-            $c->get(StudentWorkshopState::class)
+            $c->get(StudentWorkshopState::class),
+            $c->get(SessionStorageInterface::class)
         );
     },
 

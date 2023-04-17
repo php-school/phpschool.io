@@ -33,6 +33,20 @@ class StudentWorkshopState
         return $student;
     }
 
+    public function reset(): void
+    {
+        $studentDTO = $this->getStudent();
+
+        /** @var Student $student */
+        $student = $this->studentRepository->findById($studentDTO->id);
+        $student->setWorkshopState([]);
+
+        $this->studentRepository->update($student);
+
+        //refresh student DTO
+        $this->session->set('student', $student->toDTO());
+    }
+
     public function setCurrentExercise(string $workshopCode, string $exerciseName): void
     {
         $state = $this->getState($workshopCode);

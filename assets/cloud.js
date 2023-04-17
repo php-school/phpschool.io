@@ -16,6 +16,8 @@ import VueDiff from 'vue-diff';
 import 'vue-diff/dist/index.css';
 import VueShepherdPlugin from './shepherd-plugin';
 import results from "./components/results/results.js";
+import StudentDropdown from "./components/StudentDropdown.vue";
+import ListWorkshops from "./components/ListWorkshops.vue";
 
 const components = {
     AceEditor,
@@ -28,6 +30,8 @@ const components = {
     PassNotification,
     ExerciseVerify,
     ExerciseEditor,
+    StudentDropdown,
+    ListWorkshops
 }
 
 const app = createApp({
