@@ -48,7 +48,7 @@ export default {
 </script>
 
 <template>
-  <div class="w-1/3 mx-auto mt-10 bg-gray-800 p-8 rounded-xl">
+  <div class="grow-0 w-1/3 mx-auto mt-10 bg-gray-800 p-8 rounded-xl">
     <div class="flex justify-between">
       <button v-cloak v-if="!student" @click="login"
               class="w-1/2 flex items-center p-2 bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 font-medium focus:outline-none focus:ring-[#24292F]/50 text-center text-white rounded-lg">

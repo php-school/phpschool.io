@@ -487,8 +487,8 @@ export default {
                     </template>
                 </Modal>
             </Transition>
-            <Transition enter-active-class="transition-opacity duration-100 ease-in"
-                        leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0"
+            <Transition enter-active-class="transition-opacity duration-500 ease-in"
+                        leave-active-class="transition-opacity duration-500 ease-in" enter-from-class="opacity-0"
                         enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
                 <Modal id="problem-modal" :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]"
                        v-if="openProblemModal" @close="openProblemModal = false">

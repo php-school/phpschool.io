@@ -88,8 +88,8 @@ export default {
         </template>
     </header-nav>
 
-    <section id="app" class="site-body h-full">
-        <div class="container flex flex-col h-full">
+    <section id="app" class="flex-1 pb-4 overflow-hidden">
+        <div class="container flex flex-col overflow-hidden h-full">
             <student-progress
                     :student="student"
                     :student-state="studentState"
