@@ -14,6 +14,7 @@ use PhpSchool\Website\Cloud\ProblemFileConverter;
 use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\TestUtils\BaseFilesystemTest;
+use PhpSchool\Website\User\ArraySession;
 use PhpSchool\WebsiteTest\Asset\CliExerciseImpl;
 use PhpSchool\WebsiteTest\Asset\ExerciseImpl;
 use RuntimeException;
@@ -32,7 +33,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(PhpRenderer::class);
 
-        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state);
+        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
         $response = new Response();
 
@@ -60,7 +61,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(PhpRenderer::class);
 
-        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state);
+        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
         $response = new Response();
 
@@ -83,7 +84,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(PhpRenderer::class);
 
-        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state);
+        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
         $response = new Response();
 
@@ -110,7 +111,8 @@ class ExerciseEditorTest extends BaseFilesystemTest
                     'initial_files' => [
                         ['name' => 'solution.php', 'content' => '<?php ']
                     ],
-                    'entry_point' => 'solution.php'
+                    'entry_point' => 'solution.php',
+                    'student' => null
                 ]
             )
             ->willReturn('innerContent');
@@ -119,7 +121,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
             ->method('render')
             ->with(
                 $response,
-                'layouts/cloud-editor.phtml',
+                'layouts/cloud.phtml',
                 [
                     'pageTitle' => 'PHP School Cloud',
                     'pageDescription' => 'PHP School Cloud',
@@ -152,7 +154,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(PhpRenderer::class);
 
-        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state);
+        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
         $response = new Response();
 
@@ -183,7 +185,8 @@ class ExerciseEditorTest extends BaseFilesystemTest
                     'initial_files' => [
                         ['name' => 'solution.php', 'content' => '<?php ']
                     ],
-                    'entry_point' => 'solution.php'
+                    'entry_point' => 'solution.php',
+                    'student' => null
                 ]
             )
             ->willReturn('innerContent');
@@ -192,7 +195,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
             ->method('render')
             ->with(
                 $response,
-                'layouts/cloud-editor.phtml',
+                'layouts/cloud.phtml',
                 [
                     'pageTitle' => 'PHP School Cloud',
                     'pageDescription' => 'PHP School Cloud',
@@ -227,7 +230,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(PhpRenderer::class);
 
-        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state);
+        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
         $response = new Response();
 
@@ -266,7 +269,8 @@ class ExerciseEditorTest extends BaseFilesystemTest
                             'entry_point' => false,
                             'content' => 'U09NRSBDTEFTUw==',
                         ]
-                    ]
+                    ],
+                    'student' => null
                 ]
             )
             ->willReturn('innerContent');
@@ -275,7 +279,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
             ->method('render')
             ->with(
                 $response,
-                'layouts/cloud-editor.phtml',
+                'layouts/cloud.phtml',
                 [
                     'pageTitle' => 'PHP School Cloud',
                     'pageDescription' => 'PHP School Cloud',
