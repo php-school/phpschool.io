@@ -90,7 +90,7 @@ export default {
               </button>
             </div>
           </div>
-          <div class="p-6 flex-1" :class="{'pt-0' : !$slots.header, 'overflow-y-auto' : scrollContent}" >
+          <div class="p-6 flex-1" :class="{'pt-0' : !$slots.header, 'overflow-y-auto scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-none scrollbar-thumb-rounded-full scrollbar-track-rounded-full' : scrollContent}" >
             <slot name="body"/>
           </div>
           <div v-if="$slots.footer" class="p-6 rounded-b border-t border-solid border-slate-600 flex-none">
