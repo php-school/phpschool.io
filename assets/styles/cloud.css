@@ -35,33 +35,3 @@
     transform: translate3d(4px, 0, 0);
   }
 }
-
-/* Custom Scrollbar */
-#workshop-exercises {
-  --sb-track-color: none;
-  --sb-thumb-color: #be185d;
-  --sb-size: 5px;
-
-  scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
-}
-
-#workshop-exercises::-webkit-scrollbar {
-  width: var(--sb-size);
-}
-
-#workshop-exercises::-webkit-scrollbar-track {
-  background: none;
-  border-radius: 100vw;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--sb-thumb-color);
-  border-radius: 100vw;
-}
-
-@supports (scrollbar-color: pink grey) {
-  #workshop-exercises {
-    scrollbar-color: #be185d #1f2937;
-    scrollbar-width: thin;
-  }
-}
