@@ -2,15 +2,7 @@
 module.exports = {
   important: "#page-top",
   content: ["./templates/**/*.{phtml,js}", "./public/js/cloud.js", "./src/PhpWorkshop/**/*.php", "./assets/**/*.js", "./assets/components/**/*.vue"],
-  theme: {
-    extend: {
-      colors: {
-        brand: {
-          phpink: "#db2777",
-        },
-      },
-    },
-  },
+  theme: {},
   plugins: [require("tailwind-scrollbar")({ nocompatible: true })],
   variants: {
     scrollbar: ["rounded"],
