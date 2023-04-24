@@ -79,8 +79,8 @@ export default {
     <div tabindex="-1"
         class="overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 md:h-full justify-center items-center flex"
     >
-      <div :id="id" v-click-away="clickAway" class="relative rounded-lg shadow bg-gray-800 flex flex-col justify-start w-full" :class="[modalSizeClasses[size], maxHeight]">
-          <div class="p-4 rounded-t flex-none flex justify-between items-top"
+      <div :id="id" v-click-away="clickAway" class="relative rounded-lg shadow bg-gray-800 flex flex-col justify-start w-full modal-border border-2 border-solid border-transparent" :class="[modalSizeClasses[size], maxHeight]">
+          <div class="p-6 rounded-t flex-none flex justify-between items-top"
                :class="$slots.header ? 'border-b border-solid border-slate-600' : ''">
             <slot name="header"/>
             <div>
@@ -90,7 +90,7 @@ export default {
               </button>
             </div>
           </div>
-          <div class="p-6 flex-1" :class="{'pt-0' : !$slots.header, 'overflow-y-auto scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-none scrollbar-thumb-rounded-full scrollbar-track-rounded-full' : scrollContent}" >
+          <div class="p-6 flex-1" :class="{'pt-0' : !$slots.header, 'overflow-y-auto scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-none scrollbar-thumb-rounded-full scrollbar-track-rounded-full mr-[3px]' : scrollContent}" >
             <slot name="body"/>
           </div>
           <div v-if="$slots.footer" class="p-6 rounded-b border-t border-solid border-slate-600 flex-none">
@@ -100,3 +100,10 @@ export default {
     </div>
   </div>
 </template>
+
+<style>
+.modal-border {
+    background: padding-box linear-gradient(rgb(31 41 55), rgb(31 41 55)),
+        border-box linear-gradient(rgb(236, 72, 153), rgba(168, 85, 247, 0.3));
+}
+</style>
