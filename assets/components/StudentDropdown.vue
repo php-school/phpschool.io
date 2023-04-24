@@ -2,9 +2,11 @@
 
 import {TrophyIcon} from '@heroicons/vue/24/outline'
 import {ArrowPathIcon, UserCircleIcon} from '@heroicons/vue/24/solid'
+import Alert from "./Alert.vue";
 
 export default {
     components: {
+        Alert,
         TrophyIcon,
         UserCircleIcon,
         ArrowPathIcon
@@ -47,8 +49,20 @@ export default {
         toggleDropdown() {
             this.isOpen = !this.isOpen;
         },
-        resetState() {
+        async resetState() {
             if (this.loadingStateReset) {
+                return;
+            }
+
+            const confirm = this.$refs.resetProgressAlert;
+
+            const ok = await confirm.show({
+                title: "Resetting progress...",
+                message: "All workshop progress will be reset. Are you sure you want to continue?",
+                okMessage: "Confirm",
+            });
+
+            if (!ok) {
                 return;
             }
 
@@ -112,6 +126,7 @@ export default {
                     </a>
                 </li>
             </ul>
+            <alert ref="resetProgressAlert"></alert>
 
             <div class="py-3">
                 <a href="/cloud/logout" class="block text-left no-underline px-6 py-2 text-sm hover:bg-gray-600 text-gray-200 hover:text-white">Sign out</a>
