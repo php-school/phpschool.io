@@ -8,7 +8,7 @@ npm-debug.log
 /cache/
 /config/database.yml
 /.phpunit.result.cache
-
+/*.sql
 .docker/db/*
 .docker/mysql/*
 
