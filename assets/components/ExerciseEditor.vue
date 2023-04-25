@@ -20,7 +20,7 @@ import PackageSearch from './PackageSearch.vue';
 import OutputMismatch from './results/CliOutputMismatch.vue';
 import ResultList from "./results/ResultList.vue";
 import Tour from "./Tour.vue";
-import Alert from "./Alert.vue";
+import Alert from "./Confirm.vue";
 import HeaderNav from "./HeaderNav.vue";
 import StudentDropdown from "./StudentDropdown.vue";
 

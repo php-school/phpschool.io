@@ -72,7 +72,7 @@ export default {
         <div class="p-4 rounded-t flex-none flex justify-between items-top border-b border-solid border-slate-600">
           <div class="flex items-center">
             <ExclamationTriangleIcon class="h-6 w-6 text-pink-500 mr-2" />
-            <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0">{{ title }}</h3>
+            <h3 class="text-base font-semibold lg:text-lg text-white pt-0 mt-0">{{ title }}</h3>
           </div>
         </div>
         <div class="p-4 rounded-t flex-none flex justify-between items-top border-b border-solid border-slate-600">

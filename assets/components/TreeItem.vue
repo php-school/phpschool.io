@@ -2,7 +2,7 @@
 
 import { FolderIcon, FolderOpenIcon, DocumentIcon, PencilIcon, FolderPlusIcon, PlusIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import uniqueName from "./utils/uniqueName.js";
-import Alert from "./Alert.vue";
+import Alert from "./Confirm.vue";
 
 export default {
   components: {

@@ -2,7 +2,7 @@
 
 import {TrophyIcon} from '@heroicons/vue/24/outline'
 import {ArrowPathIcon, UserCircleIcon} from '@heroicons/vue/24/solid'
-import Alert from "./Alert.vue";
+import Alert from "./Confirm.vue";
 import Notification from "./Notification.vue";
 
 export default {
