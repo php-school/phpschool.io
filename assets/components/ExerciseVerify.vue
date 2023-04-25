@@ -198,12 +198,12 @@ export default {
             </TabList>
             <TabPanels>
                 <TabPanel v-for="(run, i) in programRunResult.runs">
-                  <run-result :exercise="exercise" :run="run" class="mt-6"/>
+                  <run-result :exercise="currentExercise.exercise" :run="run" class="mt-6"/>
                 </TabPanel>
             </TabPanels>
           </TabGroup>
 
-          <run-result v-else :exercise="exercise" :run="programRunResult.runs[0]"/>
+          <run-result v-else :exercise="currentExercise.exercise" :run="programRunResult.runs[0]"/>
         </div>
 
       </template>
