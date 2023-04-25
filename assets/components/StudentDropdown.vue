@@ -2,13 +2,13 @@
 
 import {TrophyIcon} from '@heroicons/vue/24/outline'
 import {ArrowPathIcon, UserCircleIcon} from '@heroicons/vue/24/solid'
-import Alert from "./Confirm.vue";
-import Notification from "./Notification.vue";
+import Confirm from "./Confirm.vue";
+import Alert from "./Alert.vue";
 
 export default {
     components: {
-        Notification,
         Alert,
+        Confirm,
         TrophyIcon,
         UserCircleIcon,
         ArrowPathIcon
@@ -32,7 +32,7 @@ export default {
         return {
             isOpen: false,
             loadingStateReset: false,
-            showResetProgressNotification: false
+            showResetProgressAlert: false
         }
     },
     computed: {
@@ -58,7 +58,7 @@ export default {
                 return;
             }
 
-            const confirm = this.$refs.resetProgressAlert;
+            const confirm = this.$refs.resetProgressConfirm;
 
             const ok = await confirm.show({
                 title: "Resetting progress...",
@@ -75,10 +75,10 @@ export default {
             this.resetFunction()
                 .then(async () => {
                     this.loadingStateReset = false;
-                    this.showResetProgressNotification = true;
+                    this.showResetProgressAlert = true;
 
                     setTimeout(() => {
-                        this.showResetProgressNotification = false;
+                        this.showResetProgressAlert = false;
                     }, 3000)
                 })
                 .catch(() => {
@@ -90,7 +90,7 @@ export default {
 </script>
 
 <template>
-    <notification type="success" @close="showResetProgressNotification = false" v-show="showResetProgressNotification" message="Progress successfully reset"></notification>
+    <alert type="success" @close="showResetProgressAlert = false" v-show="showResetProgressAlert" message="Progress successfully reset"></alert>
     <div class="relative">
         <button @click.stop="toggleDropdown"
                 class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-4 focus:ring-4  focus:ring-gray-600"
@@ -136,7 +136,7 @@ export default {
                     </a>
                 </li>
             </ul>
-            <alert ref="resetProgressAlert"></alert>
+            <confirm ref="resetProgressConfirm"></confirm>
 
             <div class="py-3">
                 <a href="/cloud/logout" class="block text-left no-underline px-6 py-2 text-sm hover:bg-gray-600 text-gray-200 hover:text-white">Sign out</a>

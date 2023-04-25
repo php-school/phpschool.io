@@ -6,12 +6,12 @@ import {ArrowPathIcon, ExclamationTriangleIcon, CommandLineIcon, SparklesIcon, X
 import toFilePath from "./utils/toFilePath";
 import RunResult from "./RunResult.vue";
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
-import Notification from "./Notification.vue";
+import Alert from "./Alert.vue";
 
 
 export default {
   components: {
-    Notification,
+    Alert,
     TabGroup,
     TabList,
     Tab,
@@ -161,7 +161,7 @@ export default {
 </script>
 
 <template>
-  <notification type="error" @close="showRateLimitError = false" v-show="showRateLimitError" message="Too many requests. Please try again in a few minutes."></notification>
+  <alert type="error" @close="showRateLimitError = false" v-show="showRateLimitError" message="Too many requests. Please try again in a few minutes."></alert>
   <div class="flex items-center">
     <button id="run" class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white h-full flex items-center justify-center mt-0 mr-2 px-4 w-36 rounded" @click.stop="runSolution" :disabled="loadingRun">
       <ArrowPathIcon v-cloak v-show="loadingRun" class="w-4 h-4 animate-spin"/>

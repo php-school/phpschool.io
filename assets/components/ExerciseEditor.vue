@@ -20,7 +20,7 @@ import PackageSearch from './PackageSearch.vue';
 import OutputMismatch from './results/CliOutputMismatch.vue';
 import ResultList from "./results/ResultList.vue";
 import Tour from "./Tour.vue";
-import Alert from "./Confirm.vue";
+import Confirm from "./Confirm.vue";
 import HeaderNav from "./HeaderNav.vue";
 import StudentDropdown from "./StudentDropdown.vue";
 
@@ -46,7 +46,7 @@ export default {
         ChevronRightIcon,
         ExclamationCircleIcon,
         OutputMismatch,
-        Alert,
+        Confirm,
     },
     props: {
         nextExerciseLink: String,
@@ -156,7 +156,7 @@ export default {
             this.openPassNotification = false;
         },
         deleteFileOrFolder(file) {
-            const confirm = this.$refs.deleteFileAlert;
+            const confirm = this.$refs.deleteFileConfirm;
             const openFiles = this.openFiles;
             const findAndActivateNearestTab = this.findAndActivateNearestTab;
             const entryPoint = this.entryPoint;
@@ -176,7 +176,7 @@ export default {
 
                 const ok = await confirm.show({
                     title: "Deleting...",
-                    message: "Selection will be permanently deleted, would you like to proceed?",
+                    message: "Selection will be permanently deleted. Are you sure you want to continue?",
                     okMessage: "Confirm",
                 });
 
@@ -318,8 +318,7 @@ export default {
                   :first-run-loaded="firstRunLoaded"
                   :first-verify-loaded="firstVerifyLoaded" :problem-modal-open="openProblemModal"></tour>
 
-            <!-- File Delete Alert -->
-            <alert ref="deleteFileAlert"></alert>
+            <confirm ref="deleteFileConfirm"></confirm>
 
             <pass-notification
                     v-if="openPassNotification"
