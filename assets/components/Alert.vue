@@ -23,6 +23,8 @@ export default {
       this.isOpen = false;
     },
     show(options = {}) {
+      document.removeEventListener('keyup', this.$el.escapeEventHandler);
+
       this.title = options.title;
       this.message = options.message;
       if(options.okMessage) {
@@ -34,10 +36,19 @@ export default {
 
       if (options.disableCancel) {
           this.showCancel = false;
+      } else {
+        //hitting escape is the same as cancelling
+        this.$el.escapeEventHandler = (evt) => {
+          if (evt.code === 'Escape') {
+            this.decline();
+          }
+        };
+
+        document.addEventListener('keyup', this.$el.escapeEventHandler);
       }
 
       this.open();
-      return new Promise((resolve,reject)=>{
+      return new Promise((resolve,reject) => {
         this.resolvePromise = resolve;
         this.rejectPromise = reject;
       });
