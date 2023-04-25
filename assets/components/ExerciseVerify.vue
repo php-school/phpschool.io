@@ -6,10 +6,12 @@ import {ArrowPathIcon, ExclamationTriangleIcon, CommandLineIcon, SparklesIcon, X
 import toFilePath from "./utils/toFilePath";
 import RunResult from "./RunResult.vue";
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+import Notification from "./Notification.vue";
 
 
 export default {
   components: {
+    Notification,
     TabGroup,
     TabList,
     Tab,
@@ -159,26 +161,7 @@ export default {
 </script>
 
 <template>
-  <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-300 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
-    <div  v-show="showRateLimitError"  v-cloak class="absolute top-4 left-0 z-[51] shadow-lg w-full flex justify-center">
-      <div class="mx-auto py-3 px-3 sm:px-6 lg:px-8  bg-gradient-to-r from-red-600 to-pink-700 rounded-lg">
-        <div class="flex flex-wrap items-center justify-center">
-          <div class="flex items-center">
-            <ExclamationTriangleIcon class="h-6 w-6 text-white"/>
-            <p class="ml-3 truncate font-medium text-white">
-              <span class="">Too many requests. Please try again in a few minutes.</span>
-            </p>
-          </div>
-          <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
-            <button @click="showRateLimitError = false" type="button" class="-mr-1 flex rounded-md p-2 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
-              <span class="sr-only">Dismiss</span>
-              <XMarkIcon class="h-6 w-6 text-white"/>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </Transition>
+  <notification type="error" @close="showRateLimitError = false" v-show="showRateLimitError" message="Too many requests. Please try again in a few minutes."></notification>
   <div class="flex items-center">
     <button id="run" class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white h-full flex items-center justify-center mt-0 mr-2 px-4 w-36 rounded" @click.stop="runSolution" :disabled="loadingRun">
       <ArrowPathIcon v-cloak v-show="loadingRun" class="w-4 h-4 animate-spin"/>

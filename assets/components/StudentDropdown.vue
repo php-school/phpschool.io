@@ -3,14 +3,17 @@
 import {TrophyIcon} from '@heroicons/vue/24/outline'
 import {ArrowPathIcon, UserCircleIcon} from '@heroicons/vue/24/solid'
 import Alert from "./Alert.vue";
+import Notification from "./Notification.vue";
 
 export default {
     components: {
+        Notification,
         Alert,
         TrophyIcon,
         UserCircleIcon,
         ArrowPathIcon
     },
+    emits: ['show-tour'],
     props: {
         student: {
             type: Object,
@@ -29,6 +32,7 @@ export default {
         return {
             isOpen: false,
             loadingStateReset: false,
+            showResetProgressNotification: false
         }
     },
     computed: {
@@ -69,8 +73,13 @@ export default {
             this.loadingStateReset = true;
 
             this.resetFunction()
-                .then(() => {
+                .then(async () => {
                     this.loadingStateReset = false;
+                    this.showResetProgressNotification = true;
+
+                    setTimeout(() => {
+                        this.showResetProgressNotification = false;
+                    }, 3000)
                 })
                 .catch(() => {
                     this.loadingStateReset = false;
@@ -81,6 +90,7 @@ export default {
 </script>
 
 <template>
+    <notification type="success" @close="showResetProgressNotification = false" v-show="showResetProgressNotification" message="Progress successfully reset"></notification>
     <div class="relative">
         <button @click.stop="toggleDropdown"
                 class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-4 focus:ring-4  focus:ring-gray-600"
