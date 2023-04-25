@@ -295,12 +295,12 @@ export default {
 
 <template>
 
-    <header-nav @show-tour="forceTour" :links="links">
+    <header-nav :links="links">
         <template v-slot:nav-after>
             <ul v-if="student" class="order-3">
                 <li>
                     <student-dropdown
-                            @show-tour="$emit('show-tour')"
+                            @show-tour="forceTour"
                             :student="student"
                             :student-state="studentState"
                             :total-exercises='totalExercises'
