@@ -59,6 +59,25 @@ export default {
         totalExercises: Number,
         links: Object
     },
+    mounted() {
+        const items = {...localStorage};
+        const key =  this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug;
+        for (const localStorageKey in items) {
+            if(localStorageKey.startsWith(key)){
+                const fileContent = items[localStorageKey];
+                const fileName = localStorageKey.substring(key.length + 1);
+                console.log(fileName);
+
+                const file = {
+                    name: fileName,
+                    parent: null,
+                    content: fileContent,
+                }
+
+                this.studentFiles.push(file);
+            }
+        }
+    },
     data() {
         //sort the initial files so entry point is at the top
         //and opened in a tab
@@ -103,6 +122,10 @@ export default {
     },
 
     methods: {
+        saveSolution(file) {
+            localStorage.setItem(this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug + '.' + file.name, file.content);
+            console.log(file);
+        },
         resetState() {
             const currentExercise = this.currentExercise;
             const studentState = this.studentState;
@@ -341,7 +364,7 @@ export default {
                          :class="[openResults ? 'w-3/5' : 'w-4/5']">
                         <Tabs :tabList="openFiles.map(file => file.name)" @close-tab="closeTab" :active-tab="activeTab">
                             <template v-slot:[`tab-content-`+index] v-for="(file, index) in openFiles">
-                                <AceEditor :id="'editor-' + (index + 1)" :file="file" @change=""
+                                <AceEditor :id="'editor-' + (index + 1)" :file="file" @changeContent="saveSolution"
                                            class="w-full h-full border-0"/>
                             </template>
                         </Tabs>

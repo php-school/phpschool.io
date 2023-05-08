@@ -42,7 +42,7 @@ export default {
       change() {
         const content = this._editor.session.getValue();
         this.file.content = content;
-        this.$emit('change', content)
+        this.$emit('changeContent', this.file);
       }
   },
   beforeUnmount() {
