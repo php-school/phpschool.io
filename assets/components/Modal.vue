@@ -50,7 +50,8 @@ export default {
         '5xl': 'max-w-5xl',
         '6xl': 'max-w-6xl',
         '7xl': 'max-w-7xl',
-      }
+      },
+      focusActive: false,
     }
   },
   methods: {
@@ -74,31 +75,31 @@ export default {
 </script>
 
 <template >
-  <div class="">
-    <div class="bg-gray-900 bg-opacity-80 fixed inset-0 z-40"/>
-    <div tabindex="-1"
-        class="overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 md:h-full justify-center items-center flex"
-    >
-      <div :id="id" v-click-away="clickAway" class="relative rounded-lg shadow bg-gray-800 flex flex-col justify-start w-full modal-border border-2 border-solid border-transparent" :class="[modalSizeClasses[size], maxHeight]">
-          <div class="p-6 rounded-t flex-none flex justify-between items-top"
-               :class="$slots.header ? 'border-b border-solid border-slate-600' : ''">
-            <slot name="header"/>
-            <div>
-              <button :id="id + '-close'" @click="closeModal($event)" type="button"
-                      class="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-gray-600 hover:text-white">
-                <XMarkIcon class="w-5 h-5"/>
-              </button>
+    <focus-trap :v-model:active="true">
+        <div class="">
+        <div class="bg-gray-900 bg-opacity-80 fixed inset-0 z-40"/>
+        <div tabindex="-1" class="overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 md:h-full justify-center items-center flex">
+          <div :id="id" v-click-away="clickAway" class="relative rounded-lg shadow bg-gray-800 flex flex-col justify-start w-full modal-border border-2 border-solid border-transparent" :class="[modalSizeClasses[size], maxHeight]">
+              <div class="p-6 rounded-t flex-none flex justify-between items-top"
+                   :class="$slots.header ? 'border-b border-solid border-slate-600' : ''">
+                <slot name="header"/>
+                <div>
+                  <button :id="id + '-close'" @click="closeModal($event)" type="button"
+                          class="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-gray-600 hover:text-white focus:outline-none focus:ring focus:ring-pink-800">
+                    <XMarkIcon class="w-5 h-5"/>
+                  </button>
+                </div>
+              </div>
+              <div class="p-6 flex-1" :class="{'pt-0' : !$slots.header, 'overflow-y-auto scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-none scrollbar-thumb-rounded-full scrollbar-track-rounded-full mr-[3px]' : scrollContent}" >
+                <slot name="body"/>
+              </div>
+              <div v-if="$slots.footer" class="p-6 rounded-b border-t border-solid border-slate-600 flex-none">
+                <slot name="footer"/>
+              </div>
             </div>
-          </div>
-          <div class="p-6 flex-1" :class="{'pt-0' : !$slots.header, 'overflow-y-auto scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-none scrollbar-thumb-rounded-full scrollbar-track-rounded-full mr-[3px]' : scrollContent}" >
-            <slot name="body"/>
-          </div>
-          <div v-if="$slots.footer" class="p-6 rounded-b border-t border-solid border-slate-600 flex-none">
-            <slot name="footer"/>
-          </div>
         </div>
-    </div>
-  </div>
+      </div>
+    </focus-trap>
 </template>
 
 <style>

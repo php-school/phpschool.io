@@ -101,7 +101,6 @@ export default {
             return this.studentState.completedExercises.includes(this.exercise.name);
         },
     },
-
     methods: {
         resetState() {
             const currentExercise = this.currentExercise;
@@ -458,7 +457,7 @@ export default {
                             <package-search ref="packageSearch" @package-selected="packageSelected"
                                             v-model="newDependency" class="w-full"></package-search>
                             <button :disabled="newDependency === ''" @click.stop="addDependency" type="button"
-                                    class="inline-flex items-center h-9 justify-center rounded-full border border-transparent w-16 bg-pink-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none sm:ml-3 sm:text-sm disabled:opacity-70 disabled:hover:bg-pink-600">
+                                    class="inline-flex items-center h-9 justify-center rounded-full border border-transparent w-16 bg-pink-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:text-sm disabled:opacity-70 disabled:hover:bg-pink-600">
                                 <ArrowPathIcon v-cloak v-show="loadingComposerAdd" class="w-4 h-4 animate-spin"/>
                                 <span v-if="!loadingComposerAdd">Add</span>
                             </button>
@@ -479,7 +478,7 @@ export default {
                     <template #footer>
                         <div class="flex justify-end">
                             <button @click="openComposerModal = false" type="button"
-                                    class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                                    class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto sm:text-sm">
                                 Close
                             </button>
                         </div>
@@ -512,7 +511,7 @@ export default {
                     <template #footer>
                         <div class="flex justify-end">
                             <button id="lets-go" @click="openProblemModal = false" type="button"
-                                    class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                                    class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto sm:text-sm">
                                 Let's go!
                             </button>
                         </div>

@@ -33,6 +33,8 @@
     "@heroicons/vue": "^2.0.13",
     "ace-builds": "^1.13.0",
     "cross-env": "^7.0.3",
+    "focus-trap": "^7.4.0",
+    "focus-trap-vue": "^4.0.2",
     "shepherd.js": "^11.0.1",
     "vue": "^3.2.41",
     "vue-diff": "^1.2.4",
