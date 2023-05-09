@@ -11,6 +11,7 @@ import WorkshopExerciseSelectionList from './components/WorkshopExerciseSelectio
 import PassNotification from "./components/PassNotification.vue";
 import ExerciseVerify from "./components/ExerciseVerify.vue";
 import ExerciseEditor from "./components/ExerciseEditor.vue";
+import { FocusTrap } from 'focus-trap-vue'
 import VueClickAway from "vue3-click-away";
 import VueDiff from 'vue-diff';
 import 'vue-diff/dist/index.css';
@@ -41,6 +42,8 @@ const app = createApp({
 Object.entries(results).forEach(([name, resultComponent]) => {
     app.component(name, resultComponent);
 });
+
+app.component('FocusTrap', FocusTrap)
 
 app.config.unwrapInjectedRef = true;
 
