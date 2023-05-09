@@ -60,21 +60,29 @@ export default {
         links: Object
     },
     mounted() {
-        const items = {...localStorage};
-        const key =  this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug;
+        const items = { ...localStorage };
+        const key = this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug;
         for (const localStorageKey in items) {
-            if(localStorageKey.startsWith(key)){
-                const fileContent = items[localStorageKey];
+            if (localStorageKey.startsWith(key)) {
+                const fileContent = items[localStorageKey]; // Content of what is in file
                 const fileName = localStorageKey.substring(key.length + 1);
-                console.log(fileName);
-
-                const file = {
-                    name: fileName,
-                    parent: null,
-                    content: fileContent,
+                let foundFile = false;
+                for (const file of this.studentFiles) {
+                    if (file.name === fileName) {
+                        file.content = fileContent;
+                        foundFile = true;
+                        break;
+                    }
                 }
 
-                this.studentFiles.push(file);
+                if (!foundFile) {
+                    const file = {
+                        name: fileName,
+                        parent: null,
+                        content: fileContent,
+                    };
+                    this.studentFiles.push(file);
+                }
             }
         }
     },
