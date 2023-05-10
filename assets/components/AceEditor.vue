@@ -3,7 +3,7 @@
 import ace from 'ace-builds';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/mode-php';
-import { markRaw} from "vue";
+import {markRaw} from "vue";
 
 export default {
   props: {
@@ -38,10 +38,16 @@ export default {
       this._editor.session.on('change', this.change);
     }
   },
+  watch: {
+    'file.content'(newValue, oldValue) {
+        if (newValue !== oldValue) {
+            this._editor.setValue(newValue, 1);
+        }
+    }
+  },
   methods: {
       change() {
-        const content = this._editor.session.getValue();
-        this.file.content = content;
+        this.file.content = this._editor.session.getValue();
         this.$emit('changeContent', this.file);
       }
   },

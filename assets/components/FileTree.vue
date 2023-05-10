@@ -2,14 +2,15 @@
 
 import { computed } from 'vue'
 import TreeItem from "./TreeItem.vue";
-import { FolderPlusIcon, PlusIcon } from '@heroicons/vue/24/outline'
+import { FolderPlusIcon, PlusIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import uniqueName from "./utils/uniqueName.js";
 
 export default {
   components: {
     TreeItem,
     FolderPlusIcon,
-    PlusIcon
+    PlusIcon,
+    XMarkIcon
   },
   props: {
     deleteFunction: Function,
@@ -37,6 +38,9 @@ export default {
     }
   },
   methods: {
+    reset() {
+      this.$emit('reset');
+    },
     addFile() {
       if (this.files.filter(file => 'new' in file).length) {
         return;
@@ -71,6 +75,7 @@ export default {
     <div class="border-b border-solid border-gray-600 p-3 flex justify-between">
       <span class="text-white text-base font-mono">Files</span>
       <div v-if="showControls"  class="flex text-white">
+        <XMarkIcon @click="reset" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important;"/>
         <FolderPlusIcon @click="addFolder" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important;"/>
         <PlusIcon @click="addFile" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important;"/>
       </div>

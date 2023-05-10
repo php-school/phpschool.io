@@ -23,6 +23,7 @@ import Tour from "./Tour.vue";
 import Confirm from "./Confirm.vue";
 import HeaderNav from "./HeaderNav.vue";
 import StudentDropdown from "./StudentDropdown.vue";
+import toFilePath from "./utils/toFilePath";
 
 export default {
     components: {
@@ -60,30 +61,13 @@ export default {
         links: Object
     },
     mounted() {
-        const items = { ...localStorage };
-        const key = this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug;
-        for (const localStorageKey in items) {
-            if (localStorageKey.startsWith(key)) {
-                const fileContent = items[localStorageKey]; // Content of what is in file
-                const fileName = localStorageKey.substring(key.length + 1);
-                let foundFile = false;
-                for (const file of this.studentFiles) {
-                    if (file.name === fileName) {
-                        file.content = fileContent;
-                        foundFile = true;
-                        break;
-                    }
-                }
+        const files = this.getSavedFiles();
+        for (const fileName in files) {
+            const fileContent = files[fileName];
+            const folderParts = fileName.split("/");
 
-                if (!foundFile) {
-                    const file = {
-                        name: fileName,
-                        parent: null,
-                        content: fileContent,
-                    };
-                    this.studentFiles.push(file);
-                }
-            }
+            this.createFileInFolderStructure(this.studentFiles, folderParts, fileContent);
+            this.studentFiles = this.toTree(this.studentFiles);
         }
     },
     data() {
@@ -93,7 +77,10 @@ export default {
             return a.name === this.entryPoint ? -1 : 0;
         });
 
-        const studentFiles = this.toTree(this.initialFiles);
+        const initialFileCopy = this.initialFiles.map(file => {
+            return {...file}
+        });
+        const studentFiles = this.toTree(initialFileCopy);
 
         return {
             firstRunLoaded: false,
@@ -129,9 +116,91 @@ export default {
         },
     },
     methods: {
+        getSavedFiles() {
+            const items = { ...localStorage };
+            const key = this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug;
+
+            const files = {};
+            for (const localStorageKey in items) {
+                if (localStorageKey.startsWith(key)) {
+                    files[localStorageKey.substring(key.length + 1)] = items[localStorageKey];
+                }
+            }
+            return files;
+        },
+        async resetFiles() {
+            const confirm = this.$refs.confirm;
+
+            const ok = await confirm.show({
+                title: "Resetting...",
+                message: "File tree will be completely reset. All of your code will be deleted. Are you sure you want to continue?",
+                okMessage: "Confirm",
+            });
+
+            if (!ok) {
+                return;
+            }
+
+            const key = this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug;
+            const files = this.getSavedFiles();
+            for (const fileName in files) {
+                localStorage.removeItem(key + '.' + fileName);
+            }
+
+            const initialFileCopy = this.initialFiles.map(file => {
+                return {...file}
+            });
+
+            this.studentFiles = this.toTree(initialFileCopy);
+            this.openFiles = [this.studentFiles[0]];
+            this.activeTab = 0;
+        },
+        createFileInFolderStructure(rootFolder, parts, fileContent) {
+            if (parts.length === 1) {
+                const file = rootFolder.find(child => child.name === parts[0]);
+                if (file) {
+                    file.content = fileContent;
+                    return;
+                }
+
+                rootFolder.push({ name: parts[0], content: fileContent });
+                return;
+            }
+
+            const directories = parts;
+            const fileName = directories.pop();
+
+            let currentDirectory = rootFolder.find(directory => directory.name === directories[0]);
+
+            if (!currentDirectory) {
+                currentDirectory = { name: directories.shift(), children: [] };
+                rootFolder.push(currentDirectory);
+            }
+
+            currentDirectory = directories.reduce((parent, name) => {
+                return this.findOrCreateDirectory(parent, name);
+            }, currentDirectory);
+
+            const file = { name: fileName, content: fileContent };
+            currentDirectory.children.push(file);
+        },
+        findOrCreateDirectory(directory, name) {
+            let subdirectory = directory.children.find(child => child.name === name);
+
+            if (!subdirectory) {
+                subdirectory = { name, children: [] };
+                directory.children.push(subdirectory);
+            }
+
+            return subdirectory;
+        },
         saveSolution(file) {
-            localStorage.setItem(this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug + '.' + file.name, file.content);
-            console.log(file);
+            const filePath = toFilePath(file);
+
+            localStorage.setItem(
+                this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug + '.' + filePath,
+                file.content
+            );
         },
         resetState() {
             const currentExercise = this.currentExercise;
@@ -186,7 +255,7 @@ export default {
             this.openPassNotification = false;
         },
         deleteFileOrFolder(file) {
-            const confirm = this.$refs.deleteFileConfirm;
+            const confirm = this.$refs.confirm;
             const openFiles = this.openFiles;
             const findAndActivateNearestTab = this.findAndActivateNearestTab;
             const entryPoint = this.entryPoint;
@@ -348,7 +417,7 @@ export default {
                   :first-run-loaded="firstRunLoaded"
                   :first-verify-loaded="firstVerifyLoaded" :problem-modal-open="openProblemModal"></tour>
 
-            <confirm ref="deleteFileConfirm"></confirm>
+            <confirm ref="confirm"></confirm>
 
             <pass-notification
                     v-if="openPassNotification"
@@ -365,7 +434,8 @@ export default {
                                 :file-select-function="studentSelectFile"
                                 :initial-selected-item="studentFiles[0]"
                                 :delete-function="deleteFileOrFolder"
-                                show-controls/>
+                                show-controls
+                                @reset="resetFiles"/>
                     </div>
                     <div class="flex border-l border-solid border-gray-600 p-4 h-full"
                          :class="[openResults ? 'w-3/5' : 'w-4/5']">
