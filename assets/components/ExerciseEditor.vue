@@ -24,9 +24,11 @@ import Confirm from "./Confirm.vue";
 import HeaderNav from "./HeaderNav.vue";
 import StudentDropdown from "./StudentDropdown.vue";
 import toFilePath from "./utils/toFilePath";
+import Alert from "./Alert.vue";
 
 export default {
     components: {
+        Alert,
         StudentDropdown,
         HeaderNav,
         Tour,
@@ -104,7 +106,9 @@ export default {
             currentExercise: {
                 workshop: this.workshop,
                 exercise: this.exercise
-            }
+            },
+            showPackageAddError: false,
+            showPackageErrorTimerId: null
         }
     },
     computed: {
@@ -367,6 +371,20 @@ export default {
             fetch('/cloud/composer-package/add?package=' + encodeURIComponent(this.newDependency), opts)
                 .then(response => response.json())
                 .then(json => {
+                    if (json.status === 'error') {
+                        this.loadingComposerAdd = false;
+                        this.$refs.packageSearch.reset();
+
+                        this.showPackageAddError = true;
+
+                        if (this.showPackageErrorTimerId) {
+                            clearInterval(this.showPackageErrorTimerId);
+                        }
+
+                        this.showPackageErrorTimerId = setTimeout(() => this.showPackageAddError = false, 3000);
+                        return;
+                    }
+
                     this.composerDeps.push({
                         name: this.newDependency,
                         version: json.latest_version,
@@ -425,6 +443,9 @@ export default {
                     :official-solution="officialSolution"
                     @close="dismissPassNotification">
             </pass-notification>
+
+            <alert type="error" @close="showPackageAddError= false" v-show="showPackageAddError" message="Package could not be added because it has no tagged version."></alert>
+
 
             <div class="h-full flex flex-col">
                 <div class="flex flex-1 h-full relative">
