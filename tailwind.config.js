@@ -1,8 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  important: "#page-top",
+  //important: "#page-top",
   content: ["./templates/**/*.{phtml,js}", "./public/js/cloud.js", "./src/PhpWorkshop/**/*.php", "./assets/**/*.js", "./assets/components/**/*.vue"],
-  theme: {},
+  theme: {
+    extend: {
+      fontFamily: {
+        'open-sans': ['"Open Sans"'],
+      },
+    },
+  },
   plugins: [require("tailwind-scrollbar")({ nocompatible: true })],
   variants: {
     scrollbar: ["rounded"],

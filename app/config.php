@@ -182,8 +182,8 @@ return [
             ]
         );
 
-        $renderer->addJs('jquery', '//code.jquery.com/jquery-1.12.0.min.js');
-        $renderer->addJs('highlight.js', '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js');
+        //$renderer->addJs('jquery', '//code.jquery.com/jquery-1.12.0.min.js');
+        //$renderer->addJs('highlight.js', '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js');
 
         $manifest = $c->get(ViteManifest::class);
         $renderer->addJs('main-js', $manifest->assetUrl('main.js'));

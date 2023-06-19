@@ -216,6 +216,10 @@ $app
     ->group('/cloud', function (RouteCollectorProxy $group) use ($container) {
         $rateLimiter = $container->get(ExerciseRunnerRateLimiter::class);
 
+        $group->get('/home', function (Request $request, Response $response, PhpRenderer $renderer) {
+            return $renderer->render($response, 'new-home.phtml');
+        });
+
         $group->post('/reset', ResetState::class);
         $group->get('/logout', StudentLogout::class);
         $group->post('/workshop/{workshop}/exercise/{exercise}/reset', ResetStateFromEditor::class);
