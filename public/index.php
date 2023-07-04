@@ -79,7 +79,9 @@ $app->get('/', function (Request $request, Response $response, PhpRenderer $rend
     $inner = $renderer->fetch('home.phtml', ['coreWorkshops' => $core, 'communityWorkshops' => $community]);
 
     return $renderer->render(
-        $response, 'layouts/layout.phtml', [
+        $response,
+        'layouts/layout.phtml',
+        [
             'pageTitle' => 'Home',
             'pageDescription' => 'Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP',
             'content' => $inner,
