@@ -9,7 +9,7 @@ module.exports = {
                 'work-sans': ['Work Sans, sans-serif'],
             },
             boxShadow: {
-                'brand-shadow': '4px 4px 0px rgba(68, 39, 52, 0.50)',
+                'brand-shadow': '-5px 5px 0px rgba(0, 0, 0, 0.25)',
             },
         },
     },

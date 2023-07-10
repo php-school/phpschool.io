@@ -59,7 +59,7 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
               leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100"
               leave-to-class="transform opacity-0 scale-95">
               <MenuItems
-                class="absolute text-left right-0 z-10 mt-4 w-56 origin-top-right rounded-md bg-gray-800 drop-shadow ring-1 ring-black ring-opacity-5 focus:outline-none">
+                class="absolute text-left right-0 z-10 mt-4 w-56 origin-top-right rounded-md bg-gray-800 shadow-brand-shadow ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div class="py-1">
                   <MenuItem v-slot="{ active }">
                   <a href="#"
@@ -77,25 +77,32 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
           </Menu>
 
 
-          <li class="text-white text-xs p-2 uppercase">Events</li>
-          <li class="text-white text-xs p-2 uppercase">Blog</li>
+          <li class="text-white text-xs p-2 uppercase hover:text-pink-500 cursor-pointer transition duration-150">Events
+          </li>
+          <li class="text-white text-xs p-2 uppercase hover:text-pink-500 cursor-pointer transition duration-150">Blog
+          </li>
         </ul>
 
         <ul class="flex gap-1">
-          <li class="text-white text-xs px-8 py-4 uppercase my-4 mr-2 rounded-full bg-pink-600">Log In</li>
-          <li class="text-white text-xs px-8 py-4 uppercase my-4 mr-2 rounded-full bg-pink-600">Register</li>
+          <li class="text-white text-xs px-8 py-4 uppercase my-4 mr-2 rounded-full bg-pink-600 hover:bg-pink-500">Log In
+          </li>
+          <li class="text-white text-xs px-8 py-4 uppercase my-4 mr-2 rounded-full bg-pink-600 hover:bg-pink-500">Register
+          </li>
         </ul>
       </div>
     </nav>
     <section class="flex flex-col w-full animateGradientBackground">
       <div class="max-w-[2048px] mx-auto">
         <div class="w-full flex items-center justify-center flex-col  text-center pt-20 pb-10 gap-4 ">
+
           <p class="text-white text text-2xl font-sans font-normal">A revolutionary new way to learn PHP</p>
           <h1 class="text-white text-6xl font-mono uppercase font-bold tracking-wider">Open source learning for php</h1>
           <p class="text-white text text-2xl font-sans font-light">Bring your imagination to life in an open learning
             eco-system</p>
-          <button class="text-white font-bold text-base  px-10 py-2 uppercase my-4 mr-2 rounded-full bg-pink-600">GET
+          <button
+            class="text-white font-bold text-base  px-10 py-2 uppercase my-4 mr-2 rounded-full bg-pink-600 hover:bg-pink-500 shadow-brand-shadow">GET
             STARTED</button>
+
         </div>
         <figure class="w-full flex items-center justify-center flex-col  text-center pb-20">
           <img src="/cloud/img/editor-placeholder.png" alt=" placeholder">
