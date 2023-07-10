@@ -105,7 +105,7 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 
         </div>
         <figure class="w-full flex items-center justify-center flex-col  text-center pb-20">
-          <img src="/cloud/img/editor-placeholder.png" alt=" placeholder">
+          <img src="/img/cloud/editor-placeholder.png" alt=" placeholder">
         </figure>
       </div>
     </section>
@@ -116,17 +116,17 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
         class=" flex sm:flex-col text-center lg:flex-row max-w-[2048px] mx-auto p-4 mt-40 justify-center items-center   lg:gap-20 ">
         <div class="mx-auto relative w-full lg:w-2/3">
           <div class=" items-center justify-center flex ">
-            <img class="cover w-auto " src="/cloud/img/pattern-bg-square.svg" alt="">
+            <img class="cover w-auto " src="/img/cloud/pattern-bg-square.svg" alt="">
             <div class="absolute inset-0 flex items-center justify-center">
-              <img class="" src="/cloud/img/workshops.svg" alt="workshops">
+              <img class="" src="/img/cloud/workshops.svg" alt="workshops">
             </div>
             <div
               class="absolute right-10 lg:-right-16 xl:right-14   top-[90] md:top-[80] lg:top-[30] xl:top-[90] md:w-auto md:h-auto">
-              <img class="" src=" /cloud/img/workshops-selector.svg" alt="workshop-selector">
+              <img class="" src=" /img/cloud/workshops-selector.svg" alt="workshop-selector">
             </div>
             <div class="absolute  -bottom-36 right-10   lg:-bottom-40 lg:left-64  ">
               <!-- <div class="ellipse bobbing-animation"></div> -->
-              <img class="bobbing-animation" src="/cloud/img/php-elephant-bandana.svg" alt="" srcset="">
+              <img class="bobbing-animation" src="/img/cloud/php-elephant-bandana.svg" alt="" srcset="">
             </div>
           </div>
         </div>
@@ -144,7 +144,7 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
       </div>
 
 
-      <img class="w-full my-14" src="/cloud/img/php-cloud-border.svg" alt="">
+      <img class="w-full my-14" src="/img/cloud/php-cloud-border.svg" alt="">
 
       <!-- PLACEHOLDER CONTENT -->
 
