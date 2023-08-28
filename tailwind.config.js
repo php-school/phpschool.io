@@ -11,6 +11,9 @@ module.exports = {
             boxShadow: {
                 'brand-shadow': '-5px 5px 0px rgba(0, 0, 0, 0.25)',
             },
+            backgroundImage: {
+                'nav-pattern': "url('/img/svg/header-bg.svg')",
+            },
         },
     },
     plugins: [require('tailwind-scrollbar')({ nocompatible: true })],

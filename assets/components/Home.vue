@@ -5,13 +5,14 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 
 <template>
   <div class="flex flex-col w-full">
-    <nav class="site-header w-full  py-2 px-6">
+    <!-- Navigation Start -->
+    <nav class="text-center bg-center bg-[length:110%] text-white bg-nav-pattern py-2 px-6">
       <div class="max-w-[2048px] mx-auto flex justify-between items-center">
         <ul class="flex items-center gap-2 ">
           <li class="text-white p-2 uppercase">
             <figure>
               <a href="/" class="">
-                <svg class="h-20 w-20" version="1.1" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                <svg class="h-20 w-20 mr-4" version="1.1" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
                   x="0px" y="0px" width="171.3px" height="167.4px" viewBox="0 0 171.3 167.4"
                   enable-background="new 0 0 171.3 167.4" xml:space="preserve">
@@ -83,14 +84,25 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
           </li>
         </ul>
 
-        <ul class="flex gap-1">
-          <li class="text-white text-xs px-8 py-4 uppercase my-4 mr-2 rounded-full bg-pink-600 hover:bg-pink-500">Log In
+        <ul class="flex gap-1 items-center">
+          <li> <a href="/cloud"
+              class=" flex text-white text-xs px-8 py-4 uppercase my-4 rounded-full bg-pink-600 hover:bg-pink-500 text-center items-center hover:no-underline">
+              <svg class="h-6 w-6 mr-2" role="img" focusable="false" viewBox="0 0 24 24" aria-label="GitHub"
+                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12,2 C14.777778,2 17.1388887,2.99290757 19.0833333,4.9787234 C21.027778,6.96453923 22,9.3758863 22,12.212766 C22,13.6312054 21.722222,15.0141842 21.1666667,16.3617021 C20.6111113,17.7092201 19.8125,18.8439714 18.7708333,19.7659574 C17.7291667,20.6879435 16.5138887,21.4326243 15.125,22 C14.7083333,22 14.5,21.787234 14.5,21.3617021 L14.5,20.4042553 L14.5,18.5957447 C14.5,17.7446809 14.2916667,17.106383 13.875,16.6808511 C16.9305553,16.3971629 18.4583333,14.6950352 18.4583333,11.5744681 C18.4583333,10.5815605 18.1111113,9.73049668 17.4166667,9.0212766 C17.6944447,8.17021277 17.625,7.24822672 17.2083333,6.25531915 C16.652778,6.1134754 15.75,6.46808511 14.5,7.31914894 C13.6666667,7.03546077 12.8333333,6.89361702 12,6.89361702 C11.1666667,6.89361702 10.3333333,7.03546077 9.5,7.31914894 C8.94444467,6.89361702 8.42361133,6.60992885 7.9375,6.46808511 C7.45138867,6.32624136 7.13888867,6.25531915 7,6.25531915 L6.79166667,6.25531915 C6.375,7.24822672 6.30555533,8.17021277 6.58333333,9.0212766 C6.027778,9.73049668 5.75,10.5815605 5.75,11.5744681 C5.75,14.6950352 7.20833333,16.3971629 10.125,16.6808511 C9.847222,16.9645392 9.63888867,17.4609927 9.5,18.1702128 C8.25,18.7375884 7.277778,18.4539009 6.58333333,17.3191489 C6.16666667,16.6099289 5.68055533,16.2553191 5.125,16.2553191 C4.70833333,16.2553191 4.534722,16.3262414 4.60416667,16.4680851 C4.67361133,16.6099289 4.847222,16.7517733 5.125,16.893617 C5.54166667,17.1773052 5.88888867,17.6737586 6.16666667,18.3829787 C6.58333333,19.5177307 7.69444467,19.8723404 9.5,19.4468085 L9.5,20.7234043 L9.5,21.3617021 C9.5,21.787234 9.29166667,22 8.875,22 C6.79166667,21.2907799 5.125,20.0496456 3.875,18.2765957 C2.625,16.5035459 2,14.4822693 2,12.212766 C2,9.3758863 2.972222,6.96453923 4.91666667,4.9787234 C6.86111133,2.99290757 9.222222,2 12,2 L12,2 Z">
+                </path>
+              </svg>
+              Log
+              In with github</a>
           </li>
-          <li class="text-white text-xs px-8 py-4 uppercase my-4 mr-2 rounded-full bg-pink-600 hover:bg-pink-500">Register
-          </li>
+
         </ul>
       </div>
     </nav>
+    <!-- Navigation End -->
+
+    <!-- Hero Section -->
     <section class="flex flex-col w-full animateGradientBackground">
       <div class="max-w-[2048px] mx-auto">
         <div class="w-full flex items-center justify-center flex-col  text-center pt-20 pb-10 gap-4 ">
@@ -110,15 +122,20 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
       </div>
     </section>
 
+    <!-- Information Section -->
     <section class="bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed items-stretch">
 
+      <!-- Section 1 -->
+
       <div
-        class=" flex sm:flex-col text-center lg:flex-row max-w-[2048px] mx-auto p-4 mt-40 justify-center items-center   lg:gap-20 ">
+        class="flex sm:flex-col text-center lg:flex-row max-w-[2048px] mx-auto p-4 mt-40 justify-center items-center lg:gap-20 ">
+
+        <!-- Left Side -->
         <div class="mx-auto relative w-full lg:w-2/3">
           <div class=" items-center justify-center flex ">
             <img class="cover w-auto " src="/img/cloud/pattern-bg-square.svg" alt="">
             <div class="absolute inset-0 flex items-center justify-center">
-              <img class="" src="/img/cloud/workshops.svg" alt="workshops">
+              <img class="" src="/img/cloud/workshops-alt.svg" alt="workshops">
             </div>
             <div
               class="absolute right-10 lg:-right-16 xl:right-14   top-[90] md:top-[80] lg:top-[30] xl:top-[90] md:w-auto md:h-auto">
@@ -130,14 +147,17 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
             </div>
           </div>
         </div>
-        <div class="sm:w-full lg:w-1/3 space-y-8 mt-40 px-20 ">
-          <h2 class="font-work-sans text-white font-bold text-4xl text-left ">Open Source PHP Workshops</h2>
-          <p class="font-work-sans text-white font-base text-lg text-left">PHP School is a set of workshops each
+
+        <!-- Right Side -->
+        <div class="sm:w-full lg:w-1/3 space-y-8 px-20 mt-40 lg:mt-0 lg:px-5 text-left">
+          <h2 class="font-work-sans text-white font-bold text-5xl">Open Source PHP Workshops</h2>
+          <p class="font-work-sans text-white font-base text-lg">PHP School is a set of workshops each
             designed to teach a specific topic, tool, technology. Some beginner, some advanced. Each workshop consists of
             multiple exercises where your task is to code a solution to solve a problem. All our workshops are open
             source, you can contribute to them also, with bug fixes, new exercises, or your own workshop.</p>
           <div class="flex justify-start">
-            <button class=" text-white font-bold text-base uppercase bg-pink-600 rounded-full py-2 px-10">Get
+            <button
+              class=" text-white font-bold text-base uppercase bg-pink-600 rounded-full py-2 px-10 hover:bg-pink-500">Get
               Started</button>
           </div>
         </div>
@@ -146,9 +166,53 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 
       <img class="w-full my-14" src="/img/cloud/php-cloud-border.svg" alt="">
 
-      <!-- PLACEHOLDER CONTENT -->
+      <!-- Section 2 -->
+      <div
+        class=" flex sm:flex-col text-center lg:flex-row max-w-[2048px] mx-auto p-4 lg:mt-40 justify-center items-center lg:gap-20">
 
+        <!-- Left Side -->
+        <div class="sm:w-full lg:w-1/3 space-y-8 px-20  lg:mt-0 text-left">
+          <h2 class="font-work-sans text-white font-bold text-5xl">Online Browser Based IDE</h2>
+          <p class="font-work-sans text-white font-base text-lg">Login in with your GitHub account, select a
+            workshop and an exercise and jump straight in to our web based text editor (IDE). No complicated setup, no
+            need to install tools, dependencies and text editors. Just jump in and start coding.</p>
+          <div class="flex justify-start">
+            <button>
+              <a href="/cloud"
+                class=" flex text-white font-bold text-base uppercase bg-pink-600 rounded-full py-2 px-10 hover:bg-pink-500 hover:no-underline">
+                <svg class="h-6 w-6 mr-2 sm:hidden 2xl:flex" role="img" focusable="false" viewBox="0 0 24 24"
+                  aria-label="GitHub" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12,2 C14.777778,2 17.1388887,2.99290757 19.0833333,4.9787234 C21.027778,6.96453923 22,9.3758863 22,12.212766 C22,13.6312054 21.722222,15.0141842 21.1666667,16.3617021 C20.6111113,17.7092201 19.8125,18.8439714 18.7708333,19.7659574 C17.7291667,20.6879435 16.5138887,21.4326243 15.125,22 C14.7083333,22 14.5,21.787234 14.5,21.3617021 L14.5,20.4042553 L14.5,18.5957447 C14.5,17.7446809 14.2916667,17.106383 13.875,16.6808511 C16.9305553,16.3971629 18.4583333,14.6950352 18.4583333,11.5744681 C18.4583333,10.5815605 18.1111113,9.73049668 17.4166667,9.0212766 C17.6944447,8.17021277 17.625,7.24822672 17.2083333,6.25531915 C16.652778,6.1134754 15.75,6.46808511 14.5,7.31914894 C13.6666667,7.03546077 12.8333333,6.89361702 12,6.89361702 C11.1666667,6.89361702 10.3333333,7.03546077 9.5,7.31914894 C8.94444467,6.89361702 8.42361133,6.60992885 7.9375,6.46808511 C7.45138867,6.32624136 7.13888867,6.25531915 7,6.25531915 L6.79166667,6.25531915 C6.375,7.24822672 6.30555533,8.17021277 6.58333333,9.0212766 C6.027778,9.73049668 5.75,10.5815605 5.75,11.5744681 C5.75,14.6950352 7.20833333,16.3971629 10.125,16.6808511 C9.847222,16.9645392 9.63888867,17.4609927 9.5,18.1702128 C8.25,18.7375884 7.277778,18.4539009 6.58333333,17.3191489 C6.16666667,16.6099289 5.68055533,16.2553191 5.125,16.2553191 C4.70833333,16.2553191 4.534722,16.3262414 4.60416667,16.4680851 C4.67361133,16.6099289 4.847222,16.7517733 5.125,16.893617 C5.54166667,17.1773052 5.88888867,17.6737586 6.16666667,18.3829787 C6.58333333,19.5177307 7.69444467,19.8723404 9.5,19.4468085 L9.5,20.7234043 L9.5,21.3617021 C9.5,21.787234 9.29166667,22 8.875,22 C6.79166667,21.2907799 5.125,20.0496456 3.875,18.2765957 C2.625,16.5035459 2,14.4822693 2,12.212766 C2,9.3758863 2.972222,6.96453923 4.91666667,4.9787234 C6.86111133,2.99290757 9.222222,2 12,2 L12,2 Z">
+                  </path>
+                </svg>
+                Log
+                In with github</a>
+            </button>
+          </div>
+          <p class="text-pink-500 text-sm  ">Note: You can run the workshops from your own computer, without a GitHub
+            account, and without an internet connect. Follow these instructions for more info </p>
 
+        </div>
+
+        <!-- Right Side -->
+        <div class="mx-auto relative w-full lg:w-2/3 mt-40 lg:mt-0">
+          <div class=" items-center justify-center flex ">
+            <img class="cover w-auto " src="/img/cloud/pattern-bg-rectangle.svg" alt="">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <img class="" src="/img/cloud/php-editor.svg" alt="workshops">
+            </div>
+            <div
+              class="absolute right-10 lg:-right-16 xl:right-14   top-[90] md:top-[80] lg:top-[30] xl:top-[90] md:w-auto md:h-auto">
+              <!-- <img class="" src=" /img/cloud/workshops-selector.svg" alt="workshop-selector"> -->
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <img class="w-full my-14  -scale-x-100 " src="/img/cloud/php-cloud-border.svg" alt="">
 
     </section>
   </div>
