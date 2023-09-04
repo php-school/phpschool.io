@@ -36,9 +36,6 @@ const toggleMenu = () => {
 //   mobileMenuVisible.value = false;
 //   showMobileMenuBlur.value = false;
 // };
-
-
-
 </script>
 
 <template>
@@ -80,7 +77,7 @@ const toggleMenu = () => {
 
 
           <!-- Links (Hidden on Mobile) -->
-          <ul class="hidden sm:flex space-x-4 justify-center items-center">
+          <ul class="hidden sm:flex space-x-2 md:space-x-4 justify-center items-center">
             <li><a href="#"
                 class="text-white text-xs uppercase hover:text-pink-500 cursor-pointer transition duration-150">Cloud</a>
             </li>
@@ -182,13 +179,13 @@ const toggleMenu = () => {
       </nav>
       <!-- Navigation End -->
 
-      <!-- Blur Overlay (Hidden by Default) -->
+      <!-- Blur Overlay -->
       <div :class="mobileMenuVisible ? 'block fixed inset-0 backdrop-blur bg-white bg-opacity-40 z-30' : 'hidden'"
         class="transition-opacity duration-300" @click="toggleMenu"></div>
 
       <!-- Hero Section -->
 
-      <div class="max-w-[2048px] mx-auto">
+      <div class="max-w-[2048px] mx-auto  my-8  sm:my-12 md:my-14 lg:my-20">
         <div class="w-full flex items-center justify-center flex-col  text-center pt-20 pb-10 gap-4 ">
           <p class="text-white text text-2xl font-sans font-normal">A revolutionary new way to learn PHP</p>
           <h1 class="text-white text-6xl font-mono uppercase font-bold tracking-wider">Open source learning for php</h1>
@@ -196,7 +193,7 @@ const toggleMenu = () => {
             eco-system</p>
           <Button href="/cloud">GET STARTED</Button>
         </div>
-        <figure class="w-full flex items-center justify-center flex-col  text-center pb-20">
+        <figure class="w-full flex items-center justify-center flex-col  text-center">
           <img src="/img/cloud/editor-placeholder.png" alt=" placeholder">
         </figure>
       </div>
@@ -215,12 +212,13 @@ const toggleMenu = () => {
           <div class=" items-center justify-center flex relative">
             <img class="cover w-auto " src="/img/cloud/pattern-bg-square.svg" alt="">
             <div class="absolute left-[15px] md:left-auto">
-              <img class="h-[480px] sm:h-[580px] md:h-[680px] lg:h-[760px]" src="/img/cloud/workshops-alt.svg"
+              <img class="h-[500px] sm:h-[560px] md:h-[660px] lg:h-[760px]" src="/img/cloud/workshops-alt.svg"
                 alt="workshops">
             </div>
             <div
-              class="absolute right-10 lg:-right-16 xl:right-14   top-[90] md:top-[80] lg:top-[30] xl:top-[90] md:w-auto md:h-auto">
-              <img class="" src=" /img/cloud/workshops-selector.svg" alt="workshop-selector">
+              class="absolute right-10  sm:left-36 lg:-right-16 xl:-right-14   top-[90] md:top-[80] lg:top-[30] xl:top-[90] ">
+              <img class="h-[110px] sm:h-[120px] md:h-[136px] lg:h-[156px]" src=" /img/cloud/workshops-selector.svg"
+                alt="workshop-selector">
             </div>
             <div class="absolute  -bottom-36 right-10   lg:-bottom-40 lg:left-64  ">
               <!-- <div class="ellipse bobbing-animation"></div> -->
