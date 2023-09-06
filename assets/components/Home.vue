@@ -31,11 +31,6 @@ const toggleMenu = () => {
   mobileMenuVisible.value = !mobileMenuVisible.value;
   showMobileMenuBlur.value = mobileMenuVisible.value;
 };
-
-// const closeMenuOnBlurClick = () => {
-//   mobileMenuVisible.value = false;
-//   showMobileMenuBlur.value = false;
-// };
 </script>
 
 <template>
@@ -205,30 +200,31 @@ const toggleMenu = () => {
       <!-- Section 1 -->
 
       <div
-        class="flex flex-col text-center lg:flex-row max-w-[2048px] mx-auto p-4 mt-40 justify-center items-center lg:gap-20 ">
+        class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 mt-40 justify-center items-center lg:gap-20 ">
 
         <!-- Left Side -->
-        <div class="mx-auto  w-full lg:w-2/3 relative">
+        <div class="mx-auto  w-full lg:w-2/3  relative">
           <div class=" items-center justify-center flex relative">
             <img class="cover w-auto " src="/img/cloud/pattern-bg-square.svg" alt="">
-            <div class="absolute left-[15px] md:left-auto">
+            <div class="absolute left-1  md:left-auto">
               <img class="h-[500px] sm:h-[560px] md:h-[660px] lg:h-[760px]" src="/img/cloud/workshops-alt.svg"
                 alt="workshops">
             </div>
+            <!-- absolute left-[80px] top-[130px]  xs:top-[80px] sm:left-[250px] sm:top-[130px] lg:left-[50%] lg:top-[150px] xl:left-[58%] -->
             <div
-              class="absolute right-10  sm:left-36 lg:-right-16 xl:-right-14   top-[90] md:top-[80] lg:top-[30] xl:top-[90] ">
+              class="absolute left-[80px] top-[90] xs:left-[120px] sm:left-[250px] md:left-[60%] md:top-[80] lg:-right-[10%] lg:top-[30] xl:top-[90] ">
               <img class="h-[110px] sm:h-[120px] md:h-[136px] lg:h-[156px]" src=" /img/cloud/workshops-selector.svg"
                 alt="workshop-selector">
             </div>
-            <div class="absolute  -bottom-36 right-10   lg:-bottom-40 lg:left-64  ">
+            <div class=" hidden absolute sm:block  -bottom-36 right-10   lg:-bottom-40 lg:left-64  ">
               <!-- <div class="ellipse bobbing-animation"></div> -->
-              <img class="bobbing-animation" src="/img/cloud/php-elephant-bandana.svg" alt="" srcset="">
+              <img class="bobbing-animation w-auto h-auto" src="/img/cloud/php-elephant-bandana.svg" alt="" srcset="">
             </div>
           </div>
         </div>
 
         <!-- Right Side -->
-        <div class="sm:w-full lg:w-1/3 space-y-8 px-20 mt-40 lg:mt-0 lg:px-5 text-left">
+        <div class="w-full lg:w-1/3 space-y-8 px-5 mt-40 text-left">
           <h2 class="font-work-sans text-white font-bold text-5xl">Open Source PHP Workshops</h2>
           <p class="font-work-sans text-white font-base text-lg">PHP School is a set of workshops each
             designed to teach a specific topic, tool, technology. Some beginner, some advanced. Each workshop consists of
