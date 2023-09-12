@@ -183,7 +183,9 @@ const toggleMenu = () => {
       <div class="max-w-[2048px] mx-auto  my-8  sm:my-12 md:my-14 lg:my-20">
         <div class="w-full flex items-center justify-center flex-col  text-center pt-20 pb-10 gap-4 ">
           <p class="text-white text text-2xl font-sans font-normal">A revolutionary new way to learn PHP</p>
-          <h1 class="text-white text-6xl font-mono uppercase font-bold tracking-wider">Open source learning for php</h1>
+          <h1 class="text-white text-5xl md:text-6xl font-mono uppercase font-bold tracking-wider">Open source learning
+            for php
+          </h1>
           <p class="text-white text text-2xl font-sans font-light">Bring your imagination to life in an open learning
             eco-system</p>
           <Button href="/cloud">GET STARTED</Button>
@@ -200,23 +202,22 @@ const toggleMenu = () => {
       <!-- Section 1 -->
 
       <div
-        class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 mt-40 justify-center items-center lg:gap-20 ">
+        class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 mt-28 sm:mt-40 justify-center items-center lg:gap-20">
 
         <!-- Left Side -->
         <div class="mx-auto  w-full lg:w-2/3  relative">
           <div class=" items-center justify-center flex relative">
-            <img class="cover w-auto " src="/img/cloud/pattern-bg-square.svg" alt="">
+            <img class="cover " src="/img/cloud/pattern-bg-square.svg" alt="">
             <div class="absolute left-1  md:left-auto">
-              <img class="h-[500px] sm:h-[560px] md:h-[660px] lg:h-[760px]" src="/img/cloud/workshops-alt.svg"
+              <img class="h-[400px] sm:h-[560px] md:h-[660px] lg:h-[760px]" src="/img/cloud/workshops-alt.svg"
                 alt="workshops">
             </div>
-            <!-- absolute left-[80px] top-[130px]  xs:top-[80px] sm:left-[250px] sm:top-[130px] lg:left-[50%] lg:top-[150px] xl:left-[58%] -->
             <div
               class="absolute left-[80px] top-[90] xs:left-[120px] sm:left-[250px] md:left-[60%] md:top-[80] lg:-right-[10%] lg:top-[30] xl:top-[90] ">
               <img class="h-[110px] sm:h-[120px] md:h-[136px] lg:h-[156px]" src=" /img/cloud/workshops-selector.svg"
                 alt="workshop-selector">
             </div>
-            <div class=" hidden absolute sm:block  -bottom-36 right-10   lg:-bottom-40 lg:left-64  ">
+            <div class=" hidden absolute sm:block  -bottom-36 right-10   lg:-bottom-60  lg:left-10 2xl:left-60 ">
               <!-- <div class="ellipse bobbing-animation"></div> -->
               <img class="bobbing-animation w-auto h-auto" src="/img/cloud/php-elephant-bandana.svg" alt="" srcset="">
             </div>
@@ -224,7 +225,7 @@ const toggleMenu = () => {
         </div>
 
         <!-- Right Side -->
-        <div class="w-full lg:w-1/3 space-y-8 px-5 mt-40 text-left">
+        <div class="w-full lg:w-1/3 space-y-8 sm:px-5 mt-28 sm:mt-40 text-left">
           <h2 class="font-work-sans text-white font-bold text-5xl">Open Source PHP Workshops</h2>
           <p class="font-work-sans text-white font-base text-lg">PHP School is a set of workshops each
             designed to teach a specific topic, tool, technology. Some beginner, some advanced. Each workshop consists of
@@ -241,37 +242,126 @@ const toggleMenu = () => {
 
       <!-- Section 2 -->
       <div
-        class=" flex sm:flex-col text-center lg:flex-row max-w-[2048px] mx-auto p-4 lg:mt-40 justify-center items-center lg:gap-20">
+        class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 justify-center items-center lg:gap-20">
 
         <!-- Left Side -->
-        <div class="sm:w-full lg:w-1/3 space-y-8 px-20  lg:mt-0 text-left">
+        <div class="w-full lg:w-1/3 space-y-8 sm:px-5 text-left">
           <h2 class="font-work-sans text-white font-bold text-5xl">Online Browser Based IDE</h2>
           <p class="font-work-sans text-white font-base text-lg">Login in with your GitHub account, select a
             workshop and an exercise and jump straight in to our web based text editor (IDE). No complicated setup, no
             need to install tools, dependencies and text editors. Just jump in and start coding.</p>
           <div class="flex justify-start">
             <Button href="/cloud" class="flex items-center">
-              <GitHubIcon class="h-12 w-12 mr-2" /><span>Log In with github</span>
+              <GitHubIcon class="h-6 w-6 mr-2" /><span>Log In with github</span>
             </Button>
           </div>
-          <p class="text-pink-500 text-sm  ">Note: You can run the workshops from your own computer, without a GitHub
+          <p class="text-pink-400 font-base text-sm  ">Note: You can run the workshops from your own computer, without a
+            GitHub
             account, and without an internet connect. Follow these instructions for more info </p>
 
         </div>
 
         <!-- Right Side -->
-        <div class="mx-auto relative w-full lg:w-2/3 mt-40 lg:mt-0">
-          <div class=" items-center justify-center flex ">
-            <img class="cover w-auto " src="/img/cloud/pattern-bg-rectangle.svg" alt="">
-            <div class="absolute inset-0 flex items-center justify-center">
-              <img class="" src="/img/cloud/php-editor.svg" alt="workshops">
+        <div class="mx-auto w-full lg:w-2/3 mt-16 lg:mt-0">
+          <div class=" items-center justify-center flex relative ">
+            <img class="cover w-2/3 sm:h-auto sm:w-auto" src="/img/cloud/pattern-bg-rectangle.svg" alt="">
+            <div class="absolute flex items-center justify-center">
+              <img class=" " src="/img/cloud/php-editor.svg" alt="workshops">
             </div>
             <div
               class="absolute right-10 lg:-right-16 xl:right-14   top-[90] md:top-[80] lg:top-[30] xl:top-[90] md:w-auto md:h-auto">
-              <!-- <img class="" src=" /img/cloud/workshops-selector.svg" alt="workshop-selector"> -->
+              <img class="" src=" /img/cloud/workshops-selector.svg" alt="workshop-selector">
             </div>
 
           </div>
+        </div>
+
+      </div>
+
+      <img class="w-full my-14  -scale-x-100 " src="/img/cloud/php-cloud-border.svg" alt="">
+
+      <!-- Section 3 -->
+
+      <div
+        class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 mt-28 sm:mt-40 justify-center items-center lg:gap-20">
+
+        <!-- Left Side -->
+        <div class="mx-auto  w-full lg:w-2/3  relative">
+          <div class=" items-center justify-center flex relative">
+            <img class="" src="/img/cloud/pattern-bg-square-alt.svg" alt="">
+            <div class="absolute left-1  md:left-auto">
+              <img class="w-5/6  md:w-full lg:w-11/12 xl:w-full" src="/img/cloud/challenge.svg" alt="workshops">
+            </div>
+            <div
+              class="absolute left-[80px] top-[90] xs:left-[120px] sm:left-[250px] md:left-[60%] md:top-[80] lg:-right-[10%] lg:top-[30] xl:top-[90] ">
+              <img class="hidden sm:flex" src=" /img/cloud/progress.svg" alt="workshop-selector">
+            </div>
+            <div class=" hidden absolute sm:block  -bottom-36 right-10   lg:-bottom-60  lg:left-10 2xl:left-60 ">
+              <!-- <div class="ellipse bobbing-animation"></div> -->
+              <img class="bobbing-animation w-auto h-auto" src="/img/cloud/elephant-swim.svg" alt="" srcset="">
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side -->
+        <div class="w-full lg:w-1/3 space-y-8 sm:px-5 mt-28 sm:mt-40 text-left">
+          <h2 class="font-work-sans text-white font-bold text-5xl">Work on practical assignments</h2>
+          <p class="font-work-sans text-white font-base text-lg">Level up your problem solving skills whilst tackling
+            practical problems that you will be sure to encounter in your chosen path as a software developer. Each
+            exercise comes with a description, code samples to get you started, links to documentation and other resources
+            to help you solve the problem. </p>
+          <div class="flex justify-start">
+            <Button href="/cloud">GET STARTED</Button>
+          </div>
+        </div>
+      </div>
+
+
+      <img class="w-full my-14" src="/img/cloud/php-cloud-border.svg" alt="">
+
+      <!-- Section 4 -->
+      <div
+        class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 justify-center items-center lg:gap-20">
+
+        <!-- Left Side -->
+        <div class="w-full lg:w-1/3 space-y-8 sm:px-5 text-left">
+          <h2 class="font-work-sans text-white font-bold text-5xl">Get instant feedback and track your progress
+          </h2>
+          <p class="font-work-sans text-white font-base text-lg">You can test your solution at any time and you will get
+            instance feedback, if you get it wrong, we’ll show you how and what went wrong versus what we expected. You’ll
+            know instantly if you need to start fresh or make a simple tweak. When you solve the exercise, your profile is
+            updated and the exercise is marked as completed. Before proceeding you have the opportunity to see our
+            official solution so you can compare notes and optimise your own solution. Maybe your solution is better!
+            <br> <br>
+            Try writing “Hello PHP School” in the input below to see how we verify your solution and provide feedback.
+          </p>
+          <div class="flex justify-start">
+            <input type="text" placeholder="Type Something..."
+              class="p-5 font-work-sans text-base font-bold text-gray-900 rounded-2xl focus:outline-none focus:border-pink-500 focus:ring focus:ring-pink-500">
+          </div>
+
+
+        </div>
+
+        <!-- Right Side -->
+        <div class="mx-auto w-full lg:w-2/3 mt-16 lg:mt-0">
+
+          <!-- Initial set up -->
+          <div class=" items-center justify-center flex relative ">
+            <img class="cover w-2/3 sm:h-auto sm:w-auto" src="/img/cloud/pattern-bg-rectangle.svg" alt="">
+            <div class="absolute flex items-center justify-center ">
+              <img class=" " src="/img/cloud/php-editor.svg" alt="workshops">
+            </div>
+            <div class="absolute flex items-center justify-center">
+              <img class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-10/12 2xl:10/12" src="/img/cloud/hello-world-problem.svg"
+                alt="workshops">
+            </div>
+          </div>
+
+          <!-- correct input -->
+
+          <!-- wrong input -->
+
         </div>
 
       </div>
