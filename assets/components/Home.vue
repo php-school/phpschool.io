@@ -31,6 +31,26 @@ const toggleMenu = () => {
   mobileMenuVisible.value = !mobileMenuVisible.value;
   showMobileMenuBlur.value = mobileMenuVisible.value;
 };
+
+// User Interaction section
+const userInput = ref('');
+const showInitialSetup = ref(true);
+const showCorrectInput = ref(false);
+const showWrongInput = ref(false);
+
+// Method to check user input
+const checkInput = () => {
+  if (userInput.value === 'echo "Hello World";') {
+    showInitialSetup.value = false;
+    showCorrectInput.value = true;
+    showWrongInput.value = false;
+  } else {
+    showInitialSetup.value = false;
+    showCorrectInput.value = false;
+    showWrongInput.value = true;
+  }
+};
+
 </script>
 
 <template>
@@ -336,10 +356,16 @@ const toggleMenu = () => {
             Try writing “Hello PHP School” in the input below to see how we verify your solution and provide feedback.
           </p>
           <div class="flex justify-start">
-            <input type="text" placeholder="Type Something..."
-              class="p-5 font-work-sans text-base font-bold text-gray-900 rounded-2xl focus:outline-none focus:border-pink-500 focus:ring focus:ring-pink-500">
+            <div class="relative flex-grow">
+              <input type="text" placeholder="Type Something..." v-model="userInput"
+                class="w-full p-5 font-work-sans text-base font-bold text-gray-900 rounded-2xl pr-12 focus:outline-none focus:border-pink-500 focus:ring focus:ring-pink-500"
+                @keyup.enter="checkInput">
+              <button @click="checkInput"
+                class="absolute top-0 right-0 h-full w-12 bg-pink-500 text-white rounded-r-2xl flex items-center justify-center cursor-pointer">
+                >
+              </button>
+            </div>
           </div>
-
 
         </div>
 
@@ -347,7 +373,7 @@ const toggleMenu = () => {
         <div class="mx-auto w-full lg:w-2/3 mt-16 lg:mt-0">
 
           <!-- Initial set up -->
-          <div class=" items-center justify-center flex relative ">
+          <div class=" items-center justify-center flex relative" id="feedback-section-initial" v-if="showInitialSetup">
             <img class="cover w-2/3 sm:h-auto sm:w-auto" src="/img/cloud/pattern-bg-rectangle.svg" alt="">
             <div class="absolute flex items-center justify-center ">
               <img class=" " src="/img/cloud/php-editor.svg" alt="workshops">
@@ -359,9 +385,30 @@ const toggleMenu = () => {
           </div>
 
           <!-- correct input -->
+          <div class=" items-center justify-center relative flex" id="feedback-section-correct" v-if="showCorrectInput">
+            <img class="cover w-2/3 sm:h-auto sm:w-auto" src="/img/cloud/pattern-bg-rectangle.svg" alt="">
+            <div class="absolute flex items-center justify-center ">
+              <img class=" " src="/img/cloud/php-editor.svg" alt="workshops">
+              <div class="absolute flex  top-5 sm:top-10 lg:top-8 xl:top-12">
+                <img class="w-2/3 mx-auto sm:w-11/12 xl:w-full" src="/img/cloud/success-banner.svg" alt="workshops">
+              </div>
+              <div class="absolute flex -bottom-5 -left-3 sm:bottom-8 sm:-left-4 md:-left-5 md:bottom-8 xl:bottom-12">
+                <img class="w-8/12 sm:w-10/12 md:w-full" src="/img/cloud/official-solution-modal.svg" alt="workshops">
+              </div>
+            </div>
 
+          </div>
           <!-- wrong input -->
-
+          <div class=" items-center justify-center relative flex" id="feedback-section-wrong" v-if="showWrongInput">
+            <img class="cover w-2/3 sm:h-auto sm:w-auto" src="/img/cloud/pattern-bg-rectangle.svg" alt="">
+            <div class="absolute flex items-center justify-center ">
+              <img class=" " src="/img/cloud/php-editor.svg" alt="workshops">
+            </div>
+            <div class="absolute flex items-center justify-center">
+              <img class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-10/12 2xl:10/12" src="/img/cloud/error-page.svg"
+                alt="workshops">
+            </div>
+          </div>
         </div>
 
       </div>
