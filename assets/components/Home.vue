@@ -353,7 +353,8 @@ const checkInput = () => {
             updated and the exercise is marked as completed. Before proceeding you have the opportunity to see our
             official solution so you can compare notes and optimise your own solution. Maybe your solution is better!
             <br> <br>
-            Try writing “Hello PHP School” in the input below to see how we verify your solution and provide feedback.
+            Try writing: <em>echo "Hello World";</em> in the input below to see how we verify your solution and provide
+            feedback.
           </p>
           <div class="flex justify-start">
             <div class="relative flex-grow">
