@@ -488,7 +488,7 @@ const checkInput = () => {
       </div>
       <div class="max-w-[2048px] h-auto mx-auto px-9 ">
         <div>
-          <h3 class="text-5xl font-work-sans font-bold  capitalize text-pink-600 mb-10 mt-10">| PHP School On The
+          <h3 class="text-5xl font-work-sans font-bold  text-pink-600 mb-10 mt-10">| PHP School on the
             <br> Command Line
           </h3>
         </div>
@@ -547,7 +547,7 @@ const checkInput = () => {
                       <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
                       <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
                     </div>
-                    <pre class="bg-gray-900 border-none text-white p-0 lg:pl-10 whitespace-pre-wrap">
+                    <pre class="bg-gray-900 border-none text-white p-0 lg:px-10 whitespace-pre-wrap">
 <span class="text-pink-600">$</span> curl -O https://php-school.github.io/workshop-manager/workshop-manager.phar
 <span class="text-pink-600">$</span> mv workshop-manager.phar /usr/local/bin/workshop-manager
 <span class="text-pink-600">$</span> chmod +x /usr/local/bin/workshop-manager
@@ -580,7 +580,7 @@ const checkInput = () => {
                       <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
                       <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
                     </div>
-                    <pre class="bg-gray-900 border-none text-white p-0 lg:pl-10 whitespace-break-spaces">
+                    <pre class="bg-gray-900 border-none text-white p-0 lg:px-10 whitespace-break-spaces">
 <span class="text-pink-600">$</span> workshop-manager list
                     </pre>
                   </div>
@@ -607,7 +607,7 @@ const checkInput = () => {
                       <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
                       <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
                     </div>
-                    <pre class="bg-gray-900 border-none text-white p-0 lg:pl-10 whitespace-break-spaces">
+                    <pre class="bg-gray-900 border-none text-white p-0 lg:px-10 whitespace-break-spaces">
 <span class="text-pink-600">$</span> workshop-manager search &lt;topic&gt;
 
 <span class="text-pink-600">//eg search for the PHP 8 workshop</span>
@@ -639,7 +639,7 @@ const checkInput = () => {
                       <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
                       <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
                     </div>
-                    <pre class="bg-gray-900 border-none text-white p-0 lg:pl-10 whitespace-break-spaces">
+                    <pre class="bg-gray-900 border-none text-white p-0 lg:px-10 whitespace-break-spaces">
 <span class="text-pink-600">$</span> workshop-manager search
                     </pre>
                   </div>
@@ -665,7 +665,7 @@ const checkInput = () => {
                       <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
                       <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
                     </div>
-                    <pre class="bg-gray-900 border-none text-white p-0 lg:pl-10 whitespace-break-spaces">
+                    <pre class="bg-gray-900 border-none text-white p-0 lg:px-10 whitespace-break-spaces">
 <span class="text-pink-600">$</span> workshop-manager install &lt;workshopname&gt;
 
 <span class="text-pink-600">//eg install php8appreciate</span>
@@ -694,7 +694,7 @@ const checkInput = () => {
                       <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
                       <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
                     </div>
-                    <pre class="bg-gray-900 border-none text-white p-0 lg:pl-10 whitespace-break-spaces">
+                    <pre class="bg-gray-900 border-none text-white p-0 lg:px-10 whitespace-break-spaces">
 <span class="text-pink-600">$</span> workshop-manager uninstall &lt;workshopname&gt;
 
 <span class="text-pink-600">//eg uninstall php8appreciate</span>
