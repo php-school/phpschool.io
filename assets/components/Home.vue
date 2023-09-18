@@ -217,7 +217,7 @@ const checkInput = () => {
     </header>
 
     <!-- Information Section -->
-    <section class="bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed items-stretch">
+    <section class="bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed items-stretch pb-10">
 
       <!-- Section 1 -->
 
@@ -341,7 +341,7 @@ const checkInput = () => {
 
       <!-- Section 4 -->
       <div
-        class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 justify-center items-center lg:gap-20">
+        class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 pb-10 justify-center items-center lg:gap-20">
 
         <!-- Left Side -->
         <div class="w-full lg:w-1/3 space-y-8 sm:px-5 text-left">
@@ -357,12 +357,12 @@ const checkInput = () => {
             feedback.
           </p>
           <div class="flex justify-start">
-            <div class="relative flex-grow">
+            <div class="relative w-full inline-block">
               <input type="text" placeholder="Type Something..." v-model="userInput"
-                class="w-full p-5 font-work-sans text-base font-bold text-gray-900 rounded-2xl pr-12 focus:outline-none focus:border-pink-500 focus:ring focus:ring-pink-500"
-                @keyup.enter="checkInput">
+                class=" p-5 font-work-sans text-base font-bold text-gray-900 rounded-2xl  focus:outline-none focus:border-pink-500 focus:ring focus:ring-pink-500"
+                @keyup.enter="checkInput" />
               <button @click="checkInput"
-                class="absolute top-0 right-0 h-full w-12 bg-pink-500 text-white rounded-r-2xl flex items-center justify-center cursor-pointer">
+                class=" h-full w-12 bg-pink-500 text-white rounded-r-2xl  items-center justify-center cursor-pointer absolute right-0 ">
                 >
               </button>
             </div>
@@ -414,8 +414,117 @@ const checkInput = () => {
 
       </div>
 
-      <img class="w-full my-14  -scale-x-100 " src="/img/cloud/php-cloud-border.svg" alt="">
+
+
+
+
 
     </section>
+    <section class="bg-gray-900 ">
+      <div class="flex justify-center items-center mb-5 ">
+        <div class="horizontal-divider"></div>
+      </div>
+      <div class="max-w-[2048px] h-auto mx-auto px-9 ">
+
+
+        <div>
+          <h3 class=" text-5xl font-work-sans font-bold  capitalize text-pink-600 mb-10 mt-10">| Build your
+            own workshop
+            <br> + Host it
+            on PHP School
+          </h3>
+        </div>
+
+        <div class="flex flex-wrap mb-10">
+          <div class="w-full sm:w-1/2 p-4">
+            <h3 class="text-2xl text-white font-bold font-open-sans mb-5">Documentation</h3>
+            <p class="text-lg text-white font-open-sans ">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
+              aut fugit, sed
+              quia
+              consequuntur magni
+              dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est.</p>
+          </div>
+
+          <div class="w-full sm:w-1/2 p-4">
+            <h3 class="text-2xl text-white font-bold font-open-sans mb-5">Build</h3>
+            <p class="text-lg text-white font-open-sans">Amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+              laboris nisi.</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap mb-10">
+          <div class="w-full sm:w-1/2 p-4">
+            <h3 class="text-2xl text-white font-bold font-open-sans mb-5">Submit</h3>
+            <p class="text-lg text-white font-open-sans">Consequuntur magni dolores eos qui ratione voluptatem sequi
+              nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed
+              quia non numquam.</p>
+          </div>
+
+          <div class="w-full sm:w-1/2 p-4">
+            <h3 class="text-2xl text-white font-bold font-open-sans mb-5">Open to the world</h3>
+            <p class="text-lg text-white font-open-sans">Eos qui ratione voluptatem sequi nesciunt. Neque porro
+              quisquam
+              est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi
+              tempora.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="bg-gray-900 ">
+      <div class="flex justify-center items-center">
+        <div class="horizontal-divider"></div>
+      </div>
+      <div class="max-w-[2048px] h-auto mx-auto px-9 ">
+        <div>
+          <h3 class=" text-5xl font-work-sans font-bold  capitalize text-pink-600 mb-10 mt-10">| PHP School On The
+            <br> Command Line
+          </h3>
+        </div>
+        <!-- content here -->
+
+        <div class="bg-gray-900 text-white p-4 flex flex-wrap">
+          <!-- Left Column -->
+          <div class="w-full md:w-1/2 p-4">
+            <p class="font-bold">In order to get started with PHP School workshops, you first need to install the workshop
+              manager. Before we can do this we need to check you have a few things:</p>
+            <ul class="list-disc ml-6 mt-4">
+              <li>You will need PHP with a version of at least 7.1 although we recommend using the latest available.</li>
+              <li>You will also need a Text Editor so you can work through the workshops. You can try Atom or Sublime if
+                you don't already have one.</li>
+            </ul>
+            <p class="mt-4">Once the above are satisfied, run the following commands in your terminal, to install the
+              workshop manager. The final command will verify your installation and will give you tips on how to resolve
+              any issues.</p>
+          </div>
+
+          <!-- Right Column with Border -->
+          <div class="w-full md:w-1/2 p-4 relative">
+            <div class="bg-gray-900 border-white border rounded p-4">
+              <pre class="bg-gray-900 border-none text-white">
+$ curl -O https://php-school.github.io/workshop-manager/workshop-manager.phar
+$ mv workshop-manager.phar /usr/local/bin/workshop-manager
+$ chmod +x /usr/local/bin/workshop-manager
+$ workshop-manager verify
+
+WORKSHOP MANAGER USAGE
+
+$ workshop-manager list
+$ workshop-manager search &lt;topic&gt;
+
+Search for a workshop covering a particular topic, providing no arguments will list all the available workshops.
+
+$ workshop-manager install &lt;workshopname&gt;
+$ workshop-manager uninstall &lt;workshopname&gt;
+      </pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
   </div>
 </template>

@@ -95,3 +95,44 @@
   backdrop-filter: blur(5px);
   background-color: rgba(255, 255, 255, 0.8);
 }
+
+/* pulsing line divider */
+
+/* Custom CSS for the horizontal line divider */
+
+.horizontal-divider {
+  position: relative;
+  width: 100%;
+  height: 2px; /* Adjust the height as needed */
+
+  overflow: hidden;
+}
+
+.horizontal-divider::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 50%; /* Adjust the width of the moving part */
+  height: 100%;
+  top: 0;
+  left: -100%; /* Start off-screen to the left */
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #ff00ff 40%,
+    transparent 60%,
+    transparent 100%
+  ); /* Adjust the gradient colors and stops here */
+  border-radius: 50px; /* Adjust the border radius to make it rounded */
+  background-size: 200% 100%; /* Adjust the background size */
+  animation: slide 7s 0s infinite linear; /* Adjust the animation duration */
+}
+
+@keyframes slide {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%; /* Move to the right edge */
+  }
+}
