@@ -357,9 +357,9 @@ const checkInput = () => {
             feedback.
           </p>
           <div class="flex justify-start">
-            <div class="relative w-full inline-block">
+            <div class="relative w-full ">
               <input type="text" placeholder="Type Something..." v-model="userInput"
-                class=" p-5 font-work-sans text-base font-bold text-gray-900 rounded-2xl  focus:outline-none focus:border-pink-500 focus:ring focus:ring-pink-500"
+                class="max-w-full p-5 font-work-sans text-base font-bold text-gray-900 rounded-2xl  focus:outline-none focus:border-pink-500 focus:ring focus:ring-pink-500"
                 @keyup.enter="checkInput" />
               <button @click="checkInput"
                 class=" h-full w-12 bg-pink-500 text-white rounded-r-2xl  items-center justify-center cursor-pointer absolute right-0 ">
@@ -428,11 +428,17 @@ const checkInput = () => {
 
 
         <div>
-          <h3 class=" text-5xl font-work-sans font-bold  capitalize text-pink-600 mb-10 mt-10">| Build your
-            own workshop
-            <br> + Host it
-            on PHP School
-          </h3>
+          <div class="flex flex-row w-full  mt-10 mb-10">
+            <div class="w-[20px] border-l-4 border-pink-600 border-solid h-12"></div>
+            <div>
+              <h3 class=" text-5xl font-work-sans font-bold  capitalize text-pink-600 flex-inline p-0">Build your
+                own workshop
+                <br> + Host it
+                on PHP School
+              </h3>
+            </div>
+          </div>
+
         </div>
 
         <div class="flex flex-wrap mb-10">
@@ -502,23 +508,35 @@ const checkInput = () => {
 
           <!-- Right Column with Border -->
           <div class="w-full md:w-1/2 p-4 relative">
-            <div class="bg-gray-900 border-white border rounded p-4">
-              <pre class="bg-gray-900 border-none text-white">
-$ curl -O https://php-school.github.io/workshop-manager/workshop-manager.phar
-$ mv workshop-manager.phar /usr/local/bin/workshop-manager
-$ chmod +x /usr/local/bin/workshop-manager
-$ workshop-manager verify
+            <div class=" border-gray-600  rounded-lg border border-solid p-4">
+              <div class="flex flex-col">
+                <div class="flex pb-10">
+                  <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                  <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                  <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
+                </div>
+                <pre class="bg-gray-900 border-none text-white p-0 pl-10 whitespace-break-spaces ">
+<span class="text-pink-600">$</span> curl -O https://php-school.github.io/workshop-manager/workshop-manager.phar
+<span class="text-pink-600">$</span> mv workshop-manager.phar /usr/local/bin/workshop-manager
+<span class="text-pink-600">$</span> chmod +x /usr/local/bin/workshop-manager
+<span class="text-pink-600">$</span> workshop-manager verify
 
-WORKSHOP MANAGER USAGE
+<span class="text-pink-600">//</span> Workshop Manager Usage
 
-$ workshop-manager list
-$ workshop-manager search &lt;topic&gt;
+<span class="text-pink-600">$</span> workshop-manager list
 
-Search for a workshop covering a particular topic, providing no arguments will list all the available workshops.
+<span class="text-pink-600">//</span> List all available commands
 
-$ workshop-manager install &lt;workshopname&gt;
-$ workshop-manager uninstall &lt;workshopname&gt;
-      </pre>
+<span class="text-pink-600">$</span> workshop-manager search &lt;topic&gt;
+
+Search for a workshop covering a particular topic, providing no arguments will list all the available
+workshops.
+
+<span class="text-pink-600">$</span> workshop-manager install &lt;workshopname&gt;
+<span class="text-pink-600">$</span> workshop-manager uninstall &lt;workshopname&gt;
+              </pre>
+              </div>
+
             </div>
           </div>
         </div>
