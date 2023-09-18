@@ -4,6 +4,9 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import Button from "./Home/Button.vue";
 import GitHubIcon from "./Icons/GitHubIcon.vue";
+import {CheckIcon} from "@heroicons/vue/24/solid";
+import {CogIcon} from "@heroicons/vue/24/outline";
+
 
 // Define a reactive variable to track mobile menu visibility
 const mobileMenuVisible = ref(false);
@@ -485,60 +488,223 @@ const checkInput = () => {
       </div>
       <div class="max-w-[2048px] h-auto mx-auto px-9 ">
         <div>
-          <h3 class=" text-5xl font-work-sans font-bold  capitalize text-pink-600 mb-10 mt-10">| PHP School On The
+          <h3 class="text-5xl font-work-sans font-bold  capitalize text-pink-600 mb-10 mt-10">| PHP School On The
             <br> Command Line
           </h3>
         </div>
         <!-- content here -->
 
         <div class="bg-gray-900 text-white p-4 flex flex-wrap">
-          <!-- Left Column -->
-          <div class="w-full md:w-1/2 p-4">
-            <p class="font-bold">In order to get started with PHP School workshops, you first need to install the workshop
-              manager. Before we can do this we need to check you have a few things:</p>
-            <ul class="list-disc ml-6 mt-4">
-              <li>You will need PHP with a version of at least 7.1 although we recommend using the latest available.</li>
-              <li>You will also need a Text Editor so you can work through the workshops. You can try Atom or Sublime if
-                you don't already have one.</li>
-            </ul>
-            <p class="mt-4">Once the above are satisfied, run the following commands in your terminal, to install the
-              workshop manager. The final command will verify your installation and will give you tips on how to resolve
-              any issues.</p>
-          </div>
-
-          <!-- Right Column with Border -->
-          <div class="w-full md:w-1/2 p-4 relative">
-            <div class=" border-gray-600  rounded-lg border border-solid p-4">
+          <ol class="mx-auto w-full flex flex-col">
+            <li class="w-full p-4 flex justify-between mb-12">
               <div class="flex flex-col">
-                <div class="flex pb-10">
-                  <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
-                  <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
-                  <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
+                <div class="bg-slate-800 rounded font-bold w-8 h-8 flex items-center justify-center mb-4">
+                  <CogIcon class="h-6 w-6 text-white !fill-none" />
                 </div>
-                <pre class="bg-gray-900 border-none text-white p-0 pl-10 whitespace-break-spaces ">
+                <div class="border-l border-solid border-slate-800 flex-grow ml-4"></div>
+              </div>
+
+              <div class="w-full flex flex-col">
+                <div class="flex-1 px-4 mr-8 w-full">
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0  not-italic">Requirements Check</h4>
+                  <p class="text-sm text-gray-300 mt-4">In order to get started with PHP School workshops, you first need to install the workshop
+                    manager. Before we can do this we need to check you have a few things:</p>
+                </div>
+
+                <ul class="list-none p-4 w-full m-0 mt-8 lg:m-0 lg:mt-0">
+                  <li class="flex p-2">
+                    <CheckIcon fill="currentColor" class="flex-shrink-0 w-5 h-5 text-green-500 mr-4"/>
+                    <p>You will need PHP with a version of at least 7.1 although we recommend using the latest available.</p>
+                  </li>
+                  <li class="flex p-2">
+                    <CheckIcon fill="currentColor" class="flex-shrink-0 w-5 h-5 text-green-500 mr-4"/>
+                    <p>You will also need a Text Editor so you can work through the workshops. You can try Atom or Sublime if you don't already have one.</p>
+                  </li>
+                </ul>
+
+                <div class="flex-1 px-4 mr-8 w-full">
+                  <p class="text-sm text-gray-300 mt-4">Once the above are satisfied, run the following commands in your terminal, to install the workshop manager.</p>
+                </div>
+              </div>
+            </li>
+
+            <li class="w-full p-4 flex justify-between mb-12">
+              <div class="flex flex-col">
+                <div class="bg-slate-800 rounded font-bold w-8 h-8 flex items-center justify-center mb-4">1</div>
+                <div class="border-l border-solid border-slate-800 flex-grow ml-4"></div>
+              </div>
+
+              <div class="w-full flex flex-col lg:flex-row">
+                <div class="flex-1 px-4 mr-8">
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0  not-italic">Install Workshop Manager</h4>
+                  <p class="text-sm text-gray-300 mt-4">Download the workshop manager binary, move it to a directory in your path and run the verify command. The verify command will nudge you about any issues it might find.</p>
+                </div>
+
+                <div class="border-gray-600 rounded-lg border border-solid p-4 w-full lg:w-3/5 m-4 mt-8 lg:m-0 lg:mt-0">
+                  <div class="flex flex-col">
+                    <div class="flex pb-10">
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
+                    </div>
+                    <pre class="bg-gray-900 border-none text-white p-0 lg:pl-10 whitespace-pre-wrap">
 <span class="text-pink-600">$</span> curl -O https://php-school.github.io/workshop-manager/workshop-manager.phar
 <span class="text-pink-600">$</span> mv workshop-manager.phar /usr/local/bin/workshop-manager
 <span class="text-pink-600">$</span> chmod +x /usr/local/bin/workshop-manager
 <span class="text-pink-600">$</span> workshop-manager verify
-
-<span class="text-pink-600">//</span> Workshop Manager Usage
-
-<span class="text-pink-600">$</span> workshop-manager list
-
-<span class="text-pink-600">//</span> List all available commands
-
-<span class="text-pink-600">$</span> workshop-manager search &lt;topic&gt;
-
-Search for a workshop covering a particular topic, providing no arguments will list all the available
-workshops.
-
-<span class="text-pink-600">$</span> workshop-manager install &lt;workshopname&gt;
-<span class="text-pink-600">$</span> workshop-manager uninstall &lt;workshopname&gt;
-              </pre>
+                  </pre>
+                  </div>
+                </div>
               </div>
 
-            </div>
-          </div>
+
+            </li>
+
+            <li class="w-full p-4 flex justify-between mb-12">
+              <div class="flex flex-col">
+                <div class="bg-slate-800 rounded font-bold w-8 h-8 flex items-center justify-center mb-4">2</div>
+                <div class="border-l border-solid border-slate-800 flex-grow ml-4"></div>
+              </div>
+
+              <div class="w-full flex flex-col lg:flex-row">
+
+                <div class="flex-1 px-4 mr-8">
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">Using Workshop Manager</h4>
+                  <p class="text-sm text-gray-300 mt-4">Show the workshop manager available commands with descriptions. A handy reference for everything the workshop manager can do.</p>
+                </div>
+
+                <div class="border-gray-600 rounded-lg border border-solid p-4 w-full lg:w-3/5 m-4 mt-8 lg:m-0 lg:mt-0">
+                  <div class="flex flex-col">
+                    <div class="flex pb-10">
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
+                    </div>
+                    <pre class="bg-gray-900 border-none text-white p-0 lg:pl-10 whitespace-break-spaces">
+<span class="text-pink-600">$</span> workshop-manager list
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="w-full p-4 flex justify-between mb-12">
+              <div class="flex flex-col">
+                <div class="bg-slate-800 rounded font-bold w-8 h-8 flex items-center justify-center mb-4">3</div>
+                <div class="border-l border-solid border-slate-800 flex-grow ml-4"></div>
+              </div>
+
+              <div class="w-full flex flex-col lg:flex-row">
+                <div class="flex-1 px-4 mr-8">
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">Search for workshops</h4>
+                  <p class="text-sm text-gray-300 mt-4">Search for a workshop covering a particular topic.</p>
+                </div>
+
+                <div class="border-gray-600 rounded-lg border border-solid p-4 w-full lg:w-3/5 m-4 mt-8 lg:m-0 lg:mt-0">
+                  <div class="flex flex-col">
+                    <div class="flex pb-10">
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
+                    </div>
+                    <pre class="bg-gray-900 border-none text-white p-0 lg:pl-10 whitespace-break-spaces">
+<span class="text-pink-600">$</span> workshop-manager search &lt;topic&gt;
+
+<span class="text-pink-600">//eg search for the PHP 8 workshop</span>
+<span class="text-pink-600">$</span> workshop-manager search php8
+
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="w-full p-4 flex justify-between mb-12">
+              <div class="flex flex-col">
+                <div class="bg-slate-800 rounded font-bold w-8 h-8 flex items-center justify-center mb-4">4</div>
+                <div class="border-l border-solid border-slate-800 flex-grow ml-4"></div>
+              </div>
+
+              <div class="w-full flex flex-col lg:flex-row">
+
+                <div class="flex-1 px-4 mr-8">
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">List all workshops</h4>
+                  <p class="text-sm text-gray-300 mt-4">List all available workshops.</p>
+                </div>
+
+                <div class="border-gray-600 rounded-lg border border-solid p-4 w-full lg:w-3/5 m-4 mt-8 lg:m-0 lg:mt-0">
+                  <div class="flex flex-col">
+                    <div class="flex pb-10">
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
+                    </div>
+                    <pre class="bg-gray-900 border-none text-white p-0 lg:pl-10 whitespace-break-spaces">
+<span class="text-pink-600">$</span> workshop-manager search
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="w-full p-4 flex justify-between mb-12">
+              <div class="flex flex-col">
+                <div class="bg-slate-800 rounded font-bold w-8 h-8 flex items-center justify-center mb-4">5</div>
+                <div class="border-l border-solid border-slate-800 flex-grow ml-4"></div>
+              </div>
+
+              <div class="w-full flex flex-col lg:flex-row">
+                <div class="flex-1 px-4 mr-8">
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">Install a Workshop</h4>
+                </div>
+
+                <div class="border-gray-600 rounded-lg border border-solid p-4 w-full lg:w-3/5 m-4 mt-8 lg:m-0 lg:mt-0">
+                  <div class="flex flex-col">
+                    <div class="flex pb-10">
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
+                    </div>
+                    <pre class="bg-gray-900 border-none text-white p-0 lg:pl-10 whitespace-break-spaces">
+<span class="text-pink-600">$</span> workshop-manager install &lt;workshopname&gt;
+
+<span class="text-pink-600">//eg install php8appreciate</span>
+<span class="text-pink-600">$</span> workshop-manager install php8appreciate
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="w-full p-4 flex justify-between">
+              <div class="flex flex-col">
+                <div class="bg-slate-800 rounded font-bold w-8 h-8 flex items-center justify-center mb-4">6</div>
+                <div class="border-l border-solid border-slate-800 flex-grow ml-4"></div>
+              </div>
+
+              <div class="w-full flex flex-col lg:flex-row">
+                <div class="flex-1 px-4 mr-8">
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">Uninstall a Workshop</h4>
+                </div>
+
+                <div class="border-gray-600 rounded-lg border border-solid p-4 w-full lg:w-3/5 m-4 mt-8 lg:m-0 lg:mt-0">
+                  <div class="flex flex-col">
+                    <div class="flex pb-10">
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6 mr-2"></div>
+                      <div class="border border-gray-600 border-solid rounded-full w-6 h-6"></div>
+                    </div>
+                    <pre class="bg-gray-900 border-none text-white p-0 lg:pl-10 whitespace-break-spaces">
+<span class="text-pink-600">$</span> workshop-manager uninstall &lt;workshopname&gt;
+
+<span class="text-pink-600">//eg uninstall php8appreciate</span>
+<span class="text-pink-600">$</span> workshop-manager uninstall php8appreciate
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ol>
         </div>
       </div>
     </section>
