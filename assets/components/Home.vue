@@ -4,8 +4,8 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import Button from "./Home/Button.vue";
 import GitHubIcon from "./Icons/GitHubIcon.vue";
-import {CheckIcon} from "@heroicons/vue/24/solid";
-import {CogIcon} from "@heroicons/vue/24/outline";
+import { CheckIcon } from "@heroicons/vue/24/solid";
+import { CogIcon } from "@heroicons/vue/24/outline";
 
 
 // Define a reactive variable to track mobile menu visibility
@@ -240,9 +240,9 @@ const checkInput = () => {
               <img class="h-[110px] sm:h-[120px] md:h-[136px] lg:h-[156px]" src=" /img/cloud/workshops-selector.svg"
                 alt="workshop-selector">
             </div>
-            <div class=" hidden absolute sm:block  -bottom-36 right-10   lg:-bottom-60  lg:left-10 2xl:left-60 ">
+            <div class=" hidden absolute sm:block -bottom-36 right-10  lg:-bottom-60 lg:left-10 2xl:left-60 z-50">
               <!-- <div class="ellipse bobbing-animation"></div> -->
-              <img class="bobbing-animation w-auto h-auto" src="/img/cloud/php-elephant-bandana.svg" alt="" srcset="">
+              <img class="bobbing-animation w-auto h-auto " src="/img/cloud/php-elephant-bandana.svg" alt="" srcset="">
             </div>
           </div>
         </div>
@@ -261,7 +261,9 @@ const checkInput = () => {
       </div>
 
 
-      <img class="w-full my-14" src="/img/cloud/php-cloud-border.svg" alt="">
+      <div class="flex justify-center items-center mt-32 mb-12 z-10   ">
+        <div class="horizontal-divider"></div>
+      </div>
 
       <!-- Section 2 -->
       <div
@@ -301,12 +303,14 @@ const checkInput = () => {
 
       </div>
 
-      <img class="w-full my-14  -scale-x-100 " src="/img/cloud/php-cloud-border.svg" alt="">
+      <div class="flex justify-center items-center z-10 my-16 ">
+        <div class="horizontal-divider"></div>
+      </div>
 
       <!-- Section 3 -->
 
       <div
-        class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 mt-28 sm:mt-40 justify-center items-center lg:gap-20">
+        class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 justify-center items-center lg:gap-20">
 
         <!-- Left Side -->
         <div class="mx-auto  w-full lg:w-2/3  relative">
@@ -319,7 +323,7 @@ const checkInput = () => {
               class="absolute left-[80px] top-[90] xs:left-[120px] sm:left-[250px] md:left-[60%] md:top-[80] lg:-right-[10%] lg:top-[30] xl:top-[90] ">
               <img class="hidden sm:flex" src=" /img/cloud/progress.svg" alt="workshop-selector">
             </div>
-            <div class=" hidden absolute sm:block  -bottom-36 right-10   lg:-bottom-60  lg:left-10 2xl:left-60 ">
+            <div class=" hidden absolute sm:block  -bottom-36 right-10   lg:-bottom-60  lg:left-10 2xl:left-60 z-50">
               <!-- <div class="ellipse bobbing-animation"></div> -->
               <img class="bobbing-animation w-auto h-auto" src="/img/cloud/elephant-swim.svg" alt="" srcset="">
             </div>
@@ -340,7 +344,9 @@ const checkInput = () => {
       </div>
 
 
-      <img class="w-full my-14" src="/img/cloud/php-cloud-border.svg" alt="">
+      <div class="flex justify-center items-center z-10 my-16 ">
+        <div class="horizontal-divider"></div>
+      </div>
 
       <!-- Section 4 -->
       <div
@@ -434,11 +440,11 @@ const checkInput = () => {
           <div class="flex flex-row w-full  mt-10 mb-10">
             <div class="w-[20px] border-l-4 border-pink-600 border-solid h-12"></div>
             <div>
-              <h3 class=" text-5xl font-work-sans font-bold  capitalize text-pink-600 flex-inline p-0">Build your
+              <h2 class=" text-5xl font-work-sans font-bold  capitalize text-pink-600 flex-inline p-0">Build your
                 own workshop
                 <br> + Host it
                 on PHP School
-              </h3>
+              </h2>
             </div>
           </div>
 
@@ -446,8 +452,9 @@ const checkInput = () => {
 
         <div class="flex flex-wrap mb-10">
           <div class="w-full sm:w-1/2 p-4">
-            <h3 class="text-2xl text-white font-bold font-open-sans mb-5">Documentation</h3>
-            <p class="text-lg text-white font-open-sans ">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
+            <h3 class="text-lg text-white font-bold font-open-sans mb-5">Documentation</h3>
+            <p class="text-base text-white font-open-sans ">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
+              odit
               aut fugit, sed
               quia
               consequuntur magni
@@ -455,8 +462,8 @@ const checkInput = () => {
           </div>
 
           <div class="w-full sm:w-1/2 p-4">
-            <h3 class="text-2xl text-white font-bold font-open-sans mb-5">Build</h3>
-            <p class="text-lg text-white font-open-sans">Amet, consectetur adipiscing elit, sed do eiusmod tempor
+            <h3 class="text-lg text-white font-bold font-open-sans mb-5">Build</h3>
+            <p class="text-base text-white font-open-sans">Amet, consectetur adipiscing elit, sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
               laboris nisi.</p>
           </div>
@@ -464,15 +471,15 @@ const checkInput = () => {
 
         <div class="flex flex-wrap mb-10">
           <div class="w-full sm:w-1/2 p-4">
-            <h3 class="text-2xl text-white font-bold font-open-sans mb-5">Submit</h3>
-            <p class="text-lg text-white font-open-sans">Consequuntur magni dolores eos qui ratione voluptatem sequi
+            <h3 class="text-lg text-white font-bold font-open-sans mb-5">Submit</h3>
+            <p class="text-base text-white font-open-sans">Consequuntur magni dolores eos qui ratione voluptatem sequi
               nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed
               quia non numquam.</p>
           </div>
 
           <div class="w-full sm:w-1/2 p-4">
-            <h3 class="text-2xl text-white font-bold font-open-sans mb-5">Open to the world</h3>
-            <p class="text-lg text-white font-open-sans">Eos qui ratione voluptatem sequi nesciunt. Neque porro
+            <h3 class="text-lg text-white font-bold font-open-sans mb-5">Open to the world</h3>
+            <p class="text-base text-white font-open-sans">Eos qui ratione voluptatem sequi nesciunt. Neque porro
               quisquam
               est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi
               tempora.</p>
@@ -488,9 +495,16 @@ const checkInput = () => {
       </div>
       <div class="max-w-[2048px] h-auto mx-auto px-9 ">
         <div>
-          <h3 class="text-5xl font-work-sans font-bold  text-pink-600 mb-10 mt-10">| PHP School on the
-            <br> Command Line
-          </h3>
+          <div class="flex flex-row w-full  mt-10 mb-10">
+            <div class="w-[20px] border-l-4 border-pink-600 border-solid h-12"></div>
+            <div>
+              <h3 class=" text-5xl font-work-sans font-bold  capitalize text-pink-600 flex-inline p-0">
+                PHP School on the <br>Command Line
+
+              </h3>
+            </div>
+          </div>
+
         </div>
         <!-- content here -->
 
@@ -506,24 +520,29 @@ const checkInput = () => {
 
               <div class="w-full flex flex-col">
                 <div class="flex-1 px-4 mr-8 w-full">
-                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0  not-italic">Requirements Check</h4>
-                  <p class="text-sm text-gray-300 mt-4">In order to get started with PHP School workshops, you first need to install the workshop
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0  not-italic">Requirements
+                    Check</h4>
+                  <p class="text-sm text-gray-300 mt-4">In order to get started with PHP School workshops, you first need
+                    to install the workshop
                     manager. Before we can do this we need to check you have a few things:</p>
                 </div>
 
                 <ul class="list-none p-4 w-full m-0 mt-8 lg:m-0 lg:mt-0">
                   <li class="flex p-2">
-                    <CheckIcon fill="currentColor" class="flex-shrink-0 w-5 h-5 text-green-500 mr-4"/>
-                    <p>You will need PHP with a version of at least 7.1 although we recommend using the latest available.</p>
+                    <CheckIcon fill="currentColor" class="flex-shrink-0 w-5 h-5 text-green-500 mr-4" />
+                    <p>You will need PHP with a version of at least 7.1 although we recommend using the latest available.
+                    </p>
                   </li>
                   <li class="flex p-2">
-                    <CheckIcon fill="currentColor" class="flex-shrink-0 w-5 h-5 text-green-500 mr-4"/>
-                    <p>You will also need a Text Editor so you can work through the workshops. You can try Atom or Sublime if you don't already have one.</p>
+                    <CheckIcon fill="currentColor" class="flex-shrink-0 w-5 h-5 text-green-500 mr-4" />
+                    <p>You will also need a Text Editor so you can work through the workshops. You can try Atom or Sublime
+                      if you don't already have one.</p>
                   </li>
                 </ul>
 
                 <div class="flex-1 px-4 mr-8 w-full">
-                  <p class="text-sm text-gray-300 mt-4">Once the above are satisfied, run the following commands in your terminal, to install the workshop manager.</p>
+                  <p class="text-sm text-gray-300 mt-4">Once the above are satisfied, run the following commands in your
+                    terminal, to install the workshop manager.</p>
                 </div>
               </div>
             </li>
@@ -536,8 +555,11 @@ const checkInput = () => {
 
               <div class="w-full flex flex-col lg:flex-row">
                 <div class="flex-1 px-4 mr-8">
-                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0  not-italic">Install Workshop Manager</h4>
-                  <p class="text-sm text-gray-300 mt-4">Download the workshop manager binary, move it to a directory in your path and run the verify command. The verify command will nudge you about any issues it might find.</p>
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0  not-italic">Install
+                    Workshop Manager</h4>
+                  <p class="text-sm text-gray-300 mt-4">Download the workshop manager binary, move it to a directory in
+                    your path and run the verify command. The verify command will nudge you about any issues it might
+                    find.</p>
                 </div>
 
                 <div class="border-gray-600 rounded-lg border border-solid p-4 w-full lg:w-3/5 m-4 mt-8 lg:m-0 lg:mt-0">
@@ -569,8 +591,10 @@ const checkInput = () => {
               <div class="w-full flex flex-col lg:flex-row">
 
                 <div class="flex-1 px-4 mr-8">
-                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">Using Workshop Manager</h4>
-                  <p class="text-sm text-gray-300 mt-4">Show the workshop manager available commands with descriptions. A handy reference for everything the workshop manager can do.</p>
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">Using Workshop
+                    Manager</h4>
+                  <p class="text-sm text-gray-300 mt-4">Show the workshop manager available commands with descriptions. A
+                    handy reference for everything the workshop manager can do.</p>
                 </div>
 
                 <div class="border-gray-600 rounded-lg border border-solid p-4 w-full lg:w-3/5 m-4 mt-8 lg:m-0 lg:mt-0">
@@ -596,7 +620,8 @@ const checkInput = () => {
 
               <div class="w-full flex flex-col lg:flex-row">
                 <div class="flex-1 px-4 mr-8">
-                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">Search for workshops</h4>
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">Search for
+                    workshops</h4>
                   <p class="text-sm text-gray-300 mt-4">Search for a workshop covering a particular topic.</p>
                 </div>
 
@@ -628,7 +653,8 @@ const checkInput = () => {
               <div class="w-full flex flex-col lg:flex-row">
 
                 <div class="flex-1 px-4 mr-8">
-                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">List all workshops</h4>
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">List all
+                    workshops</h4>
                   <p class="text-sm text-gray-300 mt-4">List all available workshops.</p>
                 </div>
 
@@ -655,7 +681,8 @@ const checkInput = () => {
 
               <div class="w-full flex flex-col lg:flex-row">
                 <div class="flex-1 px-4 mr-8">
-                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">Install a Workshop</h4>
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">Install a
+                    Workshop</h4>
                 </div>
 
                 <div class="border-gray-600 rounded-lg border border-solid p-4 w-full lg:w-3/5 m-4 mt-8 lg:m-0 lg:mt-0">
@@ -684,7 +711,8 @@ const checkInput = () => {
 
               <div class="w-full flex flex-col lg:flex-row">
                 <div class="flex-1 px-4 mr-8">
-                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">Uninstall a Workshop</h4>
+                  <h4 class="text-lg font-work-sans font-bold capitalize text-pink-600 mt-0 p-0 not-italic">Uninstall a
+                    Workshop</h4>
                 </div>
 
                 <div class="border-gray-600 rounded-lg border border-solid p-4 w-full lg:w-3/5 m-4 mt-8 lg:m-0 lg:mt-0">
@@ -707,8 +735,50 @@ const checkInput = () => {
           </ol>
         </div>
       </div>
+      <div class="flex justify-center items-center my-10 ">
+        <div class="horizontal-divider"></div>
+      </div>
     </section>
+    <section class="bg-gray-900 ">
+      <div class="max-w-[2048px] h-auto mx-auto">
+        <div>
+          <div class="flex flex-row w-full mb-10">
+            <div class="w-[20px] border-l-4 border-pink-600 border-solid h-12"></div>
+            <div>
+              <h3 class=" text-5xl font-work-sans font-bold  capitalize text-pink-600 flex-inline p-0">
+                The Workshops
+              </h3>
+            </div>
+          </div>
+        </div>
 
+        <div class="flex flex-wrap gap justify-left">
+          <div class="w-full lg:w-1/2 px-4">
+            <img src="/img/cloud/core-workshops.png" alt="" class="h-56 w-auto mb-8">
+            <h4 class="text-lg font-work-sans font-bold capitalize text-white mt-0 p-0 not-italic mb-4">core</h4>
+            <p class="text-white text-sm mb-4">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
+              sed quia
+              consequuntur magni
+              dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est.</p>
+            <div class="flex justify-start">
+              <Button href="/cloud" class="text-sm">Learn More</Button>
+            </div>
+          </div>
+
+          <div class="w-full lg:w-1/2 px-4">
+            <img src="/img/cloud/community-workshops.png" alt="" class="h-56 w-auto mb-8">
+            <h4 class="text-lg font-work-sans font-bold capitalize text-white mt-0 p-0 not-italic mb-4">Community</h4>
+            <p class="text-white text-sm mb-4">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
+              sed quia
+              consequuntur magni
+              dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est.</p>
+            <div class="flex justify-start">
+              <Button href="/cloud" class="text-sm">Learn More</Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </div>
 </template>
