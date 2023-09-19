@@ -740,7 +740,7 @@ const checkInput = () => {
       </div>
     </section>
     <section class="bg-gray-900 ">
-      <div class="max-w-[2048px] h-auto mx-auto">
+      <div class="max-w-[2048px] h-auto mx-auto px-9">
         <div>
           <div class="flex flex-row w-full mb-10">
             <div class="w-[20px] border-l-4 border-pink-600 border-solid h-12"></div>
@@ -751,10 +751,9 @@ const checkInput = () => {
             </div>
           </div>
         </div>
-
-        <div class="flex flex-wrap gap justify-left">
-          <div class="w-full lg:w-1/2 px-4">
-            <img src="/img/cloud/core-workshops.png" alt="" class="h-56 w-auto mb-8">
+        <div class="flex flex-wrap py-4">
+          <div class="w-full lg:w-1/2 px-4 mb-8">
+            <img src="/img/cloud/core-workshops.png" alt="" class="h-56 w-auto mb-4">
             <h4 class="text-lg font-work-sans font-bold capitalize text-white mt-0 p-0 not-italic mb-4">core</h4>
             <p class="text-white text-sm mb-4">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
               sed quia
@@ -765,8 +764,8 @@ const checkInput = () => {
             </div>
           </div>
 
-          <div class="w-full lg:w-1/2 px-4">
-            <img src="/img/cloud/community-workshops.png" alt="" class="h-56 w-auto mb-8">
+          <div class="w-full lg:w-1/2 px-4 mb-8">
+            <img src="/img/cloud/community-workshops.png" alt="" class="h-56 w-auto mb-4">
             <h4 class="text-lg font-work-sans font-bold capitalize text-white mt-0 p-0 not-italic mb-4">Community</h4>
             <p class="text-white text-sm mb-4">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
               sed quia
