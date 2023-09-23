@@ -7,25 +7,15 @@ import GitHubIcon from "./Icons/GitHubIcon.vue";
 import { CheckIcon } from "@heroicons/vue/24/solid";
 import { CogIcon } from "@heroicons/vue/24/outline";
 
-
-// Define a reactive variable to track mobile menu visibility
 const mobileMenuVisible = ref(false);
 const showMobileMenuBlur = ref(false);
 
-// Method to hide the mobile menu when screen width > 640px
 const hideMobileMenu = () => {
   if (window.innerWidth > 640) {
     mobileMenuVisible.value = false;
   }
 };
 
-// Add an event listener for window resize
-onMounted(() => {
-  window.addEventListener('resize', hideMobileMenu);
-  hideMobileMenu(); // Call the method initially to handle the initial window size
-});
-
-// Remove the event listener when the component is unmounted
 onUnmounted(() => {
   window.removeEventListener('resize', hideMobileMenu);
 });
@@ -35,13 +25,11 @@ const toggleMenu = () => {
   showMobileMenuBlur.value = mobileMenuVisible.value;
 };
 
-// User Interaction section
 const userInput = ref('');
 const showInitialSetup = ref(true);
 const showCorrectInput = ref(false);
 const showWrongInput = ref(false);
 
-// Method to check user input
 const checkInput = () => {
   if (userInput.value === 'echo "Hello World";') {
     showInitialSetup.value = false;
@@ -54,6 +42,39 @@ const checkInput = () => {
   }
 };
 
+document.addEventListener("DOMContentLoaded", function () {
+  const imageContainers = document.querySelectorAll(".imageContainer");
+  console.log(imageContainers);
+  function checkImages() {
+    console.log("checking images");
+    imageContainers.forEach((container) => {
+      const rect = container.getBoundingClientRect();
+      // console.log("Container Rect:", rect);
+      const windowHeight = window.innerHeight;
+
+      if (rect.top < windowHeight * 0.8) {
+        console.log("Image in viewport");
+        container.querySelector("img").style.transform = "translateY(0)";
+        container.querySelector("img").style.opacity = 1;
+      }
+    });
+  }
+  window.addEventListener('scroll', checkImages);
+  window.addEventListener('resize', checkImages);
+  checkImages();
+});
+
+
+onMounted(() => {
+  window.addEventListener('resize', hideMobileMenu);
+  hideMobileMenu();
+
+});
+
+
+onUnmounted(() => {
+  window.removeEventListener('resize', hideMobileMenu);
+});
 </script>
 
 <template>
@@ -228,10 +249,10 @@ const checkInput = () => {
         class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 mt-28 sm:mt-40 justify-center items-center lg:gap-20">
 
         <!-- Left Side -->
-        <div class="mx-auto  w-full lg:w-2/3  relative">
-          <div class=" items-center justify-center flex relative">
+        <div class="mx-auto  w-full lg:w-2/3  relative ">
+          <div class=" items-center justify-center flex relative ">
             <img class="cover " src="/img/cloud/pattern-bg-square.svg" alt="">
-            <div class="absolute left-1  md:left-auto">
+            <div class="absolute left-1  md:left-auto overflow-hidden  imageContainer">
               <img class="h-[400px] sm:h-[560px] md:h-[660px] lg:h-[760px]" src="/img/cloud/workshops-alt.svg"
                 alt="workshops">
             </div>
@@ -291,7 +312,7 @@ const checkInput = () => {
           <div class=" items-center justify-center flex relative ">
             <img class="cover w-2/3 sm:h-auto sm:w-auto" src="/img/cloud/pattern-bg-rectangle.svg" alt="">
             <div class="absolute flex items-center justify-center">
-              <img class=" " src="/img/cloud/php-editor.svg" alt="workshops">
+              <img class=" animate-fadeInUp animated" src="/img/cloud/php-editor.svg" alt="workshops">
             </div>
             <div
               class="absolute right-10 lg:-right-16 xl:right-14   top-[90] md:top-[80] lg:top-[30] xl:top-[90] md:w-auto md:h-auto">
