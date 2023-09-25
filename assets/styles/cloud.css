@@ -130,11 +130,3 @@
     left: 100%; /* Move to the right edge */
   }
 }
-
-.imageContainer img {
-  transform: translateY(30px);
-  opacity: 0;
-  transition:
-    transform 0.5s ease,
-    opacity 0.5s ease;
-}

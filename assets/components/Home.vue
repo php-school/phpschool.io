@@ -6,6 +6,8 @@ import Button from "./Home/Button.vue";
 import GitHubIcon from "./Icons/GitHubIcon.vue";
 import { CheckIcon } from "@heroicons/vue/24/solid";
 import { CogIcon } from "@heroicons/vue/24/outline";
+import PreviewWorkshopExerciseList from "./Preview/PreviewWorkshopExerciseList.vue";
+import PreviewWorkshopList from "./Preview/PreviewWorkshopList.vue";
 
 const mobileMenuVisible = ref(false);
 const showMobileMenuBlur = ref(false);
@@ -42,33 +44,30 @@ const checkInput = () => {
   }
 };
 
-document.addEventListener("DOMContentLoaded", function () {
-  const imageContainers = document.querySelectorAll(".imageContainer");
-  console.log(imageContainers);
-  function checkImages() {
-    console.log("checking images");
-    imageContainers.forEach((container) => {
-      const rect = container.getBoundingClientRect();
-      // console.log("Container Rect:", rect);
-      const windowHeight = window.innerHeight;
 
-      if (rect.top < windowHeight * 0.8) {
-        console.log("Image in viewport");
-        container.querySelector("img").style.transform = "translateY(0)";
-        container.querySelector("img").style.opacity = 1;
-      }
-    });
-  }
-  window.addEventListener('scroll', checkImages);
-  window.addEventListener('resize', checkImages);
-  checkImages();
-});
+const fadeIns = ref([]);
 
+function checkImages() {
+  fadeIns.value.forEach((container) => {
+    const rect = container.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    if (rect.top < windowHeight * 0.8) {
+      container.classList.remove('opacity-0', 'translate-y-6', 'translate-x-10');
+      container.classList.add('opacity-1')
+    }
+  });
+}
 
 onMounted(() => {
   window.addEventListener('resize', hideMobileMenu);
   hideMobileMenu();
 
+  fadeIns.value = document.querySelectorAll(".fadeIn");
+
+  window.addEventListener('scroll', checkImages);
+  window.addEventListener('resize', checkImages);
+  checkImages();
 });
 
 
@@ -252,14 +251,16 @@ onUnmounted(() => {
         <div class="mx-auto  w-full lg:w-2/3  relative ">
           <div class=" items-center justify-center flex relative ">
             <img class="cover " src="/img/cloud/pattern-bg-square.svg" alt="">
-            <div class="absolute left-1  md:left-auto overflow-hidden  imageContainer">
-              <img class="h-[400px] sm:h-[560px] md:h-[660px] lg:h-[760px]" src="/img/cloud/workshops-alt.svg"
-                alt="workshops">
+            <div class="absolute left-1  md:left-auto">
+              <div class="fadeIn opacity-0 translate-y-6 transition-all ease-in duration-[1000ms]">
+                <PreviewWorkshopExerciseList />
+              </div>
             </div>
             <div
               class="absolute left-[80px] top-[90] xs:left-[120px] sm:left-[250px] md:left-[60%] md:top-[80] lg:-right-[10%] lg:top-[30] xl:top-[90] ">
-              <img class="h-[110px] sm:h-[120px] md:h-[136px] lg:h-[156px]" src=" /img/cloud/workshops-selector.svg"
-                alt="workshop-selector">
+              <div class="fadeIn opacity-0 translate-x-10 transition-all ease-in duration-[1000ms]">
+                <PreviewWorkshopList />
+              </div>
             </div>
             <div class=" hidden absolute sm:block -bottom-36 right-10  lg:-bottom-60 lg:left-10 2xl:left-60 z-50">
               <!-- <div class="ellipse bobbing-animation"></div> -->
