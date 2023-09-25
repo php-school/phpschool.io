@@ -69,9 +69,9 @@
                 <div class="flex border-l border-solid border-gray-600 p-2 h-full w-4/5">
                     <div class="tabs w-full flex flex-col">
                         <ul class="tabs list-reset flex justify-start mb-1 flex-none">
-                            <li class="border-pink-500 flex border-solid border-t-2 mr-1 bg-stone-700 inline-block py-1 px-2 text-white hover:text-pink-500 text-[10px] no-underline items-center">
-                                <a href="#" class="">solution.php</a>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="cursor-pointer ml-2 w-3 h-3 text-zinc-400 hover:text-white">
+                            <li class="border-pink-500 flex border-solid border-t-2 mr-1 bg-stone-700 inline-block py-1 px-2 text-white text-[10px] items-center">
+                                <span class="">solution.php</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 w-3 h-3 text-zinc-400">
                                     <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd"></path>
                                 </svg>
                             </li>
@@ -89,7 +89,7 @@
             </div><!-- start footer -->
             <div class="border-t border-solid border-gray-600 flex-none flex items-center justify-between px-2 pt-2 pb-2">
                 <nav class="flex" aria-label="Breadcrumb">
-                    <ol class="text-[10px] inline-flex items-center space-x-1 md:space-x-3">
+                    <ol class="text-[10px] inline-flex items-center space-x-1 md:space-x-2">
                         <li class="inline-flex items-center">
                             <span  class="inline-flex items-center font-medium text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-2 h-2 mr-2"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"></path><path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z"></path></svg>
@@ -103,7 +103,8 @@
                             </div>
                         </li>
                         <li>
-                            <div class="flex items-center"><!--v-if--></div>
+                            <div class="flex items-center">
+                            </div>
                         </li>
                     </ol>
                 </nav>
