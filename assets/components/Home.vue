@@ -8,6 +8,7 @@ import { CheckIcon } from "@heroicons/vue/24/solid";
 import { CogIcon } from "@heroicons/vue/24/outline";
 import PreviewWorkshopExerciseList from "./Preview/PreviewWorkshopExerciseList.vue";
 import PreviewWorkshopList from "./Preview/PreviewWorkshopList.vue";
+import Editor from "./Preview/Editor.vue";
 
 const mobileMenuVisible = ref(false);
 const showMobileMenuBlur = ref(false);
@@ -312,12 +313,11 @@ onUnmounted(() => {
         <div class="mx-auto w-full lg:w-2/3 mt-16 lg:mt-0">
           <div class=" items-center justify-center flex relative ">
             <img class="cover w-2/3 sm:h-auto sm:w-auto" src="/img/cloud/pattern-bg-rectangle.svg" alt="">
-            <div class="absolute flex items-center justify-center">
-              <img class=" animate-fadeInUp animated" src="/img/cloud/php-editor.svg" alt="workshops">
+            <div class="absolute flex items-center justify-center h-[500px] w-[800px]">
+              <Editor class=""/>
             </div>
-            <div
-              class="absolute right-10 lg:-right-16 xl:right-14   top-[90] md:top-[80] lg:top-[30] xl:top-[90] md:w-auto md:h-auto">
-              <img class="" src=" /img/cloud/workshops-selector.svg" alt="workshop-selector">
+            <div class="absolute right-10 lg:-right-16 xl:right-14   top-[90] md:top-[80] lg:top-[30] xl:top-[90] md:w-auto md:h-auto">
+              <PreviewWorkshopList />
             </div>
 
           </div>
@@ -331,8 +331,7 @@ onUnmounted(() => {
 
       <!-- Section 3 -->
 
-      <div
-        class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 justify-center items-center lg:gap-20">
+      <div class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 justify-center items-center lg:gap-20">
 
         <!-- Left Side -->
         <div class="mx-auto  w-full lg:w-2/3  relative">
