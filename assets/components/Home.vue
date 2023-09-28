@@ -761,11 +761,11 @@ onUnmounted(() => {
           </ol>
         </div>
       </div>
-      <div class="flex justify-center items-center my-10 ">
+      <div class="flex justify-center items-center mt-10">
         <div class="horizontal-divider"></div>
       </div>
     </section>
-    <section class="bg-gray-900 ">
+    <section class="bg-gray-900  pt-10">
       <div class="max-w-[2048px] h-auto mx-auto px-9">
         <div>
           <div class="flex flex-row w-full mb-10">
