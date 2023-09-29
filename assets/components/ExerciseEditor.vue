@@ -204,12 +204,12 @@ export default {
 
             return subdirectory;
         },
-        saveSolution(file) {
+        saveSolution(fileContent, file) {
             const filePath = toFilePath(file);
 
             localStorage.setItem(
                 this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug + '.' + filePath,
-                file.content
+                fileContent
             );
         },
         resetState() {
@@ -248,6 +248,16 @@ export default {
         studentSelectFile(selectedFile) {
             if ('new' in selectedFile && selectedFile.new === true) {
                 return;
+            }
+
+            if (!selectedFile.content) {
+                selectedFile.content = '';
+
+                if (selectedFile.name.endsWith('.php')) {
+                    selectedFile.content = '<?php\n\n';
+                }
+
+                this.saveSolution(selectedFile.content, selectedFile);
             }
 
             const found = this.openFiles.find(file => file === selectedFile);
@@ -456,7 +466,7 @@ export default {
             <div class="h-full flex flex-col">
                 <div class="flex flex-1 h-full relative">
                     <div class="w-3/12 xl:w-2/12">
-                        <file-tree
+                        <FileTree
                                 :files="studentFiles"
                                 :file-select-function="studentSelectFile"
                                 :initial-selected-item="studentFiles[0]"
@@ -468,7 +478,7 @@ export default {
                          :class="[openResults ? 'w-6/12 xl:w-7/12' : 'w-9/12 xl:w-10/12']">
                         <Tabs :tabList="openFiles.map(file => file.name)" @close-tab="closeTab" :active-tab="activeTab">
                             <template v-slot:[`tab-content-`+index] v-for="(file, index) in openFiles">
-                                <AceEditor :id="'editor-' + (index + 1)" :file="file" @changeContent="saveSolution"
+                                <AceEditor :id="'editor-' + (index + 1)" v-model:value="file.content" @update:value="(content) => saveSolution(content, file)"
                                            class="w-full h-full border-0"/>
                             </template>
                         </Tabs>

@@ -13,7 +13,10 @@ export default {
       default: false,
       type: Boolean
     },
-    file: Object,
+    value: {
+      type: String,
+      required: true,
+    },
     minLines: Number,
     maxLines: Number,
   },
@@ -42,7 +45,9 @@ export default {
       enableLiveAutocompletion: false
     });
 
-    this._editor.setValue(this.file.content, 1);
+    this._editor.setValue(this.value, 1);
+    this._contentBackup = this.value;
+    this._isSettingContent = false;
 
     if (this.readonly) {
       this._editor.setReadOnly(true);
@@ -52,9 +57,28 @@ export default {
   },
   methods: {
       change() {
-        this.file.content = this._editor.session.getValue();
-        this.$emit('changeContent', this.file);
+        // ref: https://github.com/CarterLi/vue3-ace-editor/issues/11
+        if (this._isSettingContent) {
+          return;
+        }
+        const content = this._editor.session.getValue();
+        this._contentBackup = content;
+        this.$emit('update:value', content);
+      },
+  },
+  emits: ['update:value'],
+  watch: {
+    value(val) {
+      if (this._contentBackup !== val) {
+        try {
+          this._isSettingContent = true;
+          this._editor.setValue(val, 1);
+        } finally {
+          this._isSettingContent = false;
+        }
+        this._contentBackup = val;
       }
+    },
   },
   beforeUnmount() {
     this._editor.destroy();
