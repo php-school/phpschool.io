@@ -47,18 +47,23 @@ export default {
           }),
       openOfficialSolutionModal: false,
       fileTreeStyles: {
-        selectedFileClasses: 'bg-pink-500 rounded'
+        selectedFileClasses: 'bg-pink-500'
       }
     }
   },
   computed: {
     files() {
-      return this.officialSolution.map(file => {
-        return {
-          name: file.file_path,
-          content: this.atob(file.content)
-        }
-      })
+      const files = this.officialSolution.map(file => ({
+        name: file.file_path,
+        content: this.atob(file.content)
+      }));
+
+      const maxLen = Math.max(...files.map(file => file.content.split('\n').length));
+
+      return files.map(file => ({
+          name: file.name,
+          content: this.padStringToLines(file.content, maxLen)
+      }));
     }
   },
   methods: {
@@ -76,6 +81,11 @@ export default {
     },
     isSelectedFile(file) {
       return this.currentSolutionFile && file.name === this.currentSolutionFile.file_path
+    },
+    //this is an absolute hack to make sure the solution has at least 10 lines so the width of the ace editor gutter is consistent for each file
+    //in the solution
+    padStringToLines(inputString, desiredLines) {
+      return inputString + '\n'.repeat(Math.max(0, desiredLines - inputString.split('\n').length));
     }
   },
 }
@@ -116,20 +126,18 @@ export default {
           </div>
         </div>
       </div>
-      <Modal size="4xl" v-if="openOfficialSolutionModal" @close.stop="openOfficialSolutionModal = false">
+      <Modal size="4xl" v-if="openOfficialSolutionModal" @close.stop="openOfficialSolutionModal = false" body-classes="p-0">
         <template #header>
           <div class="flex flex-col">
             <div class="flex items-center ">
               <CodeBracketSquareIcon class="h-10 w-10 text-pink-500 mr-2" />
-              <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0">
-                Official Solution
-              </h3>
+              <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0">Official Solution</h3>
             </div>
           </div>
         </template>
         <template #body>
-          <div class="flex space-x-3">
-            <div class="w-1/3">
+          <div class="flex">
+            <div class="w-1/3 bg-gray-900 border border-solid border-r-gray-600">
               <file-tree
                   :files="officialSolutionFileTree"
                   :file-select-function="selectSolutionFile"
