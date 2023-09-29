@@ -37,7 +37,7 @@ export default {
 </script>
 
 <template>
-  <ul v-show="results" id="results" class="my-8 space-y-4 text-left text-gray-100 max-h-full h-full overflow-y-scroll">
+  <ul v-show="results" id="results" class="px-4 my-8 space-y-4 text-left text-gray-100 max-h-full h-full overflow-y-scroll">
     <li v-for="success in successes" class="flex items-start space-x-3">
       <CheckIcon fill="currentColor" class="flex-shrink-0 w-5 h-5 text-green-500"/>
       <div class="flex flex-col w-full">
