@@ -3,6 +3,7 @@
 namespace PhpSchool\Website\Cloud\Action;
 
 use ahinkle\PackagistLatestVersion\PackagistLatestVersion;
+use GuzzleHttp\Exception\ClientException;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\PhpRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -31,7 +32,11 @@ class ComposerPackageAdd
             return $this->withJson(['status' => 'error', 'message' => 'Not a valid package name'], $response, 404);
         }
 
-        $version = $this->packagistLatestVersion->getLatestRelease($package);
+        try {
+            $version = $this->packagistLatestVersion->getLatestRelease($package);
+        } catch (ClientException $e) {
+            return $this->withJson(['status' => 'error', 'message' => 'Package metadata not found'], $response, 404);
+        }
 
         if ($version === null) {
             return $this->withJson(['status' => 'error', 'message' => 'Package metadata not found'], $response, 404);
