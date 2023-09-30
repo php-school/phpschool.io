@@ -332,6 +332,10 @@ export default {
             this.loadingResults = false;
         },
         closeTab(tab) {
+            if (this.openFiles.length === 1) {
+                return;
+            }
+
             let index = this.openFiles.findIndex(file => file.name === tab);
 
             this.openFiles.splice(index, 1);
