@@ -148,7 +148,7 @@ export default {
             <div class="w-2/3">
               <template v-for="file in files" >
                 <AceEditor v-show="isSelectedFile(file)"
-                           :file="file"
+                           v-model:value="file.content"
                            :min-lines="20"
                            :max-lines="20"
                            readonly> </AceEditor>
