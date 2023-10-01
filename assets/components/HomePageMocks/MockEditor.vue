@@ -14,10 +14,10 @@
                         </div>
                         <ul class="w-full text-gray-300 font-mono p-1 text-[10px]">
                             <li class="flex flex-col pl-1 py-1 w-full">
-                                <div class="group flex w-full items-center justify-between cursor-pointer">
+                                <div class="group flex w-full items-center justify-between">
                                     <div class="flex items-center min-w-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="mr-1 h-3 w-3" style="fill: none !important;"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
-                                        <span class="hover:text-white flex-1 truncate">solution.php</span>
+                                        <span class="flex-1 truncate">solution.php</span>
                                     </div>
                                 </div>
                             </li>
@@ -82,7 +82,7 @@
                             </li>
                             <li class="flex-1 border-b border-solid border-gray-600"></li>
                         </ul>
-                        <div class="tabs-panel h-full flex flex-1 bg-gray-900">
+                        <div class="h-full flex flex-1 bg-gray-900">
                             <div class="h-full w-5 flex flex-col text-[10px] text-[#8F908A] bg-[#0c1220]">
                                 <span class="leading-relaxed">1</span>
                                 <span class="leading-relaxed">2</span>
@@ -97,13 +97,13 @@
                     <ol class="text-[10px] inline-flex items-center space-x-1 md:space-x-2">
                         <li class="inline-flex items-center">
                             <span  class="inline-flex items-center font-medium text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-2 h-2 mr-2"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"></path><path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z"></path></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-2.5 h-2.5 mr-2"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"></path><path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z"></path></svg>
                                 Learn You PHP!
                             </span>
                         </li>
                         <li>
                             <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-2 h-2 text-pink-500"><path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z" clip-rule="evenodd"></path></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-2.5 h-2.5 text-pink-500"><path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z" clip-rule="evenodd"></path></svg>
                                 <span class="ml-1 font-medium text-white md:ml-2">Hello World</span>
                             </div>
                         </li>
@@ -144,5 +144,3 @@
         </div>
     </div>
 </template>
-<script setup>
-</script>

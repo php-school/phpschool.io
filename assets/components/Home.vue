@@ -6,10 +6,14 @@ import Button from "./Home/Button.vue";
 import GitHubIcon from "./Icons/GitHubIcon.vue";
 import { CheckIcon } from "@heroicons/vue/24/solid";
 import { CogIcon } from "@heroicons/vue/24/outline";
-import PreviewWorkshopExerciseList from "./Preview/PreviewWorkshopExerciseList.vue";
-import PreviewWorkshopList from "./Preview/PreviewWorkshopList.vue";
-import Editor from "./Preview/Editor.vue";
-import PreviewProblemModalExample from "./Preview/PreviewProblemModalExample.vue";
+import MockWorkshopExerciseList from "./HomePageMocks/MockWorkshopExerciseList.vue";
+import MockWorkshopList from "./HomePageMocks/MockWorkshopList.vue";
+import MockEditor from "./HomePageMocks/MockEditor.vue";
+import MockProblemModal from "./HomePageMocks/MockProblemModal.vue";
+import MockResults from "./HomePageMocks/MockResults.vue";
+import MockPassNotification from "./HomePageMocks/MockPassNotification.vue";
+import MockOfficialSolution from "./HomePageMocks/MockOfficialSolution.vue";
+import MockProgress from "./HomePageMocks/MockProgress.vue";
 
 const mobileMenuVisible = ref(false);
 const showMobileMenuBlur = ref(false);
@@ -33,6 +37,16 @@ const userInput = ref('');
 const showInitialSetup = ref(true);
 const showCorrectInput = ref(false);
 const showWrongInput = ref(false);
+
+const userInputKeyup = (event) => {
+  if (event.code === 'Enter') {
+    return checkInput();
+  }
+
+  showInitialSetup.value = true;
+  showCorrectInput.value = false;
+  showWrongInput.value = false;
+};
 
 const checkInput = () => {
   if (userInput.value === 'echo "Hello World";') {
@@ -245,9 +259,7 @@ onUnmounted(() => {
     <section class="bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed items-stretch pb-10">
 
       <!-- Section 1 -->
-      f
-      <div
-        class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 mt-28 sm:mt-40 justify-center items-center lg:gap-20">
+      <div class="flex flex-col text-center lg:flex-row max-w-[2048px] h-auto mx-auto p-4 mt-28 sm:mt-40 justify-center items-center lg:gap-20">
 
         <!-- Left Side -->
         <div class="mx-auto  w-full lg:w-2/3  relative ">
@@ -255,13 +267,13 @@ onUnmounted(() => {
             <img class="cover " src="/img/cloud/pattern-bg-square.svg" alt="">
             <div class="absolute left-1  md:left-auto">
               <div class="fadeIn opacity-0 translate-y-6 transition-all ease-in duration-[1000ms]">
-                <PreviewWorkshopExerciseList />
+                <MockWorkshopExerciseList />
               </div>
             </div>
             <div
               class="absolute left-[80px] top-[90] xs:left-[120px] sm:left-[250px] md:left-[60%] md:top-[80] lg:-right-[10%] lg:top-[30] xl:top-[90] ">
               <div class="fadeIn opacity-0 translate-x-10 transition-all ease-in duration-[1000ms]">
-                <PreviewWorkshopList />
+                <MockWorkshopList />
               </div>
             </div>
             <div class=" hidden absolute sm:block -bottom-36 right-10  lg:-bottom-60 lg:left-10 2xl:left-60 z-50">
@@ -316,12 +328,12 @@ onUnmounted(() => {
             <img class="cover w-2/3 sm:h-auto sm:w-auto" src="/img/cloud/pattern-bg-rectangle.svg" alt="">
             <div
               class="absolute flex items-center justify-center h-[500px] w-[800px] fadeIn opacity-0 translate-y-6 transition-all ease-in duration-[1000ms]">
-              <Editor class="" />
+              <MockEditor class="" />
             </div>
             <div
               class="absolute right-10 lg:-right-16 xl:right-14   top-[90] md:top-[80] lg:top-[30] xl:top-[90] md:w-auto md:h-auto">
               <div class="fadeIn opacity-0 translate-x-10 transition-all ease-in duration-[1000ms]">
-                <PreviewWorkshopList />
+                <MockWorkshopList />
               </div>
             </div>
 
@@ -344,12 +356,11 @@ onUnmounted(() => {
           <div class=" items-center justify-center flex relative">
             <img class="" src="/img/cloud/pattern-bg-square-alt.svg" alt="">
             <div class="absolute left-1  md:left-auto">
-              <!-- <img class="w-5/6  md:w-full lg:w-11/12 xl:w-full" src="/img/cloud/challenge.svg" alt="workshops"> -->
-              <PreviewProblemModalExample />
+              <MockProblemModal />
             </div>
             <div
               class="absolute left-[80px] top-[90] xs:left-[120px] sm:left-[250px] md:left-[60%] md:top-[80] lg:-right-[10%] lg:top-[30] xl:top-[90] ">
-              <img class="hidden sm:flex" src=" /img/cloud/progress.svg" alt="workshop-selector">
+              <MockProgress class="flex w-[400px]" />
             </div>
             <div class=" hidden absolute sm:block  -bottom-36 right-10   lg:-bottom-60  lg:left-10 2xl:left-60 z-50">
               <!-- <div class="ellipse bobbing-animation"></div> -->
@@ -390,14 +401,14 @@ onUnmounted(() => {
             updated and the exercise is marked as completed. Before proceeding you have the opportunity to see our
             official solution so you can compare notes and optimise your own solution. Maybe your solution is better!
             <br> <br>
-            Try writing: <em>echo "Hello World";</em> in the input below to see how we verify your solution and provide
+            Try writing: <code>echo "Hello World";</code> in the input below to see how we verify your solution and provide
             feedback.
           </p>
           <div class="flex justify-start">
             <div class="relative w-full ">
               <input type="text" placeholder="Type Something..." v-model="userInput"
                 class="max-w-full p-5 font-work-sans text-base font-bold text-gray-900 rounded-2xl  focus:outline-none focus:border-pink-500 focus:ring focus:ring-pink-500"
-                @keyup.enter="checkInput" />
+                @keyup="userInputKeyup"/>
               <button @click="checkInput"
                 class=" h-full w-12 bg-pink-500 text-white rounded-r-2xl  items-center justify-center cursor-pointer absolute right-0 ">
                 >
@@ -413,58 +424,48 @@ onUnmounted(() => {
           <!-- Initial set up -->
           <div class=" items-center justify-center flex relative" id="feedback-section-initial" v-if="showInitialSetup">
             <img class="cover w-2/3 sm:h-auto sm:w-auto" src="/img/cloud/pattern-bg-rectangle.svg" alt="">
-            <div class="absolute flex items-center justify-center ">
-              <img class=" " src="/img/cloud/php-editor.svg" alt="workshops">
+            <div class="absolute flex items-center justify-center h-[500px] w-[800px]">
+              <MockEditor />
             </div>
             <div class="absolute flex items-center justify-center">
-              <img class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-10/12 2xl:10/12" src="/img/cloud/hello-world-problem.svg"
-                alt="workshops">
-
+              <MockProblemModal />
             </div>
           </div>
 
           <!-- correct input -->
           <div class=" items-center justify-center relative flex" id="feedback-section-correct" v-if="showCorrectInput">
             <img class="cover w-2/3 sm:h-auto sm:w-auto" src="/img/cloud/pattern-bg-rectangle.svg" alt="">
-            <div class="absolute flex items-center justify-center ">
-              <img class=" " src="/img/cloud/php-editor.svg" alt="workshops">
+            <div class="absolute flex items-center justify-center h-[500px] w-[800px]">
+              <MockEditor />
               <div class="absolute flex  top-5 sm:top-10 lg:top-8 xl:top-12">
-                <img class="w-2/3 mx-auto sm:w-11/12 xl:w-full" src="/img/cloud/success-banner.svg" alt="workshops">
+                <MockPassNotification />
               </div>
-              <div class="absolute flex -bottom-5 -left-3 sm:bottom-8 sm:-left-4 md:-left-5 md:bottom-8 xl:bottom-12">
-                <img class="w-8/12 sm:w-10/12 md:w-full" src="/img/cloud/official-solution-modal.svg" alt="workshops">
+              <div class="absolute flex  -left-3 sm:bottom-8 sm:-left-4 md:-left-5 md:bottom-8 xl:bottom-14">
+                <MockOfficialSolution class="h-[250px] w-[400px]"/>
               </div>
             </div>
 
           </div>
           <!-- wrong input -->
-          <div class=" items-center justify-center relative flex" id="feedback-section-wrong" v-if="showWrongInput">
+          <div class=" items-center justify-center relative flex shake" id="feedback-section-wrong" v-if="showWrongInput">
             <img class="cover w-2/3 sm:h-auto sm:w-auto" src="/img/cloud/pattern-bg-rectangle.svg" alt="">
-            <div class="absolute flex items-center justify-center ">
-              <img class=" " src="/img/cloud/php-editor.svg" alt="workshops">
+            <div class="absolute flex items-center justify-center h-[500px] w-[800px]">
+              <MockEditor />
             </div>
-            <div class="absolute flex items-center justify-center">
-              <img class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-10/12 2xl:10/12" src="/img/cloud/error-page.svg"
-                alt="workshops">
+            <div class="absolute flex items-center ml-8">
+              <MockResults />
             </div>
           </div>
         </div>
-
       </div>
-
-
-
-
-
-
     </section>
+
+
     <section class="bg-gray-900 ">
       <div class="flex justify-center items-center mb-5 ">
         <div class="horizontal-divider"></div>
       </div>
       <div class="max-w-[2048px] h-auto mx-auto px-9 ">
-
-
         <div>
           <div class="flex flex-row w-full  mt-10 mb-10">
             <div class="w-[20px] border-l-4 border-pink-600 border-solid h-12"></div>
@@ -476,7 +477,6 @@ onUnmounted(() => {
               </h2>
             </div>
           </div>
-
         </div>
 
         <div class="flex flex-wrap mb-10">
@@ -607,7 +607,6 @@ onUnmounted(() => {
                   </div>
                 </div>
               </div>
-
 
             </li>
 

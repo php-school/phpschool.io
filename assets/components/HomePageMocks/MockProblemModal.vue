@@ -13,19 +13,17 @@
         </div>
         <h2 class="mt-0 mb-2 text-lg text-left">Hello World</h2>
       </div>
-      <div><button id="problem-modal-close" type="button"
-          class="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-gray-600 hover:text-white focus:outline-none focus:ring focus:ring-pink-800"><svg
-            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5">
-            <path fill-rule="evenodd"
-              d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-              clip-rule="evenodd"></path>
-          </svg></button></div>
+      <div>
+          <button type="button" class="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center focus:outline-none focus:ring focus:ring-pink-800">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5"><path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd"></path></svg>
+          </button>
+      </div>
     </div>
     <div class="p-2 flex-1 items-start justify-start overflow-y-hidden  mr-[3px]">
-      <div id="problem-file" class="text-white text-left  ">
+      <div id="problem-file" class="text-white text-left">
         <p class="text-[10px]">Write a program that prints the text "Hello World" to the console (stdout).</p>
         <hr>
-        <h3 class="text-lg text-[#e91e63] text-[12px]">HINTS</h3>
+        <h3 class="text-[#e91e63] !text-base">HINTS</h3>
         <p class="text-[10px]">We've created you an empty file, look in the file tree for <code>solution.php</code>.
           That's your starting
           point.</p>
@@ -66,10 +64,10 @@
         <hr>
       </div>
     </div>
-    <div class="p-6 rounded-b border-t border-solid border-slate-600 flex-none">
-      <div class="flex justify-end"><button id="lets-go" type="button"
-          class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-4 py-1 text-[10px] text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto">
-          Let's go! </button></div>
+    <div class="pt-4 p-2 rounded-b border-t border-solid border-slate-600 flex-none">
+      <div class="flex justify-end">
+          <button type="button" class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-4 py-1 text-[10px] text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto">Let's go!</button>
+      </div>
     </div>
   </div>
 </template>
