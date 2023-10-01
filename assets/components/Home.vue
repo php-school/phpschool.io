@@ -9,6 +9,7 @@ import { CogIcon } from "@heroicons/vue/24/outline";
 import PreviewWorkshopExerciseList from "./Preview/PreviewWorkshopExerciseList.vue";
 import PreviewWorkshopList from "./Preview/PreviewWorkshopList.vue";
 import Editor from "./Preview/Editor.vue";
+import PreviewProblemModalExample from "./Preview/PreviewProblemModalExample.vue";
 
 const mobileMenuVisible = ref(false);
 const showMobileMenuBlur = ref(false);
@@ -343,7 +344,8 @@ onUnmounted(() => {
           <div class=" items-center justify-center flex relative">
             <img class="" src="/img/cloud/pattern-bg-square-alt.svg" alt="">
             <div class="absolute left-1  md:left-auto">
-              <img class="w-5/6  md:w-full lg:w-11/12 xl:w-full" src="/img/cloud/challenge.svg" alt="workshops">
+              <!-- <img class="w-5/6  md:w-full lg:w-11/12 xl:w-full" src="/img/cloud/challenge.svg" alt="workshops"> -->
+              <PreviewProblemModalExample />
             </div>
             <div
               class="absolute left-[80px] top-[90] xs:left-[120px] sm:left-[250px] md:left-[60%] md:top-[80] lg:-right-[10%] lg:top-[30] xl:top-[90] ">
@@ -351,7 +353,7 @@ onUnmounted(() => {
             </div>
             <div class=" hidden absolute sm:block  -bottom-36 right-10   lg:-bottom-60  lg:left-10 2xl:left-60 z-50">
               <!-- <div class="ellipse bobbing-animation"></div> -->
-              <img class="bobbing-animation w-auto h-auto" src="/img/cloud/elephant-swim.svg" alt="" srcset="">
+              <!-- <img class="bobbing-animation w-auto h-auto" src="/img/cloud/elephant-swim.svg" alt="" srcset=""> -->
             </div>
           </div>
         </div>
@@ -417,6 +419,7 @@ onUnmounted(() => {
             <div class="absolute flex items-center justify-center">
               <img class="w-11/12 sm:w-10/12 md:w-9/12 lg:w-10/12 2xl:10/12" src="/img/cloud/hello-world-problem.svg"
                 alt="workshops">
+
             </div>
           </div>
 
@@ -883,7 +886,7 @@ onUnmounted(() => {
 
         <div class="">
           <a href="https://github.com/php-school/phpschool.io">
-            <GitHubIcon class="h-10 w-10" />
+            <GitHubIcon class="h-10 w-10 hover:text-pink-400" />
           </a>
         </div>
 
