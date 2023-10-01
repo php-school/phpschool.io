@@ -92,7 +92,7 @@ export default {
 
 <style>
 .ace_gutter {
-  background-color: #0c1220 !important;
+  @apply !bg-gradient-to-b to-30% !from-gray-900 !to-[#0c1220];
 }
 
 .ace_marker-layer .ace_selection {

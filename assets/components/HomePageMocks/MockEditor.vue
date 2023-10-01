@@ -83,7 +83,7 @@
                             <li class="flex-1 border-b border-solid border-gray-600"></li>
                         </ul>
                         <div class="h-full flex flex-1 bg-gray-900">
-                            <div class="h-full w-5 flex flex-col text-[10px] text-[#8F908A] bg-[#0c1220]">
+                            <div class="h-full w-5 flex flex-col text-[10px] text-[#8F908A] bg-gradient-to-b to-30% from-gray-900 to-[#0c1220]">
                                 <span class="leading-relaxed">1</span>
                                 <span class="leading-relaxed">2</span>
                                 <span class="leading-relaxed">3</span>
