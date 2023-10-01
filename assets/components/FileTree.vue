@@ -71,8 +71,8 @@ export default {
 </script>
 
 <template>
-  <div class="border border-solid border-gray-600 rounded">
-    <div class="border-b border-solid border-gray-600 p-3 flex justify-between">
+  <div class="">
+    <div class="border-b border-solid border-gray-600 py-5 px-3  flex justify-between">
       <span class="text-white text-base font-mono">Files</span>
       <div v-if="showControls"  class="flex text-white">
         <XMarkIcon @click="reset" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important;"/>
@@ -80,7 +80,7 @@ export default {
         <PlusIcon @click="addFile" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important;"/>
       </div>
     </div>
-    <ul class="w-full text-gray-300 font-mono p-1">
+    <ul class="w-full text-gray-300 font-mono">
       <tree-item
           v-for="file in files"
           :parent="files"

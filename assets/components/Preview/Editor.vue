@@ -1,10 +1,11 @@
 <template>
-    <div class="h-full w-full relative bg-gray-900 rounded-[20px] p-1 shadow-[-20px_20px_0_rgba(0,0,0,0.2)]">
-        <div class="h-full flex flex-col ">
+    <div class="h-full w-full relative bg-gray-900 border p-1.5 border-gray-600 rounded-[20px] shadow-[-20px_20px_0_rgba(0,0,0,0.2)]">
+        <div class="h-full flex flex-col">
             <div class="flex flex-1 h-full relative">
-                <div class="w-1/5 p-2">
-                    <div class="border border-solid border-gray-600 rounded">
-                        <div class="border-b border-solid border-gray-600 p-2 flex justify-between"><span class="text-white text-xs font-mono">Files</span>
+                <div class="w-3/12">
+                    <div class="">
+                        <div class="border-b border-solid border-gray-600 py-3 px-3 flex justify-between">
+                            <span class="text-white text-xs font-mono">Files</span>
                             <div class="flex text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="mr-2 h-3 w-3" style="fill: none !important;"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="mr-2 h-3 w-3" style="fill: none !important;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"></path></svg>
@@ -66,27 +67,31 @@
                         </ul>
                     </div>
                 </div>
-                <div class="flex border-l border-solid border-gray-600 p-2 h-full w-4/5">
+                <div class="flex border-l border-solid border-gray-600 h-full w-9/12">
                     <div class="tabs w-full flex flex-col">
-                        <ul class="tabs list-reset flex justify-start mb-1 flex-none">
-                            <li class="border-pink-500 flex border-solid border-t-2 mr-1 bg-stone-700 inline-block py-1 px-2 text-white text-[10px] items-center">
-                                <span class="">solution.php</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 w-3 h-3 text-zinc-400">
-                                    <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd"></path>
+                        <ul class="tabs list-reset flex justify-start flex-none border-solid border-gray-600">
+                            <li class="flex justify-between border-solid border-r border-r-gray-600 pl-2 pr-1 inline-block text-white hover:text-pink-500 text-xs no-underline items-center border-t -mt-[1px] border-t-pink-600">
+                                <a href="#" class="text-xs text-gray-300 hover:no-underline py-3 pl-1 text-pink-600">solution.php</a>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                     aria-hidden="true"
+                                     class="cursor-pointer ml-2 mr-1 w-3 h-3 text-zinc-400 hover:text-white">
+                                    <path fill-rule="evenodd"
+                                          d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                                          clip-rule="evenodd"></path>
                                 </svg>
                             </li>
+                            <li class="flex-1 border-b border-solid border-gray-600"></li>
                         </ul>
-                        <div class="tabs-panel h-full flex flex-1 bg-[#272822]">
-                            <div class="h-full w-5 flex flex-col text-[10px] text-[#8F908A] bg-[#2F3129]">
-                                <span>1</span>
-                                <span>2</span>
-                                <span>3</span>
-                                <span>4</span>
+                        <div class="tabs-panel h-full flex flex-1 bg-gray-900">
+                            <div class="h-full w-5 flex flex-col text-[10px] text-[#8F908A] bg-[#0c1220]">
+                                <span class="leading-relaxed">1</span>
+                                <span class="leading-relaxed">2</span>
+                                <span class="leading-relaxed">3</span>
+                                <span class="leading-relaxed">4</span>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div><!-- start footer -->
+                </div><!--v-if--></div><!-- start footer -->
             <div class="border-t border-solid border-gray-600 flex-none flex items-center justify-between px-2 pt-2 pb-2">
                 <nav class="flex" aria-label="Breadcrumb">
                     <ol class="text-[10px] inline-flex items-center space-x-1 md:space-x-2">
@@ -139,3 +144,5 @@
         </div>
     </div>
 </template>
+<script setup>
+</script>

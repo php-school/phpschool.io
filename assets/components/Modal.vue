@@ -22,6 +22,10 @@ export default {
     maxHeight: {
       type: String,
       default: null
+    },
+    bodyClasses: {
+        type: String,
+        default: 'p-6'
     }
   },
   mounted() {
@@ -74,7 +78,7 @@ export default {
 }
 </script>
 
-<template >
+<template>
     <focus-trap :v-model:active="true">
         <div class="">
         <div class="bg-gray-900 bg-opacity-80 fixed inset-0 z-40"/>
@@ -90,7 +94,7 @@ export default {
                   </button>
                 </div>
               </div>
-              <div class="p-6 flex-1" :class="{'pt-0' : !$slots.header, 'overflow-y-auto scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-none scrollbar-thumb-rounded-full scrollbar-track-rounded-full mr-[3px]' : scrollContent}" >
+              <div class="flex-1" :class="[!$slots.header ? 'pt-0' : '', scrollContent ? 'overflow-y-auto scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-none scrollbar-thumb-rounded-full scrollbar-track-rounded-full mr-[3px]' : '', bodyClasses]">
                 <slot name="body"/>
               </div>
               <div v-if="$slots.footer" class="p-6 rounded-b border-t border-solid border-slate-600 flex-none">

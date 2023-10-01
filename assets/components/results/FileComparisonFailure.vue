@@ -49,15 +49,15 @@ export default {
         </div>
         <div id="diff">
           <div class="flex w-full">
-            <div class="w-1/2"><h3 class="text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Expected Content</h3></div>
             <div class="w-1/2"><h3 class="text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Your Content</h3></div>
+            <div class="w-1/2"><h3 class="text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Expected Content</h3></div>
           </div>
           <Diff
               mode="split"
               theme="dark"
               language="text"
-              :prev="data.expected_value"
-              :current="data.actual_value"
+              :prev="data.actual_value"
+              :current="data.expected_value"
           />
         </div>
       </template>
