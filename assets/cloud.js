@@ -19,7 +19,10 @@ import VueShepherdPlugin from './shepherd-plugin';
 import results from "./components/results/results.js";
 import StudentDropdown from "./components/StudentDropdown.vue";
 import ListWorkshops from "./components/ListWorkshops.vue";
-import Home from "./components/Home.vue";
+import Home from "./components/Website/Pages/Home.vue";
+import SiteNav from "./components/Website/SiteNav.vue";
+import SiteFooter from "./components/Website/SiteFooter.vue";
+import Events from "./components/Website/Pages/Events.vue";
 
 const components = {
     AceEditor,
@@ -34,20 +37,19 @@ const components = {
     ExerciseEditor,
     StudentDropdown,
     ListWorkshops,
-    Home
+    Home,
+    SiteNav,
+    SiteFooter,
+    Events
 }
 
-const app = createApp({
-    components
-});
+const app = createApp({components});
 
 Object.entries(results).forEach(([name, resultComponent]) => {
     app.component(name, resultComponent);
 });
 
 app.component('FocusTrap', FocusTrap)
-
-app.config.unwrapInjectedRef = true;
 
 app.use(VueClickAway);
 app.use(VueDiff);
