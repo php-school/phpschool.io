@@ -12,7 +12,7 @@
                 <div class="select-none flex flex-1 items-center px-3 py-2">
                     <div class="flex flex-col w-10 h-10 justify-center items-center mr-4">
                         <a href="#" class="block relative">
-                            <img alt="workshop" src="/img/core-workshops.png" class="mx-auto object-cover h-8 w-8">
+                            <img alt="workshop" src="../../../../../img/cloud/core-workshops.png" class="mx-auto object-cover h-8 w-8">
                         </a>
                     </div>
                     <div class="flex-1 pl-1 mr-8 text-white">
@@ -34,7 +34,7 @@
                 <div class="select-none flex flex-1 items-center px-3 py-2">
                     <div class="flex flex-col w-10 h-10 justify-center items-center mr-4"><a href="#"
                                                                                              class="block relative"><img
-                            alt="workshop" src="/img/core-workshops.png" class="mx-auto object-cover h-8 w-8"></a>
+                            alt="workshop" src="../../../../../img/cloud/core-workshops.png" class="mx-auto object-cover h-8 w-8"></a>
                     </div>
                     <div class="flex-1 pl-1 mr-8 text-white">
                         <div class="font-medium text-[10px]">PHP8 Appreciate</div>
