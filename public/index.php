@@ -28,8 +28,6 @@ use PhpSchool\Website\Cloud\Action\TourComplete;
 use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\Middleware\ExerciseRunnerRateLimiter;
 use PhpSchool\Website\Cloud\Middleware\Styles;
-use PhpSchool\Website\Cloud\Middleware\ViteDevAssets;
-use PhpSchool\Website\Cloud\Middleware\ViteProductionAssets;
 use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\AdminStyle;
@@ -64,6 +62,7 @@ $container = (new ContainerFactory)();
 
 /** @var \Slim\App $app */
 $app = $container->get('app');
+
 $app->get('/', function (Request $request, Response $response, PhpRenderer $renderer, WorkshopRepository $workshopRepository) {
 
     $workshops = $workshopRepository->findAllApproved();
@@ -76,15 +75,13 @@ $app->get('/', function (Request $request, Response $response, PhpRenderer $rend
         return $workshop->isCommunity();
     });
 
-    $inner = $renderer->fetch('home.phtml', ['coreWorkshops' => $core, 'communityWorkshops' => $community]);
-
     return $renderer->render(
         $response,
         'layouts/layout.phtml',
         [
             'pageTitle' => 'Home',
             'pageDescription' => 'Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP',
-            'content' => $inner,
+            'content' => '<Home></Home>'
         ]
     );
 });
@@ -205,22 +202,22 @@ $app->get('/events', function (Request $request, Response $response, EventReposi
     $previousEvents = $repository->findPrevious();
     $events = $repository->findUpcoming();
 
-    $inner = $renderer->fetch('events.phtml', ['events' => $events, 'previousEvents' => $previousEvents]);
     return $renderer->render($response, 'layouts/layout.phtml', [
         'pageTitle'       => 'Events',
         'pageDescription' => 'PHP School Events!',
-        'content'         => $inner
+        'content'         => sprintf(
+            "<events :events='%s' :previous-events='%s'></events>",
+            $renderer->json($events),
+            $renderer->json($previousEvents)
+        )
     ]);
+
 });
 
 $app->get('/student-login', StudentLogin::class);
 $app
     ->group('/cloud', function (RouteCollectorProxy $group) use ($container) {
         $rateLimiter = $container->get(ExerciseRunnerRateLimiter::class);
-
-        $group->get('/home', function (Request $request, Response $response, PhpRenderer $renderer) {
-            return $renderer->render($response, 'new-home.phtml');
-        });
 
         $group->post('/reset', ResetState::class);
         $group->get('/logout', StudentLogout::class);
@@ -248,8 +245,7 @@ $app
             ->withHeader('cache-control', 'no-cache');
     })
     ->add($container->get(StudentAuthenticator::class))
-    ->add(Styles::class)
-    ->add($container->get('config')['devMode'] ? ViteDevAssets::class : ViteProductionAssets::class);
+    ->add(Styles::class);
 
 // Run app
 $app->run();
