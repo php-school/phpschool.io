@@ -13,7 +13,8 @@ import {
     MapIcon,
     HomeIcon,
     ChevronRightIcon,
-    ExclamationCircleIcon
+    ExclamationCircleIcon,
+    AcademicCapIcon
 } from '@heroicons/vue/24/solid';
 import {TrophyIcon} from '@heroicons/vue/24/outline'
 import PackageSearch from './PackageSearch.vue';
@@ -48,6 +49,7 @@ export default {
         HomeIcon,
         ChevronRightIcon,
         ExclamationCircleIcon,
+        AcademicCapIcon,
         OutputMismatch,
         Confirm,
     },
@@ -63,14 +65,7 @@ export default {
         links: Object
     },
     mounted() {
-        const files = this.getSavedFiles();
-        for (const fileName in files) {
-            const fileContent = files[fileName];
-            const folderParts = fileName.split("/");
 
-            this.createFileInFolderStructure(this.studentFiles, folderParts, fileContent);
-            this.studentFiles = this.toTree(this.studentFiles);
-        }
     },
     data() {
         //sort the initial files so entry point is at the top
@@ -82,7 +77,18 @@ export default {
         const initialFileCopy = this.initialFiles.map(file => {
             return {...file}
         });
-        const studentFiles = this.toTree(initialFileCopy);
+        let studentFiles = this.toTree(initialFileCopy);
+
+        const files = this.getSavedFiles();
+        for (const fileName in files) {
+            const fileContent = files[fileName];
+            const folderParts = fileName.split("/");
+
+            this.createFileInFolderStructure(studentFiles, folderParts, fileContent);
+        }
+
+        //make sure new files added from saved files have two way relationship
+        studentFiles = this.toTree(studentFiles);
 
         return {
             firstRunLoaded: false,
@@ -122,7 +128,7 @@ export default {
     methods: {
         getSavedFiles() {
             const items = { ...localStorage };
-            const key = this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug;
+            const key = this.workshop.code + '.' + this.exercise.slug;
 
             const files = {};
             for (const localStorageKey in items) {
@@ -198,12 +204,12 @@ export default {
 
             return subdirectory;
         },
-        saveSolution(file) {
+        saveSolution(fileContent, file) {
             const filePath = toFilePath(file);
 
             localStorage.setItem(
                 this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug + '.' + filePath,
-                file.content
+                fileContent
             );
         },
         resetState() {
@@ -242,6 +248,16 @@ export default {
         studentSelectFile(selectedFile) {
             if ('new' in selectedFile && selectedFile.new === true) {
                 return;
+            }
+
+            if (!selectedFile.content) {
+                selectedFile.content = '';
+
+                if (selectedFile.name.endsWith('.php')) {
+                    selectedFile.content = '<?php\n\n';
+                }
+
+                this.saveSolution(selectedFile.content, selectedFile);
             }
 
             const found = this.openFiles.find(file => file === selectedFile);
@@ -316,6 +332,10 @@ export default {
             this.loadingResults = false;
         },
         closeTab(tab) {
+            if (this.openFiles.length === 1) {
+                return;
+            }
+
             let index = this.openFiles.findIndex(file => file.name === tab);
 
             this.openFiles.splice(index, 1);
@@ -449,8 +469,8 @@ export default {
 
             <div class="h-full flex flex-col">
                 <div class="flex flex-1 h-full relative">
-                    <div class="w-1/5 p-4 min-w-[300px]">
-                        <file-tree
+                    <div class="w-3/12 xl:w-2/12">
+                        <FileTree
                                 :files="studentFiles"
                                 :file-select-function="studentSelectFile"
                                 :initial-selected-item="studentFiles[0]"
@@ -458,28 +478,28 @@ export default {
                                 show-controls
                                 @reset="resetFiles"/>
                     </div>
-                    <div class="flex border-l border-solid border-gray-600 p-4 h-full"
-                         :class="[openResults ? 'w-3/5' : 'w-4/5']">
+                    <div class="flex border-l border-solid border-gray-600 h-full"
+                         :class="[openResults ? 'w-6/12 xl:w-7/12' : 'w-9/12 xl:w-10/12']">
                         <Tabs :tabList="openFiles.map(file => file.name)" @close-tab="closeTab" :active-tab="activeTab">
                             <template v-slot:[`tab-content-`+index] v-for="(file, index) in openFiles">
-                                <AceEditor :id="'editor-' + (index + 1)" :file="file" @changeContent="saveSolution"
+                                <AceEditor :id="'editor-' + (index + 1)" v-model:value="file.content" @update:value="(content) => saveSolution(content, file)"
                                            class="w-full h-full border-0"/>
                             </template>
                         </Tabs>
                     </div>
-                    <div v-if="openResults" id="results-col"
-                         class="w-1/5 flex flex-col border-l border-solid border-gray-600 p-4 h-full absolute right-0 overflow-y-scroll">
-                        <div class="ml-8 flex justify-between items-center">
-                            <h1 class="text-2xl pt-0 ">Results</h1>
+                    <div v-show="openResults" id="results-col"
+                         class="w-3/12 flex flex-col bg-gray-950 border-l border-solid border-gray-600 h-full absolute right-0 overflow-y-scroll">
+                        <div class="pl-4 pr-4 py-4 flex justify-between items-center border-solid border-b border-gray-600">
+                            <h1 class="text-2xl pt-0 flex items-center"><AcademicCapIcon class="h-5 w-5 mr-2"/> Results</h1>
                             <div>
                                 <button @click="openResults = false" type="button"
-                                        class="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-gray-600 hover:text-white">
+                                        class="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:hover:text-white">
                                     <XMarkIcon class="w-5 h-5"/>
                                 </button>
                             </div>
                         </div>
 
-                        <div v-show="loadingResults" class="animate-pulse flex space-x-4 mt-4">
+                        <div v-show="loadingResults" class="animate-pulse flex space-x-4 mt-4 px-4">
                             <div class="flex-1 space-y-6 py-1">
                                 <div class="h-2 bg-slate-700 rounded"></div>
                                 <div class="space-y-3">

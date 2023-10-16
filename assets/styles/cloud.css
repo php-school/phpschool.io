@@ -35,3 +35,98 @@
     transform: translate3d(4px, 0, 0);
   }
 }
+
+.animateGradientBackground {
+  background: linear-gradient(135deg, #ffc107, #ff4081, #3f51b5, #00bcd4);
+  background-size: 300% 300%;
+  animation: gradient-animation 24s ease-in-out infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* bobbing animation */
+@keyframes bobbing {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.bobbing-animation {
+  animation: bobbing 6s infinite ease-in-out;
+}
+
+.ellipse {
+  position: absolute;
+  bottom: -70;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  border-radius: 50% 50% 50% 50%;
+  background-color: #000000;
+  opacity: 25%;
+}
+
+.mobile-menu-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.horizontal-divider {
+  position: relative;
+  width: 100%;
+  height: 2px; /* Adjust the height as needed */
+  overflow: hidden;
+}
+
+.horizontal-divider::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 50%; /* Adjust the width of the moving part */
+  height: 100%;
+  top: 0;
+  left: -100%; /* Start off-screen to the left */
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #ff00ff 40%,
+    transparent 60%,
+    transparent 100%
+  ); /* Adjust the gradient colors and stops here */
+  border-radius: 50px; /* Adjust the border radius to make it rounded */
+  background-size: 200% 100%; /* Adjust the background size */
+  animation: slide 7s 0s infinite linear; /* Adjust the animation duration */
+}
+
+@keyframes slide {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%; /* Move to the right edge */
+  }
+}

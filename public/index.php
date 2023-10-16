@@ -79,7 +79,9 @@ $app->get('/', function (Request $request, Response $response, PhpRenderer $rend
     $inner = $renderer->fetch('home.phtml', ['coreWorkshops' => $core, 'communityWorkshops' => $community]);
 
     return $renderer->render(
-        $response, 'layouts/layout.phtml', [
+        $response,
+        'layouts/layout.phtml',
+        [
             'pageTitle' => 'Home',
             'pageDescription' => 'Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP',
             'content' => $inner,
@@ -215,6 +217,10 @@ $app->get('/student-login', StudentLogin::class);
 $app
     ->group('/cloud', function (RouteCollectorProxy $group) use ($container) {
         $rateLimiter = $container->get(ExerciseRunnerRateLimiter::class);
+
+        $group->get('/home', function (Request $request, Response $response, PhpRenderer $renderer) {
+            return $renderer->render($response, 'new-home.phtml');
+        });
 
         $group->post('/reset', ResetState::class);
         $group->get('/logout', StudentLogout::class);

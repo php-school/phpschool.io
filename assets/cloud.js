@@ -19,6 +19,7 @@ import VueShepherdPlugin from './shepherd-plugin';
 import results from "./components/results/results.js";
 import StudentDropdown from "./components/StudentDropdown.vue";
 import ListWorkshops from "./components/ListWorkshops.vue";
+import Home from "./components/Home.vue";
 
 const components = {
     AceEditor,
@@ -32,7 +33,8 @@ const components = {
     ExerciseVerify,
     ExerciseEditor,
     StudentDropdown,
-    ListWorkshops
+    ListWorkshops,
+    Home
 }
 
 const app = createApp({

@@ -50,15 +50,15 @@ export default {
         </div>
         <div id="diff">
           <div class="flex w-full">
-            <div class="w-1/2"><h3 class="text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Expected Output</h3></div>
             <div class="w-1/2"><h3 class="text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Your Output</h3></div>
+            <div class="w-1/2"><h3 class="text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Expected Output</h3></div>
           </div>
           <Diff
               mode="split"
               theme="dark"
               language="text"
-              :prev="data.expected_output"
-              :current="data.actual_output"
+              :prev="data.actual_output"
+              :current="data.expected_output"
           />
         </div>
       </template>
