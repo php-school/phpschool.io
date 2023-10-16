@@ -9,7 +9,7 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
 class ViteDevAssets
 {
-    private const VITE_HOST = 'http://localhost:5133';
+    public const VITE_HOST = 'http://localhost:5133';
 
     public function __construct(private readonly PhpRenderer $renderer)
     {
