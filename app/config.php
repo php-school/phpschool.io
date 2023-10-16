@@ -182,14 +182,26 @@ return [
             ]
         );
 
-        //$renderer->addJs('jquery', '//code.jquery.com/jquery-1.12.0.min.js');
-        //$renderer->addJs('highlight.js', '//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js');
-
         $manifest = $c->get(ViteManifest::class);
+
         $renderer->addJs('main-js', $manifest->assetUrl('main.js'));
 
         foreach ($manifest->cssUrls('main.js') as $i => $url) {
             $renderer->appendRemoteCss($i, $url);
+        }
+
+        if ($c->get('config')['devMode']) {
+            $renderer->addJs('cloud', 'http://localhost:5133' . '/cloud.js', ['type' => 'module', 'crossorigin']);
+        } else {
+            $renderer->addJs('cloud', $manifest->assetUrl('cloud.js'), ['type' => 'module', 'crossorigin']);
+
+            foreach ($manifest->importsUrls('cloud.js') as $i => $url) {
+                $renderer->addPreload($i, $url);
+            }
+
+            foreach ($manifest->cssUrls('cloud.js') as $i => $url) {
+                $renderer->appendRemoteCss($i, $url);
+            }
         }
 
         $renderer->appendRemoteCss('font', 'https://fonts.googleapis.com/css?family=Open+Sans: 400,700');
@@ -570,7 +582,12 @@ return [
 
     Generator::class => function (ContainerInterface $c): Generator {
         return new Generator(
-            new Parser,
+            new Parser(null, new class implements \Mni\FrontYAML\Markdown\MarkdownParser {
+                public function parse($markdown): string
+                {
+                    return (new Parsedown())->parse($markdown);
+                }
+            }),
             __DIR__ . '/../posts/',
             __DIR__ . '/../public/blog',
             $c->get(PhpRenderer::class)
