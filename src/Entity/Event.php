@@ -12,7 +12,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Table(name="event"))
  * @ORM\Entity(repositoryClass="PhpSchool\Website\Repository\DoctrineORMEventRepository")
  */
-class Event
+class Event implements \JsonSerializable
 {
     /**
      *
@@ -152,9 +152,15 @@ class Event
             'name' => $this->getName(),
             'description' => $this->getDescription(),
             'link' => $this->getLink(),
-            'date' => $this->getDateTime(),
+            'date' => $this->getDateTime()->format('l M jS - g:i A'),
             'venue' => $this->getVenue(),
+            'venueLines' => $this->getVenueLines(),
             'poster' => $this->getPoster(),
         ];
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
     }
 }
