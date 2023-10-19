@@ -695,7 +695,7 @@ export default {
 
 #problem-file pre code {
     background-color: #2a2c2d !important;
-    @apply p-4 rounded-lg;
+    @apply p-4 rounded-lg block;
 }
 
 #problem-file :not(pre) > code {
