@@ -46,8 +46,8 @@ export default {
 <template>
   <div class="mt-3 pl-2 border-red-500 border-l-2 border-solid" v-for="(failure, i) in failures">
     <div class="w-full flex justify-between">
-      <span class="w-2/3 inline text-gray-300 italic">Run #{{i + 1}}</span>
-      <button class="ml-2 underline text-[#E91E63] text-left p-x2" @click="openInfoModal(failure)">Run info</button>
+      <span class="text-sm w-2/3 inline text-gray-300 italic">Run #{{i + 1}}</span>
+      <button class="text-sm ml-2 underline text-[#E91E63] text-left p-x2" @click="openInfoModal(failure)">Run info</button>
     </div>
     <component v-if="renderers.hasOwnProperty(failure.type)" :is="renderers[failure.type]" :data="failure"></component>
   </div>
@@ -59,7 +59,7 @@ export default {
           <div class="flex items-center ">
             <Cog6ToothIcon class="h-6 w-6 text-pink-500 mr-2"/>
 
-            <h2 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">Run context</h2>
+            <h2 class="font-mono text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">Run context</h2>
           </div>
         </div>
       </template>
@@ -67,18 +67,18 @@ export default {
       <template #body class="">
         <div id="cgi-run-info">
           <div class="mb-8">
-            <h2 class="mb-2 text-lg pt-0">Request details</h2>
+            <h2 class="font-mono text-[#E91E63] mb-2 text-lg pt-0">Request details</h2>
             <span class="text-base font-bold text-violet-400">{{currentFailure.request.method}}</span>
             <span class="ml-2 text-base text-gray-300">{{currentFailure.request.uri}}</span>
           </div>
 
           <div v-if="haveHeaders(currentFailure.request.headers)" class="mb-8">
-            <h2 class="mb-2 text-lg pt-0">Request headers</h2>
+            <h2 class="font-mono text-[#E91E63] mb-2 text-lg pt-0">Request headers</h2>
             <pre><code class="block mb-2 last:mb-0 text-[#ff75b5]">{{headers(currentFailure.request.headers)}}</code></pre>
           </div>
 
           <div v-if="currentFailure.request.body">
-            <h2 class="mb-2 text-lg pt-0">Request body</h2>
+            <h2 class="font-mono text-[#E91E63] mb-2 text-lg pt-0">Request body</h2>
             <pre><code class="language-sh hljs bash">{{currentFailure.request.body}}</code></pre>
           </div>
         </div>

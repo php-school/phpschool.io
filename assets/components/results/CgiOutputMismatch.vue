@@ -30,8 +30,8 @@ export default {
 
 <template>
   <div class="mt-1 w-full flex justify-between">
-    <p class="text-red-500">Output was incorrect</p>
-    <button class="underline text-[#E91E63] text-left p-x2" @click="openModal = true">Show diff</button>
+    <p class="text-sm text-red-500">Output was incorrect</p>
+    <button class="text-sm underline text-[#E91E63] text-left p-x2" @click="openModal = true">Show diff</button>
   </div>
 
 
@@ -42,7 +42,7 @@ export default {
           <div class="flex items-center ">
             <ExclamationTriangleIcon class="h-6 w-6 text-rose-600 mr-2"/>
 
-            <h2 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">Output mismatch...</h2>
+            <h2 class="font-mono text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">Output mismatch...</h2>
           </div>
         </div>
       </template>
@@ -54,14 +54,18 @@ export default {
               <div class="flex flex-wrap items-center">
                 <div class="flex items-center">
                   <p class=" truncate font-medium text-white">
-                    <span class="">Your programs output did not match the expected output:</span>
+                    <span class="text-sm">Your programs output did not match the expected output:</span>
                   </p>
                 </div>
               </div>
             </div>
             <div class="flex w-full">
-              <div class="w-1/2"><h3 class="text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Your Output</h3></div>
-              <div class="w-1/2"><h3 class="text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Expected Output</h3></div>
+              <div class="w-1/2">
+                <h3 class="font-mono text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Your Output</h3>
+              </div>
+              <div class="w-1/2">
+                <h3 class="font-mono text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Expected Output</h3>
+              </div>
             </div>
             <Diff
                 mode="split"
@@ -76,14 +80,18 @@ export default {
               <div class="flex flex-wrap items-center">
                 <div class="flex items-center">
                   <p class=" truncate font-medium text-white">
-                    <span class="">Your programs headers did not match the expected headers:</span>
+                    <span class="text-sm">Your programs headers did not match the expected headers:</span>
                   </p>
                 </div>
               </div>
             </div>
             <div class="flex w-full">
-              <div class="w-1/2"><h3 class="text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Your Headers</h3></div>
-              <div class="w-1/2"><h3 class="text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Expected Headers</h3></div>
+              <div class="w-1/2">
+                <h3 class="font-mono text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Your Headers</h3>
+              </div>
+              <div class="w-1/2">
+                <h3 class="font-mono text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Expected Headers</h3>
+              </div>
             </div>
             <Diff
                 mode="split"

@@ -41,14 +41,14 @@ export default {
     <li v-for="success in successes" class="flex items-start space-x-3">
       <CheckIcon fill="currentColor" class="flex-shrink-0 w-5 h-5 text-green-500"/>
       <div class="flex flex-col w-full">
-        <p>{{ success.name }} </p>
+        <span class="text-sm">{{ success.name }} </span>
       </div>
     </li>
 
     <li v-for="failure in failures" class="flex items-start space-x-3">
       <XMarkIcon fill="currentColor" class="flex-shrink-0 w-5 h-5 text-red-500"/>
       <div class="flex flex-col w-full">
-        {{failure.name }}
+        <span class="text-sm">{{failure.name }}</span>
         <component v-if="resultRenderers.hasOwnProperty(failure.type)" :is="resultRenderers[failure.type]" :data="failure" :renderers="resultRenderers"></component>
       </div>
     </li>

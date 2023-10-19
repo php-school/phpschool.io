@@ -41,8 +41,8 @@ export default {
 <template>
   <div class="mt-3 pl-2 border-red-500 border-l-2 border-solid" v-for="(failure, i) in failures">
     <div class="w-full flex justify-between">
-      <span class="w-2/3 inline text-gray-300 italic">Run #{{i + 1}}</span>
-      <button class="ml-2 underline text-[#E91E63] text-left p-x2" @click="openInfoModal(failure)">Show info</button>
+      <span class="text-sm w-2/3 inline text-gray-300 italic">Run #{{i + 1}}</span>
+      <button class="text-sm ml-2 underline text-[#E91E63] text-left p-x2" @click="openInfoModal(failure)">Show info</button>
     </div>
     <component v-if="renderers.hasOwnProperty(failure.type)" :is="renderers[failure.type]" :data="failure"></component>
   </div>
@@ -54,14 +54,14 @@ export default {
           <div class="flex items-center ">
             <Cog6ToothIcon class="h-6 w-6 text-pink-500 mr-2"/>
 
-            <h2 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">Run context</h2>
+            <h2 class="font-mono text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">Run context</h2>
           </div>
         </div>
       </template>
 
       <template #body class="">
         <div id="cli-run-info">
-          <h2 class="mb-2 text-lg pt-0">Command line arguments</h2>
+          <h2 class="font-mono text-[#E91E63] mb-2 text-lg pt-0">Command line arguments</h2>
           <div v-if="currentFailure.args.length">
             <div class="mb-8">
               <ul v-if="longestArg > 5" class="ml-2 mt-2 list-disc list-inside">

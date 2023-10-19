@@ -24,8 +24,8 @@ export default {
 
 <template>
   <div class="mt-1 w-full flex justify-between items-start">
-    <p class="text-red-500 w-2/3">Functions requirements were not fulfilled</p>
-    <button class="underline text-[#E91E63] text-left" @click="openModal = true">More info...</button>
+    <p class="text-sm text-red-500 w-2/3">Functions requirements were not fulfilled</p>
+    <button class="text-sm underline text-[#E91E63] text-left" @click="openModal = true">More info...</button>
   </div>
 
   <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
@@ -35,7 +35,7 @@ export default {
           <div class="flex items-center ">
             <ExclamationTriangleIcon class="h-6 w-6 text-rose-600 mr-2"/>
 
-            <h2 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">Function requirements failure...</h2>
+            <h2 class="font-mono text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">Function requirements failure...</h2>
           </div>
         </div>
       </template>
@@ -45,7 +45,7 @@ export default {
           <div class="flex flex-wrap items-center">
             <div class="flex items-center">
               <p class=" truncate font-medium text-white">
-                <span class="">Your program was required to use certain functions and was prohibited from using others.</span>
+                <span class="text-sm">Your program was required to use certain functions and was prohibited from using others.</span>
               </p>
             </div>
           </div>
@@ -53,14 +53,14 @@ export default {
 
         <div id="func-requirements" class="flex space-x-4">
           <div v-if="data.banned_functions.length" class="w-1/2">
-            <h2 class="mb-2 text-lg pt-0">Banned functions</h2>
-            <p class="mb-4">Some functions were used which should not be used in this exercise:</p>
-            <code class="block mb-2 last:mb-0" v-for="call in data.banned_functions">{{ call.function }} on line {{ call.line }}</code>
+            <h2 class="font-mono text-[#E91E63] mb-2 text-lg pt-0">Banned functions</h2>
+            <p class="text-sm mb-4">Some functions were used which should not be used in this exercise:</p>
+            <code class="text-xs block mb-2 last:mb-0" v-for="call in data.banned_functions">{{ call.function }} on line {{ call.line }}</code>
           </div>
           <div v-if="data.missing_functions.length" class="w-1/2">
-            <h2 class="mb-2 text-lg pt-0">Missing functions</h2>
-            <p class="mb-4">Some functions were missing. You should use the following functions:</p>
-            <code class="block mb-2 last:mb-0" v-for="func in data.missing_functions">{{func}}</code>
+            <h2 class="font-mono text-[#E91E63] mb-2 text-lg pt-0">Missing functions</h2>
+            <p class="text-sm mb-4">Some functions were missing. You should use the following functions:</p>
+            <code class="text-xs block mb-2 last:mb-0" v-for="func in data.missing_functions">{{func}}</code>
           </div>
         </div>
       </template>
@@ -87,7 +87,6 @@ export default {
 }
 
 #func-requirements :not(pre)>code {
-  font-size: 90%;
   background-color: #2a2c2d;
   @apply px-2 py-1 rounded;
   color: #ff75b5;

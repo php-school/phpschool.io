@@ -21,8 +21,8 @@ export default {
 
 <template>
   <div class="mt-1 w-full flex justify-between items-start">
-    <p class="text-red-500 w-2/3">File content was incorrect for <code class="result-list-file">{{data.file_name}}</code></p>
-    <button class="underline text-[#E91E63] text-left p-x2" @click="openModal = true">Show diff</button>
+    <p class="text-sm text-red-500 w-2/3">File content was incorrect for <code class="result-list-file">{{data.file_name}}</code></p>
+    <button class="text-sm underline text-[#E91E63] text-left p-x2" @click="openModal = true">Show diff</button>
   </div>
 
   <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
@@ -32,7 +32,7 @@ export default {
           <div class="flex items-center ">
             <ExclamationTriangleIcon class="h-6 w-6 text-rose-600 mr-2"/>
 
-            <h2 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">File content mismatch...</h2>
+            <h2 class="font-mono text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">File content mismatch...</h2>
           </div>
         </div>
       </template>
@@ -42,15 +42,19 @@ export default {
           <div class="flex flex-wrap items-center">
             <div class="flex items-center">
               <p class=" truncate font-medium text-white">
-                <span class="">The content of the file <code>{{data.file_name}}</code> your program was required to create, did not match the expected content.</span>
+                <span class="text-sm">The content of the file <code>{{data.file_name}}</code> your program was required to create, did not match the expected content.</span>
               </p>
             </div>
           </div>
         </div>
         <div id="diff">
           <div class="flex w-full">
-            <div class="w-1/2"><h3 class="text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Your Content</h3></div>
-            <div class="w-1/2"><h3 class="text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Expected Content</h3></div>
+            <div class="w-1/2">
+              <h3 class="font-mono pt-[13.5px] text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Your Content</h3>
+            </div>
+            <div class="w-1/2">
+              <h3 class="font-mono pt-[13.5px] text-base font-semibold lg:text-base text-white pb-3 pl-1 mt-0 ">Expected Content</h3>
+            </div>
           </div>
           <Diff
               mode="split"
@@ -92,8 +96,6 @@ export default {
 
 .result-list-file {
   font-size: 90%;
-  background-color: transparent;
-  color: #ff75b5;
-  @apply p-0
+  @apply p-0 bg-inherit text-[#ff75b5]
 }
 </style>

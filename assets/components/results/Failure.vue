@@ -21,6 +21,6 @@ export default {
 
 <template>
   <div class="mt-1 w-full flex justify-between">
-    <p class="text-red-500">{{ data.reason }}</p>
+    <p class="text-red-500 text-sm">{{ data.reason }}</p>
   </div>
 </template>
