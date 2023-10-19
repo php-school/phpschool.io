@@ -22,7 +22,6 @@ import OutputMismatch from './results/CliOutputMismatch.vue';
 import ResultList from "./results/ResultList.vue";
 import Tour from "./Tour.vue";
 import Confirm from "./Confirm.vue";
-import HeaderNav from "./HeaderNav.vue";
 import StudentDropdown from "./StudentDropdown.vue";
 import toFilePath from "./utils/toFilePath";
 import Alert from "./Alert.vue";
@@ -33,7 +32,6 @@ export default {
         SiteNav,
         Alert,
         StudentDropdown,
-        HeaderNav,
         Tour,
         ResultList,
         PassNotification,
@@ -433,8 +431,7 @@ export default {
 </script>
 
 <template>
-
-    <header-nav :links="links">
+    <site-nav compact :links="links" :show-login-button="false">
         <template v-slot:nav-after>
             <ul v-if="student" class="order-3">
                 <li>
@@ -448,7 +445,7 @@ export default {
                 </li>
             </ul>
         </template>
-    </header-nav>
+    </site-nav>
 
     <section class="site-body h-full flex-1 flex flex-col bg-gray-900">
         <div class="h-full relative">
