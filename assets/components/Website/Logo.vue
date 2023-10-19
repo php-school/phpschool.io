@@ -1,5 +1,5 @@
 <template>
-    <svg class="h-20 w-20 hover:text-[#e91e63]" version="1.1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="171.3px" height="167.4px" viewBox="0 0 171.3 167.4" enable-background="new 0 0 171.3 167.4" xml:space="preserve"><defs></defs>
+    <svg class="h-20 w-20 transition ease-in duration-150 hover:text-[#e91e63]" version="1.1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="171.3px" height="167.4px" viewBox="0 0 171.3 167.4" enable-background="new 0 0 171.3 167.4" xml:space="preserve"><defs></defs>
         <g>
             <path d="M120.7,97.8c4.9,0,8.9-4.1,8.9-9.4c0-5.2-4-9.1-8.9-9.1c-4.9,0-8.9,3.9-8.9,9.1C111.8,93.7,115.7,97.8,120.7,97.8z"/>
             <path d="M40.8,49.9c2,0,3.5-0.3,4.9-0.9c2.8-1.2,4.4-4,4.4-7.8c0-3.5-1.4-6.2-3.9-7.5c-1.4-0.7-3.2-1.1-5.3-1.1h-8.2v17.2h8.1V49.9z"/>
