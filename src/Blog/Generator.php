@@ -29,7 +29,6 @@ class Generator
         $this->renderer->addAttribute('route', '/blog');
 
         $this->renderer->addJs('cloud', ViteDevAssets::VITE_HOST . '/cloud.js', ['type' => 'module', 'crossorigin']);
-
     }
 
     public function generate(): void
@@ -113,12 +112,10 @@ class Generator
         return $this->renderer->fetch('layouts/layout.phtml', [
             'pageTitle'       => 'Blog',
             'pageDescription' => 'PHP School blog',
-            'content'         => $this->renderer->fetch(
-                'blog.phtml',
-                [
-                    'content' => $post->getContent(),
-                    'meta'    => $post->getMeta()
-                ]
+            'content'         => sprintf(
+                "<Post :meta='%s'>%s</Post>",
+                $this->renderer->json($post->getMeta()),
+                $post->getContent()
             )
         ]);
     }

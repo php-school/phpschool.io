@@ -3,8 +3,9 @@
 namespace PhpSchool\Website\Blog;
 
 use DateTime;
+use JsonSerializable;
 
-class PostMeta
+class PostMeta implements JsonSerializable
 {
     private string $title;
     private DateTime $date;
@@ -60,5 +61,15 @@ class PostMeta
     private function slugify(string $string): string
     {
         return trim(strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)), '-');
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'title' => $this->getTitle(),
+            'author' => $this->getAuthor(),
+            'authorLink' => $this->getAuthorLink(),
+            'date' => $this->date->format('F j, Y'),
+        ];
     }
 }
