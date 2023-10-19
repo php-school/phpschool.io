@@ -1,15 +1,12 @@
 <script>
 
-import Modal from "../Modal.vue";
-import {ExclamationTriangleIcon, CheckIcon, XMarkIcon} from '@heroicons/vue/24/solid'
+import {CheckIcon, XMarkIcon} from '@heroicons/vue/24/solid'
 import resultRenderers from "./../../result.manifest.json";
 import results from "./results.js";
 
 export default {
   components: {
     ...results,
-    Modal,
-    ExclamationTriangleIcon,
     CheckIcon,
     XMarkIcon
   },
@@ -18,9 +15,6 @@ export default {
     workshop: Object,
   },
   computed: {
-    typesToComponents() {
-      return resultRenderers[this.workshop.code]
-    },
     successes() {
       return this.results.filter(r => r.success === true);
     },
