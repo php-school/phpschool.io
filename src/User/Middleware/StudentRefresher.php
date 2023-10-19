@@ -10,7 +10,7 @@ use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
-class StudentAuthenticator
+class StudentRefresher
 {
     use RedirectUtils;
 
@@ -25,25 +25,23 @@ class StudentAuthenticator
 
     public function __invoke(Request $request, RequestHandler $handler): MessageInterface
     {
-        $path = $request->getUri()->getPath();
-
-        //if not a cloud route
-        if (!str_starts_with($path, '/cloud')) {
-            return $handler->handle($request);
-        }
-
         $student = $this->session->get('student');
 
-        //if on cloud home page allow guests
-        if ($student === null && $path === '/cloud') {
+        if ($student === null) {
             return $handler->handle($request);
         }
 
-        //if on any other cloud route, student must be logged in
-        if ($student instanceof StudentDTO) {
-            return $handler->handle($request);
+        $entity = $this->studentRepository->findById($student->id);
+
+        //student no longer exists
+        if (null === $entity) {
+            $this->session->delete('student');
+            return $this->redirect('/');
         }
 
-        return $this->redirect('/cloud');
+        //refresh user from database
+        $this->session->set('student', $entity->toDTO());
+
+        return $handler->handle($request);
     }
 }

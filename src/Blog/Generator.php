@@ -2,12 +2,10 @@
 
 namespace PhpSchool\Website\Blog;
 
-use DateTime;
 use GlobIterator;
 use Illuminate\Support\Collection;
 use Mni\FrontYAML\Document;
 use Mni\FrontYAML\Parser;
-use PhpSchool\Website\Cloud\Middleware\ViteDevAssets;
 use PhpSchool\Website\PhpRenderer;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -27,8 +25,6 @@ class Generator
         $this->renderer = $renderer;
 
         $this->renderer->addAttribute('route', '/blog');
-
-        $this->renderer->addJs('cloud', ViteDevAssets::VITE_HOST . '/cloud.js', ['type' => 'module', 'crossorigin']);
     }
 
     public function generate(): void

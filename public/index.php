@@ -37,12 +37,10 @@ use PhpSchool\Website\User\AdminAuthenticationService;
 use PhpSchool\Website\User\FlashMessages;
 use PhpSchool\Website\User\Middleware\AdminAuthenticator;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
-use PhpSchool\Website\User\Session;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
 use Psr\Log\LoggerInterface;
-use Jenssegers\Agent\Agent;
 use Slim\Routing\RouteCollectorProxy;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
@@ -84,14 +82,6 @@ $app->get('/', function (Request $request, Response $response, PhpRenderer $rend
             'content' => '<Home></Home>'
         ]
     );
-});
-
-$app->add(function (Request $request, RequestHandler $handler) {
-    $renderer = $this->get(PhpRenderer::class);
-    $renderer->addAttribute('userAgent', new Agent);
-    $renderer->addAttribute('route', $request->getUri()->getPath());
-
-    return $handler->handle($request);
 });
 
 $errors = $app->addErrorMiddleware(
@@ -230,19 +220,6 @@ $app
         $group->get('/composer-package/add', ComposerPackageAdd::class);
         $group->get('/composer-package/search', ComposerPackageSearch::class);
         $group->post('/tour/complete', TourComplete::class);
-    })
-    ->add(function (Request $request, RequestHandler $handler): Response {
-        $renderer = $this->get(PhpRenderer::class);
-        /** @var Session $session */
-        $session  = $this->get(Session::class);
-
-        $student = $session->get('student');
-
-        $request = $request->withAttribute('student', $student);
-        $renderer->addAttribute('student', $student);
-
-        return $handler->handle($request)
-            ->withHeader('cache-control', 'no-cache');
     })
     ->add($container->get(StudentAuthenticator::class))
     ->add(Styles::class);

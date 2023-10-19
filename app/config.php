@@ -5,6 +5,7 @@ use DI\Bridge\Slim\Bridge;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use Jenssegers\Agent\Agent;
 use League\CommonMark\Block\Element\FencedCode;
 use League\CommonMark\Block\Element\IndentedCode;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
@@ -31,7 +32,6 @@ use PhpSchool\Website\Cloud\CloudWorkshopRepository;
 use PhpSchool\Website\Cloud\Command\DownloadComposerPackageList;
 use PhpSchool\Website\Cloud\Middleware\ExerciseRunnerRateLimiter;
 use PhpSchool\Website\Cloud\Middleware\Styles;
-use PhpSchool\Website\Cloud\Middleware\ViteProductionAssets;
 use PhpSchool\Website\Cloud\PathGenerator;
 use PhpSchool\Website\Cloud\ProblemFileConverter;
 use PhpSchool\Website\Cloud\ProjectUploader;
@@ -43,6 +43,7 @@ use PhpSchool\Website\Middleware\Session as SessionMiddleware;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use PhpSchool\Website\User\FlashMessages;
+use PhpSchool\Website\User\Middleware\StudentRefresher;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentRepository;
 use PhpSchool\Website\ViteManifest;
@@ -110,6 +111,9 @@ use PhpSchool\Website\User\Session;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use function DI\get;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
 return [
     'console' => factory(function (DI\Container $c): Silly\Edition\PhpDi\Application {
@@ -128,7 +132,34 @@ return [
         $app->addRoutingMiddleware();
         $app->add($c->get(FpcCache::class));
         $app->add(FlashMessagesMiddleware::class);
+
+        $app->add(function (Request $request, RequestHandler $handler) use($c) : Response {
+            $renderer = $this->get(PhpRenderer::class);
+            /** @var Session $session */
+            $session  = $this->get(Session::class);
+
+            $student = $session->get('student');
+
+            $request = $request->withAttribute('student', $student);
+            $renderer->addAttribute('student', $student);
+            $renderer->addAttribute(
+                'totalExerciseCount',
+                $c->get(CloudWorkshopRepository::class)->totalExerciseCount()
+            );
+
+            return $handler->handle($request)
+                ->withHeader('cache-control', 'no-cache');
+        });
+        $app->add(StudentRefresher::class);
         $app->add(new SessionMiddleware(['name' => 'phpschool']));
+
+        $app->add(function (Request $request, RequestHandler $handler) use ($c){
+            $renderer = $c->get(PhpRenderer::class);
+            $renderer->addAttribute('userAgent', new Agent);
+            $renderer->addAttribute('route', $request->getUri()->getPath());
+
+            return $handler->handle($request);
+        });
 
         return $app;
     }),
@@ -174,26 +205,21 @@ return [
         return new ViteManifest();
     },
     PhpRenderer::class => factory(function (ContainerInterface $c): PhpRenderer {
+
         $settings = $c->get('config')['renderer'];
         $renderer = new PhpRenderer(
             $settings['template_path'],
             [
                 'links'  => $c->get('config')['links'],
-            ]
+            ],
         );
 
         $manifest = $c->get(ViteManifest::class);
 
-        $renderer->addJs('main-js', $manifest->assetUrl('main.js'));
-
-        foreach ($manifest->cssUrls('main.js') as $i => $url) {
-            $renderer->appendRemoteCss($i, $url);
-        }
-
         if ($c->get('config')['devMode']) {
-            $renderer->addJs('cloud', 'http://localhost:5133' . '/cloud.js', ['type' => 'module', 'crossorigin']);
+            $renderer->addJs('cloud', 'http://localhost:5133/cloud.js', ['type' => 'module', 'crossorigin']);
         } else {
-            $renderer->addJs('cloud', $manifest->assetUrl('cloud.js'), ['type' => 'module', 'crossorigin']);
+            $renderer->addJs('cloud', $this->manifest->assetUrl('cloud.js'), ['type' => 'module', 'crossorigin']);
 
             foreach ($manifest->importsUrls('cloud.js') as $i => $url) {
                 $renderer->addPreload($i, $url);
@@ -203,8 +229,6 @@ return [
                 $renderer->appendRemoteCss($i, $url);
             }
         }
-
-        $renderer->appendRemoteCss('font', 'https://fonts.googleapis.com/css?family=Open+Sans: 400,700');
 
         return $renderer;
     }),
