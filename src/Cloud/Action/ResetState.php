@@ -18,7 +18,7 @@ class ResetState
 
     public function __invoke(Request $request, Response $response): Response
     {
-        //$this->studentState->reset();
+        $this->studentState->reset();
 
         return $this->jsonSuccess($response);
     }
