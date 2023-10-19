@@ -173,9 +173,9 @@ export default {
         <FolderIcon v-if="isFolder" v-show="!isOpen || !hasChildren" class="mr-1 h-5 w-5" style="fill: none !important;"/>
         <FolderOpenIcon v-if="isFolder && hasChildren" v-show="isOpen" class="mr-1 h-5 w-5" style="fill: none !important;"/>
         <DocumentIcon v-if="!isFolder" class="mr-1 h-5 w-5" style="fill: none !important;"/>
-        <span v-show="!isBeingEdited" class="hover:text-white flex-1 truncate">{{ model.name }}</span>
+        <span v-show="!isBeingEdited" class="hover:text-white flex-1 truncate text-sm">{{ model.name }}</span>
         <input ref="name" @keyup.enter="saveName" v-show="isBeingEdited" class="bg-gray-700 p-1 rounded-sm" v-model="model.name"/>
-        <span class="ml-2 mr-2" v-if="isFolder && hasChildren && !isBeingEdited">[{{ isOpen ? '-' : '+' }}]</span>
+        <span class="ml-2 mr-2 text-sm" v-if="isFolder && hasChildren && !isBeingEdited">[{{ isOpen ? '-' : '+' }}]</span>
       </div>
       <div v-if="showControls" v-show="!isBeingEdited" class="hidden group-hover:flex">
         <PencilIcon @click.stop="edit" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important;"/>
