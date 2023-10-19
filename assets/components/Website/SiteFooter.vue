@@ -5,7 +5,7 @@ import Logo from "./Logo.vue";
 const currentYear = (new Date().getFullYear());
 </script>
 <template>
-    <footer class="bg-cyan-600 text-white font-open-sans text-sm">
+    <footer class="bg-cyan-600 text-white font-sans text-sm">
         <div class="max-w-[2048px] h-auto mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-wrap justify-between items-center">
             <figure class="text-white mb-4 sm:mb-0 ">
                 <a href="/">
