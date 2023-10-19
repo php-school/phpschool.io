@@ -1,6 +1,6 @@
 <template>
-    <div class="relative bg-gray-800 flex flex-col justify-start modal-border border-2 border-solid border-transparent  rounded-[20px] shadow-[-20px_20px_0_rgba(0,0,0,0.2)]">
-        <div class="p-2 rounded-t flex-none flex justify-between items-top border-b border-solid border-slate-600">
+    <div class="relative bg-gray-800 flex flex-col justify-start modal-border border-2 border-solid border-transparent rounded-[20px] shadow-[-20px_20px_0_rgba(0,0,0,0.2)]">
+        <div class="p-2.5 rounded-t flex-none flex justify-between items-top border-b border-solid border-slate-600">
             <div class="flex flex-col">
                 <div class="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4 text-pink-500 mr-2"><path fill-rule="evenodd" d="M3 6a3 3 0 013-3h12a3 3 0 013 3v12a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm14.25 6a.75.75 0 01-.22.53l-2.25 2.25a.75.75 0 11-1.06-1.06L15.44 12l-1.72-1.72a.75.75 0 111.06-1.06l2.25 2.25c.141.14.22.331.22.53zm-10.28-.53a.75.75 0 000 1.06l2.25 2.25a.75.75 0 101.06-1.06L8.56 12l1.72-1.72a.75.75 0 10-1.06-1.06l-2.25 2.25z" clip-rule="evenodd"></path></svg>
@@ -31,13 +31,13 @@
                     </div>
                 </div>
                 <div class="w-2/3 h-full flex flex-1">
-                    <div class="h-full w-5 flex flex-col text-[10px] text-[#8F908A] bg-[#0c1220]">
+                    <div class="h-full w-5 flex flex-col text-[10px] text-[#8F908A] bg-[#0c1220] pt-1">
                         <span class="leading-relaxed">1</span>
                         <span class="leading-relaxed">2</span>
                         <span class="leading-relaxed">3</span>
                         <span class="leading-relaxed">4</span>
                     </div>
-                    <div class="flex flex-1 flex-col text-[10px] text-left ml-1">
+                    <div class="flex flex-1 flex-col text-[10px] text-left ml-1 pt-1">
                        <span class="text-[#f8f8f2]">&lt;?php</span>
                        <br>
                        <span>

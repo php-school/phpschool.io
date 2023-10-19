@@ -1,13 +1,13 @@
 <template>
     <div id="workshop-exercises"
-         class="text-left flex flex-col items-center bg-gray-800 rounded-[24px] shadow-[-10px_10px_0_rgba(0,0,0,0.2)] h-full max-w-lg">
-        <div class="px-2 py-2 sm:px-6 border-b w-full">
+         class="font-mono text-left flex flex-col items-center bg-gray-800 rounded-[24px] shadow-[-20px_20px_0_rgba(0,0,0,0.2)] h-full max-w-lg modal-border border-2 border-solid border-transparent">
+        <div class="px-2 py-2 sm:px-6 w-full">
             <div class="w-full flex flex-col">
-                <h3 class="text-lg leading-6 font-medium text-white">PHP School Workshops</h3>
+                <h3 class=" text-lg leading-6 font-medium text-white pt-[13.5px]">PHP School Workshops</h3>
                 <p class="mt-1 mb-4 max-w-2xl text-sm text-gray-200">Pick a workshop to try it out online!</p>
             </div>
         </div>
-        <ul id="workshop-exercises-list" class="flex flex-col w-full divide divide-y">
+        <ul id="workshop-exercises-list" class="flex flex-col w-full">
             <li class="group flex flex-row">
                 <div class="select-none flex flex-1 items-center px-3 py-2">
                     <div class="flex flex-col w-10 h-10 justify-center items-center mr-4">

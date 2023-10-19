@@ -9,9 +9,9 @@
               d="M8.161 2.58a1.875 1.875 0 011.678 0l4.993 2.498c.106.052.23.052.336 0l3.869-1.935A1.875 1.875 0 0121.75 4.82v12.485c0 .71-.401 1.36-1.037 1.677l-4.875 2.437a1.875 1.875 0 01-1.676 0l-4.994-2.497a.375.375 0 00-.336 0l-3.868 1.935A1.875 1.875 0 012.25 19.18V6.695c0-.71.401-1.36 1.036-1.677l4.875-2.437zM9 6a.75.75 0 01.75.75V15a.75.75 0 01-1.5 0V6.75A.75.75 0 019 6zm6.75 3a.75.75 0 00-1.5 0v8.25a.75.75 0 001.5 0V9z"
               clip-rule="evenodd"></path>
           </svg>
-          <h3 class="text-base font-semibold lg:text-lg text-white pt-0 mt-0"> The problem... </h3>
+          <h3 class="font-mono text-base font-semibold lg:text-lg text-white pt-0 mt-0"> The problem... </h3>
         </div>
-        <h2 class="mt-0 mb-2 text-lg text-left">Hello World</h2>
+        <h2 class="font-mono text-white mt-0 mb-2 text-lg text-left pt-[13.5px]">Hello World</h2>
       </div>
       <div>
           <button type="button" class="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center focus:outline-none focus:ring focus:ring-pink-800">

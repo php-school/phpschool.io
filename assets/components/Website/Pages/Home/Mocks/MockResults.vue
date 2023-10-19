@@ -1,6 +1,6 @@
 <template>
     <div id="results-col"
-         class="flex w-[350px] flex-col overflow-y-scroll border border-gray-600 border-solid bg-gray-900 rounded-[24px] "
+         class="flex w-[350px] flex-col overflow-y-scroll bg-gray-900 rounded-[24px] results-border border-2 border-solid border-transparent"
          style="">
         <div class="flex items-center justify-between border-b border-solid border-gray-600 py-4 pl-4 pr-4">
             <h1 class="flex items-center pt-0 text-xl text-pink-600">
@@ -49,3 +49,10 @@
         </ul>
     </div>
 </template>
+
+<style>
+.results-border {
+    background: padding-box linear-gradient(rgb(17 24 39), rgb(17 24 39)),
+    border-box linear-gradient(rgb(236, 72, 153), rgba(168, 85, 247, 0.3));
+}
+</style>

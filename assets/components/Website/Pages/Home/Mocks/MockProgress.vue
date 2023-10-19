@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col mx-auto mt-10 bg-gray-800 p-8 rounded-[20px] shadow-[-20px_20px_0_rgba(0,0,0,0.2)]">
+    <div class="flex flex-col mx-auto mt-10 bg-gray-800 p-8 rounded-[20px] shadow-[-20px_20px_0_rgba(0,0,0,0.2)] modal-border border-2 border-solid border-transparent">
         <div class="flex justify-between text-left">
             <div class="flex items-center space-x-2">
                 <img class="w-8 h-8 rounded-full" src="https://avatars.githubusercontent.com/u/2817002?v=4" alt="Aydin Hassan">

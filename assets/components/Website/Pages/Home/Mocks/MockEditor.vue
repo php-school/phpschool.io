@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full w-full relative bg-gray-900 border p-1.5 border-gray-600 rounded-[20px] shadow-[-20px_20px_0_rgba(0,0,0,0.2)]">
+    <div class="h-full w-full relative bg-gray-900 border p-1.5 editor-border border-2 border-solid border-transparent rounded-[20px] shadow-[-20px_20px_0_rgba(0,0,0,0.2)]">
         <div class="h-full flex flex-col">
             <div class="flex flex-1 h-full relative">
                 <div class="w-3/12">
@@ -144,3 +144,10 @@
         </div>
     </div>
 </template>
+
+<style>
+.editor-border {
+    background: padding-box linear-gradient(rgb(17 24 39), rgb(17 24 39)),
+    border-box linear-gradient(rgb(236, 72, 153), rgba(168, 85, 247, 0.3));
+}
+</style>
