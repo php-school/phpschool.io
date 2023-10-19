@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="flex flex-col mx-auto max-w-3xl text-left text-gray-800 p-8">
+    <div class="font-open-sans flex flex-col mx-auto max-w-3xl text-left text-gray-800 p-8">
         <div class="text-center mb-3">
             <h1 class="text-4xl font-bold leading-normal mt-[9px] mb-3 mx-0 font-mono text-[#e91e63]">{{ meta.title }}</h1>
             <span class="text-xs font-bold hover:text-[#e91e63] hover:underline"><a :href="meta.authorLink">{{ meta.author }}</a></span>
