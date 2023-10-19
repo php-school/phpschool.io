@@ -39,9 +39,6 @@ export default {
         percentComplete() {
             return (this.studentState.totalCompleted / this.totalExercises) * 100;
         },
-        exerciseCompleted() {
-            return this.studentState.completedExercises.includes(this.exercise.name);
-        },
     },
     methods: {
         showTour() {
@@ -93,7 +90,7 @@ export default {
     <alert type="success" @close="showResetProgressAlert = false" v-show="showResetProgressAlert" message="Progress successfully reset"></alert>
     <div class="relative">
         <button @click.stop="toggleDropdown"
-                class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-4 focus:ring-4  focus:ring-gray-600"
+                class="flex text-sm bg-gray-800 rounded-full focus:ring-4  focus:ring-gray-600"
                 type="button">
             <span class="sr-only">Open user menu</span>
             <img class="w-8 h-8 rounded-full" :src="student.profile_picture" alt="{{ student.name }}">
