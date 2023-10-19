@@ -34,16 +34,8 @@ class SubmitWorkshop
         $this->logger = $logger;
     }
 
-    public function showSubmitForm(Request $request, Response $response, PhpRenderer $renderer): Response
-    {
-        return $renderer->render($response, 'layouts/layout.phtml', [
-            'pageTitle'       => 'Submit your workshop',
-            'pageDescription' => 'Submit your workshop to the workshop registry!',
-            'content'         => $renderer->fetch('submit.phtml')
-        ]);
-    }
 
-    public function submit(Request $request, Response $response): Response
+    public function __invoke(Request $request, Response $response): Response
     {
         $res = $this->formHandler->validateJsonRequest($request, $response);
 

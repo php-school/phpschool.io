@@ -101,8 +101,17 @@ $app->get('/install', function (Request $request, Response $response, PhpRendere
 });
 
 $app->get('/docs[/{group}[/{section}]]', DocsAction::class);
-$app->get('/submit', SubmitWorkshop::class . '::showSubmitForm');
-$app->post('/submit', SubmitWorkshop::class . '::submit');
+
+
+
+$app->get('/submit', function (Request $request, Response $response, PhpRenderer $renderer) {
+    return $renderer->render($response, 'layouts/layout.phtml', [
+        'pageTitle'       => 'Submit your workshop',
+        'pageDescription' => 'Submit your workshop to the workshop registry!',
+        'content'         => '<submit-workshop></submit-workshop>'
+    ]);
+});
+$app->post('/submit', SubmitWorkshop::class);
 
 $app
     ->group('/admin', function (RouteCollectorProxy $group) {
