@@ -19,13 +19,18 @@ class ListWorkshops
 
     public function __invoke(Request $request, Response $response, PhpRenderer $renderer): Response
     {
+        $content = sprintf(
+            "<list-workshops %s :total-exercises='%s' :workshops='%s' :links='%s'/>",
+            $renderer->getAttribute('student') ? sprintf(":student='%s'", $renderer->json($renderer->getAttribute('student'))) : "",
+            $renderer->json($this->installedWorkshops->totalExerciseCount()),
+            $renderer->json($this->installedWorkshops->findAll()),
+            $renderer->json($renderer->getAttribute('links'))
+        );
+
         return $renderer->render($response, 'layouts/cloud.phtml', [
-            'pageTitle'       => 'PHP School Cloud',
+            'pageTitle' => 'PHP School Cloud',
             'pageDescription' => 'PHP School Cloud',
-            'content'         => $renderer->fetch('cloud/list-workshops.phtml', [
-                'totalExerciseCount' => $this->installedWorkshops->totalExerciseCount(),
-                'workshops' => $this->installedWorkshops->findAll(),
-            ])
+            'content' => $content
         ]);
     }
 }

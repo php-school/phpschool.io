@@ -1,79 +1,58 @@
-<script>
+<script setup>
 import StudentProgress from "./StudentProgress.vue";
 import WorkshopExerciseSelectionList from "./WorkshopExerciseSelectionList.vue";
-import HeaderNav from "./HeaderNav.vue";
 import StudentDropdown from "./StudentDropdown.vue";
+import SiteNav from "./Website/SiteNav.vue";
+import {ref} from "vue";
 
-export default {
-    components: {
-        HeaderNav,
-        WorkshopExerciseSelectionList,
-        StudentProgress,
-        StudentDropdown
+const props = defineProps({
+    student: {
+        type: Object,
+        required: false
     },
-    props: {
-        student: {
-            type: Object,
-            required: false
-        },
-        totalExercises: Number,
-        workshops: Object,
-        links: Object
-    },
-    data() {
-        let studentState = null;
+    totalExercises: Number,
+    workshops: Object,
+    links: Object
+});
 
-        if (this.student) {
-            studentState =  {
-                totalCompleted: this.student.state.total_completed,
-                workshops: this.student.state.workshops,
-                completedExercises: {}
-            }
-        }
+const studentState = ref(null);
 
-        return {
-            studentState: studentState,
-        }
-    },
-    methods: {
-        forceTour() {
-
-        },
-        resetState() {
-            const studentState = this.studentState;
-
-            return new Promise(async function (resolve, reject) {
-                const opts = {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                };
-                fetch('/cloud/reset', opts)
-                    .then(response => {
-                        if (response.ok) {
-
-                            studentState.totalCompleted = 0;
-                            studentState.completedExercises = [];
-                            studentState.workshops = [];
-
-                            resolve();
-                        }
-
-                        reject();
-                    });
-            });
-        },
+if (props.student) {
+    studentState.value =  {
+        totalCompleted: props.student.state.total_completed,
+        workshops: props.student.state.workshops,
+        completedExercises: {}
     }
 }
 
+const resetState = () => {
+    return new Promise(async function (resolve, reject) {
+        const opts = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        };
+        fetch('/cloud/reset', opts)
+            .then(response => {
+                if (response.ok) {
+
+                    studentState.value.totalCompleted = 0;
+                    studentState.value.completedExercises = [];
+                    studentState.value.workshops = [];
+
+                    resolve();
+                }
+
+                reject();
+            });
+    });
+};
 </script>
 
 <template>
-
-
-    <header-nav :links="links">
+    <site-nav compact :links="links" :show-login-button="false">
         <template v-slot:nav-after>
             <ul v-if="student" class="order-3">
                 <li>
@@ -87,7 +66,7 @@ export default {
                 </li>
             </ul>
         </template>
-    </header-nav>
+    </site-nav>
 
     <section id="app" class="flex-1 pb-4 overflow-hidden">
         <div class="container mx-auto flex flex-col overflow-hidden h-full">
