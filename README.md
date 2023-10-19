@@ -55,6 +55,12 @@ Run:
 npm run dev
 ```
 
+You will also need to symlink the image directory:
+
+```shell
+ln -s ../../assets/img/cloud public/img/cloud
+````
+
 ## For GitHub login
 
 Add `127.0.0.1 www.phpschool.local` to `/etc/hosts`
