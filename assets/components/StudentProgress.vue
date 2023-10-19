@@ -66,8 +66,8 @@ export default {
         </div>
 
         <div class="font-medium">
-          <p class="text-white">{{ student.name }}</p>
-          <div class="text-sm text-gray-500">Joined in {{ student.join_date }}</div>
+          <p class="text-white text-xs">{{ student.name }}</p>
+          <div class="text-sm text-gray-500 text-xs">Joined in {{ student.join_date }}</div>
         </div>
       </div>
       <div class="flex items-center">
