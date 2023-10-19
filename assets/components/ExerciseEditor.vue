@@ -26,9 +26,11 @@ import HeaderNav from "./HeaderNav.vue";
 import StudentDropdown from "./StudentDropdown.vue";
 import toFilePath from "./utils/toFilePath";
 import Alert from "./Alert.vue";
+import SiteNav from "./Website/SiteNav.vue";
 
 export default {
     components: {
+        SiteNav,
         Alert,
         StudentDropdown,
         HeaderNav,
@@ -468,7 +470,7 @@ export default {
 
 
             <div class="h-full flex flex-col">
-                <div class="flex flex-1 h-full relative">
+                <div class="flex flex-1 h-full relative border-t border-gray-600">
                     <div class="w-3/12 xl:w-2/12">
                         <FileTree
                                 :files="studentFiles"
@@ -488,9 +490,9 @@ export default {
                         </Tabs>
                     </div>
                     <div v-show="openResults" id="results-col"
-                         class="w-3/12 flex flex-col bg-gray-950 border-l border-solid border-gray-600 h-full absolute right-0 overflow-y-scroll">
+                         class="w-3/12 flex flex-col bg-gray-900 border-l border-solid border-gray-600 h-full absolute right-0 overflow-y-scroll">
                         <div class="pl-4 pr-4 py-4 flex justify-between items-center border-solid border-b border-gray-600">
-                            <h1 class="text-2xl pt-0 flex items-center"><AcademicCapIcon class="h-5 w-5 mr-2"/> Results</h1>
+                            <h1 class="font-mono text-xl pt-0 flex items-center text-white"><AcademicCapIcon class="h-5 w-5 mr-3"/> Results</h1>
                             <div>
                                 <button @click="openResults = false" type="button"
                                         class="text-gray-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:hover:text-white">
@@ -526,7 +528,7 @@ export default {
                 <!-- start footer -->
                 <div class="border-t border-solid border-gray-600 h-16 flex-none flex items-center justify-between p-2">
                     <nav class="flex" aria-label="Breadcrumb">
-                        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                        <ol class="inline-flex items-center space-x-1 md:space-x-3 font-mono">
                             <li class="inline-flex items-center">
                                 <a href="/cloud"
                                    class="inline-flex items-center text-sm font-medium text-white hover:text-pink-500">
@@ -558,13 +560,13 @@ export default {
                             {{ studentState.totalCompleted }} / {{ totalExercises }} completed</p>
                     </div>
                     <div class="flex">
-                        <button class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white flex items-center justify-center mt-0 mr-2 rounded px-4 w-44"
+                        <button class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white text-sm flex items-center justify-center mt-0 mr-2 rounded px-4 w-44 h-[48px]"
                                 @click="openComposerModal = true">
                             <span>Composer deps</span>
                             <CircleStackIcon v-cloak class="ml-2 w-5 h-5"/>
                         </button>
                         <button id="show-problem"
-                                class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white flex items-center justify-center mt-0 mr-2 rounded px-4 w-44"
+                                class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white text-sm flex items-center justify-center mt-0 mr-2 rounded px-4 w-44 h-[48px]"
                                 @click="openProblemModal = true">
                             <span>Show problem</span>
                             <MapIcon v-cloak class="ml-2 w-5 h-5"/>
@@ -588,7 +590,7 @@ export default {
                     <template #header>
                         <div class="flex items-center ">
                             <CircleStackIcon class="h-6 w-6 text-pink-500 mr-2"/>
-                            <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
+                            <h3 class="font-mono text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
                                 Composer Dependencies
                             </h3>
                         </div>
@@ -613,7 +615,7 @@ export default {
                             </li>
                         </ul>
                         <div v-show="composerDeps.length === 0" class="pt-6">
-                            <p class="text-white ">You currently have no dependencies.</p>
+                            <p class="text-white text-sm">You currently have no dependencies.</p>
                         </div>
                     </template>
 
@@ -636,11 +638,11 @@ export default {
                         <div class="flex flex-col">
                             <div class="flex items-center ">
                                 <MapIcon class="h-6 w-6 text-pink-500 mr-2"/>
-                                <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
+                                <h3 class="font-mono text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
                                     The problem...
                                 </h3>
                             </div>
-                            <h2 class="mt-2 mb-2 ml-3 text-2xl">{{ exercise.name }}</h2>
+                            <h2 class="font-mono mt-2 mb-2 text-2xl text-white pt-[13.5px]">{{ exercise.name }}</h2>
                         </div>
                     </template>
 
@@ -666,25 +668,27 @@ export default {
 
 <style>
 #problem-file p {
-    @apply mt-2 mb-4 leading-loose tracking-wide;
+    @apply mt-2 mb-4 leading-loose tracking-wide text-sm;
+}
+
+#problem-file hr {
+    @apply border-dotted border-gray-600;
 }
 
 #problem-file h2 {
-    @apply mt-2 mb-4 text-2xl;
+    @apply mt-2 mb-4 text-2xl text-[#E91E63];
 }
 
 #problem-file h3 {
-    color: #E91E63;
-    @apply mt-2 mb-4 text-xl;
+    @apply mt-2 mb-4 text-xl text-[#E91E63];
 }
 
 #problem-file h4 {
-    color: #E91E63;
-    @apply mt-2 mb-4 text-lg not-italic;
+    @apply mt-2 mb-4 text-lg not-italic text-[#E91E63];
 }
 
 #problem-file a {
-    color: #E91E63;
+    @apply text-[#E91E63];
 }
 
 #problem-file pre {
