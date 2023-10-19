@@ -62,7 +62,6 @@ export default {
 <template>
     <li  @click="selectExercise" class="group flex flex-row hover:bg-gray-600 last:hover:rounded-b-lg">
         <div class="select-none cursor-pointer flex flex-1 items-center p-4">
-
             <div class="flex flex-col w-10 h-10 justify-center items-center mr-4">
                 <a href="#" class="block relative">
                     <img alt="workshop" src="../img/cloud/core-workshops.png" class="mx-auto object-cover h-10 w-10 "/>
@@ -70,7 +69,7 @@ export default {
             </div>
             <div class="flex-1 pl-1 mr-16 text-white group-hover:text-pink-600">
                 <div class="font-medium ">{{ exercise.name }}</div>
-                <div class="text-gray-300 text-sm">{{ exercise.description }}</div>
+                <div class="text-gray-300 text-xs">{{ exercise.description }}</div>
             </div>
             <div class="text-gray-200 text-xs bg-pink-600 py-1 px-3 rounded-full">{{ exercise.type }}</div>
             <a href="#" class="w-24 text-right flex justify-end">
