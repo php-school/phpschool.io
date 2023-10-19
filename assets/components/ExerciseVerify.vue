@@ -163,12 +163,12 @@ export default {
 <template>
   <alert type="error" @close="showRateLimitError = false" v-show="showRateLimitError" message="Too many requests. Please try again in a few minutes."></alert>
   <div class="flex items-center">
-    <button id="run" class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white h-full flex items-center justify-center mt-0 mr-2 px-4 w-36 rounded" @click.stop="runSolution" :disabled="loadingRun">
+    <button id="run" class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white text-sm h-full flex items-center justify-center mt-0 mr-2 px-4 w-36 h-[48px] rounded" @click.stop="runSolution" :disabled="loadingRun">
       <ArrowPathIcon v-cloak v-show="loadingRun" class="w-4 h-4 animate-spin"/>
       <span v-if="!loadingRun">Run</span>
       <CommandLineIcon v-if="!loadingRun" v-cloak class="ml-2 w-5 h-5"/>
     </button>
-    <button id="verify" class="button flex items-center justify-center mt-0 px-4 w-36 rounded bg-gradient-to-r from-pink-600 to-purple-500" @click="verifySolution" :disabled="loadingVerify">
+    <button id="verify" class="flex items-center justify-center mt-0 px-4 w-36 text-white text-sm h-full rounded bg-gradient-to-r from-pink-600 to-purple-500 hover:bg-[#aa1145] transition-all duration-300 ease-in hover:scale-[1.05] h-[48px]" @click="verifySolution" :disabled="loadingVerify">
       <ArrowPathIcon v-cloak v-show="loadingVerify" class="w-4 h-4 animate-spin"/>
       <span v-if="!loadingVerify">Verify</span>
       <SparklesIcon v-if="!loadingVerify" v-cloak class="ml-2 w-5 h-5"/>
@@ -180,7 +180,7 @@ export default {
       <template #header>
         <div class="flex items-center ">
           <CommandLineIcon class="h-6 w-6 text-pink-500 mr-2"/>
-          <h3 class="text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
+          <h3 class="font-mono text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
             Program output
           </h3>
         </div>
