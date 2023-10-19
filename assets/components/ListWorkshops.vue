@@ -71,12 +71,13 @@ export default {
 </script>
 
 <template>
+
+
     <header-nav :links="links">
         <template v-slot:nav-after>
             <ul v-if="student" class="order-3">
                 <li>
                     <student-dropdown
-                            @show-tour="$emit('show-tour')"
                             :student="student"
                             :student-state="studentState"
                             :total-exercises='totalExercises'
@@ -89,7 +90,7 @@ export default {
     </header-nav>
 
     <section id="app" class="flex-1 pb-4 overflow-hidden">
-        <div class="container flex flex-col overflow-hidden h-full">
+        <div class="container mx-auto flex flex-col overflow-hidden h-full">
             <student-progress
                     :student="student"
                     :student-state="studentState"
