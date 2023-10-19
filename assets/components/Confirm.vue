@@ -84,13 +84,13 @@ export default {
     <div v-show="isOpen" class="fixed rounded-lg bg-gray-800 flex flex-col justify-start w-full h-full inset-0 z-40 bg-opacity-80">
       <div class="bg-grey-800 h-full w-full flex justify-center items-center drop-shadow-xl">
         <div class="bg-gray-900 max-w-sm max-h-[calc(1/2*100%)] rounded-lg">
-          <div class="p-4 rounded-t flex-none flex justify-between items-top border-b border-solid border-slate-600">
+          <div class="p-8 rounded-t flex-none flex justify-between items-top border-b border-solid border-slate-600">
             <div class="flex items-center">
               <ExclamationTriangleIcon class="h-6 w-6 text-pink-500 mr-2" />
-              <h3 class="text-base font-semibold lg:text-lg text-white pt-0 mt-0">{{ title }}</h3>
+              <h3 class="font-mono text-base font-semibold lg:text-lg text-white pt-0 mt-0">{{ title }}</h3>
             </div>
           </div>
-          <div class="p-4 rounded-t flex-none flex justify-between items-top border-b border-solid border-slate-600">
+          <div class="p-8 rounded-t flex-none flex justify-between items-top border-b border-solid border-slate-600">
             <div class="flex items-center">
               <p class="text-white">{{ message }}</p>
             </div>
