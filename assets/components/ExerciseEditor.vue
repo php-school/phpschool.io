@@ -695,14 +695,12 @@ export default {
 
 #problem-file pre code {
     background-color: #2a2c2d !important;
-    @apply p-4 rounded-lg block;
+    @apply p-4 rounded-lg block text-sm;
 }
 
 #problem-file :not(pre) > code {
     font-size: 90%;
-    background-color: #2a2c2d;
-    @apply px-2 py-1 rounded;
-    color: #ff75b5;
+    @apply px-2 py-1 rounded bg-[#2a2c2d] text-[#ff75b5]
 }
 
 #problem-file ul {

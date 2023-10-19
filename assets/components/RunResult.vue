@@ -88,7 +88,7 @@ export default {
 }
 #run-info pre code {
   background-color: #2a2c2d !important;
-  @apply p-4 rounded-lg;
+  @apply p-4 rounded-lg block text-sm;
 }
 
 #run-info :not(pre)>code {
