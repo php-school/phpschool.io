@@ -131,10 +131,6 @@ onMounted(() => {
                 <GitHubIcon class="h-6 w-6 mr-2" /><span>Log In with github</span>
               </Button>
             </div>
-            <p class="text-pink-400 font-base text-sm  ">Note: You can run the workshops from your own computer, without a
-              GitHub
-              account, and without an internet connect. Follow these instructions for more info </p>
-
           </div>
         </template>
 
@@ -211,7 +207,7 @@ onMounted(() => {
             <div class="flex justify-start">
               <div class="relative w-full ">
                 <input type="text" placeholder="Type Something..." v-model="userInput"
-                       class="max-w-full p-5 font-work-sans text-base font-bold text-gray-900 rounded-2xl  focus:outline-none focus:border-pink-500 focus:ring focus:ring-pink-500"
+                       class="w-full p-5 font-work-sans text-base font-bold text-gray-900 rounded-2xl  focus:outline-none focus:border-pink-500 focus:ring focus:ring-pink-500"
                        @keyup="userInputKeyup"/>
                 <button @click="checkInput"
                         class=" h-full w-12 bg-pink-500 text-white rounded-r-2xl  items-center justify-center cursor-pointer absolute right-0 ">
