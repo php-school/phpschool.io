@@ -38,7 +38,7 @@ export default {
       </template>
 
       <template #body class="">
-        <div class="py-3">
+        <div class="py-3" id="file-comparison-failure">
           <div class="flex flex-wrap items-center">
             <div class="flex items-center">
               <p class=" truncate font-medium text-white">
@@ -79,7 +79,7 @@ export default {
 
 <style>
 
-:not(pre)>code {
+#file-comparison-failure :not(pre)>code {
   font-size: 90%;
   background-color: #2a2c2d;
   @apply px-2 py-1 rounded mx-1;
