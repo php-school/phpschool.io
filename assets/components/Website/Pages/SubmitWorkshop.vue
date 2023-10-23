@@ -48,7 +48,7 @@ const submit = async () => {
 
     if (response.ok) {
         const data = await response.json();
-        data.success = true
+
         if (data.success === false) {
 
             if (data.form_errors) {
