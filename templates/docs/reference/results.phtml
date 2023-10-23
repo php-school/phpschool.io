@@ -10,26 +10,25 @@ in to the console.</p>
 learn more about how to actually use the results in your checks in a
     <a href="/docs/reference/exercise-checks">later article</a>.</p>
 
-<?= $this->renderContentHeader('result-set', 'The Result Set') ?>
+<content-header id="result-set">The Result Set</content-header>
+<p>The result set is an instance of <doc-code>PhpSchool\PhpWorkshop\ResultAggregator</doc-code> and results are added to it
+with <doc-code>add(ResultInterface $result)</doc-code>. Note the interface
+    <doc-code>PhpSchool\PhpWorkshop\Result\ResultInterface</doc-code>. Every result must implement this interface.</p>
 
-<p>The result set is an instance of <code>PhpSchool\PhpWorkshop\ResultAggregator</code> and results are added to it
-with <code>add(ResultInterface $result)</code>. Note the interface
-    <code>PhpSchool\PhpWorkshop\Result\ResultInterface</code>. Every result must implement this interface.</p>
-
-<?= $this->renderContentHeader('success-or-failure', 'Success or Failure?') ?>
+<content-header id="success-or-failure">Success or Failure?</content-header>
 <p>So, how do we know if a result is a success or failure? Well there are two other interfaces, extending from
-<code>ResultInterface</code>, which are:</p>
+<doc-code>ResultInterface</doc-code>, which are:</p>
 
 <ul>
-    <li><code>PhpSchool\PhpWorkshop\Result\SuccessInterface</code></li>
-    <li><code>PhpSchool\PhpWorkshop\Result\FailureInterface</code></li>
+    <li><doc-code>PhpSchool\PhpWorkshop\Result\SuccessInterface</doc-code></li>
+    <li><doc-code>PhpSchool\PhpWorkshop\Result\FailureInterface</doc-code></li>
 </ul>
 
 <p>Both of these interfaces add no extra methods, they are purely for determining whether a result is considered
 a success or failure.</p>
 
-<?= $this->renderContentHeader('result-interface', 'Result Interface') ?>
-<p>The interface for <code>ResultInterface</code> is very simple:</p>
+<content-header id="result-interface">Result Interface</content-header>
+<p>The interface for <doc-code>ResultInterface</doc-code> is very simple:</p>
 
 <pre><code class="lang-php">&lt;?php
 
@@ -45,8 +44,8 @@ interface ResultInterface
 <p>This method should just return the name of the check associated with this result. This is used when rendering the
 result to the console.</p>
 
-<?= $this->renderContentHeader('implementations', 'Implementations') ?>
-<p>There are default implementations for <code>SuccessInterface</code> & <code>FailureInterface</code> for you to use
+<content-header id="implementations">Implementations</content-header>
+<p>There are default implementations for <doc-code>SuccessInterface</doc-code> & <doc-code>FailureInterface</doc-code> for you to use
 in your checks. If you need something more bespoke to render the failure of your check, you should
 <a href="/docs/reference/creating-custom-results">create your own</a>.</p>
 
@@ -61,8 +60,8 @@ use PhpSchool\PhpWorkshop\Result\Success;
 $success = new Success('My Check');
 </code></pre>
 
-<p>If you are within a Check (eg <code>$this</code> refers to <code>PhpSchool\PhpWorkshop\Check\CheckInterface</code>)
-then you can use the static constructor <code>fromCheck(CheckInterface $check)</code> which just pulls the check
+<p>If you are within a Check (eg <doc-code>$this</doc-code> refers to <doc-code>PhpSchool\PhpWorkshop\Check\CheckInterface</doc-code>)
+then you can use the static constructor <doc-code>fromCheck(CheckInterface $check)</doc-code> which just pulls the check
 name from the actual check for convenience.</p>
 
 <pre><code class="lang-php">&lt;?php
@@ -84,7 +83,7 @@ class MyCheck implements SimpleCheckInterface
 </code></pre>
 
 <h3 id="failure">PhpSchool\PhpWorkshop\Result\Failure</h3>
-<p>The default implementation of <code>FailureInterface</code> needs one more piece of information
+<p>The default implementation of <doc-code>FailureInterface</doc-code> needs one more piece of information
 other than the check name: the reason for the failure. Construction is fairly similar:</p>
 
 <pre><code class="lang-php">&lt;?php
@@ -102,30 +101,29 @@ $myCheck = new MyCheck;
 $failure = Failure::fromCheckAndReason($check, 'Something went wrong!');
 </code></pre>
 
-<?= $this->renderContentHeader('failure-implementations', 'Bundled Failure Implementations') ?>
-<p>There are a number of <code>FailureInterface</code> implementations bundled with the framework
+<content-header id="failure-implementations">Bundled Failure Implementations</content-header>
+<p>There are a number of <doc-code>FailureInterface</doc-code> implementations bundled with the framework
 for some of the other checks:</p>
 
 <ul>
-    <li><code>PhpSchool\PhpWorkshop\Result\Cgi\GenericFailure</code></li>
-    <li><code>PhpSchool\PhpWorkshop\Result\Cgi\RequestFailure</code></li>
-    <li><code>PhpSchool\PhpWorkshop\Result\Cli\GenericFailure</code></li>
-    <li><code>PhpSchool\PhpWorkshop\Result\Cli\RequestFailure</code></li>
-    <li><code>PhpSchool\PhpWorkshop\Result\FunctionRequirementsFailure</code></li>
-    <li><code>PhpSchool\PhpWorkshop\Result\ComparisonFailure</code></li>
+    <li><doc-code>PhpSchool\PhpWorkshop\Result\Cgi\GenericFailure</doc-code></li>
+    <li><doc-code>PhpSchool\PhpWorkshop\Result\Cgi\RequestFailure</doc-code></li>
+    <li><doc-code>PhpSchool\PhpWorkshop\Result\Cli\GenericFailure</doc-code></li>
+    <li><doc-code>PhpSchool\PhpWorkshop\Result\Cli\RequestFailure</doc-code></li>
+    <li><doc-code>PhpSchool\PhpWorkshop\Result\FunctionRequirementsFailure</doc-code></li>
+    <li><doc-code>PhpSchool\PhpWorkshop\Result\ComparisonFailure</doc-code></li>
 </ul>
 
 
-<?= $this->renderContentHeader('custom-results', 'Custom Results') ?>
+<content-header id="custom-results">Custom Results</content-header>
 <p>When you want to report information that is not simple a message, you will need to create
 your own result class. If you would build a check that verifies the contents of a database, you may want to provide a
 list of missing records as an array instead of just a message. You would then write a renderer that may render each row
 as a new line with a bullet point preceding it. Learn how to create your own checks
     <a href="/docs/reference/creating-custom-results">in a later article</a>.</p>
 
-<?= $this->renderContentHeader('result-renderer-interface', 'Result Renderers') ?>
-
-<p>Each result renderer must implement the interface <code>PhpSchool\PhpWorkshop\ResultRenderer\ResultRendererInterface</code> which looks like
+<content-header id="result-renderer-interface">Result Renderers</content-header>
+<p>Each result renderer must implement the interface <doc-code>PhpSchool\PhpWorkshop\ResultRenderer\ResultRendererInterface</doc-code> which looks like
     below.</p>
 
 <pre><code class="lang-php">&lt;?php
@@ -145,27 +143,28 @@ interface ResultRendererInterface
 }
 </code></pre>
 
-<p><code>PhpSchool\PhpWorkshop\ResultAggregator</code> is rendered by <code>PhpSchool\PhpWorkshop\ResultRenderer\ResultsRenderer</code>. It loops each
-result, passing the result to <code>PhpSchool\PhpWorkshop\Factory\ResultRendererFactory</code> which returns the correct renderer. The
-    <code>render</code> method is called and then the output of each is written to the console.</p>
+<p><doc-code>PhpSchool\PhpWorkshop\ResultAggregator</doc-code> is rendered by <doc-code>PhpSchool\PhpWorkshop\ResultRenderer\ResultsRenderer</doc-code>. It loops each
+result, passing the result to <doc-code>PhpSchool\PhpWorkshop\Factory\ResultRendererFactory</doc-code> which returns the correct renderer. The
+    <doc-code>render</doc-code> method is called and then the output of each is written to the console.</p>
 
-<p>When each renderer is created, it is passed the <code>ResultInterface</code> as the first constructor
-argument. <code>render</code> is called with an instance of <code>PhpSchool\PhpWorkshop\ResultRenderer\ResultsRenderer</code> and
-it should return a string representation of the <code>ResultInterface</code> instance it was constructed with.</p>
+<p>When each renderer is created, it is passed the <doc-code>ResultInterface</doc-code> as the first constructor
+argument. <doc-code>render</doc-code> is called with an instance of <doc-code>PhpSchool\PhpWorkshop\ResultRenderer\ResultsRenderer</doc-code> and
+it should return a string representation of the <doc-code>ResultInterface</doc-code> instance it was constructed with.</p>
 
-<p><code>PhpSchool\PhpWorkshop\ResultRenderer\ResultsRenderer</code> has some helper methods on it for rendering
+<p><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\ResultsRenderer</doc-code> has some helper methods on it for rendering
     styling:</p>
 
 <ul>
-    <li><code>style($string, $colourOrStyle)</code> - Use to style a string, eg. <code>bold</code>, <code>green</code>. It accepts an array of styles or one style as a string</li>
-    <li><code>lineBreak()</code> - Use to render a line break, to separate content.</li>
-    <li><code>center()</code> - Pad a string according to the terminal width so it displays in the center</li>
+    <li><doc-code>style($string, $colourOrStyle)</doc-code> - Use to style a string, eg. <doc-code>bold</doc-code>, <doc-code>green</doc-code>. It accepts an array of styles or one style as a string</li>
+    <li><doc-code>lineBreak()</doc-code> - Use to render a line break, to separate content.</li>
+    <li><doc-code>center()</doc-code> - Pad a string according to the terminal width so it displays in the center</li>
 </ul>
 
-<?= $this->renderContentHeader('result-renderer-mappings', 'Result Renderer Mappings') ?>
-
-<p>The workshop framework picks a result renderer based on the mappings in <code>PhpSchool\PhpWorkshop\Factory\ResultRendererFactory</code>.</p>
+<content-header id="result-renderer-mappings">Result Renderer Mappings</content-header>
+<p>The workshop framework picks a result renderer based on the mappings in <doc-code>PhpSchool\PhpWorkshop\Factory\ResultRendererFactory</doc-code>.</p>
 <p>The default mappings are:</p>
+
+
 
 <table class="exercise__type__info">
     <thead>
@@ -176,45 +175,45 @@ it should return a string representation of the <code>ResultInterface</code> ins
     </thead>
     <tbody>
         <tr>
-            <td><code>PhpSchool\PhpWorkshop\Result\Cgi\GenericFailure</code></td>
-            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\FailureRenderer</code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\Result\Cgi\GenericFailure</doc-code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\FailureRenderer</doc-code></td>
         </tr>
         <tr>
-            <td><code>PhpSchool\PhpWorkshop\Result\Cgi\RequestFailure</code></td>
-            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\Cgi\RequestFailureRenderer</code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\Result\Cgi\RequestFailure</doc-code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\Cgi\RequestFailureRenderer</doc-code></td>
         </tr>
         <tr>
-            <td><code>PhpSchool\PhpWorkshop\Result\Cli\GenericFailure</code></td>
-            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\FailureRenderer</code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\Result\Cli\GenericFailure</doc-code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\FailureRenderer</doc-code></td>
         </tr>
         <tr>
-            <td><code>PhpSchool\PhpWorkshop\Result\Cli\RequestFailure</code></td>
-            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\Cli\RequestFailureRenderer</code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\Result\Cli\RequestFailure</doc-code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\Cli\RequestFailureRenderer</doc-code></td>
         </tr>
         <tr>
-            <td><code>PhpSchool\PhpWorkshop\Result\ComparisonFailure</code></td>
-            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\ComparisonFailureRenderer</code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\Result\ComparisonFailure</doc-code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\ComparisonFailureRenderer</doc-code></td>
         </tr>
         <tr>
-            <td><code>PhpSchool\PhpWorkshop\Result\FunctionRequirementsFailure</code></td>
-            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\FunctionRequirementsFailureRenderer</code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\Result\FunctionRequirementsFailure</doc-code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\FunctionRequirementsFailureRenderer</doc-code></td>
         </tr>
         <tr>
-            <td><code>PhpSchool\PhpWorkshop\Result\Failure</code></td>
-            <td><code>PhpSchool\PhpWorkshop\ResultRenderer\FailureRenderer</code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\Result\Failure</doc-code></td>
+            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\FailureRenderer</doc-code></td>
         </tr>
     </tbody>
 </table>
 
-<p>If you create a new implementation of <code>FailureInterface</code> you will need to map it to an existing renderer,
+<p>If you create a new implementation of <doc-code>FailureInterface</doc-code> you will need to map it to an existing renderer,
 or most likely you will need to write a custom renderer, and map it to that.</p>
 
-<?= $this->renderContentHeader('summary', 'Summary') ?>
+<content-header id="summary">Summary</content-header>
 <p>The whole process may sound complicated, however, this is not true. To summarise, your check should return a result.
 The result should be mapped to a renderer. The results are rendered by the framework. It will pick the correct renderer
 based on the mapping.</p>
 
-<?= $this->renderContentHeader('create-a-result', 'Create a custom result') ?>
+<content-header id="create-a-result">Create a custom result</content-header>
 <p>In the next set of articles we will learn about and build a check. Once the check is complete, we will
 build a custom result and result renderer for it, you can jump
     <a href="/docs/reference/creating-custom-results">straight there if you want</a>.</p>

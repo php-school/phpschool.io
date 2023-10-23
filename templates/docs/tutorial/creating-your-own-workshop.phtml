@@ -2,29 +2,26 @@
 
 <p>In order to create a workshop the first thing you will need to do is to setup a new project and configure the dependencies and wire it all together. Luckily for you we have created a starter kit which does this all for you, prompting you along the way. Simply execute the following command in your shell.</p>
 
-<div class="terminal">
-    <div class="terminal__body">
-        <p>composer create-project php-school/workshop-starter-kit &lt;your-workshop-name&gt;</p>
-    </div>
-</div>
 
-<p>Where <code>&lt;your-workshop-name&gt;</code> is the name of the directory you want to setup your workshop in. For this tutorial we will create a workshop teaching some basic math concepts so we will use the name <code>simple-math</code>. You will be prompted for a few things:</p>
+<terminal :lines="['composer create-project php-school/workshop-starter-kit <your-workshop-name>']"></terminal>
 
-<?= $this->renderContentHeader('composer-package-name', 'Composer package name') ?>
-<p>The name for your workshop to be put in the <code>composer.json</code> file. This should follow the pattern <code>vendor/package</code>. In the case of our flagship workshop <a target="_blank" href="https://github.com/php-school/learn-you-php">Learn You PHP!</a> this is <code>php-school/learn-you-php</code>. Name your package <code>php-school/simple-math</code>.</p>
-<p>More info on the <code>name</code> property <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#name">can be found in the composer documentation</a>.</p>
+<p>Where <doc-code>&lt;your-workshop-name&gt;</doc-code> is the name of the directory you want to setup your workshop in. For this tutorial we will create a workshop teaching some basic math concepts so we will use the name <code>simple-math</code>. You will be prompted for a few things:</p>
 
-<?= $this->renderContentHeader('composer-package-description', 'Composer package description') ?>
-<p>A short description of your workshop which will be added to the <code>composer.json</code> file. Add a short description here, something like: <code>Learn the basics of math with PHP!</code></p>
-<p>More info on the <code>description</code> property <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#description">can be found in the composer documentation</a>.</p>
+<content-header id="composer-package-name">Composer package name</content-header>
+<p>The name for your workshop to be put in the <code>composer.json</code> file. This should follow the pattern <doc-code>vendor/package</doc-code>. In the case of our flagship workshop <a target="_blank" href="https://github.com/php-school/learn-you-php">Learn You PHP!</a> this is <doc-code>php-school/learn-you-php</doc-code>. Name your package <doc-code>php-school/simple-math</doc-code>.</p>
+<p>More info on the <doc-code>name</doc-code> property <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#name">can be found in the composer documentation</a>.</p>
 
-<?= $this->renderContentHeader('namespace', 'PHP Namespace for the source code') ?>
-<p>The namespace which will be used in the project so it can be added to the autoload configuration in the <code>composer.json</code> file. In the case of <a target="_blank" href="https://github.com/php-school/learn-you-php">Learn You PHP!</a> this is <code>PhpSchool\LearnYouPhp</code>. We will use <code>PhpSchool\SimpleMath</code>.</p>
+<content-header id="composer-package-description">Composer package description</content-header>
+<p>A short description of your workshop which will be added to the <doc-code>composer.json</doc-code> file. Add a short description here, something like: <doc-code>Learn the basics of math with PHP!</doc-code></p>
+<p>More info on the <doc-code>description</doc-code> property <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#description">can be found in the composer documentation</a>.</p>
 
-<p>More info on the <code>autoload</code> property <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#psr-4">can be found in the composer documentation</a>.</p>
+<content-header id="namespace">PHP Namespace for the source doc-code</content-header>
+<p>The namespace which will be used in the project so it can be added to the autoload configuration in the <doc-code>composer.json</doc-code> file. In the case of <a target="_blank" href="https://github.com/php-school/learn-you-php">Learn You PHP!</a> this is <doc-code>PhpSchool\LearnYouPhp</doc-code>. We will use <doc-code>PhpSchool\SimpleMath</doc-code>.</p>
 
-<?= $this->renderContentHeader('binary', 'Workshop binary') ?>
-<p>This is the actual command students will execute to run your workshop. In the case of <a target="_blank" href="https://github.com/php-school/learn-you-php">Learn You PHP!</a> this is <code>learnyouphp</code>. You should set this as <code>simple-math</code>.</p>
+<p>More info on the <doc-code>autoload</doc-code> property <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#psr-4">can be found in the composer documentation</a>.</p>
+
+<content-header id="binary">Workshop binary</content-header>
+<p>This is the actual command students will execute to run your workshop. In the case of <a target="_blank" href="https://github.com/php-school/learn-you-php">Learn You PHP!</a> this is <doc-code>learnyouphp</doc-code>. You should set this as <doc-code>simple-math</doc-code>.</p>
 
 <br>
 <hr>
@@ -32,26 +29,20 @@
 <p>After you have entered the required information the workshop dependencies will be downloaded and the autoload files will be generated.</p>
 
 <p>Generate the autoload information for our Namespace:</p>
-<div class="terminal">
-    <div class="terminal__body">
-        <p>composer dump-autoload</p>
-    </div>
-</div>
+<terminal :lines="['composer dump-autoload']"></terminal>
 
-<p class="note note-success">Assuming everything went well and your are in the root of your new workshop you should be able to run the workshop!</p>
-<div class="terminal">
-    <div class="terminal__body">
-        <p>php bin/&lt;binary-name&gt;</p>
-    </div>
-</div>
-<p>Where <code>&lt;binary-name&gt;</code> is the name your previously entered during the <code>create-project</code> command. In our case:</p>
-<div class="terminal">
-    <div class="terminal__body">
-        <p>php bin/simple-math</p>
-    </div>
-</div>
+<note type="success">
+    Assuming everything went well and your are in the root of your new workshop you should be able to run the workshop!
+</note>
+<terminal :lines="['php bin/<binary-name>']"></terminal>
+
+<p>Where <doc-code>&lt;binary-name&gt;</doc-code> is the name your previously entered during the <doc-code>create-project</doc-code> command. In our case:</p>
+<terminal :lines="['php bin/simple-math']"></terminal>
+
 <a href="/img/post-install-workshop.png">
     <img src="/img/post-install-workshop.png" class="doc-terminal-screen" id="post-install-workshop">
 </a>
 
-<p class="note note-warning">If you don't see the menu above, then something went wrong. Get in touch with us and bring any helpful information such as error messages with you!</p>
+<note type="danger">
+    If you don't see the menu above, then something went wrong. Get in touch with us and bring any helpful information such as error messages with you!
+</note>

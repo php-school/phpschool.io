@@ -4,28 +4,14 @@
 
 <p>When selecting your exercise type you must return the valid type and implement the respective interface.</p>
 
-<?= $this->renderContentHeader('cli', 'CLI') ?>
-<p>You choose the CLI type if you want the user to interact with the <code>$argv</code> and <code>$argc</code> super globals.</p>
+<content-header id="cli">CLI</content-header>
 
-<table class="exercise__type__info">
-    <tbody>
-        <tr>
-            <td>Type</td>
-            <td><code>ExerciseType::CLI()</code></td>
-        </tr>
-        <tr>
-            <td>Interface</td>
-            <td><code>PhpSchool\PhpWorkshop\Exercise\CliExercise</code></td>
-        </tr>
-        <tr>
-            <td>Methods to implement</td>
-            <td><code>getArgs</code></td>
-        </tr>
-    </tbody>
-</table>
+<p>You choose the CLI type if you want the user to interact with the <doc-code>$argv</doc-code> and <doc-code>$argc</doc-code> super globals.</p>
+
+<exercise-types :type="'ExerciseType::CLI()'" :interface="'PhpSchool\PhpWorkshop\Exercise\CliExercise'" :methods="'getArgs'"></exercise-types>
 
 <h3 id="cli-get-args">Implementing getArgs</h3>
-<p><code>getArgs</code> should return an array of string arrays. These are the arguments to be passed to the PHP CLI executable. The number of arguments which can be returned is not limited. All arguments should be strings. If multiple sets of arguments are
+<p><doc-code>getArgs</doc-code> should return an array of string arrays. These are the arguments to be passed to the PHP CLI executable. The number of arguments which can be returned is not limited. All arguments should be strings. If multiple sets of arguments are
 specified then the program will be executed each time with those arguments.</p>
 
 <pre><code class="lang-php">&lt;?php
@@ -66,29 +52,16 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CliExerc
 <p>And then:</p>
 <pre><code lang="sh">php solution.php 'run2-arg1' 'run2-arg2' 'run2-arg3'</code></pre>
 
-<?= $this->renderContentHeader('cgi', 'CGI') ?>
-<p>You choose the CGI type if you want the user to interact with the <code>$_GET</code>, <code>$_POST</code>, <code>$_SERVER</code>, etc super globals.</p>
+<content-header id="cgi">CGI</content-header>
+
+<p>You choose the CGI type if you want the user to interact with the <doc-code>$_GET</doc-code>, <doc-code>$_POST</doc-code>, <doc-code>$_SERVER</doc-code>, etc super globals.</p>
 <p>This exercise type allows to simulate a real HTTP request to a PHP script.</p>
 
-<table class="exercise__type__info">
-    <tbody>
-        <tr>
-            <td>Type</td>
-            <td><code>ExerciseType::CGI()</code></td>
-        </tr>
-        <tr>
-            <td>Interface</td>
-            <td><code>PhpSchool\PhpWorkshop\Exercise\CgiExercise</code></td>
-        </tr>
-        <tr>
-            <td>Methods to implement</td>
-            <td><code>getRequests</code></td>
-        </tr>
-    </tbody>
-</table>
+
+<exercise-types :type="'ExerciseType::CGI()'" :interface="'PhpSchool\PhpWorkshop\Exercise\CgiExercise'" :methods="'getRequests'"></exercise-types>
 
 <h3 id="cgi-get-requests">Implementing getRequests</h3>
-<p><code>getRequests</code> should return an array of PSR-7 Requests. The number of requests is not limited. Check <a target="_blank" href="http://www.php-fig.org/psr/psr-7/">here</a> for more information about PSR-7. The method is currently type hinted to return an array of the <a target="_blank" href="http://www.php-fig.org/psr/psr-7/#3-2-psr-http-message-requestinterface">Psr\Http\Message\RequestInterface</a> interface. You will need to use a library which implements the PSR-7 standard. Currently <a target="_blank" href="https://github.com/zendframework/zend-diactoros">zendframework/zend-diactoros</a> is shipped with <code>php-school/php-workshop</code> so you can just use that, or feel free to pull in a different implementation.</p>
+<p><doc-code>getRequests</doc-code> should return an array of PSR-7 Requests. The number of requests is not limited. Check <a target="_blank" href="http://www.php-fig.org/psr/psr-7/">here</a> for more information about PSR-7. The method is currently type hinted to return an array of the <a target="_blank" href="http://www.php-fig.org/psr/psr-7/#3-2-psr-http-message-requestinterface">Psr\Http\Message\RequestInterface</a> interface. You will need to use a library which implements the PSR-7 standard. Currently <a target="_blank" href="https://github.com/zendframework/zend-diactoros">zendframework/zend-diactoros</a> is shipped with <doc-code>php-school/php-workshop</doc-code> so you can just use that, or feel free to pull in a different implementation.</p>
 
 <h4 id="cgi-get">Simulating a GET request</h4>
 <pre><code class="lang-php">&lt;?php
@@ -214,43 +187,30 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CgiExerc
     ["limit"] => string(2) "50"
  }
 </code></pre>
-<?= $this->renderContentHeader('how-does-this-work', 'How does this work?') ?>
-<p>We use the <code>php-cgi</code> binary to setup the PHP environment. The <code>php-cgi</code> binary uses environment variables and standard input to configure itself, we export these variables based on the information you provide in <code>getRequests</code>.</p>
+<content-header id="how-does-this-work">How does this work?</content-header>
+<p>We use the <doc-code>php-cgi</doc-code> binary to setup the PHP environment. The <doc-code>php-cgi</doc-code> binary uses environment variables and standard input to configure itself, we export these variables based on the information you provide in <doc-code>getRequests</doc-code>.</p>
 
-<div class="note note-success">
+
+<note type="success">
     <ul class="docs__std__list__note">
-        <li>You can return multiple request from <code>getRequests</code>.</li>
+        <li>You can return multiple request from <doc-code>getRequests</doc-code>.</li>
         <li>Each request can have a different method.</li>
         <li>Each request can have any amount of headers as you need.</li>
     </ul>
-</div>
+</note>
 
-<?= $this->renderContentHeader('custom', 'CUSTOM') ?>
+<content-header id="custom">CUSTOM</content-header>
+
 <p>You choose the CUSTOM type if you want the user to perform some arbitrary task that does not involve writing PHP code. For example the exercise could be to ask the user to download and install a program and then we could check that it is running.</p>
 <p>This exercise type allows to simulate a real HTTP request to a PHP script.</p>
 
-<table class="exercise__type__info">
-    <tbody>
-        <tr>
-            <td>Type</td>
-            <td><code>ExerciseType::CUSTOM()</code></td>
-        </tr>
-        <tr>
-            <td>Interface</td>
-            <td><code>PhpSchool\PhpWorkshop\Exercise\CustomVerifyingExercise</code></td>
-        </tr>
-        <tr>
-            <td>Methods to implement</td>
-            <td><code>verify</code></td>
-        </tr>
-    </tbody>
-</table>
+<exercise-types :type="'ExerciseType::CUSTOM()'" :interface="'PhpSchool\PhpWorkshop\Exercise\CustomVerifyingExercise'" :methods="'verify'"></exercise-types>
 
 <h3 id="custom-verify">Implementing verify</h3>
-<p>This is where you perform your verification. The method needs to return an instance of <code>PhpSchool\PhpWorkshop\Result\ResultInterface</code>. Depending on
+<p>This is where you perform your verification. The method needs to return an instance of <doc-code>PhpSchool\PhpWorkshop\Result\ResultInterface</doc-code>. Depending on
     whether you want a success or failure to be recorded it will be an instance of
-    <code>PhpSchool\PhpWorkshop\Result\SuccessInterface</code> or
-    <code>PhpSchool\PhpWorkshop\Result\FailureInterface</code>. Learn about results
+    <doc-code>PhpSchool\PhpWorkshop\Result\SuccessInterface</doc-code> or
+    <doc-code>PhpSchool\PhpWorkshop\Result\FailureInterface</doc-code>. Learn about results
     <a href="/docs/reference/result">here</a>.</p>
 
 <pre><code class="lang-php">&lt;?php
