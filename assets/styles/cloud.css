@@ -130,3 +130,43 @@
     left: 100%; /* Move to the right edge */
   }
 }
+
+
+
+
+/** docs **/
+.docs-content {
+  @apply text-gray-900;
+
+  & hr {
+    @apply border-0 border-b border-[#ccc] border-dotted;
+  }
+
+  & > p {
+      @apply mb-4 text-sm text-gray-900;
+  }
+
+  & img {
+    @apply mb-4;
+  }
+
+  & a {
+    @apply text-[#e91e63] hover:underline;
+  }
+
+  & > h3 {
+    @apply pt-2 mb-2 font-mono text-lg;
+  }
+
+  & > h4 {
+    @apply pt-2 mb-2 font-mono text-base italic;
+  }
+
+  & pre > code {
+    @apply block p-4 my-4 text-xs  bg-gray-900 rounded-md overflow-y-scroll;
+  }
+
+  & ul {
+    @apply list-disc list-outside text-sm my-4 ml-6;
+  }
+}
