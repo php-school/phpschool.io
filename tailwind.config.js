@@ -6,6 +6,7 @@ module.exports = {
             fontFamily: {
                 'open-sans': ['"Open Sans"'],
                 'work-sans': ['Work Sans, sans-serif'],
+                'orbitron': ['Orbitron, sans-serif'],
             },
             boxShadow: {
                 'brand-shadow': '-5px 5px 0px rgba(0, 0, 0, 0.25)',

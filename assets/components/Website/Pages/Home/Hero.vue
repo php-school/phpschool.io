@@ -9,13 +9,13 @@ import codeAnimation from "../../codeAnimation.vue";
 
 <template>
     <div class="bg-center bg-cover bg-[url('/img/cloud/phpCity.jpg')] -mt-28 z-10">
-        <div class="max-w-[2048px] mx-auto w-full h-screen flex justify-evenly items-center text-center pt-28 ">
-            <div class="glow-effect text-white w-[400px] max-h-80 overflow-hidden px-4">
-                <codeAnimation class="text-left " />
+        <div class="max-w-[2048px] mx-auto w-full h-screen flex justify-between items-center text-center pt-28 ">
+            <div class="drop-shadow-[0_0_5px_rgba(255,255,255,1)] text-white overflow-hidden px-4 code-fade">
+                <codeAnimation class="text-center text-sm" />
             </div>
             <div>
-                <figure class="glow-effect">
-                    <Logo class="text-white h-64 w-64 " />
+                <figure class="hover:drop-shadow-[0_0_10px_rgba(255,255,255,1)] transition-all ease-in-out duration-500">
+                    <Logo class="text-white hover:text-white h-64 w-64 " />
                 </figure>
                 <div class="mt-20">
                     <a href=" /cloud"
@@ -24,20 +24,20 @@ import codeAnimation from "../../codeAnimation.vue";
                     </a>
                 </div>
             </div>
-            <div class="glow-effect text-white w-[400px] max-h-80 overflow-hidden px-4">
-                <codeAnimation class="text-left" />
+            <div class="drop-shadow-[0_0_5px_rgba(255,255,255,1)] text-white overflow-hidden px-4 code-fade">
+                <codeAnimation class="text-center text-sm" />
             </div>
         </div>
     </div>
 </template>
 
 <style>
-.glow-effect {
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
-    transition: filter 0.5s ease-in-out;
-}
+.code-fade {
+    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    height: 320px;
+    width: 600px;
+    overflow-y: hidden;
 
-.glow-effect:hover {
-    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 1));
 }
 </style>
