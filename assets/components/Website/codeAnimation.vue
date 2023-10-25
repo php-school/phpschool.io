@@ -28,12 +28,16 @@ export default {
   methods: {
     getRandomCodeSnippet() {
       const codeSnippets = [
+        "learnToCode('PHP');",
         "<?php echo 'Hello, world!'; ?>",
         "$variable = 42;",
         "function add($a, $b) { return $a + $b; }",
         "$array = [1, 2, 3, 4, 5];",
-        "class MyClass { public $property; }",
+        "class MyClass { $name $skill; }",
         "// This is a PHP comment",
+        "<?php $programmingLanguages = ['PHP', 'Javascript']\;",
+        "$favoriteLanguage = 'PHP'\;",
+        "$developer = new Programmer('You', 'expert')\;",
       ];
       return codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
     },
@@ -68,8 +72,7 @@ export default {
   width: 100%;
   height: 100%;
   color: white;
-  font-family: monospace;
-
+  font-family: 'Orbitron', sans-serif;
 }
 
 .code-content {
@@ -85,8 +88,6 @@ export default {
 .code-line {
   margin: 0;
   padding: 0;
-  text-align: left;
   width: 100%;
-  background: linear-gradient(transparent, #fff);
 }
 </style>
