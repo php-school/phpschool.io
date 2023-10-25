@@ -11,7 +11,7 @@ import codeAnimation from "../../codeAnimation.vue";
     <div class="bg-center bg-cover bg-[url('/img/cloud/phpCity.jpg')] -mt-28 z-10">
         <div class="max-w-[2048px] mx-auto w-full h-screen flex justify-between items-center text-center pt-28 ">
             <div class="drop-shadow-[0_0_5px_rgba(255,255,255,1)] text-white overflow-hidden px-4 code-fade">
-                <codeAnimation class="text-center text-sm" />
+                <codeAnimation class="text-left text-sm" />
             </div>
             <div>
                 <figure class="hover:drop-shadow-[0_0_10px_rgba(255,255,255,1)] transition-all ease-in-out duration-500">
@@ -25,7 +25,7 @@ import codeAnimation from "../../codeAnimation.vue";
                 </div>
             </div>
             <div class="drop-shadow-[0_0_5px_rgba(255,255,255,1)] text-white overflow-hidden px-4 code-fade">
-                <codeAnimation class="text-center text-sm" />
+                <codeAnimation class="text-right text-sm" />
             </div>
         </div>
     </div>

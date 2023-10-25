@@ -4,7 +4,7 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                'open-sans': ['"Open Sans"'],
+                'open-sans': ['Open Sans, sans-serif'],
                 'work-sans': ['Work Sans, sans-serif'],
                 'orbitron': ['Orbitron, sans-serif'],
             },
