@@ -1,6 +1,8 @@
 <script setup>
 import Table from './Table.vue';
 import DocCode from './Code.vue';
+import List from "./List.vue";
+import ListItem from "./ListItem.vue";
 
 const props = defineProps({
     results: Array
@@ -8,10 +10,12 @@ const props = defineProps({
 </script>
 
 <template>
-    <Table>
-        <tr v-for="result in results">
-            <td class="whitespace-nowrap py-2 pr-3 text-xs font-medium text-gray-900 sm:pl-0"><doc-code>{{ result[0] }}</doc-code></td>
-            <td class="whitespace-nowrap py-2 pr-3 text-xs font-medium text-gray-900 sm:pl-0"><doc-code>{{ result[1] }}</doc-code></td>
-        </tr>
-    </Table>
+    <List title="Default Mappings:">
+        <ListItem v-for="result in results">
+            <div class="">
+                <h4 class="font-mono font-semibold mb-2">{{ result[0] }}</h4>
+                <doc-code class="">{{ result[1] }}</doc-code>
+            </div>
+        </ListItem>
+    </List>
 </template>

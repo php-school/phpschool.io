@@ -2,8 +2,8 @@
 and wrapping code. Before we get down to it, a little background to explain why we built this feature.</p>
 
 <h3 id="why">Why?</h3>
-<p>We wanted a way to make sure that <code>display_errors</code> and <code>error_reporting</code> were always configured
-correctly, we also thought that we might want to wrap solutions in <code>try/catch</code> blocks so we could give more structured
+<p>We wanted a way to make sure that <doc-code>display_errors</doc-code> and <doc-code>error_reporting</doc-code> were always configured
+correctly, we also thought that we might want to wrap solutions in <doc-code>try/catch</doc-code> blocks so we could give more structured
 feedback to the student. We figured, in order to do this in a robust manner, we would have to patch the
 student's solution on the fly and revert the changes after the framework has verified/run the solution.
 </p>
@@ -20,10 +20,10 @@ inject that variable at the start of the script so it is already available to th
 </ul>
 
 <p>In order to inform the workshop framework that an exercise would like to patch a solution it must implement
-<code>PhpSchool\PhpWorkshop\Exercise\SubmissionPatchable</code> and return an instance of
-<code>PhpSchool\PhpWorkshop\Patch</code>.</p>
+<doc-code>PhpSchool\PhpWorkshop\Exercise\SubmissionPatchable</doc-code> and return an instance of
+<doc-code>PhpSchool\PhpWorkshop\Patch</doc-code>.</p>
 
-<p>The <code>Patch</code> object is where you specify your <em>Insertions</em> & <em>Transformers</em>. The API looks
+<p>The <doc-code>Patch</doc-code> object is where you specify your <em>Insertions</em> & <em>Transformers</em>. The API looks
     like this:</p>
 
 <pre><code class="lang-php">&lt;?php
@@ -36,10 +36,10 @@ $patch = $patch->withInsertion($insertion2);
 $patch = $patch->withTransformer($transformer);
 </code></pre>
 
-<p class="note note-info">The <code>Patch</code> class is immutable so you will need to assign
-the result of any calls to <code>with*</code> methods.</p>
+<note type="info">The <doc-code>Patch</doc-code> class is immutable so you will need to assign
+the result of any calls to <doc-code>with*</doc-code> methods.</note>
 
-<?= $this->renderContentHeader('insertions', 'Insertions') ?>
+<content-header id="insertions">Insertions</content-header>
 <p>Insertions allow to insert a block of code at either the beginning or end of the student's
 solution. The API is very simple:</p>
 
@@ -51,12 +51,12 @@ $before = new CodeInsertion(CodeInsertion::TYPE_BEFORE, 'echo "Before";');
 $after = new CodeInsertion(CodeInsertion::TYPE_AFTER, 'echo "After";');
 </code></pre>
 
-<?= $this->renderContentHeader('transformers', 'Transformers') ?>
-<p>Transformers allow to modify the whole solution via an AST. A transformer is any valid PHP <code>callable</code>
-that returns an <code>array</code> of <code>PhpParser\Node</code> objects. The callable will be
-passed an <code>array</code> of <code>PhpParser\Node</code> objects which represent the parsed student's solution.</p>
+<content-header id="transformers">Transformers</content-header>
+<p>Transformers allow to modify the whole solution via an AST. A transformer is any valid PHP <doc-code>callable</doc-code>
+that returns an <doc-code>array</doc-code> of <doc-code>PhpParser\Node</doc-code> objects. The callable will be
+passed an <doc-code>array</doc-code> of <doc-code>PhpParser\Node</doc-code> objects which represent the parsed student's solution.</p>
 
-<p>Lets see how you can build a transformer that wraps the solution in a <code>try/catch</code> block that then
+<p>Lets see how you can build a transformer that wraps the solution in a <doc-code>try/catch</doc-code> block that then
 outputs the exception message.</p>
 
 <pre><code class="lang-php">&lt;?php
@@ -111,9 +111,9 @@ class MyExercise extends AbstractExercise implements
     <a href="https://github.com/nikic/PHP-Parser">nikic/php-parser</a> library and you should refer to that project for
 documentation on the AST.</p>
 
-<?= $this->renderContentHeader('wiring-it-together', 'Wiring it together') ?>
-<p>Let's write a patch that will wrap the solution in a <code>try/catch</code> block, add <code>echo 'Start';</code> at
-    the beginning and add <code>echo 'Finish';</code> at the end:</p>
+<content-header id="wiring-it-together">Wiring it together</content-header>
+<p>Let's write a patch that will wrap the solution in a <doc-code>try/catch</doc-code> block, add <doc-code>echo 'Start';</doc-code> at
+    the beginning and add <doc-code>echo 'Finish';</doc-code> at the end:</p>
 
 <pre><code class="lang-php">&lt;?php
 
@@ -189,5 +189,5 @@ try {
 echo 'Finish';
 </code></pre>
 
-<p class="note note-info">The students solution will be reverted to the original form at the end of the
-    verifying/running process so the student will never see the code in their solution file.</p>
+<note type="info">The students solution will be reverted to the original form at the end of the
+    verifying/running process so the student will never see the code in their solution file.</note>

@@ -1,5 +1,6 @@
 <script setup>
 const props = defineProps({
+        title: String,
         columns: {
             type: Array,
             default: []
@@ -9,7 +10,8 @@ const props = defineProps({
 
 <template>
     <div class="">
-        <div class="mt-8 flow-root">
+        <div class="my-6 flow-root">
+            <p v-if="title" class="pb-2 text-sm">{{title}}</p>
             <div class="overflow-x-auto ">
                 <div class="inline-block min-w-full py-2 align-middle">
                     <table class="min-w-full divide-y divide-gray-300">

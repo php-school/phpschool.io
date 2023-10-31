@@ -2,130 +2,17 @@
     exercise types from the <a href="/docs/reference/exercise-types">Exercise Types documentation</a>?
     <a href="/docs/reference/exercise-types#cli">CLI</a>,
     <a href="/docs/reference/exercise-types#cgi">CGI</a> &
-    <a href="/docs/reference/exercise-types#custom">CUSTOM</a>?</p>
+    <a href="/docs/reference/exercise-types#custom">CUSTOM</a>.</p>
 
 <p>Well, checks can support one or more of these exercise types
     types. So inspect the table below to see if the check you want to use actually supports your exercise type.</p>
 
-<div class="method-list">
-    <h5 class="method-list-title">Bundled Checks</h5>
-    <ul class="method-list-group">
-        <li class="method-list-item">
-            <h3 id="list-file-exists-check" class="service-list-item-label">PhpSchool\PhpWorkshop\Check\FileExistsCheck</h3>
-            <p class="service-list-item-description">
-                <dl class="check-description">
-                    <dt>Interface to implement:</dt>
-                    <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                    <dt>Type:</dt>
-                    <dd><code>Simple</code></dd>
-                    <dt>Compatible Exercise Types:</dt>
-                    <dd><code>CLI, CGI</code></dd>
-                </dl>
 
-                This check verifies that the student's solution file actually exists. This check is always registered
-                as the first check and verifying will abort if it fails. <br /><br />
-                <p class="note note-success">Note: You do not need to require this check yourself, it is done so automatically.</p>
-            </p>
-        </li>
-        <li class="method-list-item">
-            <h3 id="list-code-parse-checl" class="service-list-item-label">PhpSchool\PhpWorkshop\Check\CodeParseCheck</h3>
-            <p class="service-list-item-description">
-                <dl class="check-description">
-                    <dt>Interface to implement:</dt>
-                    <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                    <dt>Type:</dt>
-                    <dd><code>Simple</code></dd>
-                    <dt>Compatible Exercise Types:</dt>
-                    <dd><code>CLI, CGI</code></dd>
-                </dl>
+<bundled-checks></bundled-checks>
 
-                This check verifies that the student's solution file can actually be parsed.
-                Parsing is done with <a href="https://github.com/nikic/PHP-Parser">nikic/php-parser</a>.<br /><br />
-                <p class="note note-success">Note: You do not need to require this check yourself, it is done so automatically.</p>
-            </p>
-        </li>
-        <li class="method-list-item">
-            <h3 id="list-php-lint-check" class="service-list-item-label">PhpSchool\PhpWorkshop\Check\PhpLintCheck</h3>
-            <p class="service-list-item-description">
-                <dl class="check-description">
-                    <dt>Interface to implement:</dt>
-                    <dd><code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code></dd>
-                    <dt>Type:</dt>
-                    <dd><code>Simple</code></dd>
-                    <dt>Compatible Exercise Types:</dt>
-                    <dd><code>CLI, CGI</code></dd>
-                </dl>
-
-                This check verifies that the student's solution file contains valid PHP syntax. This is as simple as
-                <code>php -l &lt;submission-file&gt;</code>.<br /><br />
-                <p class="note note-success">Note: You do not need to require this check yourself, it is done so automatically.</p>
-            </p>
-        </li>
-        <li class="method-list-item">
-            <h3 id="list-function-requirements-check" class="service-list-item-label">PhpSchool\PhpWorkshop\Check\FunctionRequirementsCheck</h3>
-            <p class="service-list-item-description">
-                <dl class="check-description">
-                    <dt>Interface to implement:</dt>
-                    <dd><code>PhpSchool\PhpWorkshop\ExerciseCheck\FunctionRequirementsExerciseCheck</code></dd>
-                    <dt>Type:</dt>
-                    <dd><code>Simple</code></dd>
-                    <dt>Compatible Exercise Types:</dt>
-                    <dd><code>CLI, CGI</code></dd>
-                </dl>
-
-                This check verifies that the students submission contains usages of some required functions and also
-                does not use certain functions. This check is useful if you want to ban a certain way of
-                achieving something, for example, teaching how to manually write a function that already existing in the
-                standard library.<br /><br />
-
-                <a class="link" href="#check-functional-requirements">Learn how to use</a>
-            </p>
-        </li>
-        <li class="method-list-item">
-            <h3 id="list-composer-check" class="service-list-item-label">PhpSchool\PhpWorkshop\Check\ComposerCheck</h3>
-            <p class="service-list-item-description">
-                <dl class="check-description">
-                    <dt>Interface to implement:</dt>
-                    <dd><code>PhpSchool\PhpWorkshop\ExerciseCheck\ComposerExerciseCheck</code></dd>
-                    <dt>Type:</dt>
-                    <dd><code>Simple</code></dd>
-                    <dt>Compatible Exercise Types:</dt>
-                    <dd><code>CLI, CGI</code></dd>
-                </dl>
-
-                This check verifies that the student used Composer to install the required dependencies of the
-                exercise. It checks that a <code>composer.lock</code> files exists and contains entries
-                for the required packages.<br /><br />
-
-                <a class="link" href="#check-composer">Learn how to use</a>
-            </p>
-        </li>
-        <li class="method-list-item">
-            <h3 id="list-database-check" class="service-list-item-label">PhpSchool\PhpWorkshop\Check\DatabaseCheck</h3>
-            <p class="service-list-item-description">
-                <dl class="check-description">
-                    <dt>Interface to implement:</dt>
-                    <dd><code>PhpSchool\PhpWorkshop\ExerciseCheck\DatabaseExerciseCheck</code></dd>
-                    <dt>Type:</dt>
-                    <dd><code>Listener</code></dd>
-                    <dt>Compatible Exercise Types:</dt>
-                    <dd><code>CLI, CGI</code></dd>
-                </dl>
-
-                This check sets up a database and a <code>PDO</code> object. It prepends the database DSN as a
-                CLI argument to the student's solution so they can connect to the database. The <code>PDO</code> object
-                is passed to the exercise before and after the student's solution has been executed, allowing you to
-                first seed the database and then verify the contents of the database.<br /><br />
-
-                <a class="link" href="#check-database">Learn how to use</a>
-            </p>
-        </li>
-    </ul>
-</div>
-
-<?= $this->renderContentHeader('check-functional-requirements', 'Functional Requirements Check') ?>
-<p>Here is an example of how to force the student to use the function <code>curl_exec</code> and ban the usage of
-<code>file_get_contents</code>. This could be useful if you wanted to teach advanced configuration of data transfers.</p>
+<content-header id="check-functional-requirements">Functional Requirements Check</content-header>
+<p>Here is an example of how to force the student to use the function <doc-code>curl_exec</doc-code> and ban the usage of
+<doc-code>file_get_contents</doc-code>. This could be useful if you wanted to teach advanced configuration of data transfers.</p>
 
 <pre><code class="lang-php">class MyExercise extends AbstractExercise
         implements ExerciseInterface, FunctionRequirementsExerciseCheck
@@ -167,8 +54,8 @@ echo file_get_contents('http://example.com');
 <p>The output would be something along the lines of:</p>
 <a href="/img/func-requirements.png"><img src="/img/func-requirements.png" class="doc-terminal-screen"></a>
 
-<?= $this->renderContentHeader('composer-check', 'Composer Check') ?>
-<p>Here is an example of how to force the student to require the <code>nikic/fast-route</code> package via Composer. This
+<content-header id="check-composer">Composer Check</content-header>
+<p>Here is an example of how to force the student to require the <doc-code>nikic/fast-route</doc-code> package via Composer. This
 is useful if you want to focus on a specific problem or promote popular/battle tested packages.</p>
 
 <pre><code class="lang-php">class MyExercise extends AbstractExercise
@@ -196,17 +83,17 @@ is useful if you want to focus on a specific problem or promote popular/battle t
 }
 </code></pre>
 
-<p>A number of failures can occur here, the student may not even have a <code>composer.json</code> or
-    a <code>composer.lock</code> file. If this is the
+<p>A number of failures can occur here, the student may not even have a <doc-code>composer.json</doc-code> or
+    a <doc-code>composer.lock</doc-code> file. If this is the
 case, the check will fail and a message will be printed. If the required files are present, but the
 package has not been found, the output will look like the following:</p>
 
 <a href="/img/composer-check.png"><img src="/img/composer-check.png" class="doc-terminal-screen"></a>
 
-<?= $this->renderContentHeader('database-check', 'Database Check') ?>
-<p>Here is an example where we require that the student insert a record in to the <code>users</code> table which we
-    will create in the <code>seed</code> method of our check. We will then verify that there are some records in the
-    <code>users</code> table.</p>
+<content-header id="check-database">Database Check</content-header>
+<p>Here is an example where we require that the student insert a record in to the <doc-code>users</doc-code> table which we
+    will create in the <doc-code>seed</doc-code> method of our check. We will then verify that there are some records in the
+    <doc-code>users</doc-code> table.</p>
 
 <pre><code class="lang-php">class MyExercise extends AbstractExercise
         implements ExerciseInterface, DatabaseExerciseCheck

@@ -10,7 +10,7 @@
 
 <exercise-types :type="'ExerciseType::CLI()'" :interface="'PhpSchool\PhpWorkshop\Exercise\CliExercise'" :methods="'getArgs'"></exercise-types>
 
-<h3 id="cli-get-args">Implementing getArgs</h3>
+<content-header level="h4" id="cli-get-args">Implementing getArgs</content-header>
 <p><doc-code>getArgs</doc-code> should return an array of string arrays. These are the arguments to be passed to the PHP CLI executable. The number of arguments which can be returned is not limited. All arguments should be strings. If multiple sets of arguments are
 specified then the program will be executed each time with those arguments.</p>
 
@@ -60,10 +60,11 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CliExerc
 
 <exercise-types :type="'ExerciseType::CGI()'" :interface="'PhpSchool\PhpWorkshop\Exercise\CgiExercise'" :methods="'getRequests'"></exercise-types>
 
-<h3 id="cgi-get-requests">Implementing getRequests</h3>
+<content-header level="h4" id="cgi-get-requests">Implementing getRequests</content-header>
+
 <p><doc-code>getRequests</doc-code> should return an array of PSR-7 Requests. The number of requests is not limited. Check <a target="_blank" href="http://www.php-fig.org/psr/psr-7/">here</a> for more information about PSR-7. The method is currently type hinted to return an array of the <a target="_blank" href="http://www.php-fig.org/psr/psr-7/#3-2-psr-http-message-requestinterface">Psr\Http\Message\RequestInterface</a> interface. You will need to use a library which implements the PSR-7 standard. Currently <a target="_blank" href="https://github.com/zendframework/zend-diactoros">zendframework/zend-diactoros</a> is shipped with <doc-code>php-school/php-workshop</doc-code> so you can just use that, or feel free to pull in a different implementation.</p>
 
-<h4 id="cgi-get">Simulating a GET request</h4>
+<content-header level="h5" id="cgi-get">Simulating a GET request</content-header>
 <pre><code class="lang-php">&lt;?php
 
 namespace PhpSchool\MyWorkshop\Exercise;
@@ -124,7 +125,7 @@ array(2) {
     ["limit"] => string(2) "50"
 }
 </code></pre>
-<h4 id="cgi-post">Simulating a POST request</h4>
+<content-header level="h5" id="cgi-post">Simulating a POST request</content-header>
 <pre><code class="lang-php">&lt;?php
 
 namespace PhpSchool\MyWorkshop\Exercise;
@@ -192,7 +193,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CgiExerc
 
 
 <note type="success">
-    <ul class="docs__std__list__note">
+    <ul>
         <li>You can return multiple request from <doc-code>getRequests</doc-code>.</li>
         <li>Each request can have a different method.</li>
         <li>Each request can have any amount of headers as you need.</li>
@@ -206,7 +207,8 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CgiExerc
 
 <exercise-types :type="'ExerciseType::CUSTOM()'" :interface="'PhpSchool\PhpWorkshop\Exercise\CustomVerifyingExercise'" :methods="'verify'"></exercise-types>
 
-<h3 id="custom-verify">Implementing verify</h3>
+
+<content-header level="h4" id="custom-verify">Implementing verify</content-header>
 <p>This is where you perform your verification. The method needs to return an instance of <doc-code>PhpSchool\PhpWorkshop\Result\ResultInterface</doc-code>. Depending on
     whether you want a success or failure to be recorded it will be an instance of
     <doc-code>PhpSchool\PhpWorkshop\Result\SuccessInterface</doc-code> or

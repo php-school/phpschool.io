@@ -5,35 +5,22 @@ we will build the renderer for it, as the result is fairly useless without it.</
 To do this, we will write our result (which is mostly a simple object containing the data) and then we
 will update our check to parse the violations and use the new result class.</p>
 
-<?= $this->renderContentHeader('getting-started', 'Getting Started') ?>
+<content-header id="getting-started">Getting Started</content-header>
 <p>If you are carrying on from the previous article then you can skip this first step of grabbing the tutorial
 workshop.</p>
 
 <p>As usual we will use the already built tutorial workshop as a base - the finished code is
-    available on the <code>custom-result</code> branch of the
+    available on the <doc-code>custom-result</doc-code> branch of the
     <a href="https://github.com/php-school/simple-math">tutorial repository</a>. We will start fresh from the
-    <code>custom-interface-check</code> branch for this tutorial, so if you haven't already got it, git
+    <doc-code>custom-interface-check</doc-code> branch for this tutorial, so if you haven't already got it, git
     clone it and install the dependencies:</p>
 
-<div class="terminal">
-    <div class="terminal__body">
-        <p>cd projects</p>
-        <p>git clone git@github.com:php-school/simple-math.git</p>
-        <p>cd simple-math</p>
-        <p>git checkout custom-interface-check</p>
-        <p>composer install</p>
-    </div>
-</div>
+<terminal :lines="['cd projects', 'git clone git@github.com:php-school/simple-math.git', 'cd simple-math', 'git checkout custom-interface-check', 'composer install']"></terminal>
 
-<h3 id="result-step-1">1. Create the folder and class</h3>
-<div class="terminal">
-    <div class="terminal__body">
-        <p>mkdir src/Result</p>
-        <p>touch src/Result/CodingStandardFailure.php</p>
-    </div>
-</div>
+<content-header level="h4" id="result-step-1">1. Create the folder and class</content-header>
+<terminal :lines="['mkdir src/Result', 'touch src/Result/CodingStandardFailure.php']"></terminal>
 
-<h3 id="check-step-2">2. Write the result class</h3>
+<content-header level="h4" id="result-step-2">2. Write the result class</content-header>
 
 <pre><code class="lang-php">&lt?php
 
@@ -110,14 +97,14 @@ class CodingStandardFailure implements FailureInterface
 </code></pre>
 
 <p>This is a simple class which takes in the check name, the standard used & and an array of violations.
-    <code>getCheckName()</code> should return the name of the check this result represents, this is used when
+    <doc-code>getCheckName()</doc-code> should return the name of the check this result represents, this is used when
 rendering the results to the student by the workshop framework. This is the only method required by the interface
-<code>PhpSchool\PhpWorkshop\Result\FailureInterface</code>.</p>
+<doc-code>PhpSchool\PhpWorkshop\Result\FailureInterface</doc-code>.</p>
 
-<h3 id="check-step-3">3. Update the Check</h3>
+<content-header level="h4" id="result-step-3">3. Update the Check</content-header>
 
 <p>We need to update our check to use the new result class, and we need to parse the violations from
-    <code>phpcs</code>. We will only be making changes in the <code>check</code> method and the final method should
+    <doc-code>phpcs</doc-code>. We will only be making changes in the <doc-code>check</doc-code> method and the final method should
 look like the following:</p>
 
 <pre><code class="lang-php">&lt?php
@@ -151,14 +138,14 @@ public function check(ExerciseInterface $exercise, Input $input)
 </code></pre>
 
 <ul>
-    <li>We add the option <code>--report=json</code> to give us the report in json, which makes it easier to parse.</li>
-    <li>We <code>json_decode</code> the first line of output from <code>phpcs</code>.</li>
+    <li>We add the option <doc-code>--report=json</doc-code> to give us the report in json, which makes it easier to parse.</li>
+    <li>We <doc-code>json_decode</doc-code> the first line of output from <doc-code>phpcs</doc-code>.</li>
     <li>We grab the violations for the students submission.</li>
     <li>We format each violation in to a string consisting of the line number, column and message.</li>
     <li>Return a instance of our new result class containing the check name, coding standard and an array
     of violations.</li>
 </ul>
 
-<p class="note note-success">That's it! Move on to the next article to build the renderer.</p>
-<p class="note note-warning">If you try to run verify the exercise now, the program will crash as it cannot
-find a renderer for the new result.</p>
+<note type="success">That's it! Move on to the next article to build the renderer.</note>
+<note type="danger">If you try to run verify the exercise now, the program will crash as it cannot
+find a renderer for the new result.</note>

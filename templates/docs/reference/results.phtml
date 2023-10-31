@@ -49,7 +49,7 @@ result to the console.</p>
 in your checks. If you need something more bespoke to render the failure of your check, you should
 <a href="/docs/reference/creating-custom-results">create your own</a>.</p>
 
-<h3 id="success">PhpSchool\PhpWorkshop\Result\Success</h3>
+<content-header level="h4-code" id="success">PhpSchool\PhpWorkshop\Result\Success</content-header>
 <p>As you saw from the interface, the only required piece of information is the check name. So construction
 would look like the following.</p>
 
@@ -82,7 +82,7 @@ class MyCheck implements SimpleCheckInterface
 }
 </code></pre>
 
-<h3 id="failure">PhpSchool\PhpWorkshop\Result\Failure</h3>
+<content-header level="h4-code" id="failure">PhpSchool\PhpWorkshop\Result\Failure</content-header>
 <p>The default implementation of <doc-code>FailureInterface</doc-code> needs one more piece of information
 other than the check name: the reason for the failure. Construction is fairly similar:</p>
 
@@ -162,48 +162,16 @@ it should return a string representation of the <doc-code>ResultInterface</doc-c
 
 <content-header id="result-renderer-mappings">Result Renderer Mappings</content-header>
 <p>The workshop framework picks a result renderer based on the mappings in <doc-code>PhpSchool\PhpWorkshop\Factory\ResultRendererFactory</doc-code>.</p>
-<p>The default mappings are:</p>
 
-
-
-<table class="exercise__type__info">
-    <thead>
-        <tr>
-            <td>Result Class</td>
-            <td>Result Renderer Class</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><doc-code>PhpSchool\PhpWorkshop\Result\Cgi\GenericFailure</doc-code></td>
-            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\FailureRenderer</doc-code></td>
-        </tr>
-        <tr>
-            <td><doc-code>PhpSchool\PhpWorkshop\Result\Cgi\RequestFailure</doc-code></td>
-            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\Cgi\RequestFailureRenderer</doc-code></td>
-        </tr>
-        <tr>
-            <td><doc-code>PhpSchool\PhpWorkshop\Result\Cli\GenericFailure</doc-code></td>
-            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\FailureRenderer</doc-code></td>
-        </tr>
-        <tr>
-            <td><doc-code>PhpSchool\PhpWorkshop\Result\Cli\RequestFailure</doc-code></td>
-            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\Cli\RequestFailureRenderer</doc-code></td>
-        </tr>
-        <tr>
-            <td><doc-code>PhpSchool\PhpWorkshop\Result\ComparisonFailure</doc-code></td>
-            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\ComparisonFailureRenderer</doc-code></td>
-        </tr>
-        <tr>
-            <td><doc-code>PhpSchool\PhpWorkshop\Result\FunctionRequirementsFailure</doc-code></td>
-            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\FunctionRequirementsFailureRenderer</doc-code></td>
-        </tr>
-        <tr>
-            <td><doc-code>PhpSchool\PhpWorkshop\Result\Failure</doc-code></td>
-            <td><doc-code>PhpSchool\PhpWorkshop\ResultRenderer\FailureRenderer</doc-code></td>
-        </tr>
-    </tbody>
-</table>
+<result-renderer-mappings :results="[
+    ['PhpSchool\\PhpWorkshop\\Result\\Cgi\\GenericFailure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\FailureRenderer'],
+    ['PhpSchool\\PhpWorkshop\\Result\\Cgi\\RequestFailure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\Cgi\\RequestFailureRenderer'],
+    ['PhpSchool\\PhpWorkshop\\Result\\Cli\\GenericFailure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\FailureRenderer'],
+    ['PhpSchool\\PhpWorkshop\\Result\\Cli\\RequestFailure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\Cli\\RequestFailureRenderer'],
+    ['PhpSchool\\PhpWorkshop\\Result\\ComparisonFailure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\ComparisonFailureRenderer'],
+    ['PhpSchool\\PhpWorkshop\\Result\\FunctionRequirementsFailure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\FunctionRequirementsFailureRenderer'],
+    ['PhpSchool\\PhpWorkshop\\Result\\Failure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\FailureRenderer'],
+]"></result-renderer-mappings>
 
 <p>If you create a new implementation of <doc-code>FailureInterface</doc-code> you will need to map it to an existing renderer,
 or most likely you will need to write a custom renderer, and map it to that.</p>

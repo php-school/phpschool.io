@@ -5,14 +5,14 @@
 
 <content-header id="defining-factories">Defining Factories</content-header>
 
-<h3 id="no-deps">Simple Object with No dependencies</h3>
+<content-header level="h4" id="no-deps">Simple Object with No dependencies</content-header>
 <p><doc-code>\DI\Object()</doc-code> is a helper function to create a factory which will simply run <doc-code>new $yourClassName</doc-code> when asking for the service from the container.</p>
 <pre><code lang="php">return [
     ...snip
     Generator::class => \DI\Object(),
 ];
 </code></pre>
-<h3 id="with-deps">Object with dependencies</h3>
+<content-header level="h4" id="with-deps">Object with dependencies</content-header>
 
 <p>PHP-DI provides more powerful features such as being able to use anonymous functions and any valid PHP <doc-code>callables</doc-code> as a factory. When using a callable your callable will be injected with the container itself which you can pull other services from!</p>
 <p>If you pulled in a third party library for random number generation you might define a service like below. We use the battle tested package: <doc-code>ircmaxell/random-lib</doc-code> as an example.</p>

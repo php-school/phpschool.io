@@ -8,20 +8,21 @@
 <p><em>Enter the Self Checking feature!</em></p>
 
 <p>The Self Checking feature allows your exercise to implement an interface which contains one method -
-    <code>check()</code>during the verification process of the student's solution, your method will be called and
+    <doc-code>check()</doc-code>during the verification process of the student's solution, your method will be called and
     passed the input arguments passed to our workshop, which will contain the file name of the student's solution.
     In this method you can do whatever you want: parse the code
-    into an AST using the <code>PhpParser\Parser</code> service, lint it using a third party tool or whatever else you
+    into an AST using the <doc-code>PhpParser\Parser</doc-code> service, lint it using a third party tool or whatever else you
     can think of.</p>
 
-<p>To give you an example of how you might use it - we use it <a href="https://github.com/php-school/learn-you-php/blob/master/src/Exercise/ConcernedAboutSeparation.php">here in Learn You PHP!</a> to check that a submission contains an <code>include</code>/<code>require</code> statement as the exercise is teaching how to separate code over multiple files. We want to enforce the student to include a separate file.</p>
+<p>To give you an example of how you might use it - we use it <a href="https://github.com/php-school/learn-you-php/blob/master/src/Exercise/ConcernedAboutSeparation.php">here in Learn You PHP!</a> to check that a submission contains an <doc-code>include</doc-code>/<doc-code>require</doc-code> statement as the exercise is teaching how to separate code over multiple files. We want to enforce the student to include a separate file.</p>
 
-<?= $this->renderContentHeader('creating-self-check-exercise', 'Creating a self checking exercise') ?>
+<content-header id="creating-self-check-exercise">Creating a self checking exercise</content-header>
+
 <p>Creating a self checking exercise requires implementing the interface
-    <code>PhpSchool\PhpWorkshop\ExerciseCheck\SelfCheck</code>, adding your check logic and returning a
-    <a href="/docs/reference/result">result</a>. Depending on whether you want a success or a failure
-    to be recorded it will be an instance of <code>PhpSchool\PhpWorkshop\Result\SuccessInterface</code> or
-    <code>\PhpSchool\PhpWorkshop\Result\FailureInterface</code>.</p>
+    <doc-code>PhpSchool\PhpWorkshop\ExerciseCheck\SelfCheck</doc-code>, adding your check logic and returning a
+    <a href="/docs/reference/results">result</a>. Depending on whether you want a success or a failure
+    to be recorded it will be an instance of <doc-code>PhpSchool\PhpWorkshop\Result\SuccessInterface</doc-code> or
+    <doc-code>\PhpSchool\PhpWorkshop\Result\FailureInterface</doc-code>.</p>
 
 <p>The interface looks like this:</p>
 <pre><code class="lang-php">&lt;?php
@@ -70,42 +71,31 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
 </code></pre>
 
 <p>As you can see, you do the checking logic and then return a result object. The result object is used to render the
-    results to the student. In this case the first argument to <code>PhpSchool\PhpWorkshop\Result\Success</code> is
+    results to the student. In this case the first argument to <doc-code>PhpSchool\PhpWorkshop\Result\Success</doc-code> is
     the name of the check being performed. The same is true for the failure
-    <code>PhpSchool\PhpWorkshop\Result\Failure</code>, however, it takes an optional second argument which should
+    <doc-code>PhpSchool\PhpWorkshop\Result\Failure</doc-code>, however, it takes an optional second argument which should
     describe what went wrong.</p>
 
-<p class="note note-success">Learn more about results <a href="/docs/reference/results">here</a>.</p>
+<note type="success">Learn more about results <a href="/docs/reference/results">here</a>.</note>
 
-<?= $this->renderContentHeader('example-self-check', 'Example PSR2 self checking exercise') ?>
+<content-header id="example-self-check">Example PSR2 self checking exercise</content-header>
 <p>Contrary to what we said earlier (a PSR2 check would be a good candidate for a re-usable check), let's build that
     as a self check. We will use the already built example workshop as a base - the finished code is available on the
-    <code>self-checking-exercise</code> branch of the
+    <doc-code>self-checking-exercise</doc-code> branch of the
     <a href="https://github.com/php-school/simple-math">tutorial repository</a>.</p>
-<p>We will start fresh from the <code>master</code> branch for this tutorial, so if you haven't already got it, git
+<p>We will start fresh from the <doc-code>master</doc-code> branch for this tutorial, so if you haven't already got it, git
     clone it and install the dependencies:</p>
 
-<div class="terminal">
-    <div class="terminal__body">
-        <p>cd projects</p>
-        <p>git clone git@github.com:php-school/simple-math.git</p>
-        <p>cd simple-math</p>
-        <p>composer install</p>
-    </div>
-</div>
+<terminal :lines="['cd projects', 'git clone git@github.com:php-school/simple-math.git', 'cd simple-math', 'composer install']"></terminal>
 
 <p>Our check will run the <a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> tool against the
     student's solution and report a success or failure based on the result.</p>
 
-<h3 id="check-step-1">1. Require the PHP_CodeSniffer tool as a dependency</h3>
+<content-header level="h4" id="check-step-1">1. Require the PHP_CodeSniffer tool as a dependency</content-header>
 
-<div class="terminal">
-    <div class="terminal__body">
-        <p>composer require squizlabs/php_codesniffer</p>
-    </div>
-</div>
+<terminal :lines="['composer require squizlabs/php_codesniffer']"></terminal>
 
-<h3 id="check-step-2">2. Modify the exercise to implement the SelfCheck interface</h3>
+<content-header level="h4" id="check-step-2">2. Modify the exercise to implement the SelfCheck interface</content-header>
 <p>Our exercise should look like the following:</p>
 
 <pre><code class="lang-php">&lt;?php
@@ -178,10 +168,11 @@ class Mean extends AbstractExercise implements
 }
 </code></pre>
 
-<h3 id="check-step-3">3. Implement the check logic</h3>
-<p>As you can see, our check does nothing at the minute. Let's add the logic to execute <code>phpcs</code> on the
-    student's solution using the <code>PSR2</code> standard. As we brought in the tool via Composer, we can rest
-    assured that the binary <code>phpcs</code> is available in our projects <code>vendor</code> directory.</p>
+<content-header level="h4" id="check-step-3">3. Implement the check logic</content-header>
+
+<p>As you can see, our check does nothing at the minute. Let's add the logic to execute <doc-code>phpcs</doc-code> on the
+    student's solution using the <doc-code>PSR2</doc-code> standard. As we brought in the tool via Composer, we can rest
+    assured that the binary <doc-code>phpcs</doc-code> is available in our projects <doc-code>vendor</doc-code> directory.</p>
 <p>Our method might look something like this - nothing new going on:</p>
 
 <pre><code class="lang-php">/**
@@ -202,10 +193,10 @@ public function check(Input $input)
 }
 </code></pre>
 
-<p>If the <code>phpcs</code> binary returns a non-zero exit code - a failure occurred: probably the solution did not
+<p>If the <doc-code>phpcs</doc-code> binary returns a non-zero exit code - a failure occurred: probably the solution did not
     pass the coding standard check. So we return a failure with an error message. Otherwise a Success is returned.</p>
 
-<p>Verifying a solution which does not pass the <code>PSR2</code> coding standard will yield
+<p>Verifying a solution which does not pass the <doc-code>PSR2</doc-code> coding standard will yield
     the output:</p>
 <a href="/img/psr2-fail.png"><img src="/img/psr2-fail.png" class="doc-terminal-screen"></a>
 <p>And a solution which <strong>does</strong> pass would yield the output:</p>
