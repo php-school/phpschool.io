@@ -49,41 +49,6 @@ $(function () {
         }
     });
 
-    //tab switcher
-    $('.tabs-menu > li > a').click(function (event) {
-        event.preventDefault();
-        $(this).parent().addClass("active");
-
-        $(this).parent().siblings().removeClass("active");
-        var tab = $(this).attr("href");
-        $('.tab-content').not(tab).hide();
-        $(tab).fadeIn();
-        return false;
-    });
-
-    var hash = document.location.hash;
-    if ($(".tabs-container > .tab").length && hash.length) {
-        //if there are some tabs on this page and we have a hash
-        processTabHash(hash);
-    }
-
-    //Smooth Scroll
-    $('a[href*="#"]:not([href="#"]):not([href^="#tab"])').click(function () {
-        if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-            var target = $(this.hash);
-            var hash = this.hash;
-            target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-            if (target.length) {
-                $('html, body').animate({
-                    scrollTop: target.offset().top - 22
-                }, 1000, function () {
-                    window.location.hash = hash;
-                });
-                return false;
-            }
-        }
-    });
-
     if ($('#search-input').length) {
         var search = docsearch({
             apiKey: '839c0aa3f3df6404158b249b3f84774f',
@@ -97,53 +62,6 @@ $(function () {
 
         search.autocomplete.on('autocomplete:closed', function (e) {
             $('.site-body').removeClass('overlay');
-        });
-    }
-
-    /**
-     * Try to either open a tab (match id to hash) and scroll to it,
-     * or if there is an element inside a tab with a id matching the has, open the tab
-     * and scroll to the element.
-     *
-     * @param string hash
-     */
-    function processTabHash(hash) {
-        if (hash.indexOf("#tab-") === 0) {
-            //we want to visit specific tab
-            var tab = $('a[href="' + hash + '"]');
-
-            if (!tab.length) {
-                return;
-            }
-
-            var target = tab.closest(".tabs-container").prev();
-            $('html, body').animate({
-                scrollTop: target.offset().top
-            }, 1000, function () {
-                window.location.hash = hash;
-            });
-
-            tab.click();
-        }
-
-        var target = $(".tabs-container > .tab").find(hash);
-        if (!target.length) {
-            //cant find elem with this id in any tabs
-            return;
-        }
-
-        //we want to visit content inside a tab
-        var tab = target.closest(".tab-content");
-        var tabId = tab.attr("id");
-        var tabMenuItem = tab.parent().prev().find('a[href="#' + tabId + '"]').parent();
-
-        tab.show().siblings().hide();
-        tabMenuItem.addClass('active').siblings().removeClass('active');
-
-        $('html, body').animate({
-            scrollTop: target.offset().top
-        }, 1000, function () {
-            window.location.hash = hash;
         });
     }
 });

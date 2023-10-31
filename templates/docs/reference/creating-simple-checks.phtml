@@ -5,37 +5,40 @@
     Lets get started!</p>
 
 <p>Creating a check begins with creating a file and a class for our check . We need to implement the interface
-    <code>PhpSchool\PhpWorkshop\Check\SimpleCheckInterface</code> which extends from
-    <code>PhpSchool\PhpWorkshop\Check\CheckInterface</code>. Let's breakdown these methods before we start coding:</p>
+    <doc-code>PhpSchool\PhpWorkshop\Check\SimpleCheckInterface</doc-code> which extends from
+    <doc-code>PhpSchool\PhpWorkshop\Check\CheckInterface</doc-code>. Let's breakdown these methods before we start coding:</p>
 
-<h3 id="get-name"><code>getName()</code></h3>
+<content-header level="h4-code" id="get-name">getName()</content-header>
 <p>This method should just return a <code>string</code> which represents the name of the check. This will be printed on
     the terminal during the verification process. This will be <code>PSR2 Code Check</code> for our check.</p>
 
-<h3 id="get-exercise-interface"><code>getExerciseInterface()</code></h3>
-<p>This method should just return a <code>string</code> which is the FQCN (Fully Qualified Class Name) of the interface
+<content-header level="h4-code" id="get-exercise-interface">getExerciseInterface()</content-header>
+<p>This method should just return a <doc-code>string</doc-code> which is the FQCN (Fully Qualified Class Name) of the interface
     that the exercise needs to implement when requiring our check. Because we don't need any extra information for our
-    check we can just use <code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</code>.</p>
+    check we can just use <doc-code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</doc-code>.</p>
 
-<h3 id="can-run"><code>canRun(ExerciseType $exerciseType)</code></h3>
-<p>This method receives an <code>ExerciseType</code> instance which represents the type of exercise, we use this to
-    inform the workshop which exercise types our check works with: <code>CLI</code>, <code>CGI</code> or <code>CUSTOM</code>. We will support <code>CLI</code> & <code>CGI</code>.</p>
+<content-header level="h4-code" id="can-run">canRun(ExerciseType $exerciseType)</content-header>
+<p>This method receives an <doc-code>ExerciseType</doc-code> instance which represents the type of exercise, we use this to
+    inform the workshop which exercise types our check works with: <doc-code>CLI</doc-code>, <doc-code>CGI</doc-code> or <doc-code>CUSTOM</doc-code>. We will support <doc-code>CLI</doc-code> & <doc-code>CGI</doc-code>.</p>
 
-<h3 id="check"><code>check(ExerciseInterface $exercise, Input $input)</code></h3>
+<content-header level="h4-code" id="check">check(ExerciseInterface $exercise, Input $input)</content-header>
 <p>This is the method where we actually perform our check logic, executing PHP_CodeSniffer. This method receives an instance of
     the current exercise and the input arguments passed to our workshop, which will contain the file name of the student's solution.</p>
 
-<p>This method needs to return an instance of <code>PhpSchool\PhpWorkshop\Result\ResultInterface</code>. Depending on
+<p>This method needs to return an instance of <doc-code>PhpSchool\PhpWorkshop\Result\ResultInterface</doc-code>. Depending on
     whether you want a success or failure to be recorded it will be an instance of
-    <code>PhpSchool\PhpWorkshop\Result\SuccessInterface</code> or
-    <code>PhpSchool\PhpWorkshop\Result\FailureInterface</code>. Learn about results
-    <a href="/docs/reference/result">here</a>.</p>
+    <doc-code>PhpSchool\PhpWorkshop\Result\SuccessInterface</doc-code> or
+    <doc-code>PhpSchool\PhpWorkshop\Result\FailureInterface</doc-code>. Learn about results
+    <a href="/docs/reference/results">here</a>.</p>
 
-<h3 id="get-position"><code>getPosition()</code></h3>
+<content-header level="h4-code" id="get-position">getPosition()</content-header>
+
 <p>This method should return one of two constants
-    <code>PhpSchool\PhpWorkshop\Check\SimpleCheckInterface::CHECK_BEFORE</code>,
-    <code>PhpSchool\PhpWorkshop\Check\SimpleCheckInterface::CHECK_AFTER</code>. This value indicates when the check
+    <doc-code>PhpSchool\PhpWorkshop\Check\SimpleCheckInterface::CHECK_BEFORE</doc-code>,
+    <doc-code>PhpSchool\PhpWorkshop\Check\SimpleCheckInterface::CHECK_AFTER</doc-code>. This value indicates when the check
     should be run.</p>
+
+<content-header id="verification-process">The verification process</content-header>
 
 <p>The process of verifying a student's solution looks something like the following (pseudo code):</p>
 
@@ -57,55 +60,36 @@ foreach ($afterChecks as $check) {
 }
 </code></pre>
 
-<h3 id="before-verifying">Before Verifying</h3>
-<p>When a check uses <code>CHECK_BEFORE</code> mode it is run before the output verification. The process is
+<content-header level="h4" id="before-verifying">Before Verifying</content-header>
+<p>When a check uses <doc-code>CHECK_BEFORE</doc-code> mode it is run before the output verification. The process is
     also short circuited if a check returns a failure. No more checks will be run and the output will
     not be compared.</p>
 
-<h3 id="after-verifying">After Verifying</h3>
-<p>When a check use <code>CHECK_AFTER</code> mode it is run after the output verification. This means that
+<content-header level="h4" id="after-verifying">After Verifying</content-header>
+<p>When a check use <doc-code>CHECK_AFTER</doc-code> mode it is run after the output verification. This means that
     the check is run after the student's solution has been run. After checks are useful for verifying that something
     was actually performed in the students submission, for example, inserting a row into the database.</p>
 
-<?= $this->renderContentHeader('build-check', 'Build the check') ?>
+<content-header id="build-check">Build the check</content-header>
 
 <p>Now - let's build it! We will use the already built tutorial workshop as a base - the finished code is
-    available on the <code>custom-simple-check</code> branch of the
+    available on the <doc-code>custom-simple-check</doc-code> branch of the
     <a href="https://github.com/php-school/simple-math">tutorial repository</a>. We will start fresh from the
-    <code>master</code> branch for this tutorial, so if you haven't already got it, git
+    <doc-code>master</doc-code> branch for this tutorial, so if you haven't already got it, git
     clone it and install the dependencies:</p>
 
-<div class="terminal">
-    <div class="terminal__body">
-        <p>cd projects</p>
-        <p>git clone git@github.com:php-school/simple-math.git</p>
-        <p>cd simple-math</p>
-        <p>composer install</p>
-    </div>
-</div>
+<terminal :lines="['cd projects', 'git clone git@github.com:php-school/simple-math.git', 'cd simple-math', 'composer install']"></terminal>
 
 <p>Our check will run the <a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> tool against the
 student's submission and report a success or failure based on the result.</p>
 
-<h3 id="check-step-1">1. Require the PHP_CodeSniffer tool as a dependency</h3>
+<content-header level="h4" id="check-step-1">1. Require the PHP_CodeSniffer tool as a dependency</content-header>
+<terminal :lines="['composer require squizlabs/php_codesniffer']"></terminal>
 
-<div class="terminal">
-    <div class="terminal__body">
-        <p>composer require squizlabs/php_codesniffer</p>
-    </div>
-</div>
+<content-header level="h4" id="check-step-2">2. Create the folder and class</content-header>
+<terminal :lines="['mkdir src/Check', 'touch src/Check/Psr2Check.php']"></terminal>
 
-<h3 id="check-step-2">2. Create the folder and class</h3>
-
-<div class="terminal">
-    <div class="terminal__body">
-        <p>mkdir src/Check</p>
-        <p>touch src/Check/Psr2Check.php</p>
-    </div>
-</div>
-
-<h3 id="check-step-3">3. Write the class</h3>
-
+<content-header level="h4" id="check-step-3">3. Write the class</content-header>
 <pre><code class="lang-php">&lt?php
 
 namespace PhpSchool\SimpleMath\Check;
@@ -155,15 +139,15 @@ class Psr2Check implements SimpleCheckInterface
 }
 </code></pre>
 
-<p>If the <code>phpcs</code> binary returns a non-zero exit code - a failure occurred: probably the solution did not
+<p>If the <doc-code>phpcs</doc-code> binary returns a non-zero exit code - a failure occurred: probably the solution did not
     pass the coding standard check. So we return a failure with an error message. Otherwise a Success is returned.</p>
 
-<p class="note note-info">As we brought in the tool via Composer, we can rest assured that the binary <code>phpcs</code>
-    is available in our projects <code>vendor</code> directory.</p>
+<note type="info">As we brought in the tool via Composer, we can rest assured that the binary <code>phpcs</code>
+    is available in our projects <doc-code>vendor</doc-code> directory.</note>
 
-<h3 id="check-step-4">4. Register the Check and add a factory</h3>
+<content-header level="h4" id="check-step-4">4. Register the Check and add a factory</content-header>
 <p>Now you need to tell the application about your new check. We need to register a factory.
-    <a href="/docs/reference/container">What's a factory?</a> Open up <code>app/config.php</code> and add an entry for
+    <a href="/docs/reference/container">What's a factory?</a> Open up <doc-code>app/config.php</doc-code> and add an entry for
     your check. The resulting file should look like:</p>
 
 <pre><code class="lang-php">&lt?php
@@ -184,9 +168,9 @@ return [
 ];
 </code></pre>
 
-<p>Note the new entry for <code>Psr2Check::class => object(),</code>. Finally, we need to tell the application about our
-check in <code>app/bootstrap.php</code>. After the application object is created you just call <code>addCheck</code>
-with the name of check class. Your final <code>app/bootstrap.php</code> file should look something like:</p>
+<p>Note the new entry for <doc-code>Psr2Check::class => object(),</doc-code>. Finally, we need to tell the application about our
+check in <doc-code>app/bootstrap.php</doc-code>. After the application object is created you just call <code>addCheck</code>
+with the name of check class. Your final <doc-code>app/bootstrap.php</doc-code> file should look something like:</p>
 
 <pre><code class="lang-php">&lt?php
 
@@ -232,10 +216,10 @@ $app->setBgColour('black');
 return $app;
 </code></pre>
 
-<h3 id="check-step-5">5. Require the check in an exercise</h3>
-<p>Open up the Mean Average exercise file: <code>src/Exercise/Mean.php</code> and add in the following method, take care to import the
-    necessary classes (<code>PhpSchool\PhpWorkshop\ExerciseDispatcher</code> &
-    <code>PhpSchool\SimpleMath\Check\Psr2Check</code>):</p>
+<content-header level="h4" id="check-step-5">5. Require the check in an exercise</content-header>
+<p>Open up the Mean Average exercise file: <doc-code>src/Exercise/Mean.php</doc-code> and add in the following method, take care to import the
+    necessary classes (<doc-code>PhpSchool\PhpWorkshop\ExerciseDispatcher</doc-code> &
+    <doc-code>PhpSchool\SimpleMath\Check\Psr2Check</doc-code>):</p>
 
 <pre><code class="lang-php">public function configure(ExerciseDispatcher $dispatcher)
 {
@@ -245,10 +229,10 @@ return $app;
 <p>Hopefully you will remember this from the previous section - we are just telling the exercise to use our custom
     check!</p>
 
-<?= $this->renderContentHeader('try-it-out', 'Try it out!') ?>
+<content-header id="try-it-out">Try it out!</content-header>
 
 <p>Run the workshop and select the Mean Average exercise. Verifying a solution which does not pass the
-    <code>PSR2</code> coding standard will yield
+    <doc-code>PSR2</doc-code> coding standard will yield
     the output:</p>
 <a href="/img/custom-simple-check-psr2-fail.png">
     <img src="/img/custom-simple-check-psr2-fail.png" class="doc-terminal-screen">
@@ -258,30 +242,25 @@ return $app;
     <img src="/img/custom-simple-check-psr2-success.png" class="doc-terminal-screen">
 </a>
 
-<?= $this->renderContentHeader('custom-interface', 'Custom Interface') ?>
+<content-header id="custom-interface">Custom Interface</content-header>
 <p>When you build checks, sometimes you need extra information from the exercise to configure the check. For
     example, the <a href="https://github.com/php-school/php-workshop/blob/master/src/Check/FunctionRequirementsCheck.php">FunctionRequirementsCheck</a> check
-    calls <code>getRequiredFunctions()</code> & <code>getBannedFunctions()</code> on the exercise, these methods are defined
-    on the extra interface <code>FunctionRequirementsExerciseCheck</code> which the exercise must implement if it requires the
-    <code>FunctionRequirementsCheck</code> check.</p>
+    calls <doc-code>getRequiredFunctions()</doc-code> & <doc-code>getBannedFunctions()</doc-code> on the exercise, these methods are defined
+    on the extra interface <doc-code>FunctionRequirementsExerciseCheck</doc-code> which the exercise must implement if it requires the
+    <doc-code>FunctionRequirementsCheck</doc-code> check.</p>
 
-<p>Maybe we want to make the standard for our check configurable - it could be <code>PSR1</code>, <code>PSR2</code>,
-    <code>PEAR</code> or any of the other
-    standards PHP_CodeSniffer supports. We will make this configuration available through the method <code>getStandard()</code>.</p>
+<p>Maybe we want to make the standard for our check configurable - it could be <doc-code>PSR1</doc-code>, <code>PSR2</code>,
+    <doc-code>PEAR</doc-code> or any of the other
+    standards PHP_CodeSniffer supports. We will make this configuration available through the method <doc-code>getStandard()</doc-code>.</p>
 
-<h3 id="exercise-step-1">1. Define our interface</h3>
+<content-header level="h4" id="exercise-step-1">1. Define our interface</content-header>
 <p>We need an interface to define our required method. Let's do that first:</p>
 
-<div class="terminal">
-    <div class="terminal__body">
-        <p>mkdir src/ExerciseCheck</p>
-        <p>touch src/ExerciseCheck/Psr2ExerciseCheck.php</p>
-    </div>
-</div>
+<terminal :lines="['mkdir src/ExerciseCheck', 'touch src/ExerciseCheck/Psr2ExerciseCheck.php']"></terminal>
 
 <p>Now would probably be a good idea to change our check name to something a little less specific, but we'll leave that
-up to you, probably <code>PhpCsCheck</code> might be a little better. Okay, lets define our interface. We want the one
-method <code>getStandard</code> to return a string representing one of the
+up to you, probably <doc-code>PhpCsCheck</doc-code> might be a little better. Okay, lets define our interface. We want the one
+method <doc-code>getStandard</doc-code> to return a string representing one of the
     <a href="https://github.com/squizlabs/PHP_CodeSniffer/tree/master/CodeSniffer/Standards">available standards</a>:
 </p>
 
@@ -299,9 +278,9 @@ interface Psr2ExerciseCheck
 }
 </code></pre>
 
-<h3 id="exercise-step-2">2. Update our check</h3>
-<p>We need to update the <code>getExerciseInterface()</code> method in our check to return the name of our new
-    interface. Open up <code>src/Check/Psr2Check.php</code> and change the <code>getExerciseInterface()</code> method to
+<content-header level="h4" id="exercise-step-2">2. Update our check</content-header>
+<p>We need to update the <doc-code>getExerciseInterface()</doc-code> method in our check to return the name of our new
+    interface. Open up <doc-code>src/Check/Psr2Check.php</doc-code> and change the <doc-code>getExerciseInterface()</doc-code> method to
     match below:</p>
 
 <pre><code class="lang-php">public function getExerciseInterface()
@@ -310,7 +289,7 @@ interface Psr2ExerciseCheck
 }
 </code></pre>
 
-<p>We also need to modify our <code>check()</code> method to actually use this data:</p>
+<p>We also need to modify our <doc-code>check()</doc-code> method to actually use this data:</p>
 
 <pre><code class="lang-php">public function check(ExerciseInterface $exercise, $fileName)
 {
@@ -337,11 +316,11 @@ interface Psr2ExerciseCheck
 </code></pre>
 <p>We've added a couple of things here - we make sure the exercise actually implements our required interface, if not
 we throw an exception. We check if the standard provided is in a small subset of supported standards, and finally,
-we pass the standard along to the <code>phpcs</code> command.</p>
+we pass the standard along to the <doc-code>phpcs</doc-code> command.</p>
 
-<h3 id="exercise-step-3">3. Update our exercise</h3>
+<content-header level="h4" id="exercise-step-3">3. Update our exercise</content-header>
 <p>Now we have to implement the new interface and methods in our exercise, for our Mean Average exercise, we will
-still require <code>PSR2</code> as the coding standard. The final exercise should look similar to below:</p>
+still require <doc-code>PSR2</doc-code> as the coding standard. The final exercise should look similar to below:</p>
 
 <pre><code class="lang-php">&lt;?php
 
@@ -417,8 +396,8 @@ class Mean extends AbstractExercise implements
 <p>You should be able to run it just the same as before we added the extra interface. You can now easily update your
     exercise to use a different coding standard without modifying the check.</p>
 
-<p class="note note-success">Maybe you could try updating the check to take into account the standard when returning the
-    result? It currently has <code>PSR2</code> hardcoded in the message!</p>
+<note type="success">Maybe you could try updating the check to take into account the standard when returning the
+    result? It currently has <doc-code>PSR2</doc-code> hardcoded in the message!</note>
 
-<p>You can see the finished, working code on the <code>custom-interface-check</code> branch of the
+<p>You can see the finished, working code on the <doc-code>custom-interface-check</doc-code> branch of the
     <a href="https://github.com/php-school/simple-math">tutorial repository</a>.</p>

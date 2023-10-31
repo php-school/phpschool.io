@@ -8,19 +8,21 @@
 
 <content-header id="check-types">Check Types</content-header>
 <p>There are two types of checks: <doc-code>Simple</doc-code> & <doc-code>Listener</doc-code>. What are the differences? Read on!</p>
-<h3 id="simple-checks">Simple Checks</h3>
+
+<content-header level="h4" id="simple-checks">Simple Checks</content-header>
 <p>Simple checks are basically a block of code that can run before or after verifying the output of the students
     solution. There can be many checks, which will be run sequentially - each check can return a success or
     failure and this will be injected into the result set.</p>
 
-<h3 id="listener-checks">Listener Checks</h3>
+<content-header level="h4" id="listener-checks">Listener Checks</content-header>
 <p>Listener checks are more advanced - when you add a listener type check, it will be passed an event dispatcher
     (<doc-code>PhpSchool\PhpWorkshop\Event\EventDispatcher</doc-code>) which can be used to listen to various events
     throughout the life-cycle of verifying. Learn more about Listener Checks and the events which can be listened to in
     the <a href="/docs/reference/creating-listener-checks">Listener checks documentation</a>.</p>
 
 <content-header id="how-to-use">How to use a check in your exercise?</content-header>
-<h3 id="step-1">1. Tell the dispatcher about your check requirements</h3>
+
+<content-header level="h4" id="step-1">1. Tell the dispatcher about your check requirements</content-header>
 <p>In order to specify that your exercise requires additional checks you should implement the method
     <doc-code>configure</doc-code> in your exercise. It will be passed an instance of <doc-code>ExerciseDispatcher</doc-code> which
     you can interact with and tell it which checks your exercise requires. The method <doc-code>configure</doc-code> is already
@@ -45,7 +47,7 @@
     also run the <doc-code>ComposerCheck</doc-code> check. To learn what the <doc-code>ComposerCheck</doc-code> check actually does go
     to the <a href="/docs/reference/bundled-checks">Bundled Checks</a> page.</p>
 
-<h3 id="step-2">2. Implement the required interface and methods</h3>
+<content-header level="h4" id="step-2">2. Implement the required interface and methods</content-header>
 <p>The second and final step is to implement the correct interface in your exercise. If you do not do this the workshop
     framework will throw an exception when it tries to run the check. Each check has an interface you need to implement
     when requiring it in your exercise. This interface can be found by visiting the

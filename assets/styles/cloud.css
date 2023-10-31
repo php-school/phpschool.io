@@ -145,7 +145,7 @@
   }
 
   & > p {
-      @apply mb-4 text-sm text-gray-900;
+      @apply mb-4 text-sm text-gray-900 leading-6;
   }
 
   & img {
@@ -165,7 +165,7 @@
   }
 
   & pre > code {
-    @apply block p-4 my-4 text-xs  bg-gray-900 rounded-md overflow-y-scroll;
+    @apply block p-4 mb-4 text-xs  bg-gray-900 rounded-md overflow-y-scroll;
   }
 
   & ul {

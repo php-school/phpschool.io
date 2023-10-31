@@ -31,6 +31,7 @@ import php from 'highlight.js/lib/languages/php';
 import shell from 'highlight.js/lib/languages/shell';
 import javascript from 'highlight.js/lib/languages/javascript';
 import markdown from 'highlight.js/lib/languages/markdown';
+import json from 'highlight.js/lib/languages/json';
 import Terminal from "./components/Website/Docs/Terminal.vue";
 import ContentHeader from "./components/Website/Docs/ContentHeader.vue";
 import DocCode from "./components/Website/Docs/Code.vue";
@@ -39,11 +40,15 @@ import DocList from "./components/Website/Docs/List.vue";
 import DocListItem from "./components/Website/Docs/ListItem.vue";
 import DocTable from "./components/Website/Docs/Table.vue";
 import ExerciseTypes from "./components/Website/Docs/ExerciseTypes.vue";
+import ResultRendererMappings from "./components/Website/Docs/ResultRendererMappings.vue";
+import BundledChecks from "./components/Website/Docs/BundledChecks.vue";
+import EventList from "./components/Website/Docs/EventList.vue";
 
 hljs.registerLanguage('php', php);
 hljs.registerLanguage('shell', shell);
 hljs.registerLanguage('shell', javascript);
 hljs.registerLanguage('md', markdown);
+hljs.registerLanguage('json', json);
 
 
 const components = {
@@ -72,7 +77,10 @@ const components = {
     DocList,
     DocListItem,
     DocTable,
-    ExerciseTypes
+    ExerciseTypes,
+    ResultRendererMappings,
+    BundledChecks,
+    EventList
 }
 
 const app = createApp({components});

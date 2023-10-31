@@ -134,7 +134,7 @@ var_dump($file2->__toString());
 var_dump($file2->getContents());
 //Outputs: "contents-of-the-file"</code></pre>
 
-<h3 id="different-entry-point">Using a different entry point file</h3>
+<content-header level="h4" id="different-entry-point">Using a different entry point file</content-header>
 <p>If your solution looked like the below where your entry point is named <doc-code>index.php</doc-code>, you can provide the optional third parameter to the static constructor: <doc-code>fromDirectory</doc-code>. It must be the relative path of the file from the solution base directory.</p>
 
 <pre><code>/path/to/workshop/exercises/exercise-name
@@ -153,7 +153,7 @@ $solution = DirectorySolution::fromDirectory('/path/to/workshop/exercises/exerci
 <note type="info">The convention is for the entry point file to be named <doc-code>solution.php</doc-code> to keep things simple.</note>
 <note type="danger"><doc-code>DirectorySolution</doc-code> will throw an instance of <doc-code>InvalidArgumentException</doc-code> if the entry point does not exist in the directory given.</note>
 
-<h3 id="excluding-files">Excluding files from the solution directory</h3>
+<content-header level="h4" id="excluding-files">Excluding files from the solution directory</content-header>
 <p>The method <doc-code>getFiles</doc-code> is used to find all the files in an solution. One use case is to display the
     contents of the files to the student when they have finished an exercise. This way they can compare notes. Sometimes
     you may want some files to be excluded from this. Perhaps you don't want the <doc-code>composer.lock</doc-code> file to be
@@ -175,7 +175,7 @@ $solution = DirectorySolution::fromDirectory(
 
 <p>It is not actually necessary to exclude <doc-code>composer.lock</doc-code> or <doc-code>vendor</doc-code> as these are automatically appended to the list of excludes when using the static constructor <doc-code>fromDirectory</doc-code>.</p>
 
-<h3 id="overriding-excluded-files">Overriding the default excluded files</h3>
+<content-header level="h4" id="overriding-excluded-files">Overriding the default excluded files</content-header>
 <p>The following files are excluded by default when using the static constructor <doc-code>fromDirectory</doc-code>:</p>
 <ul>
     <li>composer.lock</li>
@@ -197,7 +197,7 @@ $solution = new DirectorySolution(
 
 <note type="info">The argument order for <doc-code>__construct</doc-code> and <doc-code>fromDirectory</doc-code> are slightly different. <doc-code>__construct</doc-code> is: $directory, $entryPoint, $excludes. <doc-code>fromDirectory</doc-code> is: $directory, $excludes, $entryPoint.</note>
 
-<h3 id="using-composer-libs">Using Composer Libraries in your solution</h3>
+<content-header level="h4" id="using-composer-libs">Using Composer Libraries in your solution</content-header>
 <p>If you use a library via Composer then you should include the <doc-code>composer.json</doc-code> and <doc-code>composer.lock</doc-code> file in the solution base directory. <doc-code>DirectorySolution</doc-code> will detect the Composer files automatically. If there are Composer files available, the workshop will run a <doc-code>composer install</doc-code> in the solution base directory before invoking the solution.</p>
 
 <note type="success">This means that you don't need to commit the vendor directory for each reference solution.
@@ -231,14 +231,14 @@ $solution = new DirectorySolution(
 }
 </code></pre>
 
-<h3 id="get-entry-point"><code>getEntryPoint()</code></h3>
+<content-header level="h4-code" id="get-entry-point">getEntryPoint()</content-header>
 <p>This method should return the name of the file which should be the entry point to your solution, in absolute form.</p>
 
-<h3 id="get-files"><code>getFiles()</code></h3>
+<content-header level="h4-code" id="get-files">getFiles()</content-header>
 <p>This method should return an array of files. Each file should be represented by an instance of <doc-code>PhpSchool\PhpWorkshop\Solution\SolutionFile</doc-code>.</p>
 
-<h3 id="get-base-directory"><code>getBaseDirectory()</code></h3>
+<content-header level="h4-code" id="get-base-directory">getBaseDirectory()</content-header>
 <p>This should return the absolute path to the directory of the solution.</p>
 
-<h3 id="has-composer-file"><code>hasComposerFile()</code></h3>
+<content-header level="h4-code" id="has-composer-file">hasComposerFile()</content-header>
 <p>This should return a boolean value depending on whether the solution has a <doc-code>composer.lock</doc-code> file present. If it does, before invoking the solution, <doc-code>composer install</doc-code> will be executed in the solution base directory. This saves you having to bundle the vendor directory in your workshop.</p>
