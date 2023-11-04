@@ -106,8 +106,7 @@ onUnmounted(() => {
         </header>
 
         <!-- Information Section -->
-        <section
-                class="bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed items-stretch py-20 sm:py-40 overflow-hidden">
+        <section class="bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed items-stretch py-20 sm:py-40 overflow-hidden">
 
             <!-- Section 1 -->
             <InfoSection>
@@ -117,35 +116,31 @@ onUnmounted(() => {
                             <img class="cover " src="../../../img/cloud/pattern-bg-square.svg" alt="">
                             <div class="absolute mx-auto md:left-auto scale-75 sm:scale-100">
                                 <div class="fadeIn opacity-0 translate-y-6 transition-all ease-in duration-[1000ms] lg:mb-36">
-                                    <MockWorkshopExerciseList/>
+                                    <MockWorkshopExerciseList />
                                 </div>
                             </div>
-                        </div>
-                        <div
-                                class="absolute -right-[8%]  top-[90] xs:left-[120px] sm:left-[250px] md:left-[60%] md:top-[80] lg:-right-[10%] lg:top-[30] xl:top-[90] scale-[0.75] md:scale-100">
-                            <div class="fadeIn opacity-0 translate-x-10 transition-all ease-in duration-[1000ms]">
-                                <MockWorkshopList/>
+                            <div
+                                    class="absolute -right-4  top-1/4  md:left-4  md:top-[80] lg:top-[30] xl:top-[90] scale-75 sm:scale-95 md:scale-100">
+                                <div class="fadeIn opacity-0 translate-x-10 transition-all ease-in duration-[1000ms]">
+                                    <MockWorkshopList />
+                                </div>
                             </div>
-                        </div>
-                        <div class=" hidden absolute sm:block -bottom-36 right-10  lg:-bottom-60 lg:left-10 2xl:left-60 z-50">
-                            <!-- <div class="ellipse bobbing-animation"></div> -->
-                            <img class="bobbing-animation w-auto h-auto "
-                                 src="../../../img/cloud/php-elephant-bandana.svg" alt=""
-                                 srcset="">
+                            <div class=" hidden absolute sm:block -bottom-36 right-10  lg:-bottom-60 lg:left-10 2xl:left-60 z-50">
+                                <!-- <div class="ellipse bobbing-animation"></div> -->
+                                <img class="bobbing-animation w-auto h-auto " src="../../../img/cloud/php-elephant-bandana.png" alt=""
+                                     srcset="">
+                            </div>
                         </div>
                     </div>
                 </template>
 
                 <template #right>
-                    <div class="w-full lg:w-1/3 space-y-8 sm:px-5 mt-28 sm:mt-40 text-left">
+                    <div class="w-full lg:w-1/3 space-y-8 sm:px-5 text-left mt-28 md:mt-36 lg:mt-0">
                         <h2 class="font-work-sans text-white font-bold text-5xl">Open Source PHP Workshops</h2>
                         <p class="font-work-sans text-white font-base text-lg">PHP School is a set of workshops each
-                            designed to teach a specific topic, tool, technology. Some beginner, some advanced. Each
-                            workshop consists of
-                            multiple exercises where your task is to code a solution to solve a problem. All our
-                            workshops are open
-                            source, you can contribute to them also, with bug fixes, new exercises, or your own
-                            workshop.</p>
+                            designed to teach a specific topic, tool, technology. Some beginner, some advanced. Each workshop consists of
+                            multiple exercises where your task is to code a solution to solve a problem. All our workshops are open
+                            source, you can contribute to them also, with bug fixes, new exercises, or your own workshop.</p>
                         <div class="flex justify-start">
                             <Button href="/cloud">GET STARTED</Button>
                         </div>
