@@ -2,9 +2,12 @@
 
 import { TrophyIcon } from '@heroicons/vue/24/outline'
 import { UserCircleIcon } from '@heroicons/vue/24/solid'
+import GitHubIcon from "./Icons/GitHubIcon.vue";
+import Button from "./Website/Button.vue";
 
 export default {
   components: {
+    Button, GitHubIcon,
     TrophyIcon,
     UserCircleIcon
   },
@@ -50,15 +53,11 @@ export default {
 <template>
   <div class="grow-0 w-1/3 mx-auto mt-10 bg-gray-800 p-8 rounded-xl">
     <div class="flex justify-between">
-      <button v-cloak v-if="!student" @click="login"
-              class="w-1/2 flex items-center p-2 bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 font-medium focus:outline-none focus:ring-[#24292F]/50 text-center text-white rounded-lg">
-        <svg class="h-10 w-10 mr-4" role="img" focusable="false" viewBox="0 0 24 24" aria-label="GitHub"
-             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path
-              d="M12,2 C14.777778,2 17.1388887,2.99290757 19.0833333,4.9787234 C21.027778,6.96453923 22,9.3758863 22,12.212766 C22,13.6312054 21.722222,15.0141842 21.1666667,16.3617021 C20.6111113,17.7092201 19.8125,18.8439714 18.7708333,19.7659574 C17.7291667,20.6879435 16.5138887,21.4326243 15.125,22 C14.7083333,22 14.5,21.787234 14.5,21.3617021 L14.5,20.4042553 L14.5,18.5957447 C14.5,17.7446809 14.2916667,17.106383 13.875,16.6808511 C16.9305553,16.3971629 18.4583333,14.6950352 18.4583333,11.5744681 C18.4583333,10.5815605 18.1111113,9.73049668 17.4166667,9.0212766 C17.6944447,8.17021277 17.625,7.24822672 17.2083333,6.25531915 C16.652778,6.1134754 15.75,6.46808511 14.5,7.31914894 C13.6666667,7.03546077 12.8333333,6.89361702 12,6.89361702 C11.1666667,6.89361702 10.3333333,7.03546077 9.5,7.31914894 C8.94444467,6.89361702 8.42361133,6.60992885 7.9375,6.46808511 C7.45138867,6.32624136 7.13888867,6.25531915 7,6.25531915 L6.79166667,6.25531915 C6.375,7.24822672 6.30555533,8.17021277 6.58333333,9.0212766 C6.027778,9.73049668 5.75,10.5815605 5.75,11.5744681 C5.75,14.6950352 7.20833333,16.3971629 10.125,16.6808511 C9.847222,16.9645392 9.63888867,17.4609927 9.5,18.1702128 C8.25,18.7375884 7.277778,18.4539009 6.58333333,17.3191489 C6.16666667,16.6099289 5.68055533,16.2553191 5.125,16.2553191 C4.70833333,16.2553191 4.534722,16.3262414 4.60416667,16.4680851 C4.67361133,16.6099289 4.847222,16.7517733 5.125,16.893617 C5.54166667,17.1773052 5.88888867,17.6737586 6.16666667,18.3829787 C6.58333333,19.5177307 7.69444467,19.8723404 9.5,19.4468085 L9.5,20.7234043 L9.5,21.3617021 C9.5,21.787234 9.29166667,22 8.875,22 C6.79166667,21.2907799 5.125,20.0496456 3.875,18.2765957 C2.625,16.5035459 2,14.4822693 2,12.212766 C2,9.3758863 2.972222,6.96453923 4.91666667,4.9787234 C6.86111133,2.99290757 9.222222,2 12,2 L12,2 Z"></path>
-        </svg>
-        <span>Log in with GitHub</span>
-      </button>
+
+      <Button v-if="!student" @click="login" class="flex items-center px-2 py-2">
+        <GitHubIcon class="h-5 w-5 mr-2" /><span class="text-xs font-normal ">Log In with github</span>
+      </Button>
+
       <div v-cloak v-if="student" class="flex items-center space-x-4">
         <img v-if="student.profile_picture" class="w-10 h-10 rounded-full" :src="student.profile_picture" alt="{{ student.name }}">
         <div v-if="!student.profile_picture" class="w-10 h-10 rounded-full">
