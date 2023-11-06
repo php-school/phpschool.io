@@ -62,7 +62,7 @@ const steps = [
 
 <template>
     <HomeSection>
-        <template #title>PHP School on the <br>Command Line</template>
+        <template #title>Getting Started</template>
 
         <div class="bg-gray-900 text-white p-4 flex flex-wrap">
             <ol class="mx-auto w-full flex flex-col">
