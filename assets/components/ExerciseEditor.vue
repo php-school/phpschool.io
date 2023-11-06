@@ -542,9 +542,9 @@ export default {
                             </li>
                             <li>
                                 <div class="flex items-center">
-                  <span v-if="exerciseCompleted" title="You've already completed this exercise!">
-                    <TrophyIcon class="h-6 w-6 text-yellow-400"/>
-                  </span>
+                                  <span v-if="exerciseCompleted" title="You've already completed this exercise!">
+                                    <TrophyIcon class="h-6 w-6 text-yellow-400"/>
+                                  </span>
                                 </div>
                             </li>
                         </ol>
