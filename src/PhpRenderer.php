@@ -131,16 +131,6 @@ class PhpRenderer
         return array_map(fn ($preload) => $preload['url'], $this->preload);
     }
 
-    public function renderDocHeader(string $id, string $title, string $file = null): string
-    {
-        return $this->fetch('includes/doc-title.phtml', ['id' => $id, 'title' => $title, 'file' => $file]);
-    }
-
-    public function renderContentHeader(string $id, string $title): string
-    {
-        return $this->fetch('includes/content-header.phtml', ['id' => $id, 'title' => $title]);
-    }
-
     public function slugClass(string $class): string
     {
         return str_replace('\\', '-', strtolower($class));

@@ -1,11 +1,11 @@
-<p>You can alter the colours, logo and text of your workshop very easily. Look in <code>app/bootstrap.php</code> and you should see the following code.</p>
+<p>You can alter the colours, logo and text of your workshop very easily. Look in <doc-code>app/bootstrap.php</doc-code> and you should see the following code.</p>
 
 <pre><code class="lang-php">$app->setLogo($art);
 $app->setFgColour('green');
 $app->setBgColour('black');</code></pre>
 
-<p>You can modify any of these settings. Available colours are black, red, green, yellow, blue, magenta, cyan, white. <code>setLogo</code> takes a <code>string</code> and can be used display ascii art!</p>
-<p>You can set the title of your workshop which will be displayed on the terminal by changing the <code>null</code> argument to <code>Application</code> to a title of your choice. For example:</p>
+<p>You can modify any of these settings. Available colours are black, red, green, yellow, blue, magenta, cyan, white. <doc-code>setLogo</doc-code> takes a <doc-code>string</doc-code> and can be used display ascii art!</p>
+<p>You can set the title of your workshop which will be displayed on the terminal by changing the <doc-code>null</doc-code> argument to <doc-code>Application</doc-code> to a title of your choice. For example:</p>
 
 <pre><code class="lang-php">$app = new Application('My Workshop', __DIR__ . '/config.php');</code></pre>
 

@@ -31,17 +31,11 @@ class DocsAction
         $document = $this->documentation->findSectionByGroupAndSection($group, $section);
         $docContent = $this->renderer->fetch($document->getTemplateFile(), ['doc' => $document]);
 
-        $title = $this->renderer->renderDocHeader(
-            $this->slugify($document->getTitle()),
-            $document->getTitle(),
-            $document->getTemplateFile()
-        );
-
         $this->renderer->addJs('docsearch', 'https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js');
 
         $inner = $this->renderer->fetch('docs.phtml', [
             'docs'      => $this->documentation,
-            'content'   => $title . $docContent,
+            'content'   => $docContent,
             'doc'       => $document,
         ]);
 
@@ -50,10 +44,5 @@ class DocsAction
             'pageDescription' => sprintf('Documentation - %s', $document->getTitle()),
             'content'         => $inner
         ]);
-    }
-
-    private function slugify(string $title): string
-    {
-        return str_replace(' ', '-', strtolower($title));
     }
 }

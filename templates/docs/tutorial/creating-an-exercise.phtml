@@ -152,21 +152,21 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
 <p>Now lets break this down.</p>
 <p>This class represents our exercise, it describes how the programs will be executed, the student's and our reference solution.</p>
 
-<h3 id="abstract-exercise">AbstractExercise</h3>
+<content-header level="h4" id="abstract-exercise">AbstractExercise</content-header>
 <p>The <doc-code>AbstractExercise</doc-code> class implements a few interesting methods for us. Mainly <doc-code>getSolution</doc-code> and <doc-code>getProblem</doc-code>. These methods are responsible for locating your solution and problem files. By default they take your exercise's name, normalise it (remove anything that is not A-Za-z or a dash, lowercase and replace spaces with dashes) and look in the <doc-code>exercises/&lt;normalised-name&gt;/solution</doc-code> and <doc-code>exercises/&lt;normalised-name&gt;/problem</doc-code> folders for files named <doc-code>solution.php</doc-code> and <doc-code>problem.md</doc-code> respectively. There maybe be cases when you need to override these methods, and in that case you probably don't need to extend from <doc-code>AbstractExercise</doc-code>.</p>
 <note type="info">You may need to override the methods <doc-code>getSolution</doc-code> and <doc-code>getProblem</doc-code> if you want to organise your problems and solutions in a different structure. We would advise against this in the name of consistency but if you have a good enough reason then the option is there. There may also be the case that your solution is not simply one file. Jump over to <a href="/docs/reference/exercise-solutions">Exercise Solutions</a> to learn more, if that is the case.</note>
 
-<h3 id="exercise-types">Exercise Type</h3>
+<content-header level="h4" id="exercise-types">Exercise Type</content-header>
 <p>Each exercise must have a type, there are currently two types of exercise: <doc-code>CGI</doc-code>, <doc-code>CLI</doc-code> & <doc-code>CUSTOM</doc-code>. Head over to <a href="/docs/reference/exercise-types">Exercise Types</a> to learn more. We are currently building a
-    <doc-code>CLI</doc-code> type exercise, this means our reference solution and the student's solution programs will be invoked using the PHP CLI binary. The arguments will come from our exercise class. We inform the workshop of our exercise type by returning an instance of <doc-code>ExerciseType</doc-code> from the <doc-code>getType</doc-code> method. <doc-code>ExerciseType</doc-code> is an ENUM. In conjunction with this, our exercise should implement the respective interface. For <doc-code>CLI</doc-code> type exercises this is <doc-code>CliExercise</doc-code>.
+    <doc-code>CLI</doc-code> type exercise, this means our reference solution and the student's solution programs will be invoked using the PHP CLI binary. The arguments will come from our exercise class. We inform the workshop of our exercise type by returning an instance of <doc-code>ExerciseType</doc-code> from the <doc-code>getType</doc-code> method. <doc-code>ExerciseType</doc-code> is an ENUM. In conjunction with this, our exercise should implement the respective interface. For <doc-code>CLI</doc-code> type exercises this is <doc-code>CliExercise</doc-code>.</p>
 
-<h3 id="cli-exercise">CliExercise</h3>
+<content-header level="h4" id="cli-exercise">CliExercise</content-header>
 <p>This interface defines one method: <doc-code>getArgs</doc-code>. This method should return an array of arrays containing string arguments which will be passed to our reference solution and the student's solution at runtime. Each set of arguments will be sent to the solution. So you could essentially run the student's solution as many times as you wanted with different arguments. This method can return random records and random numbers of arguments so that each time the student runs the verification process they receive different arguments. This makes sure the solution is robust.</p>
 <note type="success">Try passing arguments which will test the boundaries of the student's solution, for example using minimum and maximum values and using random values on each invocation.</note>
 <note type="info">Do note that although your implementation of <doc-code>getArgs</doc-code> may return random arguments, your reference solution and the student's solution will always receive the same arguments as the <doc-code>getArgs</doc-code> method is only called once.</note>
 <p>Our exercise simply returns one set of random number of arguments between 0 and 10, each being a random number between 0 and 100.</p>
 
-<h3 id="name-and-description">Name and description</h3>
+<content-header level="h4" id="name-and-description">Name and description</content-header>
 <p>The remaining methods to implement are <doc-code>getName</doc-code> and <doc-code>getDescription</doc-code>. <doc-code>getName</doc-code> is the name of the exercise to be displayed in the menu and <doc-code>getDescription</doc-code> is a short description of the exercise. This is not actually used anywhere yet but is useful when glancing through the code.</p>
 
 <content-header id="registering-exercise">Registering the exercise and adding a factory</content-header>

@@ -14,13 +14,13 @@ const props = defineProps({
             <p v-if="title" class="pb-2 text-sm">{{title}}</p>
             <div class="overflow-x-auto ">
                 <div class="inline-block min-w-full py-2 align-middle">
-                    <table class="min-w-full divide-y divide-gray-300">
+                    <table class="min-w-full divide-y divide-gray-500">
                         <thead>
                         <tr>
-                            <th v-for="col in columns" scope="col" class="text-left text-sm font-semibold text-gray-900 sm:pl-0">{{col}}</th>
+                            <th v-for="col in columns" scope="col" class="text-left text-sm font-semibold text-white sm:pl-0">{{col}}</th>
                         </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200">
+                        <tbody class="divide-y divide-gray-600">
                             <slot></slot>
                         </tbody>
                     </table>

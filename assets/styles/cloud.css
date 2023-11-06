@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
 [v-cloak] {
   display: none;
@@ -138,14 +138,14 @@
 
 /** docs **/
 .docs-content {
-  @apply text-gray-900;
+  @apply text-white;
 
   & hr {
-    @apply border-0 border-b border-[#ccc] border-dotted;
+    @apply border-0 border-b border-gray-600;
   }
 
-  & > p {
-      @apply mb-4 text-sm text-gray-900 leading-6;
+  & > div > p {
+      @apply mb-4 text-sm text-gray-300 leading-6;
   }
 
   & img {
@@ -165,7 +165,7 @@
   }
 
   & pre > code {
-    @apply block p-4 mb-4 text-xs  bg-gray-900 rounded-md overflow-y-scroll;
+    @apply block p-4 mb-4 text-xs  bg-[#2a2c2d] rounded-md overflow-y-scroll;
   }
 
   & ul {

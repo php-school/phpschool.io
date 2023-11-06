@@ -17,13 +17,13 @@ const tabs = [
     <TabGroup as="div" class="">
         <TabList class="flex justify-between">
             <Tab as="template" v-slot="{ selected }" v-for="tab in tabs">
-                <button :class="[selected ? 'border-t border-pink-600 border-x border-x-[#ccc] border-b-0' : 'text-black hover:border-b hover:border-pink-600', 'px-3 py-2 text-lg font-medium w-full border-b border-b-[#ccc] focus:outline-none']">
+                <button :class="[selected ? 'border-t border-pink-600 border-x border-x-gray-600 border-b-0 text-white' : ' hover:border-b hover:border-pink-600', 'px-3 py-2 text-lg font-medium w-full border-b border-b-gray-600 focus:outline-none']">
                     {{tab}}
                 </button>
             </Tab>
         </TabList>
         <TabPanels>
-            <TabPanel class="p-6 border-b border-l border-r border-[#ccc] focus:outline-none">
+            <TabPanel class="p-6 border-b border-l border-r border-gray-600 focus:outline-none">
                 <DocList title="CLI Verify Events">
                     <DocListItem>
                         <EventDescription event="route.pre.resolve.args" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[{name: 'command', type: 'callable'}]">
@@ -102,7 +102,7 @@ const tabs = [
                     </DocListItem>
                 </DocList>
             </TabPanel>
-            <TabPanel class="p-6 border-b border-l border-r border-[#ccc] focus:outline-none">
+            <TabPanel class="p-6 border-b border-l border-r border-gray-600 focus:outline-none">
                 <DocList title="CLI Run Events">
                     <DocListItem>
                         <EventDescription event="route.pre.resolve.args" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[{name: 'command', type: 'callable'}]">
@@ -146,7 +146,7 @@ const tabs = [
                     </DocListItem>
                 </DocList>
             </TabPanel>
-            <TabPanel class="p-6 border-b border-l border-r border-[#ccc] focus:outline-none">
+            <TabPanel class="p-6 border-b border-l border-r border-gray-600 focus:outline-none">
                 <DocList title="CGI Verify Events">
                     <DocListItem>
                         <EventDescription event="route.pre.resolve.args" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[{name: 'command', type: 'callable'}]">
@@ -225,7 +225,7 @@ const tabs = [
                     </DocListItem>
                 </DocList>
             </TabPanel>
-            <TabPanel class="p-6 border-b border-l border-r border-[#ccc] focus:outline-none">
+            <TabPanel class="p-6 border-b border-l border-r border-gray-600 focus:outline-none">
                 <DocList title="CGI Run Events">
                     <DocListItem>
                         <EventDescription event="route.pre.resolve.args" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[{name: 'command', type: 'callable'}]">

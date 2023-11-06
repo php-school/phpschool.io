@@ -1,3 +1,3 @@
 <template>
-    <li class="py-4 border-b border-[#f0f4f7] last:border-none"><slot></slot></li>
+    <li class="py-4 border-b border-gray-600 last:border-none"><slot></slot></li>
 </template>
