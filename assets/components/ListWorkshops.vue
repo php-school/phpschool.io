@@ -52,7 +52,7 @@ const resetState = () => {
 </script>
 
 <template>
-    <site-nav compact :links="links" :show-login-button="false">
+    <site-nav compact :links="links" :show-login-button="student === undefined">
         <template v-slot:nav-after>
             <ul v-if="student" class="order-3">
                 <li>

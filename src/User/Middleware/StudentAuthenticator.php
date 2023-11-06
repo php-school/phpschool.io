@@ -35,7 +35,7 @@ class StudentAuthenticator
         $student = $this->session->get('student');
 
         //if on cloud home page allow guests
-        if ($student === null && $path === '/cloud') {
+        if ($student === null && $path === '/cloud/workshops') {
             return $handler->handle($request);
         }
 
@@ -44,6 +44,6 @@ class StudentAuthenticator
             return $handler->handle($request);
         }
 
-        return $this->redirect('/cloud');
+        return $this->redirect('/cloud/workshops');
     }
 }

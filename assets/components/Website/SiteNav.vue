@@ -58,7 +58,7 @@ onUnmounted(() => {
             <!-- Logo -->
             <figure class="text-white ">
                 <a href="/">
-                    <Logo class="h-10 w-10 md:h-20 md:w-20" />
+                    <Logo :class="[compact ? 'h-7 w-7' : 'h-10 w-10 md:h-20 md:w-20']" />
                 </a>
             </figure>
 
@@ -70,25 +70,19 @@ onUnmounted(() => {
                         <a href="/" class="text-white text-xs uppercase hover:text-pink-500 cursor-pointer transition duration-150">Home</a>
                     </li>
                     <li>
-                        <a href="/cloud"
-                        class="text-white text-xs uppercase hover:text-pink-500 cursor-pointer transition duration-150">Cloud</a>
+                        <a href="/cloud/workshops" class="text-white text-xs uppercase hover:text-pink-500 cursor-pointer transition duration-150">Workshops</a>
                     </li>
-                    <li><a href="#"
-                        class="text-white text-xs uppercase hover:text-pink-500 cursor-pointer transition duration-150">Local</a>
+                    <li><a href="/offline" class="text-white text-xs uppercase hover:text-pink-500 cursor-pointer transition duration-150">Offline</a>
                     </li>
-                    <li><a href="#"
-                        class="text-white text-xs uppercase hover:text-pink-500 cursor-pointer transition duration-150">Support</a>
-                    </li>
-
 
                     <!-- DROPDOWN START -->
                     <Menu as="li" class="relative text-white text-xs uppercase mt-1" v-slot="{ open }">
                         <div class="group">
                             <MenuButton :class="open ? 'text-pink-500' : 'text-white'"
-                                class="inline-flex w-full justify-center items-center  uppercase text-xs group-hover:text-pink-500 cursor-pointer transition duration-200">
+                                class="inline-flex w-full justify-center items-center  uppercase text-xs group-hover:text-pink-500 cursor-pointer transition duration-200 focus:outline-none">
                                 For Developers
                                 <ChevronDownIcon :class="open ? 'rotate-180 text-pink-500' : ''"
-                                    class="ml-2 h-5 w-5 text-gray-400 transition duration-200 group-hover:text-pink-500"
+                                    class="ml-2 h-5 w-5 text-gray-400 transition duration-200 group-hover:text-pink-500 focus:outline-none"
                                     aria-hidden="true" />
                             </MenuButton>
                         </div>
@@ -98,17 +92,13 @@ onUnmounted(() => {
                             leave-active-class="transition ease-in duration-75"
                             leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                             <MenuItems
-                                class="absolute text-left right-0 z-40 mt-4 w-56 origin-top-right rounded-md bg-gray-800 shadow-brand-shadow ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                class="absolute text-left right-0 z-40 mt-4 w-56 origin-top-right rounded-md bg-gray-800 shadow-brand-shadow focus:outline-none">
                                 <div class="py-1">
                                     <MenuItem v-slot="{ active }">
-                                    <a href="/docs"
-                                        :class="[active ? 'bg-gray-700 text-pink-500 ' : 'text-white', 'block px-4 py-4 text-xs hover:no-underline']">Build
-                                        a workshop</a>
+                                        <a href="/docs" :class="[active ? 'bg-gray-700 text-pink-500 ' : 'text-white', 'block px-4 py-4 text-xs hover:no-underline']">Workshop documentation</a>
                                     </MenuItem>
                                     <MenuItem v-slot="{ active }">
-                                    <a href="/submit"
-                                        :class="[active ? 'bg-gray-700 text-pink-500' : 'text-white', 'block px-4 py-4 text-xs hover:no-underline']">Submit
-                                        your workshop</a>
+                                        <a href="/submit" :class="[active ? 'bg-gray-700 text-pink-500' : 'text-white', 'block px-4 py-4 text-xs hover:no-underline']">Submit your workshop</a>
                                     </MenuItem>
                                 </div>
                             </MenuItems>
@@ -147,13 +137,12 @@ onUnmounted(() => {
 
             <!-- Sign In Button -->
             <div v-if="showLoginButton" class="hidden sm:block">
-                <Button href=" /cloud" class="flex items-center px-2 py-2" :class="{'my-0': compact}">
+                <Button href="/cloud/workshops" class="flex items-center px-2 py-2" :class="{'!my-0': compact}">
                     <GitHubIcon class="h-5 w-5 mr-2" /><span class="text-xs font-normal ">Log In with github</span>
                 </Button>
             </div>
 
             <slot name="nav-after"></slot>
-
         </div>
         <!-- Mobile Menu Links and Sign In Button (Hidden by Default) -->
         <div :class="mobileMenuVisible ? 'block ' : 'hidden sm:hidden '">
@@ -162,8 +151,6 @@ onUnmounted(() => {
                     class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">cloud</a>
                 <a href="#"
                     class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">local</a>
-                <a href="#"
-                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">support</a>
                 <a href="#"
                     class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">build
                     a workshop</a>
