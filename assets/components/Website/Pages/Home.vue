@@ -269,5 +269,4 @@ onMounted(() => {
   <GettingStarted />
   <TheWorkshops />
   <BuildYourOwn />
-  <Terminal />
 </template>
