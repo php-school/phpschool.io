@@ -91,6 +91,15 @@ $errors = $app->addErrorMiddleware(
     $container->get(LoggerInterface::class)
 );
 
+$app->get('/offline', function (Request $request, Response $response, PhpRenderer $renderer) {
+
+    return $renderer->render($response, 'layouts/layout.phtml', [
+        'pageTitle'       => 'PHP School Offline',
+        'pageDescription' => 'How to run PHP School on your own computer',
+        'content'         => '<Offline></Offline>'
+    ]);
+});
+
 $app->get('/install', function (Request $request, Response $response, PhpRenderer $renderer) {
     $inner = $renderer->fetch('install.phtml');
     return $renderer->render($response, 'layouts/layout.phtml', [
@@ -101,8 +110,6 @@ $app->get('/install', function (Request $request, Response $response, PhpRendere
 });
 
 $app->get('/docs[/{group}[/{section}]]', DocsAction::class);
-
-
 
 $app->get('/submit', function (Request $request, Response $response, PhpRenderer $renderer) {
     return $renderer->render($response, 'layouts/layout.phtml', [
@@ -222,7 +229,7 @@ $app
         $group->get('/logout', StudentLogout::class);
         $group->post('/workshop/{workshop}/exercise/{exercise}/reset', ResetStateFromEditor::class);
 
-        $group->get('', ListWorkshops::class);
+        $group->get('/workshops', ListWorkshops::class);
         $group->get('/workshop/{workshop}/exercise/{exercise}/editor', ExerciseEditor::class);
         $group->post('/workshop/{workshop}/exercise/{exercise}/run', RunExercise::class)->add($rateLimiter);
         $group->post('/workshop/{workshop}/exercise/{exercise}/verify', VerifyExercise::class)->add($rateLimiter);

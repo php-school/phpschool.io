@@ -43,6 +43,9 @@ import ExerciseTypes from "./components/Website/Docs/ExerciseTypes.vue";
 import ResultRendererMappings from "./components/Website/Docs/ResultRendererMappings.vue";
 import BundledChecks from "./components/Website/Docs/BundledChecks.vue";
 import EventList from "./components/Website/Docs/EventList.vue";
+import Offline from "./components/Website/Pages/Offline.vue";
+import Heading from "./components/Website/Pages/Home/Heading.vue";
+import DocTitle from "./components/Website/Docs/Title.vue";
 
 hljs.registerLanguage('php', php);
 hljs.registerLanguage('shell', shell);
@@ -71,6 +74,7 @@ const components = {
     Events,
     Post,
     Terminal,
+    DocTitle,
     ContentHeader,
     DocCode,
     Note,
@@ -80,7 +84,9 @@ const components = {
     ExerciseTypes,
     ResultRendererMappings,
     BundledChecks,
-    EventList
+    EventList,
+    Offline,
+    Heading
 }
 
 const app = createApp({components});
