@@ -4,7 +4,7 @@
             <div class="horizontal-divider"></div>
         </div>
         <div class="max-w-[2048px] h-auto mx-auto px-9 mt-16">
-            <div>
+            <div v-if="$slots.title">
                 <div class="flex flex-row w-full mb-10">
                     <div class="w-[20px] border-l-4 border-pink-600 border-solid h-12"></div>
                     <div>
