@@ -11,6 +11,17 @@ class Post
     {
         $this->meta = $meta;
         $this->content = $content;
+
+        $this->content = preg_replace_callback(
+            '/<pre><code class="language-shell">(.*?)<\/code><\/pre>/s',
+            function ($matches) {
+                return sprintf(
+                    "<terminal :lines='%s'></terminal>",
+                    json_encode(explode("\n", $matches[1]), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_THROW_ON_ERROR),
+                );
+            },
+            $this->content
+        );
     }
 
     public function getMeta(): PostMeta
