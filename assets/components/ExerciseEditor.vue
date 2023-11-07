@@ -694,8 +694,7 @@ export default {
 }
 
 #problem-file pre code {
-    background-color: #2a2c2d !important;
-    @apply p-4 rounded-lg block text-sm;
+    @apply p-4 rounded-lg block text-sm border border-gray-600 !bg-[#2a2c2d];
 }
 
 #problem-file :not(pre) > code {
