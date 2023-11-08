@@ -31,8 +31,6 @@ class DocsAction
         $document = $this->documentation->findSectionByGroupAndSection($group, $section);
         $docContent = $this->renderer->fetch($document->getTemplateFile(), ['doc' => $document]);
 
-        $this->renderer->addJs('docsearch', 'https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js');
-
         $inner = $this->renderer->fetch('docs.phtml', [
             'docs'      => $this->documentation,
             'content'   => $docContent,

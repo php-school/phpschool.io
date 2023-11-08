@@ -13,6 +13,7 @@
 <div class="w-full bg-gray-900">
     <div class="font-open-sans flex flex-wrap mx-auto max-w-7xl text-left text-gray-800 p-6">
         <div class="w-full md:w-1/3 md:pt-8 border-r border-gray-600">
+            <div id="docsearch" class="mr-3"></div>
             <?php foreach ($docs as $group): ?>
                 <h2 class="font-mono text-base pt-4 pb-1 mb-4 border-b  border-gray-600 text-white"><?= $group->getTitle(); ?></h2>
                 <ul class="">
@@ -27,7 +28,7 @@
                 </ul>
               <?php endforeach; ?>
         </div>
-        <div class="docs-content w-full md:w-2/3 pt-8">
+        <div class="docs-content w-full md:w-2/3 pt-4">
             <doc-title title='<?= $doc->getTitle() ?>' id='<?= $doc->getTitle() ?>' file='<?= $doc->getTemplateFile() ?>'></doc-title>
             <div class="sm:pl-8">
                 <?= $content; ?>

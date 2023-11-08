@@ -31,6 +31,7 @@
     "vite-plugin-live-reload": "^3.0.1"
   },
   "dependencies": {
+    "@docsearch/js": "^3.5.2",
     "@headlessui/vue": "^1.7.4",
     "@heroicons/vue": "^2.0.13",
     "ace-builds": "^1.13.0",

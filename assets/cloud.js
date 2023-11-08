@@ -47,6 +47,8 @@ import Offline from "./components/Website/Pages/Offline.vue";
 import Heading from "./components/Website/Pages/Home/Heading.vue";
 import DocTitle from "./components/Website/Docs/Title.vue";
 
+import docsearch from '@docsearch/js';
+
 hljs.registerLanguage('php', php);
 hljs.registerLanguage('shell', shell);
 hljs.registerLanguage('shell', javascript);
@@ -104,3 +106,14 @@ app.use(VueShepherdPlugin);
 app.mount('#app');
 
 hljs.highlightAll();
+
+docsearch({
+    container: '#docsearch',
+    appId: '7LDU5I0DPZ',
+    indexName: 'phpschool',
+    apiKey: 'ece29c8970bdd054ac5a6ef17ceb491e',
+    placeholder: 'Search...',
+    translations: {
+        button: {buttonText: 'Search...'}
+    }
+});
