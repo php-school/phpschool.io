@@ -51,7 +51,7 @@ const createTour = () => {
       classes: 'rounded-lg shadow-lg p-4 bg-gradient-to-r from-pink-600 to-purple-500 right-4 text-center text-white max-w-xs leading-6 border-4 border-solid border-purple-600 font-mono text-xs absolute top-[20px] z-[9998]',
       scrollTo: true,
       floatingUIOptions: {
-        middleware: [offset({ mainAxis: 10,  }), autoPlacement()]
+        middleware: [offset({ mainAxis: 10,  })]
       },
       cancelIcon: {
         enabled: true,
@@ -248,7 +248,7 @@ const createTour = () => {
       },
     };
 
-    fetch('/cloud/tour/complete', opts)
+    fetch('/online/tour/complete', opts)
         .then(response => {
           if (!response.ok) {
             console.log('Could not set tour complete');

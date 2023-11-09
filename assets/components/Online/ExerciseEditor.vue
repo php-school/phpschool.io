@@ -1,370 +1,335 @@
-<script>
+<script setup>
 
 import PassNotification from "./PassNotification.vue";
 import FileTree from "./FileTree.vue";
 import ExerciseVerify from "./ExerciseVerify.vue";
 import Tabs from "./Tabs.vue";
-import Modal from "./Modal.vue";
 import AceEditor from "./AceEditor.vue";
 import {
     XMarkIcon,
-    ArrowPathIcon,
     CircleStackIcon,
     MapIcon,
-    HomeIcon,
-    ChevronRightIcon,
-    ExclamationCircleIcon,
     AcademicCapIcon
 } from '@heroicons/vue/24/solid';
-import {TrophyIcon} from '@heroicons/vue/24/outline'
-import OutputMismatch from './Results/CliOutputMismatch.vue';
 import ResultList from "./Results/ResultList.vue";
 import Tour from "./Tour.vue";
 import Confirm from "./Confirm.vue";
 import StudentDropdown from "./StudentDropdown.vue";
 import toFilePath from "./Utils/toFilePath";
-import Alert from "./Alert.vue";
 import SiteNav from "../Website/SiteNav.vue";
 import Problem from "./Problem.vue";
 import ComposerPackages from "./ComposerPackages.vue";
 import ProgressBar from "./ProgressBar.vue";
 import EditorBreadcrumbs from "./EditorBreadcrumbs.vue";
+import {onMounted, ref} from "vue";
 
-export default {
-    components: {
-        EditorBreadcrumbs,
-        ProgressBar,
-        ComposerPackages,
-        Problem,
-        SiteNav,
-        Alert,
-        StudentDropdown,
-        Tour,
-        ResultList,
-        PassNotification,
-        FileTree,
-        ExerciseVerify,
-        Tabs,
-        Modal,
-        AceEditor,
-        XMarkIcon,
-        ArrowPathIcon,
-        CircleStackIcon,
-        MapIcon,
-        TrophyIcon,
-        HomeIcon,
-        ChevronRightIcon,
-        ExclamationCircleIcon,
-        AcademicCapIcon,
-        OutputMismatch,
-        Confirm,
-    },
-    props: {
-        nextExerciseLink: String,
-        officialSolution: Array,
-        initialFiles: Array,
-        entryPoint: String,
-        workshop: Object,
-        exercise: Object,
-        student: Object,
-        totalExercises: Number,
-        links: Object
-    },
-    mounted() {
+const props = defineProps({
+    nextExerciseLink: String,
+    officialSolution: Array,
+    initialFiles: Array,
+    entryPoint: String,
+    workshop: Object,
+    exercise: Object,
+    student: Object,
+    totalExercises: Number,
+    links: Object
+});
 
-    },
-    data() {
-        //sort the initial files so entry point is at the top
-        //and opened in a tab
-        this.initialFiles.sort((a, b) => {
-            return a.name === this.entryPoint ? -1 : 0;
-        });
+const currentExercise = {
+    workshop: props.workshop,
+    exercise: props.exercise
+};
 
-        const initialFileCopy = this.initialFiles.map(file => {
-            return {...file}
-        });
-        let studentFiles = this.toTree(initialFileCopy);
+const studentState = ref({
+    totalCompleted: props.student.state.total_completed,
+    completedExercises: props.student.state.workshops[props.workshop.code].completedExercises
+});
 
-        const files = this.getSavedFiles();
-        for (const fileName in files) {
-            const fileContent = files[fileName];
-            const folderParts = fileName.split("/");
+const firstRunLoaded = ref(false);
+const firstVerifyLoaded = ref(false);
+const openPassNotification = ref(false);
+const openProblemModal = ref(true);
+const openComposerModal = ref(false);
+const studentFiles = ref([]);
+const openResults = ref(false);
+const results = ref([]);
+const loadingResults = ref(false);
+const openFiles = ref([]);
+const activeTab = ref(0);
+const composerDeps = ref([]);
+const confirm = ref(null);
 
-            this.createFileInFolderStructure(studentFiles, folderParts, fileContent);
-        }
+onMounted(() => {
+    //sort the initial files so entry point is at the top
+    //and opened in a tab
+    props.initialFiles.sort((a, b) => {
+        return a.name === props.entryPoint ? -1 : 0;
+    });
 
-        //make sure new files added from saved files have two way relationship
-        studentFiles = this.toTree(studentFiles);
+    const initialFileCopy = props.initialFiles.map(file => {
+        return {...file}
+    });
 
-        return {
-            firstRunLoaded: false,
-            firstVerifyLoaded: false,
-            openPassNotification: false,
-            openProblemModal: true,
-            openComposerModal: false,
-            studentFiles: studentFiles,
-            openResults: false,
-            results: [],
-            loadingResults: false,
-            openFiles: [studentFiles[0]],
-            activeTab: 0,
-            composerDeps: [],
-            studentState: {
-                totalCompleted: this.student.state.total_completed,
-                completedExercises: this.student.state.workshops[this.workshop.code].completedExercises
-            },
-            currentExercise: {
-                workshop: this.workshop,
-                exercise: this.exercise
-            },
-        }
-    },
-    methods: {
-        getSavedFiles() {
-            const items = { ...localStorage };
-            const key = this.workshop.code + '.' + this.exercise.slug;
+    studentFiles.value = toTree(initialFileCopy);
 
-            const files = {};
-            for (const localStorageKey in items) {
-                if (localStorageKey.startsWith(key)) {
-                    files[localStorageKey.substring(key.length + 1)] = items[localStorageKey];
-                }
-            }
-            return files;
-        },
-        async resetFiles() {
-            const confirm = this.$refs.confirm;
+    const files = getSavedFiles();
 
-            const ok = await confirm.show({
-                title: "Resetting...",
-                message: "File tree will be completely reset. All of your code will be deleted. Are you sure you want to continue?",
-                okMessage: "Confirm",
-            });
+    for (const fileName in files) {
+        const fileContent = files[fileName];
+        const folderParts = fileName.split("/");
 
-            if (!ok) {
-                return;
-            }
-
-            const key = this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug;
-            const files = this.getSavedFiles();
-            for (const fileName in files) {
-                localStorage.removeItem(key + '.' + fileName);
-            }
-
-            const initialFileCopy = this.initialFiles.map(file => {
-                return {...file}
-            });
-
-            this.studentFiles = this.toTree(initialFileCopy);
-            this.openFiles = [this.studentFiles[0]];
-            this.activeTab = 0;
-        },
-        createFileInFolderStructure(rootFolder, parts, fileContent) {
-            if (parts.length === 1) {
-                const file = rootFolder.find(child => child.name === parts[0]);
-                if (file) {
-                    file.content = fileContent;
-                    return;
-                }
-
-                rootFolder.push({ name: parts[0], content: fileContent });
-                return;
-            }
-
-            const directories = parts;
-            const fileName = directories.pop();
-
-            let currentDirectory = rootFolder.find(directory => directory.name === directories[0]);
-
-            if (!currentDirectory) {
-                currentDirectory = { name: directories.shift(), children: [] };
-                rootFolder.push(currentDirectory);
-            }
-
-            currentDirectory = directories.reduce((parent, name) => {
-                return this.findOrCreateDirectory(parent, name);
-            }, currentDirectory);
-
-            const file = { name: fileName, content: fileContent };
-            currentDirectory.children.push(file);
-        },
-        findOrCreateDirectory(directory, name) {
-            let subdirectory = directory.children.find(child => child.name === name);
-
-            if (!subdirectory) {
-                subdirectory = { name, children: [] };
-                directory.children.push(subdirectory);
-            }
-
-            return subdirectory;
-        },
-        saveSolution(fileContent, file) {
-            const filePath = toFilePath(file);
-
-            localStorage.setItem(
-                this.currentExercise.workshop.code + '.' + this.currentExercise.exercise.slug + '.' + filePath,
-                fileContent
-            );
-        },
-        resetState() {
-            const currentExercise = this.currentExercise;
-            const studentState = this.studentState;
-
-            return new Promise(async function (resolve, reject) {
-                const url = '/cloud/workshop/' + currentExercise.workshop.code + '/exercise/' + currentExercise.exercise.slug + '/reset';
-
-                const opts = {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                };
-                fetch(url, opts)
-                    .then(response => {
-                        if (response.ok) {
-                            studentState.totalCompleted = 0;
-                            studentState.completedExercises = [];
-
-                            resolve();
-                        }
-
-                        reject();
-                    });
-            });
-        },
-        tourStarting() {
-            this.openProblemModal = true;
-        },
-        forceTour() {
-            this.$refs.tour.forceTour();
-        },
-        studentSelectFile(selectedFile) {
-            if ('new' in selectedFile && selectedFile.new === true) {
-                return;
-            }
-
-            if (!selectedFile.content) {
-                selectedFile.content = '';
-
-                if (selectedFile.name.endsWith('.php')) {
-                    selectedFile.content = '<?php\n\n';
-                }
-
-                this.saveSolution(selectedFile.content, selectedFile);
-            }
-
-            const found = this.openFiles.find(file => file === selectedFile);
-
-            if (!found) {
-                //10 files open max
-                if (this.openFiles.length === 10) {
-                    this.openFiles.shift();
-                }
-
-                this.activeTab = this.openFiles.push(selectedFile) - 1;
-            }
-        },
-        dismissPassNotification() {
-            this.openPassNotification = false;
-        },
-        deleteFileOrFolder(file) {
-            const confirm = this.$refs.confirm;
-            const openFiles = this.openFiles;
-            const findAndActivateNearestTab = this.findAndActivateNearestTab;
-            const entryPoint = this.entryPoint;
-
-            return new Promise(async function (resolve, reject) {
-                if (file.name === entryPoint && file.parent === null) {
-                    //cannot delete entry point
-                    await confirm.show({
-                        title: "Error",
-                        message: "Cannot delete the entry point file. This file is required to run your solution.",
-                        okMessage: "OK",
-                        disableCancel: true
-                    });
-
-                    return resolve(false);
-                }
-
-                const ok = await confirm.show({
-                    title: "Deleting...",
-                    message: "Selection will be permanently deleted. Are you sure you want to continue?",
-                    okMessage: "Confirm",
-                });
-
-                if (!ok) {
-                    return resolve(false);
-                }
-
-                resolve(true);
-
-                const index = openFiles.findIndex((elem) => elem === file);
-                if (index !== -1) {
-                    openFiles.splice(index, 1);
-                    findAndActivateNearestTab(index);
-                }
-            })
-        },
-
-        resetResults() {
-            this.results = [];
-        },
-        verifyLoading() {
-            this.resetResults();
-            this.loadingResults = true;
-        },
-        verifySuccess() {
-            this.openPassNotification = true;
-            this.openResults = false;
-            this.loadingResults = false;
-        },
-        verifyFail(results) {
-            this.firstVerifyLoaded = true;
-            this.results = results;
-            this.openResults = true;
-            this.loadingResults = false;
-        },
-        closeTab(tab) {
-            if (this.openFiles.length === 1) {
-                return;
-            }
-
-            let index = this.openFiles.findIndex(file => file.name === tab);
-
-            this.openFiles.splice(index, 1);
-
-            this.findAndActivateNearestTab(index);
-        },
-        findAndActivateNearestTab(index) {
-            //if there is a file to the right open, set that as active
-            if (index in this.openFiles) {
-                this.activeTab = index;
-                return;
-            }
-
-            //if there is a file to the left open, set that as active
-            if (index - 1 in this.openFiles) {
-                this.activeTab = index - 1;
-                return;
-            }
-
-            //if there are no more files open
-            this.activeTab = null;
-        },
-        toTree(files, parent = null) {
-            return files.map((file) => {
-                file.parent = parent;
-
-                if (file.children) {
-                    file.children = this.toTree(file.children, file);
-                }
-
-                return file;
-            })
-        },
+        createFileInFolderStructure(studentFiles.value, folderParts, fileContent);
     }
+
+    //make sure new files added from saved files have two way relationship
+    studentFiles.value = toTree(studentFiles.value);
+    openFiles.value = [studentFiles.value[0]];
+})
+
+
+const toTree = (files, parent = null) => {
+    return files.map((file) => {
+        file.parent = parent;
+
+        if (file.children) {
+            file.children = toTree(file.children, file);
+        }
+
+        return file;
+    })
+};
+
+const getSavedFiles = () => {
+    const items = { ...localStorage };
+    const key = props.workshop.code + '.' + props.exercise.slug;
+
+    const files = {};
+    for (const localStorageKey in items) {
+        if (localStorageKey.startsWith(key)) {
+            files[localStorageKey.substring(key.length + 1)] = items[localStorageKey];
+        }
+    }
+    return files;
+};
+
+const createFileInFolderStructure = (rootFolder, parts, fileContent) => {
+    if (parts.length === 1) {
+        const file = rootFolder.find(child => child.name === parts[0]);
+        if (file) {
+            file.content = fileContent;
+            return;
+        }
+
+        rootFolder.push({ name: parts[0], content: fileContent });
+        return;
+    }
+
+    const directories = parts;
+    const fileName = directories.pop();
+
+    let currentDirectory = rootFolder.find(directory => directory.name === directories[0]);
+
+    if (!currentDirectory) {
+        currentDirectory = { name: directories.shift(), children: [] };
+        rootFolder.push(currentDirectory);
+    }
+
+    currentDirectory = directories.reduce((parent, name) => {
+        return findOrCreateDirectory(parent, name);
+    }, currentDirectory);
+
+    const file = { name: fileName, content: fileContent };
+    currentDirectory.children.push(file);
+};
+
+const findOrCreateDirectory = (directory, name) => {
+    let subdirectory = directory.children.find(child => child.name === name);
+
+    if (!subdirectory) {
+        subdirectory = { name, children: [] };
+        directory.children.push(subdirectory);
+    }
+
+    return subdirectory;
+};
+
+const closeTab = (tab) => {
+    if (openFiles.value.length === 1) {
+        return;
+    }
+
+    let index = openFiles.value.findIndex(file => file.name === tab);
+
+    openFiles.value.splice(index, 1);
+
+    findAndActivateNearestTab(index);
+};
+
+const findAndActivateNearestTab = (index) => {
+    //if there is a file to the right open, set that as active
+    if (index in openFiles.value) {
+        activeTab.value = index;
+        return;
+    }
+
+    //if there is a file to the left open, set that as active
+    if (index - 1 in openFiles.value) {
+        activeTab.value = index - 1;
+        return;
+    }
+
+    //if there are no more files open
+    activeTab.value = null;
+};
+
+const resetResults = () => {
+    results.value = [];
+};
+
+const verifyLoading = () => {
+    resetResults();
+    loadingResults.value = true;
+};
+
+const verifySuccess = () => {
+    openPassNotification.value = true;
+    openResults.value = false;
+    loadingResults.value = false;
+};
+
+const verifyFail = (newResults) => {
+    firstVerifyLoaded.value = true;
+    results.value = newResults;
+    openResults.value = true;
+    loadingResults.value = false;
+};
+
+const saveSolution = (fileContent, file) => {
+    const filePath = toFilePath(file);
+
+    localStorage.setItem(
+        currentExercise.workshop.code + '.' + currentExercise.exercise.slug + '.' + filePath,
+        fileContent
+    );
+};
+
+const resetFiles = async () => {
+
+    const ok = await confirm.value.show({
+        title: "Resetting...",
+        message: "File tree will be completely reset. All of your code will be deleted. Are you sure you want to continue?",
+        okMessage: "Confirm",
+    });
+
+    if (!ok) {
+        return;
+    }
+
+    const key = currentExercise.workshop.code + '.' + currentExercise.exercise.slug;
+    const files = getSavedFiles();
+    for (const fileName in files) {
+        localStorage.removeItem(key + '.' + fileName);
+    }
+
+    const initialFileCopy = props.initialFiles.map(file => {
+        return {...file}
+    });
+
+    studentFiles.value = toTree(initialFileCopy);
+    openFiles.value = [studentFiles.value[0]];
+    activeTab.value = 0;
 }
+
+const resetState = () => {
+    return new Promise(async function (resolve, reject) {
+        const url = '/online/workshop/' + currentExercise.workshop.code + '/exercise/' + currentExercise.exercise.slug + '/reset';
+
+        const opts = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        };
+        fetch(url, opts)
+            .then(response => {
+                if (response.ok) {
+                    studentState.value.totalCompleted = 0;
+                    studentState.value.completedExercises = [];
+
+                    resolve();
+                }
+
+                reject();
+            });
+    });
+}
+
+const tour = ref(null);
+const forceTour = () => {
+    tour.value.forceTour();
+};
+
+const studentSelectFile = (selectedFile) => {
+    if ('new' in selectedFile && selectedFile.new === true) {
+        return;
+    }
+
+    if (!selectedFile.content) {
+        selectedFile.content = '';
+
+        if (selectedFile.name.endsWith('.php')) {
+            selectedFile.content = '<?php\n\n';
+        }
+
+        saveSolution(selectedFile.content, selectedFile);
+    }
+
+    const found = openFiles.value.find(file => file === selectedFile);
+
+    if (!found) {
+        //10 files open max
+        if (openFiles.value.length === 10) {
+            openFiles.value.shift();
+        }
+
+        activeTab.value = openFiles.value.push(selectedFile) - 1;
+    }
+};
+
+const deleteFileOrFolder = (file) => {
+    return new Promise(async function (resolve, reject) {
+        if (file.name === props.entryPoint && file.parent === null) {
+            //cannot delete entry point
+            await confirm.value.show({
+                title: "Error",
+                message: "Cannot delete the entry point file. This file is required to run your solution.",
+                okMessage: "OK",
+                disableCancel: true
+            });
+
+            return resolve(false);
+        }
+
+        const ok = await confirm.value.show({
+            title: "Deleting...",
+            message: "Selection will be permanently deleted. Are you sure you want to continue?",
+            okMessage: "Confirm",
+        });
+
+        if (!ok) {
+            return resolve(false);
+        }
+
+        resolve(true);
+
+        const index = openFiles.value.findIndex((elem) => elem === file);
+        if (index !== -1) {
+            openFiles.value.splice(index, 1);
+            findAndActivateNearestTab(index);
+        }
+    })
+};
 </script>
 
 <template>
@@ -387,7 +352,7 @@ export default {
     <section class="site-body h-full flex-1 flex flex-col bg-gray-900">
         <div class="h-full relative">
 
-            <tour ref="tour" @tour-starting="tourStarting" :student="student" :solution-file="studentFiles[0]"
+            <tour ref="tour" @tour-starting="openProblemModal = true" :student="student" :solution-file="studentFiles[0]"
                   :first-run-loaded="firstRunLoaded"
                   :first-verify-loaded="firstVerifyLoaded" :problem-modal-open="openProblemModal"></tour>
 
@@ -397,9 +362,8 @@ export default {
                     v-if="openPassNotification"
                     :next-exercise-link="nextExerciseLink"
                     :official-solution="officialSolution"
-                    @close="dismissPassNotification">
+                    @close="openPassNotification = false">
             </pass-notification>
-
 
             <div class="h-full flex flex-col">
                 <div class="flex flex-1 h-full relative border-t border-gray-600">

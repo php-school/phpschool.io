@@ -1,8 +1,7 @@
 <script setup>
 
 import Modal from "./Modal.vue";
-import Tabs from "./Tabs.vue";
-import {ArrowPathIcon, ExclamationTriangleIcon, CommandLineIcon, SparklesIcon, XMarkIcon, ChevronRightIcon} from '@heroicons/vue/24/solid'
+import {ArrowPathIcon, CommandLineIcon, SparklesIcon } from '@heroicons/vue/24/solid'
 import toFilePath from "./Utils/toFilePath";
 import RunResult from "./RunResult.vue";
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
