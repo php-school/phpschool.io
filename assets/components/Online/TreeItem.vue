@@ -1,167 +1,158 @@
-<script>
+<script setup>
 
 import { FolderIcon, FolderOpenIcon, DocumentIcon, PencilIcon, FolderPlusIcon, PlusIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import uniqueName from "./Utils/uniqueName.js";
 import Alert from "./Confirm.vue";
+import {computed, inject, nextTick, onMounted, ref} from "vue";
 
-export default {
-  components: {
-    Alert,
-    FolderIcon,
-    DocumentIcon,
-    FolderOpenIcon,
-    PencilIcon,
-    FolderPlusIcon,
-    PlusIcon,
-    TrashIcon
+const props = defineProps({
+  parent: Array,
+  model: Object,
+  deleteFunction: Function,
+  fileSelectFunction: Function,
+  showControls: {
+    type: Boolean,
+    default: false
   },
-  inject: ['state'],
-  name: 'tree-item',
-  props: {
-    parent: Array,
-    model: Object,
-    deleteFunction: Function,
-    fileSelectFunction: Function,
-    showControls: {
-      type: Boolean,
-      default: false
-    },
-    customStyles: {
-      type: Object,
+  customStyles: Object
+});
+
+const state = inject('state');
+
+const isOpen = ref(false);
+const isEditing = ref(false);
+
+const name = ref(null);
+const fileAlert = ref(null);
+
+onMounted(() => {
+    if (isNew(props.model)) {
+        nextTick(() => name.value.focus());
     }
-  },
-  data() {
-    return {
-      isOpen: false,
-      isEditing: false,
+})
+
+const isNew = (file) => {
+    return 'new' in file && file.new === true;
+}
+
+const isFolder = computed(() => {
+    return props.model.children
+})
+
+const hasChildren = computed(() => {
+    return props.model.children.length;
+})
+
+const isBeingEdited = computed(() => {
+    return isEditing.value || isNew(props.model);
+})
+
+const selectNode = (child) => {
+    if (isEditing.value) {
+        return;
     }
-  },
-  mounted() {
-    if (this.isNew(this.model)) {
-      this.$nextTick(() => this.$refs.name.focus());
+
+    if (isFolder.value) {
+        isOpen.value = !isOpen.value
+        return;
     }
-  },
-  computed: {
-    isFolder() {
-      return this.model.children
-    },
-    hasChildren() {
-      return this.model.children.length;
-    },
-    isBeingEdited() {
-      return this.isEditing || this.isNew(this.model);
-    },
-  },
-  methods: {
-    isNew(file) {
-      return 'new' in file && file.new === true;
-    },
-    selectNode(child) {
-      if (this.isEditing) {
+
+    state.selectedFile = child;
+
+    if (props.fileSelectFunction) {
+        props.fileSelectFunction(child);
+    }
+}
+
+const edit = () => {
+    isEditing.value = true;
+    nextTick(() => name.value.focus());
+}
+
+const addFile = () => {
+    if (props.model.children.filter(file => 'new' in file).length) {
         return;
-      }
+    }
 
-      if (this.isFolder) {
-        this.isOpen = !this.isOpen
-        return;
-      }
-
-      this.state.selectedFile = child;
-
-      if (this.fileSelectFunction) {
-        this.fileSelectFunction(child);
-      }
-    },
-    edit() {
-      this.isEditing = true;
-      this.$nextTick(() => this.$refs.name.focus());
-    },
-    addFile() {
-      if (this.model.children.filter(file => 'new' in file).length) {
-        return;
-      }
-
-      const file = {
-        name: uniqueName('new file', this.model.children),
+    const file = {
+        name: uniqueName('new file', props.model.children),
         new: true,
-        parent: this.model,
-      }
+        parent: props.model,
+    }
 
-      this.model.children.push(file);
+    props.model.children.push(file);
 
-      this.isOpen = true;
-    },
-    addFolder() {
-      if (this.model.children.filter(file => 'new' in file).length) {
+    isOpen.value = true;
+}
+
+const addFolder = () => {
+    if (props.model.children.filter(file => 'new' in file).length) {
         return;
-      }
+    }
 
-      this.model.children.push({
-        name: uniqueName('new folder', this.model.children),
+    props.model.children.push({
+        name: uniqueName('new folder', props.model.children),
         children: [],
-        parent: this.model,
+        parent: props.model,
         new: true,
-      });
+    });
 
-      this.isOpen = true;
-    },
-    async saveName() {
-      const names = this.parent
-          .filter(child => child !== this.model)
-          .map(child => child.name);
+    isOpen.value = true;
+}
 
-      const confirm = this.$refs.fileAlert;
+const saveName = async () => {
+    const names = props.parent
+        .filter(child => child !== props.model)
+        .map(child => child.name);
 
-      if (names.includes(this.model.name)) {
-          await confirm.show({
-              title: "Error",
-              message: "The filename must be unique.",
-              okMessage: "OK",
-              disableCancel: true,
-          });
+    if (names.includes(props.model.name)) {
+        await fileAlert.value.show({
+            title: "Error",
+            message: "The filename must be unique.",
+            okMessage: "OK",
+            disableCancel: true,
+        });
         return;
-      }
-
-      let regex = /^[a-zA-Z0-9_ -]+\.[a-zA-Z0-9]+$/;
-      if (this.isFolder) {
-          regex = /^[a-zA-Z0-9_ -]+$/;
-      }
-
-      if (!this.model.name.match(regex)) {
-          await confirm.show({
-              title: "Error",
-              message: "Files and folder name must contain only alphanumerics, dashes, underscores and spaces. Additionally, files must have an extension.",
-              okMessage: "OK",
-              disableCancel: true,
-          });
-          return;
-      }
-
-      // Limit file name size
-      if(this.model.name.length > 14) {
-        this.model.name = this.model.name.slice(0,14);
-      }
-      if (this.model.new) {
-        delete this.model.new;
-      }
-
-      this.isEditing = false;
-    },
-    deleteChild(child) {
-      if (!this.deleteFunction) {
-        return;
-      }
-
-      this.deleteFunction(child)
-          .then((shouldDelete) => {
-            if (shouldDelete) {
-              const index = this.parent.findIndex((elem) => elem === child);
-              this.parent.splice(index, 1);
-            }
-          })
-
     }
-  }
+
+    let regex = /^[a-zA-Z0-9_ -]+\.[a-zA-Z0-9]+$/;
+    if (isFolder.value) {
+        regex = /^[a-zA-Z0-9_ -]+$/;
+    }
+
+    if (!props.model.name.match(regex)) {
+        await fileAlert.value.show({
+            title: "Error",
+            message: "Files and folder name must contain only alphanumerics, dashes, underscores and spaces. Additionally, files must have an extension.",
+            okMessage: "OK",
+            disableCancel: true,
+        });
+        return;
+    }
+
+    // Limit file name size
+    if(props.model.name.length > 14) {
+        props.model.name = this.model.name.slice(0,14);
+    }
+    if (props.model.new) {
+        delete props.model.new;
+    }
+
+    isEditing.value = false;
+}
+
+const deleteChild = (child) => {
+    if (!props.deleteFunction) {
+        return;
+    }
+
+    props.deleteFunction(child)
+        .then((shouldDelete) => {
+            if (shouldDelete) {
+                const index = props.parent.findIndex((elem) => elem === child);
+                props.parent.splice(index, 1);
+            }
+        })
 }
 </script>
 

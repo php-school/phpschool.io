@@ -390,7 +390,7 @@ export default {
                     'Content-Type': 'application/json'
                 }
             };
-            fetch('/cloud/composer-package/add?package=' + encodeURIComponent(this.newDependency), opts)
+            fetch('/online/composer-package/add?package=' + encodeURIComponent(this.newDependency), opts)
                 .then(response => response.json())
                 .then(json => {
                     if (json.status === 'error') {

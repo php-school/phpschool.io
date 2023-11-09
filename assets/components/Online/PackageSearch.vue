@@ -1,67 +1,56 @@
-<script>
+<script setup>
 import {
   Combobox,
   ComboboxInput,
-  ComboboxButton,
   ComboboxOptions,
   ComboboxOption,
   TransitionRoot,
 } from '@headlessui/vue'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
+import { CheckIcon } from '@heroicons/vue/20/solid'
 import debounce from "./Utils/debounce.js";
+import {ref, watch} from "vue";
 
-export default {
-  components: {
-    Combobox,
-    ComboboxInput,
-    ComboboxButton,
-    ComboboxOptions,
-    ComboboxOption,
-    TransitionRoot,
-    CheckIcon,
-    ChevronUpDownIcon
-  },
-  data() {
-    return {
-      query: '',
-      selected: null,
-      filteredPackages: [],
-    }
-  },
-  watch: {
-    selected(newPackage, oldPackage) {
-      this.$emit('package-selected', newPackage);
-    }
-  },
-  methods: {
-    reset() {
-      this.query = '';
-      this.selected = null;
-      this.filteredPackages = [];
-    },
-    searchPackages: debounce(function (query) {
-      this.query = query;
+const query = ref('');
+const selected = ref(null);
+const filteredPackages = ref([]);
 
-      if (query.length < 4) {
-        this.filteredPackages = [];
-        return;
-      }
+const emit = defineEmits(['package-selected']);
 
-      const opts = {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-      };
-      fetch('/cloud/composer-package/search?package=' + encodeURIComponent(query), opts)
-          .then(response => response.json())
-          .then(packages => {
-            this.filteredPackages = packages.results
-          });
-    })
-  }
+watch(selected, (newPackage, oldPackage) => {
+  emit('package-selected', newPackage);
+});
+
+const reset = () => {
+  query.value = '';
+  selected.value = null;
+  filteredPackages.value = [];
 };
+
+const searchPackages = debounce(function (newQuery) {
+  query.value = newQuery;
+
+  if (newQuery.length < 4) {
+    filteredPackages.value = [];
+    return;
+  }
+
+  const opts = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  };
+  fetch('/online/composer-package/search?package=' + encodeURIComponent(newQuery), opts)
+      .then(response => response.json())
+      .then(packages => {
+        filteredPackages.value = packages.results
+      });
+});
+
+defineExpose({
+  reset,
+});
 </script>
 
 <template>
@@ -76,7 +65,6 @@ export default {
           }"
         >
           <ComboboxInput
-
               placeholder="Start typing..."
                          class="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
                          :displayValue="(composerPackage) => composerPackage"

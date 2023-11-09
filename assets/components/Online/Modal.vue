@@ -1,82 +1,76 @@
-<script>
+<script setup>
 
 import { XMarkIcon } from '@heroicons/vue/24/solid'
 import Shepherd from "shepherd.js";
+import {onMounted, onUnmounted, ref} from "vue";
 
-export default {
-  components: {
-    XMarkIcon
+const props = defineProps({
+  id: String,
+  size: {
+    type: String,
+    default: '2xl',
   },
-  props: {
-    id: {
+  scrollContent: {
+    type: Boolean,
+    default: false,
+  },
+  maxHeight: {
+    type: String,
+    default: null
+  },
+  bodyClasses: {
       type: String,
-      default: null
-    },
-    size: {
-      type: String,
-      default: '2xl',
-    },
-    scrollContent: {
-      type: Boolean,
-      default: false,
-    },
-    maxHeight: {
-      type: String,
-      default: null
-    },
-    bodyClasses: {
-        type: String,
-        default: 'p-6'
-    }
-  },
-  mounted() {
-    this.$el.escapeEventHandler = (evt) => {
-      if (evt.code === 'Escape') {
-        this.closeModal();
-      }
-    };
-
-    document.addEventListener('keyup', this.$el.escapeEventHandler);
-  },
-  unmounted() {
-    document.removeEventListener('keyup', this.$el.escapeEventHandler);
-  },
-  data() {
-    return {
-      modalSizeClasses: {
-        xs: 'max-w-xs',
-        sm: 'max-w-sm',
-        md: 'max-w-md',
-        lg: 'max-w-lg',
-        xl: 'max-w-xl',
-        '2xl': 'max-w-2xl',
-        '3xl': 'max-w-3xl',
-        '4xl': 'max-w-4xl',
-        '5xl': 'max-w-5xl',
-        '6xl': 'max-w-6xl',
-        '7xl': 'max-w-7xl',
-      },
-      focusActive: false,
-    }
-  },
-  methods: {
-    clickAway(e) {
-      if (Shepherd.activeTour) {
-        return;
-      }
-
-      if (e.target.parentElement && e.target.parentElement.classList.contains('shepherd-cancel-icon')) {
-        return;
-      }
-
-      this.closeModal(e);
-    },
-
-    closeModal($event) {
-      this.$emit('close', $event);
-    },
+      default: 'p-6'
   }
-}
+});
+
+const emit = defineEmits(['close']);
+
+const modalSizeClasses = {
+    xs: 'max-w-xs',
+    sm: 'max-w-sm',
+    md: 'max-w-md',
+    lg: 'max-w-lg',
+    xl: 'max-w-xl',
+    '2xl': 'max-w-2xl',
+    '3xl': 'max-w-3xl',
+    '4xl': 'max-w-4xl',
+    '5xl': 'max-w-5xl',
+    '6xl': 'max-w-6xl',
+    '7xl': 'max-w-7xl',
+};
+
+const focusActive = ref(false);
+
+const escapeHandler = (evt) => {
+    if (evt.code === 'Escape') {
+        closeModal();
+    }
+};
+
+onMounted(() => {
+    document.addEventListener('keyup', escapeHandler);
+})
+
+onUnmounted(() => {
+    document.removeEventListener('keyup', escapeHandler);
+});
+
+const clickAway = (e) => {
+    if (Shepherd.activeTour) {
+        return;
+    }
+
+    if (e.target.parentElement && e.target.parentElement.classList.contains('shepherd-cancel-icon')) {
+        return;
+    }
+
+    closeModal(e);
+};
+
+const closeModal = (event) => {
+    emit('close', event);
+};
 </script>
 
 <template>
