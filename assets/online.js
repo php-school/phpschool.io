@@ -1,24 +1,24 @@
 import 'vite/modulepreload-polyfill'
 import './styles'
 import { createApp } from 'vue'
-import AceEditor from './components/AceEditor.vue'
-import FileTree from './components/FileTree.vue'
-import TreeItem from './components/TreeItem.vue'
-import Tabs from './components/Tabs.vue'
-import Modal from './components/Modal.vue'
-import StudentProgress from './components/StudentProgress.vue'
-import WorkshopExerciseSelectionList from './components/WorkshopExerciseSelectionList.vue'
-import PassNotification from "./components/PassNotification.vue";
-import ExerciseVerify from "./components/ExerciseVerify.vue";
-import ExerciseEditor from "./components/ExerciseEditor.vue";
+import AceEditor from './components/Online/AceEditor.vue'
+import FileTree from './components/Online/FileTree.vue'
+import TreeItem from './components/Online/TreeItem.vue'
+import Tabs from './components/Online/Tabs.vue'
+import Modal from './components/Online/Modal.vue'
+import StudentProgress from './components/Online/StudentProgress.vue'
+import WorkshopExerciseSelectionList from './components/Online/WorkshopExerciseSelectionList.vue'
+import PassNotification from "./components/Online/PassNotification.vue";
+import ExerciseVerify from "./components/Online/ExerciseVerify.vue";
+import ExerciseEditor from "./components/Online/ExerciseEditor.vue";
 import { FocusTrap } from 'focus-trap-vue'
 import VueClickAway from "vue3-click-away";
 import VueDiff from 'vue-diff';
 import 'vue-diff/dist/index.css';
 import VueShepherdPlugin from './shepherd-plugin';
-import results from "./components/results/results.js";
-import StudentDropdown from "./components/StudentDropdown.vue";
-import ListWorkshops from "./components/ListWorkshops.vue";
+import results from "./components/Online/Results/results.js";
+import StudentDropdown from "./components/Online/StudentDropdown.vue";
+import ListWorkshops from "./components/Online/ListWorkshops.vue";
 import Home from "./components/Website/Pages/Home.vue";
 import SiteNav from "./components/Website/SiteNav.vue";
 import SiteFooter from "./components/Website/SiteFooter.vue";
@@ -107,13 +107,19 @@ app.mount('#app');
 
 hljs.highlightAll();
 
-docsearch({
-    container: '#docsearch',
-    appId: '7LDU5I0DPZ',
-    indexName: 'phpschool',
-    apiKey: 'ece29c8970bdd054ac5a6ef17ceb491e',
-    placeholder: 'Search...',
-    translations: {
-        button: {buttonText: 'Search...'}
-    }
-});
+const searchElem = document.querySelector('#docsearch');
+
+if (searchElem) {
+    docsearch({
+        container: searchElem,
+        appId: '7LDU5I0DPZ',
+        indexName: 'phpschool',
+        apiKey: 'ece29c8970bdd054ac5a6ef17ceb491e',
+        placeholder: 'Search...',
+        translations: {
+            button: {buttonText: 'Search...'}
+        }
+    });
+
+}
+

@@ -1,46 +1,34 @@
-<script>
+<script setup>
 
 import Modal from "../Modal.vue";
 import {Cog6ToothIcon} from '@heroicons/vue/24/solid'
+import {computed, defineProps, ref} from "vue";
 
-export default {
-  components: {
-    Modal,
-    Cog6ToothIcon,
-  },
-  props: {
-    data: Object,
-    renderers: Object
-  },
-  computed: {
-    resultCount() {
-      return this.data.results.length;
-    },
-    failures() {
-      return this.data.results.filter(r => r.success === false);
-    }
-  },
-  data() {
-    return {
-      openModal: false,
-      currentFailure: null
-    }
-  },
-  methods: {
-    openInfoModal(failure) {
-      this.currentFailure = failure
-      this.openModal = true;
-    },
-    haveHeaders(headers) {
-      return Object.keys(headers).length > 0;
-    },
-    headers(headers) {
-      return Object.entries(headers).reduce((carry, [header, value]) => {
-        return carry + header + ': ' + value.join(', ') + "\n";
-      }, '');
-    }
-  }
-}
+const openModal = ref(false);
+const currentFailure = ref(null);
+const props = defineProps({
+  data: Object,
+  renderers: Object
+});
+
+const failures = computed(() => {
+  return props.data.results.filter(r => r.success === false);
+});
+
+const openInfoModal = (failure) => {
+  currentFailure.value = failure;
+  openModal.value = true;
+};
+
+const haveHeaders = (headers) => {
+  return Object.keys(headers).length > 0;
+};
+
+const headers = (headers) => {
+  return Object.entries(headers).reduce((carry, [header, value]) => {
+    return carry + header + ': ' + value.join(', ') + "\n";
+  }, '');
+};
 </script>
 
 <template>

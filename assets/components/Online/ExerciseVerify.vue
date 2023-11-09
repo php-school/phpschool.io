@@ -1,13 +1,12 @@
-<script>
+<script set>
 
 import Modal from "./Modal.vue";
 import Tabs from "./Tabs.vue";
 import {ArrowPathIcon, ExclamationTriangleIcon, CommandLineIcon, SparklesIcon, XMarkIcon, ChevronRightIcon} from '@heroicons/vue/24/solid'
-import toFilePath from "./utils/toFilePath";
+import toFilePath from "./Utils/toFilePath";
 import RunResult from "./RunResult.vue";
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 import Alert from "./Alert.vue";
-
 
 export default {
   components: {
@@ -71,7 +70,7 @@ export default {
       }
 
       this.loadingRun = true;
-      const url = '/cloud/workshop/' + this.currentExercise.workshop.code + '/exercise/' + this.currentExercise.exercise.slug + '/run';
+      const url = '/online/workshop/' + this.currentExercise.workshop.code + '/exercise/' + this.currentExercise.exercise.slug + '/run';
 
       const opts = {
         method: 'POST',
@@ -117,7 +116,7 @@ export default {
       this.$emit('verify-loading');
       this.loadingVerify = true;
 
-      const url = '/cloud/workshop/' + this.currentExercise.workshop.code + '/exercise/' + this.currentExercise.exercise.slug + '/verify';
+      const url = '/online/workshop/' + this.currentExercise.workshop.code + '/exercise/' + this.currentExercise.exercise.slug + '/verify';
 
       const opts = {
         method: 'POST',
@@ -168,7 +167,7 @@ export default {
       <span v-if="!loadingRun">Run</span>
       <CommandLineIcon v-if="!loadingRun" v-cloak class="ml-2 w-5 h-5"/>
     </button>
-    <button id="verify" class="flex items-center justify-center mt-0 px-4 w-36 text-white text-sm h-full rounded bg-gradient-to-r from-pink-600 to-purple-500 hover:bg-[#aa1145] transition-all duration-300 ease-in hover:scale-[1.05] h-[48px]" @click="verifySolution" :disabled="loadingVerify">
+    <button id="verify" class="flex items-center justify-center mt-0 px-4 w-36 text-white text-sm h-full rounded bg-gradient-to-r from-pink-600 to-purple-500 hover:bg-[#aa1145] transition-all duration-300 ease-in h-[48px]" @click="verifySolution" :disabled="loadingVerify">
       <ArrowPathIcon v-cloak v-show="loadingVerify" class="w-4 h-4 animate-spin"/>
       <span v-if="!loadingVerify">Verify</span>
       <SparklesIcon v-if="!loadingVerify" v-cloak class="ml-2 w-5 h-5"/>

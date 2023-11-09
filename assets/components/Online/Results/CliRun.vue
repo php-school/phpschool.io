@@ -1,41 +1,32 @@
-<script>
+<script setup>
 
 import Modal from "../Modal.vue";
 import {Cog6ToothIcon} from '@heroicons/vue/24/solid';
+import {computed, defineProps, ref} from "vue";
 
-export default {
-  components: {
-    Modal,
-    Cog6ToothIcon,
-  },
-  props: {
-    data: Object,
-    renderers: Object
-  },
-  computed: {
-    resultCount() {
-      return this.data.results.length;
-    },
-    failures() {
-      return this.data.results.filter(r => r.success === false);
-    },
-    longestArg() {
-      return Math.max(...this.currentFailure.args.map(r => r.length))
-    }
-  },
-  data() {
-    return {
-      openModal: false,
-      currentFailure: null
-    }
-  },
-  methods: {
-    openInfoModal(failure) {
-      this.currentFailure = failure
-      this.openModal = true;
-    }
-  }
-}
+const openModal = ref(false);
+const currentFailure = ref(null);
+const props = defineProps({
+  data: Object,
+  renderers: Object
+});
+
+const resultCount = computed(() => {
+  return props.data.results.length;
+});
+
+const failures = computed(() => {
+  return props.data.results.filter(r => r.success === false);
+});
+
+const longestArg = computed(() => {
+  return Math.max(...currentFailure.value.args.map(r => r.length))
+});
+
+const openInfoModal = (failure) => {
+  currentFailure.value = failure;
+  openModal.value = true;
+};
 </script>
 
 <template>
@@ -74,11 +65,11 @@ export default {
 
 
             <p class="text-sm text-white mb-4">Your program was executed like so:</p>
-            <pre><code class="language-sh hljs bash">php solution.php {{currentFailure.args.join(' ')}}</code></pre>
+            <pre><code class="language-sh hljs bash text-sm">php solution.php {{currentFailure.args.join(' ')}}</code></pre>
           </div>
 
           <p v-else class=" truncate font-medium text-white">
-            <span class="">Your program was executed with no command line arguments.</span>
+            <span class="text-sm">Your program was executed with no command line arguments.</span>
           </p>
         </div>
 

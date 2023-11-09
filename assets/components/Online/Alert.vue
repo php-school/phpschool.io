@@ -1,23 +1,16 @@
-<script>
+<script setup>
 import {ExclamationTriangleIcon, XMarkIcon, CheckIcon} from "@heroicons/vue/24/solid";
 
-export default {
-    components: {
-        ExclamationTriangleIcon,
-        XMarkIcon,
-        CheckIcon
+const props = defineProps({
+    message: String,
+    type: {
+        type: String,
+        default: 'success',
+        validator(value) {
+            return ['success', 'error'].includes(value)
+        }
     },
-    props: {
-        message: String,
-        type: {
-            type: String,
-            default: 'success',
-            validator(value) {
-                return ['success', 'error'].includes(value)
-            }
-        },
-    },
-}
+});
 </script>
 
 <template>

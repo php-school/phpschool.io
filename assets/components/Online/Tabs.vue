@@ -1,30 +1,26 @@
-<script>
+<script setup>
 import { XMarkIcon } from '@heroicons/vue/24/solid'
 
-export default {
-  components: {
-    XMarkIcon
+const props = defineProps({
+  activeTab: {
+    type: Number,
+    default: 0
   },
-  props: {
-    activeTab: {
-      type: Number,
-      default: 0
-    },
-    tabList: {
-      type: Array,
-      required: true,
-    },
-    disableClose: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
+  tabList: {
+    type: Array,
+    required: true,
   },
-  methods: {
-    closeTab(tab) {
-      this.$emit('close-tab', tab);
-    }
+  disableClose: {
+    type: Boolean,
+    required: false,
+    default: false
   }
+})
+
+const emit = defineEmits(['close-tab']);
+
+const closeTab = (tab) => {
+  emit('close-tab', tab);
 }
 </script>
 

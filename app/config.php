@@ -217,9 +217,9 @@ return [
         $manifest = $c->get(ViteManifest::class);
 
         if ($c->get('config')['devMode']) {
-            $renderer->addJs('cloud', 'http://localhost:5133/cloud.js', ['type' => 'module', 'crossorigin']);
+            $renderer->addJs('cloud', 'http://localhost:5133/online.js', ['type' => 'module', 'crossorigin']);
         } else {
-            $renderer->addJs('cloud', $this->manifest->assetUrl('cloud.js'), ['type' => 'module', 'crossorigin']);
+            $renderer->addJs('cloud', $this->manifest->assetUrl('online.js'), ['type' => 'module', 'crossorigin']);
 
             foreach ($manifest->importsUrls('cloud.js') as $i => $url) {
                 $renderer->addPreload($i, $url);
@@ -434,8 +434,6 @@ return [
         $environment->addExtension(new CommonMarkCoreExtension());
         $environment->addExtension(new GithubFlavoredMarkdownExtension());
         $environment->addExtension(new ExternalLinkExtension());
-        $environment->addBlockRenderer(FencedCode::class, new FencedCodeRenderer(['html', 'php', 'js', 'bash']));
-        $environment->addBlockRenderer(IndentedCode::class, new IndentedCodeRenderer(['html', 'php', 'js', 'bash']));
 
         $environment
             ->addExtension(new ProblemFileExtension(

@@ -70,7 +70,7 @@ onUnmounted(() => {
                         <a href="/" class="text-white text-xs uppercase hover:text-pink-500 cursor-pointer transition duration-150">Home</a>
                     </li>
                     <li>
-                        <a href="/cloud/workshops" class="text-white text-xs uppercase hover:text-pink-500 cursor-pointer transition duration-150">Workshops</a>
+                        <a href="/online/workshops" class="text-white text-xs uppercase hover:text-pink-500 cursor-pointer transition duration-150">Workshops</a>
                     </li>
                     <li><a href="/offline" class="text-white text-xs uppercase hover:text-pink-500 cursor-pointer transition duration-150">Offline</a>
                     </li>
@@ -137,7 +137,7 @@ onUnmounted(() => {
 
             <!-- Sign In Button -->
             <div v-if="showLoginButton" class="hidden sm:block">
-                <Button href="/cloud/workshops" class="flex items-center px-2 py-2" :class="{'!my-0': compact}">
+                <Button href="/online/workshops" class="flex items-center px-2 py-2" :class="{'!my-0': compact}">
                     <GitHubIcon class="h-5 w-5 mr-2" /><span class="text-xs font-normal ">Log In with github</span>
                 </Button>
             </div>
@@ -162,7 +162,7 @@ onUnmounted(() => {
                 <a href="/blog"
                 class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">blog</a>
             <div class="my-4">
-                <Button href=" /cloud" class=" mx-auto text-center px-4 py-2">
+                <Button href="/online/workshops" class=" mx-auto text-center px-4 py-2">
                     <GitHubIcon class="h-5 w-5 inline-block align-middle mr-2" /><span
                         class="text-xs font-open-sans inline-block align-middle">Log In withgithub</span>
                 </Button>

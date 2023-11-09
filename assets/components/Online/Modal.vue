@@ -1,6 +1,7 @@
 <script>
 
 import { XMarkIcon } from '@heroicons/vue/24/solid'
+import Shepherd from "shepherd.js";
 
 export default {
   components: {
@@ -60,7 +61,7 @@ export default {
   },
   methods: {
     clickAway(e) {
-      if (this.shepherd.activeTour) {
+      if (Shepherd.activeTour) {
         return;
       }
 

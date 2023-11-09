@@ -38,8 +38,8 @@
           the current exercise. For example one exercise might generate a bunch of numbers to pass to your program, where
           another one might pass you a JSON encoded string.</p>
         <p class="text-[10px]">You can write to the console from a PHP program with the following code:</p>
-        <pre><code class="language-php hljs php text-[10px]" data-lang="php"><span class="hljs-meta">&lt;?php</span>
-<span class="hljs-keyword">echo</span> <span class="hljs-string">"text"</span>;
+        <pre><code class="language-php hljs php text-[10px]" data-lang="php">&lt;?php
+echo "text";
 </code></pre>
         <p class="text-[10px]">The first line tells PHP to interpret the code following it. It is required before any PHP
           code is written. The

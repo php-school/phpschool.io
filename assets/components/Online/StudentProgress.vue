@@ -1,52 +1,46 @@
-<script>
+<script setup>
 
 import { TrophyIcon } from '@heroicons/vue/24/outline'
 import { UserCircleIcon } from '@heroicons/vue/24/solid'
-import GitHubIcon from "./Icons/GitHubIcon.vue";
-import Button from "./Website/Button.vue";
+import GitHubIcon from "../Icons/GitHubIcon.vue";
+import Button from "../Website/Button.vue";
+import {computed} from "vue";
 
-export default {
-  components: {
-    Button, GitHubIcon,
-    TrophyIcon,
-    UserCircleIcon
+const props = defineProps({
+  student: {
+    type: Object,
+    required: false
   },
-  props: {
-    student: {
-      type: Object,
-      required: false
-    },
-    totalExercises: Number,
-    studentState: Object,
-  },
-  computed: {
-    percentComplete() {
-      if (this.student === undefined) {
-        return 0;
-      }
+  totalExercises: Number,
+  studentState: Object,
+});
 
-      return (this.studentState.totalCompleted / this.totalExercises) * 100;
-    },
-    exerciseCompleted() {
-      if (this.student === undefined) {
-        return 0;
-      }
-
-      return this.studentState.completedExercises.includes(this.exercise.name);
-    },
-    totalCompleted() {
-      if (this.student === undefined) {
-        return 0;
-      }
-
-      return this.studentState.totalCompleted;
-    },
-  },
-  methods: {
-    login() {
-      window.location.href = '/student-login';
-    }
+const percentComplete = computed(() => {
+  if (props.student === undefined) {
+    return 0;
   }
+
+  return (props.studentState.totalCompleted / props.totalExercises) * 100;
+});
+
+const exerciseCompleted = computed(() => {
+  if (props.student === undefined) {
+    return 0;
+  }
+
+  return props.studentState.completedExercises.includes(props.exercise.name);
+});
+
+const totalCompleted = computed(() => {
+  if (props.student === undefined) {
+    return 0;
+  }
+
+  return props.studentState.totalCompleted;
+});
+
+const login = () => {
+  window.location.href = '/student-login';
 }
 </script>
 

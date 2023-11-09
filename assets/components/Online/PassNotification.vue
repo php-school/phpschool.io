@@ -1,6 +1,6 @@
-<script>
+<script setup>
 
-import {toRaw} from "vue";
+import {computed, onMounted, onUnmounted, ref} from "vue";
 import Modal from "./Modal.vue";
 import FileTree from "./FileTree.vue";
 import AceEditor from "./AceEditor.vue";
@@ -8,91 +8,90 @@ import { TrophyIcon } from '@heroicons/vue/24/outline'
 import { XMarkIcon } from '@heroicons/vue/24/solid'
 import { CodeBracketSquareIcon } from '@heroicons/vue/24/solid'
 
-export default {
-  components: {
-    Modal,
-    FileTree,
-    AceEditor,
-    TrophyIcon,
-    XMarkIcon, 
-    CodeBracketSquareIcon
-  },
-  props: {
-    nextExerciseLink: String,
-    officialSolution: Array,
-  },
-  mounted() {
-    this.$el.escapeEventHandler = (evt) => {
-      if (evt.code === 'Escape') {
-        this.dismissPassNotification();
+const props = defineProps({
+  nextExerciseLink: String,
+  officialSolution: Array,
+});
+
+const emit = defineEmits(['close']);
+
+// this is an absolute hack to make sure the solution has at least 10 lines
+// so the width of the ace editor gutter is consistent for each file in the solution
+const padStringToLines = (inputString, desiredLines) => {
+  return inputString + '\n'.repeat(Math.max(0, desiredLines - inputString.split('\n').length));
+}
+
+const el = ref(null);
+
+onMounted(() => {
+  el.escapeEventHandler = (evt) => {
+    if (evt.code === 'Escape') {
+
+      if (openOfficialSolutionModal.value) {
+        return;
       }
-    };
 
-    document.addEventListener('keyup', this.$el.escapeEventHandler);
-  },
-  unmounted() {
-    document.removeEventListener('keyup', this.$el.escapeEventHandler);
-  },
-  data() {
-    return {
-      hasOfficialSolution: this.officialSolution !== null,
-      currentSolutionFile: this.officialSolution !== null ? this.officialSolution[0] : null,
-      officialSolutionFileTree: this.officialSolution === null
-          ? []
-          : this.officialSolution.map((file, i) => {
-            return {
-              id: i,
-              name: file.file_path
-            }
-          }),
-      openOfficialSolutionModal: false,
-      fileTreeStyles: {
-        selectedFileClasses: 'bg-pink-500'
+      dismissPassNotification();
+    }
+  };
+
+  document.addEventListener('keyup', el.escapeEventHandler, true);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keyup', el.escapeEventHandler);
+});
+
+const hasOfficialSolution = props.officialSolution !== null;
+const currentSolutionFile = ref(props.officialSolution !== null ? props.officialSolution[0] : null);
+const officialSolutionFileTree = ref(props.officialSolution === null
+    ? []
+    : props.officialSolution.map((file, i) => {
+      return {
+        id: i,
+        name: file.file_path
       }
-    }
-  },
-  computed: {
-    files() {
-      const files = this.officialSolution.map(file => ({
-        name: file.file_path,
-        content: this.atob(file.content)
-      }));
+    }));
 
-      const maxLen = Math.max(...files.map(file => file.content.split('\n').length));
+const fileTreeStyles = {
+  selectedFileClasses: 'bg-pink-500'
+}
 
-      return files.map(file => ({
-          name: file.name,
-          content: this.padStringToLines(file.content, maxLen)
-      }));
-    }
-  },
-  methods: {
-    dismissPassNotification() {
-      this.$emit('close');
-    },
-    showOfficialSolution() {
-      this.openOfficialSolutionModal = true;
-    },
-    selectSolutionFile(file) {
-      this.currentSolutionFile = this.officialSolution.find(elem => elem.file_path === file.name);
-    },
-    atob(file) {
-      return atob(file);
-    },
-    isSelectedFile(file) {
-      return this.currentSolutionFile && file.name === this.currentSolutionFile.file_path
-    },
-    //this is an absolute hack to make sure the solution has at least 10 lines so the width of the ace editor gutter is consistent for each file
-    //in the solution
-    padStringToLines(inputString, desiredLines) {
-      return inputString + '\n'.repeat(Math.max(0, desiredLines - inputString.split('\n').length));
-    }
-  },
+const openOfficialSolutionModal = ref(false);
+
+const files = computed(() => {
+  const files = props.officialSolution.map(file => ({
+    name: file.file_path,
+    content: atob(file.content)
+  }));
+
+  const maxLen = Math.max(...files.map(file => file.content.split('\n').length));
+
+  return files.map(file => ({
+      name: file.name,
+      content: padStringToLines(file.content, maxLen)
+  }));
+});
+
+const dismissPassNotification = () => {
+  emit('close');
+}
+
+const showOfficialSolution = () => {
+  openOfficialSolutionModal.value = true;
+}
+
+const selectSolutionFile = (file) => {
+  currentSolutionFile.value = props.officialSolution.find(elem => elem.file_path === file.name);
+}
+
+const isSelectedFile = (file) => {
+  return currentSolutionFile.value && file.name === currentSolutionFile.value.file_path
 }
 </script>
 
 <template>
-  <div>
+  <div ref="el">
     <div v-cloak class="bg-gray-900 bg-opacity-70 fixed inset-0 z-40"/>
     <div v-click-away="dismissPassNotification" v-cloak id="pass-notification" class="absolute top-4 z-40 shadow-lg w-full flex justify-center">
 
@@ -126,7 +125,7 @@ export default {
           </div>
         </div>
       </div>
-      <Modal size="4xl" v-if="openOfficialSolutionModal" @close.stop="openOfficialSolutionModal = false" body-classes="p-0">
+      <Modal size="4xl" v-if="openOfficialSolutionModal" @close="openOfficialSolutionModal = false" body-classes="p-0">
         <template #header>
           <div class="flex flex-col">
             <div class="flex items-center ">
@@ -137,7 +136,7 @@ export default {
         </template>
         <template #body>
           <div class="flex">
-            <div class="w-1/3 bg-gray-900 border border-solid border-r-gray-600">
+            <div class="w-1/3 bg-gray-900 border-solid border-r border-r-gray-600">
               <file-tree
                   :files="officialSolutionFileTree"
                   :file-select-function="selectSolutionFile"
@@ -160,5 +159,4 @@ export default {
       </Modal>
     </div>
   </div>
-
 </template>

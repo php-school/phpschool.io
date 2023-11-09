@@ -57,7 +57,7 @@ class ExerciseEditor
         $link = null;
         if ($nextExercise) {
             $link = sprintf(
-                '/cloud/workshop/%s/exercise/%s/editor',
+                '/online/workshop/%s/exercise/%s/editor',
                 $workshop->getCode(),
                 $renderer->slug($nextExercise->getName())
             );

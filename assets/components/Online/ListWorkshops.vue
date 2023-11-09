@@ -2,7 +2,7 @@
 import StudentProgress from "./StudentProgress.vue";
 import WorkshopExerciseSelectionList from "./WorkshopExerciseSelectionList.vue";
 import StudentDropdown from "./StudentDropdown.vue";
-import SiteNav from "./Website/SiteNav.vue";
+import SiteNav from "../Website/SiteNav.vue";
 import {ref} from "vue";
 
 const props = defineProps({
@@ -34,7 +34,7 @@ const resetState = () => {
                 'Content-Type': 'application/json'
             }
         };
-        fetch('/cloud/reset', opts)
+        fetch('/online/reset', opts)
             .then(response => {
                 if (response.ok) {
 

@@ -27,8 +27,7 @@ export default defineConfig({
         // our entry
         rollupOptions: {
             input: {
-                cloud: path.resolve(__dirname, 'assets/cloud.js'),
-                main: path.resolve(__dirname, 'assets/main.js'),
+                online: path.resolve(__dirname, 'assets/online.js'),
                 login: path.resolve(__dirname, 'assets/login.js'),
             }
         }

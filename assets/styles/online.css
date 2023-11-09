@@ -168,6 +168,11 @@
   }
 }
 
+:not(pre) > code {
+  font-size: 90%;
+  @apply px-2 py-1 rounded bg-[#2a2c2d] text-[#ff75b5]
+}
+
 .DocSearch-Button {
   @apply w-full rounded-md !ring-1 !ring-[#e91e63] pr-3 ml-0 bg-gray-800 hover:bg-gray-700;
 }

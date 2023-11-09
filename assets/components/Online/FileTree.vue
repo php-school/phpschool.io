@@ -3,7 +3,7 @@
 import { computed } from 'vue'
 import TreeItem from "./TreeItem.vue";
 import { FolderPlusIcon, PlusIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-import uniqueName from "./utils/uniqueName.js";
+import uniqueName from "./Utils/uniqueName.js";
 
 export default {
   components: {

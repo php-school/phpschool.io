@@ -8,7 +8,7 @@ import {
   TransitionRoot,
 } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
-import debounce from "./utils/debounce.js";
+import debounce from "./Utils/debounce.js";
 
 export default {
   components: {

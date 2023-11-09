@@ -1,22 +1,13 @@
-<script>
+<script setup>
 
 import Modal from "../Modal.vue";
 import {ExclamationTriangleIcon} from '@heroicons/vue/24/solid'
+import {defineProps, ref} from "vue";
 
-export default {
-  components: {
-    Modal,
-    ExclamationTriangleIcon
-  },
-  props: {
-    data: Object
-  },
-  data() {
-    return {
-      openModal: false,
-    }
-  },
-}
+const openModal = ref(false);
+const props = defineProps({
+  data: Object
+});
 </script>
 
 <template>

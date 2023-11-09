@@ -32,7 +32,7 @@ class StudentLogin
     public function __invoke(Request $request, Response $response): MessageInterface
     {
         if ($this->session->get('student') instanceof StudentDTO) {
-            return $this->redirect('/cloud/workshops');
+            return $this->redirect('/online/workshops');
         }
 
         $params = $request->getQueryParams();
@@ -45,7 +45,7 @@ class StudentLogin
 
         if ($request->getMethod() === 'GET') {
             if (($params['state'] ?? '') !== $this->session->get('oauth2state')) {
-                return $this->redirect('/cloud/workshops');
+                return $this->redirect('/online/workshops');
             }
         }
 
@@ -68,16 +68,16 @@ class StudentLogin
                 try {
                     $student = $this->createStudent($user);
                 } catch (\Exception $e) {
-                    return $this->redirect('/cloud/workshops');
+                    return $this->redirect('/online/workshops');
                 }
             }
 
             $this->session->set('student', $student->toDTO());
             $this->session->regenerate();
 
-            return $this->redirect('/cloud/workshops');
+            return $this->redirect('/online/workshops');
         } catch (IdentityProviderException $e) {
-            return $this->redirect('/cloud/workshops');
+            return $this->redirect('/online/workshops');
         }
     }
 

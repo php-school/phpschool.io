@@ -222,7 +222,7 @@ $app->get('/events', function (Request $request, Response $response, EventReposi
 
 $app->get('/student-login', StudentLogin::class);
 $app
-    ->group('/cloud', function (RouteCollectorProxy $group) use ($container) {
+    ->group('/online', function (RouteCollectorProxy $group) use ($container) {
         $rateLimiter = $container->get(ExerciseRunnerRateLimiter::class);
 
         $group->post('/reset', ResetState::class);

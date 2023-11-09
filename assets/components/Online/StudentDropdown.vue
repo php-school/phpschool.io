@@ -1,88 +1,79 @@
-<script>
+<script setup>
 
 import {TrophyIcon} from '@heroicons/vue/24/outline'
 import {ArrowPathIcon, UserCircleIcon} from '@heroicons/vue/24/solid'
 import Confirm from "./Confirm.vue";
 import Alert from "./Alert.vue";
+import {computed, ref} from "vue";
 
-export default {
-    components: {
-        Alert,
-        Confirm,
-        TrophyIcon,
-        UserCircleIcon,
-        ArrowPathIcon
+const emit = defineEmits(['show-tour']);
+
+const props = defineProps({
+    student: {
+        type: Object,
     },
-    emits: ['show-tour'],
-    props: {
-        student: {
-            type: Object,
-        },
-        studentState: {
-            type: Object,
-        },
-        totalExercises: Number,
-        resetFunction: Function,
-        enableShowTour: {
-            type: Boolean,
-            default: true
-        }
+    studentState: {
+        type: Object,
     },
-    data() {
-        return {
-            isOpen: false,
-            loadingStateReset: false,
-            showResetProgressAlert: false
-        }
-    },
-    computed: {
-        percentComplete() {
-            return (this.studentState.totalCompleted / this.totalExercises) * 100;
-        },
-    },
-    methods: {
-        showTour() {
-            this.$emit('show-tour');
-        },
-        clickAway() {
-            this.isOpen = false;
-        },
-        toggleDropdown() {
-            this.isOpen = !this.isOpen;
-        },
-        async resetState() {
-            if (this.loadingStateReset) {
-                return;
-            }
-
-            const confirm = this.$refs.resetProgressConfirm;
-
-            const ok = await confirm.show({
-                title: "Resetting progress...",
-                message: "All workshop progress will be reset. Are you sure you want to continue?",
-                okMessage: "Confirm",
-            });
-
-            if (!ok) {
-                return;
-            }
-
-            this.loadingStateReset = true;
-
-            this.resetFunction()
-                .then(async () => {
-                    this.loadingStateReset = false;
-                    this.showResetProgressAlert = true;
-
-                    setTimeout(() => {
-                        this.showResetProgressAlert = false;
-                    }, 3000)
-                })
-                .catch(() => {
-                    this.loadingStateReset = false;
-                });
-        }
+    totalExercises: Number,
+    resetFunction: Function,
+    enableShowTour: {
+        type: Boolean,
+        default: true
     }
+});
+
+const isOpen = ref(false);
+const loadingStateReset = ref(false);
+const showResetProgressAlert = ref(false);
+
+const resetProgressConfirm = ref(null);
+
+const percentComplete = computed(() => {
+    return (props.studentState.totalCompleted / props.totalExercises) * 100;
+});
+
+const showTour = () => {
+    emit('show-tour');
+}
+
+const clickAway = () => {
+    isOpen.value = false;
+}
+
+const toggleDropdown = () => {
+    isOpen.value = !isOpen.value;
+}
+
+const resetState = async () => {
+    if (loadingStateReset.value) {
+        return;
+    }
+
+    const ok = await resetProgressConfirm.value.show({
+        title: "Resetting progress...",
+        message: "All workshop progress will be reset. Are you sure you want to continue?",
+        okMessage: "Confirm",
+    });
+
+    if (!ok) {
+        return;
+    }
+
+    loadingStateReset.value = true;
+
+    props.resetFunction()
+        .then(async () => {
+            loadingStateReset.value = false;
+            showResetProgressAlert.value = true;
+
+            setTimeout(() => {
+                showResetProgressAlert.value = false;
+            }, 3000)
+        })
+        .catch(() => {
+            loadingStateReset.value = false;
+        });
 }
 </script>
 
@@ -136,7 +127,7 @@ export default {
             <confirm ref="resetProgressConfirm"></confirm>
 
             <div class="py-3">
-                <a href="/cloud/logout" class="block text-left no-underline px-6 py-2 text-sm hover:bg-gray-600 text-gray-200 hover:text-white">Sign out</a>
+                <a href="/online/logout" class="block text-left no-underline px-6 py-2 text-sm hover:bg-gray-600 text-gray-200 hover:text-white">Sign out</a>
             </div>
         </div>
     </div>

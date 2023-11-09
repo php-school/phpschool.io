@@ -1,28 +1,24 @@
-<script>
+<script setup>
 
 import {ChevronRightIcon,} from '@heroicons/vue/24/solid'
 
-export default {
-  components: {
-    ChevronRightIcon
-  },
-  props: {
-    exercise: Object,
-    run: Object,
-  },
-  methods: {
-    longestRunCliArg(args) {
-      return Math.max(...args.map(r => r.length))
-    },
-    haveHeaders(headers) {
-      return Object.keys(headers).length > 0;
-    },
-    headers(headers) {
-      return Object.entries(headers).reduce((carry, [header, value]) => {
-        return carry + header + ': ' + value.join(', ') + "\n";
-      }, '');
-    }
-  },
+const props = defineProps({
+  exercise: Object,
+  run: Object,
+})
+
+const longestRunCliArg = (args) => {
+  return Math.max(...args.map(r => r.length))
+}
+
+const haveHeaders = (headers) => {
+  return Object.keys(headers).length > 0;
+}
+
+const headers = (headers) => {
+  return Object.entries(headers).reduce((carry, [header, value]) => {
+    return carry + header + ': ' + value.join(', ') + "\n";
+  }, '');
 }
 </script>
 
@@ -42,7 +38,7 @@ export default {
       </div>
 
       <p v-else class=" truncate font-medium text-white">
-        <span class="text-white text-base">Your program was executed with no command line arguments.</span>
+        <span class="text-white text-sm">Your program was executed with no command line arguments.</span>
       </p>
     </div>
 

@@ -1,48 +1,35 @@
-<script>
-import { ArrowRightIcon, CheckCircleIcon } from "@heroicons/vue/24/solid";
+<script setup>
+import { CheckCircleIcon } from "@heroicons/vue/24/solid";
 import { ArrowRightCircleIcon } from "@heroicons/vue/24/outline";
 import ExerciseEntry from "./ExerciseEntry.vue";
+import {ref} from "vue";
 
-export default {
-  components: {
-    ExerciseEntry,
-    ArrowRightIcon,
-    ArrowRightCircleIcon,
-    CheckCircleIcon,
+const props = defineProps({
+  student: {
+    type: Object,
+    required: false,
   },
-  props: {
-    student: {
-      type: Object,
-      required: false,
-    },
-    studentState: {
-      type: Object,
-    },
-    workshops: Object,
-  },
-  data() {
-    return {
-      selectedWorkshop: null,
-    };
-  },
-  computed: {},
-  methods: {
-    selectWorkshop(workshopCode) {
-      this.selectedWorkshop = this.workshops.find((workshop) => workshop.code === workshopCode);
-    },
-    isWorkshopComplete(workshop) {
-      if (this.student === undefined) {
-        return false;
-      }
+  studentState: Object,
+  workshops: Object,
+});
 
-      if (!this.studentState.hasOwnProperty(workshop.code)) {
-        return false;
-      }
+const selectedWorkshop = ref(null);
 
-      const completedExercises = this.studentState[workshop.code].completedExercises;
-      return workshop.exercises.length === completedExercises.length;
-    },
-  },
+const selectWorkshop = (workshopCode) => {
+  selectedWorkshop.value = props.workshops.find((workshop) => workshop.code === workshopCode);
+};
+
+const isWorkshopComplete = (workshop) => {
+  if (props.student === undefined) {
+    return false;
+  }
+
+  if (!props.studentState.hasOwnProperty(workshop.code)) {
+    return false;
+  }
+
+  const completedExercises = props.studentState[workshop.code].completedExercises;
+  return workshop.exercises.length === completedExercises.length;
 };
 </script>
 
@@ -63,7 +50,7 @@ export default {
             <div class="select-none cursor-pointer flex flex-1 items-center p-4">
               <div class="flex flex-col w-10 h-10 justify-center items-center mr-4">
                 <a href="#" class="block relative">
-                  <img alt="workshop" src="../img/cloud/core-workshops.png" class="mx-auto object-cover h-10 w-10" />
+                  <img alt="workshop" src="../../img/cloud/core-workshops.png" class="mx-auto object-cover h-10 w-10" />
                 </a>
               </div>
               <div class="flex-1 pl-1 mr-16 text-white group-hover:text-pink-600">
