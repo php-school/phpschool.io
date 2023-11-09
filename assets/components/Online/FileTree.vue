@@ -1,73 +1,62 @@
-<script>
+<script setup>
 
-import { computed } from 'vue'
+import {computed, provide, ref} from 'vue'
 import TreeItem from "./TreeItem.vue";
 import { FolderPlusIcon, PlusIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import uniqueName from "./Utils/uniqueName.js";
 
-export default {
-  components: {
-    TreeItem,
-    FolderPlusIcon,
-    PlusIcon,
-    XMarkIcon
+const props = defineProps({
+  deleteFunction: Function,
+  fileSelectFunction: Function,
+  initialSelectedItem: Object,
+  showControls: {
+    type: Boolean,
+    default: false
   },
-  props: {
-    deleteFunction: Function,
-    fileSelectFunction: Function,
-    initialSelectedItem: Object,
-    showControls: {
-      type: Boolean,
-      default: false
-    },
-    files: Array,
-    customStyles: {
-      type: Object,
-    }
-  },
-  provide() {
-    return {
-      state: computed(() => this.state)
-    }
-  },
-  data() {
-    return {
-      state: {
-        selectedFile: this.initialSelectedItem
-      }
-    }
-  },
-  methods: {
-    reset() {
-      this.$emit('reset');
-    },
-    addFile() {
-      if (this.files.filter(file => 'new' in file).length) {
-        return;
-      }
+  files: Array,
+  customStyles: Object
+});
 
-      const file = {
-        name: uniqueName('new file', this.files),
-        new: true,
-        parent: null,
-      }
+const emit = defineEmits(['reset']);
 
-      this.files.push(file);
-    },
-    addFolder() {
-      if (this.files.filter(file => 'new' in file).length) {
-        return;
-      }
-
-      this.files.push({
-        name: uniqueName('new folder', this.files),
-        children: [],
-        parent: null,
-        new: true,
-      });
-    },
+const state = ref({
+  state: {
+    selectedFile: props.initialSelectedItem
   }
-}
+})
+
+provide('state', computed(() => state.value))
+
+const reset = () => {
+  emit('reset');
+};
+
+const addFile = () => {
+  if (props.files.some(file => 'new' in file)) {
+    return;
+  }
+
+  const file = {
+    name: uniqueName('new file', props.files),
+    new: true,
+    parent: null,
+  };
+
+  props.files.push(file);
+};
+
+const addFolder = () => {
+  if (props.files.some(file => 'new' in file)) {
+    return;
+  }
+
+  props.files.push({
+    name: uniqueName('new folder', props.files),
+    children: [],
+    parent: null,
+    new: true,
+  });
+};
 </script>
 
 <template>
