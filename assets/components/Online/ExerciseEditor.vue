@@ -17,7 +17,6 @@ import {
     AcademicCapIcon
 } from '@heroicons/vue/24/solid';
 import {TrophyIcon} from '@heroicons/vue/24/outline'
-import PackageSearch from './PackageSearch.vue';
 import OutputMismatch from './Results/CliOutputMismatch.vue';
 import ResultList from "./Results/ResultList.vue";
 import Tour from "./Tour.vue";
@@ -27,9 +26,15 @@ import toFilePath from "./Utils/toFilePath";
 import Alert from "./Alert.vue";
 import SiteNav from "../Website/SiteNav.vue";
 import Problem from "./Problem.vue";
+import ComposerPackages from "./ComposerPackages.vue";
+import ProgressBar from "./ProgressBar.vue";
+import EditorBreadcrumbs from "./EditorBreadcrumbs.vue";
 
 export default {
     components: {
+        EditorBreadcrumbs,
+        ProgressBar,
+        ComposerPackages,
         Problem,
         SiteNav,
         Alert,
@@ -46,7 +51,6 @@ export default {
         ArrowPathIcon,
         CircleStackIcon,
         MapIcon,
-        PackageSearch,
         TrophyIcon,
         HomeIcon,
         ChevronRightIcon,
@@ -104,9 +108,7 @@ export default {
             loadingResults: false,
             openFiles: [studentFiles[0]],
             activeTab: 0,
-            newDependency: '',
             composerDeps: [],
-            loadingComposerAdd: false,
             studentState: {
                 totalCompleted: this.student.state.total_completed,
                 completedExercises: this.student.state.workshops[this.workshop.code].completedExercises
@@ -115,17 +117,7 @@ export default {
                 workshop: this.workshop,
                 exercise: this.exercise
             },
-            showPackageAddError: false,
-            showPackageErrorTimerId: null
         }
-    },
-    computed: {
-        percentComplete() {
-            return (this.studentState.totalCompleted / this.totalExercises) * 100;
-        },
-        exerciseCompleted() {
-            return this.studentState.completedExercises.includes(this.exercise.name);
-        },
     },
     methods: {
         getSavedFiles() {
@@ -371,63 +363,6 @@ export default {
                 return file;
             })
         },
-        packageSelected(composerPackage) {
-            this.newDependency = composerPackage;
-        },
-        addDependency() {
-            this.loadingComposerAdd = true;
-            const index = this.composerDeps.find(p => p.name === this.newDependency);
-
-            if (index) {
-                this.newDependency = '';
-                return;
-            }
-
-            const opts = {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            };
-            fetch('/online/composer-package/add?package=' + encodeURIComponent(this.newDependency), opts)
-                .then(response => response.json())
-                .then(json => {
-                    if (json.status === 'error') {
-                        this.loadingComposerAdd = false;
-                        this.$refs.packageSearch.reset();
-
-                        this.showPackageAddError = true;
-
-                        if (this.showPackageErrorTimerId) {
-                            clearInterval(this.showPackageErrorTimerId);
-                        }
-
-                        this.showPackageErrorTimerId = setTimeout(() => this.showPackageAddError = false, 3000);
-                        return;
-                    }
-
-                    this.composerDeps.push({
-                        name: this.newDependency,
-                        version: json.latest_version,
-                        versions: json.versions
-                    });
-                    this.newDependency = '';
-                    this.loadingComposerAdd = false;
-                    this.$refs.packageSearch.reset();
-                })
-                .catch((error) => {
-                    this.loadingComposerAdd = false;
-                    this.$refs.packageSearch.reset();
-                })
-        },
-        removeDependency(packageName) {
-            const index = this.composerDeps.find(p => p.name === packageName);
-
-            if (index) {
-                this.composerDeps.splice(index, 1);
-            }
-        },
     }
 }
 </script>
@@ -464,8 +399,6 @@ export default {
                     :official-solution="officialSolution"
                     @close="dismissPassNotification">
             </pass-notification>
-
-            <alert type="error" @close="showPackageAddError= false" v-show="showPackageAddError" message="Package could not be added because it has no tagged version."></alert>
 
 
             <div class="h-full flex flex-col">
@@ -526,38 +459,8 @@ export default {
                 </div>
                 <!-- start footer -->
                 <div class="border-t border-solid border-gray-600 h-16 flex-none flex items-center justify-between p-2">
-                    <nav class="flex" aria-label="Breadcrumb">
-                        <ol class="inline-flex items-center space-x-1 md:space-x-3 font-mono">
-                            <li class="inline-flex items-center">
-                                <a href="/cloud"
-                                   class="inline-flex items-center text-sm font-medium text-white hover:text-pink-500">
-                                    <HomeIcon class="w-4 h-4 mr-2"></HomeIcon>
-                                    {{ workshop.name }}
-                                </a>
-                            </li>
-                            <li>
-                                <div class="flex items-center">
-                                    <ChevronRightIcon class="w-4 h-4 text-pink-500"></ChevronRightIcon>
-                                    <a href="#" class="ml-1 text-sm font-medium text-white hover:text-pink-500 md:ml-2">
-                                        {{ exercise.name }}</a>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex items-center">
-                                  <span v-if="exerciseCompleted" title="You've already completed this exercise!">
-                                    <TrophyIcon class="h-6 w-6 text-yellow-400"/>
-                                  </span>
-                                </div>
-                            </li>
-                        </ol>
-                    </nav>
-                    <!-- Progress Tracker Bar -->
-                    <div class="w-1/6 bg-gray-200 rounded-full h-5 bg-gray-700 mt-0 relative flex justify-center items-center">
-                        <div class="absolute left-0 h-5 rounded-full bg-pink-500"
-                             :style="{ 'width': percentComplete + '%' }"></div>
-                        <p class="absolute  inline-flex items-center text-xs font-bold text-white ml-2 mx-auto">
-                            {{ studentState.totalCompleted }} / {{ totalExercises }} completed</p>
-                    </div>
+                    <editor-breadcrumbs :student-state="studentState" :current-exercise="currentExercise"></editor-breadcrumbs>
+                    <progress-bar :student-state="studentState" :total-exercises="totalExercises"></progress-bar>
                     <div class="flex">
                         <button class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white text-sm flex items-center justify-center mt-0 mr-2 rounded px-4 w-44 h-[48px]"
                                 @click="openComposerModal = true">
@@ -580,54 +483,13 @@ export default {
                     </div>
                 </div>
             </div>
-
-            <Transition enter-active-class="transition-opacity duration-100 ease-in"
-                        leave-active-class="transition-opacity duration-200 ease-in" enter-from-class="opacity-0"
-                        enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
-                <Modal size="sm" max-height="max-h-[calc(1/2*100%)]" v-if="openComposerModal"
-                       @close="openComposerModal = false" scrollContent>
-                    <template #header>
-                        <div class="flex items-center ">
-                            <CircleStackIcon class="h-6 w-6 text-pink-500 mr-2"/>
-                            <h3 class="font-mono text-base font-semibold lg:text-xl text-white pt-0 mt-0 ">
-                                Composer Dependencies
-                            </h3>
-                        </div>
-
-                    </template>
-                    <template #body>
-                        <div class="flex justify-between items-center">
-                            <package-search ref="packageSearch" @package-selected="packageSelected"
-                                            v-model="newDependency" class="w-full"></package-search>
-                            <button :disabled="newDependency === ''" @click.stop="addDependency" type="button"
-                                    class="inline-flex items-center h-9 justify-center rounded-full border border-transparent w-16 bg-pink-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:text-sm disabled:opacity-70 disabled:hover:bg-pink-600">
-                                <ArrowPathIcon v-cloak v-show="loadingComposerAdd" class="w-4 h-4 animate-spin"/>
-                                <span v-if="!loadingComposerAdd">Add</span>
-                            </button>
-                        </div>
-                        <ul v-show="composerDeps.length > 0" class="mt-4 overflow-y-scroll ">
-                            <li v-for="dep in composerDeps" class="text-white pl-2 mb-2 flex items-center">
-                                <p class="text-base">{{ dep.name }}</p>
-                                <p class="bg-gray-900 ml-2 px-2 py-1 rounded">{{ dep.version }}</p>
-                                <XMarkIcon @click.stop="removeDependency(dep.name)"
-                                           class="cursor-pointer ml-2 w-5 h-5 text-zinc-400 hover:text-pink-600"/>
-                            </li>
-                        </ul>
-                        <div v-show="composerDeps.length === 0" class="pt-6">
-                            <p class="text-white text-sm">You currently have no dependencies.</p>
-                        </div>
-                    </template>
-
-                    <template #footer>
-                        <div class="flex justify-end">
-                            <button @click="openComposerModal = false" type="button"
-                                    class="inline-flex items-center w-full justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto sm:text-sm">
-                                Close
-                            </button>
-                        </div>
-                    </template>
-                </Modal>
-            </Transition>
+            <ComposerPackages
+                    :open="openComposerModal"
+                    :composer-deps="composerDeps"
+                    @close="openComposerModal = false"
+                    @package-added="(p) => composerDeps.push(p)"
+                    @package-removed="(index) => composerDeps.splice(index, 1)">
+            </ComposerPackages>
             <Problem :exercise="exercise" :open-problem-modal="openProblemModal" @close="openProblemModal = false">
                 <slot name="problem"></slot>
             </Problem>
