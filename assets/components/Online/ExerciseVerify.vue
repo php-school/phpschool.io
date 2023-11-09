@@ -1,4 +1,4 @@
-<script set>
+<script setup>
 
 import Modal from "./Modal.vue";
 import Tabs from "./Tabs.vue";
@@ -7,155 +7,134 @@ import toFilePath from "./Utils/toFilePath";
 import RunResult from "./RunResult.vue";
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 import Alert from "./Alert.vue";
+import {ref} from "vue";
 
-export default {
-  components: {
-    Alert,
-    TabGroup,
-    TabList,
-    Tab,
-    TabPanels,
-    TabPanel,
-    RunResult,
-    Modal,
-    Tabs,
-    ArrowPathIcon,
-    ExclamationTriangleIcon,
-    CommandLineIcon,
-    SparklesIcon,
-    XMarkIcon,
-    ChevronRightIcon
-  },
-  emits: ["verify-loading", "verify-success", "verify-fail", "run-loaded"],
-  props: {
-    currentExercise: Object,
-    files: Array,
-    composerDeps: Array,
-    entryPoint: String,
-  },
-  data() {
-    return {
-      loadingRun: false,
-      programRunResult: null,
-      openRunModal: false,
-      loadingVerify: false,
-      showRateLimitError: false,
-      rateLimitTimerId: null,
+const emit = defineEmits(['verify-loading', 'verify-success', 'verify-fail', 'run-loaded']);
+const props = defineProps({
+  currentExercise: Object,
+  files: Array,
+  composerDeps: Array,
+  entryPoint: String,
+});
+
+const loadingRun = ref(false);
+const programRunResult = ref(null);
+const openRunModal = ref(false);
+const loadingVerify = ref(false);
+const showRateLimitError = ref(false);
+const rateLimitTimerId = ref(null);
+
+const flattenFiles = (nodes, files = {}) => {
+  nodes.forEach((node) => {
+    if (!node.children) {
+      files[toFilePath(node)] = node.content ?? '';
+    } else {
+      flattenFiles(node.children, files);
     }
-  },
-  methods: {
-    flattenFiles(nodes, files = {}) {
-      nodes.forEach((node) => {
-        if (!node.children) {
-          files[toFilePath(node)] = node.content ?? '';
-        } else {
-          this.flattenFiles(node.children, files);
-        }
-      })
-      return files;
-    },
-    enableRateLimitError() {
-      this.showRateLimitError = true;
+  })
+  return files;
+}
 
-      if (this.rateLimitTimerId) {
-        clearInterval(this.rateLimitTimerId);
-      }
+const enableRateLimitError = () => {
+  showRateLimitError.value = true;
 
-      this.rateLimitTimerId = setTimeout(() => this.showRateLimitError = false, 3000);
-    },
-
-    runSolution() {
-      if (this.loadingRun) {
-        return;
-      }
-
-      this.loadingRun = true;
-      const url = '/online/workshop/' + this.currentExercise.workshop.code + '/exercise/' + this.currentExercise.exercise.slug + '/run';
-
-      const opts = {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          entry_point: this.entryPoint,
-          scripts: this.flattenFiles(this.files),
-          composer_deps: this.composerDeps
-        })
-      };
-      fetch(url, opts)
-          .then(response => {
-            if (response.ok) {
-              return response.json();
-            }
-
-            if (response.status === 429) {
-              this.enableRateLimitError();
-            }
-
-            throw Error(response.statusText)
-          })
-          .then(json => {
-            this.programRunResult = json;
-            this.openRunModal = true;
-            this.loadingRun = false;
-
-            this.$emit('run-loaded');
-          })
-          .catch(error => {
-            this.loadingRun = false;
-          })
-
-    },
-    verifySolution() {
-      if (this.loadingVerify) {
-        return;
-      }
-
-      this.$emit('verify-loading');
-      this.loadingVerify = true;
-
-      const url = '/online/workshop/' + this.currentExercise.workshop.code + '/exercise/' + this.currentExercise.exercise.slug + '/verify';
-
-      const opts = {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          entry_point: this.entryPoint,
-          scripts: this.flattenFiles(this.files),
-          composer_deps: this.composerDeps
-        })
-      };
-      fetch(url, opts)
-          .then(response => {
-            if (response.ok) {
-              return response.json();
-            }
-
-            if (response.status === 429) {
-              this.enableRateLimitError();
-            }
-
-            throw Error(response.statusText)
-          })
-          .then(json => {
-            if (json.success === true) {
-              this.$emit('verify-success');
-            } else {
-              this.$emit('verify-fail', json.results);
-            }
-
-            this.loadingVerify = false;
-          })
-          .catch(error => {
-            this.loadingVerify = false;
-          })
-    },
+  if (rateLimitTimerId.value) {
+    clearInterval(rateLimitTimerId.value);
   }
+
+  rateLimitTimerId.value = setTimeout(() => showRateLimitError.value = false, 3000);
+}
+
+const runSolution = () => {
+  if (loadingRun.value) {
+    return;
+  }
+
+  loadingRun.value = true;
+  const url = '/online/workshop/' + props.currentExercise.workshop.code + '/exercise/' + props.currentExercise.exercise.slug + '/run';
+
+  const opts = {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      entry_point: props.entryPoint,
+      scripts: flattenFiles(props.files),
+      composer_deps: props.composerDeps
+    })
+  };
+  fetch(url, opts)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        if (response.status === 429) {
+          enableRateLimitError();
+        }
+
+        throw Error(response.statusText)
+      })
+      .then(json => {
+        programRunResult.value = json;
+        openRunModal.value = true;
+        loadingRun.value = false;
+
+        emit('run-loaded');
+      })
+      .catch(error => {
+        loadingRun.value = false;
+      })
+}
+
+const verifySolution = () => {
+  if (loadingVerify.value) {
+    return;
+  }
+
+  emit('verify-loading');
+  loadingVerify.value = true;
+
+  const url = '/online/workshop/' + props.currentExercise.workshop.code + '/exercise/' + props.currentExercise.exercise.slug + '/verify';
+
+  const opts = {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      entry_point: props.entryPoint,
+      scripts: flattenFiles(props.files),
+      composer_deps: props.composerDeps
+    })
+  };
+  fetch(url, opts)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        if (response.status === 429) {
+          enableRateLimitError();
+        }
+
+        throw Error(response.statusText)
+      })
+      .then(json => {
+        if (json.success === true) {
+          emit('verify-success');
+        } else {
+          emit('verify-fail', json.results);
+        }
+
+        loadingVerify.value = false;
+      })
+      .catch(error => {
+        loadingVerify.value = false;
+      })
 }
 </script>
 
