@@ -5,23 +5,18 @@ import FileTree from "./FileTree.vue";
 import ExerciseVerify from "./ExerciseVerify.vue";
 import Tabs from "./Tabs.vue";
 import AceEditor from "./AceEditor.vue";
-import {
-    XMarkIcon,
-    CircleStackIcon,
-    MapIcon,
-    AcademicCapIcon
-} from '@heroicons/vue/24/solid';
+import {XMarkIcon, CircleStackIcon, MapIcon, AcademicCapIcon} from '@heroicons/vue/24/solid';
 import ResultList from "./Results/ResultList.vue";
 import Tour from "./Tour.vue";
 import Confirm from "./Confirm.vue";
 import StudentDropdown from "./StudentDropdown.vue";
-import toFilePath from "./Utils/toFilePath";
 import SiteNav from "../Website/SiteNav.vue";
 import Problem from "./Problem.vue";
 import ComposerPackages from "./ComposerPackages.vue";
 import ProgressBar from "./ProgressBar.vue";
 import EditorBreadcrumbs from "./EditorBreadcrumbs.vue";
 import {onMounted, ref} from "vue";
+import toFilePath from "./Utils/toFilePath";
 
 const props = defineProps({
     nextExerciseLink: String,
