@@ -19,8 +19,8 @@ use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Cloud\Action\ComposerPackageAdd;
 use PhpSchool\Website\Cloud\Action\ComposerPackageSearch;
+use PhpSchool\Website\Cloud\Action\Dashboard;
 use PhpSchool\Website\Cloud\Action\ExerciseEditor;
-use PhpSchool\Website\Cloud\Action\ListWorkshops;
 use PhpSchool\Website\Cloud\Action\ResetState;
 use PhpSchool\Website\Cloud\Action\ResetStateFromEditor;
 use PhpSchool\Website\Cloud\Action\RunExercise;
@@ -229,7 +229,9 @@ $app
         $group->get('/logout', StudentLogout::class);
         $group->post('/workshop/{workshop}/exercise/{exercise}/reset', ResetStateFromEditor::class);
 
-        $group->get('/workshops', ListWorkshops::class);
+        $group->get('/dashboard', Dashboard::class)
+            ->setName('dashboard');
+
         $group->get('/workshop/{workshop}/exercise/{exercise}/editor', ExerciseEditor::class);
         $group->post('/workshop/{workshop}/exercise/{exercise}/run', RunExercise::class)->add($rateLimiter);
         $group->post('/workshop/{workshop}/exercise/{exercise}/verify', VerifyExercise::class)->add($rateLimiter);

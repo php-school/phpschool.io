@@ -11,7 +11,14 @@ const props = defineProps({
     studentState: Object,
 })
 
+const emit = defineEmits(['not-logged-in']);
+
 const selectExercise = () => {
+    if (!props.student) {
+        emit('not-logged-in');
+        return;
+    }
+
     window.location.href = '/online/workshop/' + props.selectedWorkshop.code + '/exercise/' + props.exercise.slug + '/editor';
 }
 

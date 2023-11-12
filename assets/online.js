@@ -18,7 +18,7 @@ import 'vue-diff/dist/index.css';
 import VueShepherdPlugin from './shepherd-plugin';
 import results from "./components/Online/Results/results.js";
 import StudentDropdown from "./components/Online/StudentDropdown.vue";
-import ListWorkshops from "./components/Online/ListWorkshops.vue";
+import Dashboard from "./components/Online/Dashboard.vue";
 import Home from "./components/Website/Pages/Home.vue";
 import SiteNav from "./components/Website/SiteNav.vue";
 import SiteFooter from "./components/Website/SiteFooter.vue";
@@ -68,7 +68,7 @@ const components = {
     ExerciseVerify,
     ExerciseEditor,
     StudentDropdown,
-    ListWorkshops,
+    Dashboard,
     Home,
     SubmitWorkshop,
     SiteNav,

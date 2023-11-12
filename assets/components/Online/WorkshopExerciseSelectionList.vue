@@ -3,6 +3,7 @@ import { CheckCircleIcon } from "@heroicons/vue/24/solid";
 import { ArrowRightCircleIcon } from "@heroicons/vue/24/outline";
 import ExerciseEntry from "./ExerciseEntry.vue";
 import {ref} from "vue";
+import Alert from "./Alert.vue";
 
 const props = defineProps({
   student: {
@@ -14,6 +15,19 @@ const props = defineProps({
 });
 
 const selectedWorkshop = ref(null);
+
+const showNotLoggedInError = ref(false)
+const showNotLoggedInErrorTimeId = ref(null);
+
+const notLoggedIn = () => {
+  showNotLoggedInError.value = true;
+
+  if (showNotLoggedInErrorTimeId.value) {
+    clearInterval(showNotLoggedInErrorTimeId.value);
+  }
+
+  showNotLoggedInErrorTimeId.value = setTimeout(() => showNotLoggedInError.value = false, 3000);
+};
 
 const selectWorkshop = (workshopCode) => {
   selectedWorkshop.value = props.workshops.find((workshop) => workshop.code === workshopCode);
@@ -34,6 +48,7 @@ const isWorkshopComplete = (workshop) => {
 </script>
 
 <template>
+  <alert type="error" @close="showNotLoggedInError = false" v-show="showNotLoggedInError" message="You must be logged in to start an exercise"></alert>
   <div class="w-full flex h-full overflow-hidden gap-4 mt-10 font-mono">
     <div class="w-1/2 h-full">
       <div id="workshops" class="flex flex-col items-center justify-center bg-gray-800 rounded-lg shadow">
@@ -91,7 +106,7 @@ const isWorkshopComplete = (workshop) => {
           </div>
         </div>
         <ul id="workshop-exercises-list" class="flex flex-col w-full">
-          <exercise-entry v-for="exercise in selectedWorkshop.exercises" :exercise="exercise" :selected-workshop="selectedWorkshop" :student="student" :student-state="studentState" />
+          <exercise-entry @not-logged-in="notLoggedIn" v-for="exercise in selectedWorkshop.exercises" :exercise="exercise" :selected-workshop="selectedWorkshop" :student="student" :student-state="studentState" />
         </ul>
       </div>
     </div>

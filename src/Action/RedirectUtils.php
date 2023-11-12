@@ -13,4 +13,9 @@ trait RedirectUtils
         return (new GuzzleResponse(302))
             ->withHeader('Location', $url);
     }
+
+    private function redirectToDashboard(): MessageInterface
+    {
+        return $this->redirect('/online/dashboard');
+    }
 }
