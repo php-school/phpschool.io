@@ -39,7 +39,7 @@
     "focus-trap": "^7.4.0",
     "focus-trap-vue": "^4.0.2",
     "highlight.js": "^11.9.0",
-    "shepherd.js": "^11.0.1",
+    "shepherd.js": "11.0.1",
     "vue": "^3.2.41",
     "vue-diff": "^1.2.4",
     "vue3-click-away": "^1.2.4"
