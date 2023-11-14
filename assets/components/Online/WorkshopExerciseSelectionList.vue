@@ -1,5 +1,5 @@
 <script setup>
-import { CheckCircleIcon } from "@heroicons/vue/24/solid";
+import { CheckCircleIcon, CommandLineIcon } from "@heroicons/vue/24/solid";
 import { ArrowRightCircleIcon } from "@heroicons/vue/24/outline";
 import ExerciseEntry from "./ExerciseEntry.vue";
 import {ref} from "vue";
@@ -58,10 +58,10 @@ const isWorkshopComplete = (workshop) => {
         </div>
         <ul id="workshops-list" class="flex flex-col overflow-hidden">
           <li
-            v-for="workshop in workshops"
-            @click="selectWorkshop(workshop.code)"
-            :class="{ 'bg-gray-700': selectedWorkshop && workshop.code === selectedWorkshop.code }"
-            class="group flex flex-row hover:bg-gray-600 last:rounded-b-lg">
+              v-for="workshop in workshops"
+              @click="selectWorkshop(workshop.code)"
+              :class="{ 'bg-gray-700': selectedWorkshop && workshop.code === selectedWorkshop.code }"
+              class="group flex flex-row hover:bg-gray-600 last:rounded-b-lg">
             <div class="select-none cursor-pointer flex flex-1 items-center p-4">
               <div class="flex flex-col w-10 h-10 justify-center items-center mr-4">
                 <a href="#" class="block relative">
@@ -81,6 +81,17 @@ const isWorkshopComplete = (workshop) => {
           </li>
         </ul>
       </div>
+
+      <div class="flex items-center justify-center bg-gray-800 rounded-lg shadow mt-5 hover:cursor-pointer">
+        <a href="/offline" class="flex items-center justify-center">
+          <CommandLineIcon class="h-12 mx-3 w-12 text-gray-900 fill-pink-600"></CommandLineIcon>
+          <div class="pr-4 py-5 sm:pr-6 flex-1">
+            <h3 class="text-sm leading-6 font-medium text-white pt-[13.5px]">PHP School On The Terminal</h3>
+            <p class="mt-1 max-w-2xl text-xs text-gray-200">An alternative way to complete the PHP School workshops is to download them and run them in your own terminal. Check it out here. </p>
+          </div>
+        </a>
+      </div>
+
     </div>
     <div class="w-1/2 h-full">
       <div v-if="selectedWorkshop === null" class="flex flex-col items-center justify-center">
@@ -93,9 +104,9 @@ const isWorkshopComplete = (workshop) => {
         </svg>
       </div>
       <div
-        v-if="selectedWorkshop"
-        id="workshop-exercises"
-        class="scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-none scrollbar-thumb-rounded-full scrollbar-track-rounded-full flex flex-col items-center bg-gray-800 rounded-lg shadow h-full overflow-hidden overflow-y-scroll">
+          v-if="selectedWorkshop"
+          id="workshop-exercises"
+          class="scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-none scrollbar-thumb-rounded-full scrollbar-track-rounded-full flex flex-col items-center bg-gray-800 rounded-lg shadow h-full overflow-hidden overflow-y-scroll">
         <div class="px-4 py-5 sm:px-6 w-full">
           <div class="w-full flex flex-col items-center">
             <h3 class="text-lg leading-6 font-medium text-white pt-[13.5px]">{{ selectedWorkshop.name }} Exercises</h3>

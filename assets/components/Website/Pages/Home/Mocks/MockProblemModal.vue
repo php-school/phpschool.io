@@ -1,6 +1,6 @@
 <template>
   <div id="problem-modal"
-    class="relative rounded-3xl bg-gray-800 flex flex-col justify-start w-full modal-border border-2 border-solid border-transparent max-w-2xl max-h-[39rem] shadow-[-20px_20px_0_rgba(0,0,0,0.2)] p-2">
+    class="relative rounded-3xl bg-gray-800 flex flex-col justify-start w-full modal-border border-2 border-solid border-transparent max-w-[20rem] sm:max-w-2xl lg:max-w-lg xl:max-w-2xl max-h-[24rem] sm:max-h-[39rem] shadow-[-20px_20px_0_rgba(0,0,0,0.2)] p-2">
     <div class="p-2 rounded-t flex-none flex justify-between items-top border-b border-solid border-slate-600">
       <div class="flex flex-col">
         <div class="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
