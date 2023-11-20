@@ -4,7 +4,6 @@ import liveReload from 'vite-plugin-live-reload'
 import path from 'path'
 
 export default defineConfig({
-
     plugins: [
         vue(),
         liveReload([
@@ -29,6 +28,7 @@ export default defineConfig({
             input: {
                 online: path.resolve(__dirname, 'assets/online.js'),
                 login: path.resolve(__dirname, 'assets/login.js'),
+                admin: path.resolve(__dirname, 'assets/admin.js'),
             }
         }
     },
