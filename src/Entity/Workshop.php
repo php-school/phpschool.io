@@ -15,7 +15,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Table(name="workshop"))
  * @ORM\Entity(repositoryClass="PhpSchool\Website\Repository\DoctrineORMWorkshopRepository")
  */
-class Workshop
+class Workshop implements \JsonSerializable
 {
     public const TYPE_COMMUNITY = 0;
     public const TYPE_CORE = 1;
@@ -229,6 +229,25 @@ class Workshop
             'repo_url' => $this->getRepoUrl(),
             'type' => $this->getTypeCode(),
             "description" => $this->getDescription()
+        ];
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'code' => $this->getCode(),
+            'name' => $this->getDisplayName(),
+            'description' => $this->getDescription(),
+            'repo_url' => $this->getRepoUrl(),
+            'submitter_name' => $this->getSubmitterName(),
+            'submitter_email' => $this->getSubmitterEmail(),
+            'submitter_contact' => $this->getSubmitterContact(),
+            'submitter_avatar' => 'https://www.gravatar.com/avatar/' . md5($this->getSubmitterEmail()),
+            'status' => $this->isApproved() ? 'Approved' : 'Not-approved',
+            'type' => $this->getTypeName(),
+            'installs' => $this->getTotalInstalls(),
+            'created_at' => $this->getCreatedAt()->format('M jS, y h:i')
         ];
     }
 }

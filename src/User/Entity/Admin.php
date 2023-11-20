@@ -10,7 +10,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Entity
  * @ORM\Table(name="admin_user"))
  */
-class Admin
+class Admin implements \JsonSerializable
 {
     /**
      * @psalm-suppress PropertyNotSetInConstructor
@@ -62,5 +62,14 @@ class Admin
     public function getPassword(): string
     {
         return $this->passwordHash;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'name' => $this->getUsername(),
+            'email' => $this->getEmail(),
+            'avatar' => 'https://www.gravatar.com/avatar/' . md5($this->getEmail()),
+        ];
     }
 }
