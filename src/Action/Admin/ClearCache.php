@@ -2,7 +2,7 @@
 
 namespace PhpSchool\Website\Action\Admin;
 
-use PhpSchool\Website\Action\RedirectUtils;
+use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\User\FlashMessages;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\MessageInterface;
@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class ClearCache
 {
-    use RedirectUtils;
+    use JsonUtils;
 
     private CacheItemPoolInterface $cache;
     private FlashMessages $messages;
@@ -26,8 +26,6 @@ class ClearCache
     {
         $this->cache->clear();
 
-        $this->messages->addMessage('admin.success', 'Successfully cleared full page cache');
-
-        return $this->redirect('/admin');
+        return $this->jsonSuccess($response);
     }
 }

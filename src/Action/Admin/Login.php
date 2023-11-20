@@ -38,8 +38,6 @@ class Login
                 ->withHeader('Location', '/admin');
         }
 
-        $this->renderer->appendRemoteCss('login', $this->viteManifest->cssUrls('login.js')[0]);
-
         $response = $response->withAddedHeader('Cache-Control', 'no-cache');
 
         return $this->renderer->render($response, 'admin/login.phtml', [
