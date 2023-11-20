@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
     "@vitejs/plugin-vue": "^4.0",
     "@vue/compiler-sfc": "^3.2.41",
     "autoprefixer": "^10.4.13",
@@ -35,13 +36,16 @@
     "@headlessui/vue": "^1.7.4",
     "@heroicons/vue": "^2.0.13",
     "ace-builds": "^1.13.0",
+    "chart.js": "^4.4.0",
     "cross-env": "^7.0.3",
     "focus-trap": "^7.4.0",
     "focus-trap-vue": "^4.0.2",
     "highlight.js": "^11.9.0",
     "shepherd.js": "11.0.1",
     "vue": "^3.2.41",
+    "vue-chartjs": "^5.2.0",
     "vue-diff": "^1.2.4",
+    "vue-router": "^4.2.5",
     "vue3-click-away": "^1.2.4"
   }
 }
