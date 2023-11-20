@@ -230,3 +230,25 @@
   --docsearch-searchbox-focus-background: theme('colors.gray.800');
   --docsearch-searchbox-shadow: inset 0 0 0 1px var(--docsearch-primary-color);
 }
+
+/* admin */
+@keyframes blinker {
+  from {
+    opacity: 1.0;
+  }
+  to {
+    opacity: 0.3;
+  }
+}
+
+.blink {
+  text-decoration: blink;
+  animation-name: blinker;
+  animation-duration: 0.6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+  text-shadow: 0 0 10px #e91e63, 0 0 20px #e91e63, 0 0 30px #e91e63, 0 0 40px #e91e63, 0 0 70px #e91e63, 0 0 80px #e91e63, 0 0 100px #e91e63, 0 0 150px #e91e63;
+}
+
+/* admin end */
