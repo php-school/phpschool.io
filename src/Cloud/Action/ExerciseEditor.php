@@ -80,10 +80,10 @@ class ExerciseEditor
         $data = $this->maybeAddOfficialSolution($data, $exercise);
         $data = $this->addInitialCode($data, $exercise);
 
-        return $renderer->render($response, 'layouts/cloud.phtml', [
+        return $renderer->render($response, 'layouts/online.phtml', [
             'pageTitle' => 'PHP School Cloud',
             'pageDescription' => 'PHP School Cloud',
-            'content' => $renderer->fetch('cloud/exercise-editor.phtml', $data)
+            'content' => $renderer->fetch('online/exercise-editor.phtml', $data)
         ]);
     }
 

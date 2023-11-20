@@ -26,7 +26,7 @@ class Dashboard
             $renderer->json($renderer->getAttribute('links'))
         );
 
-        return $renderer->render($response, 'layouts/cloud.phtml', [
+        return $renderer->render($response, 'layouts/online.phtml', [
             'pageTitle' => 'PHP School Cloud',
             'pageDescription' => 'PHP School Cloud',
             'content' => $content
