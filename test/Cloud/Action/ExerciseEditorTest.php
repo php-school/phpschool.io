@@ -96,7 +96,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $renderer->expects($this->once())
             ->method('fetch')
             ->with(
-                'cloud/exercise-editor.phtml',
+                'online/exercise-editor.phtml',
                 [
                     'workshop' => $workshop,
                     'exercise' => [
@@ -121,7 +121,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
             ->method('render')
             ->with(
                 $response,
-                'layouts/cloud.phtml',
+                'layouts/online.phtml',
                 [
                     'pageTitle' => 'PHP School Cloud',
                     'pageDescription' => 'PHP School Cloud',
@@ -170,7 +170,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $renderer->expects($this->once())
             ->method('fetch')
             ->with(
-                'cloud/exercise-editor.phtml',
+                'online/exercise-editor.phtml',
                 [
                     'workshop' => $workshop,
                     'exercise' => [
@@ -179,7 +179,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
                         'description' => 'my-exercise',
                         'type' => $exercise->getType()
                     ],
-                    'nextExerciseLink' => '/cloud/workshop/workshop/exercise/next-exercise/editor',
+                    'nextExerciseLink' => '/online/workshop/workshop/exercise/next-exercise/editor',
                     'problem' => '<h1>Some problem file</h1>',
                     'totalExerciseCount' => 10,
                     'initial_files' => [
@@ -195,7 +195,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
             ->method('render')
             ->with(
                 $response,
-                'layouts/cloud.phtml',
+                'layouts/online.phtml',
                 [
                     'pageTitle' => 'PHP School Cloud',
                     'pageDescription' => 'PHP School Cloud',
@@ -242,7 +242,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $renderer->expects($this->once())
             ->method('fetch')
             ->with(
-                'cloud/exercise-editor.phtml',
+                'online/exercise-editor.phtml',
                 [
                     'workshop' => $workshop,
                     'exercise' => [
@@ -279,7 +279,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
             ->method('render')
             ->with(
                 $response,
-                'layouts/cloud.phtml',
+                'layouts/online.phtml',
                 [
                     'pageTitle' => 'PHP School Cloud',
                     'pageDescription' => 'PHP School Cloud',

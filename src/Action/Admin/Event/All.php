@@ -25,9 +25,9 @@ class All
 
     public function __invoke(Request $request, Response $response): Response
     {
-       return $this->withJson(
-           ['events' => $this->repository->findAll()],
-           $response
-       );
+        return $this->withJson(
+            ['events' => $this->repository->findAll()],
+            $response
+        );
     }
 }

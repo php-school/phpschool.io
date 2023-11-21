@@ -81,7 +81,7 @@ class StudentAuthenticatorTest extends TestCase
 
     public function testThatNonLoggedInStudentIsRedirectedToCloudHomeWhenAccessingAnyOtherCloudRoute(): void
     {
-        $request = new ServerRequest('GET', '/cloud/verify');
+        $request = new ServerRequest('GET', '/online/verify');
 
         $handler = $this->getRequestHandler();
 
@@ -93,30 +93,21 @@ class StudentAuthenticatorTest extends TestCase
         $response = $middleware->__invoke($request, $handler);
 
         $this->assertEquals(302, $response->getStatusCode());
-        $this->assertEquals('/cloud', $response->getHeaderLine('Location'));
+        $this->assertEquals('/online/dashboard', $response->getHeaderLine('Location'));
     }
 
     public function testThatLoggedInStudentCanAccessCloudHome(): void
     {
-        $request = new ServerRequest('GET', '/cloud');
+        $request = new ServerRequest('GET', '/online');
 
         $handler = $this->getRequestHandler();
 
         $student = $this->getStudent();
 
-        $entity = $this->createMock(Student::class);
-        $entity->expects($this->once())->method('toDTO')->willReturn($student);
-
         $this->session->expects($this->once())
             ->method('get')
             ->with('student')
             ->willReturn($student);
-
-        $this->studentRepository
-            ->expects($this->once())
-            ->method('findById')
-            ->with($student->id)
-            ->willReturn($entity);
 
         $middleware = new StudentAuthenticator(
             $this->session,
@@ -131,25 +122,16 @@ class StudentAuthenticatorTest extends TestCase
 
     public function testThatLoggedInStudentCanAccessOtherCloudRoutes(): void
     {
-        $request = new ServerRequest('GET', '/cloud/verify');
+        $request = new ServerRequest('GET', '/online/verify');
 
         $handler = $this->getRequestHandler();
 
         $student = $this->getStudent();
 
-        $entity = $this->createMock(Student::class);
-        $entity->expects($this->once())->method('toDTO')->willReturn($student);
-
         $this->session->expects($this->once())
             ->method('get')
             ->with('student')
             ->willReturn($student);
-
-        $this->studentRepository
-            ->expects($this->once())
-            ->method('findById')
-            ->with($student->id)
-            ->willReturn($entity);
 
         $middleware = new StudentAuthenticator(
             $this->session,
@@ -162,42 +144,6 @@ class StudentAuthenticatorTest extends TestCase
         $this->assertEmpty($response->getHeaderLine('Location'));
     }
 
-    public function testThatLoggedInStudentIsRefreshedWhenAccessingCloudRoutes(): void
-    {
-        $request = new ServerRequest('GET', '/cloud/verify');
-
-        $handler = $this->getRequestHandler();
-
-        $student = $this->getStudent();
-
-        $entity = $this->createMock(Student::class);
-        $entity->expects($this->once())->method('toDTO')->willReturn($student);
-
-        $this->session->expects($this->once())
-            ->method('get')
-            ->with('student')
-            ->willReturn($student);
-
-        $this->session->expects($this->once())
-            ->method('set')
-            ->with('student', $student);
-
-        $this->studentRepository
-            ->expects($this->once())
-            ->method('findById')
-            ->with($student->id)
-            ->willReturn($entity);
-
-        $middleware = new StudentAuthenticator(
-            $this->session,
-            $this->studentRepository
-        );
-
-        $response = $middleware->__invoke($request, $handler);
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEmpty($response->getHeaderLine('Location'));
-    }
 
     private function getStudent(): StudentDTO
     {
