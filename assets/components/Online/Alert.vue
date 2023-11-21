@@ -1,5 +1,6 @@
 <script setup>
 import {ExclamationTriangleIcon, XMarkIcon, CheckIcon} from "@heroicons/vue/24/solid";
+import {onMounted} from "vue";
 
 const props = defineProps({
     message: String,
@@ -10,13 +11,25 @@ const props = defineProps({
             return ['success', 'error'].includes(value)
         }
     },
+    timeout: Number
+});
+
+const emit = defineEmits(['close']);
+
+//must use v-if for this to work
+onMounted(() => {
+    if (props.timeout) {
+        setTimeout(() => {
+            emit('close');
+        }, props.timeout);
+    }
 });
 </script>
 
 <template>
     <Transition enter-active-class="transition-opacity duration-100 ease-in" leave-active-class="transition-opacity duration-300 ease-in" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
-        <div v-cloak class="absolute top-4 left-0 z-[51] shadow-lg w-full flex justify-center">
-            <div class="mx-auto py-3 px-3 sm:px-6 lg:px-8  bg-gradient-to-r rounded-lg" :class="{'from-red-600 to-pink-700': type === 'error', 'from-pink-500 to-purple-500': type === 'success' }">
+        <div v-cloak class="absolute top-4 left-0 z-[51] w-full flex justify-center">
+            <div class="mx-auto py-3 px-3 sm:px-6 lg:px-8 shadow-lg bg-gradient-to-r rounded-lg" :class="{'from-red-600 to-pink-700': type === 'error', 'from-pink-500 to-purple-500': type === 'success' }">
                 <div class="flex flex-wrap items-center justify-center">
                     <div class="flex items-center">
                         <ExclamationTriangleIcon v-if="type === 'error'" class="h-6 w-6 text-white"/>

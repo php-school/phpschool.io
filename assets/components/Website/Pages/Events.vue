@@ -37,11 +37,11 @@ const props = defineProps({
                 <ul v-if="events.length > 0" class="w-full pb-6" >
 
                     <li class="p-8 border-b last:border-none border-gray-600" v-for="event in events">
-                        <h3 class="text-lg text-gray-300 pb-4 font-mono">{{event.date}}</h3>
+                        <h3 class="text-lg text-gray-300 pb-4 font-mono">{{event.date_formatted}}</h3>
                         <h2 class="text-2xl pb-6 text-[#e91e63] font-mono font-bold"> {{event.name}}</h2>
 
                         <a v-if="event.poster" target="_blank" class="" :href="'/uploads/' + event.poster">
-                            <img :src="'https://www.phpschool.io/uploads/' + event.poster" :alt="event.name">
+                            <img :src="'/uploads/' + event.poster" :alt="event.name">
                         </a>
 
                         <p class="text-sm text-gray-300 whitespace-pre-line ">{{event.description}}</p>
@@ -65,11 +65,11 @@ const props = defineProps({
                <h2 class="px-8 text-2xl font-mono text-gray-300">Previous Events</h2>
 
                <li class="p-8 border-b last:border-none border-gray-600" v-for="event in previousEvents">
-                   <h3 class="text-lg text-gray-300 pb-4 font-mono">{{event.date}}</h3>
+                   <h3 class="text-lg text-gray-300 pb-4 font-mono">{{event.date_formatted}}</h3>
                    <h2 class="text-2xl pb-6 text-[#e91e63] font-mono font-bold"> {{event.name}}</h2>
 
                    <a v-if="event.poster" target="_blank" :href="'https://www.phpschool.io/uploads/' + event.poster">
-                       <img :src="'https://www.phpschool.io/uploads/' + event.poster" :alt="event.name">
+                       <img :src="'/uploads/' + event.poster" :alt="event.name">
                    </a>
 
                    <p class="text-sm text-gray-300 whitespace-pre-line ">{{event.description}}</p>

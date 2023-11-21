@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\ORM\EntityManagerInterface;
 use PhpSchool\Website\Action\Admin\ClearCache;
 use PhpSchool\Website\Action\Admin\Event\All as AllEvents;
 use PhpSchool\Website\Action\Admin\Event\Create as EventCreate;
@@ -9,6 +10,7 @@ use PhpSchool\Website\Action\Admin\Login;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Delete;
 use PhpSchool\Website\Action\Admin\Workshop\Promote;
+use PhpSchool\Website\Action\Admin\Workshop\RegenerateFeed;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
@@ -34,10 +36,10 @@ use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\AdminAuthenticationService;
+use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\FlashMessages;
 use PhpSchool\Website\User\Middleware\AdminAuthenticator;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
-use PhpSchool\Website\WorkshopFeed;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
 use Psr\Log\LoggerInterface;
@@ -127,49 +129,48 @@ $app
             return $renderer->render($response, 'layouts/admin.phtml', [
                 'pageTitle'       => 'Admin Area',
                 'pageDescription' => 'Admin Area',
-                'content'         => $renderer->fetch('admin/main.phtml')
             ]);
         });
 
-        $group->get('/cache/clear', ClearCache::class);
+        $group->post('/cache/clear', ClearCache::class);
 
         $group->group('/workshop', function (RouteCollectorProxy $group) {
             $group->get('/all', All::class);
             $group->get('/new', Requests::class);
-            $group->get('/approve/{id}', Approve::class);
-            $group->get('/promote/{id}', Promote::class);
-            $group->get('/delete/{id}', Delete::class);
+            $group->post('/approve/{id}', Approve::class);
+            $group->post('/promote/{id}', Promote::class);
+            $group->delete('/delete/{id}', Delete::class);
+            $group->get('/view/{id}', View::class);
+            $group->post('/regenerate', RegenerateFeed::class);
         });
 
         $group->group('/event', function (RouteCollectorProxy $group) {
             $group->get('/all', AllEvents::class);
-            $group->get('/create', EventCreate::class . '::showCreateForm');
-            $group->post('/create', EventCreate::class . '::create');
-            $group->get('/update/{id}', EventUpdate::class . '::showUpdateForm');
-            $group->post('/update/{id}', EventUpdate::class . '::update');
-            $group->get('/delete/{id}', EventDelete::class);
+            $group->post('/create', EventCreate::class);
+            $group->post('/update/{id}', EventUpdate::class);
+            $group->delete('/delete/{id}', EventDelete::class);
         });
 
-        $group->get(
-            '/regenerate',
-            function (Request $request, Response $response, FlashMessages $messages, WorkshopFeed $workshopFeed) {
-                try {
-                    $workshopFeed->generate();
-                    $messages->addMessage('admin.success', 'Workshop feed was successfully regenerated!');
-                } catch (RuntimeException $e) {
-                    $messages->addMessage(
-                        'admin.error',
-                        sprintf('Workshop feed could not be generated. Error: "%s"', $e->getMessage())
-                    );
-                }
+        $group->group('/student', function (RouteCollectorProxy $group) {
+            $group->get('/all', function (Request $request, Response $response, EntityManagerInterface $entityManager) {
+                $response
+                    ->getBody()
+                    ->write(json_encode($entityManager->getRepository(Student::class)->findAll()));
 
                 return $response
-                    ->withStatus(302)
-                    ->withHeader('Location', '/admin/workshop/all');
-            }
-        );
+                    ->withStatus(200)
+                    ->withHeader('Content-Type', 'application/json');
+            });
+        });
 
-        $group->get('/workshop/view/{id}', View::class);
+        //fallback for vue routes
+        //all gets should be handled by vue router
+        $group->get('/{sth}', function (Request $request, Response $response, PhpRenderer $renderer) {
+            return $renderer->render($response, 'layouts/admin.phtml', [
+                'pageTitle'       => 'Admin Area',
+                'pageDescription' => 'Admin Area',
+            ]);
+        });
     })
     ->add($container->get(AdminAuthenticator::class))
     ->add(function (Request $request, RequestHandler $handler): Response {
@@ -194,7 +195,7 @@ $app
 
 $app->get('/login', Login::class . '::showLoginForm');
 $app->post('/login', Login::class . '::login');
-$app->get('/logout', function (AdminAuthenticationService $auth, Response $response) {
+$app->post('/logout', function (AdminAuthenticationService $auth, Response $response) {
     $auth->logout();
 
     return $response

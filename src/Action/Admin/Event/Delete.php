@@ -2,51 +2,46 @@
 
 namespace PhpSchool\Website\Action\Admin\Event;
 
+use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Repository\EventRepository;
-use PhpSchool\Website\User\FlashMessages;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use PhpSchool\Website\PhpRenderer;
 use RuntimeException;
 
 class Delete
 {
+    use JsonUtils;
+
     private EventRepository $repository;
     private CacheItemPoolInterface $cache;
-    private FlashMessages $messages;
 
     public function __construct(
         EventRepository $repository,
         CacheItemPoolInterface $cache,
-        FlashMessages $messages
     ) {
         $this->repository = $repository;
         $this->cache = $cache;
-        $this->messages = $messages;
     }
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): Response
+    public function __invoke(Request $request, Response $response, string $id): Response
     {
         try {
             $event = $this->repository->findById($id);
         } catch (RuntimeException $e) {
-            return $response
-                ->withStatus(302)
-                ->withHeader('Location', '/admin/event/all');
+            return $this->withJson(
+                [
+                    'error' => 'Could not find workshop with id: ' . $id
+                ],
+                $response,
+                500
+            );
         }
 
         $this->repository->remove($event);
 
         $this->cache->clear();
 
-        $this->messages->addMessage(
-            'admin.success',
-            sprintf('Successfully removed event %s', $event->getName())
-        );
-
-        return $response
-            ->withStatus(302)
-            ->withHeader('Location', '/admin/event/all');
+        return $this->jsonSuccess($response);
     }
 }

@@ -5,7 +5,7 @@ namespace PhpSchool\Website\Action\Admin\Workshop;
 use DateInterval;
 use DatePeriod;
 use DateTimeImmutable;
-use PhpSchool\Website\Action\RedirectUtils;
+use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Entity\WorkshopInstall;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
@@ -17,7 +17,7 @@ use RuntimeException;
 
 class View
 {
-    use RedirectUtils;
+    use JsonUtils;
 
     private WorkshopRepository $repository;
     private WorkshopInstallRepository $workshopInstallRepository;
@@ -38,23 +38,22 @@ class View
         try {
             $workshop = $this->repository->findById($id);
         } catch (RuntimeException $e) {
-            return $this->redirect('/admin/workshop/all');
+            return $this->withJson(
+                [
+                    'error' => 'Could not find workshop with id: ' . $id
+                ],
+                $response,
+                500
+            );
         }
 
-        $this->renderer->addJs('charts', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.min.js');
-
         $installs = $this->workshopInstallRepository->findInstallsInLast30Days($workshop);
-        $inner = $this->renderer->fetch('admin/workshop/view.phtml', [
-            'workshop'  => $workshop,
-            'installs'  => $installs,
-            'graphData' => $this->getLast30DayInstallGraphData($installs)
-        ]);
 
-        return $this->renderer->render($response, 'layouts/admin.phtml', [
-            'pageTitle'       => $workshop->getDisplayName(),
-            'pageDescription' => $workshop->getDisplayName(),
-            'content'         => $inner
-        ]);
+        return $this->withJson([
+            'workshop' => $workshop,
+            'installs' => $installs,
+            'graphData' => $this->getLast30DayInstallGraphData($installs)
+        ], $response);
     }
 
     private function getLast30DayInstallGraphData(array $installs): array

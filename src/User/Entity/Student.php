@@ -14,7 +14,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Table(name="student"))
  * @ORM\Entity(repositoryClass="PhpSchool\Website\User\DoctrineORMStudentRepository")
  */
-class Student
+class Student implements \JsonSerializable
 {
     /**
      * @psalm-suppress PropertyNotSetInConstructor
@@ -198,5 +198,10 @@ class Student
             $this->tourComplete,
             new StudentCloudState($this->workshopState)
         );
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->toDTO()->jsonSerialize();
     }
 }

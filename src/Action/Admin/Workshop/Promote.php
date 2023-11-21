@@ -2,7 +2,7 @@
 
 namespace PhpSchool\Website\Action\Admin\Workshop;
 
-use PhpSchool\Website\Action\RedirectUtils;
+use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\FlashMessages;
 use PhpSchool\Website\WorkshopFeed;
@@ -15,7 +15,7 @@ use RuntimeException;
 
 class Promote
 {
-    use RedirectUtils;
+    use JsonUtils;
 
     private WorkshopRepository $repository;
     private WorkshopFeed $workshopFeed;
@@ -39,7 +39,13 @@ class Promote
         try {
             $workshop = $this->repository->findById($id);
         } catch (RuntimeException $e) {
-            return $this->redirect('/admin/workshop/all');
+            return $this->withJson(
+                [
+                    'error' => 'Could not find workshop with id: ' . $id
+                ],
+                $response,
+                500
+            );
         }
 
         $workshop->promoteToCore();
@@ -50,17 +56,15 @@ class Promote
 
         try {
             $this->workshopFeed->generate();
-            $this->messages->addMessage(
-                'admin.success',
-                sprintf('Successfully promoted %s to core and regenerated workshop feed!', $workshop->getDisplayName())
-            );
+            return $this->jsonSuccess($response);
         } catch (RuntimeException $e) {
-            $this->messages->addMessage(
-                'admin.error',
-                sprintf('Workshop feed could not be generated. Error: "%s"', $e->getMessage())
+            return $this->withJson(
+                [
+                    'error' => sprintf('Workshop feed could not be generated. Error: "%s"', $e->getMessage())
+                ],
+                $response,
+                500
             );
         }
-
-        return $this->redirect('/admin/workshop/all');
     }
 }

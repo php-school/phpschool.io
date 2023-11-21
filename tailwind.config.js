@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ['./templates/**/*.{phtml,js}', './public/js/cloud.js', './src/PhpWorkshop/**/*.php', './assets/**/*.js', './assets/components/**/*.vue'],
+    content: ['./templates/**/*.{phtml,js}', './public/js/online.js', './src/PhpWorkshop/**/*.php', './assets/**/*.js', './assets/components/**/*.vue'],
     theme: {
         extend: {
             fontFamily: {
@@ -16,7 +16,10 @@ module.exports = {
             },
         },
     },
-    plugins: [require('tailwind-scrollbar')({ nocompatible: true })],
+    plugins: [
+        require('tailwind-scrollbar')({ nocompatible: true }),
+        require('@tailwindcss/forms'),
+    ],
     variants: {
         scrollbar: ['rounded'],
     },

@@ -131,6 +131,14 @@ class PhpRenderer
         return array_map(fn ($preload) => $preload['url'], $this->preload);
     }
 
+    public function removePreload(string $id): PhpRenderer
+    {
+        $this->css = array_values(array_filter($this->preload, function (array $preload) use ($id) {
+            return $preload['id'] !== $id;
+        }));
+        return $this;
+    }
+
     public function slugClass(string $class): string
     {
         return str_replace('\\', '-', strtolower($class));

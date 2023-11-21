@@ -6,8 +6,6 @@ use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 use Jenssegers\Agent\Agent;
-use League\CommonMark\Block\Element\FencedCode;
-use League\CommonMark\Block\Element\IndentedCode;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
@@ -24,8 +22,8 @@ use PhpSchool\PhpWorkshop\Markdown\Shorthands\Context;
 use PhpSchool\PhpWorkshop\Markdown\Shorthands\Documentation as DocumentationShorthand;
 use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Cloud\Action\ComposerPackageAdd;
+use PhpSchool\Website\Cloud\Action\Dashboard;
 use PhpSchool\Website\Cloud\Action\ExerciseEditor;
-use PhpSchool\Website\Cloud\Action\ListWorkshops;
 use PhpSchool\Website\Cloud\Action\RunExercise;
 use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\CloudWorkshopRepository;
@@ -38,6 +36,7 @@ use PhpSchool\Website\Cloud\ProjectUploader;
 use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\Cloud\VueResultsRenderer;
 use PhpSchool\Website\Form\FormHandler;
+use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\Middleware\FlashMessages as FlashMessagesMiddleware;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
 use PhpSchool\Website\User\Entity\Student;
@@ -49,8 +48,6 @@ use PhpSchool\Website\User\StudentRepository;
 use PhpSchool\Website\ViteManifest;
 use Predis\Connection\ConnectionException;
 use Slim\App;
-use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
-use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\RateLimiter\Storage\CacheStorage;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -195,12 +192,6 @@ return [
 
         return new RedisAdapter($redisConnection, 'default');
     }),
-    ViteProductionAssets::class => function (ContainerInterface $c): ViteProductionAssets {
-        return new ViteProductionAssets(
-            $c->get(PhpRenderer::class),
-            $c->get(ViteManifest::class)
-        );
-    },
     ViteManifest::class => function (ContainerInterface $c): ViteManifest {
         return new ViteManifest();
     },
@@ -217,16 +208,16 @@ return [
         $manifest = $c->get(ViteManifest::class);
 
         if ($c->get('config')['devMode']) {
-            $renderer->addJs('cloud', 'http://localhost:5133/online.js', ['type' => 'module', 'crossorigin']);
+            $renderer->addJs('online', 'http://localhost:5133/online.js', ['type' => 'module', 'crossorigin']);
         } else {
-            $renderer->addJs('cloud', $this->manifest->assetUrl('online.js'), ['type' => 'module', 'crossorigin']);
+            $renderer->addJs('online', $this->manifest->assetUrl('online.js'), ['type' => 'module', 'crossorigin']);
 
-            foreach ($manifest->importsUrls('cloud.js') as $i => $url) {
-                $renderer->addPreload($i, $url);
+            foreach ($manifest->importsUrls('online.js') as $i => $url) {
+                $renderer->addPreload('online-preload-' . $i, $url);
             }
 
-            foreach ($manifest->cssUrls('cloud.js') as $i => $url) {
-                $renderer->appendRemoteCss($i, $url);
+            foreach ($manifest->cssUrls('online.js') as $i => $url) {
+                $renderer->appendRemoteCss('online-css-' . $i, $url);
             }
         }
 
@@ -454,8 +445,8 @@ return [
         return new ProblemFileConverter($c->get(MarkdownConverterInterface::class));
     },
 
-    ListWorkshops::class => function (ContainerInterface $c): ListWorkshops {
-        return new ListWorkshops(
+    Dashboard::class => function (ContainerInterface $c): Dashboard {
+        return new Dashboard(
             $c->get(CloudWorkshopRepository::class),
         );
     },
@@ -656,6 +647,10 @@ return [
             $c->get(SessionStorageInterface::class),
             $c->get('exerciseRunnerRateLimiterFactory')
         );
+    },
+
+    AdminStyle::class => function (ContainerInterface $c) {
+        return new AdminStyle($c->get(PhpRenderer::class), $c->get(ViteManifest::class), $c->get('config')['devMode']);
     },
 
     'config' => [

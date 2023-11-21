@@ -2,6 +2,7 @@
 
 namespace PhpSchool\Website\Action\Admin\Event;
 
+use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
@@ -14,6 +15,8 @@ use Laminas\Filter\Exception\RuntimeException;
 
 class Update
 {
+    use JsonUtils;
+
     private EventRepository $repository;
     private FormHandler $formHandler;
     private PhpRenderer $renderer;
@@ -31,40 +34,21 @@ class Update
         $this->formHandler = $formHandler;
     }
 
-    public function showUpdateForm(Request $request, Response $response, string $id): MessageInterface
+    public function __invoke(Request $request, Response $response, string $id): MessageInterface
     {
         try {
             $event = $this->repository->findById($id);
         } catch (RuntimeException $e) {
-            return $response
-                ->withStatus(302)
-                ->withHeader('Location', '/admin/event/all');
-        }
-
-        return $this->renderer->render($response, 'layouts/admin.phtml', [
-            'pageTitle'       => 'Admin Area - Update Event',
-            'pageDescription' => 'Admin Area - Update Event',
-            'content'         => $this->renderer->fetch(
-                'admin/event/update.phtml',
+            return $this->withJson(
                 [
-                    'form'  => $this->formHandler->getForm($event->toArray()),
-                    'event' => $event
-                ]
-            )
-        ]);
-    }
-
-    public function update(Request $request, Response $response, string $id): MessageInterface
-    {
-        try {
-            $event = $this->repository->findById($id);
-        } catch (RuntimeException $e) {
-            return $response
-                ->withStatus(302)
-                ->withHeader('Location', '/admin/event/all');
+                    'error' => 'Could not find event with id: ' . $id
+                ],
+                $response,
+                500
+            );
         }
 
-        $res = $this->formHandler->validateAndRedirectIfErrors($request, $response);
+        $res = $this->formHandler->validateJsonRequest($request, $response);
 
         if ($res instanceof ResponseInterface) {
             return $res;
@@ -73,12 +57,12 @@ class Update
         try {
             $values = $this->formHandler->getData();
         } catch (RuntimeException $e) {
-            return $this->formHandler->redirectWithErrors(
-                $request,
-                $response,
-                [ 'poster' => [
-                    'There was a problem uploading the file. Please try again.'
-                ]]
+            return $this->withJson(
+                [
+                    'success' => false,
+                    'form_errors' => ['poster' => 'There was a problem uploading the file. Please try again.']
+                ],
+                $response
             );
         }
 
@@ -91,13 +75,6 @@ class Update
 
         $this->repository->save($event);
 
-        $this->messages->addMessage(
-            'admin.success',
-            sprintf('Event %s was successfully updated.', $event->getName())
-        );
-
-        return $response
-            ->withStatus(302)
-            ->withHeader('Location', '/admin/event/all');
+        return $this->jsonSuccess($response);
     }
 }

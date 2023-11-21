@@ -149,17 +149,19 @@ class Event implements \JsonSerializable
     public function toArray(): array
     {
         return [
+            'id' => $this->getId(),
             'name' => $this->getName(),
             'description' => $this->getDescription(),
             'link' => $this->getLink(),
-            'date' => $this->getDateTime()->format('l M jS - g:i A'),
+            'date_formatted' => $this->getDateTime()->format('l M jS - g:i A'),
+            'date' => $this->getDateTime()->format('Y-m-d\TH:i'),
             'venue' => $this->getVenue(),
             'venueLines' => $this->getVenueLines(),
             'poster' => $this->getPoster(),
         ];
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
