@@ -2,7 +2,7 @@
 
 import Modal from "../Modal.vue";
 import {ExclamationTriangleIcon} from '@heroicons/vue/24/solid'
-import {defineProps, ref} from "vue";
+import {ref} from "vue";
 
 const openModal = ref(false);
 const props = defineProps({

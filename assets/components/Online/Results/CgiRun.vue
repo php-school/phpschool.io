@@ -2,7 +2,7 @@
 
 import Modal from "../Modal.vue";
 import {Cog6ToothIcon} from '@heroicons/vue/24/solid'
-import {computed, defineProps, ref} from "vue";
+import {computed, ref} from "vue";
 
 const openModal = ref(false);
 const currentFailure = ref(null);
