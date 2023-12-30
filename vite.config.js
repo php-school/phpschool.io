@@ -14,7 +14,6 @@ export default defineConfig({
 
     // config
     root: 'assets',
-    base: process.env.APP_ENV === 'development' ? '/' : '/dist/',
 
     build: {
         // output dir for production build
@@ -35,14 +34,15 @@ export default defineConfig({
 
     server: {
         strictPort: true,
-        port: 5133
+        port: 5133,
+        proxy: {
+            '/api': {
+                target: 'http://www.phpschool.local',
+                changeOrigin: true,
+            },
+        },
     },
 
-    resolve: {
-        alias: {
-            vue: 'vue/dist/vue.esm-bundler.js'
-        }
-    },
     define: {
         'process.env.ES_BUILD': process.env.ES_BUILD,
     },
