@@ -21,12 +21,6 @@
         <?php endforeach; ?>
     </head>
     <body>
-        <div id="app" v-cloak>
-            <site-nav :links='<?= $this->json($links) ?>'></site-nav>
-
-            <?= $content; ?>
-
-            <site-footer></site-footer>
-        </div>
+        <div id="app" v-cloak></div>
     </body>
 </html>
