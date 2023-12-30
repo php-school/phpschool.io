@@ -3,40 +3,27 @@
 namespace PhpSchool\Website\Blog;
 
 use GlobIterator;
-use Illuminate\Support\Collection;
 use Mni\FrontYAML\Document;
 use Mni\FrontYAML\Parser;
-use PhpSchool\Website\PhpRenderer;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
+use PhpSchool\Website\Entity\BlogPost;
+use PhpSchool\Website\Repository\DoctrineORMBlogRepository;
 
 class Generator
 {
-    private Parser $parser;
-    private string $postsDirectory;
-    private string $outputDirectory;
-    private PhpRenderer $renderer;
 
-    public function __construct(Parser $parser, string $postsDirectory, string $outputDirectory, PhpRenderer $renderer)
-    {
-        $this->parser = $parser;
+    public function __construct(
+        private readonly Parser $parser,
+        private readonly DoctrineORMBlogRepository $repository,
+        private string $postsDirectory,
+    ) {
         $this->postsDirectory = rtrim($postsDirectory, '/');
-        $this->outputDirectory = rtrim($outputDirectory, '/');
-        $this->renderer = $renderer;
-
-        $this->renderer->addAttribute('route', '/blog');
     }
 
     public function generate(): void
     {
-        $this->clearOutputDirectory();
+        $this->deletePosts();
 
-        $posts = collect($this->getMarkDownFiles())
-            ->ifEmpty(function () {
-                //generate blank index
-                $content = $this->rendererPostIndexPage(collect(), 1, 1);
-                $this->write(sprintf('%s/index.html', $this->outputDirectory), $content);
-            })
+        collect($this->getMarkDownFiles())
             ->map(function (\SplFileInfo $file) {
                 return $this->parser->parse(file_get_contents($file->getRealPath()));
             })
@@ -59,33 +46,9 @@ class Generator
             })
             ->map(function (Document $document) {
                 return new Post(PostMeta::fromArray($document->getYAML()), $document->getContent());
-            });
-
-        $posts
+            })
             ->each(function (Post $post) {
-                $path = $this->getPostPath($post->getMeta()) . '.html';
-                $this->write($path, $this->renderInLayout($post));
-            });
-
-        $numPages = (int) ceil($posts->count() / 10);
-
-        $posts
-            ->chunk(10)
-            ->each(function (Collection $posts, int $i) use ($numPages) {
-                $pageNumber = $i + 1;
-
-                $fileName = sprintf(
-                    '%s/%s.html',
-                    $this->outputDirectory,
-                    sprintf('page-%s', $pageNumber)
-                );
-
-                $content = $this->rendererPostIndexPage($posts, $pageNumber, $numPages);
-                $this->write($fileName, $content);
-
-                if ($pageNumber === 1) {
-                    $this->write(sprintf('%s/index.html', $this->outputDirectory), $content);
-                }
+                $this->repository->save(BlogPost::fromPost($post));
             });
     }
 
@@ -94,67 +57,8 @@ class Generator
         return new GlobIterator(sprintf('%s/*.md', rtrim($this->postsDirectory, '/')));
     }
 
-    private function getPostPath(PostMeta $postMeta): string
+    private function deletePosts(): void
     {
-        return sprintf(
-            '%s%s',
-            $this->outputDirectory,
-            $postMeta->getLink()
-        );
-    }
-
-    private function renderInLayout(Post $post): string
-    {
-        return $this->renderer->fetch('layouts/layout.phtml', [
-            'pageTitle'       => 'Blog',
-            'pageDescription' => 'PHP School blog',
-            'content'         => sprintf(
-                "<Post :meta='%s'>%s</Post>",
-                $this->renderer->json($post->getMeta()),
-                $post->getContent()
-            )
-        ]);
-    }
-
-    private function rendererPostIndexPage(Collection $posts, int $pageNumber, int $numPages): string
-    {
-        return $this->renderer->fetch('layouts/layout.phtml', [
-            'pageTitle'       => 'PHP School Blog - Page ' . $pageNumber,
-            'pageDescription' => 'PHP School Blog - Page ' . $pageNumber,
-            'content'         => $this->renderer->fetch(
-                'blog-index.phtml',
-                [
-                    'posts'         => $posts,
-                    'pageNumber'    => $pageNumber,
-                    'totalPages'    => $numPages
-                ]
-            )
-        ]);
-    }
-
-    private function clearOutputDirectory(): void
-    {
-        if (!file_exists($this->outputDirectory)) {
-            return;
-        }
-
-        $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($this->outputDirectory, RecursiveDirectoryIterator::SKIP_DOTS),
-            RecursiveIteratorIterator::CHILD_FIRST
-        );
-
-        foreach ($files as $file) {
-            $todo = $file->isDir() ? 'rmdir' : 'unlink';
-            $todo($file->getRealPath());
-        }
-    }
-
-    private function write(string $file, string $content): void
-    {
-        if (!file_exists(dirname($file))) {
-            mkdir(dirname($file), 0755, true);
-        }
-
-        file_put_contents($file, $content);
+        $this->repository->deleteAll();
     }
 }

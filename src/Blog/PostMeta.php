@@ -19,13 +19,7 @@ class PostMeta implements JsonSerializable
         $this->date = $date;
         $this->author = $author;
         $this->authorLink = $authorLink;
-        $this->link = sprintf(
-            '/%s/%s/%s/%s',
-            $date->format('Y'),
-            $date->format('m'),
-            $date->format('d'),
-            $this->slugify($this->title)
-        );
+        $this->link = $this->slugify($this->title);
     }
 
     public static function fromArray(array $data): self
@@ -63,7 +57,7 @@ class PostMeta implements JsonSerializable
         return trim(strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)), '-');
     }
 
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             'title' => $this->getTitle(),

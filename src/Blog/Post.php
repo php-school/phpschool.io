@@ -16,7 +16,7 @@ class Post
             '/<pre><code class="language-shell">(.*?)<\/code><\/pre>/s',
             function ($matches) {
                 return sprintf(
-                    "<terminal :lines='%s'></terminal>",
+                    "<Terminal :lines='%s'></Terminal>",
                     json_encode(explode("\n", $matches[1]), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_THROW_ON_ERROR),
                 );
             },
@@ -34,13 +34,6 @@ class Post
         return $this->content;
     }
 
-    public function hasFeatureImage(): bool
-    {
-        $content = $this->getContent();
-
-        return (bool) preg_match('/<img\s[^>]*?src\s*=\s*[\'\"]([^\'\"]*?)[\'\"][^>]*?>/', $content, $matches);
-    }
-
     public function getFeatureImage(): string
     {
         $content = $this->getContent();
@@ -48,12 +41,5 @@ class Post
         preg_match('/<img\s[^>]*?src\s*=\s*[\'\"]([^\'\"]*?)[\'\"][^>]*?>/', $content, $matches);
 
         return $matches[0];
-    }
-
-    public function getExcerpt(): string
-    {
-        $content = $this->getContent();
-        $content = strip_tags($content);
-        return substr($content, 0, 200) . "...";
     }
 }
