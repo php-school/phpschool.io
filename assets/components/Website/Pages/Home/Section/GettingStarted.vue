@@ -1,7 +1,5 @@
 <script setup>
 import HomeSection from "../Section.vue";
-import {CogIcon} from "@heroicons/vue/24/outline";
-import {CheckIcon} from "@heroicons/vue/24/solid";
 </script>
 
 <template>
