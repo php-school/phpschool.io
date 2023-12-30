@@ -16,18 +16,15 @@ class Login
     private AdminAuthenticationService $authenticationService;
     private FormHandler $formHandler;
     private PhpRenderer $renderer;
-    private ViteManifest $viteManifest;
 
     public function __construct(
         AdminAuthenticationService $authenticationService,
         FormHandler $formHandler,
         PhpRenderer $renderer,
-        ViteManifest $viteManifest
     ) {
         $this->authenticationService = $authenticationService;
         $this->formHandler = $formHandler;
         $this->renderer = $renderer;
-        $this->viteManifest = $viteManifest;
     }
 
     public function showLoginForm(Request $request, Response $response): MessageInterface
