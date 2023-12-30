@@ -35,17 +35,18 @@ use PhpSchool\Website\Cloud\ProblemFileConverter;
 use PhpSchool\Website\Cloud\ProjectUploader;
 use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\Cloud\VueResultsRenderer;
+use PhpSchool\Website\Entity\BlogPost;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\Middleware\FlashMessages as FlashMessagesMiddleware;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
+use PhpSchool\Website\Repository\DoctrineORMBlogRepository;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use PhpSchool\Website\User\FlashMessages;
 use PhpSchool\Website\User\Middleware\StudentRefresher;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentRepository;
-use PhpSchool\Website\ViteManifest;
 use Predis\Connection\ConnectionException;
 use Slim\App;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
@@ -74,15 +75,12 @@ use PhpSchool\Website\Action\Admin\Workshop\Promote;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
-use PhpSchool\Website\Action\DocsAction;
 use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Blog\Generator;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateAdminUser;
 use PhpSchool\Website\Command\GenerateBlog;
-use PhpSchool\Website\Documentation;
-use PhpSchool\Website\DocumentationGroup;
 use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
@@ -192,9 +190,6 @@ return [
 
         return new RedisAdapter($redisConnection, 'default');
     }),
-    ViteManifest::class => function (ContainerInterface $c): ViteManifest {
-        return new ViteManifest();
-    },
     PhpRenderer::class => factory(function (ContainerInterface $c): PhpRenderer {
 
         $settings = $c->get('config')['renderer'];
@@ -204,22 +199,6 @@ return [
                 'links'  => $c->get('config')['links'],
             ],
         );
-
-        $manifest = $c->get(ViteManifest::class);
-
-        if ($c->get('config')['devMode']) {
-            $renderer->addJs('online', 'http://localhost:5133/online.js', ['type' => 'module', 'crossorigin']);
-        } else {
-            $renderer->addJs('online', $this->manifest->assetUrl('online.js'), ['type' => 'module', 'crossorigin']);
-
-            foreach ($manifest->importsUrls('online.js') as $i => $url) {
-                $renderer->addPreload('online-preload-' . $i, $url);
-            }
-
-            foreach ($manifest->cssUrls('online.js') as $i => $url) {
-                $renderer->appendRemoteCss('online-css-' . $i, $url);
-            }
-        }
 
         return $renderer;
     }),
@@ -254,47 +233,6 @@ return [
     DownloadComposerPackageList::class => function (ContainerInterface $c): DownloadComposerPackageList {
         return new DownloadComposerPackageList($c->get('guzzle.packagist'), $c->get(LoggerInterface::class));
     },
-
-    Documentation::class => \DI\factory(function (ContainerInterface $c): Documentation {
-        $tutorialGroup = new DocumentationGroup('tutorial', 'Workshop Tutorial');
-        $tutorialGroup->addSection('index', 'Workshop Tutorial', 'docs/tutorial/index.phtml');
-        $tutorialGroup->addSection('creating-your-own-workshop', 'Creating your own workshop', 'docs/tutorial/creating-your-own-workshop.phtml');
-        $tutorialGroup->addSection('modify-theme', 'Modifying the theme of your workshop', 'docs/tutorial/modify-theme.phtml');
-        $tutorialGroup->addSection('creating-an-exercise', 'Creating an exercise', 'docs/tutorial/creating-an-exercise.phtml');
-
-        $referenceGroup = new DocumentationGroup('reference', 'Reference Documentation');
-        $referenceGroup->addSection('index', 'Reference Documentation', 'docs/reference/index.phtml');
-        $referenceGroup->addSection('container', 'The Container', 'docs/reference/container.phtml');
-        $referenceGroup->addSection('available-services', 'Available Services', 'docs/reference/available-services.phtml');
-        $referenceGroup->addSection('exercise-types', 'Exercise Types', 'docs/reference/exercise-types.phtml');
-        $referenceGroup->addSection('exercise-solutions', 'Exercise Solutions', 'docs/reference/exercise-solutions.phtml');
-        $referenceGroup->addSection('results', 'Results & Renderers', 'docs/reference/results.phtml');
-        $referenceGroup->addSection('exercise-checks', 'Exercise Checks', 'docs/reference/exercise-checks.phtml');
-        $referenceGroup->addSection('bundled-checks', 'Bundled Checks', 'docs/reference/bundled-checks.phtml');
-        $referenceGroup->addSection('creating-simple-checks', 'Creating Simple Checks', 'docs/reference/creating-simple-checks.phtml');
-        $referenceGroup->addSection('creating-custom-results', 'Creating Custom Results', 'docs/reference/creating-custom-results.phtml');
-        $referenceGroup->addSection('creating-custom-result-renderers', 'Creating Custom Result Renderers', 'docs/reference/creating-custom-result-renderers.phtml');
-        $referenceGroup->addSection('events', 'Events', 'docs/reference/events.phtml');
-        $referenceGroup->addSection('creating-listener-checks', 'Creating Listener Checks', 'docs/reference/creating-listener-checks.phtml');
-        $referenceGroup->addSection('self-checking-exercises', 'Self Checking Exercises', 'docs/reference/self-checking-exercises.phtml');
-        $referenceGroup->addSection('exercise-events', 'Exercise Events', 'docs/reference/exercise-events.phtml');
-        $referenceGroup->addSection('patching-exercise-solutions', 'Patching Exercise Submissions', 'docs/reference/patching-exercise-solutions.phtml');
-
-
-        $indexGroup = new DocumentationGroup('index', 'Documentation Home');
-        $indexGroup->addSection('index', 'Documentation Home', 'docs/index.phtml');
-
-        $docs = new Documentation;
-        $docs->addGroup($indexGroup);
-        $docs->addGroup($tutorialGroup);
-        $docs->addGroup($referenceGroup);
-
-        return $docs;
-    }),
-
-    DocsAction::class => \DI\factory(function (ContainerInterface $c): DocsAction {
-        return new DocsAction($c->get(PhpRenderer::class), $c->get(Documentation::class));
-    }),
 
     TrackDownloads::class => function (ContainerInterface $c): TrackDownloads {
         return new TrackDownloads($c->get(WorkshopRepository::class), $c->get(WorkshopInstallRepository::class));
@@ -332,7 +270,6 @@ return [
             $c->get(AdminAuthenticationService::class),
             $c->get(FormHandlerFactory::class)->create(new LoginInputFilter),
             $c->get(PhpRenderer::class),
-            $c->get(ViteManifest::class)
         );
     }),
 
@@ -494,8 +431,6 @@ return [
         return new EventCreate(
             $c->get(EventRepository::class),
             $c->get('form.event'),
-            $c->get(PhpRenderer::class),
-            $c->get(FlashMessages::class)
         );
     },
 
@@ -512,7 +447,6 @@ return [
         return new EventDelete(
             $c->get(EventRepository::class),
             $c->get('cache.fpc'),
-            $c->get(FlashMessages::class)
         );
     },
 
@@ -537,6 +471,10 @@ return [
 
     EventRepository::class => function (ContainerInterface $c): EventRepository {
         return $c->get(EntityManagerInterface::class)->getRepository(Event::class);
+    },
+
+    DoctrineORMBlogRepository::class => function (ContainerInterface $c): DoctrineORMBlogRepository {
+        return $c->get(EntityManagerInterface::class)->getRepository(BlogPost::class);
     },
 
     StudentRepository::class => function (ContainerInterface $c): StudentRepository {
@@ -580,8 +518,13 @@ return [
     EntityManagerInterface::class => \DI\factory(function (ContainerInterface $c): EntityManagerInterface {
         Type::addType('uuid', UuidType::class);
 
-        return EntityManager::create(
+
+        $driver = \Doctrine\DBAL\DriverManager::getConnection(
             $c->get('config')['doctrine']['connection'],
+        );
+
+        return new EntityManager(
+            $driver,
             $c->get(ORMSetup::class)
         );
     }),
@@ -601,9 +544,8 @@ return [
                     return (new Parsedown())->parse($markdown);
                 }
             }),
+            $c->get(DoctrineORMBlogRepository::class),
             __DIR__ . '/../posts/',
-            __DIR__ . '/../public/blog',
-            $c->get(PhpRenderer::class)
         );
     },
 
@@ -650,7 +592,10 @@ return [
     },
 
     AdminStyle::class => function (ContainerInterface $c) {
-        return new AdminStyle($c->get(PhpRenderer::class), $c->get(ViteManifest::class), $c->get('config')['devMode']);
+        return new AdminStyle(
+            $c->get(PhpRenderer::class),
+            $c->get('config')['devMode']
+        );
     },
 
     'config' => [
@@ -696,6 +641,7 @@ return [
                 'dbname'   => $_ENV['MYSQL_DATABASE'],
                 'user'     => $_ENV['MYSQL_USER'],
                 'password' => $_ENV['MYSQL_PASSWORD'],
+                'charset' => 'utf8mb4',
             ]
         ],
 
