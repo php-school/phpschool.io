@@ -1,7 +1,5 @@
 <script setup>
 
-import {ExclamationCircleIcon} from "@heroicons/vue/24/outline";
-
 import {computed} from "vue";
 
 const props = defineProps({

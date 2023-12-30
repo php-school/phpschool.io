@@ -24,7 +24,7 @@ const copy = () => {
 }
 
 const clipboardAvailable = computed(() => {
-    return navigator.clipboard;
+    return typeof window !== 'undefined' && navigator.clipboard;
 });
 </script>
 
