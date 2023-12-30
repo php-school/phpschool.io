@@ -1,125 +1,108 @@
 import 'vite/modulepreload-polyfill'
 import './styles'
-import { createApp } from 'vue'
-import AceEditor from './components/Online/AceEditor.vue'
-import FileTree from './components/Online/FileTree.vue'
-import TreeItem from './components/Online/TreeItem.vue'
-import Tabs from './components/Online/Tabs.vue'
-import Modal from './components/Online/Modal.vue'
-import StudentProgress from './components/Online/StudentProgress.vue'
-import WorkshopExerciseSelectionList from './components/Online/WorkshopExerciseSelectionList.vue'
-import PassNotification from "./components/Online/PassNotification.vue";
-import ExerciseVerify from "./components/Online/ExerciseVerify.vue";
-import ExerciseEditor from "./components/Online/ExerciseEditor.vue";
 import { FocusTrap } from 'focus-trap-vue'
 import VueClickAway from "vue3-click-away";
 import VueDiff from 'vue-diff';
 import 'vue-diff/dist/index.css';
 import VueShepherdPlugin from './shepherd-plugin';
 import results from "./components/Online/Results/results.js";
-import StudentDropdown from "./components/Online/StudentDropdown.vue";
-import Dashboard from "./components/Online/Dashboard.vue";
 import Home from "./components/Website/Pages/Home.vue";
-import SiteNav from "./components/Website/SiteNav.vue";
-import SiteFooter from "./components/Website/SiteFooter.vue";
-import Events from "./components/Website/Pages/Events.vue";
 import SubmitWorkshop from "./components/Website/Pages/SubmitWorkshop.vue";
-import Post from "./components/Website/Pages/Blog/Post.vue";
 
-import hljs from 'highlight.js/lib/core';
-import php from 'highlight.js/lib/languages/php';
-import shell from 'highlight.js/lib/languages/shell';
-import javascript from 'highlight.js/lib/languages/javascript';
-import markdown from 'highlight.js/lib/languages/markdown';
-import json from 'highlight.js/lib/languages/json';
-import Terminal from "./components/Website/Docs/Terminal.vue";
-import ContentHeader from "./components/Website/Docs/ContentHeader.vue";
-import DocCode from "./components/Website/Docs/Code.vue";
-import Note from "./components/Website/Docs/Note.vue";
-import DocList from "./components/Website/Docs/List.vue";
-import DocListItem from "./components/Website/Docs/ListItem.vue";
-import DocTable from "./components/Website/Docs/Table.vue";
-import ExerciseTypes from "./components/Website/Docs/ExerciseTypes.vue";
-import ResultRendererMappings from "./components/Website/Docs/ResultRendererMappings.vue";
-import BundledChecks from "./components/Website/Docs/BundledChecks.vue";
-import EventList from "./components/Website/Docs/EventList.vue";
 import Offline from "./components/Website/Pages/Offline.vue";
-import Heading from "./components/Website/Pages/Home/Heading.vue";
-import DocTitle from "./components/Website/Docs/Title.vue";
+import Docs from "./components/Website/Pages/Docs.vue";
 
-import docsearch from '@docsearch/js';
-
-hljs.registerLanguage('php', php);
-hljs.registerLanguage('shell', shell);
-hljs.registerLanguage('shell', javascript);
-hljs.registerLanguage('md', markdown);
-hljs.registerLanguage('json', json);
+import App from "./components/Website/App.vue";
 
 
-const components = {
-    AceEditor,
-    FileTree,
-    TreeItem,
-    Tabs,
-    Modal,
-    StudentProgress,
-    WorkshopExerciseSelectionList,
-    PassNotification,
-    ExerciseVerify,
-    ExerciseEditor,
-    StudentDropdown,
-    Dashboard,
-    Home,
-    SubmitWorkshop,
-    SiteNav,
-    SiteFooter,
-    Events,
-    Post,
-    Terminal,
-    DocTitle,
-    ContentHeader,
-    DocCode,
-    Note,
-    DocList,
-    DocListItem,
-    DocTable,
-    ExerciseTypes,
-    ResultRendererMappings,
-    BundledChecks,
-    EventList,
-    Offline,
-    Heading
-}
+import {docs} from "./components/Website/Docs/contents.js";
+import Layout from "./components/Website/Layout.vue";
+import Dashboard from "./components/Online/Dashboard.vue";
+import CompactLayout from "./components/Website/CompactLayout.vue";
+import Events from "./components/Website/Pages/Events.vue";
+import BlogIndex from "./components/Website/Pages/BlogIndex.vue";
+import BlogPost from "./components/Website/Pages/BlogPost.vue";
+import Terminal from "./components/Website/Docs/Terminal.vue";
+import {ViteSSG} from "vite-ssg";
+import { createPinia } from 'pinia'
+import {useBlogStore} from "./stores/blog";
+import {useEventStore} from "./stores/events";
 
-const app = createApp({components});
+const docRoutes = [].concat(...docs.map(doc => {
+    return doc.sections.map(section => {
+        const parts = ['docs', doc.path, section.path];
 
-Object.entries(results).forEach(([name, resultComponent]) => {
-    app.component(name, resultComponent);
-});
+        return {
+            path: '/' + parts.filter(part => part !== '').join('/'),
+            component: section.component,
+            meta: {section: section, group: doc}
+        };
+    });
+}));
 
-app.component('FocusTrap', FocusTrap)
+const routes = [
+    { path: '/', component: Home, meta: {layout: Layout} },
+    { path: '/online', component: Dashboard, meta: {layout: CompactLayout} },
+    { path: '/editor', component: Dashboard, meta: {layout: CompactLayout} },
+    { path: '/offline', component: Offline, meta: {layout: Layout} },
+    { path: '/submit', component: SubmitWorkshop, meta: {layout: Layout} },
+    { path: '/docs', component: Docs, children: docRoutes, meta: {layout: Layout} },
+    { path: '/events', component: Events, name: "events", meta: {layout: Layout} },
+    { path: '/blog', component: BlogIndex, name: "blog", meta: {layout: Layout} },
+    { path: '/blog/:page(\\d+)?', component: BlogIndex, props: true, meta: { layout: Layout } },
+    { path: '/blog/:slug', component: BlogPost, name: "blog-post", props: true, meta: { layout: Layout } },
+];
 
-app.use(VueClickAway);
-app.use(VueDiff);
-app.use(VueShepherdPlugin);
+export const createApp = ViteSSG(
+    App,
+    {
+        routes,
+        scrollBehavior(to, from, savedPosition) {
+            // always scroll to top
+            return { top: 0 }
+        },
+    },
+    async ({ app, router, routes, isClient, initialState, onSSRAppRendered }) => {
+        Object.entries(results).forEach(([name, resultComponent]) => {
+            app.component(name, resultComponent);
+        });
+        app.component('FocusTrap', FocusTrap)
+        app.component('Terminal', Terminal)
 
-app.mount('#app');
+        app.use(VueClickAway);
+        app.use(VueDiff);
+        app.use(VueShepherdPlugin);
+        const pinia = createPinia()
+        app.use(pinia)
 
-hljs.highlightAll();
+        if (isClient) {
+            pinia.state.value = (initialState.pinia) || {}
+        } else {
+            const blogStore = useBlogStore(pinia)
+            await blogStore.initialize();
 
-const searchElem = document.querySelector('#docsearch');
+            const eventStore = useEventStore(pinia)
+            await eventStore.initialize();
 
-if (searchElem) {
-    docsearch({
-        container: searchElem,
-        appId: '7LDU5I0DPZ',
-        indexName: 'phpschool',
-        apiKey: 'ece29c8970bdd054ac5a6ef17ceb491e',
-        placeholder: 'Search...',
-        translations: {
-            button: {buttonText: 'Search...'}
+            onSSRAppRendered(() => {
+                initialState.pinia = pinia.state.value
+            })
         }
+    }
+);
+
+export async function includedRoutes(paths, routes) {
+    let pathsToRender = routes.filter(route => {
+        return route.name === 'blog' || route.name === 'blog-post' || route.name === 'events';
     });
 
-}
+    const response = await fetch(import.meta.env.VITE_API_URL + '/api/posts');
+    const posts = await response.json();
+    const slugs = posts.posts.map(post => post.slug);
 
+    return pathsToRender.flatMap((route) => {
+        return route.name === 'blog-post'
+            ? slugs.map(slug => `/blog/${slug}`)
+            : route.path
+    });
+}
