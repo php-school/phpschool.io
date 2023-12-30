@@ -1,14 +1,12 @@
 <?php
 
-namespace PhpSchool\Website\Action\Admin\Event;
+namespace PhpSchool\Website\Action;
 
-use PhpSchool\Website\Action\JsonUtils;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
-class All
+class Events
 {
     use JsonUtils;
 
@@ -23,7 +21,10 @@ class All
     public function __invoke(Request $request, Response $response): Response
     {
         return $this->withJson(
-            ['events' => $this->repository->findAll()],
+            [
+                'events' => $this->repository->findUpcoming(),
+                'previousEvents' => $this->repository->findPrevious(),
+            ],
             $response
         );
     }
