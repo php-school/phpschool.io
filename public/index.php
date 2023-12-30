@@ -14,7 +14,9 @@ use PhpSchool\Website\Action\Admin\Workshop\RegenerateFeed;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
-use PhpSchool\Website\Action\DocsAction;
+use PhpSchool\Website\Action\BlogPost;
+use PhpSchool\Website\Action\BlogPosts;
+use PhpSchool\Website\Action\Events;
 use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Action\StudentLogout;
 use PhpSchool\Website\Action\SubmitWorkshop;
@@ -31,10 +33,8 @@ use PhpSchool\Website\Cloud\Action\VerifyExercise;
 use PhpSchool\Website\Cloud\Middleware\ExerciseRunnerRateLimiter;
 use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\ContainerFactory;
-use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\Repository\EventRepository;
-use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\User\AdminAuthenticationService;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\FlashMessages;
@@ -63,29 +63,6 @@ $container = (new ContainerFactory)();
 /** @var \Slim\App $app */
 $app = $container->get('app');
 
-$app->get('/', function (Request $request, Response $response, PhpRenderer $renderer, WorkshopRepository $workshopRepository) {
-
-    $workshops = $workshopRepository->findAllApproved();
-
-    $core = array_filter($workshops, function (Workshop $workshop) {
-        return $workshop->isCore();
-    });
-
-    $community = array_filter($workshops, function (Workshop $workshop) {
-        return $workshop->isCommunity();
-    });
-
-    return $renderer->render(
-        $response,
-        'layouts/layout.phtml',
-        [
-            'pageTitle' => 'Home',
-            'pageDescription' => 'Learn PHP the right way... the open source way. PHP School Open Source Learning for PHP',
-            'content' => '<Home></Home>'
-        ]
-    );
-});
-
 $errors = $app->addErrorMiddleware(
     (bool) $container->get('settings.displayErrorDetails'),
     true,
@@ -93,34 +70,10 @@ $errors = $app->addErrorMiddleware(
     $container->get(LoggerInterface::class)
 );
 
-$app->get('/offline', function (Request $request, Response $response, PhpRenderer $renderer) {
-
-    return $renderer->render($response, 'layouts/layout.phtml', [
-        'pageTitle'       => 'PHP School Offline',
-        'pageDescription' => 'How to run PHP School on your own computer',
-        'content'         => '<Offline></Offline>'
-    ]);
-});
-
-$app->get('/install', function (Request $request, Response $response, PhpRenderer $renderer) {
-    $inner = $renderer->fetch('install.phtml');
-    return $renderer->render($response, 'layouts/layout.phtml', [
-        'pageTitle'       => 'Installation instructions',
-        'pageDescription' => 'Installation instructions for PHPSchool',
-        'content'         => $inner
-    ]);
-});
-
-$app->get('/docs[/{group}[/{section}]]', DocsAction::class);
-
-$app->get('/submit', function (Request $request, Response $response, PhpRenderer $renderer) {
-    return $renderer->render($response, 'layouts/layout.phtml', [
-        'pageTitle'       => 'Submit your workshop',
-        'pageDescription' => 'Submit your workshop to the workshop registry!',
-        'content'         => '<submit-workshop></submit-workshop>'
-    ]);
-});
 $app->post('/submit', SubmitWorkshop::class);
+$app->get('/api/events', Events::class);
+$app->get('/api/posts', BlogPosts::class);
+$app->get('/api/post/{slug}', BlogPost::class);
 
 $app
     ->group('/admin', function (RouteCollectorProxy $group) {
@@ -203,23 +156,6 @@ $app->post('/logout', function (AdminAuthenticationService $auth, Response $resp
         ->withHeader('Location', '/');
 });
 $app->post('/downloads/{workshop}/{version}', TrackDownloads::class)->add(new \RKA\Middleware\IpAddress());
-
-$app->get('/events', function (Request $request, Response $response, EventRepository $repository, PhpRenderer $renderer) {
-
-    $previousEvents = $repository->findPrevious();
-    $events = $repository->findUpcoming();
-
-    return $renderer->render($response, 'layouts/layout.phtml', [
-        'pageTitle'       => 'Events',
-        'pageDescription' => 'PHP School Events!',
-        'content'         => sprintf(
-            "<events :events='%s' :previous-events='%s'></events>",
-            $renderer->json($events),
-            $renderer->json($previousEvents)
-        )
-    ]);
-
-});
 
 $app->get('/student-login', StudentLogin::class);
 $app
