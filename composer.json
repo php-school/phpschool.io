@@ -81,7 +81,7 @@
     "app:db:validate": "php bin/app orm:validate-schema",
     "app:db:update": [
       "php bin/app orm:clear-cache:metadata",
-      "php bin/app orm:schema-tool:update -f"
+      "php bin/app orm:schema-tool:update -f --complete"
     ]
   },
   "config": {
