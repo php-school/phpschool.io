@@ -44,7 +44,7 @@ class Update
                     'error' => 'Could not find event with id: ' . $id
                 ],
                 $response,
-                500
+                404
             );
         }
 

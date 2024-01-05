@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia';
 
+
 const useBlogStore = defineStore('blog', {
     state: () => ({
         posts: [],

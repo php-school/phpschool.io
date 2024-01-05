@@ -12,27 +12,26 @@ import Logo from "../Website/Logo.vue";
 import Button from "../Website/Button.vue";
 
 import { useRoute } from 'vue-router'
+import {useAdminStore} from "../../stores/admin";
 const location = useRoute();
 
-const props = defineProps({
-    user: Object
-})
+const adminStore = useAdminStore();
+const user = adminStore.admin;
+
+import {newWorkshops} from './api';
 
 const navigation = [
-    { name: 'Home', to: '/', icon: HomeIcon },
-    { name: 'Workshops', to: '/workshops', icon: CubeIcon },
-    { name: 'Workshop Installs', to: '/workshop-installs', icon: ChartBarIcon },
-    { name: 'New Workshops', to: '/new-workshops', icon: PlusIcon },
-    { name: 'Students', to: '/students', icon: UsersIcon },
-    { name: 'Events', to: '/events', icon: CalendarDaysIcon },
-    { name: 'Settings', to: '/settings', icon: CogIcon },
+    { name: 'Home', to: '/admin', icon: HomeIcon },
+    { name: 'Workshops', to: '/admin/workshops', icon: CubeIcon },
+    { name: 'Workshop Installs', to: '/admin/workshop-installs', icon: ChartBarIcon },
+    { name: 'New Workshops', to: '/admin/new-workshops', icon: PlusIcon },
+    { name: 'Students', to: '/admin/students', icon: UsersIcon },
+    { name: 'Events', to: '/admin/events', icon: CalendarDaysIcon },
+    { name: 'Settings', to: '/admin/settings', icon: CogIcon },
 ]
 
 const logout = () => {
-    fetch('/logout', {method: 'POST'})
-        .then((response) => {
-            window.location.href = '/login';
-        })
+    adminStore.logout();
 };
 
 
@@ -41,33 +40,35 @@ const activityItems = ref([]);
 
 const search = ref('');
 
-onMounted(() => {
-    fetch('/admin/workshop/new')
-        .then(response => response.json())
-        .then(data => {
-            activityItems.value = data.workshops.map((workshop) => {
-                return {
-                    submitter: {
-                        name: workshop.submitter_name,
-                        imageUrl: workshop.submitter_avatar
-                    },
-                    dateTime: workshop.created_at,
-                    name: workshop.name,
-                    code: workshop.code,
-                    repo_url: workshop.repo_url
-                }
-            })
+onMounted(async () => {
 
+    const data = await newWorkshops();
 
-            return workshops.value = data.workshops;
-        });
+    if (data === null) {
+        return;
+    }
+
+    activityItems.value = data.workshops.map((workshop) => {
+        return {
+            submitter: {
+                name: workshop.submitter_name,
+                imageUrl: workshop.submitter_avatar
+            },
+            dateTime: workshop.created_at,
+            name: workshop.name,
+            code: workshop.code,
+            repo_url: workshop.repo_url
+        }
+    })
+
+    workshops.value = data.workshops;
 });
 
 const sidebarOpen = ref(false)
 </script>
 
 <template>
-    <div>
+    <div class="">
         <TransitionRoot as="template" :show="sidebarOpen">
             <Dialog as="div" class="relative z-50 xl:hidden" @close="sidebarOpen = false">
                 <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300" leave-from="opacity-100" leave-to="opacity-0">
@@ -163,7 +164,7 @@ const sidebarOpen = ref(false)
                         <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
                             <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-none">
                                 <MenuItem v-slot="{ active }">
-                                    <button @click="logout" type="button" :class="[active ? 'bg-slate-900/40 text-white' : '', 'rounded-md block px-4 py-2 text-sm text-slate-400']">Logout</button>
+                                    <button @click="logout" type="button" :class="[active ? 'bg-slate-900/40 text-white' : '', 'w-full text-left rounded-md block px-4 py-2 text-sm text-slate-400']">Logout</button>
                                 </MenuItem>
                             </MenuItems>
                         </transition>
@@ -201,3 +202,9 @@ const sidebarOpen = ref(false)
         </div>
     </div>
 </template>
+
+<style>
+html {
+    @apply bg-gray-900;
+}
+</style>

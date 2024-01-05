@@ -34,18 +34,14 @@ use PhpSchool\Website\Cloud\Middleware\ExerciseRunnerRateLimiter;
 use PhpSchool\Website\Cloud\Middleware\Styles;
 use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\Middleware\AdminStyle;
-use PhpSchool\Website\Repository\EventRepository;
-use PhpSchool\Website\User\AdminAuthenticationService;
 use PhpSchool\Website\User\Entity\Student;
-use PhpSchool\Website\User\FlashMessages;
-use PhpSchool\Website\User\Middleware\AdminAuthenticator;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\PhpRenderer;
 use Psr\Log\LoggerInterface;
 use Slim\Routing\RouteCollectorProxy;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Tuupola\Middleware\JwtAuthentication;
 
 if (PHP_SAPI == 'cli-server') {
     // To help the built-in PHP dev server, check if the request was actually for
@@ -62,6 +58,7 @@ $container = (new ContainerFactory)();
 
 /** @var \Slim\App $app */
 $app = $container->get('app');
+$app->addBodyParsingMiddleware();
 
 $errors = $app->addErrorMiddleware(
     (bool) $container->get('settings.displayErrorDetails'),
@@ -76,15 +73,9 @@ $app->get('/api/posts', BlogPosts::class);
 $app->get('/api/post/{slug}', BlogPost::class);
 
 $app
-    ->group('/admin', function (RouteCollectorProxy $group) {
+    ->group('/api/admin', function (RouteCollectorProxy $group) {
 
-        $group->get('', function (Request $request, Response $response, PhpRenderer $renderer) {
-            return $renderer->render($response, 'layouts/admin.phtml', [
-                'pageTitle'       => 'Admin Area',
-                'pageDescription' => 'Admin Area',
-            ]);
-        });
-
+        $group->post('/login', Login::class);
         $group->post('/cache/clear', ClearCache::class);
 
         $group->group('/workshop', function (RouteCollectorProxy $group) {
@@ -125,36 +116,9 @@ $app
             ]);
         });
     })
-    ->add($container->get(AdminAuthenticator::class))
-    ->add(function (Request $request, RequestHandler $handler): Response {
-        $renderer = $this->get(PhpRenderer::class);
-
-        $request = $request
-            ->withAttribute('user', $this->get(AdminAuthenticationService::class));
-
-        $renderer
-            ->addAttribute('user', $this->get(AdminAuthenticationService::class)->getIdentity());
-
-        $renderer
-            ->addAttribute('successMessages', $this->get(FlashMessages::class)->getMessage('admin.success') ?? []);
-
-        $renderer
-            ->addAttribute('errorMessages', $this->get(FlashMessages::class)->getMessage('admin.error') ?? []);
-
-        return $handler->handle($request)
-            ->withHeader('cache-control', 'no-cache');
-    })
+    ->add($container->get(JwtAuthentication::class))
     ->add(AdminStyle::class);
 
-$app->get('/login', Login::class . '::showLoginForm');
-$app->post('/login', Login::class . '::login');
-$app->post('/logout', function (AdminAuthenticationService $auth, Response $response) {
-    $auth->logout();
-
-    return $response
-        ->withStatus(302)
-        ->withHeader('Location', '/');
-});
 $app->post('/downloads/{workshop}/{version}', TrackDownloads::class)->add(new \RKA\Middleware\IpAddress());
 
 $app->get('/student-login', StudentLogin::class);

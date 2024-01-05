@@ -1,3 +1,133 @@
+<script setup>
+
+import Alert from "../Online/Alert.vue";
+import {computed, onMounted, ref} from "vue";
+import {
+    Dialog,
+    DialogPanel,
+    DialogTitle,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuItems,
+    TransitionChild,
+    TransitionRoot
+} from "@headlessui/vue";
+import {EllipsisVerticalIcon, ArrowUpIcon, TrashIcon, ExclamationTriangleIcon} from '@heroicons/vue/24/outline';
+
+import {allWorkshops, regenerateWorkshopFeed, deleteWorkshop, promoteWorkshop} from "./api";
+
+const props = defineProps({
+    search: {
+        type: String,
+        default: '',
+    }
+});
+
+const workshops = ref([]);
+
+const filteredWorkshops = computed(() => {
+    if (props.search === '' || props.search === null) {
+        return workshops.value;
+    }
+
+    return workshops.value.filter((workshop) => {
+        return workshop.name.toLowerCase().includes(props.search.toLowerCase())
+            || workshop.code.toLowerCase().includes(props.search.toLowerCase());
+    });
+});
+
+onMounted(async () => {
+    const data = await allWorkshops();
+    workshops.value = data.workshops
+});
+
+const statuses = {
+    'Not-approved': 'text-gray-400 bg-gray-400/10 ring-gray-400/20',
+    Approved: 'text-pink-500 bg-pink-500/10 ring-pink-500/30',
+}
+
+const types = { Core: 'text-green-400 bg-green-400/10 ring-green-400/30', Community: 'text-sky-400 bg-sky-400/10 ring-sky-500/30' }
+
+const currentlyDeleting = ref(null);
+const showDeleteSuccess = ref(false);
+const deleteSuccess = ref('');
+
+const showDeleteError = ref(false);
+const deleteError = ref('');
+
+const confirmDeleteWorkshop = (workshop) => {
+    currentlyDeleting.value = workshop;
+}
+
+const doDeleteWorkshop = async () => {
+    try {
+        await deleteWorkshop(currentlyDeleting.value.id)
+
+        const deletedId = currentlyDeleting.value.id;
+
+        deleteSuccess.value = 'Successfully removed: ' + currentlyDeleting.value.name + '  and regenerated workshop feed';
+        showDeleteSuccess.value = true;
+
+        workshops.value = workshops.value.filter((workshop) => workshop.id !== deletedId);
+    } catch (error) {
+        currentlyDeleting.value = null;
+
+        if (error.message) {
+            deleteError.value = error.message;
+        }
+        showDeleteError.value = true;
+    } finally {
+        currentlyDeleting.value = null;
+    }
+}
+
+const currentlyPromoting = ref(null);
+const showPromoteSuccess = ref(false);
+const promoteSuccess = ref('');
+
+const showPromoteError = ref(false);
+const promoteError = ref('');
+
+const confirmPromoteWorkshop = (workshop) => {
+    currentlyPromoting.value = workshop;
+}
+
+const doPromoteWorkshop = async () => {
+    try {
+        await promoteWorkshop(currentlyPromoting.value.id)
+
+        promoteSuccess.value = 'Successfully promoted: ' + currentlyPromoting.value.name + '  and regenerated workshop feed';
+        currentlyPromoting.value.type = 'Core';
+        showPromoteSuccess.value = true;
+    } catch (error) {
+        if (error.message) {
+            promoteError.value = error.message;
+        }
+        showPromoteError.value = true;
+    } finally {
+        currentlyPromoting.value = null;
+    }
+}
+
+const showRegenerateSuccess = ref(false);
+const regenerateError = ref('');
+const showRegenerateError = ref(false);
+
+
+const regenerateFeed = async () => {
+    try {
+        await regenerateWorkshopFeed();
+        showRegenerateSuccess.value = true;
+    } catch (error) {
+        if (error.message) {
+            regenerateError.value = error.message;
+        }
+        showRegenerateError.value = true;
+    }
+};
+</script>
+
 <template>
     <!-- delete alerts -->
     <alert type="error" :message="deleteError ?? 'An error occurred. Please try again later.'" :timeout="4000" v-if="showDeleteError" @close="showDeleteError = false"></alert>
@@ -25,7 +155,7 @@
                         <div class="h-2 w-2 rounded-full bg-current" />
                     </div>
                     <h2 class="min-w-0 text-sm font-semibold leading-6 text-white">
-                        <router-link :to="'/workshop/' + workshop.id" class="flex gap-x-2">
+                        <router-link :to="'/admin/workshop/' + workshop.id" class="flex gap-x-2">
                             <span class="truncate">{{ workshop.name }}</span>
                             <span class="text-gray-400">/</span>
                             <span class="whitespace-nowrap">{{ workshop.code }}</span>
@@ -96,7 +226,7 @@
                                 </div>
                             </div>
                             <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" @click="deleteWorkshop" >Delete</button>
+                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" @click="doDeleteWorkshop" >Delete</button>
                                 <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20 sm:mt-0 sm:w-auto" ref="cancelButtonRef" @click="currentlyDeleting = null">Cancel</button>
                             </div>
                         </DialogPanel>
@@ -128,7 +258,7 @@
                                 </div>
                             </div>
                             <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto" @click="promoteWorkshop" >Promote</button>
+                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto" @click="doPromoteWorkshop" >Promote</button>
                                 <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20 sm:mt-0 sm:w-auto" ref="cancelButtonRef" @click="currentlyPromoting = null">Cancel</button>
                             </div>
                         </DialogPanel>
@@ -138,162 +268,3 @@
         </Dialog>
     </TransitionRoot>
 </template>
-
-<script setup>
-
-import Alert from "../Online/Alert.vue";
-import {computed, onMounted, ref} from "vue";
-import {
-    Dialog,
-    DialogPanel,
-    DialogTitle,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    TransitionChild,
-    TransitionRoot
-} from "@headlessui/vue";
-import {EllipsisVerticalIcon, ArrowUpIcon, TrashIcon, ExclamationTriangleIcon} from '@heroicons/vue/24/outline';
-
-
-const props = defineProps({
-    search: {
-        type: String,
-        default: '',
-    }
-});
-
-const workshops = ref([]);
-
-const filteredWorkshops = computed(() => {
-    if (props.search === '' || props.search === null) {
-        return workshops.value;
-    }
-
-    return workshops.value.filter((workshop) => {
-        return workshop.name.toLowerCase().includes(props.search.toLowerCase())
-            || workshop.code.toLowerCase().includes(props.search.toLowerCase());
-    });
-});
-
-onMounted(() => {
-    fetch('/admin/workshop/all')
-        .then(response => response.json())
-        .then(data => workshops.value = data.workshops);
-});
-const statuses = {
-    'Not-approved': 'text-gray-400 bg-gray-400/10 ring-gray-400/20',
-    Approved: 'text-pink-500 bg-pink-500/10 ring-pink-500/30',
-}
-
-const types = { Core: 'text-green-400 bg-green-400/10 ring-green-400/30', Community: 'text-sky-400 bg-sky-400/10 ring-sky-500/30' }
-
-const currentlyDeleting = ref(null);
-const showDeleteSuccess = ref(false);
-const deleteSuccess = ref('');
-
-const showDeleteError = ref(false);
-const deleteError = ref('');
-
-const confirmDeleteWorkshop = (workshop) => {
-    currentlyDeleting.value = workshop;
-}
-
-const deleteWorkshop = (workshop) => {
-    fetch('/admin/workshop/delete/' + currentlyDeleting.value.id, { method: 'DELETE' })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject(response);
-        })
-        .then(data => {
-            const deletedId = currentlyDeleting.value.id;
-
-            deleteSuccess.value = 'Successfully removed: ' + currentlyDeleting.value.name + '  and regenerated workshop feed';
-            currentlyDeleting.value = null;
-            showDeleteSuccess.value = true;
-
-            workshops.value = workshops.value.filter((workshop) => workshop.id !== deletedId);
-        })
-        .catch((response) => {
-            currentlyDeleting.value = null;
-
-            response.json().then((json) => {
-
-                if (json.error) {
-                    deleteError.value = json.error;
-                }
-
-                showDeleteError.value = true;
-            })
-        });
-}
-
-const currentlyPromoting = ref(null);
-const showPromoteSuccess = ref(false);
-const promoteSuccess = ref('');
-
-const showPromoteError = ref(false);
-const promoteError = ref('');
-
-const confirmPromoteWorkshop = (workshop) => {
-    currentlyPromoting.value = workshop;
-}
-
-const promoteWorkshop = (workshop) => {
-    fetch('/admin/workshop/promote/' + currentlyPromoting.value.id, { method: 'POST' })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject(response);
-        })
-        .then(data => {
-            promoteSuccess.value = 'Successfully promoted: ' + currentlyPromoting.value.name + '  and regenerated workshop feed';
-            currentlyPromoting.value.type = 'Core';
-            currentlyPromoting.value = null;
-            showPromoteSuccess.value = true;
-        })
-        .catch((response) => {
-            currentlyPromoting.value = null;
-
-            response.json().then((json) => {
-
-                if (json.error) {
-                    promoteError.value = json.error;
-                }
-
-                showPromoteError.value = true;
-            })
-        });
-}
-
-const showRegenerateSuccess = ref(false);
-const regenerateError = ref('');
-const showRegenerateError = ref(false);
-
-
-const regenerateFeed = () => {
-    fetch('/admin/workshop/regenerate', { method: 'POST' })
-        .then((response) => {
-            if (response.ok) {
-                showRegenerateSuccess.value = true;
-
-                return;
-            }
-            return Promise.reject(response);
-        })
-        .catch((response) => {
-            response.json().then((json) => {
-
-                if (json.error) {
-                    regenerateError.value = json.error;
-                }
-
-                showRegenerateError.value = true;
-            })
-        });
-};
-</script>

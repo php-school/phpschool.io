@@ -52,23 +52,22 @@ const resetState = () => {
 </script>
 
 <template>
-    <site-nav compact :links="links" :show-login-button="student === undefined">
-        <template v-slot:nav-after>
-            <ul v-if="student" class="order-3">
-                <li>
-                    <student-dropdown
-                            :student="student"
-                            :student-state="studentState"
-                            :total-exercises='totalExercises'
-                            :reset-function="resetState"
-                            :enable-show-tour="false"
-                    />
-                </li>
-            </ul>
-        </template>
-    </site-nav>
-
-    <section id="app" class="flex-1 pb-4 overflow-hidden">
+<!--    <site-nav compact :links="links" :show-login-button="student === undefined">-->
+<!--        <template v-slot:nav-after>-->
+<!--            <ul v-if="student" class="order-3">-->
+<!--                <li>-->
+<!--                    <student-dropdown-->
+<!--                            :student="student"-->
+<!--                            :student-state="studentState"-->
+<!--                            :total-exercises='totalExercises'-->
+<!--                            :reset-function="resetState"-->
+<!--                            :enable-show-tour="false"-->
+<!--                    />-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </template>-->
+<!--    </site-nav>-->
+    <section class="flex-1 pb-4 overflow-hidden">
         <div class="container mx-auto flex flex-col overflow-hidden h-full">
             <student-progress
                     :student="student"
@@ -77,9 +76,9 @@ const resetState = () => {
             </student-progress>
 
             <workshop-exercise-selection-list
-                :student="student"
-                :student-state="studentState"
-                :workshops="workshops" />
+                    :student="student"
+                    :student-state="studentState"
+                    :workshops="workshops" />
         </div>
     </section>
 </template>

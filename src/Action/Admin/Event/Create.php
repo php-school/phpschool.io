@@ -32,7 +32,7 @@ class Create
         $res = $this->formHandler->validateJsonRequest($request, $response);
 
         if ($res instanceof ResponseInterface) {
-            return $res;
+            return $res->withStatus(400);
         }
 
         try {

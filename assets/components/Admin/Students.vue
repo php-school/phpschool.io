@@ -1,3 +1,33 @@
+<script setup>
+
+import {computed, onMounted, ref} from "vue";
+import {allStudents} from "./api";
+
+const props = defineProps({
+    search: {
+        type: String,
+        default: '',
+    }
+});
+
+const students = ref([]);
+
+onMounted(async () => {
+    students.value = await allStudents()
+});
+
+const filteredStudents = computed(() => {
+    if (props.search === '' || props.search === null) {
+        return students.value;
+    }
+
+    return students.value.filter((student) => {
+        return student.name.toLowerCase().includes(props.search.toLowerCase())
+            || student.email.toLowerCase().includes(props.search.toLowerCase());
+    });
+});
+</script>
+
 <template>
     <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
         <h1 class="text-base font-semibold leading-7 text-white">All Students</h1>
@@ -28,34 +58,3 @@
         </li>
     </ul>
 </template>
-
-<script setup>
-
-import {computed, onMounted, ref} from "vue";
-
-const props = defineProps({
-    search: {
-        type: String,
-        default: '',
-    }
-});
-
-const students = ref([]);
-
-onMounted(() => {
-    fetch('/admin/student/all')
-        .then(response => response.json())
-        .then(data => students.value = data);
-});
-
-const filteredStudents = computed(() => {
-    if (props.search === '' || props.search === null) {
-        return students.value;
-    }
-
-    return students.value.filter((student) => {
-        return student.name.toLowerCase().includes(props.search.toLowerCase())
-            || student.email.toLowerCase().includes(props.search.toLowerCase());
-    });
-});
-</script>

@@ -41,6 +41,7 @@ use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\Middleware\FlashMessages as FlashMessagesMiddleware;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
 use PhpSchool\Website\Repository\DoctrineORMBlogRepository;
+use PhpSchool\Website\User\Entity\Admin;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use PhpSchool\Website\User\FlashMessages;
@@ -52,6 +53,7 @@ use Slim\App;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\RateLimiter\Storage\CacheStorage;
 use Symfony\Contracts\Cache\CacheInterface;
+use Tuupola\Middleware\JwtAuthentication;
 use function DI\factory;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
@@ -93,7 +95,6 @@ use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\User\Adapter\Doctrine;
 use PhpSchool\Website\User\AdminAuthenticationService;
-use PhpSchool\Website\User\Middleware\AdminAuthenticator;
 use PhpSchool\Website\InputFilter\Event as EventInputFilter;
 use PhpSchool\Website\InputFilter\WorkshopComposerJson as WorkshopComposerJsonInputFilter;
 use PhpSchool\Website\InputFilter\Login as LoginInputFilter;
@@ -269,7 +270,7 @@ return [
         return new Login(
             $c->get(AdminAuthenticationService::class),
             $c->get(FormHandlerFactory::class)->create(new LoginInputFilter),
-            $c->get(PhpRenderer::class),
+            $c->get('config')['jwtSecret']
         );
     }),
 
@@ -482,13 +483,11 @@ return [
     },
 
     AdminAuthenticationService::class => \DI\factory(function (ContainerInterface $c): AdminAuthenticationService {
-        $authService = new \Laminas\Authentication\AuthenticationService;
-        $authService->setAdapter(new Doctrine($c->get(EntityManagerInterface::class)));
+        $authService = new \Laminas\Authentication\AuthenticationService(
+            new \Laminas\Authentication\Storage\NonPersistent(),
+            new Doctrine($c->get(EntityManagerInterface::class))
+        );
         return new AdminAuthenticationService($authService);
-    }),
-
-    AdminAuthenticator::class => \DI\factory(function (ContainerInterface $c): AdminAuthenticator {
-        return new AdminAuthenticator($c->get(AdminAuthenticationService::class));
     }),
 
     StudentAuthenticator::class => function (ContainerInterface $c): StudentAuthenticator {
@@ -591,6 +590,15 @@ return [
         );
     },
 
+    JwtAuthentication::class => function (ContainerInterface $c): JwtAuthentication  {
+        return new JwtAuthentication([
+            'secret' => $c->get('config')['jwtSecret'],
+            'path' => '/api/admin',
+            "ignore" => ["/api/admin/login"],
+            "secure" => !$c->get('config')['devMode'],
+        ]);
+    },
+
     AdminStyle::class => function (ContainerInterface $c) {
         return new AdminStyle(
             $c->get(PhpRenderer::class),
@@ -648,7 +656,9 @@ return [
         'github' => [
             'clientId' => $_ENV['GITHUB_CLIENT_ID'],
             'clientSecret' => $_ENV['GITHUB_CLIENT_SECRET'],
-        ]
+        ],
+
+        'jwtSecret' => $_ENV['JWT_SECRET']
     ],
 
     //slim settings
