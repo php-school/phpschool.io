@@ -23,6 +23,7 @@ import {
 } from 'chart.js'
 
 import { Line } from 'vue-chartjs'
+import {allWorkshops} from "./api";
 
 const props = defineProps({
     search: {
@@ -47,22 +48,20 @@ const chartOptions = {
     }
 }
 
-onMounted(() => {
-    fetch('/admin/workshop/all')
-        .then(response => response.json())
-        .then(data => {
-            chartData.value = {
-                labels: data.workshopInstalls.dates,
-                datasets: data.workshopInstalls.installs.map(function (workshop) {
-                    return {
-                        label: workshop.name,
-                        data: workshop.installs,
-                        fill: false,
-                        tension: 0.5,
-                        borderWidth: 5
-                    };
-                })
-            }
-        });
+onMounted(async () => {
+    const data = await allWorkshops();
+
+    chartData.value = {
+        labels: data.workshopInstalls.dates,
+        datasets: data.workshopInstalls.installs.map(function (workshop) {
+            return {
+                label: workshop.name,
+                data: workshop.installs,
+                fill: false,
+                tension: 0.5,
+                borderWidth: 5
+            };
+        })
+    }
 });
 </script>

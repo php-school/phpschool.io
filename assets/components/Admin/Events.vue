@@ -1,3 +1,190 @@
+<script setup>
+
+import {computed, onMounted, reactive, ref} from "vue";
+import {EllipsisVerticalIcon, TrashIcon, PencilIcon, ExclamationTriangleIcon} from "@heroicons/vue/24/outline";
+import {ArrowPathIcon, UserCircleIcon} from "@heroicons/vue/24/solid";
+import {
+    Dialog,
+    DialogPanel,
+    DialogTitle,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuItems,
+    TransitionChild, TransitionRoot
+} from "@headlessui/vue";
+
+import Alert from "../Online/Alert.vue";
+import {allEvents, createEvent, deleteEvent, updateEvent} from "./api";
+
+const props = defineProps({
+    search: {
+        type: String,
+        default: '',
+    }
+});
+
+const events = ref([]);
+
+onMounted(async () => {
+    events.value = await allEvents();
+});
+
+const filteredEvents = computed(() => {
+    if (props.search === '' || props.search === null) {
+        return events.value;
+    }
+
+    return events.value.filter((event) => {
+        return event.name.toLowerCase().includes(props.search.toLowerCase())
+            || event.description.toLowerCase().includes(props.search.toLowerCase());
+    });
+});
+
+const currentlyDeleting = ref(null);
+const showDeleteSuccess = ref(false);
+const deleteSuccess = ref('');
+
+const showDeleteError = ref(false);
+const deleteError = ref('');
+
+const deleteLoading = ref(false);
+
+const confirmDeleteEvent = (event) => {
+    currentlyDeleting.value = event;
+}
+
+const doDeleteEvent = async () => {
+    deleteLoading.value = true;
+
+    try {
+        await deleteEvent(currentlyDeleting.value.id);
+
+        const deletedId = currentlyDeleting.value.id;
+
+        deleteSuccess.value = 'Successfully removed: ' + currentlyDeleting.value.name;
+        showDeleteSuccess.value = true;
+
+        events.value = events.value.filter((event) => event.id !== deletedId);
+    } catch (error) {
+        if (error.message) {
+            deleteError.value = error.message;
+        }
+
+        showDeleteError.value = true;
+    } finally {
+        deleteLoading.value = false;
+        currentlyDeleting.value = null;
+    }
+}
+
+const showAdd = ref(false);
+const form = reactive({
+    id: null,
+    name: null,
+    description: null,
+    link: null,
+    date: null,
+    venue: null,
+})
+const errors = ref({});
+
+const getNow = () => {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+
+    now.setMilliseconds(null)
+    now.setSeconds(null)
+
+    return now.toISOString().slice(0, -8);
+}
+
+const addEvent = () => {
+    form.id = null;
+    form.name = null;
+    form.description = null;
+    form.link = '';
+    form.date = getNow();
+    form.venue = null;
+
+    showAdd.value = true;
+}
+
+const showEventSuccess = ref(false);
+const eventSuccess = ref('');
+
+const showEventError = ref(false);
+const eventError = ref('');
+
+const loading = ref(false);
+
+const file = ref(null);
+const fileInput = ref(null);
+
+const changeEventImage = () => {
+    file.value = fileInput.value?.files[0];
+}
+
+const saveEvent = async () => {
+    errors.value = {}; //reset errors
+    loading.value = true;
+
+    const data = {
+        name: form.name,
+        description: form.description,
+        link: form.link,
+        date: form.date,
+        venue: form.venue,
+    }
+
+    if (file.value) {
+        data.poster = file.value;
+    }
+
+    const successMessage = form.id
+        ? 'Successfully updated event: ' + form.name
+        : 'Successfully added event: ' + form.name;
+
+    try {
+        let response;
+        if (form.id) {
+            response = await updateEvent(form.id, data);
+        } else {
+            response = await createEvent(data);
+        }
+        if (response.status === 404) {
+            if (response.error) {
+                eventError.value = response.error;
+            }
+            showEventError.value = true;
+        } else if (response.status === 400) {
+            if (response.form_errors) {
+                errors.value = response.form_errors;
+            }
+        } else {
+            //success
+            events.value = await allEvents();
+
+            eventSuccess.value = successMessage;
+            showEventSuccess.value = true;
+
+            showAdd.value = false;
+        }
+    } finally {
+        loading.value = false;
+    }
+}
+
+const editEvent = (event) => {
+    form.id = event.id;
+    form.name = event.name;
+    form.description = event.description;
+    form.date = event.date;
+    form.venue = event.venue;
+
+    showAdd.value = true;
+}
+</script>
 <template>
     <!-- delete alerts -->
     <alert type="error" :message="deleteError !== '' ? deleteError : 'An error occurred. Please try again later.'" :timeout="4000" v-if="showDeleteError" @close="showDeleteError = false"></alert>
@@ -83,7 +270,7 @@
                                 </div>
                             </div>
                             <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" @click="deleteEvent">
+                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" @click="doDeleteEvent">
                                     <ArrowPathIcon v-show="deleteLoading" class="w-5 h-5 animate-spin"/>
                                     <span v-show="!deleteLoading">Delete</span>
                                 </button>
@@ -232,217 +419,3 @@
         </Dialog>
     </TransitionRoot>
 </template>
-
-<script setup>
-
-import {computed, onMounted, reactive, ref} from "vue";
-import {EllipsisVerticalIcon, TrashIcon, PencilIcon, ExclamationTriangleIcon} from "@heroicons/vue/24/outline";
-import {ArrowPathIcon, UserCircleIcon} from "@heroicons/vue/24/solid";
-import {
-    Dialog,
-    DialogPanel,
-    DialogTitle,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    TransitionChild, TransitionRoot
-} from "@headlessui/vue";
-import Alert from "../Online/Alert.vue";
-
-const props = defineProps({
-    search: {
-        type: String,
-        default: '',
-    }
-});
-
-const events = ref([]);
-
-onMounted(() => {
-    fetch('/admin/event/all')
-        .then(response => response.json())
-        .then(data => events.value = data.events);
-});
-
-const filteredEvents = computed(() => {
-    if (props.search === '' || props.search === null) {
-        return events.value;
-    }
-
-    return events.value.filter((event) => {
-        return event.name.toLowerCase().includes(props.search.toLowerCase())
-            || event.description.toLowerCase().includes(props.search.toLowerCase());
-    });
-});
-
-const currentlyDeleting = ref(null);
-const showDeleteSuccess = ref(false);
-const deleteSuccess = ref('');
-
-const showDeleteError = ref(false);
-const deleteError = ref('');
-
-const deleteLoading = ref(false);
-
-const confirmDeleteEvent = (event) => {
-    currentlyDeleting.value = event;
-}
-
-const deleteEvent = (event) => {
-    deleteLoading.value = true;
-
-    fetch('/admin/event/delete/' + currentlyDeleting.value.id, { method: 'DELETE' })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject(response);
-        })
-        .then(data => {
-            deleteLoading.value = false;
-
-            const deletedId = currentlyDeleting.value.id;
-
-            deleteSuccess.value = 'Successfully removed: ' + currentlyDeleting.value.name;
-            currentlyDeleting.value = null;
-            showDeleteSuccess.value = true;
-
-            events.value = events.value.filter((event) => event.id !== deletedId);
-        })
-        .catch((response) => {
-            deleteLoading.value = false;
-            currentlyDeleting.value = null;
-
-            response.json().then((json) => {
-
-                if (json.error) {
-                    deleteError.value = json.error;
-                }
-
-                showDeleteError.value = true;
-            })
-        });
-}
-
-const showAdd = ref(false);
-const form = reactive({
-    id: null,
-    name: null,
-    description: null,
-    link: null,
-    date: null,
-    venue: null,
-})
-const errors = ref({});
-
-const getNow = () => {
-    const now = new Date();
-    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-
-    now.setMilliseconds(null)
-    now.setSeconds(null)
-
-    return now.toISOString().slice(0, -8);
-}
-
-const addEvent = () => {
-    form.id = null;
-    form.name = null;
-    form.description = null;
-    form.link = '';
-    form.date = getNow();
-    form.venue = null;
-
-    showAdd.value = true;
-}
-
-const showEventSuccess = ref(false);
-const eventSuccess = ref('');
-
-const showEventError = ref(false);
-const eventError = ref('');
-
-const loading = ref(false);
-
-const file = ref(null);
-const fileInput = ref(null);
-
-const changeEventImage = () => {
-    file.value = fileInput.value?.files[0];
-}
-
-const saveEvent = () => {
-    errors.value = {}; //reset errors
-    loading.value = true;
-
-    const formData = new FormData();
-    formData.append('name', form.name);
-    formData.append('description', form.description);
-    formData.append('link', form.link);
-    formData.append('date', form.date);
-    formData.append('venue', form.venue);
-
-    if (file.value) {
-        formData.append('poster', file.value);
-    }
-
-    const url = form.id ? '/admin/event/update/' + form.id : '/admin/event/create';
-    const successMessage = form.id
-        ? 'Successfully updated event: ' + form.name
-        : 'Successfully added event: ' + form.name;
-
-    fetch(url, {
-        method: 'POST',
-        body: formData,
-    })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject(response);
-        })
-        .then(data => {
-            if (data.success === false) {
-
-                if (data.form_errors) {
-                    errors.value = data.form_errors;
-                }
-            } else {
-                //success
-                fetch('/admin/event/all')
-                    .then(response => response.json())
-                    .then(data => events.value = data.events);
-
-                eventSuccess.value = successMessage;
-                showEventSuccess.value = true;
-
-                showAdd.value = false;
-            }
-
-            loading.value = false;
-        })
-        .catch((response) => {
-            loading.value = false;
-
-            response.json().then((json) => {
-
-                if (json.error) {
-                    eventError.value = json.error;
-                }
-            })
-
-            showEventError.value = true;
-        });
-}
-
-const editEvent = (event) => {
-    form.id = event.id;
-    form.name = event.name;
-    form.description = event.description;
-    form.date = event.date;
-    form.venue = event.venue;
-
-    showAdd.value = true;
-}
-</script>

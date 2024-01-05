@@ -26,10 +26,10 @@
     "vlucas/phpdotenv": "^5.3",
     "adamwathan/bootforms": "^0.9",
     "mnapoli/front-yaml": "^1.5",
-    "laminas/laminas-inputfilter": "^2.12",
-    "laminas/laminas-uri": "^2.8",
-    "laminas/laminas-authentication": "^2.8",
-    "laminas/laminas-session": "^2.10",
+    "laminas/laminas-inputfilter": "^2.28",
+    "laminas/laminas-uri": "^2.11",
+    "laminas/laminas-authentication": "^2.16",
+    "laminas/laminas-session": "^2.17",
     "symfony/finder": "^5.2",
     "laminas/laminas-filter": "^2.11",
     "laminas/laminas-servicemanager": "^3.6",
@@ -48,7 +48,8 @@
     "symfony/translation-contracts": "^3.1",
     "spatie/commonmark-highlighter": "^2.1",
     "ahinkle/packagist-latest-version": "^2.1",
-    "symfony/rate-limiter": "^6.2"
+    "symfony/rate-limiter": "^6.2",
+    "tuupola/slim-jwt-auth": "^3.8"
   },
   "autoload": {
     "psr-4": {

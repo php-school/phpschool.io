@@ -3,6 +3,8 @@
 import {ref} from "vue";
 import Alert from "../Online/Alert.vue";
 
+import {clearCache} from "./api";
+
 const props = defineProps({
     search: {
         type: String,
@@ -14,25 +16,18 @@ const showCacheClearSuccess = ref(false);
 const cacheClearError = ref('');
 const showCacheClearError = ref(false);
 
-const clearCache = () => {
-    fetch('/admin/cache/clear', { method: 'POST' })
-        .then((response) => {
-            if (response.ok) {
-                showCacheClearSuccess.value = true;
-                return;
-            }
-            return Promise.reject(response);
-        })
-        .catch((response) => {
-            response.json().then((json) => {
+const clear = async () => {
 
-                if (json.error) {
-                    cacheClearError.value = json.error;
-                }
+    try {
+        await clearCache();
+        showCacheClearSuccess.value = true;
+    } catch (error) {
+        if (error.message) {
+            cacheClearError.value = error.message;
+        }
 
-                showCacheClearError.value = true;
-            })
-        });
+        showCacheClearError.value = true;
+    }
 }
 </script>
 
@@ -52,7 +47,7 @@ const clearCache = () => {
         </div>
 
         <div class="flex items-start justify-end">
-            <button @click="clearCache" type="submit" class="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-400">Clear cache</button>
+            <button @click="clear" type="submit" class="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-400">Clear cache</button>
         </div>
     </div>
 </template>

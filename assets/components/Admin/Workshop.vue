@@ -2,31 +2,42 @@
 import {onMounted, ref} from "vue";
 import {useRoute} from "vue-router";
 
+import {getWorkshop} from "./api";
+
 const route = useRoute();
 
-const workshop = ref({name: "Loading..."});
+const props = defineProps({
+    search: {
+        type: String,
+        default: '',
+    },
+    id: {
+        type: String,
+        default: null,
+    }
+});
+
+const workshop = ref({code: "Loading...", name: "Loading..."});
 
 const chartData = ref({
     labels: [],
     datasets: [],
 });
 
-onMounted(() => {
-    fetch('/admin/workshop/view/' + route.params.id)
-        .then(response => response.json())
-        .then(data => {
-            workshop.value = data.workshop;
+onMounted(async () => {
+    const data = await getWorkshop(props.id);
 
-            chartData.value = {
-                labels: data.graphData.dates,
-                datasets: [
-                    {
-                        label: '# of Installs',
-                        data: data.graphData.data,
-                    }
-                ]
+    workshop.value = data.workshop;
+
+    chartData.value = {
+        labels: data.graphData.dates,
+        datasets: [
+            {
+                label: '# of Installs',
+                data: data.graphData.data,
             }
-        });
+        ]
+    }
 });
 
 const types = { Core: 'text-green-400 bg-green-400/10 ring-green-400/30', Community: 'text-sky-400 bg-sky-400/10 ring-sky-500/30' }

@@ -50,7 +50,7 @@ class Delete
                     'error' => 'Could not find workshop with id: ' . $id
                 ],
                 $response,
-                500
+                404
             );
         }
 

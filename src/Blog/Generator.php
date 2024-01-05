@@ -10,7 +10,6 @@ use PhpSchool\Website\Repository\DoctrineORMBlogRepository;
 
 class Generator
 {
-
     public function __construct(
         private readonly Parser $parser,
         private readonly DoctrineORMBlogRepository $repository,

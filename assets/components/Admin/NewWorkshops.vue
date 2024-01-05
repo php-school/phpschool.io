@@ -1,3 +1,85 @@
+<script setup>
+
+import {computed, onMounted, ref} from "vue";
+import {
+    Dialog,
+    DialogPanel,
+    DialogTitle,
+    TransitionChild,
+    TransitionRoot
+} from "@headlessui/vue";
+import {ExclamationTriangleIcon} from '@heroicons/vue/24/outline';
+import {CubeIcon} from '@heroicons/vue/24/solid';
+import Alert from "../Online/Alert.vue";
+import {approveWorkshop, newWorkshops} from "./api";
+
+const props = defineProps({
+    search: {
+        type: String,
+        default: '',
+    }
+});
+
+const loading = ref(true);
+const workshops = ref([]);
+
+onMounted(async () => {
+    const data = await newWorkshops();
+
+    loading.value = false;
+    return workshops.value = data.workshops;
+});
+
+const filteredWorkshops = computed(() => {
+    if (props.search === '' || props.search === null) {
+        return workshops.value;
+    }
+
+    return workshops.value.filter((workshop) => {
+        return workshop.name.toLowerCase().includes(props.search.toLowerCase())
+            || workshop.code.toLowerCase().includes(props.search.toLowerCase());
+    });
+});
+
+const statuses = {
+    'Not-approved': 'text-gray-400 bg-gray-400/10 ring-gray-400/20',
+    Approved: 'text-pink-500 bg-pink-500/10 ring-pink-500/30',
+}
+
+const types = { Core: 'text-green-400 bg-green-400/10 ring-green-400/30', Community: 'text-sky-400 bg-sky-400/10 ring-sky-500/30' }
+
+const currentlyApproving = ref(null);
+const showApproveSuccess = ref(false);
+const approveSuccess = ref('');
+
+const showApproveError = ref(false);
+const approveError = ref('');
+
+const confirmApprove = (workshop) => {
+    currentlyApproving.value = workshop;
+}
+
+const doApproveWorkshop = async (workshop) => {
+    try {
+        await approveWorkshop(currentlyApproving.value.id);
+
+        const approveId = currentlyApproving.value.id;
+
+        approveSuccess.value = 'Successfully approved: ' + currentlyApproving.value.name + '  and regenerated workshop feed';
+        showApproveSuccess.value = true;
+
+        workshops.value = workshops.value.filter((workshop) => workshop.id !== approveId);
+    } catch (error) {
+        if (error.message) {
+            approveError.value = error.message;
+        }
+        showApproveError.value = true;
+    } finally {
+        currentlyApproving.value = null;
+    }
+}
+</script>
+
 <template>
     <!-- approve alerts -->
     <alert type="error" :message="approveError ?? 'An error occurred. Please try again later.'" :timeout="4000" v-if="showApproveError" @close="showApproveError = false"></alert>
@@ -66,7 +148,7 @@
                                 </div>
                             </div>
                             <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto" @click="approveWorkshop" >Approve</button>
+                                <button type="button" class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto" @click="doApproveWorkshop" >Approve</button>
                                 <button type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20 sm:mt-0 sm:w-auto" ref="cancelButtonRef" @click="currentlyApproving = null">Cancel</button>
                             </div>
                         </DialogPanel>
@@ -76,97 +158,3 @@
         </Dialog>
     </TransitionRoot>
 </template>
-
-<script setup>
-
-import {computed, onMounted, ref} from "vue";
-import {
-    Dialog,
-    DialogPanel,
-    DialogTitle,
-    TransitionChild,
-    TransitionRoot
-} from "@headlessui/vue";
-import {ExclamationTriangleIcon} from '@heroicons/vue/24/outline';
-import {CubeIcon} from '@heroicons/vue/24/solid';
-import Alert from "../Online/Alert.vue";
-
-const props = defineProps({
-    search: {
-        type: String,
-        default: '',
-    }
-});
-
-const loading = ref(true);
-const workshops = ref([]);
-
-onMounted(() => {
-    fetch('/admin/workshop/new')
-        .then(response => response.json())
-        .then(data => {
-            loading.value = false;
-            return workshops.value = data.workshops;
-        });
-});
-
-const filteredWorkshops = computed(() => {
-    if (props.search === '' || props.search === null) {
-        return workshops.value;
-    }
-
-    return workshops.value.filter((workshop) => {
-        return workshop.name.toLowerCase().includes(props.search.toLowerCase())
-            || workshop.code.toLowerCase().includes(props.search.toLowerCase());
-    });
-});
-
-const statuses = {
-    'Not-approved': 'text-gray-400 bg-gray-400/10 ring-gray-400/20',
-    Approved: 'text-pink-500 bg-pink-500/10 ring-pink-500/30',
-}
-
-const types = { Core: 'text-green-400 bg-green-400/10 ring-green-400/30', Community: 'text-sky-400 bg-sky-400/10 ring-sky-500/30' }
-
-const currentlyApproving = ref(null);
-const showApproveSuccess = ref(false);
-const approveSuccess = ref('');
-
-const showApproveError = ref(false);
-const approveError = ref('');
-
-const confirmApprove = (workshop) => {
-    currentlyApproving.value = workshop;
-}
-
-const approveWorkshop = (workshop) => {
-    fetch('/admin/workshop/approve/' + currentlyApproving.value.id, { method: 'POST' })
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            return Promise.reject(response);
-        })
-        .then(data => {
-            const approveId = currentlyApproving.value.id;
-
-            approveSuccess.value = 'Successfully approved: ' + currentlyApproving.value.name + '  and regenerated workshop feed';
-            currentlyApproving.value = null;
-            showApproveSuccess.value = true;
-
-            workshops.value = workshops.value.filter((workshop) => workshop.id !== approveId);
-        })
-        .catch((response) => {
-            currentlyApproving.value = null;
-
-            response.json().then((json) => {
-
-                if (json.error) {
-                    approveError.value = json.error;
-                }
-
-                showApproveError.value = true;
-            })
-        });
-}
-</script>
