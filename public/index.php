@@ -116,8 +116,7 @@ $app
             ]);
         });
     })
-    ->add($container->get(JwtAuthentication::class))
-    ->add(AdminStyle::class);
+    ->add($container->get(JwtAuthentication::class));
 
 $app->post('/downloads/{workshop}/{version}', TrackDownloads::class)->add(new \RKA\Middleware\IpAddress());
 

@@ -37,14 +37,11 @@ use PhpSchool\Website\Cloud\StudentWorkshopState;
 use PhpSchool\Website\Cloud\VueResultsRenderer;
 use PhpSchool\Website\Entity\BlogPost;
 use PhpSchool\Website\Form\FormHandler;
-use PhpSchool\Website\Middleware\AdminStyle;
-use PhpSchool\Website\Middleware\FlashMessages as FlashMessagesMiddleware;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
 use PhpSchool\Website\Repository\DoctrineORMBlogRepository;
 use PhpSchool\Website\User\Entity\Admin;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
-use PhpSchool\Website\User\FlashMessages;
 use PhpSchool\Website\User\Middleware\StudentRefresher;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentRepository;
@@ -127,7 +124,6 @@ return [
         $app =  Bridge::create($c);
         $app->addRoutingMiddleware();
         $app->add($c->get(FpcCache::class));
-        $app->add(FlashMessagesMiddleware::class);
 
         $app->add(function (Request $request, RequestHandler $handler) use($c) : Response {
             $renderer = $this->get(PhpRenderer::class);
@@ -159,9 +155,6 @@ return [
 
         return $app;
     }),
-    FlashMessagesMiddleware::class => function (ContainerInterface $c): FlashMessagesMiddleware {
-        return new FlashMessagesMiddleware($c->get(FlashMessages::class), $c->get(PhpRenderer::class));
-    },
     FpcCache::class => factory(function (ContainerInterface $c): FpcCache {
         return new FpcCache($c->get('cache.fpc'));
     }),
@@ -277,7 +270,6 @@ return [
     ClearCacheAction::class => function (ContainerInterface $c): ClearCacheAction {
         return new ClearCacheAction(
             $c->get('cache.fpc'),
-            $c->get(FlashMessages::class)
         );
     },
 
@@ -301,7 +293,6 @@ return [
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopFeed::class),
             $c->get('cache.fpc'),
-            $c->get(FlashMessages::class),
             $c->get(EmailNotifier::class),
             $c->get(LoggerInterface::class)
         );
@@ -312,7 +303,6 @@ return [
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopFeed::class),
             $c->get('cache.fpc'),
-            $c->get(FlashMessages::class)
         );
     }),
 
@@ -322,7 +312,6 @@ return [
             $c->get(WorkshopInstallRepository::class),
             $c->get(WorkshopFeed::class),
             $c->get('cache.fpc'),
-            $c->get(FlashMessages::class)
         );
     }),
 
@@ -440,7 +429,6 @@ return [
             $c->get(EventRepository::class),
             $c->get('form.event'),
             $c->get(PhpRenderer::class),
-            $c->get(FlashMessages::class)
         );
     },
 
@@ -450,10 +438,6 @@ return [
             $c->get('cache.fpc'),
         );
     },
-
-    FlashMessages::class => \DI\factory(function (ContainerInterface $c): FlashMessages {
-        return new FlashMessages($c->get(Session::class));
-    }),
 
     WorkshopFeed::class => \DI\factory(function (ContainerInterface $c): WorkshopFeed {
         return new WorkshopFeed(
@@ -597,13 +581,6 @@ return [
             "ignore" => ["/api/admin/login"],
             "secure" => !$c->get('config')['devMode'],
         ]);
-    },
-
-    AdminStyle::class => function (ContainerInterface $c) {
-        return new AdminStyle(
-            $c->get(PhpRenderer::class),
-            $c->get('config')['devMode']
-        );
     },
 
     'config' => [

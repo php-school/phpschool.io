@@ -4,7 +4,6 @@ namespace PhpSchool\Website\Action\Admin\Workshop;
 
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Repository\WorkshopRepository;
-use PhpSchool\Website\User\FlashMessages;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Cache\CacheItemPoolInterface;
@@ -19,27 +18,13 @@ class Approve
 {
     use JsonUtils;
 
-    private WorkshopRepository $repository;
-    private WorkshopFeed $workshopFeed;
-    private CacheItemPoolInterface $cache;
-    private FlashMessages $messages;
-    private EmailNotifier $emailNotifier;
-    private LoggerInterface $logger;
-
     public function __construct(
-        WorkshopRepository $repository,
-        WorkshopFeed $workshopFeed,
-        CacheItemPoolInterface $cache,
-        FlashMessages $messages,
-        EmailNotifier $emailNotifier,
-        LoggerInterface $logger
+        private readonly WorkshopRepository $repository,
+        private readonly WorkshopFeed $workshopFeed,
+        private readonly CacheItemPoolInterface $cache,
+        private readonly EmailNotifier $emailNotifier,
+        private readonly LoggerInterface $logger
     ) {
-        $this->workshopFeed = $workshopFeed;
-        $this->repository = $repository;
-        $this->cache = $cache;
-        $this->messages = $messages;
-        $this->emailNotifier = $emailNotifier;
-        $this->logger = $logger;
     }
 
     public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): MessageInterface

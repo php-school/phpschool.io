@@ -6,7 +6,6 @@ use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
-use PhpSchool\Website\User\FlashMessages;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -17,21 +16,11 @@ class Update
 {
     use JsonUtils;
 
-    private EventRepository $repository;
-    private FormHandler $formHandler;
-    private PhpRenderer $renderer;
-    private FlashMessages $messages;
-
     public function __construct(
-        EventRepository $repository,
-        FormHandler $formHandler,
-        PhpRenderer $renderer,
-        FlashMessages $messages
+        private readonly EventRepository $repository,
+        private readonly FormHandler $formHandler,
+        private readonly PhpRenderer $renderer,
     ) {
-        $this->repository = $repository;
-        $this->messages = $messages;
-        $this->renderer = $renderer;
-        $this->formHandler = $formHandler;
     }
 
     public function __invoke(Request $request, Response $response, string $id): MessageInterface

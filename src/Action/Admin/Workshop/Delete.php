@@ -6,7 +6,6 @@ use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Action\RedirectUtils;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
-use PhpSchool\Website\User\FlashMessages;
 use PhpSchool\Website\WorkshopFeed;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\MessageInterface;
@@ -20,24 +19,12 @@ class Delete
     use RedirectUtils;
     use JsonUtils;
 
-    private WorkshopRepository $repository;
-    private WorkshopInstallRepository $installRepository;
-    private WorkshopFeed $workshopFeed;
-    private CacheItemPoolInterface $cache;
-    private FlashMessages $messages;
-
     public function __construct(
-        WorkshopRepository $repository,
-        WorkshopInstallRepository $installRepository,
-        WorkshopFeed $workshopFeed,
-        CacheItemPoolInterface $cache,
-        FlashMessages $messages
+        private readonly WorkshopRepository $repository,
+        private readonly WorkshopInstallRepository $installRepository,
+        private readonly WorkshopFeed $workshopFeed,
+        private readonly CacheItemPoolInterface $cache,
     ) {
-        $this->workshopFeed = $workshopFeed;
-        $this->repository = $repository;
-        $this->cache = $cache;
-        $this->messages = $messages;
-        $this->installRepository = $installRepository;
     }
 
     public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): MessageInterface
