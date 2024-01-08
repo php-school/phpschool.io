@@ -52,9 +52,9 @@ const transitions = {
     editorWorkshopList: ref(),
 }
 
-const debounce = function (func, wait, immediate) {
+const debounce = function(func, wait, immediate) {
     let timeout;
-    return function () {
+    return function() {
         const context = this, args = arguments;
         const later = () => {
             timeout = null;
@@ -116,13 +116,13 @@ onUnmounted(() => {
                       <div class="items-center justify-center flex relative ">
                           <img class="cover " src="../../../img/cloud/pattern-bg-square.svg" alt="">
                           <div class="absolute mx-auto md:left-auto scale-75 sm:scale-100">
-                              <div class="fadeIn opacity-0 translate-y-6 transition-all ease-in duration-[1000ms] lg:mb-36">
+                              <div :ref="transitions.exerciseList" class="fadeIn opacity-0 translate-y-6 transition-all ease-in duration-[1000ms] lg:mb-36">
                                   <MockWorkshopExerciseList />
                               </div>
                           </div>
                           <div
                                   class="absolute -right-4  top-1/4  md:left-4  md:top-[80] lg:top-[30] xl:top-[90] scale-75 sm:scale-95 md:scale-100">
-                              <div class="fadeIn opacity-0 translate-x-10 transition-all ease-in duration-[1000ms]">
+                              <div :ref="transitions.workshopList" class="fadeIn opacity-0 translate-x-10 transition-all ease-in duration-[1000ms]">
                                   <MockWorkshopList />
                               </div>
                           </div>
@@ -169,13 +169,11 @@ onUnmounted(() => {
                   <div class="mx-auto w-full lg:w-2/3 order-1 lg:order-1">
                       <div class=" items-center justify-center flex relative ">
                           <img class="cover sm:h-auto sm:w-auto" src="../../../img/cloud/pattern-bg-rectangle.svg" alt="">
-                          <div class="absolute flex md:items-center md:justify-center w-[350px] h-[400px] sm:h-[500px] sm:w-[600px] md:h-[500px] md:w-[700px] lg:scale-[0.9] xl:scale-100 xl:h-[500px] xl:w-[800px] fadeIn opacity-0 translate-y-6 transition-all ease-in duration-[1000ms]">
+                          <div :ref="transitions.editor" class="absolute flex md:items-center md:justify-center w-[350px] h-[400px] sm:h-[500px] sm:w-[600px] md:h-[500px] md:w-[700px] lg:scale-[0.9] xl:scale-100 xl:h-[500px] xl:w-[800px] fadeIn opacity-0 translate-y-6 transition-all ease-in duration-[1000ms]">
                               <MockEditor class="overflow-hidden " />
                           </div>
-                          <div
-                                  class="absolute -right-9  top-1/3  sm:top-1/2 sm:right-2 md:top-1/3 scale-75 xl:scale-100">
-                              <div
-                                      class="fadeIn opacity-0 translate-x-10 transition-all ease-in duration-[1000ms]">
+                          <div :ref="transitions.editorWorkshopList" class="absolute -right-9  top-1/3  sm:top-1/2 sm:right-2 md:top-1/3 scale-75 xl:scale-100">
+                              <div class="fadeIn opacity-0 translate-x-10 transition-all ease-in duration-[1000ms]">
                                   <MockWorkshopList />
                               </div>
                           </div>
@@ -241,9 +239,9 @@ onUnmounted(() => {
                               <input type="text" placeholder="Type Something..." v-model="userInput"
                                      class="w-full p-5 font-work-sans text-base font-bold text-gray-900 rounded-2xl  focus:outline-none focus:border-pink-500 focus:ring focus:ring-pink-500"
                                      @keyup="userInputKeyup" />
-                              <button @click="checkInput"
-                                      class=" h-full w-12 bg-pink-500 text-white rounded-r-2xl  items-center justify-center cursor-pointer absolute right-0 ">
-                                  >
+                              <button @click="checkInput"  class="absolute right-1.5 flex items-center justify-center mt-0 px-2 w-24 text-white text-sm  rounded-xl bg-gradient-to-r from-pink-600 to-purple-500 hover:bg-[#aa1145] transition-all duration-300 ease-in hover:opacity-90 h-[52px]" >
+                                  <span>Verify</span>
+                                  <SparklesIcon v-cloak class="ml-2 w-5 h-5"/>
                               </button>
                           </div>
                       </div>
