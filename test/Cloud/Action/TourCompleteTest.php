@@ -3,8 +3,8 @@
 namespace PhpSchool\WebsiteTest\Cloud\Action;
 
 use GuzzleHttp\Psr7\Response;
-use PhpSchool\Website\Cloud\Action\TourComplete;
-use PhpSchool\Website\Cloud\StudentCloudState;
+use PhpSchool\Website\Action\Online\TourComplete;
+use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;

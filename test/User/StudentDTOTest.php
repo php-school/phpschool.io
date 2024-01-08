@@ -2,7 +2,7 @@
 
 namespace PhpSchool\WebsiteTest\User;
 
-use PhpSchool\Website\Cloud\StudentCloudState;
+use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\User\StudentDTO;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;

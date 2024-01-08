@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpSchool\Website\Cloud\Action;
+namespace PhpSchool\Website\Action\Online;
 
 use ahinkle\PackagistLatestVersion\PackagistLatestVersion;
 use GuzzleHttp\Exception\ClientException;

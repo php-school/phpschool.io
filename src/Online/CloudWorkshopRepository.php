@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpSchool\Website\Cloud;
+namespace PhpSchool\Website\Online;
 
 use Composer\InstalledVersions;
 use PhpSchool\Website\Repository\WorkshopRepository;

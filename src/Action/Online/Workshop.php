@@ -1,40 +1,31 @@
 <?php
 
-namespace PhpSchool\Website\Cloud\Action;
+namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\Exercise\ProvidesInitialCode;
 use PhpSchool\PhpWorkshop\Exercise\ProvidesSolution;
 use PhpSchool\PhpWorkshop\Solution\SolutionFile;
-use PhpSchool\Website\Action\RedirectUtils;
-use PhpSchool\Website\Cloud\CloudWorkshopRepository;
-use PhpSchool\Website\Cloud\ProblemFileConverter;
-use PhpSchool\Website\Cloud\StudentWorkshopState;
+use PhpSchool\Website\Action\JsonUtils;
+use PhpSchool\Website\Online\CloudWorkshopRepository;
+use PhpSchool\Website\Online\ProblemFileConverter;
+use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\User\SessionStorageInterface;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class ExerciseEditor
+class Workshop
 {
-    use RedirectUtils;
-
-    private CloudWorkshopRepository $installedWorkshops;
-    private ProblemFileConverter $problemFileConverter;
-    private StudentWorkshopState $studentState;
-    private SessionStorageInterface $session;
+    use JsonUtils;
 
     public function __construct(
-        CloudWorkshopRepository $installedWorkshops,
-        ProblemFileConverter $problemFileConverter,
-        StudentWorkshopState $studentProgress,
-        SessionStorageInterface $session
+        private readonly CloudWorkshopRepository $installedWorkshops,
+        private readonly ProblemFileConverter $problemFileConverter,
+        private readonly StudentWorkshopState $studentProgress,
+        private readonly SessionStorageInterface $session
     ) {
-        $this->installedWorkshops = $installedWorkshops;
-        $this->problemFileConverter = $problemFileConverter;
-        $this->studentState = $studentProgress;
-        $this->session = $session;
     }
 
     public function __invoke(
@@ -48,20 +39,13 @@ class ExerciseEditor
             $workshop = $this->installedWorkshops->findByCode($workshop);
             $exercise = $workshop->findExerciseBySlug($exercise);
         } catch (\RuntimeException $e) {
-            return $this->redirect('/cloud');
+            return $this->withJson([
+                'success' => false,
+                'error' => $e->getMessage()
+            ], $response);
         }
-        $nextExercise = $workshop->findNextExercise($exercise);
 
-        $this->studentState->setCurrentExercise($workshop->getCode(), $exercise->getName());
-
-        $link = null;
-        if ($nextExercise) {
-            $link = sprintf(
-                '/online/workshop/%s/exercise/%s/editor',
-                $workshop->getCode(),
-                $renderer->slug($nextExercise->getName())
-            );
-        }
+        $this->studentProgress->setCurrentExercise($workshop->getCode(), $exercise->getName());
 
         $data = [
             'student' => $this->session->get('student'),
@@ -72,7 +56,6 @@ class ExerciseEditor
                 'description' => $exercise->getDescription(),
                 'type' => $exercise->getType()
             ],
-            'nextExerciseLink' => $link,
             'problem' => $this->problemFileConverter->htmlFromExercise($exercise),
             'totalExerciseCount' => $this->installedWorkshops->totalExerciseCount(),
         ];
@@ -80,11 +63,7 @@ class ExerciseEditor
         $data = $this->maybeAddOfficialSolution($data, $exercise);
         $data = $this->addInitialCode($data, $exercise);
 
-        return $renderer->render($response, 'layouts/online.phtml', [
-            'pageTitle' => 'PHP School Cloud',
-            'pageDescription' => 'PHP School Cloud',
-            'content' => $renderer->fetch('online/exercise-editor.phtml', $data)
-        ]);
+        return $this->withJson($data, $response);
     }
 
     private function maybeAddOfficialSolution(array $data, ExerciseInterface $exercise): array

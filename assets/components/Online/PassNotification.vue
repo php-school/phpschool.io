@@ -113,9 +113,9 @@ const isSelectedFile = (file) => {
           </div>
           <div v-if="nextExerciseLink" class="order-3 mt-2 w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto flex">
             <span v-if="hasOfficialSolution" class="flex items-center justify-center text-sm text-white">or</span>
-            <a id="next-exercise-link" :href="nextExerciseLink" class="flex items-center justify-center px-2 py-2 text-sm font-bold text-white underline">
+            <router-link id="next-exercise-link" :to="nextExerciseLink" class="flex items-center justify-center px-2 py-2 text-sm font-bold text-white underline">
               Continue to the next exercise &rarr;
-            </a>
+            </router-link>
           </div>
           <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
             <button @click="dismissPassNotification" type="button" class="-mr-1 flex rounded-md p-2 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">

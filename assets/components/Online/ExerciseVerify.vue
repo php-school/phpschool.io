@@ -50,7 +50,7 @@ const runSolution = () => {
   }
 
   loadingRun.value = true;
-  const url = '/online/workshop/' + props.currentExercise.workshop.code + '/exercise/' + props.currentExercise.exercise.slug + '/run';
+  const url = '/api/workshop/run/' + props.currentExercise.workshop.code + '/exercise/' + props.currentExercise.exercise.slug;
 
   const opts = {
     method: 'POST',
@@ -96,7 +96,7 @@ const verifySolution = () => {
   emit('verify-loading');
   loadingVerify.value = true;
 
-  const url = '/online/workshop/' + props.currentExercise.workshop.code + '/exercise/' + props.currentExercise.exercise.slug + '/verify';
+  const url = '/api/workshop/verify/' + props.currentExercise.workshop.code + '/exercise/' + props.currentExercise.exercise.slug;
 
   const opts = {
     method: 'POST',

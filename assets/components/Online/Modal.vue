@@ -78,7 +78,7 @@ const closeModal = (event) => {
         <div class="">
         <div class="bg-gray-900 bg-opacity-80 fixed inset-0 z-40"/>
         <div tabindex="-1" class="overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 md:h-full justify-center items-center flex">
-          <div :id="id" v-click-away="clickAway" class="relative rounded-lg shadow bg-gray-800 flex flex-col justify-start w-full modal-border border-2 border-solid border-transparent" :class="[modalSizeClasses[size], maxHeight]">
+          <div :id="id" v-click-away="clickAway" class="overflow-hidden relative rounded-lg shadow bg-gray-800 flex flex-col justify-start w-full modal-border border-2 border-solid border-transparent" :class="[modalSizeClasses[size], maxHeight]">
               <div class="p-6 rounded-t flex-none flex justify-between items-top"
                    :class="$slots.header ? 'border-b border-solid border-slate-600' : ''">
                 <slot name="header"/>

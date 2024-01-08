@@ -1,13 +1,13 @@
 <?php
 
-namespace PhpSchool\Website\Cloud\Action;
+namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\Website\Action\JsonUtils;
-use PhpSchool\Website\Cloud\CloudWorkshopRepository;
-use PhpSchool\Website\Cloud\ProjectUploader;
-use PhpSchool\Website\Cloud\StudentWorkshopState;
-use PhpSchool\Website\Cloud\VueResultsRenderer;
+use PhpSchool\Website\Online\CloudWorkshopRepository;
+use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\StudentWorkshopState;
+use PhpSchool\Website\Online\VueResultsRenderer;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
 use Psr\Http\Message\ResponseInterface as Response;

@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpSchool\Website\Cloud\Middleware;
+namespace PhpSchool\Website\Online\Middleware;
 
 use PhpSchool\Website\PhpRenderer;
 use Psr\Http\Message\ServerRequestInterface as Request;

@@ -5,14 +5,11 @@ import ExerciseEntry from "./ExerciseEntry.vue";
 import {ref} from "vue";
 import Alert from "./Alert.vue";
 
-const props = defineProps({
-  student: {
-    type: Object,
-    required: false,
-  },
-  studentState: Object,
-  workshops: Object,
-});
+import {useStudentStore} from "../../stores/student";
+const studentStore = useStudentStore();
+
+import {useWorkshopStore} from "../../stores/workshops";
+const workshopStore = useWorkshopStore();
 
 const selectedWorkshop = ref(null);
 
@@ -30,19 +27,19 @@ const notLoggedIn = () => {
 };
 
 const selectWorkshop = (workshopCode) => {
-  selectedWorkshop.value = props.workshops.find((workshop) => workshop.code === workshopCode);
+  selectedWorkshop.value = workshopStore.workshops.find((workshop) => workshop.code === workshopCode);
 };
 
 const isWorkshopComplete = (workshop) => {
-  if (props.student === undefined) {
+  if (studentStore.student === null) {
     return false;
   }
 
-  if (!props.studentState.hasOwnProperty(workshop.code)) {
+  if (!studentStore.studentState.hasOwnProperty(workshop.code)) {
     return false;
   }
 
-  const completedExercises = props.studentState[workshop.code].completedExercises;
+  const completedExercises = studentStore.studentState[workshop.code].completedExercises;
   return workshop.exercises.length === completedExercises.length;
 };
 </script>
@@ -57,11 +54,10 @@ const isWorkshopComplete = (workshop) => {
           <p class="mt-1 max-w-2xl text-sm text-gray-200">Pick a workshop to try it out online!</p>
         </div>
         <ul id="workshops-list" class="flex flex-col overflow-hidden">
-          <li
-              v-for="workshop in workshops"
-              @click="selectWorkshop(workshop.code)"
-              :class="{ 'bg-gray-700': selectedWorkshop && workshop.code === selectedWorkshop.code }"
-              class="group flex flex-row hover:bg-gray-600 last:rounded-b-lg">
+          <li v-for="workshop in workshopStore.workshops"
+            @click="selectWorkshop(workshop.code)"
+            :class="{ 'bg-gray-700': selectedWorkshop && workshop.code === selectedWorkshop.code }"
+            class="group flex flex-row hover:bg-gray-600 last:rounded-b-lg">
             <div class="select-none cursor-pointer flex flex-1 items-center p-4">
               <div class="flex flex-col w-10 h-10 justify-center items-center mr-4">
                 <a href="#" class="block relative">
@@ -117,7 +113,7 @@ const isWorkshopComplete = (workshop) => {
           </div>
         </div>
         <ul id="workshop-exercises-list" class="flex flex-col w-full">
-          <exercise-entry @not-logged-in="notLoggedIn" v-for="exercise in selectedWorkshop.exercises" :exercise="exercise" :selected-workshop="selectedWorkshop" :student="student" :student-state="studentState" />
+          <exercise-entry @not-logged-in="notLoggedIn" v-for="exercise in selectedWorkshop.exercises" :exercise="exercise" :selected-workshop="selectedWorkshop" :student="studentStore.student" :student-state="studentStore.studentState" />
         </ul>
       </div>
     </div>

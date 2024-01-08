@@ -3,7 +3,7 @@
 namespace PhpSchool\WebsiteTest\User\Entity;
 
 use PhpSchool\PhpWorkshop\UserState\UserState;
-use PhpSchool\Website\Cloud\StudentCloudState;
+use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\StudentDTO;
 use PHPUnit\Framework\TestCase;

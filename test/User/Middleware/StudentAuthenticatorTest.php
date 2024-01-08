@@ -4,7 +4,7 @@ namespace PhpSchool\WebsiteTest\User\Middleware;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use PhpSchool\Website\Cloud\StudentCloudState;
+use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use PhpSchool\Website\User\SessionStorageInterface;

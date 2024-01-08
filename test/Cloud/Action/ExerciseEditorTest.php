@@ -7,11 +7,11 @@ use GuzzleHttp\Psr7\ServerRequest;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\Solution\DirectorySolution;
-use PhpSchool\Website\Cloud\Action\ExerciseEditor;
-use PhpSchool\Website\Cloud\CloudInstalledWorkshop;
-use PhpSchool\Website\Cloud\CloudWorkshopRepository;
-use PhpSchool\Website\Cloud\ProblemFileConverter;
-use PhpSchool\Website\Cloud\StudentWorkshopState;
+use PhpSchool\Website\Action\Online\Workshop;
+use PhpSchool\Website\Online\CloudInstalledWorkshop;
+use PhpSchool\Website\Online\CloudWorkshopRepository;
+use PhpSchool\Website\Online\ProblemFileConverter;
+use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\TestUtils\BaseFilesystemTest;
 use PhpSchool\Website\User\ArraySession;
@@ -33,7 +33,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(PhpRenderer::class);
 
-        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
+        $controller = new Workshop($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
         $response = new Response();
 
@@ -61,7 +61,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(PhpRenderer::class);
 
-        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
+        $controller = new Workshop($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
         $response = new Response();
 
@@ -84,7 +84,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(PhpRenderer::class);
 
-        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
+        $controller = new Workshop($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
         $response = new Response();
 
@@ -154,7 +154,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(PhpRenderer::class);
 
-        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
+        $controller = new Workshop($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
         $response = new Response();
 
@@ -230,7 +230,7 @@ class ExerciseEditorTest extends BaseFilesystemTest
         $state = $this->createMock(StudentWorkshopState::class);
         $renderer = $this->createMock(PhpRenderer::class);
 
-        $controller = new ExerciseEditor($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
+        $controller = new Workshop($installedWorkshopRepo, $problemFileConverter, $state, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
         $response = new Response();
 

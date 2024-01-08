@@ -2,14 +2,16 @@
 import {TrophyIcon} from "@heroicons/vue/24/outline";
 import {ChevronRightIcon, HomeIcon} from "@heroicons/vue/24/solid";
 import {computed} from "vue";
+import {useStudentStore} from "../../stores/student";
 
 const props = defineProps({
     currentExercise: Object,
-    studentState: Object,
 });
 
+const studentStore = useStudentStore();
+
 const exerciseCompleted = computed(() => {
-    return props.studentState.completedExercises.includes(props.currentExercise.exercise.name);
+    return studentStore.studentState.completedExercises.includes(props.currentExercise.exercise.name);
 });
 </script>
 
@@ -17,11 +19,11 @@ const exerciseCompleted = computed(() => {
     <nav class="flex" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-3 font-mono">
             <li class="inline-flex items-center">
-                <a href="/cloud"
+                <router-link to="/online"
                    class="inline-flex items-center text-sm font-medium text-white hover:text-pink-500">
                     <HomeIcon class="w-4 h-4 mr-2"></HomeIcon>
                     {{ currentExercise.workshop.name }}
-                </a>
+                </router-link>
             </li>
             <li>
                 <div class="flex items-center">

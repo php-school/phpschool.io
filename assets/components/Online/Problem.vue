@@ -1,10 +1,11 @@
 <script setup>
 import Modal from "./Modal.vue";
-import {MapIcon} from "@heroicons/vue/24/solid";
+import {ArrowPathIcon, MapIcon} from "@heroicons/vue/24/solid";
 
 const props = defineProps({
     exercise: Object,
     openProblemModal: Boolean,
+    problem: String
 });
 
 const emit = defineEmits(['close']);
@@ -29,9 +30,8 @@ const emit = defineEmits(['close']);
             </template>
 
             <template #body class="">
-                <div id="problem-file" class="text-white">
-                    <slot></slot>
-                </div>
+                <div v-if="problem" id="problem-file" class="text-white" v-html="problem"></div>
+                <ArrowPathIcon v-cloak v-else class="w-10 h-10 animate-spin text-white mx-auto"/>
             </template>
 
             <template #footer>

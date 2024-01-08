@@ -17,6 +17,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class StudentLogin
 {
     use RedirectUtils;
+    use JsonUtils;
 
     private Session $session;
     private EntityManagerInterface $entityManager;
@@ -29,23 +30,52 @@ class StudentLogin
         $this->githubProvider = $githubProvider;
     }
 
+    public function getStudent(Request $request, Response $response): MessageInterface
+    {
+        if ($this->session->get('student') instanceof StudentDTO) {
+            return $this->withJson([
+                'success' => true,
+                'student' => $this->session->get('student')
+            ], $response);
+        }
+
+        return $this->withJson([], $response, 401);
+    }
+
+    public function redirectUrl(Request $request, Response $response): MessageInterface
+    {
+        if ($this->session->get('student') instanceof StudentDTO) {
+            return $this->withJson([
+                'success' => true,
+                'student' => $this->session->get('student')
+            ], $response);
+        }
+
+        $authUrl = $this->githubProvider->getAuthorizationUrl();
+        $this->session->set('oauth2state', $this->githubProvider->getState());
+
+        return $this->withJson([
+            'redirect' => $authUrl,
+        ], $response);
+    }
+
     public function __invoke(Request $request, Response $response): MessageInterface
     {
         if ($this->session->get('student') instanceof StudentDTO) {
-            return $this->redirectToDashboard();
+            return $this->withJson([
+                'success' => true,
+                'student' => $this->session->get('student')
+            ], $response);
         }
 
         $params = $request->getQueryParams();
 
-        if ($request->getMethod() === 'GET' && !isset($params['code'])) {
-            $authUrl = $this->githubProvider->getAuthorizationUrl();
-            $this->session->set('oauth2state', $this->githubProvider->getState());
-            return $this->redirect($authUrl);
-        }
-
         if ($request->getMethod() === 'GET') {
-            if (($params['state'] ?? '') !== $this->session->get('oauth2state')) {
-                return $this->redirectToDashboard();
+            if (!isset($params['code']) || ($params['state'] ?? '') !== $this->session->get('oauth2state')) {
+                return $this->withJson([
+                    'success' => false,
+                    'error' => 'Login failed',
+                ], $response);
             }
         }
 
@@ -68,16 +98,25 @@ class StudentLogin
                 try {
                     $student = $this->createStudent($user);
                 } catch (\Exception $e) {
-                    return $this->redirectToDashboard();
+                    return $this->withJson([
+                        'success' => false,
+                        'error' => 'Could not create user',
+                    ], $response);
                 }
             }
 
             $this->session->set('student', $student->toDTO());
             $this->session->regenerate();
 
-            return $this->redirectToDashboard();
+            return $this->withJson([
+                'success' => true,
+                'student' => $student
+            ], $response);
         } catch (IdentityProviderException $e) {
-            return $this->redirectToDashboard();
+            return $this->withJson([
+                'success' => false,
+                'error' => 'Could not fetch details from GitHub',
+            ], $response);
         }
     }
 

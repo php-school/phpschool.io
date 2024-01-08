@@ -4,8 +4,10 @@ import waitUntil from "./Utils/waitUntil.js";
 import {onMounted, ref} from "vue";
 import Shepherd from "shepherd.js";
 
+import {useStudentStore} from "../../stores/student";
+const studentStore = useStudentStore();
+
 const props = defineProps({
-  student: Object,
   solutionFile: Object,
   firstRunLoaded: {
     type: Boolean,
@@ -33,7 +35,7 @@ const tour = ref(null);
 const container = ref(null);
 
 onMounted(() => {
-  if (props.student.tour_complete === true) {
+  if (studentStore.tourComplete()) {
     return;
   }
 

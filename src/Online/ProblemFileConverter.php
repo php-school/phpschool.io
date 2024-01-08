@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpSchool\Website\Cloud;
+namespace PhpSchool\Website\Online;
 
 use League\CommonMark\MarkdownConverterInterface;
 use PhpSchool\PhpWorkshop\Exception\ProblemFileDoesNotExistException;

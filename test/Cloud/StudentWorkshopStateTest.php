@@ -2,8 +2,8 @@
 
 namespace PhpSchool\WebsiteTest\Cloud;
 
-use PhpSchool\Website\Cloud\StudentCloudState;
-use PhpSchool\Website\Cloud\StudentWorkshopState;
+use PhpSchool\Website\Online\StudentCloudState;
+use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;

@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpSchool\Website\Cloud\Middleware;
+namespace PhpSchool\Website\Online\Middleware;
 
 use PhpSchool\Website\User\SessionStorageInterface;
 use Psr\Http\Message\ResponseInterface as Response;

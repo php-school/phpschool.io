@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpSchool\Website\Cloud\Action;
+namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\PhpRenderer;
