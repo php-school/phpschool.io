@@ -148,3 +148,6 @@
 }
 
 /* admin end */
+.balanced {
+  text-wrap: balance;
+}

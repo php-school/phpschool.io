@@ -2,17 +2,17 @@
     <div class="h-full w-full relative bg-gray-900 border p-1.5 editor-border border-2 border-solid border-transparent rounded-[20px] shadow-[-20px_20px_0_rgba(0,0,0,0.2)]">
         <div class="h-full flex flex-col">
             <div class="flex flex-1 h-full relative">
-                <div class="w-3/12">
+                <div class="w-4/12 md:w-3/12">
                     <div class="">
-                        <div class="border-b border-solid border-gray-600 py-3 px-3 flex justify-between">
+                        <div class="border-b border-solid border-gray-600 p-2 md:py-3 md:px-3 flex justify-between">
                             <span class="text-white text-xs font-mono">Files</span>
                             <div class="flex text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="mr-2 h-3 w-3" style="fill: none !important;"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="mr-2 h-3 w-3" style="fill: none !important;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"></path></svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-3 w-3" style="fill: none !important;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="hidden md:flex mr-2 h-3 w-3" style="fill: none !important;"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="hidden md:flex mr-2 h-3 w-3" style="fill: none !important;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"></path></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="hidden md:flex h-3 w-3" style="fill: none !important;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
                             </div>
                         </div>
-                        <ul class="w-full text-gray-300 font-mono p-1 text-[10px]">
+                        <ul class="w-full text-gray-300 font-mono p-1 text-[8px] md:text-[10px]">
                             <li class="flex flex-col pl-1 py-1 w-full">
                                 <div class="group flex w-full items-center justify-between">
                                     <div class="flex items-center min-w-0">
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                 </div><!--v-if--></div><!-- start footer -->
-            <div class="border-t border-solid border-gray-600 flex-none flex items-center justify-between px-2 pt-2 pb-2">
+            <div class="border-t border-solid border-gray-600 flex-none flex items-center justify-between px-1 pt-1 pb-1 md:px-2 md:pt-2 md:pb-2">
                 <nav class="flex" aria-label="Breadcrumb">
                     <ol class="text-[10px] inline-flex items-center space-x-1 md:space-x-2">
                         <li class="inline-flex items-center">
@@ -114,21 +114,21 @@
                     </ol>
                 </nav>
                 <!-- Progress Tracker Bar -->
-                <div class="w-1/6 bg-gray-200 rounded-full h-4 bg-gray-700 mt-0 relative flex justify-center items-center">
+                <div class="w-1/6 bg-gray-200 rounded-full h-4 bg-gray-700 mt-0 relative hidden md:flex justify-center items-center">
                     <div class="absolute left-0 h-5 rounded-full bg-pink-500" style="width: 0%;"></div>
                     <p class="absolute inline-flex items-center text-[8px] font-bold text-white ml-2 mx-auto">0 / 24 completed</p>
                 </div>
                 <div class="flex">
-                    <button class="border-[#E91E63] text-[10px] border-solid border-2 text-white flex items-center justify-center mt-0 mr-2 rounded py-1 px-2 w-30">
+                    <button class="border-[#E91E63] text-[10px] border-solid border-2 text-white hidden md:flex items-center justify-center mt-0 mr-2 rounded py-1 px-2 w-30">
                         <span>Composer deps</span>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 w-3 h-3"><path d="M21 6.375c0 2.692-4.03 4.875-9 4.875S3 9.067 3 6.375 7.03 1.5 12 1.5s9 2.183 9 4.875z"></path><path d="M12 12.75c2.685 0 5.19-.586 7.078-1.609a8.283 8.283 0 001.897-1.384c.016.121.025.244.025.368C21 12.817 16.97 15 12 15s-9-2.183-9-4.875c0-.124.009-.247.025-.368a8.285 8.285 0 001.897 1.384C6.809 12.164 9.315 12.75 12 12.75z"></path><path d="M12 16.5c2.685 0 5.19-.586 7.078-1.609a8.282 8.282 0 001.897-1.384c.016.121.025.244.025.368 0 2.692-4.03 4.875-9 4.875s-9-2.183-9-4.875c0-.124.009-.247.025-.368a8.284 8.284 0 001.897 1.384C6.809 15.914 9.315 16.5 12 16.5z"></path><path d="M12 20.25c2.685 0 5.19-.586 7.078-1.609a8.282 8.282 0 001.897-1.384c.016.121.025.244.025.368 0 2.692-4.03 4.875-9 4.875s-9-2.183-9-4.875c0-.124.009-.247.025-.368a8.284 8.284 0 001.897 1.384C6.809 19.664 9.315 20.25 12 20.25z"></path></svg>
                     </button>
-                    <button id="show-problem" class="border-[#E91E63] text-[10px] border-solid border-2 text-white flex items-center justify-center mt-0 mr-2 rounded py-1 px-2 w-30">
+                    <button id="show-problem" class="border-[#E91E63] text-[10px] border-solid border-2 text-white hidden md:flex items-center justify-center mt-0 mr-2 rounded py-1 px-2 w-30">
                         <span>Show problem</span>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 w-3 h-3"><path fill-rule="evenodd" d="M8.161 2.58a1.875 1.875 0 011.678 0l4.993 2.498c.106.052.23.052.336 0l3.869-1.935A1.875 1.875 0 0121.75 4.82v12.485c0 .71-.401 1.36-1.037 1.677l-4.875 2.437a1.875 1.875 0 01-1.676 0l-4.994-2.497a.375.375 0 00-.336 0l-3.868 1.935A1.875 1.875 0 012.25 19.18V6.695c0-.71.401-1.36 1.036-1.677l4.875-2.437zM9 6a.75.75 0 01.75.75V15a.75.75 0 01-1.5 0V6.75A.75.75 0 019 6zm6.75 3a.75.75 0 00-1.5 0v8.25a.75.75 0 001.5 0V9z" clip-rule="evenodd"></path></svg>
                     </button>
                     <div class="flex items-center">
-                        <button id="run" class="text-[10px] border-[#E91E63] border-solid border-2 text-white flex items-center justify-center mt-0 mr-2 py-1 px-2 w-18 rounded">
+                        <button id="run" class="text-[10px] border-[#E91E63] border-solid border-2 text-white hidden md:flex items-center justify-center mt-0 mr-2 py-1 px-2 w-18 rounded">
                             <span>Run</span>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 w-3 h-3">
                                 <path fill-rule="evenodd" d="M2.25 6a3 3 0 013-3h13.5a3 3 0 013 3v12a3 3 0 01-3 3H5.25a3 3 0 01-3-3V6zm3.97.97a.75.75 0 011.06 0l2.25 2.25a.75.75 0 010 1.06l-2.25 2.25a.75.75 0 01-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 010-1.06zm4.28 4.28a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z" clip-rule="evenodd"></path>
