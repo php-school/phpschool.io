@@ -235,10 +235,12 @@ onUnmounted(() => {
                           feedback.
                       </p>
                       <div class="flex justify-start">
-                          <div class="relative w-full ">
+                          <div class="relative w-full flex items-center">
                               <input type="text" placeholder="Type Something..." v-model="userInput"
                                      class="w-full p-5 font-work-sans text-base font-bold text-gray-900 rounded-2xl  focus:outline-none focus:border-pink-500 focus:ring focus:ring-pink-500"
                                      @keyup="userInputKeyup" />
+
+
                               <button @click="checkInput"  class="absolute right-1.5 flex items-center justify-center mt-0 px-2 w-24 text-white text-sm  rounded-xl bg-gradient-to-r from-pink-600 to-purple-500 hover:bg-[#aa1145] transition-all duration-300 ease-in hover:opacity-90 h-[52px]" >
                                   <span>Verify</span>
                                   <SparklesIcon v-cloak class="ml-2 w-5 h-5"/>
