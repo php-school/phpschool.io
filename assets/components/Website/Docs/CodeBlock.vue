@@ -4,19 +4,8 @@ import {computed, useSlots} from "vue";
 const slots = useSlots();
 
 import { ref, onMounted, watch, nextTick } from 'vue';
-import hljs from 'highlight.js/lib/core';
-import php from 'highlight.js/lib/languages/php';
-import shell from 'highlight.js/lib/languages/shell';
-import javascript from 'highlight.js/lib/languages/javascript';
-import markdown from 'highlight.js/lib/languages/markdown';
-import json from 'highlight.js/lib/languages/json';
 
-hljs.registerLanguage('php', php);
-hljs.registerLanguage('shell', shell);
-hljs.registerLanguage('shell', javascript);
-hljs.registerLanguage('md', markdown);
-hljs.registerLanguage('json', json);
-
+import {highlightCode} from "../../../helpers/highlightCode";
 
 import {TransitionRoot} from "@headlessui/vue";
 import {ClipboardDocumentIcon} from "@heroicons/vue/24/solid";
@@ -25,16 +14,16 @@ const language = ref('php');
 const formattedCode = ref('');
 const code = ref(slots.default()[0].children);
 
-const highlightCode = () => {
-    formattedCode.value = hljs.highlight(code.value, {language: language.value}).value;
+const highlight = () => {
+    formattedCode.value = highlightCode(code.value, language.value);
 };
 
 onMounted(() => {
-    highlightCode();
+    highlight();
 });
 
 watch(() => slots.default(), () => {
-    highlightCode();
+    highlight();
 });
 
 const copied = ref(false);
