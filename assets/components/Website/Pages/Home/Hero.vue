@@ -8,7 +8,7 @@ import CodeAnimation from "../../CodeAnimation.vue";
 </script>
 
 <template>
-    <div class="bg-center bg-cover bg-[url('/img/cloud/phpCity.jpg')] -mt-28 z-10">
+    <div class="bg-center bg-cover bg-[url('/img/cloud/phpCity-alt.jpg')] -mt-28 z-10">
         <div class="max-w-[2048px] mx-auto w-full h-screen flex justify-center lg:justify-between items-center text-center pt-28 ">
             <div class="hidden lg:block drop-shadow-[0_0_5px_rgba(255,255,255,1)] text-white overflow-hidden px-4 code-fade">
                 <CodeAnimation class="text-left text-sm" />
