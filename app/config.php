@@ -373,6 +373,7 @@ return [
         return new RunExercise(
             $c->get(CloudWorkshopRepository::class),
             $c->get(ProjectUploader::class),
+            $c->get(StudentWorkshopState::class),
             $c->get(SessionStorageInterface::class),
         );
     },
