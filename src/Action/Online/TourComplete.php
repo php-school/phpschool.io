@@ -1,9 +1,8 @@
 <?php
 
-namespace PhpSchool\Website\Cloud\Action;
+namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\Website\Action\JsonUtils;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
 use PhpSchool\Website\User\StudentRepository;

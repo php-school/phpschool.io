@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpSchool\Website\Cloud\Command;
+namespace PhpSchool\Website\Online\Command;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\TransferException;

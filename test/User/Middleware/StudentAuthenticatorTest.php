@@ -4,7 +4,7 @@ namespace PhpSchool\WebsiteTest\User\Middleware;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use PhpSchool\Website\Cloud\StudentCloudState;
+use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use PhpSchool\Website\User\SessionStorageInterface;
@@ -79,9 +79,9 @@ class StudentAuthenticatorTest extends TestCase
         $this->assertEmpty($response->getHeaderLine('Location'));
     }
 
-    public function testThatNonLoggedInStudentIsRedirectedToCloudHomeWhenAccessingAnyOtherCloudRoute(): void
+    public function testThatNonLoggedInStudentReceives401(): void
     {
-        $request = new ServerRequest('GET', '/online/verify');
+        $request = new ServerRequest('GET', '/api/online/workshop/verify');
 
         $handler = $this->getRequestHandler();
 
@@ -92,37 +92,12 @@ class StudentAuthenticatorTest extends TestCase
 
         $response = $middleware->__invoke($request, $handler);
 
-        $this->assertEquals(302, $response->getStatusCode());
-        $this->assertEquals('/online/dashboard', $response->getHeaderLine('Location'));
+        $this->assertEquals(401, $response->getStatusCode());
     }
 
-    public function testThatLoggedInStudentCanAccessCloudHome(): void
+    public function testThatLoggedInStudentCanAccessRoutes(): void
     {
-        $request = new ServerRequest('GET', '/online');
-
-        $handler = $this->getRequestHandler();
-
-        $student = $this->getStudent();
-
-        $this->session->expects($this->once())
-            ->method('get')
-            ->with('student')
-            ->willReturn($student);
-
-        $middleware = new StudentAuthenticator(
-            $this->session,
-            $this->studentRepository
-        );
-
-        $response = $middleware->__invoke($request, $handler);
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEmpty($response->getHeaderLine('Location'));
-    }
-
-    public function testThatLoggedInStudentCanAccessOtherCloudRoutes(): void
-    {
-        $request = new ServerRequest('GET', '/online/verify');
+        $request = new ServerRequest('GET', '/api/online/workshop/verify');
 
         $handler = $this->getRequestHandler();
 

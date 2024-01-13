@@ -3,7 +3,6 @@
 namespace PhpSchool\Website\Action;
 
 use Psr\Http\Message\MessageInterface;
-use Psr\Http\Message\ResponseInterface as Response;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 
 trait RedirectUtils

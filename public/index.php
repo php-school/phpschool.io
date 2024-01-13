@@ -7,40 +7,38 @@ use PhpSchool\Website\Action\Admin\Event\Create as EventCreate;
 use PhpSchool\Website\Action\Admin\Event\Delete as EventDelete;
 use PhpSchool\Website\Action\Admin\Event\Update as EventUpdate;
 use PhpSchool\Website\Action\Admin\Login;
+use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Delete;
 use PhpSchool\Website\Action\Admin\Workshop\Promote;
 use PhpSchool\Website\Action\Admin\Workshop\RegenerateFeed;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
-use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
 use PhpSchool\Website\Action\BlogPost;
 use PhpSchool\Website\Action\BlogPosts;
 use PhpSchool\Website\Action\Events;
+use PhpSchool\Website\Action\Online\ComposerPackageAdd;
+use PhpSchool\Website\Action\Online\ComposerPackageSearch;
+use PhpSchool\Website\Action\Online\WorkshopExercise;
+use PhpSchool\Website\Action\Online\ResetState;
+use PhpSchool\Website\Action\Online\ResetStateFromEditor;
+use PhpSchool\Website\Action\Online\RunExercise;
+use PhpSchool\Website\Action\Online\TourComplete;
+use PhpSchool\Website\Action\Online\VerifyExercise;
+use PhpSchool\Website\Action\Online\Workshops;
 use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Action\StudentLogout;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Action\TrackDownloads;
-use PhpSchool\Website\Cloud\Action\ComposerPackageAdd;
-use PhpSchool\Website\Cloud\Action\ComposerPackageSearch;
-use PhpSchool\Website\Cloud\Action\Dashboard;
-use PhpSchool\Website\Cloud\Action\ExerciseEditor;
-use PhpSchool\Website\Cloud\Action\ResetState;
-use PhpSchool\Website\Cloud\Action\ResetStateFromEditor;
-use PhpSchool\Website\Cloud\Action\RunExercise;
-use PhpSchool\Website\Cloud\Action\TourComplete;
-use PhpSchool\Website\Cloud\Action\VerifyExercise;
-use PhpSchool\Website\Cloud\Middleware\ExerciseRunnerRateLimiter;
-use PhpSchool\Website\Cloud\Middleware\Styles;
+use PhpSchool\Website\Online\Middleware\ExerciseRunnerRateLimiter;
+use PhpSchool\Website\Online\Middleware\Styles;
 use PhpSchool\Website\ContainerFactory;
-use PhpSchool\Website\Middleware\AdminStyle;
 use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use Psr\Http\Message\ResponseInterface as Response;
-use PhpSchool\Website\PhpRenderer;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Slim\Routing\RouteCollectorProxy;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Tuupola\Middleware\JwtAuthentication;
 
 if (PHP_SAPI == 'cli-server') {
@@ -106,38 +104,29 @@ $app
                     ->withHeader('Content-Type', 'application/json');
             });
         });
-
-        //fallback for vue routes
-        //all gets should be handled by vue router
-        $group->get('/{sth}', function (Request $request, Response $response, PhpRenderer $renderer) {
-            return $renderer->render($response, 'layouts/admin.phtml', [
-                'pageTitle'       => 'Admin Area',
-                'pageDescription' => 'Admin Area',
-            ]);
-        });
     })
     ->add($container->get(JwtAuthentication::class));
 
 $app->post('/downloads/{workshop}/{version}', TrackDownloads::class)->add(new \RKA\Middleware\IpAddress());
 
-$app->get('/student-login', StudentLogin::class);
+$rateLimiter = $container->get(ExerciseRunnerRateLimiter::class);
+
+$app->get('/api/online/student/login-url', [StudentLogin::class, 'redirectUrl']);
+$app->get('/api/online/student/login', StudentLogin::class);
+$app->post('/api/online/student/logout', StudentLogout::class);
+$app->get('/api/online/workshops', Workshops::class);
+
 $app
-    ->group('/online', function (RouteCollectorProxy $group) use ($container) {
-        $rateLimiter = $container->get(ExerciseRunnerRateLimiter::class);
+    ->group('/api/online', function (RouteCollectorProxy $group) use ($container, $rateLimiter) {
 
-        $group->post('/reset', ResetState::class);
-        $group->get('/logout', StudentLogout::class);
-        $group->post('/workshop/{workshop}/exercise/{exercise}/reset', ResetStateFromEditor::class);
-
-        $group->get('/dashboard', Dashboard::class)
-            ->setName('dashboard');
-
-        $group->get('/workshop/{workshop}/exercise/{exercise}/editor', ExerciseEditor::class);
-        $group->post('/workshop/{workshop}/exercise/{exercise}/run', RunExercise::class)->add($rateLimiter);
-        $group->post('/workshop/{workshop}/exercise/{exercise}/verify', VerifyExercise::class)->add($rateLimiter);
+        $group->get('/student', [StudentLogin::class, 'getStudent']);
+        $group->get('/workshop/{workshop}/exercise/{exercise}', WorkshopExercise::class);
+        $group->post('/workshop/run/{workshop}/exercise/{exercise}', RunExercise::class)->add($rateLimiter);
+        $group->post('/workshop/verify/{workshop}/exercise/{exercise}', VerifyExercise::class)->add($rateLimiter);
         $group->get('/composer-package/add', ComposerPackageAdd::class);
         $group->get('/composer-package/search', ComposerPackageSearch::class);
         $group->post('/tour/complete', TourComplete::class);
+        $group->post('/reset', ResetState::class);
     })
     ->add($container->get(StudentAuthenticator::class))
     ->add(Styles::class);

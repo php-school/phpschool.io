@@ -9,37 +9,32 @@ import {XMarkIcon, CircleStackIcon, MapIcon, AcademicCapIcon} from '@heroicons/v
 import ResultList from "./Results/ResultList.vue";
 import Tour from "./Tour.vue";
 import Confirm from "./Confirm.vue";
-import StudentDropdown from "./StudentDropdown.vue";
-import SiteNav from "../Website/SiteNav.vue";
 import Problem from "./Problem.vue";
 import ComposerPackages from "./ComposerPackages.vue";
 import ProgressBar from "./ProgressBar.vue";
 import EditorBreadcrumbs from "./EditorBreadcrumbs.vue";
 import {onMounted, ref} from "vue";
 import toFilePath from "./Utils/toFilePath";
+import {useWorkshopStore} from "../../stores/workshops";
+import {useStudentStore} from "../../stores/student";
+
+const workshopStore = useWorkshopStore();
+const studentStore = useStudentStore();
 
 const props = defineProps({
+    workshop: String,
+    exercise: String,
     nextExerciseLink: String,
-    officialSolution: Array,
-    initialFiles: Array,
-    entryPoint: String,
-    workshop: Object,
-    exercise: Object,
-    student: Object,
-    totalExercises: Number,
-    links: Object
 });
 
 const currentExercise = {
-    workshop: props.workshop,
-    exercise: props.exercise
+    workshop: workshopStore.getWorkshop(props.workshop),
+    exercise: workshopStore.getExercise(props.workshop, props.exercise)
 };
 
-const studentState = ref({
-    totalCompleted: props.student.state.total_completed,
-    completedExercises: props.student.state.workshops[props.workshop.code].completedExercises
-});
-
+const entryPoint = ref('solution.php');
+const initialFiles = ref([]);
+const officialSolution = ref([])
 const firstRunLoaded = ref(false);
 const firstVerifyLoaded = ref(false);
 const openPassNotification = ref(false);
@@ -53,15 +48,28 @@ const openFiles = ref([]);
 const activeTab = ref(0);
 const composerDeps = ref([]);
 const confirm = ref(null);
+const nextExercise = ref(workshopStore.findNextExercise(props.workshop, props.exercise))
+const problem = ref('');
 
-onMounted(() => {
+onMounted(async () => {
+    const response = await fetch('/api/online/workshop/' + currentExercise.workshop.code + '/exercise/' + currentExercise.exercise.slug);
+    const data = await response.json();
+
+    problem.value = data.problem;
+
+    if (data.official_solution) {
+        officialSolution.value = data.official_solution;
+    }
+
+    entryPoint.value = data.entry_point;
+    initialFiles.value = data.initial_files;
     //sort the initial files so entry point is at the top
     //and opened in a tab
-    props.initialFiles.sort((a, b) => {
+    initialFiles.value.sort((a, b) => {
         return a.name === props.entryPoint ? -1 : 0;
     });
 
-    const initialFileCopy = props.initialFiles.map(file => {
+    const initialFileCopy = initialFiles.value.map(file => {
         return {...file}
     });
 
@@ -96,7 +104,7 @@ const toTree = (files, parent = null) => {
 
 const getSavedFiles = () => {
     const items = { ...localStorage };
-    const key = props.workshop.code + '.' + props.exercise.slug;
+    const key = currentExercise.workshop.code + '.' + currentExercise.exercise.slug;
 
     const files = {};
     for (const localStorageKey in items) {
@@ -186,10 +194,12 @@ const verifyLoading = () => {
     loadingResults.value = true;
 };
 
-const verifySuccess = () => {
+const verifySuccess = async () => {
     openPassNotification.value = true;
     openResults.value = false;
     loadingResults.value = false;
+
+    await studentStore.completeExercise(currentExercise.workshop.code, currentExercise.exercise.slug);
 };
 
 const verifyFail = (newResults) => {
@@ -226,7 +236,7 @@ const resetFiles = async () => {
         localStorage.removeItem(key + '.' + fileName);
     }
 
-    const initialFileCopy = props.initialFiles.map(file => {
+    const initialFileCopy = initialFiles.value.map(file => {
         return {...file}
     });
 
@@ -235,35 +245,7 @@ const resetFiles = async () => {
     activeTab.value = 0;
 }
 
-const resetState = () => {
-    return new Promise(async function (resolve, reject) {
-        const url = '/online/workshop/' + currentExercise.workshop.code + '/exercise/' + currentExercise.exercise.slug + '/reset';
-
-        const opts = {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        };
-        fetch(url, opts)
-            .then(response => {
-                if (response.ok) {
-                    studentState.value.totalCompleted = 0;
-                    studentState.value.completedExercises = [];
-
-                    resolve();
-                }
-
-                reject();
-            });
-    });
-}
-
 const tour = ref(null);
-const forceTour = () => {
-    tour.value.forceTour();
-};
 
 const studentSelectFile = (selectedFile) => {
     if ('new' in selectedFile && selectedFile.new === true) {
@@ -328,26 +310,10 @@ const deleteFileOrFolder = (file) => {
 </script>
 
 <template>
-    <site-nav compact :links="links" :show-login-button="false">
-        <template v-slot:nav-after>
-            <ul v-if="student" class="order-3">
-                <li>
-                    <student-dropdown
-                            @show-tour="forceTour"
-                            :student="student"
-                            :student-state="studentState"
-                            :total-exercises='totalExercises'
-                            :reset-function="resetState"
-                    />
-                </li>
-            </ul>
-        </template>
-    </site-nav>
-
     <section class="site-body h-full flex-1 flex flex-col bg-gray-900">
         <div class="h-full relative">
 
-            <tour ref="tour" @tour-starting="openProblemModal = true" :student="student" :solution-file="studentFiles[0]"
+            <tour ref="tour" @tour-starting="openProblemModal = true" :solution-file="studentFiles[0]"
                   :first-run-loaded="firstRunLoaded"
                   :first-verify-loaded="firstVerifyLoaded" :problem-modal-open="openProblemModal"></tour>
 
@@ -355,7 +321,7 @@ const deleteFileOrFolder = (file) => {
 
             <pass-notification
                     v-if="openPassNotification"
-                    :next-exercise-link="nextExerciseLink"
+                    :next-exercise-link="'/online/editor/' + workshop + '/' + nextExercise.slug"
                     :official-solution="officialSolution"
                     @close="openPassNotification = false">
             </pass-notification>
@@ -413,13 +379,13 @@ const deleteFileOrFolder = (file) => {
                             </div>
                         </div>
 
-                        <ResultList :workshop="workshop" :results="results"></ResultList>
+                        <ResultList :workshop="currentExercise.workshop" :results="results"></ResultList>
                     </div>
                 </div>
                 <!-- start footer -->
                 <div class="border-t border-solid border-gray-600 h-16 flex-none flex items-center justify-between p-2">
-                    <editor-breadcrumbs :student-state="studentState" :current-exercise="currentExercise"></editor-breadcrumbs>
-                    <progress-bar :student-state="studentState" :total-exercises="totalExercises"></progress-bar>
+                    <editor-breadcrumbs :current-exercise="currentExercise"></editor-breadcrumbs>
+                    <progress-bar></progress-bar>
                     <div class="flex">
                         <button class="border-[#E91E63] hover:bg-[#E91E63] border-solid border-2 text-white text-sm flex items-center justify-center mt-0 mr-2 rounded px-4 w-44 h-[48px]"
                                 @click="openComposerModal = true">
@@ -449,8 +415,7 @@ const deleteFileOrFolder = (file) => {
                     @package-added="(p) => composerDeps.push(p)"
                     @package-removed="(index) => composerDeps.splice(index, 1)">
             </ComposerPackages>
-            <Problem :exercise="exercise" :open-problem-modal="openProblemModal" @close="openProblemModal = false">
-                <slot name="problem"></slot>
+            <Problem :exercise="currentExercise.exercise" :open-problem-modal="openProblemModal" @close="openProblemModal = false" :problem="problem">
             </Problem>
         </div>
     </section>

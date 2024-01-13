@@ -5,7 +5,7 @@ namespace PhpSchool\Website\User\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use PhpSchool\PhpWorkshop\UserState\UserState;
-use PhpSchool\Website\Cloud\StudentCloudState;
+use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\User\StudentDTO;
 use Ramsey\Uuid\UuidInterface;
 

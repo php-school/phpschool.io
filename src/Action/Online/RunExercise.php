@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpSchool\Website\Cloud\Action;
+namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\PhpWorkshop\Event\CgiExecuteEvent;
 use PhpSchool\PhpWorkshop\Event\CliExecuteEvent;
@@ -8,8 +8,9 @@ use PhpSchool\PhpWorkshop\Event\Event;
 use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\Website\Action\JsonUtils;
-use PhpSchool\Website\Cloud\CloudWorkshopRepository;
-use PhpSchool\Website\Cloud\ProjectUploader;
+use PhpSchool\Website\Online\CloudWorkshopRepository;
+use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -25,6 +26,7 @@ class RunExercise
     public function __construct(
         private readonly CloudWorkshopRepository $installedWorkshops,
         private readonly ProjectUploader $projectUploader,
+        private readonly StudentWorkshopState $studentState,
         private readonly SessionStorageInterface $session,
     ) {
     }
@@ -41,6 +43,8 @@ class RunExercise
         } catch (\RuntimeException $e) {
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
         }
+
+        $this->studentState->setCurrentExercise($workshop->getCode(), $exercise->getName());
 
         try {
             $project = $this->projectUploader->upload($request, $this->getStudent());
@@ -61,6 +65,7 @@ class RunExercise
             new Input($workshop->getCode(), ['program' => $project->getEntryPoint()->getAbsolutePath()]),
             $output
         );
+
 
         $data = [
             'runs' => $this->runInfo,

@@ -2,7 +2,7 @@
 
 namespace PhpSchool\WebsiteTest\Cloud;
 
-use PhpSchool\Website\Cloud\StudentCloudState;
+use PhpSchool\Website\Online\StudentCloudState;
 use PHPUnit\Framework\TestCase;
 
 class StudentCloudStateTest extends TestCase

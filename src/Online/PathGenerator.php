@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpSchool\Website\Cloud;
+namespace PhpSchool\Website\Online;
 
 use PhpSchool\PhpWorkshop\Utils\Path;
 use PhpSchool\PhpWorkshop\Utils\System;

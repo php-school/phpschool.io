@@ -1,13 +1,47 @@
 <script setup>
 import Modal from "./Modal.vue";
-import {MapIcon} from "@heroicons/vue/24/solid";
+import {ArrowPathIcon, MapIcon} from "@heroicons/vue/24/solid";
+import {nextTick, onMounted, ref, watch} from "vue";
+
+import hljs from 'highlight.js/lib/core';
+import php from 'highlight.js/lib/languages/php';
+import shell from 'highlight.js/lib/languages/shell';
+import javascript from 'highlight.js/lib/languages/javascript';
+import markdown from 'highlight.js/lib/languages/markdown';
+import json from 'highlight.js/lib/languages/json';
+
+hljs.registerLanguage('php', php);
+hljs.registerLanguage('shell', shell);
+hljs.registerLanguage('shell', javascript);
+hljs.registerLanguage('md', markdown);
+hljs.registerLanguage('json', json);
+
 
 const props = defineProps({
     exercise: Object,
     openProblemModal: Boolean,
+    problem: String
 });
 
+const problemContainer = ref();
+
 const emit = defineEmits(['close']);
+
+const highlightedCode = ref('');
+
+
+watch(() => props.problem, (problem) => {
+    if (problem) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(problem, "text/html");
+
+        const codeBlocks = doc.querySelectorAll('pre code');
+        codeBlocks.forEach(hljs.highlightElement)
+
+        const s = new XMLSerializer();
+        highlightedCode.value = s.serializeToString(doc);
+    }
+}, {immediate: true})
 </script>
 
 <template>
@@ -29,9 +63,8 @@ const emit = defineEmits(['close']);
             </template>
 
             <template #body class="">
-                <div id="problem-file" class="text-white">
-                    <slot></slot>
-                </div>
+                <div ref="problemContainer" v-if="problem" id="problem-file" class="text-white" v-html="highlightedCode"></div>
+                <ArrowPathIcon v-cloak v-else class="w-10 h-10 animate-spin text-white mx-auto"/>
             </template>
 
             <template #footer>

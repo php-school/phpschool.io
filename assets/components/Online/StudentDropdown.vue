@@ -5,17 +5,19 @@ import {ArrowPathIcon, UserCircleIcon} from '@heroicons/vue/24/solid'
 import Confirm from "./Confirm.vue";
 import Alert from "./Alert.vue";
 import {computed, ref} from "vue";
+import {useRoute} from "vue-router";
+
+const route = useRoute();
+
+import {useStudentStore} from "../../stores/student";
+const studentStore = useStudentStore();
+
+import {useWorkshopStore} from "../../stores/workshops";
+const workshopStore = useWorkshopStore();
 
 const emit = defineEmits(['show-tour']);
 
 const props = defineProps({
-    student: {
-        type: Object,
-    },
-    studentState: {
-        type: Object,
-    },
-    totalExercises: Number,
     resetFunction: Function,
     enableShowTour: {
         type: Boolean,
@@ -30,12 +32,8 @@ const showResetProgressAlert = ref(false);
 const resetProgressConfirm = ref(null);
 
 const percentComplete = computed(() => {
-    return (props.studentState.totalCompleted / props.totalExercises) * 100;
+    return (studentStore.totalCompleted() / workshopStore.totalExercises) * 100;
 });
-
-const showTour = () => {
-    emit('show-tour');
-}
 
 const clickAway = () => {
     isOpen.value = false;
@@ -62,18 +60,25 @@ const resetState = async () => {
 
     loadingStateReset.value = true;
 
-    props.resetFunction()
-        .then(async () => {
-            loadingStateReset.value = false;
-            showResetProgressAlert.value = true;
+    try {
+        await studentStore.resetState();
+        showResetProgressAlert.value = true;
 
-            setTimeout(() => {
-                showResetProgressAlert.value = false;
-            }, 3000)
-        })
-        .catch(() => {
-            loadingStateReset.value = false;
-        });
+        setTimeout(() => {
+            showResetProgressAlert.value = false;
+        }, 3000)
+    } finally {
+        loadingStateReset.value = false;
+    }
+}
+
+const showTour = () => {
+    isOpen.value = false;
+    studentStore.showTourAgain();
+}
+
+const logout = () => {
+    studentStore.logout();
 }
 </script>
 
@@ -84,14 +89,14 @@ const resetState = async () => {
                 class="flex text-sm bg-gray-800 rounded-full focus:ring-4  focus:ring-gray-600"
                 type="button">
             <span class="sr-only">Open user menu</span>
-            <img class="w-8 h-8 rounded-full" :src="student.profile_picture" alt="{{ student.name }}">
+            <img class="w-8 h-8 rounded-full" :src="studentStore.student.profile_picture" alt="{{ studentStore.student.name }}">
         </button>
 
         <div v-show="isOpen" v-click-away="clickAway"
              class="absolute top-10 right-2.5 z-10 w-[250px] divide-solid divide-y divide-gray-600 rounded-lg shadow-xl bg-gray-800">
             <div class="px-6 py-4 text-sm text-white text-left">
-                <div>{{ student.name }}</div>
-                <div class="font-medium truncate">{{ student.email }}</div>
+                <div>{{ studentStore.student.name }}</div>
+                <div class="font-medium truncate">{{ studentStore.student.email }}</div>
             </div>
             <div class="py-5">
                 <div class="px-6 flex justify-between">
@@ -99,7 +104,7 @@ const resetState = async () => {
                         <span class="flex rounded-lg p-2">
                           <TrophyIcon class="h-6 w-6 text-yellow-400"/>
                         </span>
-                        <p class="ml-2 text-sm font-medium text-gray-500">{{ studentState.totalCompleted }} out of {{ totalExercises }}</p>
+                        <p class="ml-2 text-sm font-medium text-gray-500">{{ studentStore.totalCompleted() }} out of {{ workshopStore.totalExercises }}</p>
                     </div>
                 </div>
                 <div class="px-6">
@@ -110,11 +115,12 @@ const resetState = async () => {
             </div>
 
 
+
             <ul class="py-2 text-sm text-gray-200">
                 <li>
-                    <a href="/cloud" class="block text-left no-underline px-6 py-2 hover:bg-gray-600 hover:text-white">Workshop Dashboard</a>
+                    <router-link to="/online" class="block text-left no-underline px-6 py-2 hover:bg-gray-600 hover:text-white">Workshop Dashboard</router-link>
                 </li>
-                <li v-if="enableShowTour">
+                <li v-if="route.name === 'editor'">
                     <a href="#" @click="showTour" class="block text-left no-underline px-6 py-2 hover:bg-gray-600 hover:text-white">Show Tour Again</a>
                 </li>
                 <li>
@@ -127,7 +133,7 @@ const resetState = async () => {
             <confirm ref="resetProgressConfirm"></confirm>
 
             <div class="py-3">
-                <a href="/online/logout" class="block text-left no-underline px-6 py-2 text-sm hover:bg-gray-600 text-gray-200 hover:text-white">Sign out</a>
+                <a href="#" @click="logout" class="block text-left no-underline px-6 py-2 text-sm hover:bg-gray-600 text-gray-200 hover:text-white">Sign out</a>
             </div>
         </div>
     </div>

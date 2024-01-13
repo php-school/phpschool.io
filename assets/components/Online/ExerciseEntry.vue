@@ -4,51 +4,43 @@ import { CheckCircleIcon } from '@heroicons/vue/24/solid'
 import { ArrowRightCircleIcon } from '@heroicons/vue/24/outline'
 import {computed} from "vue";
 
+import {useRouter} from "vue-router";
+
+import {useStudentStore} from "../../stores/student";
+const studentStore = useStudentStore();
+
 const props = defineProps({
     selectedWorkshop: Object,
     exercise: Object,
-    student: Object,
-    studentState: Object,
 })
+
+const router = useRouter();
 
 const emit = defineEmits(['not-logged-in']);
 
 const selectExercise = () => {
-    if (!props.student) {
+    if (!studentStore.student) {
         emit('not-logged-in');
         return;
     }
 
-    window.location.href = '/online/workshop/' + props.selectedWorkshop.code + '/exercise/' + props.exercise.slug + '/editor';
-}
-
-const isExerciseComplete = (workshopCode, exerciseName) => {
-    if (props.student === undefined) {
-        return false;
-    }
-
-    if (!props.studentState.workshops.hasOwnProperty(workshopCode)) {
-        return false;
-    }
-
-    const workshop = props.studentState.workshops[workshopCode];
-    return workshop.completedExercises.includes(exerciseName);
+    router.push('/online/editor/' + props.selectedWorkshop.code + '/' + props.exercise.slug);
 }
 
 const isCurrentExerciseComplete = computed(() => {
-    return isExerciseComplete(props.selectedWorkshop.code, props.exercise.name);
+    return studentStore.isExerciseCompleted(props.selectedWorkshop.code, props.exercise.name);
 })
 
 const isNextWorkshop = computed(() => {
     const pos = props.selectedWorkshop.exercises.findIndex((e) => e.name === props.exercise.name);
 
     if (pos - 1 in props.selectedWorkshop.exercises) {
-        const prevComplete = isExerciseComplete(
+        const prevComplete = studentStore.isExerciseCompleted(
             props.selectedWorkshop.code,
             props.selectedWorkshop.exercises[pos - 1].name
         )
 
-        const thisComplete = isExerciseComplete(
+        const thisComplete = studentStore.isExerciseCompleted(
             props.selectedWorkshop.code,
             props.exercise.name
         )

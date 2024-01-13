@@ -1,9 +1,9 @@
 <?php
 
-namespace PhpSchool\Website\Cloud\Action;
+namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\Website\Action\JsonUtils;
-use PhpSchool\Website\Cloud\StudentWorkshopState;
+use PhpSchool\Website\Online\StudentWorkshopState;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

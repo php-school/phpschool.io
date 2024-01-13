@@ -3,7 +3,7 @@
 namespace PhpSchool\Website\User;
 
 use DateTime;
-use PhpSchool\Website\Cloud\StudentCloudState;
+use PhpSchool\Website\Online\StudentCloudState;
 use Ramsey\Uuid\UuidInterface;
 
 class StudentDTO implements \JsonSerializable

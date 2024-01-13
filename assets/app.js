@@ -15,7 +15,6 @@ import Docs from "./components/Website/Pages/Docs.vue";
 
 import App from "./components/Website/App.vue";
 
-
 import {docs} from "./components/Website/Docs/contents.js";
 import Layout from "./components/Website/Layout.vue";
 import CompactLayout from "./components/Website/CompactLayout.vue";
@@ -42,6 +41,9 @@ import AdminNewWorkshops from "./components/Admin/NewWorkshops.vue";
 import AdminStudents from "./components/Admin/Students.vue";
 import AdminSettings from "./components/Admin/Settings.vue";
 import AdminEvents from "./components/Admin/Events.vue";
+import {useStudentStore} from "./stores/student";
+import {useWorkshopStore} from "./stores/workshops";
+import ExerciseEditor from "./components/Online/ExerciseEditor.vue";
 
 const docRoutes = [].concat(...docs.map(doc => {
     return doc.sections.map(section => {
@@ -58,7 +60,7 @@ const docRoutes = [].concat(...docs.map(doc => {
 const routes = [
     { path: '/', component: Home, meta: {layout: Layout} },
     { path: '/online', component: Dashboard, meta: {layout: CompactLayout} },
-    { path: '/editor', component: Dashboard, meta: {layout: CompactLayout} },
+    { path: '/online/editor/:workshop/:exercise', component: ExerciseEditor, name: "editor", props:true, meta: {layout: CompactLayout} },
     { path: '/offline', component: Offline, meta: {layout: Layout} },
     { path: '/submit', component: SubmitWorkshop, meta: {layout: Layout} },
     { path: '/docs', component: Docs, children: docRoutes, meta: {layout: Layout} },
@@ -102,12 +104,20 @@ export const createApp = ViteSSG(
 
         if (isClient) {
             pinia.state.value = (initialState.pinia) || {}
-        } else {
+
+            const studentStore = useStudentStore(pinia);
+            await studentStore.initialize();
+        }
+
+        if (!isClient || import.meta.env.DEV) {
             const blogStore = useBlogStore(pinia)
             await blogStore.initialize();
 
             const eventStore = useEventStore(pinia)
             await eventStore.initialize();
+
+            const workshopStore = useWorkshopStore(pinia)
+            await workshopStore.initialize();
 
             onSSRAppRendered(() => {
                 initialState.pinia = pinia.state.value

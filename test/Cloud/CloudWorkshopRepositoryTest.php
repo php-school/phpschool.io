@@ -3,8 +3,8 @@
 namespace PhpSchool\WebsiteTest\Cloud;
 
 use Composer\InstalledVersions;
-use PhpSchool\Website\Cloud\CloudInstalledWorkshop;
-use PhpSchool\Website\Cloud\CloudWorkshopRepository;
+use PhpSchool\Website\Online\CloudInstalledWorkshop;
+use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PHPUnit\Framework\TestCase;

@@ -2,9 +2,14 @@
 
 use ahinkle\PackagistLatestVersion\PackagistLatestVersion;
 use DI\Bridge\Slim\Bridge;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use Github\Client;
 use Jenssegers\Agent\Agent;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
@@ -12,6 +17,10 @@ use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
 use League\CommonMark\MarkdownConverterInterface;
 use League\OAuth2\Client\Provider\Github;
+use Mni\FrontYAML\Parser;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Monolog\Processor\UidProcessor;
 use PhpSchool\PhpWorkshop\Markdown\CurrentContext;
 use PhpSchool\PhpWorkshop\Markdown\ProblemFileExtension;
 use PhpSchool\PhpWorkshop\Markdown\Renderer\ContextSpecificRenderer;
@@ -20,93 +29,81 @@ use PhpSchool\PhpWorkshop\Markdown\Shorthands\Cloud\Run;
 use PhpSchool\PhpWorkshop\Markdown\Shorthands\Cloud\Verify;
 use PhpSchool\PhpWorkshop\Markdown\Shorthands\Context;
 use PhpSchool\PhpWorkshop\Markdown\Shorthands\Documentation as DocumentationShorthand;
-use PhpSchool\Website\Action\StudentLogin;
-use PhpSchool\Website\Cloud\Action\ComposerPackageAdd;
-use PhpSchool\Website\Cloud\Action\Dashboard;
-use PhpSchool\Website\Cloud\Action\ExerciseEditor;
-use PhpSchool\Website\Cloud\Action\RunExercise;
-use PhpSchool\Website\Cloud\Action\VerifyExercise;
-use PhpSchool\Website\Cloud\CloudWorkshopRepository;
-use PhpSchool\Website\Cloud\Command\DownloadComposerPackageList;
-use PhpSchool\Website\Cloud\Middleware\ExerciseRunnerRateLimiter;
-use PhpSchool\Website\Cloud\Middleware\Styles;
-use PhpSchool\Website\Cloud\PathGenerator;
-use PhpSchool\Website\Cloud\ProblemFileConverter;
-use PhpSchool\Website\Cloud\ProjectUploader;
-use PhpSchool\Website\Cloud\StudentWorkshopState;
-use PhpSchool\Website\Cloud\VueResultsRenderer;
-use PhpSchool\Website\Entity\BlogPost;
-use PhpSchool\Website\Form\FormHandler;
-use PhpSchool\Website\Middleware\Session as SessionMiddleware;
-use PhpSchool\Website\Repository\DoctrineORMBlogRepository;
-use PhpSchool\Website\User\Entity\Admin;
-use PhpSchool\Website\User\Entity\Student;
-use PhpSchool\Website\User\Middleware\StudentAuthenticator;
-use PhpSchool\Website\User\Middleware\StudentRefresher;
-use PhpSchool\Website\User\SessionStorageInterface;
-use PhpSchool\Website\User\StudentRepository;
-use Predis\Connection\ConnectionException;
-use Slim\App;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Component\RateLimiter\Storage\CacheStorage;
-use Symfony\Contracts\Cache\CacheInterface;
-use Tuupola\Middleware\JwtAuthentication;
-use function DI\factory;
-use Doctrine\DBAL\Types\Type;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\Console\ConsoleRunner;
-use Github\Client;
-use Psr\Container\ContainerInterface;
-use Mni\FrontYAML\Parser;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-use Monolog\Processor\UidProcessor;
 use PhpSchool\Website\Action\Admin\ClearCache as ClearCacheAction;
 use PhpSchool\Website\Action\Admin\Event\All as EventAll;
 use PhpSchool\Website\Action\Admin\Event\Create as EventCreate;
-use PhpSchool\Website\Action\Admin\Event\Update as EventUpdate;
 use PhpSchool\Website\Action\Admin\Event\Delete as EventDelete;
+use PhpSchool\Website\Action\Admin\Event\Update as EventUpdate;
 use PhpSchool\Website\Action\Admin\Login;
+use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Delete;
 use PhpSchool\Website\Action\Admin\Workshop\Promote;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
-use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
-use PhpSchool\Website\Action\TrackDownloads;
+use PhpSchool\Website\Action\Online\ComposerPackageAdd;
+use PhpSchool\Website\Action\Online\RunExercise;
+use PhpSchool\Website\Action\Online\VerifyExercise;
+use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Action\SubmitWorkshop;
+use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Blog\Generator;
+use PhpSchool\Website\Online\CloudWorkshopRepository;
+use PhpSchool\Website\Online\Command\DownloadComposerPackageList;
+use PhpSchool\Website\Online\Middleware\ExerciseRunnerRateLimiter;
+use PhpSchool\Website\Online\Middleware\Styles;
+use PhpSchool\Website\Online\PathGenerator;
+use PhpSchool\Website\Online\ProblemFileConverter;
+use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\StudentWorkshopState;
+use PhpSchool\Website\Online\VueResultsRenderer;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateAdminUser;
 use PhpSchool\Website\Command\GenerateBlog;
+use PhpSchool\Website\Entity\BlogPost;
 use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
+use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Form\FormHandlerFactory;
+use PhpSchool\Website\InputFilter\Event as EventInputFilter;
+use PhpSchool\Website\InputFilter\Login as LoginInputFilter;
 use PhpSchool\Website\InputFilter\SubmitWorkshop as SubmitWorkshopInputFilter;
+use PhpSchool\Website\InputFilter\WorkshopComposerJson as WorkshopComposerJsonInputFilter;
 use PhpSchool\Website\Middleware\FpcCache;
+use PhpSchool\Website\Middleware\Session as SessionMiddleware;
+use PhpSchool\Website\PhpRenderer;
+use PhpSchool\Website\Repository\DoctrineORMBlogRepository;
 use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\User\Adapter\Doctrine;
 use PhpSchool\Website\User\AdminAuthenticationService;
-use PhpSchool\Website\InputFilter\Event as EventInputFilter;
-use PhpSchool\Website\InputFilter\WorkshopComposerJson as WorkshopComposerJsonInputFilter;
-use PhpSchool\Website\InputFilter\Login as LoginInputFilter;
+use PhpSchool\Website\User\Entity\Student;
+use PhpSchool\Website\User\Middleware\StudentAuthenticator;
+use PhpSchool\Website\User\Middleware\StudentRefresher;
+use PhpSchool\Website\User\Session;
+use PhpSchool\Website\User\SessionStorageInterface;
+use PhpSchool\Website\User\StudentRepository;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use PhpSchool\Website\WorkshopFeed;
+use Predis\Connection\ConnectionException;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Psr\Log\LoggerInterface;
-use PhpSchool\Website\PhpRenderer;
 use Ramsey\Uuid\Doctrine\UuidType;
-use PhpSchool\Website\User\Session;
+use Slim\App;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\Storage\CacheStorage;
+use Symfony\Contracts\Cache\CacheInterface;
+use Tuupola\Middleware\JwtAuthentication;
+use function DI\factory;
 use function DI\get;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
 return [
     'console' => factory(function (DI\Container $c): Silly\Edition\PhpDi\Application {
@@ -370,21 +367,6 @@ return [
 
     ProblemFileConverter::class => function (ContainerInterface $c): ProblemFileConverter {
         return new ProblemFileConverter($c->get(MarkdownConverterInterface::class));
-    },
-
-    Dashboard::class => function (ContainerInterface $c): Dashboard {
-        return new Dashboard(
-            $c->get(CloudWorkshopRepository::class),
-        );
-    },
-
-    ExerciseEditor::class => function (ContainerInterface $c): ExerciseEditor {
-        return new ExerciseEditor(
-            $c->get(CloudWorkshopRepository::class),
-            $c->get(ProblemFileConverter::class),
-            $c->get(StudentWorkshopState::class),
-            $c->get(SessionStorageInterface::class)
-        );
     },
 
     RunExercise::class => function (ContainerInterface $c): RunExercise {

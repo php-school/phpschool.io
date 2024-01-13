@@ -5,16 +5,16 @@ import Button from "./Button.vue";
 import GitHubIcon from "../Icons/GitHubIcon.vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import Logo from "./Logo.vue";
+import StudentDropdown from "../Online/StudentDropdown.vue";
 import { onMounted, onUnmounted, ref } from "vue";
+
+import {useStudentStore} from "../../stores/student";
+const studentStore = useStudentStore();
 
 const props = defineProps({
     'compact': {
         type: Boolean,
         default: false
-    },
-    showLoginButton: {
-        type: Boolean,
-        default: true
     },
     links: {
         type: Object,
@@ -140,13 +140,17 @@ onUnmounted(() => {
             </div>
 
             <!-- Sign In Button -->
-            <div v-if="showLoginButton" class="hidden sm:block">
+            <div v-if="!studentStore.student" class="hidden sm:block">
                 <Button href="/online/dashboard" class="flex items-center px-2 py-2" :class="{'!my-0': compact}">
                     <GitHubIcon class="h-5 w-5 mr-2" /><span class="text-xs font-normal flex">Log In <span class="hidden md:flex">&nbsp;with github</span></span>
                 </Button>
             </div>
 
-            <slot name="nav-after"></slot>
+            <ul v-if="studentStore.student" class="order-3">
+                <li>
+                    <student-dropdown :reset-function="studentStore.resetState" :enable-show-tour="false"/>
+                </li>
+            </ul>
         </div>
         <!-- Mobile Menu Links and Sign In Button (Hidden by Default) -->
         <div :class="mobileMenuVisible ? 'block ' : 'hidden sm:hidden '">

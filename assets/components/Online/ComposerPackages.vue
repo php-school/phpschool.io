@@ -38,7 +38,7 @@ const addDependency = () => {
         }
     };
 
-    fetch('/online/composer-package/add?package=' + encodeURIComponent(newDependency.value), opts)
+    fetch('/api/composer-package/add?package=' + encodeURIComponent(newDependency.value), opts)
         .then(response => response.json())
         .then(json => {
             if (json.status === 'error') {

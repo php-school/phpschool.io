@@ -5,14 +5,11 @@ import ExerciseEntry from "./ExerciseEntry.vue";
 import {ref} from "vue";
 import Alert from "./Alert.vue";
 
-const props = defineProps({
-  student: {
-    type: Object,
-    required: false,
-  },
-  studentState: Object,
-  workshops: Object,
-});
+import {useStudentStore} from "../../stores/student";
+const studentStore = useStudentStore();
+
+import {useWorkshopStore} from "../../stores/workshops";
+const workshopStore = useWorkshopStore();
 
 const selectedWorkshop = ref(null);
 
@@ -30,20 +27,7 @@ const notLoggedIn = () => {
 };
 
 const selectWorkshop = (workshopCode) => {
-  selectedWorkshop.value = props.workshops.find((workshop) => workshop.code === workshopCode);
-};
-
-const isWorkshopComplete = (workshop) => {
-  if (props.student === undefined) {
-    return false;
-  }
-
-  if (!props.studentState.hasOwnProperty(workshop.code)) {
-    return false;
-  }
-
-  const completedExercises = props.studentState[workshop.code].completedExercises;
-  return workshop.exercises.length === completedExercises.length;
+  selectedWorkshop.value = workshopStore.workshops.find((workshop) => workshop.code === workshopCode);
 };
 </script>
 
@@ -57,11 +41,10 @@ const isWorkshopComplete = (workshop) => {
           <p class="mt-1 max-w-2xl text-sm text-gray-200">Pick a workshop to try it out online!</p>
         </div>
         <ul id="workshops-list" class="flex flex-col overflow-hidden">
-          <li
-              v-for="workshop in workshops"
-              @click="selectWorkshop(workshop.code)"
-              :class="{ 'bg-gray-700': selectedWorkshop && workshop.code === selectedWorkshop.code }"
-              class="group flex flex-row hover:bg-gray-600 last:rounded-b-lg">
+          <li v-for="workshop in workshopStore.workshops"
+            @click="selectWorkshop(workshop.code)"
+            :class="{ 'bg-gray-700': selectedWorkshop && workshop.code === selectedWorkshop.code }"
+            class="group flex flex-row hover:bg-gray-600 last:rounded-b-lg">
             <div class="select-none cursor-pointer flex flex-1 items-center p-4">
               <div class="flex flex-col w-10 h-10 justify-center items-center mr-4">
                 <a href="#" class="block relative">
@@ -74,7 +57,7 @@ const isWorkshopComplete = (workshop) => {
               </div>
               <div class="text-gray-200 text-xs bg-pink-600 py-1 px-3 rounded-full">{{ workshop.type }}</div>
               <a href="#" class="w-24 text-right flex justify-end">
-                <CheckCircleIcon v-if="isWorkshopComplete(workshop)" class="text-pink-500 h-12 w-12 rounded-full border-2 border-solid border-pink-300" />
+                <CheckCircleIcon v-if="studentStore.isWorkshopComplete(workshop)" class="text-pink-500 h-12 w-12 rounded-full border-2 border-solid border-pink-300" />
                 <ArrowRightCircleIcon v-else class="text-pink-200 h-9 w-9 rounded-full border-2 border-solid border-pink-500 !fill-none" />
               </a>
             </div>
@@ -82,14 +65,14 @@ const isWorkshopComplete = (workshop) => {
         </ul>
       </div>
 
-      <div class="flex items-center justify-center bg-gray-800 rounded-lg shadow mt-5 hover:cursor-pointer">
-        <a href="/offline" class="flex items-center justify-center">
+      <div class="flex items-center justify-center bg-gray-800 rounded-lg shadow mt-20 hover:cursor-pointer">
+        <router-link to="/offline" class="flex items-center justify-center">
           <CommandLineIcon class="h-12 mx-3 w-12 text-gray-900 fill-pink-600"></CommandLineIcon>
           <div class="pr-4 py-5 sm:pr-6 flex-1">
             <h3 class="text-sm leading-6 font-medium text-white pt-[13.5px]">PHP School On The Terminal</h3>
             <p class="mt-1 max-w-2xl text-xs text-gray-200">An alternative way to complete the PHP School workshops is to download them and run them in your own terminal. Check it out here. </p>
           </div>
-        </a>
+        </router-link>
       </div>
 
     </div>
@@ -117,7 +100,7 @@ const isWorkshopComplete = (workshop) => {
           </div>
         </div>
         <ul id="workshop-exercises-list" class="flex flex-col w-full">
-          <exercise-entry @not-logged-in="notLoggedIn" v-for="exercise in selectedWorkshop.exercises" :exercise="exercise" :selected-workshop="selectedWorkshop" :student="student" :student-state="studentState" />
+          <exercise-entry @not-logged-in="notLoggedIn" v-for="exercise in selectedWorkshop.exercises" :exercise="exercise" :selected-workshop="selectedWorkshop" :student="studentStore.student" :student-state="studentStore.studentState" />
         </ul>
       </div>
     </div>
