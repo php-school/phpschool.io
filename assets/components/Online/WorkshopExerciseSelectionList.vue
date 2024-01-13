@@ -29,19 +29,6 @@ const notLoggedIn = () => {
 const selectWorkshop = (workshopCode) => {
   selectedWorkshop.value = workshopStore.workshops.find((workshop) => workshop.code === workshopCode);
 };
-
-const isWorkshopComplete = (workshop) => {
-  if (studentStore.student === null) {
-    return false;
-  }
-
-  if (!studentStore.studentState.hasOwnProperty(workshop.code)) {
-    return false;
-  }
-
-  const completedExercises = studentStore.studentState[workshop.code].completedExercises;
-  return workshop.exercises.length === completedExercises.length;
-};
 </script>
 
 <template>
@@ -70,7 +57,7 @@ const isWorkshopComplete = (workshop) => {
               </div>
               <div class="text-gray-200 text-xs bg-pink-600 py-1 px-3 rounded-full">{{ workshop.type }}</div>
               <a href="#" class="w-24 text-right flex justify-end">
-                <CheckCircleIcon v-if="isWorkshopComplete(workshop)" class="text-pink-500 h-12 w-12 rounded-full border-2 border-solid border-pink-300" />
+                <CheckCircleIcon v-if="studentStore.isWorkshopComplete(workshop)" class="text-pink-500 h-12 w-12 rounded-full border-2 border-solid border-pink-300" />
                 <ArrowRightCircleIcon v-else class="text-pink-200 h-9 w-9 rounded-full border-2 border-solid border-pink-500 !fill-none" />
               </a>
             </div>
@@ -78,14 +65,14 @@ const isWorkshopComplete = (workshop) => {
         </ul>
       </div>
 
-      <div class="flex items-center justify-center bg-gray-800 rounded-lg shadow mt-5 hover:cursor-pointer">
-        <a href="/offline" class="flex items-center justify-center">
+      <div class="flex items-center justify-center bg-gray-800 rounded-lg shadow mt-20 hover:cursor-pointer">
+        <router-link to="/offline" class="flex items-center justify-center">
           <CommandLineIcon class="h-12 mx-3 w-12 text-gray-900 fill-pink-600"></CommandLineIcon>
           <div class="pr-4 py-5 sm:pr-6 flex-1">
             <h3 class="text-sm leading-6 font-medium text-white pt-[13.5px]">PHP School On The Terminal</h3>
             <p class="mt-1 max-w-2xl text-xs text-gray-200">An alternative way to complete the PHP School workshops is to download them and run them in your own terminal. Check it out here. </p>
           </div>
-        </a>
+        </router-link>
       </div>
 
     </div>

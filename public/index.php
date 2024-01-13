@@ -19,7 +19,7 @@ use PhpSchool\Website\Action\BlogPosts;
 use PhpSchool\Website\Action\Events;
 use PhpSchool\Website\Action\Online\ComposerPackageAdd;
 use PhpSchool\Website\Action\Online\ComposerPackageSearch;
-use PhpSchool\Website\Action\Online\Workshop;
+use PhpSchool\Website\Action\Online\WorkshopExercise;
 use PhpSchool\Website\Action\Online\ResetState;
 use PhpSchool\Website\Action\Online\ResetStateFromEditor;
 use PhpSchool\Website\Action\Online\RunExercise;
@@ -111,24 +111,22 @@ $app->post('/downloads/{workshop}/{version}', TrackDownloads::class)->add(new \R
 
 $rateLimiter = $container->get(ExerciseRunnerRateLimiter::class);
 
-$app->get('/api/student-login-url', [StudentLogin::class, 'redirectUrl']);
-$app->get('/api/student-login', StudentLogin::class);
-$app->get('/api/student', [StudentLogin::class, 'getStudent']);
-$app->get('/api/workshops', Workshops::class);
-$app->get('/api/workshop/{workshop}/exercise/{exercise}', Workshop::class);
-$app->post('/api/workshop/run/{workshop}/exercise/{exercise}', RunExercise::class)->add($rateLimiter);
-$app->post('/api/workshop/verify/{workshop}/exercise/{exercise}', VerifyExercise::class)->add($rateLimiter);
+$app->get('/api/online/student/login-url', [StudentLogin::class, 'redirectUrl']);
+$app->get('/api/online/student/login', StudentLogin::class);
+$app->post('/api/online/student/logout', StudentLogout::class);
+$app->get('/api/online/workshops', Workshops::class);
 
 $app
-    ->group('/online', function (RouteCollectorProxy $group) use ($container) {
+    ->group('/api/online', function (RouteCollectorProxy $group) use ($container, $rateLimiter) {
 
-        $group->post('/reset', ResetState::class);
-        $group->get('/logout', StudentLogout::class);
-        $group->post('/workshop/{workshop}/exercise/{exercise}/reset', ResetStateFromEditor::class);
-
+        $group->get('/student', [StudentLogin::class, 'getStudent']);
+        $group->get('/workshop/{workshop}/exercise/{exercise}', WorkshopExercise::class);
+        $group->post('/workshop/run/{workshop}/exercise/{exercise}', RunExercise::class)->add($rateLimiter);
+        $group->post('/workshop/verify/{workshop}/exercise/{exercise}', VerifyExercise::class)->add($rateLimiter);
         $group->get('/composer-package/add', ComposerPackageAdd::class);
         $group->get('/composer-package/search', ComposerPackageSearch::class);
         $group->post('/tour/complete', TourComplete::class);
+        $group->post('/reset', ResetState::class);
     })
     ->add($container->get(StudentAuthenticator::class))
     ->add(Styles::class);

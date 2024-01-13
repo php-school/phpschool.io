@@ -5,6 +5,9 @@ import {ArrowPathIcon, UserCircleIcon} from '@heroicons/vue/24/solid'
 import Confirm from "./Confirm.vue";
 import Alert from "./Alert.vue";
 import {computed, ref} from "vue";
+import {useRoute} from "vue-router";
+
+const route = useRoute();
 
 import {useStudentStore} from "../../stores/student";
 const studentStore = useStudentStore();
@@ -29,12 +32,8 @@ const showResetProgressAlert = ref(false);
 const resetProgressConfirm = ref(null);
 
 const percentComplete = computed(() => {
-    return (studentStore.studentState.totalCompleted / workshopStore.totalExercises) * 100;
+    return (studentStore.totalCompleted() / workshopStore.totalExercises) * 100;
 });
-
-const showTour = () => {
-    emit('show-tour');
-}
 
 const clickAway = () => {
     isOpen.value = false;
@@ -61,18 +60,21 @@ const resetState = async () => {
 
     loadingStateReset.value = true;
 
-    props.resetFunction()
-        .then(async () => {
-            loadingStateReset.value = false;
-            showResetProgressAlert.value = true;
+    try {
+        await studentStore.resetState();
+        showResetProgressAlert.value = true;
 
-            setTimeout(() => {
-                showResetProgressAlert.value = false;
-            }, 3000)
-        })
-        .catch(() => {
-            loadingStateReset.value = false;
-        });
+        setTimeout(() => {
+            showResetProgressAlert.value = false;
+        }, 3000)
+    } finally {
+        loadingStateReset.value = false;
+    }
+}
+
+const showTour = () => {
+    isOpen.value = false;
+    studentStore.showTourAgain();
 }
 
 const logout = () => {
@@ -102,7 +104,7 @@ const logout = () => {
                         <span class="flex rounded-lg p-2">
                           <TrophyIcon class="h-6 w-6 text-yellow-400"/>
                         </span>
-                        <p class="ml-2 text-sm font-medium text-gray-500">{{ studentStore.studentState.totalCompleted }} out of {{ workshopStore.totalExercises }}</p>
+                        <p class="ml-2 text-sm font-medium text-gray-500">{{ studentStore.totalCompleted() }} out of {{ workshopStore.totalExercises }}</p>
                     </div>
                 </div>
                 <div class="px-6">
@@ -113,11 +115,12 @@ const logout = () => {
             </div>
 
 
+
             <ul class="py-2 text-sm text-gray-200">
                 <li>
                     <router-link to="/online" class="block text-left no-underline px-6 py-2 hover:bg-gray-600 hover:text-white">Workshop Dashboard</router-link>
                 </li>
-                <li v-if="enableShowTour">
+                <li v-if="route.name === 'editor'">
                     <a href="#" @click="showTour" class="block text-left no-underline px-6 py-2 hover:bg-gray-600 hover:text-white">Show Tour Again</a>
                 </li>
                 <li>

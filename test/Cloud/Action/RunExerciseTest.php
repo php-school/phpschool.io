@@ -14,6 +14,7 @@ use PhpSchool\Website\Online\CloudInstalledWorkshop;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProjectUploader;
 use PhpSchool\Website\Online\StudentCloudState;
+use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
 use PHPUnit\Framework\TestCase;
@@ -32,8 +33,9 @@ class RunExerciseTest extends TestCase
 
         $uploader = $this->createMock(ProjectUploader::class);
         $session = $this->createMock(SessionStorageInterface::class);
+        $state = $this->createMock(StudentWorkshopState::class);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader, $session);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
         $response = new Response();
 
@@ -66,8 +68,9 @@ class RunExerciseTest extends TestCase
 
         $uploader = $this->createMock(ProjectUploader::class);
         $session = $this->createMock(SessionStorageInterface::class);
+        $state = $this->createMock(StudentWorkshopState::class);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader, $session);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
         $response = new Response();
 
@@ -95,7 +98,9 @@ class RunExerciseTest extends TestCase
             ->with($request)
             ->willThrowException(new \RuntimeException('Some error'));
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader, $session);
+        $state = $this->createMock(StudentWorkshopState::class);
+
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -130,8 +135,9 @@ class RunExerciseTest extends TestCase
 
         $uploader = $this->createMock(ProjectUploader::class);
         $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
+        $state = $this->createMock(StudentWorkshopState::class);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader, $session);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -168,8 +174,9 @@ class RunExerciseTest extends TestCase
 
         $uploader = $this->createMock(ProjectUploader::class);
         $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
+        $state = $this->createMock(StudentWorkshopState::class);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader, $session);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -189,6 +196,7 @@ class RunExerciseTest extends TestCase
     private function createProjectSolution(string $entryPoint = 'solution.php'): DirectorySolution
     {
         $base = System::tempDir($this->getName());
+
         mkdir($base, 0777, true);
         file_put_contents($base . '/' . $entryPoint, '<?php echo "Hello World";');
         return new DirectorySolution($base, $entryPoint, []);

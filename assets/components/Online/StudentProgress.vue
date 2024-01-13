@@ -17,7 +17,7 @@ const percentComplete = computed(() => {
     return 0;
   }
 
-  return (studentStore.studentState.totalCompleted / workshopStore.totalExercises) * 100;
+  return (studentStore.totalCompleted() / workshopStore.totalExercises) * 100;
 });
 
 const totalCompleted = computed(() => {
@@ -25,19 +25,11 @@ const totalCompleted = computed(() => {
     return 0;
   }
 
-  return studentStore.studentState.totalCompleted;
+  return studentStore.totalCompleted();
 });
 
 const login = async () => {
-  const response = await fetch('/api/student-login-url');
-  const data = await response.json();
-
-  if (data.student) {
-    //already logged in
-    return;
-  }
-
-  window.location.href = data.redirect;
+  await studentStore.startLogin();
 }
 </script>
 

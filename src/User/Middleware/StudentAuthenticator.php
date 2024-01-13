@@ -2,6 +2,7 @@
 
 namespace PhpSchool\Website\User\Middleware;
 
+use GuzzleHttp\Psr7\Response;
 use PhpSchool\Website\Action\RedirectUtils;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
@@ -27,23 +28,18 @@ class StudentAuthenticator
     {
         $path = $request->getUri()->getPath();
 
-        //if not a online route
-        if (!str_starts_with($path, '/online')) {
+        //if not an online route
+        if (!str_starts_with($path, '/api/online')) {
             return $handler->handle($request);
         }
 
         $student = $this->session->get('student');
 
-        //if on cloud home page allow guests
-        if ($student === null && $path === '/online/dashboard') {
-            return $handler->handle($request);
-        }
-
         //if on any other cloud route, student must be logged in
-        if ($student instanceof StudentDTO) {
-            return $handler->handle($request);
+        if (!$student instanceof StudentDTO) {
+            return new Response(401);
         }
 
-        return $this->redirectToDashboard();
+        return $handler->handle($request);
     }
 }

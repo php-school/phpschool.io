@@ -60,7 +60,7 @@ const docRoutes = [].concat(...docs.map(doc => {
 const routes = [
     { path: '/', component: Home, meta: {layout: Layout} },
     { path: '/online', component: Dashboard, meta: {layout: CompactLayout} },
-    { path: '/online/editor/:workshop/:exercise', component: ExerciseEditor, props:true, meta: {layout: CompactLayout} },
+    { path: '/online/editor/:workshop/:exercise', component: ExerciseEditor, name: "editor", props:true, meta: {layout: CompactLayout} },
     { path: '/offline', component: Offline, meta: {layout: Layout} },
     { path: '/submit', component: SubmitWorkshop, meta: {layout: Layout} },
     { path: '/docs', component: Docs, children: docRoutes, meta: {layout: Layout} },

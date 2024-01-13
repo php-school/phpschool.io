@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { useRouter } from 'vue-router'
 
 export const useStudentStore = defineStore({
     id: 'student',
@@ -9,63 +8,100 @@ export const useStudentStore = defineStore({
         if (student === null) {
             return {
                 student: null,
-                studentState: {
-                    totalCompleted: 0,
-                    workshops: [],
-                    completedExercises: []
-                }
+                forceTour: false
             }
         }
 
         student = JSON.parse(student);
 
         return {
-            student: student,
-            studentState: {
-                totalCompleted: student.state.total_completed,
-                workshops: student.state.workshops,
-                completedExercises: []
-            }
+            student,
+            forceTour: false
         }
     },
     actions: {
         async initialize() {
-            const response = await fetch('/api/student', {
+            const response = await fetch('/api/online/student', {
                 headers: {
                     'Content-Type': 'application/json'
                 },
             });
 
-            const data = await response.json();
-
             if (response.status === 401) {
                 this.student = null;
+                this.studentState = null;
                 localStorage.removeItem('student');
                 return;
             }
+            const data = await response.json();
 
             this.student = data.student;
             localStorage.setItem('student', JSON.stringify(this.student));
         },
+        async startLogin() {
+            const response = await fetch('/api/online/student/login-url');
+            const data = await response.json();
+
+            if (data.student) {
+                //already logged in
+                return;
+            }
+
+            window.location.href = data.redirect;
+        },
         async finishLogin(code, state) {
             //redirect after auth from GH
             //finish the flow on the server
-            const response = await fetch('/api/student-login?' + new URLSearchParams({ code, state }));
+            const response = await fetch('/api/online/student/login?' + new URLSearchParams({ code, state }));
             const data = await response.json();
+
             if (response.ok && data.success) {
                 this.student = data.student;
 
                 this.studentState =  {
-                    totalCompleted: this.student.state.total_completed,
-                    workshops: this.student.state.workshops,
-                    completedExercises: {}
+                    totalCompleted: data.student.state.total_completed,
+                    workshops: data.student.state.workshops,
                 }
+
+                localStorage.setItem('student', JSON.stringify(this.student));
             }
 
             this.router.push('/online');
         },
         async logout() {
+            const response = await fetch('/api/online/student/logout', { method: 'POST'});
 
+            this.student = null;
+            this.studentState = null;
+            localStorage.removeItem('student');
+
+            this.router.push('/online');
+        },
+        isWorkshopComplete(workshop) {
+            if (this.student === null) {
+                return false;
+            }
+
+            if (!this.student.state.workshops.hasOwnProperty(workshop.code)) {
+                return false;
+            }
+
+            const completedExercises = this.student.state.workshops[workshop.code].completedExercises;
+            return workshop.exercises.length === completedExercises.length;
+        },
+        isExerciseCompleted(workshopCode, exerciseName) {
+            if (this.student === null) {
+                return false;
+            }
+
+            if (this.student.state.workshops[workshopCode] === undefined) {
+                return false;
+            }
+
+            return this.student.state.workshops[workshopCode].completedExercises.includes(exerciseName);
+        },
+        async completeExercise(workshopCode, exerciseName) {
+            await this.initialize();
         },
         totalCompleted() {
             return this.student.state.total_completed;
@@ -73,29 +109,26 @@ export const useStudentStore = defineStore({
         tourComplete() {
             return this.student.tour_complete;
         },
-        resetState() {
-            return new Promise(async function (resolve, reject) {
-                const opts = {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                };
-
-
-                const response = await fetch('/online/reset', opts);
-
-                if (response.ok) {
-                    this.studentState.value.totalCompleted = 0;
-                    this.studentState.value.completedExercises = [];
-                    this.studentState.value.workshops = [];
-
-                    return resolve();
+        showTourAgain() {
+            this.forceTour = true;
+        },
+        async resetState() {
+            const response = await fetch('/api/online/reset', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 }
-
-                return reject();
             });
+
+            if (!response.ok) {
+                throw new Error('Could not reset');
+            }
+
+            this.student.state.total_completed = 0;
+            this.student.state.workshops = [];
+
+            localStorage.setItem('student', JSON.stringify(this.student));
         }
     }
 });

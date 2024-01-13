@@ -1,7 +1,7 @@
 <script setup>
 import {offset, autoPlacement} from "@floating-ui/dom";
 import waitUntil from "./Utils/waitUntil.js";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import Shepherd from "shepherd.js";
 
 import {useStudentStore} from "../../stores/student";
@@ -22,15 +22,6 @@ const props = defineProps({
 
 const emit = defineEmits(['tour-starting']);
 
-const forceTour = () => {
-  createTour();
-  tour.value.start();
-}
-
-defineExpose({
-  forceTour,
-})
-
 const tour = ref(null);
 const container = ref(null);
 
@@ -41,6 +32,16 @@ onMounted(() => {
 
   createTour();
   tour.value.start();
+});
+
+watch(() => studentStore.forceTour, (newValue) => {
+  if (newValue) {
+
+    createTour();
+    tour.value.start();
+
+    studentStore.forceTour = false;
+  }
 });
 
 const createTour = () => {
@@ -250,7 +251,7 @@ const createTour = () => {
       },
     };
 
-    fetch('/online/tour/complete', opts)
+    fetch('/api/online/tour/complete', opts)
         .then(response => {
           if (!response.ok) {
             console.log('Could not set tour complete');

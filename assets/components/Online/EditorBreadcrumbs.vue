@@ -11,7 +11,10 @@ const props = defineProps({
 const studentStore = useStudentStore();
 
 const exerciseCompleted = computed(() => {
-    return studentStore.studentState.completedExercises.includes(props.currentExercise.exercise.name);
+    return studentStore.isExerciseCompleted(
+        props.currentExercise.workshop.code,
+        props.currentExercise.exercise.name
+    );
 });
 </script>
 

@@ -27,33 +27,20 @@ const selectExercise = () => {
     router.push('/online/editor/' + props.selectedWorkshop.code + '/' + props.exercise.slug);
 }
 
-const isExerciseComplete = (workshopCode, exerciseName) => {
-    if (studentStore.student === null) {
-        return false;
-    }
-
-    if (!studentStore.studentState.workshops.hasOwnProperty(workshopCode)) {
-        return false;
-    }
-
-    const workshop = studentStore.studentState.workshops[workshopCode];
-    return workshop.completedExercises.includes(exerciseName);
-}
-
 const isCurrentExerciseComplete = computed(() => {
-    return isExerciseComplete(props.selectedWorkshop.code, props.exercise.name);
+    return studentStore.isExerciseCompleted(props.selectedWorkshop.code, props.exercise.name);
 })
 
 const isNextWorkshop = computed(() => {
     const pos = props.selectedWorkshop.exercises.findIndex((e) => e.name === props.exercise.name);
 
     if (pos - 1 in props.selectedWorkshop.exercises) {
-        const prevComplete = isExerciseComplete(
+        const prevComplete = studentStore.isExerciseCompleted(
             props.selectedWorkshop.code,
             props.selectedWorkshop.exercises[pos - 1].name
         )
 
-        const thisComplete = isExerciseComplete(
+        const thisComplete = studentStore.isExerciseCompleted(
             props.selectedWorkshop.code,
             props.exercise.name
         )

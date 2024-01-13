@@ -16,8 +16,10 @@ import EditorBreadcrumbs from "./EditorBreadcrumbs.vue";
 import {onMounted, ref} from "vue";
 import toFilePath from "./Utils/toFilePath";
 import {useWorkshopStore} from "../../stores/workshops";
+import {useStudentStore} from "../../stores/student";
 
 const workshopStore = useWorkshopStore();
+const studentStore = useStudentStore();
 
 const props = defineProps({
     workshop: String,
@@ -50,7 +52,7 @@ const nextExercise = ref(workshopStore.findNextExercise(props.workshop, props.ex
 const problem = ref('');
 
 onMounted(async () => {
-    const response = await fetch('/api/workshop/' + currentExercise.workshop.code + '/exercise/' + currentExercise.exercise.slug);
+    const response = await fetch('/api/online/workshop/' + currentExercise.workshop.code + '/exercise/' + currentExercise.exercise.slug);
     const data = await response.json();
 
     problem.value = data.problem;
@@ -192,10 +194,12 @@ const verifyLoading = () => {
     loadingResults.value = true;
 };
 
-const verifySuccess = () => {
+const verifySuccess = async () => {
     openPassNotification.value = true;
     openResults.value = false;
     loadingResults.value = false;
+
+    await studentStore.completeExercise(currentExercise.workshop.code, currentExercise.exercise.slug);
 };
 
 const verifyFail = (newResults) => {
@@ -241,35 +245,7 @@ const resetFiles = async () => {
     activeTab.value = 0;
 }
 
-const resetState = () => {
-    return new Promise(async function (resolve, reject) {
-        const url = '/online/workshop/' + currentExercise.workshop.code + '/exercise/' + currentExercise.exercise.slug + '/reset';
-
-        const opts = {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        };
-        fetch(url, opts)
-            .then(response => {
-                if (response.ok) {
-                    studentState.value.totalCompleted = 0;
-                    studentState.value.completedExercises = [];
-
-                    resolve();
-                }
-
-                reject();
-            });
-    });
-}
-
 const tour = ref(null);
-const forceTour = () => {
-    tour.value.forceTour();
-};
 
 const studentSelectFile = (selectedFile) => {
     if ('new' in selectedFile && selectedFile.new === true) {
@@ -334,22 +310,6 @@ const deleteFileOrFolder = (file) => {
 </script>
 
 <template>
-<!--    <site-nav compact :links="links" :show-login-button="false">-->
-<!--        <template v-slot:nav-after>-->
-<!--            <ul v-if="student" class="order-3">-->
-<!--                <li>-->
-<!--                    <student-dropdown-->
-<!--                            @show-tour="forceTour"-->
-<!--                            :student="student"-->
-<!--                            :student-state="studentState"-->
-<!--                            :total-exercises='totalExercises'-->
-<!--                            :reset-function="resetState"-->
-<!--                    />-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </template>-->
-<!--    </site-nav>-->
-
     <section class="site-body h-full flex-1 flex flex-col bg-gray-900">
         <div class="h-full relative">
 

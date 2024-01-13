@@ -40,6 +40,8 @@ class VerifyExercise
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
         }
 
+        $this->studentState->setCurrentExercise($workshop->getCode(), $exercise->getName());
+
         try {
             $project = $this->projectUploader->upload($request, $this->getStudent());
         } catch (\RuntimeException $e) {

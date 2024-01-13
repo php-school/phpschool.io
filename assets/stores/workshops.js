@@ -12,7 +12,7 @@ const useWorkshopStore = defineStore('workshops', {
             }
 
             try {
-                const response = await fetch(import.meta.env.VITE_API_URL + '/api/workshops');
+                const response = await fetch(import.meta.env.VITE_API_URL + '/api/online/workshops');
                 const data = await response.json();
 
                 this.workshops = data.workshops;

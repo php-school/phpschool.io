@@ -44,13 +44,13 @@ const enableRateLimitError = () => {
   rateLimitTimerId.value = setTimeout(() => showRateLimitError.value = false, 3000);
 }
 
-const runSolution = () => {
+const runSolution = async () => {
   if (loadingRun.value) {
     return;
   }
 
   loadingRun.value = true;
-  const url = '/api/workshop/run/' + props.currentExercise.workshop.code + '/exercise/' + props.currentExercise.exercise.slug;
+  const url = '/api/online/workshop/run/' + props.currentExercise.workshop.code + '/exercise/' + props.currentExercise.exercise.slug;
 
   const opts = {
     method: 'POST',
@@ -64,28 +64,25 @@ const runSolution = () => {
       composer_deps: props.composerDeps
     })
   };
-  fetch(url, opts)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
 
-        if (response.status === 429) {
-          enableRateLimitError();
-        }
+  const response = await fetch(url, opts);
+  const data = await response.json();
 
-        throw Error(response.statusText)
-      })
-      .then(json => {
-        programRunResult.value = json;
-        openRunModal.value = true;
-        loadingRun.value = false;
+  if (response.ok) {
+    programRunResult.value = data;
+    openRunModal.value = true;
+    loadingRun.value = false;
 
-        emit('run-loaded');
-      })
-      .catch(error => {
-        loadingRun.value = false;
-      })
+    emit('run-loaded');
+    return;
+  }
+
+  if (response.status === 429) {
+    enableRateLimitError();
+    return;
+  }
+
+  loadingRun.value = false;
 }
 
 const verifySolution = () => {
@@ -96,7 +93,7 @@ const verifySolution = () => {
   emit('verify-loading');
   loadingVerify.value = true;
 
-  const url = '/api/workshop/verify/' + props.currentExercise.workshop.code + '/exercise/' + props.currentExercise.exercise.slug;
+  const url = '/api/online/workshop/verify/' + props.currentExercise.workshop.code + '/exercise/' + props.currentExercise.exercise.slug;
 
   const opts = {
     method: 'POST',
@@ -120,7 +117,7 @@ const verifySolution = () => {
           enableRateLimitError();
         }
 
-        throw Error(response.statusText)
+        throw Error(response.statusText, response.json())
       })
       .then(json => {
         if (json.success === true) {
@@ -131,7 +128,7 @@ const verifySolution = () => {
 
         loadingVerify.value = false;
       })
-      .catch(error => {
+      .catch((error, data) => {
         loadingVerify.value = false;
       })
 }

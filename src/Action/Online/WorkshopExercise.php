@@ -16,14 +16,13 @@ use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class Workshop
+class WorkshopExercise
 {
     use JsonUtils;
 
     public function __construct(
         private readonly CloudWorkshopRepository $installedWorkshops,
         private readonly ProblemFileConverter $problemFileConverter,
-        private readonly StudentWorkshopState $studentProgress,
         private readonly SessionStorageInterface $session
     ) {
     }
@@ -42,10 +41,8 @@ class Workshop
             return $this->withJson([
                 'success' => false,
                 'error' => $e->getMessage()
-            ], $response);
+            ], $response, 404);
         }
-
-        $this->studentProgress->setCurrentExercise($workshop->getCode(), $exercise->getName());
 
         $data = [
             'student' => $this->session->get('student'),
