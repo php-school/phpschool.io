@@ -65,7 +65,7 @@ $errors = $app->addErrorMiddleware(
     $container->get(LoggerInterface::class)
 );
 
-$app->post('/submit', SubmitWorkshop::class);
+$app->post('/api/submit', SubmitWorkshop::class);
 $app->get('/api/events', Events::class);
 $app->get('/api/posts', BlogPosts::class);
 $app->get('/api/post/{slug}', BlogPost::class);

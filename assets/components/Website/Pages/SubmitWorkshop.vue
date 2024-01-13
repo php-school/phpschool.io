@@ -1,13 +1,13 @@
 <script setup>
 
-import { reactive, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import {ArrowPathIcon, CheckIcon, XMarkIcon} from "@heroicons/vue/24/solid";
 import Heading from "./Home/Heading.vue";
 
 const form = reactive({
-    email: null,
-    name: null,
-    contact: null,
+    'email': null,
+    'name': null,
+    'contact': null,
     'workshop-name': null,
     'github-url': null,
 })
@@ -20,6 +20,16 @@ const loading = ref(false);
 
 const hasErrors = ref(false);
 
+onMounted(() => {
+    form.value = {
+        'email': null,
+        'name': null,
+        'contact': null,
+        'workshop-name': null,
+        'github-url': null,
+    }
+});
+
 const submit = async () => {
     if (submitted.value) {
         return;
@@ -30,19 +40,12 @@ const submit = async () => {
     errors.value = {};
     workshopErrors.value = {}
 
-    const formData = new URLSearchParams();
-    formData.append('email', form.email);
-    formData.append('name', form.name);
-    formData.append('contact', form.contact);
-    formData.append('workshop-name', form["workshop-name"]);
-    formData.append('github-url', form["github-url"]);
-
-    const response = await fetch('/submit', {
+    const response = await fetch('/api/submit', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
         },
-        body: formData,
+        body: JSON.stringify(form),
     });
 
     loading.value = false;
@@ -104,7 +107,7 @@ const submit = async () => {
                             <label class="block mb-3 font-bold text-sm" for="email">Your Email Address <span class="text-[#e91e63]">*</span></label>
                             <p class="text-xs text-gray-300/70 mb-4">This is used just to send you a notification when your workshop is approved.</p>
                             <div class="">
-                                <input v-model="form.email" name="email" id="email" class="h-[48px] border border-[#ccc] rounded-full w-full text-sm bg-[1em] bg-no-repeat bg-[size:1.5em] bg-[url('/img/cloud/mail.svg')] pl-[3em] focus:outline-none focus:border-[#e91e63]" type="text" placeholder="myname@example.com" required="">
+                                <input v-model="form.email" name="email" id="email" class="h-[48px] text-black border border-[#ccc] rounded-full w-full text-sm bg-[1em] bg-no-repeat bg-[size:1.5em] bg-[url('/img/cloud/mail.svg')] pl-[3em] focus:outline-none focus:border-[#e91e63]" type="text" placeholder="myname@example.com" required="">
                                 <ul v-if="errors.email" class="border-l-4 border-[#cc1717] text-xs text-[#cc1717] my-3 p-3">
                                     <li v-for="err in errors.email" class="mb-3 last:mb-0">{{err}}</li>
                                 </ul>
@@ -115,7 +118,7 @@ const submit = async () => {
                             <label class="block mb-3 font-bold text-sm" for="name">Your Name <span class="text-[#e91e63]">*</span> </label>
                             <p class="text-xs text-gray-300/70 mb-4">The name of workshop creator, shown on the homepage for bragging rights!</p>
                             <div class="">
-                                <input v-model="form.name" name="name" id="name" class="h-[48px] border border-[#ccc] rounded-full w-full text-sm bg-[1em] bg-no-repeat bg-[size:1.5em] bg-[url('/img/cloud/woman.svg')] pl-[3em] focus:outline-none focus:border-[#e91e63]" type="text" placeholder="Jane Doe" required="">
+                                <input v-model="form.name" name="name" id="name" class="h-[48px] text-black border border-[#ccc] rounded-full w-full text-sm bg-[1em] bg-no-repeat bg-[size:1.5em] bg-[url('/img/cloud/woman.svg')] pl-[3em] focus:outline-none focus:border-[#e91e63]" type="text" placeholder="Jane Doe" required="">
                                 <ul v-if="errors.name" class="border-l-4 border-[#cc1717] text-xs text-[#cc1717] my-3 p-3">
                                     <li v-for="err in errors.name" class="mb-3 last:mb-0">{{err}}</li>
                                 </ul>
@@ -126,7 +129,7 @@ const submit = async () => {
                             <label class="block mb-3 font-bold text-sm" for="contact">Your Contact</label>
                             <p class="text-xs text-gray-300/70 mb-4">For example your Twitter or GitHub, it is shown with your name next to the workshop on the homepage.</p>
                             <div class="">
-                                <input v-model="form.contact" name="contact" id="contact" class="h-[48px] border border-[#ccc] rounded-full w-full text-sm bg-[1em] bg-no-repeat bg-[size:1.5em] bg-[url('/img/cloud/social-media.svg')] pl-[3em] focus:outline-none focus:border-[#e91e63]" type="text" placeholder="https://twitter.com/your-name">
+                                <input v-model="form.contact" name="contact" id="contact" class="h-[48px] text-black border border-[#ccc] rounded-full w-full text-sm bg-[1em] bg-no-repeat bg-[size:1.5em] bg-[url('/img/cloud/social-media.svg')] pl-[3em] focus:outline-none focus:border-[#e91e63]" type="text" placeholder="https://twitter.com/your-name">
                                 <ul v-if="errors.contact" class="border-l-4 border-[#cc1717] text-xs text-[#cc1717] my-3 p-3">
                                     <li v-for="err in errors.contact" class="mb-3 last:mb-0">{{err}}</li>
                                 </ul>
@@ -135,7 +138,7 @@ const submit = async () => {
                         <div class="mb-8">
                             <label class="block mb-3 font-bold text-sm" for="workshop-name">Workshop Name <span class="text-[#e91e63]">*</span></label>
                             <div class="">
-                                <input v-model="form['workshop-name']" name="workshop-name" id="workshop-name" class="h-[48px] border border-[#ccc] rounded-full w-full text-sm bg-[1em] bg-no-repeat bg-[size:1.5em] bg-[url('/img/cloud/pencil.svg')] pl-[3em] focus:outline-none focus:border-[#e91e63]" type="text" placeholder="Learn You PHP!" required="">
+                                <input v-model="form['workshop-name']" name="workshop-name" id="workshop-name" class="h-[48px] text-black border border-[#ccc] rounded-full w-full text-sm bg-[1em] bg-no-repeat bg-[size:1.5em] bg-[url('/img/cloud/pencil.svg')] pl-[3em] focus:outline-none focus:border-[#e91e63]" type="text" placeholder="Learn You PHP!" required="">
                                 <ul v-if="errors['workshop-name']" class="border-l-4 border-[#cc1717] text-xs text-[#cc1717] my-3 p-3">
                                     <li v-for="err in errors['workshop-name']" class="mb-3 last:mb-0">{{err}}</li>
                                 </ul>
@@ -145,7 +148,7 @@ const submit = async () => {
                         <div class="mb-8">
                             <label class="block mb-3 font-bold text-sm" for="github-url">GitHub Repository URL <span class="text-[#e91e63]">*</span></label>
                             <div class="">
-                                <input v-model="form['github-url']" name="github-url" id="github-url" class="h-[48px] border border-[#ccc] rounded-full w-full text-sm bg-[1em] bg-no-repeat bg-[size:1.5em] bg-[url('/img/cloud/github-dk.svg')] pl-[3em] focus:outline-none focus:border-[#e91e63]" type="text" placeholder="https://github.com/php-school/learn-you-php" required="">
+                                <input v-model="form['github-url']" name="github-url" id="github-url" class="h-[48px] text-black border border-[#ccc] rounded-full w-full text-sm bg-[1em] bg-no-repeat bg-[size:1.5em] bg-[url('/img/cloud/github-dk.svg')] pl-[3em] focus:outline-none focus:border-[#e91e63]" type="text" placeholder="https://github.com/php-school/learn-you-php" required="">
                                 <ul v-if="errors['github-url']" class="border-l-4 border-[#cc1717] text-xs text-[#cc1717] my-3 p-3">
                                     <li v-for="err in errors['github-url']" class="mb-3 last:mb-0">{{err}}</li>
                                 </ul>
