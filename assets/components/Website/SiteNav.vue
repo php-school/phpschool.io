@@ -16,11 +16,16 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    links: {
-        type: Object,
-        required: true
-    }
 })
+
+const links = {
+    'github': 'https://github.com/php-school/learn-you-php',
+    'twitter': 'https://twitter.com/PHPSchoolTeam',
+    'slack': 'https://phpschool.herokuapp.com',
+    'discussions': 'https://github.com/php-school/discussions',
+    'workshop': 'https://github.com/php-school/php-workshop',
+    'github-website': 'https://github.com/php-school/phpschool.io',
+};
 
 const mobileMenuVisible = ref(false);
 const showMobileMenuBlur = ref(false);
@@ -115,17 +120,17 @@ onUnmounted(() => {
 
                 <ul v-if="links" class="hidden lg:flex list-none m-0 ml-4 pl-4 py-1 items-center h-full space-x-4 border-l border-pink-600">
                     <li class="m-0">
-                        <a :href="links.github" class="block " title="PHPSchool on Github">
+                        <a :href="links.github" target="_blank" class="block" title="PHPSchool on Github">
                             <svg class="h-5 w-5 fill-current text-white align-middle hover:text-[#e91e63]" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="32px" height="31.2px" viewBox="0 0 32 31.2" enable-background="new 0 0 32 31.2" xml:space="preserve"><defs></defs><path d="M16,0C7.2,0,0,7.2,0,16c0,7.1,4.6,13.1,10.9,15.2c0.8,0.1,1.1-0.3,1.1-0.8c0-0.4,0-1.4,0-2.8c-4.4,1-5.4-2.1-5.4-2.1c-0.7-1.8-1.8-2.3-1.8-2.3c-1.5-1,0.1-1,0.1-1c1.6,0.1,2.5,1.6,2.5,1.6c1.4,2.4,3.7,1.7,4.7,1.3c0.1-1,0.6-1.7,1-2.1c-3.6-0.4-7.3-1.8-7.3-7.9c0-1.7,0.6-3.2,1.6-4.3c-0.2-0.4-0.7-2,0.2-4.2c0,0,1.3-0.4,4.4,1.6c1.3-0.4,2.6-0.5,4-0.5c1.4,0,2.7,0.2,4,0.5c3.1-2.1,4.4-1.6,4.4-1.6c0.9,2.2,0.3,3.8,0.2,4.2c1,1.1,1.6,2.5,1.6,4.3c0,6.1-3.7,7.5-7.3,7.9c0.6,0.5,1.1,1.5,1.1,2.9c0,2,0,3.9,0,4.4c0,0.4,0.3,0.9,1.1,0.7C27.4,29.1,32,23.1,32,16C32,7.2,24.8,0,16,0z"/></svg>
                         </a>
                     </li>
                     <li class="social-nav__item">
-                        <a :href="links.twitter" class="block  " title="PHPSchool on Twitter">
+                        <a :href="links.twitter" target="_blank" class="block  " title="PHPSchool on Twitter">
                             <svg class="h-5 w-5 fill-current text-white align-middle hover:text-[#e91e63]" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="273.5px" height="222.3px" viewBox="0 0 273.5 222.3" enable-background="new 0 0 273.5 222.3" xml:space="preserve"><defs></defs><path  d="M273.5,26.3c-10.1,4.5-20.9,7.5-32.2,8.8c11.6-6.9,20.5-17.9,24.7-31c-10.9,6.4-22.9,11.1-35.7,13.6C220.1,6.8,205.5,0,189.4,0c-31,0-56.1,25.1-56.1,56.1c0,4.4,0.5,8.7,1.5,12.8c-46.7-2.4-88-24.7-115.7-58.6c-4.8,8.3-7.6,17.9-7.6,28.2c0,19.5,9.9,36.6,25,46.7c-9.2-0.3-17.8-2.8-25.4-7c0,0.2,0,0.5,0,0.7c0,27.2,19.3,49.8,45,55c-4.7,1.3-9.7,2-14.8,2c-3.6,0-7.1-0.4-10.6-1c7.1,22.3,27.9,38.5,52.4,39c-19.2,15-43.4,24-69.7,24c-4.5,0-9-0.3-13.4-0.8c24.8,15.9,54.3,25.2,86,25.2c103.2,0,159.6-85.5,159.6-159.6c0-2.4-0.1-4.9-0.2-7.3C256.5,47.4,266,37.5,273.5,26.3z"/></svg>
                         </a>
                     </li>
                     <li class="social-nav__item">
-                        <a :href="links.slack" class="block " title="PHPSchool on Slack">
+                        <a :href="links.slack" target="_blank" class="block " title="PHPSchool on Slack">
                             <svg class="h-5 w-5 fill-current text-white align-middle hover:text-[#e91e63]" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="125.1px" height="125.1px" viewBox="0 0 125.1 125.1" enable-background="new 0 0 125.1 125.1" xml:space="preserve"><defs></defs><g><rect x="54.1" y="53.8" transform="matrix(0.3176 0.9482 -0.9482 0.3176 102.0437 -16.5935)" width="17" height="17.6"/><g><rect x="54.1" y="53.8" transform="matrix(0.3176 0.9482 -0.9482 0.3176 102.0437 -16.5935)"  width="17" height="17.6"/><path d="M119.8,45.3c-12.9-43-31.5-53-74.5-40.1s-53,31.5-40.1,74.5s31.5,53,74.5,40.1S132.7,88.3,119.8,45.3z M98.1,73.2L90,75.9l2.8,8.4c1.1,3.4-0.7,7.1-4.1,8.2c-0.7,0.2-1.5,0.4-2.2,0.3c-2.6-0.1-5.1-1.8-6-4.4L77.7,80L61,85.7l2.8,8.4c1.1,3.4-0.7,7.1-4.1,8.2c-0.7,0.2-1.5,0.4-2.2,0.3c-2.6-0.1-5.1-1.8-6-4.4l-2.8-8.4l-8.1,2.7c-0.7,0.2-1.5,0.4-2.2,0.3c-2.6-0.1-5.1-1.8-6-4.4c-1.1-3.4,0.7-7.1,4.1-8.2l8.1-2.7l-5.4-16.1l-8.1,2.7c-0.7,0.2-1.5,0.4-2.2,0.3c-2.6-0.1-5.1-1.8-6-4.4c-1.1-3.4,0.7-7.1,4.1-8.2l8.1-2.7l-2.8-8.4c-1.1-3.4,0.7-7.1,4.1-8.2c3.4-1.1,7.1,0.7,8.2,4.1l2.8,8.4l16.7-5.6L61.3,31c-1.1-3.4,0.7-7.1,4.1-8.2s7.1,0.7,8.2,4.1l2.8,8.4l8.1-2.7c3.4-1.1,7.1,0.7,8.2,4.1c1.1,3.4-0.7,7.1-4.1,8.2l-8.1,2.7l5.4,16.1L94,61c3.4-1.1,7.1,0.7,8.2,4.1C103.3,68.4,101.5,72.1,98.1,73.2z"/></g></g></svg>        </a>
                     </li>
                 </ul>
