@@ -66,19 +66,20 @@ const runSolution = async () => {
   };
 
   const response = await fetch(url, opts);
-  const data = await response.json();
 
+  if (response.status === 429) {
+    loadingRun.value = false;
+    enableRateLimitError();
+    return;
+  }
+  
   if (response.ok) {
+    const data = await response.json();
     programRunResult.value = data;
     openRunModal.value = true;
     loadingRun.value = false;
 
     emit('run-loaded');
-    return;
-  }
-
-  if (response.status === 429) {
-    enableRateLimitError();
     return;
   }
 
