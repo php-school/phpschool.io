@@ -1,6 +1,6 @@
 <template>
     <div id="results-col"
-         class="flex w-[350px] flex-col overflow-y-scroll bg-gray-900 rounded-[24px] results-border border-2 border-solid border-transparent"
+         class="flex w-[350px] flex-col bg-gray-900 rounded-[24px] results-border border-2 border-solid border-transparent overflow-hidden"
          style="">
         <div class="flex items-center justify-between border-b border-solid border-gray-600 py-4 pl-4 pr-4">
             <h1 class="flex items-center pt-0 text-xl text-pink-600">
@@ -13,7 +13,7 @@
                 </span>
             </div>
         </div>
-        <ul id="results" class="my-8 h-full max-h-full space-y-3 overflow-y-scroll px-4 text-left text-gray-100 text-xs">
+        <ul id="results" class="my-8 h-full max-h-full space-y-3 px-4 text-left text-gray-100 text-xs overflow-hidden">
             <li class="flex items-start space-x-3">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4 flex-shrink-0 text-green-500"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clip-rule="evenodd"></path></svg>
                 <div class="flex w-full flex-col"><p class="text-xs">File Exists Check</p></div>
