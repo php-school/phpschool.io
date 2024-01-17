@@ -146,40 +146,42 @@ onUnmounted(() => {
 
             <!-- Sign In Button -->
             <div v-if="!studentStore.student" class="hidden sm:block">
-                <Button href="/online/dashboard" class="flex items-center px-2 py-2" :class="{'!my-0': compact}">
+                <Button to="/online" class="flex items-center px-2 py-2" :class="{'!my-0': compact}">
                     <GitHubIcon class="h-5 w-5 mr-2" /><span class="text-xs font-normal flex">Log In <span class="hidden md:flex">&nbsp;with github</span></span>
                 </Button>
             </div>
 
-            <ul v-if="studentStore.student" class="order-3">
+            <ul v-if="studentStore.student" class="order-3 hidden sm:flex">
                 <li>
-                    <student-dropdown :reset-function="studentStore.resetState" :enable-show-tour="false"/>
+                    <student-dropdown/>
                 </li>
             </ul>
         </div>
         <!-- Mobile Menu Links and Sign In Button (Hidden by Default) -->
-        <div :class="mobileMenuVisible ? 'block ' : 'hidden sm:hidden '">
-            <div class="flex flex-col text-center text-white uppercase divide-y divide-pink-500">
-                <a href="#"
-                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">cloud</a>
-                <a href="#"
-                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">local</a>
-                <a href="#"
-                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">build
-                    a workshop</a>
-                <a href="#"
-                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">submit
-                    a workshop</a>
-                <a href="/events"
-                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">events</a>
-                <a href="/blog"
-                class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">blog</a>
-            <div class="my-4">
-                <Button href="/online/dashboard" class=" mx-auto text-center px-4 py-2">
-                    <GitHubIcon class="h-5 w-5 inline-block align-middle mr-2" /><span
-                        class="text-xs font-open-sans inline-block align-middle">Log In withgithub</span>
+        <div :class="mobileMenuVisible ? 'block' : 'hidden sm:hidden '">
+            <div class="flex flex-col text-center text-white divide-y divide-pink-500">
+                <router-link to="/online"
+                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl uppercase  font-open-sans">Workshops</router-link>
+                <router-link to="/offline"
+                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl uppercase font-open-sans">Offline</router-link>
+                <router-link to="/docs"
+                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl uppercase font-open-sans">Workshop Documentation</router-link>
+                <router-link to="/submit"
+                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl uppercase font-open-sans">Submit
+                    Your Workshop</router-link>
+                <router-link to="/events"
+                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl uppercase font-open-sans">Events</router-link>
+                <router-link to="/blog"
+                class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl uppercase font-open-sans">Blog</router-link>
+            <div v-if="studentStore.student" class="py-6">
+                <student-dropdown/>
+            </div>
+            <div v-else class="flex justify-center">
+                <Button to="/online" class="flex items-center px-2 py-2">
+                    <GitHubIcon class="h-5 w-5 mr-2" /><span class="text-xs font-normal flex">Log In &nbsp;with github</span>
                 </Button>
             </div>
+
         </div>
     </div>
 </nav>

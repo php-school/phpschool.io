@@ -17,14 +17,6 @@ const workshopStore = useWorkshopStore();
 
 const emit = defineEmits(['show-tour']);
 
-const props = defineProps({
-    resetFunction: Function,
-    enableShowTour: {
-        type: Boolean,
-        default: true
-    }
-});
-
 const isOpen = ref(false);
 const loadingStateReset = ref(false);
 const showResetProgressAlert = ref(false);
@@ -86,17 +78,20 @@ const logout = () => {
     <alert type="success" @close="showResetProgressAlert = false" v-show="showResetProgressAlert" message="Progress successfully reset"></alert>
     <div class="relative">
         <button @click.stop="toggleDropdown"
-                class="flex text-sm bg-gray-800 rounded-full focus:ring-4  focus:ring-gray-600"
+                class="hidden sm:flex text-sm bg-gray-800 rounded-full focus:ring-4  focus:ring-gray-600"
                 type="button">
             <span class="sr-only">Open user menu</span>
             <img class="w-8 h-8 rounded-full" :src="studentStore.student.profile_picture" alt="{{ studentStore.student.name }}">
         </button>
 
-        <div v-show="isOpen" v-click-away="clickAway"
-             class="absolute top-10 right-2.5 z-10 w-[250px] divide-solid divide-y divide-gray-600 rounded-lg shadow-xl bg-gray-800">
-            <div class="px-6 py-4 text-sm text-white text-left">
-                <div>{{ studentStore.student.name }}</div>
-                <div class="font-medium truncate">{{ studentStore.student.email }}</div>
+        <div :class="{'sm:hidden': !isOpen }" v-click-away="clickAway"
+             class="block sm:absolute sm:top-10 sm:right-2.5 sm:z-10 sm:w-[250px] divide-solid divide-y divide-gray-600 rounded-lg shadow-xl bg-gray-800">
+            <div class="px-6 py-4 text-sm text-white text-left flex flex-row items-center">
+                <img class="block sm:hidden w-8 h-8 rounded-full mr-4" :src="studentStore.student.profile_picture" alt="{{ studentStore.student.name }}">
+                <div>
+                    <div>{{ studentStore.student.name }}</div>
+                    <div class="font-medium truncate text-gray-400">{{ studentStore.student.email }}</div>
+                </div>
             </div>
             <div class="py-5">
                 <div class="px-6 flex justify-between">
@@ -113,8 +108,6 @@ const logout = () => {
                     </div>
                 </div>
             </div>
-
-
 
             <ul class="py-2 text-sm text-gray-200">
                 <li>
