@@ -1,28 +1,28 @@
 {
-  "learnyouphp": {
-    "PhpSchool\\PhpWorkshop\\Result\\FunctionRequirementsFailure": "FunctionRequirementsFailure",
-    "PhpSchool\\PhpWorkshop\\Result\\Failure": "Failure",
-    "PhpSchool\\PhpWorkshop\\Result\\ComposerFailure": "ComposerFailure",
-    "PhpSchool\\PhpWorkshop\\Result\\ComparisonFailure": "ComparisonFailure",
-    "PhpSchool\\PhpWorkshop\\Result\\FileComparisonFailure": "FileComparisonFailure",
-    "PhpSchool\\PhpWorkshop\\Result\\Cli\\CliResult": "CliRun",
-    "PhpSchool\\PhpWorkshop\\Result\\Cgi\\CgiResult": "CgiRun",
-    "PhpSchool\\PhpWorkshop\\Result\\Cgi\\RequestFailure": "CgiOutputMismatch",
-    "PhpSchool\\PhpWorkshop\\Result\\Cgi\\GenericFailure": "Failure",
-    "PhpSchool\\PhpWorkshop\\Result\\Cli\\RequestFailure": "CliOutputMismatch",
-    "PhpSchool\\PhpWorkshop\\Result\\Cli\\GenericFailure": "Failure"
-  },
-  "php8appreciate": {
-    "PhpSchool\\PhpWorkshop\\Result\\FunctionRequirementsFailure": "FunctionRequirementsFailure",
-    "PhpSchool\\PhpWorkshop\\Result\\Failure": "Failure",
-    "PhpSchool\\PhpWorkshop\\Result\\ComposerFailure": "ComposerFailure",
-    "PhpSchool\\PhpWorkshop\\Result\\ComparisonFailure": "ComparisonFailure",
-    "PhpSchool\\PhpWorkshop\\Result\\FileComparisonFailure": "FileComparisonFailure",
-    "PhpSchool\\PhpWorkshop\\Result\\Cli\\CliResult": "CliRun",
-    "PhpSchool\\PhpWorkshop\\Result\\Cgi\\CgiResult": "CgiRun",
-    "PhpSchool\\PhpWorkshop\\Result\\Cgi\\RequestFailure": "CgiOutputMismatch",
-    "PhpSchool\\PhpWorkshop\\Result\\Cgi\\GenericFailure": "Failure",
-    "PhpSchool\\PhpWorkshop\\Result\\Cli\\RequestFailure": "CliOutputMismatch",
-    "PhpSchool\\PhpWorkshop\\Result\\Cli\\GenericFailure": "Failure"
-  }
+    "learnyouphp": {
+        "PhpSchool\\PhpWorkshop\\Result\\FunctionRequirementsFailure": "FunctionRequirementsFailureResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Failure": "FailureResult",
+        "PhpSchool\\PhpWorkshop\\Result\\ComposerFailure": "ComposerFailureResult",
+        "PhpSchool\\PhpWorkshop\\Result\\ComparisonFailure": "ComparisonFailureResult",
+        "PhpSchool\\PhpWorkshop\\Result\\FileComparisonFailure": "FileComparisonFailureResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Cli\\CliResult": "CliRunResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Cgi\\CgiResult": "CgiRunResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Cgi\\RequestFailure": "CgiOutputMismatchResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Cgi\\GenericFailure": "FailureResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Cli\\RequestFailure": "CliOutputMismatchResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Cli\\GenericFailure": "FailureResult"
+    },
+    "php8appreciate": {
+        "PhpSchool\\PhpWorkshop\\Result\\FunctionRequirementsFailure": "FunctionRequirementsFailureResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Failure": "FailureResult",
+        "PhpSchool\\PhpWorkshop\\Result\\ComposerFailure": "ComposerFailureResult",
+        "PhpSchool\\PhpWorkshop\\Result\\ComparisonFailure": "ComparisonFailureResult",
+        "PhpSchool\\PhpWorkshop\\Result\\FileComparisonFailure": "FileComparisonFailureResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Cli\\CliResult": "CliRunResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Cgi\\CgiResult": "CgiRunResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Cgi\\RequestFailure": "CgiOutputMismatchResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Cgi\\GenericFailure": "FailureResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Cli\\RequestFailure": "CliOutputMismatchResult",
+        "PhpSchool\\PhpWorkshop\\Result\\Cli\\GenericFailure": "FailureResult"
+    }
 }

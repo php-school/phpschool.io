@@ -5,149 +5,157 @@
 @tailwind utilities;
 
 [v-cloak] {
-  display: none;
+    display: none;
 }
 
 .shake {
-  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000px;
+    animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
 @keyframes shake {
-  10%,
-  90% {
-    transform: translate3d(-1px, 0, 0);
-  }
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
 
-  20%,
-  80% {
-    transform: translate3d(2px, 0, 0);
-  }
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
 
-  30%,
-  50%,
-  70% {
-    transform: translate3d(-4px, 0, 0);
-  }
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
 
-  40%,
-  60% {
-    transform: translate3d(4px, 0, 0);
-  }
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
 }
 
 @keyframes gradient-animation {
-  0% {
-    background-position: 0% 50%;
-  }
+    0% {
+        background-position: 0% 50%;
+    }
 
-  50% {
-    background-position: 100% 50%;
-  }
+    50% {
+        background-position: 100% 50%;
+    }
 
-  100% {
-    background-position: 0% 50%;
-  }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 /* bobbing animation */
 @keyframes bobbing {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
 .bobbing-animation {
-  animation: bobbing 6s infinite ease-in-out;
+    animation: bobbing 6s infinite ease-in-out;
 }
 
 .ellipse {
-  position: absolute;
-  bottom: -70;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  border-radius: 50% 50% 50% 50%;
-  background-color: #000000;
-  opacity: 25%;
+    position: absolute;
+    bottom: -70;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    border-radius: 50% 50% 50% 50%;
+    background-color: #000000;
+    opacity: 25%;
 }
 
 .mobile-menu-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  backdrop-filter: blur(5px);
-  background-color: rgba(255, 255, 255, 0.8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    backdrop-filter: blur(5px);
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .horizontal-divider {
-  position: relative;
-  width: 100%;
-  height: 2px; /* Adjust the height as needed */
-  overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 2px; /* Adjust the height as needed */
+    overflow: hidden;
 }
 
 .horizontal-divider::after {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 50%; /* Adjust the width of the moving part */
-  height: 100%;
-  top: 0;
-  left: -100%; /* Start off-screen to the left */
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    #ff00ff 40%,
-    transparent 60%,
-    transparent 100%
-  ); /* Adjust the gradient colors and stops here */
-  border-radius: 50px; /* Adjust the border radius to make it rounded */
-  background-size: 200% 100%; /* Adjust the background size */
-  animation: slide 7s 0s infinite linear; /* Adjust the animation duration */
+    content: '';
+    display: block;
+    position: absolute;
+    width: 50%; /* Adjust the width of the moving part */
+    height: 100%;
+    top: 0;
+    left: -100%; /* Start off-screen to the left */
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        #ff00ff 40%,
+        transparent 60%,
+        transparent 100%
+    ); /* Adjust the gradient colors and stops here */
+    border-radius: 50px; /* Adjust the border radius to make it rounded */
+    background-size: 200% 100%; /* Adjust the background size */
+    animation: slide 7s 0s infinite linear; /* Adjust the animation duration */
 }
 
 @keyframes slide {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 100%; /* Move to the right edge */
-  }
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%; /* Move to the right edge */
+    }
 }
 
 /* admin */
 @keyframes blinker {
-  from {
-    opacity: 1.0;
-  }
-  to {
-    opacity: 0.3;
-  }
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.3;
+    }
 }
 
 .blink {
-  text-decoration: blink;
-  animation-name: blinker;
-  animation-duration: 0.6s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-  animation-direction: alternate;
-  text-shadow: 0 0 10px #e91e63, 0 0 20px #e91e63, 0 0 30px #e91e63, 0 0 40px #e91e63, 0 0 70px #e91e63, 0 0 80px #e91e63, 0 0 100px #e91e63, 0 0 150px #e91e63;
+    text-decoration: blink;
+    animation-name: blinker;
+    animation-duration: 0.6s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    animation-direction: alternate;
+    text-shadow:
+        0 0 10px #e91e63,
+        0 0 20px #e91e63,
+        0 0 30px #e91e63,
+        0 0 40px #e91e63,
+        0 0 70px #e91e63,
+        0 0 80px #e91e63,
+        0 0 100px #e91e63,
+        0 0 150px #e91e63;
 }
 
 /* admin end */
 .balanced {
-  text-wrap: balance;
+    text-wrap: balance;
 }

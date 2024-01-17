@@ -1,11 +1,11 @@
 export default function (condition) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         let interval = setInterval(() => {
             if (!condition()) {
-                return;
+                return
             }
-            clearInterval(interval);
-            resolve();
+            clearInterval(interval)
+            resolve()
         }, 300)
     })
 }

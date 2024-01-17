@@ -1,21 +1,30 @@
 <script setup>
-import Code from "../../Code.vue"
-import ContentHeader from "../../ContentHeader.vue";
-import Terminal from "../../Terminal.vue";
-import CodeBlock from "../../CodeBlock.vue";
+import Code from '../../DocCode.vue'
+import ContentHeader from '../../ContentHeader.vue'
+import Terminal from '../../DocTerminal.vue'
+import CodeBlock from '../../CodeBlock.vue'
 </script>
 <template>
-    <p>If you don't know what result renderers are, go ahead and read
-        <router-link to="/docs/reference/results">this article</router-link> first. We will be continuing on from the previous article,
-        let's go ahead and create the renderer.</p>
+    <p>
+        If you don't know what result renderers are, go ahead and read
+        <router-link to="/docs/reference/results">this article</router-link> first. We will be
+        continuing on from the previous article, let's go ahead and create the renderer.
+    </p>
 
     <ContentHeader id="renderer-step-1">1. Create the folder and class</ContentHeader>
 
-    <Terminal :lines="['mkdir src/ResultRenderer', 'touch src/ResultRenderer/CodingStandardFailureRenderer.php']"></Terminal>
+    <Terminal
+        :lines="[
+            'mkdir src/ResultRenderer',
+            'touch src/ResultRenderer/CodingStandardFailureRenderer.php'
+        ]"
+    ></Terminal>
 
     <ContentHeader id="renderer-step-2">2. Write the renderer class</ContentHeader>
 
-    <CodeBlock lang="php"><pre>&lt;?php
+    <CodeBlock lang="php">
+        <pre>
+&lt;?php
 
 namespace PhpSchool\SimpleMath\ResultRenderer;
 
@@ -60,20 +69,30 @@ class CodingStandardFailureRenderer implements ResultRendererInterface
         return implode("\n", $output);
     }
 }
-</pre></CodeBlock>
+</pre
+        >
+    </CodeBlock>
 
-    <p>This is really simple: the <Code>render(ResultsRenderer $renderer)</Code> just returns a string
-        representation of the result, we style the results a little in a bullet pointed list, highlighting them red.
-        We also add a title which describes the coding standard used.</p>
+    <p>
+        This is really simple: the
+        <Code>render(ResultsRenderer $renderer)</Code> just returns a string representation of the
+        result, we style the results a little in a bullet pointed list, highlighting them red. We
+        also add a title which describes the coding standard used.
+    </p>
 
     <p>That's basically it - we just need to register the renderer with the application.</p>
 
     <ContentHeader id="renderer-step-3">3. Register the renderer</ContentHeader>
-    <p>Now you need to tell the application about your new result. Open up <Code>app/bootstrap.php</Code> and
-        after the application object is created you just call <Code>addResult</Code> with the result class name
-        and the result renderer class name. Your final <Code>app/bootstrap.php</Code> file should look something like:</p>
+    <p>
+        Now you need to tell the application about your new result. Open up
+        <Code>app/bootstrap.php</Code> and after the application object is created you just call
+        <Code>addResult</Code> with the result class name and the result renderer class name. Your
+        final <Code>app/bootstrap.php</Code> file should look something like:
+    </p>
 
-    <CodeBlock lang="php"><pre>&lt;?php
+    <CodeBlock lang="php">
+        <pre>
+&lt;?php
 
 ini_set('display_errors', 1);
 date_default_timezone_set('Europe/London');
@@ -118,18 +137,27 @@ $app->setFgColour('red');
 $app->setBgColour('black');
 
 return $app;
-</pre></CodeBlock>
+</pre
+        >
+    </CodeBlock>
 
     <ContentHeader id="try-it-out">Try it out!</ContentHeader>
 
-    <p>Run the workshop and select the Mean Average exercise. Verifying a solution which does not pass the
-        <Code>PSR2</Code> coding standard will yield the following output:</p>
+    <p>
+        Run the workshop and select the Mean Average exercise. Verifying a solution which does not
+        pass the <Code>PSR2</Code> coding standard will yield the following output:
+    </p>
 
     <a href="/img/custom-renderer-psr2-fail.png">
-        <img src="../../../../../img/cloud/docs/custom-renderer-psr2-fail.png" class="doc-terminal-screen">
+        <img
+            src="../../../../../img/cloud/docs/custom-renderer-psr2-fail.png"
+            class="doc-terminal-screen"
+        />
     </a>
 
-
-    <p>You can see the finished, working code on the <Code>custom-result</Code> branch of the
-        <a href="https://github.com/php-school/simple-math">tutorial repository</a>.</p>
+    <p>
+        You can see the finished, working code on the
+        <Code>custom-result</Code> branch of the
+        <a href="https://github.com/php-school/simple-math">tutorial repository</a>.
+    </p>
 </template>

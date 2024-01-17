@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-    'divider': {
+    divider: {
         type: Boolean,
         default: true
     }
@@ -8,7 +8,8 @@ const props = defineProps({
 </script>
 <template>
     <div
-        class="max-w-[2048px] flex flex-col text-center lg:flex-row  h-auto mx-auto p-4  justify-center items-center lg:gap-20">
+        class="max-w-[2048px] flex flex-col text-center lg:flex-row h-auto mx-auto p-4 justify-center items-center lg:gap-20"
+    >
         <slot name="left" />
         <slot name="right" />
     </div>

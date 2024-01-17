@@ -1,9 +1,9 @@
 export default (callback, timeout = 500) => {
-    let timer;
+    let timer
     return function (...args) {
-        clearTimeout(timer);
+        clearTimeout(timer)
         timer = setTimeout(() => {
-            callback.apply(this, args);
+            callback.apply(this, args)
         }, timeout)
     }
-};
+}

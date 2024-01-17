@@ -1,10 +1,10 @@
 export default function (node) {
-    const pathParts = [];
+    const pathParts = []
     do {
-        pathParts.push(node.name);
+        pathParts.push(node.name)
 
-        node = node.parent;
-    } while (node !== null);
+        node = node.parent
+    } while (node !== null)
 
-    return pathParts.reverse().join('/');
+    return pathParts.reverse().join('/')
 }

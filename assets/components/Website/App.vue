@@ -1,10 +1,9 @@
-<script setup>
-</script>
+<script setup></script>
 <template>
     <component :is="$route.meta.layout">
         <router-view v-slot="{ Component }">
             <transition name="slide" mode="in-out">
-                <component :is="Component" :key="$route.path"/>
+                <component :is="Component" :key="$route.path" />
             </transition>
         </router-view>
     </component>
