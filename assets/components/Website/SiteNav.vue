@@ -3,24 +3,13 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import Button from "./Button.vue";
 import GitHubIcon from "../Icons/GitHubIcon.vue";
-import {TrophyIcon} from '@heroicons/vue/24/outline'
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import Logo from "./Logo.vue";
 import StudentDropdown from "../Online/StudentDropdown.vue";
-import { onMounted, onUnmounted, ref, computed } from "vue";
-import {useRoute} from "vue-router";
-
-const route = useRoute();
+import { onMounted, onUnmounted, ref } from "vue";
 
 import {useStudentStore} from "../../stores/student";
 const studentStore = useStudentStore();
-
-import {useWorkshopStore} from "../../stores/workshops";
-const workshopStore = useWorkshopStore();
-
-const percentComplete = computed(() => {
-    return (studentStore.totalCompleted() / workshopStore.totalExercises) * 100;
-});
 
 const props = defineProps({
     'compact': {
@@ -31,6 +20,7 @@ const props = defineProps({
 
 const links = {
     'github': 'https://github.com/php-school/learn-you-php',
+    'twitter': 'https://twitter.com/PHPSchoolTeam',
     'slack': 'https://phpschool.herokuapp.com',
     'discussions': 'https://github.com/php-school/discussions',
     'workshop': 'https://github.com/php-school/php-workshop',
@@ -163,72 +153,35 @@ onUnmounted(() => {
 
             <ul v-if="studentStore.student" class="order-3 hidden sm:flex">
                 <li>
-                    <student-dropdown :reset-function="studentStore.resetState" :enable-show-tour="false"/>
+                    <student-dropdown/>
                 </li>
             </ul>
         </div>
         <!-- Mobile Menu Links and Sign In Button (Hidden by Default) -->
         <div :class="mobileMenuVisible ? 'block' : 'hidden sm:hidden '">
-            <div class="flex flex-col text-center text-white uppercase divide-y divide-pink-500">
+            <div class="flex flex-col text-center text-white divide-y divide-pink-500">
                 <router-link to="/online"
-                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">Workshops</router-link>
+                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl uppercase  font-open-sans">Workshops</router-link>
                 <router-link to="/offline"
-                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">Offline</router-link>
+                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl uppercase font-open-sans">Offline</router-link>
                 <router-link to="/docs"
-                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">Workshop Documentation</router-link>
+                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl uppercase font-open-sans">Workshop Documentation</router-link>
                 <router-link to="/submit"
-                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">Submit
+                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl uppercase font-open-sans">Submit
                     Your Workshop</router-link>
                 <router-link to="/events"
-                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">Events</router-link>
+                    class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl uppercase font-open-sans">Events</router-link>
                 <router-link to="/blog"
-                class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl font-open-sans">Blog</router-link>
-            <div v-if="!studentStore.student" class="flex justify-center">
+                class="py-6 px-4 text-white block hover:text-pink-500 no-underline font-semibold text-xl uppercase font-open-sans">Blog</router-link>
+            <div v-if="studentStore.student" class="py-6">
+                <student-dropdown/>
+            </div>
+            <div v-else class="flex justify-center">
                 <Button to="/online" class="flex items-center px-2 py-2">
                     <GitHubIcon class="h-5 w-5 mr-2" /><span class="text-xs font-normal flex">Log In &nbsp;with github</span>
                 </Button>
             </div>
-            <div v-else class="py-6">
-            <div
-             class="divide-solid divide-y divide-gray-600 rounded-lg shadow-xl bg-gray-800">
-            <div class="px-6 py-4 text-sm text-white text-left flex flex-row">
-                    <img class="w-8 h-8 rounded-full mr-4" :src="studentStore.student.profile_picture" alt="{{ studentStore.student.name }}">
-                <div>
-                    <div>{{ studentStore.student.name }}</div>
-                    <div class="font-medium truncate">{{ studentStore.student.email }}</div>
-                </div>
-            </div>
-            <div class="py-5">
-                <div class="px-6 flex justify-between">
-                    <div class="flex items-center">
-                        <span class="flex rounded-lg p-2">
-                          <TrophyIcon class="h-6 w-6 text-yellow-400"/>
-                        </span>
-                        <p class="ml-2 text-sm font-medium text-gray-500">{{ studentStore.totalCompleted() }} out of {{ workshopStore.totalExercises }}</p>
-                    </div>
-                </div>
-                <div class="px-6">
-                    <div class=" rounded-full h-2.5 bg-gray-700 mt-4">
-                        <div class=" h-2.5 rounded-full bg-pink-500" :style="{ 'width': percentComplete + '%' }"></div>
-                    </div>
-                </div>
-            </div>
 
-
-
-            <ul class="py-2 text-sm text-gray-200">
-                <li>
-                    <router-link to="/online" class="block text-left no-underline px-6 py-2 hover:bg-gray-600 hover:text-white">Workshop Dashboard</router-link>
-                </li>
-                <li v-if="route.name === 'editor'">
-                    <a href="#" @click="showTour" class="block text-left no-underline px-6 py-2 hover:bg-gray-600 hover:text-white">Show Tour Again</a>
-                </li>
-            </ul>
-            <div class="py-3">
-                <a href="#" @click="studentStore.logout();" class="block text-left no-underline px-6 py-2 text-sm hover:bg-gray-600 text-gray-200 hover:text-white">Sign out</a>
-            </div>
-        </div>
-            </div>
         </div>
     </div>
 </nav>
