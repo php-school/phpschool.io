@@ -50,6 +50,10 @@ const transitions = {
     workshopList: ref(),
     editor: ref(),
     editorWorkshopList: ref(),
+    mockProblemModal: ref(),
+    mockProgress: ref(),
+    feedbackEditor: ref(),
+    feedbackProblemModal: ref(),
 }
 
 const debounce = function(func, wait, immediate) {
@@ -189,12 +193,14 @@ onUnmounted(() => {
                   <div class="mx-auto  w-full lg:w-2/3  relative mt-20">
                       <div class=" items-center justify-center flex relative">
                           <img class="" src="../../../img/cloud/pattern-bg-square-alt.svg" alt="">
-                          <div class="absolute">
+                          <div :ref="transitions.mockProblemModal" class="absolute fadeIn opacity-0 translate-y-6 transition-all ease-in duration-[1000ms]">
                               <MockProblemModal />
                           </div>
                           <div
                                   class=" hidden sm:flex absolute -right-9  top-1/3  sm:top-1/3 sm:-right-2 md:top-1/3 scale-75 sm:scale-100">
-                              <MockProgress class="" />
+                              <div :ref="transitions.mockProgress" class="fadeIn opacity-0 translate-x-10 transition-all ease-in duration-[1000ms]">
+                                <MockProgress />
+                            </div>
                           </div>
                           <div class=" hidden absolute sm:block  -bottom-36 -left-10   lg:-bottom-44   lg:-left-5 z-50">
                               <!-- <div class="ellipse bobbing-animation"></div> -->
@@ -256,10 +262,10 @@ onUnmounted(() => {
                       <!-- Initial set up -->
                       <div class=" items-center justify-center flex relative" id="feedback-section-initial" v-if="showInitialSetup">
                           <img class="cover w-2/3 sm:h-auto sm:w-auto" src="../../../img/cloud/pattern-bg-rectangle.svg" alt="">
-                          <div class="absolute flex md:items-center md:justify-center w-[350px] h-[400px] sm:h-[500px] sm:w-[600px] md:h-[500px] md:w-[700px] lg:scale-[0.9] xl:scale-100 xl:h-[500px] xl:w-[800px] ">
+                          <div :ref="transitions.feedbackEditor" class="absolute flex md:items-center md:justify-center w-[350px] h-[400px] sm:h-[500px] sm:w-[600px] md:h-[500px] md:w-[700px] lg:scale-[0.9] xl:scale-100 xl:h-[500px] xl:w-[800px] fadeIn opacity-0 translate-y-6 transition-all ease-in duration-[1000ms]">
                               <MockEditor />
                           </div>
-                          <div class="absolute scale-75">
+                          <div :ref="transitions.feedbackProblemModal" class="absolute scale-75 fadeIn opacity-0 translate-x-10 transition-all ease-in duration-[1000ms]">
                               <MockProblemModal />
                           </div>
                       </div>
