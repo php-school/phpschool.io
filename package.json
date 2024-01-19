@@ -7,7 +7,8 @@
     "build": "vite-ssg build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write assets/ --config prettier.config.js"
+    "prettier": "prettier --write assets/ --config prettier.config.js",
+    "prettier:ci": "prettier --check assets/ --config prettier.config.js"
   },
   "author": "",
   "license": "ISC",
