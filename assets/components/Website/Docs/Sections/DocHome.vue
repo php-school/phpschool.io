@@ -11,10 +11,7 @@ import Note from "../DocNote.vue";
   <h3>
     <router-link to="/docs/reference">Reference Documentation</router-link>
   </h3>
-  <p>
-    Learn about the individual components of the workshop such as the available checks, exercise types, solutions,
-    services and so on.
-  </p>
+  <p>Learn about the individual components of the workshop such as the available checks, exercise types, solutions, services and so on.</p>
 
   <br />
   <note>

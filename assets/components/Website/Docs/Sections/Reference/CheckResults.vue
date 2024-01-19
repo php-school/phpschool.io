@@ -6,16 +6,12 @@ import CodeBlock from "../../CodeBlock.vue";
 </script>
 <template>
   <p>
-    After a student's solution has been verified, the result set is rendered to the console. The result set is made up
-    of several individual results. Verification is deemed to have failed if any one of those results is a failure. Each
-    result represents a different thing, for example, each check will likely inject a result in to the result set. The
-    output verification will be a single result, the parsing of the file will be a single result, and so on.
+    After a student's solution has been verified, the result set is rendered to the console. The result set is made up of several individual results. Verification is deemed to have failed if any one
+    of those results is a failure. Each result represents a different thing, for example, each check will likely inject a result in to the result set. The output verification will be a single result,
+    the parsing of the file will be a single result, and so on.
   </p>
 
-  <p>
-    Each Result class has an associated renderer, the renderers job is to take the information from the result and
-    render in to the console.
-  </p>
+  <p>Each Result class has an associated renderer, the renderers job is to take the information from the result and render in to the console.</p>
 
   <p>
     Results are what
@@ -48,10 +44,7 @@ import CodeBlock from "../../CodeBlock.vue";
     <li><Code>PhpSchool\PhpWorkshop\Result\FailureInterface</Code></li>
   </ul>
 
-  <p>
-    Both of these interfaces add no extra methods, they are purely for determining whether a result is considered a
-    success or failure.
-  </p>
+  <p>Both of these interfaces add no extra methods, they are purely for determining whether a result is considered a success or failure.</p>
 
   <ContentHeader id="result-interface">Result Interface</ContentHeader>
   <p>
@@ -74,10 +67,7 @@ interface ResultInterface
     >
   </CodeBlock>
 
-  <p>
-    This method should just return the name of the check associated with this result. This is used when rendering the
-    result to the console.
-  </p>
+  <p>This method should just return the name of the check associated with this result. This is used when rendering the result to the console.</p>
 
   <ContentHeader id="implementations">Implementations</ContentHeader>
   <p>
@@ -91,10 +81,7 @@ interface ResultInterface
   </p>
 
   <ContentHeader level="h4-code" id="success">PhpSchool\PhpWorkshop\Result\Success</ContentHeader>
-  <p>
-    As you saw from the interface, the only required piece of information is the check name. So construction would look
-    like the following.
-  </p>
+  <p>As you saw from the interface, the only required piece of information is the check name. So construction would look like the following.</p>
 
   <CodeBlock lang="php">
     <pre>
@@ -143,8 +130,7 @@ class MyCheck implements SimpleCheckInterface
   <p>
     The default implementation of
     <Code>FailureInterface</Code>
-    needs one more piece of information other than the check name: the reason for the failure. Construction is fairly
-    similar:
+    needs one more piece of information other than the check name: the reason for the failure. Construction is fairly similar:
   </p>
 
   <CodeBlock lang="php">
@@ -186,10 +172,9 @@ $failure = Failure::fromCheckAndReason($check, 'Something went wrong!');
 
   <ContentHeader id="custom-results">Custom Results</ContentHeader>
   <p>
-    When you want to report information that is not simple a message, you will need to create your own result class. If
-    you would build a check that verifies the contents of a database, you may want to provide a list of missing records
-    as an array instead of just a message. You would then write a renderer that may render each row as a new line with a
-    bullet point preceding it. Learn how to create your own checks
+    When you want to report information that is not simple a message, you will need to create your own result class. If you would build a check that verifies the contents of a database, you may want
+    to provide a list of missing records as an array instead of just a message. You would then write a renderer that may render each row as a new line with a bullet point preceding it. Learn how to
+    create your own checks
     <router-link to="/docs/reference/creating-custom-results">in a later article</router-link>
     .
   </p>
@@ -278,30 +263,12 @@ interface ResultRendererInterface
 
   <ResultRendererMappings
     :results="[
-      [
-        'PhpSchool\\PhpWorkshop\\Result\\Cgi\\GenericFailure',
-        'PhpSchool\\PhpWorkshop\\ResultRenderer\\FailureRenderer',
-      ],
-      [
-        'PhpSchool\\PhpWorkshop\\Result\\Cgi\\RequestFailure',
-        'PhpSchool\\PhpWorkshop\\ResultRenderer\\Cgi\\RequestFailureRenderer',
-      ],
-      [
-        'PhpSchool\\PhpWorkshop\\Result\\Cli\\GenericFailure',
-        'PhpSchool\\PhpWorkshop\\ResultRenderer\\FailureRenderer',
-      ],
-      [
-        'PhpSchool\\PhpWorkshop\\Result\\Cli\\RequestFailure',
-        'PhpSchool\\PhpWorkshop\\ResultRenderer\\Cli\\RequestFailureRenderer',
-      ],
-      [
-        'PhpSchool\\PhpWorkshop\\Result\\ComparisonFailure',
-        'PhpSchool\\PhpWorkshop\\ResultRenderer\\ComparisonFailureRenderer',
-      ],
-      [
-        'PhpSchool\\PhpWorkshop\\Result\\FunctionRequirementsFailure',
-        'PhpSchool\\PhpWorkshop\\ResultRenderer\\FunctionRequirementsFailureRenderer',
-      ],
+      ['PhpSchool\\PhpWorkshop\\Result\\Cgi\\GenericFailure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\FailureRenderer'],
+      ['PhpSchool\\PhpWorkshop\\Result\\Cgi\\RequestFailure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\Cgi\\RequestFailureRenderer'],
+      ['PhpSchool\\PhpWorkshop\\Result\\Cli\\GenericFailure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\FailureRenderer'],
+      ['PhpSchool\\PhpWorkshop\\Result\\Cli\\RequestFailure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\Cli\\RequestFailureRenderer'],
+      ['PhpSchool\\PhpWorkshop\\Result\\ComparisonFailure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\ComparisonFailureRenderer'],
+      ['PhpSchool\\PhpWorkshop\\Result\\FunctionRequirementsFailure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\FunctionRequirementsFailureRenderer'],
       ['PhpSchool\\PhpWorkshop\\Result\\Failure', 'PhpSchool\\PhpWorkshop\\ResultRenderer\\FailureRenderer'],
     ]"
   ></ResultRendererMappings>
@@ -309,21 +276,18 @@ interface ResultRendererInterface
   <p>
     If you create a new implementation of
     <Code>FailureInterface</Code>
-    you will need to map it to an existing renderer, or most likely you will need to write a custom renderer, and map it
-    to that.
+    you will need to map it to an existing renderer, or most likely you will need to write a custom renderer, and map it to that.
   </p>
 
   <ContentHeader id="summary">Summary</ContentHeader>
   <p>
-    The whole process may sound complicated, however, this is not true. To summarise, your check should return a result.
-    The result should be mapped to a renderer. The results are rendered by the framework. It will pick the correct
-    renderer based on the mapping.
+    The whole process may sound complicated, however, this is not true. To summarise, your check should return a result. The result should be mapped to a renderer. The results are rendered by the
+    framework. It will pick the correct renderer based on the mapping.
   </p>
 
   <ContentHeader id="create-a-result">Create a custom result</ContentHeader>
   <p>
-    In the next set of articles we will learn about and build a check. Once the check is complete, we will build a
-    custom result and result renderer for it, you can jump
+    In the next set of articles we will learn about and build a check. Once the check is complete, we will build a custom result and result renderer for it, you can jump
     <router-link to="/docs/reference/creating-custom-results">straight there if you want</router-link>
     .
   </p>

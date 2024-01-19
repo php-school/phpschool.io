@@ -34,10 +34,7 @@ const isNextWorkshop = computed(() => {
   const pos = props.selectedWorkshop.exercises.findIndex((e) => e.name === props.exercise.name);
 
   if (pos - 1 in props.selectedWorkshop.exercises) {
-    const prevComplete = studentStore.isExerciseCompleted(
-      props.selectedWorkshop.code,
-      props.selectedWorkshop.exercises[pos - 1].name,
-    );
+    const prevComplete = studentStore.isExerciseCompleted(props.selectedWorkshop.code, props.selectedWorkshop.exercises[pos - 1].name);
 
     const thisComplete = studentStore.isExerciseCompleted(props.selectedWorkshop.code, props.exercise.name);
 
@@ -64,15 +61,8 @@ const isNextWorkshop = computed(() => {
         {{ exercise.type }}
       </div>
       <a href="#" class="flex w-24 justify-end text-right">
-        <CheckCircleIcon
-          v-if="isCurrentExerciseComplete"
-          class="h-8 w-8 rounded-full border-2 border-solid border-pink-300 text-pink-500"
-        />
-        <ArrowRightCircleIcon
-          v-else
-          class="h-8 w-8 rounded-full border-2 border-solid border-pink-500 !fill-none text-pink-200"
-          :class="{ 'animate-bounce': isNextWorkshop }"
-        />
+        <CheckCircleIcon v-if="isCurrentExerciseComplete" class="h-8 w-8 rounded-full border-2 border-solid border-pink-300 text-pink-500" />
+        <ArrowRightCircleIcon v-else class="h-8 w-8 rounded-full border-2 border-solid border-pink-500 !fill-none text-pink-200" :class="{ 'animate-bounce': isNextWorkshop }" />
       </a>
     </div>
   </li>

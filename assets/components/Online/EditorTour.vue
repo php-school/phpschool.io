@@ -66,8 +66,7 @@ const createTour = () => {
         show() {
           const currentStepElement = tour.value.getCurrentStep().el;
           const content = currentStepElement.querySelector(".shepherd-content");
-          const percentage =
-            (100 / tour.value.steps.length) * (tour.value.steps.indexOf(tour.value.getCurrentStep()) + 1);
+          const percentage = (100 / tour.value.steps.length) * (tour.value.steps.indexOf(tour.value.getCurrentStep()) + 1);
 
           content.insertAdjacentHTML(
             "beforeend",

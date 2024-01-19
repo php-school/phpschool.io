@@ -7,8 +7,8 @@ import CodeBlock from "../../CodeBlock.vue";
 </script>
 <template>
   <p>
-    In the previous section, we learned of all the events dispatched throughout the process of verifying and running a
-    student's solution to an exercise. In this this section we will learn how these events can be used to build a
+    In the previous section, we learned of all the events dispatched throughout the process of verifying and running a student's solution to an exercise. In this this section we will learn how these
+    events can be used to build a
     <em>Listener Check</em>
     .
   </p>
@@ -32,8 +32,7 @@ import CodeBlock from "../../CodeBlock.vue";
   </p>
 
   <p>
-    Listener Checks are one of the most complex components of the workshop application, so in order to demonstrate their
-    use-case, we will build a
+    Listener Checks are one of the most complex components of the workshop application, so in order to demonstrate their use-case, we will build a
     <em>Listener Check</em>
     which allows us to interact with
     <a href="http://couchdb.apache.org/">Couch DB</a>
@@ -45,9 +44,7 @@ import CodeBlock from "../../CodeBlock.vue";
       <a target="_blank" href="https://github.com/php-school/couch-db-check">The finished Couch DB Check</a>
     </li>
     <li>
-      <a target="_blank" href="https://github.com/php-school/simple-math/compare/couch-db-exercise?expand=1">
-        Exercise utilising the check
-      </a>
+      <a target="_blank" href="https://github.com/php-school/simple-math/compare/couch-db-exercise?expand=1">Exercise utilising the check</a>
     </li>
   </ul>
 
@@ -73,10 +70,7 @@ import CodeBlock from "../../CodeBlock.vue";
 
   <ContentHeader id="check-events">What events to use?</ContentHeader>
 
-  <p>
-    Reading this specification we can see that we will need to hook in to various events to provide this functionality,
-    we will now break down each point and decide what events to listen to.
-  </p>
+  <p>Reading this specification we can see that we will need to hook in to various events to provide this functionality, we will now break down each point and decide what events to listen to.</p>
 
   <ContentHeader level="h4" id="db-create">Creating the databases</ContentHeader>
   <p>
@@ -95,16 +89,14 @@ import CodeBlock from "../../CodeBlock.vue";
     <Code>verify.start</Code>
     &
     <Code>run.start</Code>
-    are the earliest events dispatched. These sound like good candidates to perform this task. We will pass a client
-    object to the exercise
+    are the earliest events dispatched. These sound like good candidates to perform this task. We will pass a client object to the exercise
     <Code>seed</Code>
     method so they can create documents.
   </p>
 
   <ContentHeader level="h4" id="db-arg">Pass database name to the programs</ContentHeader>
   <p>
-    We will need to pass the database names to the programs (student's solution & the reference solution) so the
-    programs can access it via the
+    We will need to pass the database names to the programs (student's solution & the reference solution) so the programs can access it via the
     <Code>$argv</Code>
     array. We can do this with any events which trigger with an instance of
     <Code>CliExecuteEvent</Code>
@@ -120,8 +112,7 @@ import CodeBlock from "../../CodeBlock.vue";
   <ContentHeader level="h4" id="db-verify">Verify the database</ContentHeader>
 
   <p>
-    We will need to allow the exercise to verify the database, we should do this after output verification has finished.
-    We can pick one of the last events triggered,
+    We will need to allow the exercise to verify the database, we should do this after output verification has finished. We can pick one of the last events triggered,
     <Code>verify.finish</Code>
     will do! We will pass the database client object again to the exercise
     <Code>verify</Code>
@@ -144,8 +135,7 @@ import CodeBlock from "../../CodeBlock.vue";
   <p>
     The finished
     <a href="https://github.com/php-school/couch-db-check">Couch DB check</a>
-    is available as a separate Composer package for you to use in your workshops right away, but, for the sake of this
-    tutorial we will build it using the
+    is available as a separate Composer package for you to use in your workshops right away, but, for the sake of this tutorial we will build it using the
     <a href="https://github.com/php-school/simple-math">tutorial application</a>
     as a base so we do not have to setup a new project with composer files, register it with
     <a href="https://packagist.org/">Packagist</a>
@@ -158,34 +148,19 @@ import CodeBlock from "../../CodeBlock.vue";
     branch for this tutorial, so if you haven't already got it, git clone it and install the dependencies:
   </p>
 
-  <DocTerminal
-    :lines="[
-      'cd projects',
-      'git clone git@github.com:php-school/simple-math.git',
-      'cd simple-math',
-      'composer install',
-    ]"
-  ></DocTerminal>
+  <DocTerminal :lines="['cd projects', 'git clone git@github.com:php-school/simple-math.git', 'cd simple-math', 'composer install']"></DocTerminal>
 
   <ContentHeader level="h4" id="check-step-1">1. Require doctrine/couchdb as a dependency</ContentHeader>
   <p>We will use this library to interact with Couch DB.</p>
   <DocTerminal :lines="['composer require &quot;doctrine/couchdb:^1.0@beta&quot;']"></DocTerminal>
 
   <ContentHeader level="h4" id="check-step-2">2. Create the folders and classes</ContentHeader>
-  <DocTerminal
-    :lines="[
-      'mkdir src/Check',
-      'mkdir src/ExerciseCheck',
-      'touch src/Check/CouchDbCheck.php',
-      'touch src/ExerciseCheck/CouchDbExerciseCheck.php',
-    ]"
-  ></DocTerminal>
+  <DocTerminal :lines="['mkdir src/Check', 'mkdir src/ExerciseCheck', 'touch src/Check/CouchDbCheck.php', 'touch src/ExerciseCheck/CouchDbExerciseCheck.php']"></DocTerminal>
 
   <ContentHeader level="h4" id="check-step-3">3. Define our interface</ContentHeader>
   <p>
-    We mentioned before that we needed a way for the exercise to seed and verify the database, so we will define an
-    interface which describes these methods which the exercise must implement for the Couch DB check. These methods will
-    automatically be invoked by the check. Open up
+    We mentioned before that we needed a way for the exercise to seed and verify the database, so we will define an interface which describes these methods which the exercise must implement for the
+    Couch DB check. These methods will automatically be invoked by the check. Open up
     <Code>src/ExerciseCheck/CouchDbExerciseCheck.php</Code>
     and add the following code to it:
   </p>
@@ -306,9 +281,8 @@ class CouchDbCheck implements ListenableCheckInterface
     <Code>getName()</Code>
     which is the name of our check, and
     <Code>getExerciseInterface()</Code>
-    which should return the FQCN (Fully Qualified Class Name) of the interface we just defined earlier. This is so the
-    workshop framework can check the exercise implements it. We also define some properties which describe the names of
-    the Couch DB databases we will setup: one for the student and one for the reference solution.
+    which should return the FQCN (Fully Qualified Class Name) of the interface we just defined earlier. This is so the workshop framework can check the exercise implements it. We also define some
+    properties which describe the names of the Couch DB databases we will setup: one for the student and one for the reference solution.
   </p>
 
   <p>
@@ -355,17 +329,16 @@ $solutionClient->createDatabase($solutionClient->getDatabase());
 
   <ContentHeader level="h5" id="db-seed">Seed the databases for verify mode</ContentHeader>
   <p>
-    We need to allow the exercise to seed the database to create documents, for example. The database for the student
-    and the reference solution should contain the same data, but they must be different databases.
+    We need to allow the exercise to seed the database to create documents, for example. The database for the student and the reference solution should contain the same data, but they must be
+    different databases.
   </p>
 
   <Note type="info">
-    The reason why both programs need their own database is fairly simple. Say the exercise's lesson was to teach how to
-    remove a document in the database. It would first need to create a document in the database using the
+    The reason why both programs need their own database is fairly simple. Say the exercise's lesson was to teach how to remove a document in the database. It would first need to create a document in
+    the database using the
     <Code>seed</Code>
-    method. The student's solution should remove that document. If the student's solution and the reference solution
-    shared one database, then the reference solution would run first and remove the row. Then the student's solution
-    would run...it can't remove the document because it's not there anymore!
+    method. The student's solution should remove that document. If the student's solution and the reference solution shared one database, then the reference solution would run first and remove the
+    row. Then the student's solution would run...it can't remove the document because it's not there anymore!
   </Note>
 
   <Note type="danger">
@@ -373,8 +346,7 @@ $solutionClient->createDatabase($solutionClient->getDatabase());
     <Code>seed()</Code>
     again because
     <Code>seed()</Code>
-    can return dynamic data and then the student's solution and the reference solution would run with different data
-    sets; which makes it impossible to compare their output.
+    can return dynamic data and then the student's solution and the reference solution would run with different data sets; which makes it impossible to compare their output.
   </Note>
 
   <CodeBlock lang="php">
@@ -390,14 +362,12 @@ $eventDispatcher->listen('verify.start', function (Event $e) use ($studentClient
   <p>
     We listen to the
     <Code>verify.start</Code>
-    event which (as you can probably infer) triggers right at the start of the verify process. The listener is an
-    anonymous function that grabs the exercise instance from the event and calls the
+    event which (as you can probably infer) triggers right at the start of the verify process. The listener is an anonymous function that grabs the exercise instance from the event and calls the
     <Code>seed()</Code>
     method passing in the
     <Code>CouchDBClient</Code>
-    which references the database created for the student. We also need to seed the database for reference solution, we
-    need it to be exactly the same as the student's so we basically select all documents from the student database and
-    insert them in to the reference solution database. We do this in the method
+    which references the database created for the student. We also need to seed the database for reference solution, we need it to be exactly the same as the student's so we basically select all
+    documents from the student database and insert them in to the reference solution database. We do this in the method
     <Code>replicateDbFromStudentToSolution</Code>
     . This method looks like the following:
   </p>
@@ -439,8 +409,7 @@ private function replicateDbFromStudentToSolution(CouchDBClient $studentClient, 
 
   <ContentHeader level="h5" id="db-seed-run">Seed the database for run mode</ContentHeader>
   <p>
-    When in run mode, no output is compared - we merely run the student's solution - so we only need to seed the
-    student's database. There is a similar event to
+    When in run mode, no output is compared - we merely run the student's solution - so we only need to seed the student's database. There is a similar event to
     <Code>verify.start</Code>
     when in run mode, aptly named
     <Code>run.start</Code>
@@ -458,9 +427,8 @@ $eventDispatcher->listen('run.start', function (Event $e) use ($studentClient) {
 
   <ContentHeader level="h5" id="db-arg">Adding the database name to the programs' arguments</ContentHeader>
   <p>
-    We need the programs (student solution & the reference solution) to have access to their respective database names,
-    the best way to do this is via command line arguments - we can add arguments to the list of arguments to be sent to
-    the programs with any event which triggers with an instance of
+    We need the programs (student solution & the reference solution) to have access to their respective database names, the best way to do this is via command line arguments - we can add arguments to
+    the list of arguments to be sent to the programs with any event which triggers with an instance of
     <Code>CliExecuteEvent</Code>
     . It exposes the
     <Code>prependArg()</Code>
@@ -503,13 +471,11 @@ $eventDispatcher->listen(
 
   <ContentHeader level="h5" id="db-verify">Verify the database</ContentHeader>
   <p>
-    After the programs have been executed, we need a way to let the exercise verify the contents of the database. We
-    hook on to an event during the
+    After the programs have been executed, we need a way to let the exercise verify the contents of the database. We hook on to an event during the
     <Code>verify</Code>
     process named
     <Code>verify.finish</Code>
-    (this is the last event in the verify process) and insert a verifier function. We don't need to verify the database
-    in
+    (this is the last event in the verify process) and insert a verifier function. We don't need to verify the database in
     <Code>run</Code>
     mode because all we do in run mode is
     <em>run</em>
@@ -532,8 +498,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $e) use ($stud
   </CodeBlock>
 
   <p>
-    Verify functions are used to inject results into the result set, which is then reported to the student. So you can
-    see that if the
+    Verify functions are used to inject results into the result set, which is then reported to the student. So you can see that if the
     <Code>verify</Code>
     method returns
     <Code>true</Code>
@@ -544,10 +509,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $e) use ($stud
     result, with a message, so the student knows what went wrong.
   </p>
 
-  <Note type="success">
-    The Event Dispatcher takes care of running the verifier function at the correct event and injects the returned
-    result in to the result set.
-  </Note>
+  <Note type="success">The Event Dispatcher takes care of running the verifier function at the correct event and injects the returned result in to the result set.</Note>
 
   <ContentHeader level="h5" id="db-cleanup">Cleanup the databases</ContentHeader>
   <p>
@@ -706,9 +668,8 @@ class CouchDbCheck implements ListenableCheckInterface
   <ContentHeader id="using-the-check">Build an exercise using the Couch DB check</ContentHeader>
 
   <p>
-    So then, this Couch DB check is not much use if we don't utilise it! let's build an exercise which retrieves a
-    document from a database, sums a bunch of numbers and adds the total to the document, finally we should output the
-    total. The document with the numbers in it will be automatically created by our exercise in the
+    So then, this Couch DB check is not much use if we don't utilise it! let's build an exercise which retrieves a document from a database, sums a bunch of numbers and adds the total to the document,
+    finally we should output the total. The document with the numbers in it will be automatically created by our exercise in the
     <Code>seed()</Code>
     method and will be random.
   </p>
@@ -719,20 +680,11 @@ class CouchDbCheck implements ListenableCheckInterface
     :
   </p>
 
-  <DocTerminal
-    :lines="[
-      'cd projects',
-      'git clone git@github.com:php-school/simple-math.git',
-      'cd simple-math',
-      'composer install',
-    ]"
-  ></DocTerminal>
+  <DocTerminal :lines="['cd projects', 'git clone git@github.com:php-school/simple-math.git', 'cd simple-math', 'composer install']"></DocTerminal>
 
   <p>We will use the check that is available in the already built Composer package, so, pull it in to your project:</p>
 
-  <DocTerminal
-    :lines="['composer require &quot;doctrine/couchdb:^1.0@beta&quot;', 'composer require php-school/couch-db-check']"
-  ></DocTerminal>
+  <DocTerminal :lines="['composer require &quot;doctrine/couchdb:^1.0@beta&quot;', 'composer require php-school/couch-db-check']"></DocTerminal>
 
   <Note type="info">
     We have to manually require
@@ -803,10 +755,7 @@ $client->putDocument($updatedDoc, $docId, $docRevision);
     >
   </CodeBlock>
 
-  <p>
-    We note that the student must have Couch DB installed, we give a few links, an example of how to use the Doctrine
-    Couch DB client and we describe the actual task.
-  </p>
+  <p>We note that the student must have Couch DB installed, we give a few links, an example of how to use the Doctrine Couch DB client and we describe the actual task.</p>
 
   <ContentHeader id="exercise">Write the exercise</ContentHeader>
 
@@ -924,8 +873,7 @@ class CouchDbExercise extends AbstractExercise implements
     <Code>seed</Code>
     we create a random number of random numbers and insert a document containing these numbers under a key named
     <Code>numbers</Code>
-    . We store the total (for verification purposes) and also the document ID (this is auto generated by Couch DB) so we
-    can pass it to the solutions as an argument.
+    . We store the total (for verification purposes) and also the document ID (this is auto generated by Couch DB) so we can pass it to the solutions as an argument.
   </p>
 
   <p>
@@ -966,8 +914,7 @@ class CouchDbExercise extends AbstractExercise implements
     <Code>php my-solution.php phpschool-student 18</Code>
     . The argument
     <Code>phpschool-student</Code>
-    being the database name created for the student by the check (remember the check prepends this argument to the
-    argument list) and 18 being the ID of the document we created!
+    being the database name created for the student by the check (remember the check prepends this argument to the argument list) and 18 being the ID of the document we created!
   </Note>
 
   <ContentHeader id="reference-solution">Write the reference solution</ContentHeader>
@@ -1028,8 +975,7 @@ echo $total;
   <ContentHeader id="wire-it-together">Wire it all together</ContentHeader>
 
   <p>
-    Now we have to add the factories for our check and exercise and register it with the application, add the following
-    to
+    Now we have to add the factories for our check and exercise and register it with the application, add the following to
     <Code>app/config.php</Code>
     and don't forget to import the necessary classes.
   </p>

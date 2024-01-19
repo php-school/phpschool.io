@@ -29,9 +29,7 @@ const clipboardAvailable = computed(() => {
 </script>
 
 <template>
-  <div
-    class="group mb-8 w-full overflow-y-scroll rounded-lg border border-solid border-gray-600 bg-gray-900 p-4 font-mono"
-  >
+  <div class="group mb-8 w-full overflow-y-scroll rounded-lg border border-solid border-gray-600 bg-gray-900 p-4 font-mono">
     <div class="flex flex-col">
       <div class="flex items-center justify-between pb-3">
         <div class="flex">

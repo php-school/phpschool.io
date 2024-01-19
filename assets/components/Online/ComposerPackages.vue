@@ -74,13 +74,7 @@ const removeDependency = (packageName) => {
 </script>
 
 <template>
-  <alert
-    type="error"
-    @close="showPackageAddError = false"
-    :show="showPackageAddError"
-    :timeout="4000"
-    message="Package could not be added because it has no tagged version."
-  ></alert>
+  <alert type="error" @close="showPackageAddError = false" :show="showPackageAddError" :timeout="4000" message="Package could not be added because it has no tagged version."></alert>
 
   <Transition
     enter-active-class="transition-opacity duration-100 ease-in"
@@ -99,12 +93,7 @@ const removeDependency = (packageName) => {
       </template>
       <template #body>
         <div class="flex items-center justify-between">
-          <PackageSearch
-            ref="packageSearchRef"
-            @package-selected="packageSelected"
-            v-model="newDependency"
-            class="w-full"
-          ></PackageSearch>
+          <PackageSearch ref="packageSearchRef" @package-selected="packageSelected" v-model="newDependency" class="w-full"></PackageSearch>
           <button
             :disabled="newDependency === ''"
             @click.stop="addDependency"
@@ -119,10 +108,7 @@ const removeDependency = (packageName) => {
           <li v-for="dep in composerDeps" :key="dep.name" class="mb-2 flex items-center pl-2 text-white">
             <p class="text-base">{{ dep.name }}</p>
             <p class="ml-2 rounded bg-gray-900 px-2 py-1">{{ dep.version }}</p>
-            <XMarkIcon
-              @click.stop="removeDependency(dep.name)"
-              class="ml-2 h-5 w-5 cursor-pointer text-zinc-400 hover:text-pink-600"
-            />
+            <XMarkIcon @click.stop="removeDependency(dep.name)" class="ml-2 h-5 w-5 cursor-pointer text-zinc-400 hover:text-pink-600" />
           </li>
         </ul>
         <div v-show="composerDeps.length === 0" class="pt-6">

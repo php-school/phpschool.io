@@ -106,13 +106,7 @@
   height: 100%;
   top: 0;
   left: -100%; /* Start off-screen to the left */
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    #ff00ff 40%,
-    transparent 60%,
-    transparent 100%
-  ); /* Adjust the gradient colors and stops here */
+  background: linear-gradient(to right, transparent 0%, #ff00ff 40%, transparent 60%, transparent 100%); /* Adjust the gradient colors and stops here */
   border-radius: 50px; /* Adjust the border radius to make it rounded */
   background-size: 200% 100%; /* Adjust the background size */
   animation: slide 7s 0s infinite linear; /* Adjust the animation duration */

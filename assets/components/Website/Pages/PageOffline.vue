@@ -8,8 +8,7 @@ import { CogIcon } from "@heroicons/vue/24/outline";
 const steps = [
   {
     title: "Install Workshop Manager",
-    description:
-      "Download the workshop manager binary, move it to a directory in your path and run the verify command. The verify command will nudge you about any issues it might find.",
+    description: "Download the workshop manager binary, move it to a directory in your path and run the verify command. The verify command will nudge you about any issues it might find.",
     lines: [
       "curl -O https://php-school.github.io/workshop-manager/workshop-manager.phar",
       "mv workshop-manager.phar /usr/local/bin/workshop-manager",
@@ -19,8 +18,7 @@ const steps = [
   },
   {
     title: "Using Workshop Manager",
-    description:
-      "Show the workshop manager available commands with descriptions. A handy reference for everything the workshop manager can do.",
+    description: "Show the workshop manager available commands with descriptions. A handy reference for everything the workshop manager can do.",
     lines: ["workshop-manager list"],
   },
   {
@@ -36,20 +34,12 @@ const steps = [
   {
     title: "Install a Workshop",
     description: "",
-    lines: [
-      "workshop-manager install <workshopname>",
-      "//eg install php8appreciate",
-      "workshop-manager install php8appreciate",
-    ],
+    lines: ["workshop-manager install <workshopname>", "//eg install php8appreciate", "workshop-manager install php8appreciate"],
   },
   {
     title: "Uninstall a Workshop",
     description: "",
-    lines: [
-      "workshop-manager uninstall <workshopname>",
-      "//eg uninstall php8appreciate",
-      "workshop-manager uninstall php8appreciate",
-    ],
+    lines: ["workshop-manager uninstall <workshopname>", "//eg uninstall php8appreciate", "workshop-manager uninstall php8appreciate"],
   },
 ];
 </script>
@@ -64,8 +54,7 @@ const steps = [
         </template>
 
         <template v-slot:description>
-          In order to get started with PHP School workshops, you first need to install the workshop manager. Before we
-          can do this we need to check you have a few things
+          In order to get started with PHP School workshops, you first need to install the workshop manager. Before we can do this we need to check you have a few things
         </template>
       </Heading>
     </section>
@@ -84,48 +73,30 @@ const steps = [
 
             <div class="flex w-full flex-col">
               <div class="mr-8 w-full flex-1 px-4">
-                <h4 class="mt-0 p-0 font-work-sans text-lg font-bold capitalize not-italic text-pink-600">
-                  Requirements Check
-                </h4>
+                <h4 class="mt-0 p-0 font-work-sans text-lg font-bold capitalize not-italic text-pink-600">Requirements Check</h4>
                 <p class="mt-4 text-sm text-gray-300">
-                  In order to get started with PHP School workshops, you first need to install the workshop manager.
-                  Before we can do this we need to check you have a few things:
+                  In order to get started with PHP School workshops, you first need to install the workshop manager. Before we can do this we need to check you have a few things:
                 </p>
               </div>
 
               <ul class="m-0 mt-8 w-full list-none p-4 lg:m-0 lg:mt-0">
                 <li class="flex p-2">
                   <CheckIcon fill="currentColor" class="mr-4 h-5 w-5 flex-shrink-0 text-green-500" />
-                  <p>
-                    You will need PHP with a version of at least 7.1 although we recommend using the latest available.
-                  </p>
+                  <p>You will need PHP with a version of at least 7.1 although we recommend using the latest available.</p>
                 </li>
                 <li class="flex p-2">
                   <CheckIcon fill="currentColor" class="mr-4 h-5 w-5 flex-shrink-0 text-green-500" />
-                  <p>
-                    You will also need a Text Editor so you can work through the workshops. You can try Atom or Sublime
-                    if you don't already have one.
-                  </p>
+                  <p>You will also need a Text Editor so you can work through the workshops. You can try Atom or Sublime if you don't already have one.</p>
                 </li>
               </ul>
 
               <div class="mr-8 w-full flex-1 px-4">
-                <p class="mt-4 text-sm text-gray-300">
-                  Once the above are satisfied, run the following commands in your terminal, to install the workshop
-                  manager.
-                </p>
+                <p class="mt-4 text-sm text-gray-300">Once the above are satisfied, run the following commands in your terminal, to install the workshop manager.</p>
               </div>
             </div>
           </li>
 
-          <TerminalStep
-            v-for="(step, i) in steps"
-            :key="i"
-            :step="i + 1"
-            :title="step.title"
-            :description="step.description"
-            :lines="step.lines"
-          />
+          <TerminalStep v-for="(step, i) in steps" :key="i" :step="i + 1" :title="step.title" :description="step.description" :lines="step.lines" />
         </ol>
       </div>
     </PageSection>

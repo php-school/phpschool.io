@@ -42,11 +42,7 @@ const runSolution = async () => {
   }
 
   loadingRun.value = true;
-  const url =
-    "/api/online/workshop/run/" +
-    props.currentExercise.workshop.code +
-    "/exercise/" +
-    props.currentExercise.exercise.slug;
+  const url = "/api/online/workshop/run/" + props.currentExercise.workshop.code + "/exercise/" + props.currentExercise.exercise.slug;
 
   const opts = {
     method: "POST",
@@ -88,11 +84,7 @@ const verifySolution = () => {
   emit("verify-loading");
   loadingVerify.value = true;
 
-  const url =
-    "/api/online/workshop/verify/" +
-    props.currentExercise.workshop.code +
-    "/exercise/" +
-    props.currentExercise.exercise.slug;
+  const url = "/api/online/workshop/verify/" + props.currentExercise.workshop.code + "/exercise/" + props.currentExercise.exercise.slug;
 
   const opts = {
     method: "POST",
@@ -135,13 +127,7 @@ const verifySolution = () => {
 </script>
 
 <template>
-  <alert
-    type="error"
-    @close="showRateLimitError = false"
-    :show="showRateLimitError"
-    :timeout="4000"
-    message="Too many requests. Please try again in a few minutes."
-  ></alert>
+  <alert type="error" @close="showRateLimitError = false" :show="showRateLimitError" :timeout="4000" message="Too many requests. Please try again in a few minutes."></alert>
   <div class="flex items-center">
     <button
       id="run"
@@ -173,14 +159,7 @@ const verifySolution = () => {
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <Modal
-      id="run-modal"
-      :scroll-content="true"
-      size="3xl"
-      max-height="max-h-[calc(5/6*100%)]"
-      v-if="openRunModal"
-      @close="openRunModal = false"
-    >
+    <Modal id="run-modal" :scroll-content="true" size="3xl" max-height="max-h-[calc(5/6*100%)]" v-if="openRunModal" @close="openRunModal = false">
       <template #header>
         <div class="flex items-center">
           <CommandLineIcon class="mr-2 h-6 w-6 text-pink-500" />

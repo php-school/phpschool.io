@@ -30,9 +30,7 @@ const slug = computed(() => {
       title="Edit this page on GitHub!"
       target="_blank"
       class="ml-2 inline-block fill-current !text-gray-300 hover:!text-gray-200"
-      :href="
-        'https://www.github.com/php-school/phpschool.io/tree/master/assets/components/Website/Docs/Sections/' + file
-      "
+      :href="'https://www.github.com/php-school/phpschool.io/tree/master/assets/components/Website/Docs/Sections/' + file"
     >
       <svg
         class="h-4 w-4"

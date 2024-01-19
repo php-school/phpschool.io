@@ -12,9 +12,8 @@ import Note from "../../DocNote.vue";
   </p>
 
   <p>
-    In order to create a workshop the first thing you will need to do is to setup a new project and configure the
-    dependencies and wire it all together. Luckily for you we have created a starter kit which does this all for you,
-    prompting you along the way. Simply execute the following command in your shell.
+    In order to create a workshop the first thing you will need to do is to setup a new project and configure the dependencies and wire it all together. Luckily for you we have created a starter kit
+    which does this all for you, prompting you along the way. Simply execute the following command in your shell.
   </p>
 
   <Terminal :lines="['composer create-project php-school/workshop-starter-kit <your-workshop-name>']"></Terminal>
@@ -22,8 +21,7 @@ import Note from "../../DocNote.vue";
   <p>
     Where
     <Code>&lt;your-workshop-name&gt;</Code>
-    is the name of the directory you want to setup your workshop in. For this tutorial we will create a workshop
-    teaching some basic math concepts so we will use the name
+    is the name of the directory you want to setup your workshop in. For this tutorial we will create a workshop teaching some basic math concepts so we will use the name
     <code>simple-math</code>
     . You will be prompted for a few things:
   </p>
@@ -46,9 +44,7 @@ import Note from "../../DocNote.vue";
     More info on the
     <Code>name</Code>
     property
-    <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#name">
-      can be found in the composer documentation
-    </a>
+    <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#name">can be found in the composer documentation</a>
     .
   </p>
 
@@ -63,9 +59,7 @@ import Note from "../../DocNote.vue";
     More info on the
     <Code>description</Code>
     property
-    <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#description">
-      can be found in the composer documentation
-    </a>
+    <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#description">can be found in the composer documentation</a>
     .
   </p>
 
@@ -86,9 +80,7 @@ import Note from "../../DocNote.vue";
     More info on the
     <Code>autoload</Code>
     property
-    <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#psr-4">
-      can be found in the composer documentation
-    </a>
+    <a target="_blank" href="https://getcomposer.org/doc/04-schema.md#psr-4">can be found in the composer documentation</a>
     .
   </p>
 
@@ -106,17 +98,12 @@ import Note from "../../DocNote.vue";
   <br />
   <hr />
   <br />
-  <p>
-    After you have entered the required information the workshop dependencies will be downloaded and the autoload files
-    will be generated.
-  </p>
+  <p>After you have entered the required information the workshop dependencies will be downloaded and the autoload files will be generated.</p>
 
   <p>Generate the autoload information for our Namespace:</p>
   <Terminal :lines="['composer dump-autoload']"></Terminal>
 
-  <Note type="success">
-    Assuming everything went well and your are in the root of your new workshop you should be able to run the workshop!
-  </Note>
+  <Note type="success">Assuming everything went well and your are in the root of your new workshop you should be able to run the workshop!</Note>
   <Terminal :lines="['php bin/<binary-name>']"></Terminal>
 
   <p>
@@ -129,15 +116,8 @@ import Note from "../../DocNote.vue";
   <Terminal :lines="['php bin/simple-math']"></Terminal>
 
   <a href="/img/post-install-workshop.png">
-    <img
-      src="../../../../../img/cloud/docs/post-install-workshop.png"
-      class="doc-terminal-screen"
-      id="post-install-workshop"
-    />
+    <img src="../../../../../img/cloud/docs/post-install-workshop.png" class="doc-terminal-screen" id="post-install-workshop" />
   </a>
 
-  <Note type="danger">
-    If you don't see the menu above, then something went wrong. Get in touch with us and bring any helpful information
-    such as error messages with you!
-  </Note>
+  <Note type="danger">If you don't see the menu above, then something went wrong. Get in touch with us and bring any helpful information such as error messages with you!</Note>
 </template>

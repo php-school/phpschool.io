@@ -4,15 +4,9 @@ import Note from "../../DocNote.vue";
 import CodeBlock from "../../CodeBlock.vue";
 </script>
 <template>
-  <p>
-    As we learned in the previous article, we can implement simple checking directly in our exercise if we don't want to
-    build a check.
-  </p>
+  <p>As we learned in the previous article, we can implement simple checking directly in our exercise if we don't want to build a check.</p>
 
-  <p>
-    However, Self Checking is rather un-flexible in that you can only hook in to the verify/run process at one
-    particular point, immediately after all other checks have run.
-  </p>
+  <p>However, Self Checking is rather un-flexible in that you can only hook in to the verify/run process at one particular point, immediately after all other checks have run.</p>
 
   <p>
     We also described the events features in previous chapters

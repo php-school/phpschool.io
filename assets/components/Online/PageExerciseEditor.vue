@@ -51,9 +51,7 @@ const nextExercise = ref(workshopStore.findNextExercise(props.workshop, props.ex
 const problem = ref("");
 
 onMounted(async () => {
-  const response = await fetch(
-    "/api/online/workshop/" + currentExercise.workshop.code + "/exercise/" + currentExercise.exercise.slug,
-  );
+  const response = await fetch("/api/online/workshop/" + currentExercise.workshop.code + "/exercise/" + currentExercise.exercise.slug);
   const data = await response.json();
 
   problem.value = data.problem;
@@ -228,10 +226,7 @@ const verifyFail = (newResults) => {
 const saveSolution = (fileContent, file) => {
   const filePath = toFilePath(file);
 
-  localStorage.setItem(
-    currentExercise.workshop.code + "." + currentExercise.exercise.slug + "." + filePath,
-    fileContent,
-  );
+  localStorage.setItem(currentExercise.workshop.code + "." + currentExercise.exercise.slug + "." + filePath, fileContent);
 };
 
 const resetFiles = async () => {
@@ -355,42 +350,21 @@ const deleteFileOrFolder = async (file) => {
               @rename-file="renameFile"
             />
           </div>
-          <div
-            class="flex h-full border-l border-solid border-gray-600"
-            :class="[openResults ? 'w-6/12 xl:w-7/12' : 'w-9/12 xl:w-10/12']"
-          >
-            <EditorTabs
-              :tabList="openFiles.map((file) => file.name)"
-              @close-tab="closeTab"
-              :active-tab="activeTab"
-              @change-tab="(tab) => (activeTab = tab)"
-            >
+          <div class="flex h-full border-l border-solid border-gray-600" :class="[openResults ? 'w-6/12 xl:w-7/12' : 'w-9/12 xl:w-10/12']">
+            <EditorTabs :tabList="openFiles.map((file) => file.name)" @close-tab="closeTab" :active-tab="activeTab" @change-tab="(tab) => (activeTab = tab)">
               <template v-slot:[`tab-content-`+index] v-for="(file, index) in openFiles" :key="file.name">
-                <AceEditor
-                  :id="'editor-' + (index + 1)"
-                  v-model:value="file.content"
-                  @update:value="(content) => saveSolution(content, file)"
-                  class="h-full w-full border-0"
-                />
+                <AceEditor :id="'editor-' + (index + 1)" v-model:value="file.content" @update:value="(content) => saveSolution(content, file)" class="h-full w-full border-0" />
               </template>
             </EditorTabs>
           </div>
-          <div
-            v-show="openResults"
-            id="results-col"
-            class="absolute right-0 flex h-full w-3/12 flex-col overflow-y-scroll border-l border-solid border-gray-600 bg-gray-900"
-          >
+          <div v-show="openResults" id="results-col" class="absolute right-0 flex h-full w-3/12 flex-col overflow-y-scroll border-l border-solid border-gray-600 bg-gray-900">
             <div class="flex items-center justify-between border-b border-solid border-gray-600 py-4 pl-4 pr-4">
               <h1 class="flex items-center pt-0 font-mono text-xl text-white">
                 <AcademicCapIcon class="mr-3 h-5 w-5" />
                 Results
               </h1>
               <div>
-                <button
-                  @click="openResults = false"
-                  type="button"
-                  class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:hover:text-white"
-                >
+                <button @click="openResults = false" type="button" class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:hover:text-white">
                   <XMarkIcon class="h-5 w-5" />
                 </button>
               </div>
@@ -460,12 +434,7 @@ const deleteFileOrFolder = async (file) => {
         @package-added="(p) => composerDeps.push(p)"
         @package-removed="(index) => composerDeps.splice(index, 1)"
       ></ComposerPackages>
-      <Problem
-        :exercise="currentExercise.exercise"
-        :open-problem-modal="openProblemModal"
-        @close="openProblemModal = false"
-        :problem="problem"
-      ></Problem>
+      <Problem :exercise="currentExercise.exercise" :open-problem-modal="openProblemModal" @close="openProblemModal = false" :problem="problem"></Problem>
     </div>
   </section>
 </template>

@@ -1,13 +1,5 @@
 <script setup>
-import {
-  FolderIcon,
-  FolderOpenIcon,
-  DocumentIcon,
-  PencilIcon,
-  FolderPlusIcon,
-  PlusIcon,
-  TrashIcon,
-} from "@heroicons/vue/24/outline";
+import { FolderIcon, FolderOpenIcon, DocumentIcon, PencilIcon, FolderPlusIcon, PlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import uniqueName from "./Utils/uniqueName.js";
 import Alert from "./ConfirmDialog.vue";
 import { computed, inject, nextTick, onMounted, ref, watch } from "vue";
@@ -152,8 +144,7 @@ const saveName = async () => {
   if (!fileName.value.match(regex)) {
     await fileAlert.value.show({
       title: "Error",
-      message:
-        "Files and folder name must contain only alphanumerics, dashes, underscores and spaces. Additionally, files must have an extension.",
+      message: "Files and folder name must contain only alphanumerics, dashes, underscores and spaces. Additionally, files must have an extension.",
       okMessage: "OK",
       disableCancel: true,
     });
@@ -191,60 +182,21 @@ const deleteChild = async (child) => {
 
 <template>
   <alert ref="fileAlert" />
-  <li
-    :class="[model === state.selectedFile ? customStyles?.selectedFileClasses ?? '' : '']"
-    class="flex w-full flex-col py-2 pl-3"
-  >
+  <li :class="[model === state.selectedFile ? customStyles?.selectedFileClasses ?? '' : '']" class="flex w-full flex-col py-2 pl-3">
     <div @click="selectNode(model)" class="group flex w-full cursor-pointer items-center justify-between">
       <div class="flex min-w-0 items-center">
-        <FolderIcon
-          v-if="isFolder"
-          v-show="!isOpen || !hasChildren"
-          class="mr-1 h-5 w-5"
-          style="fill: none !important"
-        />
-        <FolderOpenIcon
-          v-if="isFolder && hasChildren"
-          v-show="isOpen"
-          class="mr-1 h-5 w-5"
-          style="fill: none !important"
-        />
+        <FolderIcon v-if="isFolder" v-show="!isOpen || !hasChildren" class="mr-1 h-5 w-5" style="fill: none !important" />
+        <FolderOpenIcon v-if="isFolder && hasChildren" v-show="isOpen" class="mr-1 h-5 w-5" style="fill: none !important" />
         <DocumentIcon v-if="!isFolder" class="mr-1 h-5 w-5" style="fill: none !important" />
         <span v-show="!isBeingEdited" class="flex-1 truncate text-sm hover:text-white">{{ model.name }}</span>
-        <input
-          ref="name"
-          @keyup.enter="saveName"
-          v-show="isBeingEdited"
-          class="rounded-sm bg-gray-700 p-1"
-          v-model="fileName"
-        />
-        <span class="ml-2 mr-2 text-sm" v-if="isFolder && hasChildren && !isBeingEdited">
-          [{{ isOpen ? "-" : "+" }}]
-        </span>
+        <input ref="name" @keyup.enter="saveName" v-show="isBeingEdited" class="rounded-sm bg-gray-700 p-1" v-model="fileName" />
+        <span class="ml-2 mr-2 text-sm" v-if="isFolder && hasChildren && !isBeingEdited">[{{ isOpen ? "-" : "+" }}]</span>
       </div>
       <div v-if="showControls" v-show="!isBeingEdited" class="hidden group-hover:flex">
-        <PencilIcon
-          @click.stop="edit"
-          class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500"
-          style="fill: none !important"
-        />
-        <FolderPlusIcon
-          @click.stop="addFolder"
-          v-if="isFolder"
-          class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500"
-          style="fill: none !important"
-        />
-        <PlusIcon
-          @click.stop="addFile"
-          v-if="isFolder"
-          class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500"
-          style="fill: none !important"
-        />
-        <TrashIcon
-          @click.stop="deleteChild(model)"
-          class="mr-2 h-5 w-5 cursor-pointer fill-none hover:text-pink-500"
-          style="fill: none !important"
-        />
+        <PencilIcon @click.stop="edit" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important" />
+        <FolderPlusIcon @click.stop="addFolder" v-if="isFolder" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important" />
+        <PlusIcon @click.stop="addFile" v-if="isFolder" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important" />
+        <TrashIcon @click.stop="deleteChild(model)" class="mr-2 h-5 w-5 cursor-pointer fill-none hover:text-pink-500" style="fill: none !important" />
       </div>
     </div>
 

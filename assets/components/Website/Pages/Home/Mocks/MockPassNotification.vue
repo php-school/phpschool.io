@@ -3,15 +3,7 @@
     <div class="flex w-full items-center justify-center">
       <div class="flex items-center">
         <span class="flex rounded-lg p-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-            class="h-4 w-4 text-yellow-400"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-4 w-4 text-yellow-400">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -25,29 +17,16 @@
         </p>
       </div>
       <div class="order-3 mt-2 hidden w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto md:flex">
-        <button class="flex items-center justify-center px-2 py-2 text-xs font-bold text-white underline">
-          See the official solution
-        </button>
+        <button class="flex items-center justify-center px-2 py-2 text-xs font-bold text-white underline">See the official solution</button>
       </div>
       <div class="order-3 mt-2 hidden w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto md:flex">
         <span class="flex items-center justify-center text-xs text-white">or</span>
-        <span
-          id="next-exercise-link"
-          class="flex items-center justify-center px-2 py-2 text-xs font-bold text-white underline"
-        >
-          Continue to the next exercise →
-        </span>
+        <span id="next-exercise-link" class="flex items-center justify-center px-2 py-2 text-xs font-bold text-white underline">Continue to the next exercise →</span>
       </div>
       <div class="order-2 hidden flex-shrink-0 sm:order-3 sm:ml-1 sm:flex">
         <button type="button" class="mr-2 flex rounded-md focus:outline-none focus:ring-2 focus:ring-white">
           <span class="sr-only">Dismiss</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            aria-hidden="true"
-            class="h-4 w-4 text-white"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4 text-white">
             <path
               fill-rule="evenodd"
               d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"

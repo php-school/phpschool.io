@@ -6,8 +6,8 @@ import CodeBlock from "../../CodeBlock.vue";
 </script>
 <template>
   <p>
-    This is the fun bit! - In this article we will show how we can modify the student's solution, injecting, modifying
-    and wrapping code. Before we get down to it, a little background to explain why we built this feature.
+    This is the fun bit! - In this article we will show how we can modify the student's solution, injecting, modifying and wrapping code. Before we get down to it, a little background to explain why
+    we built this feature.
   </p>
 
   <h3 id="why">Why?</h3>
@@ -18,15 +18,13 @@ import CodeBlock from "../../CodeBlock.vue";
     <Code>error_reporting</Code>
     were always configured correctly, we also thought that we might want to wrap solutions in
     <Code>try/catch</Code>
-    blocks so we could give more structured feedback to the student. We figured, in order to do this in a robust manner,
-    we would have to patch the student's solution on the fly and revert the changes after the framework has verified/run
-    the solution.
+    blocks so we could give more structured feedback to the student. We figured, in order to do this in a robust manner, we would have to patch the student's solution on the fly and revert the changes
+    after the framework has verified/run the solution.
   </p>
 
   <p>
-    We decided this feature may be useful for workshop developers, we thought there may be possibilities where you want
-    to concentrate on a verify specific problem like "Here is a variable - transform it to this", well with this
-    feature, you could inject that variable at the start of the script so it is already available to the student!
+    We decided this feature may be useful for workshop developers, we thought there may be possibilities where you want to concentrate on a verify specific problem like "Here is a variable - transform
+    it to this", well with this feature, you could inject that variable at the start of the script so it is already available to the student!
   </p>
 
   <h3 id="how">How?</h3>
@@ -77,10 +75,7 @@ $patch = $patch->withTransformer($transformer);
   </Note>
 
   <ContentHeader id="insertions">Insertions</ContentHeader>
-  <p>
-    Insertions allow to insert a block of code at either the beginning or end of the student's solution. The API is very
-    simple:
-  </p>
+  <p>Insertions allow to insert a block of code at either the beginning or end of the student's solution. The API is very simple:</p>
 
   <CodeBlock lang="php">
     <pre>
@@ -270,8 +265,5 @@ echo 'Finish';
     >
   </CodeBlock>
 
-  <Note type="info">
-    The students solution will be reverted to the original form at the end of the verifying/running process so the
-    student will never see the code in their solution file.
-  </Note>
+  <Note type="info">The students solution will be reverted to the original form at the end of the verifying/running process so the student will never see the code in their solution file.</Note>
 </template>

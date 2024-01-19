@@ -68,25 +68,11 @@ const logout = () => {
 </script>
 
 <template>
-  <alert
-    type="success"
-    @close="showResetProgressAlert = false"
-    :show="showResetProgressAlert"
-    :timeout="4000"
-    message="Progress successfully reset"
-  ></alert>
+  <alert type="success" @close="showResetProgressAlert = false" :show="showResetProgressAlert" :timeout="4000" message="Progress successfully reset"></alert>
   <div class="relative">
-    <button
-      @click.stop="toggleDropdown"
-      class="hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-600 sm:flex"
-      type="button"
-    >
+    <button @click.stop="toggleDropdown" class="hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-600 sm:flex" type="button">
       <span class="sr-only">Open user menu</span>
-      <img
-        class="h-8 w-8 rounded-full"
-        :src="studentStore.student.profile_picture"
-        alt="{{ studentStore.student.name }}"
-      />
+      <img class="h-8 w-8 rounded-full" :src="studentStore.student.profile_picture" alt="{{ studentStore.student.name }}" />
     </button>
 
     <div
@@ -95,11 +81,7 @@ const logout = () => {
       class="block divide-y divide-solid divide-gray-600 rounded-lg bg-gray-800 shadow-xl sm:absolute sm:right-2.5 sm:top-10 sm:z-10 sm:w-[250px]"
     >
       <div class="flex flex-row items-center px-6 py-4 text-left text-sm text-white">
-        <img
-          class="mr-4 block h-8 w-8 rounded-full sm:hidden"
-          :src="studentStore.student.profile_picture"
-          alt="{{ studentStore.student.name }}"
-        />
+        <img class="mr-4 block h-8 w-8 rounded-full sm:hidden" :src="studentStore.student.profile_picture" alt="{{ studentStore.student.name }}" />
         <div>
           <div>{{ studentStore.student.name }}</div>
           <div class="truncate font-medium text-gray-400">
@@ -128,25 +110,13 @@ const logout = () => {
 
       <ul class="py-2 text-sm text-gray-200">
         <li>
-          <router-link to="/online" class="block px-6 py-2 text-left no-underline hover:bg-gray-600 hover:text-white">
-            Workshop Dashboard
-          </router-link>
+          <router-link to="/online" class="block px-6 py-2 text-left no-underline hover:bg-gray-600 hover:text-white">Workshop Dashboard</router-link>
         </li>
         <li v-if="route.name === 'editor'">
-          <a
-            href="#"
-            @click="showTour"
-            class="block px-6 py-2 text-left no-underline hover:bg-gray-600 hover:text-white"
-          >
-            Show Tour Again
-          </a>
+          <a href="#" @click="showTour" class="block px-6 py-2 text-left no-underline hover:bg-gray-600 hover:text-white">Show Tour Again</a>
         </li>
         <li>
-          <a
-            href="#"
-            @click="resetState"
-            class="flex justify-between px-6 py-2 text-left no-underline hover:bg-gray-600 hover:text-white"
-          >
+          <a href="#" @click="resetState" class="flex justify-between px-6 py-2 text-left no-underline hover:bg-gray-600 hover:text-white">
             <span>Reset Progress</span>
             <ArrowPathIcon v-cloak v-show="loadingStateReset" class="h-4 w-4 animate-spin text-pink-500" />
           </a>
@@ -155,13 +125,7 @@ const logout = () => {
       <confirm ref="resetProgressConfirm"></confirm>
 
       <div class="py-3">
-        <a
-          href="#"
-          @click="logout"
-          class="block px-6 py-2 text-left text-sm text-gray-200 no-underline hover:bg-gray-600 hover:text-white"
-        >
-          Sign out
-        </a>
+        <a href="#" @click="logout" class="block px-6 py-2 text-left text-sm text-gray-200 no-underline hover:bg-gray-600 hover:text-white">Sign out</a>
       </div>
     </div>
   </div>

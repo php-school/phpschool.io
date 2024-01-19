@@ -65,31 +65,13 @@ defineExpose({
             @change="searchPackages($event.target.value)"
           />
         </div>
-        <TransitionRoot
-          leave="transition ease-in duration-100"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-          @after-leave="query = ''"
-        >
+        <TransitionRoot leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0" @after-leave="query = ''">
           <ComboboxOptions
             class="absolute max-h-60 w-full overflow-auto rounded-b-md border-2 border-solid border-pink-500 bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
           >
-            <div
-              v-if="filteredPackages.length === 0 && query.length > 3"
-              class="relative cursor-default select-none px-4 py-2 text-gray-700"
-            >
-              Nothing found.
-            </div>
-            <div v-if="query.length < 4" class="relative cursor-default select-none px-4 py-2 text-gray-700">
-              Type 3 or more characters to search.
-            </div>
-            <ComboboxOption
-              v-for="composerPackage in filteredPackages"
-              :key="composerPackage"
-              as="template"
-              :value="composerPackage"
-              v-slot="{ selected, active }"
-            >
+            <div v-if="filteredPackages.length === 0 && query.length > 3" class="relative cursor-default select-none px-4 py-2 text-gray-700">Nothing found.</div>
+            <div v-if="query.length < 4" class="relative cursor-default select-none px-4 py-2 text-gray-700">Type 3 or more characters to search.</div>
+            <ComboboxOption v-for="composerPackage in filteredPackages" :key="composerPackage" as="template" :value="composerPackage" v-slot="{ selected, active }">
               <li
                 class="relative cursor-default select-none py-3 pl-3 pr-4"
                 :class="{
@@ -100,11 +82,7 @@ defineExpose({
                 <span class="block truncate" :class="{ 'font-medium': selected, 'font-normal': !selected }">
                   {{ composerPackage }}
                 </span>
-                <span
-                  v-if="selected"
-                  class="absolute inset-y-0 right-3 flex items-center pl-3"
-                  :class="{ 'text-white': active, 'text-pink-500': !active }"
-                >
+                <span v-if="selected" class="absolute inset-y-0 right-3 flex items-center pl-3" :class="{ 'text-white': active, 'text-pink-500': !active }">
                   <CheckIcon class="h-5 w-5" aria-hidden="true" />
                 </span>
               </li>

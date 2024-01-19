@@ -73,11 +73,7 @@ const exercises = [
         <div class="flex flex-1 select-none items-center px-3 py-2">
           <div class="mr-3 flex h-6 flex-col items-center justify-center md:mr-4 md:h-10">
             <a href="#" class="relative block">
-              <img
-                alt="workshop"
-                src="../../../../../img/cloud/core-workshops.png"
-                class="mx-auto h-5 w-5 object-cover md:h-8 md:w-8"
-              />
+              <img alt="workshop" src="../../../../../img/cloud/core-workshops.png" class="mx-auto h-5 w-5 object-cover md:h-8 md:w-8" />
             </a>
           </div>
           <div class="mr-8 flex-1 pl-1 text-white">
@@ -100,11 +96,7 @@ const exercises = [
               class="h-6 w-6 rounded-full border-2 border-solid border-pink-500 !fill-none text-pink-200"
               :class="{ 'animate-bounce': i === 0 }"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
           </span>
         </div>

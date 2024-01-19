@@ -48,8 +48,6 @@ defineProps({
 
   <p class="mb-6"><slot></slot></p>
 
-  <Note v-if="registered" type="success">
-    Note: You do not need to require this check yourself, it is done so automatically.
-  </Note>
+  <Note v-if="registered" type="success">Note: You do not need to require this check yourself, it is done so automatically.</Note>
   <a v-if="link" :href="link">Learn how to use</a>
 </template>

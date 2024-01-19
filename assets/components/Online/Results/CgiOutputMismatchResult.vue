@@ -31,13 +31,7 @@ const headersAsString = (headers) => {
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <Modal
-      :scroll-content="true"
-      size="4xl"
-      max-height="max-h-[calc(5/6*100%)]"
-      v-if="openModal"
-      @close="openModal = false"
-    >
+    <Modal :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openModal" @close="openModal = false">
       <template #header>
         <div class="flex flex-col">
           <div class="flex items-center">
@@ -65,18 +59,10 @@ const headersAsString = (headers) => {
                 <h3 class="mt-0 pb-3 pl-1 font-mono text-base font-semibold text-white lg:text-base">Your Output</h3>
               </div>
               <div class="w-1/2">
-                <h3 class="mt-0 pb-3 pl-1 font-mono text-base font-semibold text-white lg:text-base">
-                  Expected Output
-                </h3>
+                <h3 class="mt-0 pb-3 pl-1 font-mono text-base font-semibold text-white lg:text-base">Expected Output</h3>
               </div>
             </div>
-            <Diff
-              mode="split"
-              theme="dark"
-              language="text"
-              :prev="data.actual_output"
-              :current="data.expected_output"
-            />
+            <Diff mode="split" theme="dark" language="text" :prev="data.actual_output" :current="data.expected_output" />
           </div>
           <div v-if="data.headers_different">
             <div class="py-3">
@@ -93,18 +79,10 @@ const headersAsString = (headers) => {
                 <h3 class="mt-0 pb-3 pl-1 font-mono text-base font-semibold text-white lg:text-base">Your Headers</h3>
               </div>
               <div class="w-1/2">
-                <h3 class="mt-0 pb-3 pl-1 font-mono text-base font-semibold text-white lg:text-base">
-                  Expected Headers
-                </h3>
+                <h3 class="mt-0 pb-3 pl-1 font-mono text-base font-semibold text-white lg:text-base">Expected Headers</h3>
               </div>
             </div>
-            <Diff
-              mode="split"
-              theme="dark"
-              language="text"
-              :prev="headersAsString(data.actual_headers)"
-              :current="headersAsString(data.expected_headers)"
-            />
+            <Diff mode="split" theme="dark" language="text" :prev="headersAsString(data.actual_headers)" :current="headersAsString(data.expected_headers)" />
           </div>
         </div>
       </template>

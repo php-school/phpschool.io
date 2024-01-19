@@ -41,12 +41,7 @@ const login = async () => {
       </Button>
 
       <div v-cloak v-if="studentStore.student" class="flex items-center space-x-4">
-        <img
-          v-if="studentStore.student.profile_picture"
-          class="h-10 w-10 rounded-full"
-          :src="studentStore.student.profile_picture"
-          alt="{{ studentStore.student.name }}"
-        />
+        <img v-if="studentStore.student.profile_picture" class="h-10 w-10 rounded-full" :src="studentStore.student.profile_picture" alt="{{ studentStore.student.name }}" />
         <div v-if="!studentStore.student.profile_picture" class="h-10 w-10 rounded-full">
           <UserCircleIcon class="text-pink-600" />
         </div>
@@ -60,9 +55,7 @@ const login = async () => {
         <span class="flex rounded-lg p-2">
           <TrophyIcon class="h-6 w-6 text-yellow-400" />
         </span>
-        <p class="ml-2 text-sm font-medium text-white">
-          {{ totalCompleted }} out of {{ workshopStore.totalExercises }}
-        </p>
+        <p class="ml-2 text-sm font-medium text-white">{{ totalCompleted }} out of {{ workshopStore.totalExercises }}</p>
       </div>
     </div>
 

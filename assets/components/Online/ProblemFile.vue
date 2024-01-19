@@ -55,14 +55,7 @@ watch(
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <Modal
-      id="problem-modal"
-      :scroll-content="true"
-      size="4xl"
-      max-height="max-h-[calc(5/6*100%)]"
-      v-if="openProblemModal"
-      @close="emit('close')"
-    >
+    <Modal id="problem-modal" :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openProblemModal" @close="emit('close')">
       <template #header>
         <div class="flex flex-col">
           <div class="flex items-center">

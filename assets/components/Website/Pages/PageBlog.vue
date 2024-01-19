@@ -25,11 +25,7 @@ defineProps({
           <h1>No posts yet!</h1>
         </div>
 
-        <div
-          v-for="post in blog.posts"
-          :key="post.slug"
-          class="border-1 border-b border-solid border-pink-600/40 p-8 text-lg last:border-none"
-        >
+        <div v-for="post in blog.posts" :key="post.slug" class="border-1 border-b border-solid border-pink-600/40 p-8 text-lg last:border-none">
           <div class="mb-3 text-center">
             <h1 class="mx-0 mb-3 mt-[9px] font-mono text-4xl font-bold leading-normal text-white hover:text-[#e91e63]">
               <router-link :to="'/blog/' + post.slug">{{ post.title }}</router-link>

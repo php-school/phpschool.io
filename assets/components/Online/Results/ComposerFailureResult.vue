@@ -23,21 +23,13 @@ defineProps({
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <Modal
-      :scroll-content="true"
-      size="xl"
-      max-height="max-h-[calc(5/6*100%)]"
-      v-if="openModal"
-      @close="openModal = false"
-    >
+    <Modal :scroll-content="true" size="xl" max-height="max-h-[calc(5/6*100%)]" v-if="openModal" @close="openModal = false">
       <template #header>
         <div class="flex flex-col">
           <div class="flex items-center">
             <ExclamationTriangleIcon class="mr-2 h-6 w-6 text-rose-600" />
 
-            <h2 class="mt-0 pt-0 font-mono text-base font-semibold text-white lg:text-xl">
-              Composer requirements failure...
-            </h2>
+            <h2 class="mt-0 pt-0 font-mono text-base font-semibold text-white lg:text-xl">Composer requirements failure...</h2>
           </div>
         </div>
       </template>
@@ -68,11 +60,7 @@ defineProps({
           <div v-if="data.is_missing_packages" class="">
             <h2 class="mb-2 pt-0 font-mono text-lg text-[#E91E63]">Missing packages</h2>
             <p class="mb-4 text-sm">Some packages were not required which should be used in this exercise:</p>
-            <code
-              class="mb-2 mr-2 inline-block text-xs"
-              v-for="composerPackage in data.missing_packages"
-              :key="composerPackage"
-            >
+            <code class="mb-2 mr-2 inline-block text-xs" v-for="composerPackage in data.missing_packages" :key="composerPackage">
               {{ composerPackage }}
             </code>
           </div>

@@ -81,10 +81,7 @@ const submit = async () => {
       <Heading>
         <template v-slot:title>Submit your workshop</template>
 
-        <template v-slot:description>
-          PHP School is nothing without the community so it's awesome you are considering building and submitting a
-          workshop.
-        </template>
+        <template v-slot:description>PHP School is nothing without the community so it's awesome you are considering building and submitting a workshop.</template>
       </Heading>
     </section>
     <div class="w-full bg-gray-900">
@@ -92,8 +89,8 @@ const submit = async () => {
         <div class="w-full md:w-1/3 md:pt-8">
           <h2 class="mb-2 font-mono text-xl text-[#e91e63]">Built a workshop?</h2>
           <p class="text-sm">
-            Through this form you can submit your workshop for approval, once approved your workshop will appear on the
-            website and be installable by the workshop manager. To learn how to build a workshop, head over to the
+            Through this form you can submit your workshop for approval, once approved your workshop will appear on the website and be installable by the workshop manager. To learn how to build a
+            workshop, head over to the
             <a class="text-[#e91e63] hover:underline" href="/docs">docs</a>
             or jump on to
             <a class="text-[#e91e63] hover:underline" href="<?= $links['slack'] ?>">slack</a>
@@ -102,8 +99,7 @@ const submit = async () => {
 
           <h2 class="mb-2 pt-6 font-mono text-xl text-[#e91e63]">What is the approval process?</h2>
           <p class="text-sm">
-            We are just making sure the quality is high and there is not lots of duplicated content across the
-            workshops. We want PHP School to lead the way in quality education material.
+            We are just making sure the quality is high and there is not lots of duplicated content across the workshops. We want PHP School to lead the way in quality education material.
           </p>
         </div>
         <div class="w-full pt-8 md:w-2/3 md:pl-10">
@@ -113,9 +109,7 @@ const submit = async () => {
                 Your Email Address
                 <span class="text-[#e91e63]">*</span>
               </label>
-              <p class="mb-4 text-xs text-gray-300/70">
-                This is used just to send you a notification when your workshop is approved.
-              </p>
+              <p class="mb-4 text-xs text-gray-300/70">This is used just to send you a notification when your workshop is approved.</p>
               <div class="">
                 <input
                   v-model="form.email"
@@ -139,9 +133,7 @@ const submit = async () => {
                 Your Name
                 <span class="text-[#e91e63]">*</span>
               </label>
-              <p class="mb-4 text-xs text-gray-300/70">
-                The name of workshop creator, shown on the homepage for bragging rights!
-              </p>
+              <p class="mb-4 text-xs text-gray-300/70">The name of workshop creator, shown on the homepage for bragging rights!</p>
               <div class="">
                 <input
                   v-model="form.name"
@@ -162,9 +154,7 @@ const submit = async () => {
 
             <div class="mb-8">
               <label class="mb-3 block text-sm font-bold" for="contact">Your Contact</label>
-              <p class="mb-4 text-xs text-gray-300/70">
-                For example your Twitter or GitHub, it is shown with your name next to the workshop on the homepage.
-              </p>
+              <p class="mb-4 text-xs text-gray-300/70">For example your Twitter or GitHub, it is shown with your name next to the workshop on the homepage.</p>
               <div class="">
                 <input
                   v-model="form.contact"
@@ -228,9 +218,7 @@ const submit = async () => {
             </div>
 
             <div>
-              <button
-                class="my-4 mr-2 flex h-[48px] w-48 items-center justify-center rounded-full bg-pink-600 px-10 py-2 text-base font-bold uppercase text-white hover:bg-pink-500"
-              >
+              <button class="my-4 mr-2 flex h-[48px] w-48 items-center justify-center rounded-full bg-pink-600 px-10 py-2 text-base font-bold uppercase text-white hover:bg-pink-500">
                 <ArrowPathIcon v-cloak v-show="loading" class="h-5 w-5 animate-spin" />
                 <CheckIcon v-cloak v-show="submitted" class="h-5 w-5" />
                 <XMarkIcon v-cloak v-show="hasErrors" class="h-5 w-5" />
@@ -242,10 +230,7 @@ const submit = async () => {
               <li>Sorry but something went wrong please try again</li>
             </ul>
 
-            <ul
-              v-if="Object.keys(workshopErrors).length > 0"
-              class="my-3 border-l-4 border-[#cc1717] p-3 text-xs text-[#cc1717]"
-            >
+            <ul v-if="Object.keys(workshopErrors).length > 0" class="my-3 border-l-4 border-[#cc1717] p-3 text-xs text-[#cc1717]">
               <template v-for="(field, i) in workshopErrors" :key="i">
                 <li v-for="err in field" :key="err" class="mb-3 last:mb-0">
                   {{ err }}
@@ -253,10 +238,7 @@ const submit = async () => {
               </template>
             </ul>
             <ul v-if="submitted" class="my-3 border-l-4 border-[#72af2f] p-3 text-xs text-[#72af2f]">
-              <li>
-                Your workshop has been successfully submitted. Once it has been approved, it will be listed on the
-                homepage and you will be able to install it via the workshop manager.
-              </li>
+              <li>Your workshop has been successfully submitted. Once it has been approved, it will be listed on the homepage and you will be able to install it via the workshop manager.</li>
             </ul>
           </form>
         </div>

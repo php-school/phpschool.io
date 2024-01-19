@@ -22,14 +22,10 @@ const tabs = ["CLI Verify", "CLI Run", "CGI Verify", "CGI Run"];
     <Code>PhpSchool\PhpWorkshop\Event\EventInterface</Code>
     where you can grab the parameters like
     <Code>$event->getParameter('myParam');</Code>
-    some events may have convenience methods for accessing certain parameters, please refer to the particular event
-    class for more info.
+    some events may have convenience methods for accessing certain parameters, please refer to the particular event class for more info.
   </p>
 
-  <p>
-    There are 4 routes through the application, and the lists of events below each represent a timeline of one of those
-    routes.
-  </p>
+  <p>There are 4 routes through the application, and the lists of events below each represent a timeline of one of those routes.</p>
 
   <h3 id="cli-verify">CLI Verify</h3>
   <p>
@@ -87,9 +83,8 @@ $eventDispatcher->listen(['verify.start', 'run.start'], function (Event $event) 
   </CodeBlock>
 
   <p>
-    With the event dispatcher you can even do more interesting things, such as, at any event, you can insert a verifier
-    (any valid PHP callable) - it will be passed the event, the same as a normal listener, but it must return an
-    implementation of
+    With the event dispatcher you can even do more interesting things, such as, at any event, you can insert a verifier (any valid PHP callable) - it will be passed the event, the same as a normal
+    listener, but it must return an implementation of
     <Code>PhpSchool\PhpWorkshop\Result\ResultInterface</Code>
     . This will be evaluated and injected in to the results for reporting on the CLI.
     <Code>PhpSchool\PhpWorkshop\Result\SuccessInterface</Code>
@@ -107,9 +102,8 @@ $eventDispatcher->listen(['verify.start', 'run.start'], function (Event $event) 
   <p>
     This is useful for
     <em>Listener Checks</em>
-    , for example, towards the end of the verifying process, you may want to verify that some data was inserted to a
-    database. If it was not you will return a failure, which will be displayed on the CLI and will cause the
-    verification attempt to fail.
+    , for example, towards the end of the verifying process, you may want to verify that some data was inserted to a database. If it was not you will return a failure, which will be displayed on the
+    CLI and will cause the verification attempt to fail.
   </p>
 
   <p>How to insert verifiers:</p>
@@ -136,9 +130,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
       <Tab as="template" v-slot="{ selected }" v-for="tab in tabs" :key="tab">
         <button
           :class="[
-            selected
-              ? 'border-x border-b-0 border-t border-pink-600 border-x-gray-600 text-white'
-              : ' hover:border-b hover:border-pink-600',
+            selected ? 'border-x border-b-0 border-t border-pink-600 border-x-gray-600 text-white' : ' hover:border-b hover:border-pink-600',
             'w-full border-b border-b-gray-600 px-3 py-2 text-lg font-medium focus:outline-none',
           ]"
         >
@@ -150,19 +142,12 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
       <TabPanel class="border-b border-l border-r border-gray-600 p-6 pb-0 focus:outline-none">
         <DocList title="CLI Verify Events">
           <DocListItem>
-            <EventDescription
-              event="route.pre.resolve.args"
-              event-class="PhpSchool\PhpWorkshop\Event\Event"
-              :args="[{ name: 'command', type: 'callable' }]"
-            >
-              This event is triggered before the arguments to a command are resolved. Resolving arguments checks that
-              all required arguments have been passed to the command.
+            <EventDescription event="route.pre.resolve.args" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[{ name: 'command', type: 'callable' }]">
+              This event is triggered before the arguments to a command are resolved. Resolving arguments checks that all required arguments have been passed to the command.
             </EventDescription>
           </DocListItem>
           <DocListItem>
-            <EventDescription event="route.pre.invoke" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[]">
-              This event is triggered just before a command is executed.
-            </EventDescription>
+            <EventDescription event="route.pre.invoke" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[]">This event is triggered just before a command is executed.</EventDescription>
           </DocListItem>
           <DocListItem>
             <EventDescription
@@ -193,8 +178,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
             >
               This event is triggered after the
               <strong>before</strong>
-              checks have successfully finished running, and before the exercise is passed to the specific exercise
-              runner.
+              checks have successfully finished running, and before the exercise is passed to the specific exercise runner.
             </EventDescription>
           </DocListItem>
           <DocListItem>
@@ -239,8 +223,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 { name: 'fileName', type: 'string' },
               ]"
             >
-              This event is triggered while the reference solution is being executed. Here you can actually interact
-              with the program, for example if it kicked of a TCP server.
+              This event is triggered while the reference solution is being executed. Here you can actually interact with the program, for example if it kicked of a TCP server.
             </EventDescription>
           </DocListItem>
           <DocListItem>
@@ -255,8 +238,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 { name: 'fileName', type: 'string' },
               ]"
             >
-              This event is only triggered if the reference solution failed to execute correctly, that is, it returned a
-              non-zero exit code.
+              This event is only triggered if the reference solution failed to execute correctly, that is, it returned a non-zero exit code.
             </EventDescription>
           </DocListItem>
           <DocListItem>
@@ -286,8 +268,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 { name: 'fileName', type: 'string' },
               ]"
             >
-              This event is triggered while the student's solution is being executed. Here you can actually interact
-              with the program, for example if it kicked of a TCP server.
+              This event is triggered while the student's solution is being executed. Here you can actually interact with the program, for example if it kicked of a TCP server.
             </EventDescription>
           </DocListItem>
           <DocListItem>
@@ -302,8 +283,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 { name: 'fileName', type: 'string' },
               ]"
             >
-              This event is only triggered if the student's solution failed to execute correctly, that is, it returned a
-              non-zero exit code.
+              This event is only triggered if the student's solution failed to execute correctly, that is, it returned a non-zero exit code.
             </EventDescription>
           </DocListItem>
           <DocListItem>
@@ -373,19 +353,12 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
       <TabPanel class="border-b border-l border-r border-gray-600 p-6 focus:outline-none">
         <DocList title="CLI Run Events">
           <DocListItem>
-            <EventDescription
-              event="route.pre.resolve.args"
-              event-class="PhpSchool\PhpWorkshop\Event\Event"
-              :args="[{ name: 'command', type: 'callable' }]"
-            >
-              This event is triggered before the arguments to a command are resolved. Resolving arguments checks that
-              all required arguments have been passed to the command.
+            <EventDescription event="route.pre.resolve.args" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[{ name: 'command', type: 'callable' }]">
+              This event is triggered before the arguments to a command are resolved. Resolving arguments checks that all required arguments have been passed to the command.
             </EventDescription>
           </DocListItem>
           <DocListItem>
-            <EventDescription event="route.pre.invoke" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[]">
-              This event is triggered just before a command is executed.
-            </EventDescription>
+            <EventDescription event="route.pre.invoke" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[]">This event is triggered just before a command is executed.</EventDescription>
           </DocListItem>
           <DocListItem>
             <EventDescription
@@ -444,8 +417,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 { name: 'fileName', type: 'string' },
               ]"
             >
-              This event is triggered while the student's solution is being executed. Here you can actually interact
-              with the program, for example if it kicked of a TCP server.
+              This event is triggered while the student's solution is being executed. Here you can actually interact with the program, for example if it kicked of a TCP server.
             </EventDescription>
           </DocListItem>
           <DocListItem>
@@ -483,19 +455,12 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
       <TabPanel class="border-b border-l border-r border-gray-600 p-6 focus:outline-none">
         <DocList title="CGI Verify Events">
           <DocListItem>
-            <EventDescription
-              event="route.pre.resolve.args"
-              event-class="PhpSchool\PhpWorkshop\Event\Event"
-              :args="[{ name: 'command', type: 'callable' }]"
-            >
-              This event is triggered before the arguments to a command are resolved. Resolving arguments checks that
-              all required arguments have been passed to the command.
+            <EventDescription event="route.pre.resolve.args" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[{ name: 'command', type: 'callable' }]">
+              This event is triggered before the arguments to a command are resolved. Resolving arguments checks that all required arguments have been passed to the command.
             </EventDescription>
           </DocListItem>
           <DocListItem>
-            <EventDescription event="route.pre.invoke" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[]">
-              This event is triggered just before a command is executed.
-            </EventDescription>
+            <EventDescription event="route.pre.invoke" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[]">This event is triggered just before a command is executed.</EventDescription>
           </DocListItem>
           <DocListItem>
             <EventDescription
@@ -526,8 +491,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
             >
               This event is triggered after the
               <strong>before</strong>
-              checks have successfully finished running, and before the exercise is passed to the specific exercise
-              runner.
+              checks have successfully finished running, and before the exercise is passed to the specific exercise runner.
             </EventDescription>
           </DocListItem>
           <DocListItem>
@@ -572,8 +536,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 { name: 'fileName', type: 'string' },
               ]"
             >
-              This event is triggered while the reference solution is being executed. Here you can actually interact
-              with the program, for example if it kicked of a TCP server.
+              This event is triggered while the reference solution is being executed. Here you can actually interact with the program, for example if it kicked of a TCP server.
             </EventDescription>
           </DocListItem>
           <DocListItem>
@@ -588,8 +551,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 { name: 'fileName', type: 'string' },
               ]"
             >
-              This event is only triggered if the reference solution failed to execute correctly, that is, it returned a
-              non-zero exit code.
+              This event is only triggered if the reference solution failed to execute correctly, that is, it returned a non-zero exit code.
             </EventDescription>
           </DocListItem>
           <DocListItem>
@@ -619,8 +581,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 { name: 'fileName', type: 'string' },
               ]"
             >
-              This event is triggered while the student's solution is being executed. Here you can actually interact
-              with the program, for example if it kicked of a TCP server.
+              This event is triggered while the student's solution is being executed. Here you can actually interact with the program, for example if it kicked of a TCP server.
             </EventDescription>
           </DocListItem>
           <DocListItem>
@@ -635,8 +596,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 { name: 'fileName', type: 'string' },
               ]"
             >
-              This event is only triggered if the student's solution failed to execute correctly, that is, it returned a
-              non-zero exit code.
+              This event is only triggered if the student's solution failed to execute correctly, that is, it returned a non-zero exit code.
             </EventDescription>
           </DocListItem>
           <DocListItem>
@@ -706,19 +666,12 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
       <TabPanel class="border-b border-l border-r border-gray-600 p-6 focus:outline-none">
         <DocList title="CGI Run Events">
           <DocListItem>
-            <EventDescription
-              event="route.pre.resolve.args"
-              event-class="PhpSchool\PhpWorkshop\Event\Event"
-              :args="[{ name: 'command', type: 'callable' }]"
-            >
-              This event is triggered before the arguments to a command are resolved. Resolving arguments checks that
-              all required arguments have been passed to the command.
+            <EventDescription event="route.pre.resolve.args" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[{ name: 'command', type: 'callable' }]">
+              This event is triggered before the arguments to a command are resolved. Resolving arguments checks that all required arguments have been passed to the command.
             </EventDescription>
           </DocListItem>
           <DocListItem>
-            <EventDescription event="route.pre.invoke" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[]">
-              This event is triggered just before a command is executed.
-            </EventDescription>
+            <EventDescription event="route.pre.invoke" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[]">This event is triggered just before a command is executed.</EventDescription>
           </DocListItem>
           <DocListItem>
             <EventDescription
@@ -777,8 +730,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
                 { name: 'fileName', type: 'string' },
               ]"
             >
-              This event is triggered while the student's solution is being executed. Here you can actually interact
-              with the program, for example if it kicked of a TCP server.
+              This event is triggered while the student's solution is being executed. Here you can actually interact with the program, for example if it kicked of a TCP server.
             </EventDescription>
           </DocListItem>
           <DocListItem>

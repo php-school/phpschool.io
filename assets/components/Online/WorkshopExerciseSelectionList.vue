@@ -25,13 +25,7 @@ const selectWorkshop = (workshopCode) => {
 </script>
 
 <template>
-  <alert
-    type="error"
-    @close="showNotLoggedInError = false"
-    :show="showNotLoggedInError"
-    :timeout="4000"
-    message="You must be logged in to start an exercise"
-  ></alert>
+  <alert type="error" @close="showNotLoggedInError = false" :show="showNotLoggedInError" :timeout="4000" message="You must be logged in to start an exercise"></alert>
   <div class="mt-10 flex h-full w-full gap-4 overflow-hidden font-mono">
     <div class="h-full w-1/2">
       <div id="workshops" class="flex flex-col items-center justify-center rounded-lg bg-gray-800 shadow">
@@ -65,14 +59,8 @@ const selectWorkshop = (workshopCode) => {
                 {{ workshop.type }}
               </div>
               <a href="#" class="flex w-24 justify-end text-right">
-                <CheckCircleIcon
-                  v-if="studentStore.isWorkshopComplete(workshop)"
-                  class="h-12 w-12 rounded-full border-2 border-solid border-pink-300 text-pink-500"
-                />
-                <ArrowRightCircleIcon
-                  v-else
-                  class="h-9 w-9 rounded-full border-2 border-solid border-pink-500 !fill-none text-pink-200"
-                />
+                <CheckCircleIcon v-if="studentStore.isWorkshopComplete(workshop)" class="h-12 w-12 rounded-full border-2 border-solid border-pink-300 text-pink-500" />
+                <ArrowRightCircleIcon v-else class="h-9 w-9 rounded-full border-2 border-solid border-pink-500 !fill-none text-pink-200" />
               </a>
             </div>
           </li>
@@ -84,10 +72,7 @@ const selectWorkshop = (workshopCode) => {
           <CommandLineIcon class="mx-3 h-12 w-12 fill-pink-600 text-gray-900"></CommandLineIcon>
           <div class="flex-1 py-5 pr-4 sm:pr-6">
             <h3 class="pt-[13.5px] text-sm font-medium leading-6 text-white">PHP School On The Terminal</h3>
-            <p class="mt-1 max-w-2xl text-xs text-gray-200">
-              An alternative way to complete the PHP School workshops is to download them and run them in your own
-              terminal. Check it out here.
-            </p>
+            <p class="mt-1 max-w-2xl text-xs text-gray-200">An alternative way to complete the PHP School workshops is to download them and run them in your own terminal. Check it out here.</p>
           </div>
         </router-link>
       </div>

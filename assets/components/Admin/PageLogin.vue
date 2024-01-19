@@ -35,12 +35,7 @@ const login = async () => {
     \/_/    \/_/\/_/\/_/        \/_____/\/____/ \/_/\/_/\/___/ \/___/\/____/
                 </pre
     >
-    <form
-      @submit.prevent="login"
-      class="flex w-[300px] flex-col items-center justify-center gap-y-4"
-      action="/login"
-      method="POST"
-    >
+    <form @submit.prevent="login" class="flex w-[300px] flex-col items-center justify-center gap-y-4" action="/login" method="POST">
       <input
         v-model="email"
         type="text"
@@ -67,10 +62,7 @@ const login = async () => {
           {{ err }}
         </li>
       </ul>
-      <button
-        class="flex w-48 items-center justify-center rounded-full bg-pink-600 px-10 py-2 text-base uppercase text-white hover:bg-pink-500"
-        type="submit"
-      >
+      <button class="flex w-48 items-center justify-center rounded-full bg-pink-600 px-10 py-2 text-base uppercase text-white hover:bg-pink-500" type="submit">
         <ArrowPathIcon v-show="loading" class="h-5 w-5 animate-spin" />
         <span v-show="!loading">Login</span>
       </button>

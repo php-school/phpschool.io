@@ -29,10 +29,7 @@ const filteredWorkshops = computed(() => {
   }
 
   return workshops.value.filter((workshop) => {
-    return (
-      workshop.name.toLowerCase().includes(props.search.toLowerCase()) ||
-      workshop.code.toLowerCase().includes(props.search.toLowerCase())
-    );
+    return workshop.name.toLowerCase().includes(props.search.toLowerCase()) || workshop.code.toLowerCase().includes(props.search.toLowerCase());
   });
 });
 
@@ -58,8 +55,7 @@ const doApproveWorkshop = async () => {
 
     const approveId = currentlyApproving.value.id;
 
-    approveSuccess.value =
-      "Successfully approved: " + currentlyApproving.value.name + "  and regenerated workshop feed";
+    approveSuccess.value = "Successfully approved: " + currentlyApproving.value.name + "  and regenerated workshop feed";
     showApproveSuccess.value = true;
 
     workshops.value = workshops.value.filter((workshop) => workshop.id !== approveId);
@@ -76,20 +72,8 @@ const doApproveWorkshop = async () => {
 
 <template>
   <!-- approve alerts -->
-  <alert
-    type="error"
-    :message="approveError ?? 'An error occurred. Please try again later.'"
-    :timeout="4000"
-    :show="showApproveError"
-    @close="showApproveError = false"
-  ></alert>
-  <alert
-    type="success"
-    :message="approveSuccess"
-    :timeout="4000"
-    :show="showApproveSuccess"
-    @close="showApproveSuccess = false"
-  ></alert>
+  <alert type="error" :message="approveError ?? 'An error occurred. Please try again later.'" :timeout="4000" :show="showApproveError" @close="showApproveError = false"></alert>
+  <alert type="success" :message="approveSuccess" :timeout="4000" :show="showApproveSuccess" @close="showApproveSuccess = false"></alert>
 
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
     <h1 class="text-base font-semibold leading-7 text-white">New Workshop Requests</h1>
@@ -101,11 +85,7 @@ const doApproveWorkshop = async () => {
   </div>
 
   <ul role="list" class="divide-y divide-pink-600/30">
-    <li
-      v-for="workshop in filteredWorkshops"
-      :key="workshop.id"
-      class="relative flex items-center space-x-4 px-4 py-4 sm:px-6 lg:px-8"
-    >
+    <li v-for="workshop in filteredWorkshops" :key="workshop.id" class="relative flex items-center space-x-4 px-4 py-4 sm:px-6 lg:px-8">
       <div class="min-w-0 flex-auto">
         <div class="flex items-center gap-x-3">
           <div :class="[statuses[workshop.status], 'flex-none rounded-full p-1']">
@@ -132,9 +112,7 @@ const doApproveWorkshop = async () => {
           <p class="whitespace-nowrap text-white">{{ workshop.description }}</p>
         </div>
       </div>
-      <div
-        :class="[statuses[workshop.status], 'flex-none rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset']"
-      >
+      <div :class="[statuses[workshop.status], 'flex-none rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset']">
         {{ workshop.status }}
       </div>
 
@@ -150,15 +128,7 @@ const doApproveWorkshop = async () => {
 
   <TransitionRoot as="template" :show="currentlyApproving !== null">
     <Dialog as="div" class="relative z-50" @close="currentlyApproving = null">
-      <TransitionChild
-        as="template"
-        enter="ease-out duration-300"
-        enter-from="opacity-0"
-        enter-to="opacity-100"
-        leave="ease-in duration-200"
-        leave-from="opacity-100"
-        leave-to="opacity-0"
-      >
+      <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
       </TransitionChild>
 
@@ -173,23 +143,15 @@ const doApproveWorkshop = async () => {
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-gray-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
-            >
+            <DialogPanel class="relative transform overflow-hidden rounded-lg bg-gray-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
               <div class="sm:flex sm:items-start">
-                <div
-                  class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10"
-                >
+                <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10">
                   <ExclamationTriangleIcon class="h-6 w-6 text-green-600" aria-hidden="true" />
                 </div>
                 <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-300">
-                    Approve workshop
-                  </DialogTitle>
+                  <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-300">Approve workshop</DialogTitle>
                   <div class="mt-2">
-                    <p v-if="currentlyApproving" class="text-sm text-gray-400">
-                      Are you sure you want to approve "{{ currentlyApproving.name }}"?
-                    </p>
+                    <p v-if="currentlyApproving" class="text-sm text-gray-400">Are you sure you want to approve "{{ currentlyApproving.name }}"?</p>
                   </div>
                 </div>
               </div>

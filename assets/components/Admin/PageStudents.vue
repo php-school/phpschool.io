@@ -21,10 +21,7 @@ const filteredStudents = computed(() => {
   }
 
   return students.value.filter((student) => {
-    return (
-      student.name.toLowerCase().includes(props.search.toLowerCase()) ||
-      student.email.toLowerCase().includes(props.search.toLowerCase())
-    );
+    return student.name.toLowerCase().includes(props.search.toLowerCase()) || student.email.toLowerCase().includes(props.search.toLowerCase());
   });
 });
 </script>
@@ -35,11 +32,7 @@ const filteredStudents = computed(() => {
   </header>
 
   <ul role="list" class="divide-y divide-pink-600/30">
-    <li
-      v-for="student in filteredStudents"
-      :key="student.email"
-      class="flex items-center justify-between space-x-4 px-4 py-4 sm:px-6 lg:px-8"
-    >
+    <li v-for="student in filteredStudents" :key="student.email" class="flex items-center justify-between space-x-4 px-4 py-4 sm:px-6 lg:px-8">
       <div class="flex min-w-0 gap-x-4">
         <img class="h-12 w-12 flex-none rounded-full bg-gray-800" :src="student.profile_picture" alt="" />
         <div class="min-w-0 flex-auto">

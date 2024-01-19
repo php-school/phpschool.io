@@ -80,21 +80,9 @@ const addFolder = () => {
     <div class="flex justify-between border-b border-solid border-gray-600 px-3 py-5">
       <span class="font-mono text-base text-white">Files</span>
       <div v-if="showControls" class="flex text-white">
-        <XMarkIcon
-          @click="reset"
-          class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500"
-          style="fill: none !important"
-        />
-        <FolderPlusIcon
-          @click="addFolder"
-          class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500"
-          style="fill: none !important"
-        />
-        <PlusIcon
-          @click="addFile"
-          class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500"
-          style="fill: none !important"
-        />
+        <XMarkIcon @click="reset" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important" />
+        <FolderPlusIcon @click="addFolder" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important" />
+        <PlusIcon @click="addFile" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important" />
       </div>
     </div>
     <ul class="w-full font-mono text-gray-300">

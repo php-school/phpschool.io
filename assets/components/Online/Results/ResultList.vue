@@ -32,12 +32,7 @@ const workshopResultRenderers = resultRenderers[props.workshop.code];
       <XMarkIcon fill="currentColor" class="h-5 w-5 flex-shrink-0 text-red-500" />
       <div class="flex w-full flex-col">
         <span class="text-sm">{{ failure.name }}</span>
-        <component
-          v-if="workshopResultRenderers.hasOwnProperty(failure.type)"
-          :is="workshopResultRenderers[failure.type]"
-          :data="failure"
-          :renderers="workshopResultRenderers"
-        ></component>
+        <component v-if="workshopResultRenderers.hasOwnProperty(failure.type)" :is="workshopResultRenderers[failure.type]" :data="failure" :renderers="workshopResultRenderers"></component>
       </div>
     </li>
   </ul>

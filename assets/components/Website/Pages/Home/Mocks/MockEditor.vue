@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="editor-border relative h-full w-full rounded-[20px] border border-2 border-solid border-transparent bg-gray-900 p-1.5 shadow-[-20px_20px_0_rgba(0,0,0,0.2)]"
-  >
+  <div class="editor-border relative h-full w-full rounded-[20px] border border-2 border-solid border-transparent bg-gray-900 p-1.5 shadow-[-20px_20px_0_rgba(0,0,0,0.2)]">
     <div class="flex h-full flex-col">
       <div class="relative flex h-full flex-1">
         <div class="w-4/12 md:w-3/12">
@@ -190,13 +188,7 @@
                 class="-mt-[1px] inline-block flex items-center justify-between border-r border-t border-solid border-r-gray-600 border-t-pink-600 pl-2 pr-1 text-xs text-white no-underline hover:text-pink-500"
               >
                 <a href="#" class="py-3 pl-1 text-xs text-gray-300 text-pink-600 hover:no-underline">solution.php</a>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  class="ml-2 mr-1 h-3 w-3 cursor-pointer text-zinc-400 hover:text-white"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 mr-1 h-3 w-3 cursor-pointer text-zinc-400 hover:text-white">
                   <path
                     fill-rule="evenodd"
                     d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
@@ -207,9 +199,7 @@
               <li class="flex-1 border-b border-solid border-gray-600"></li>
             </ul>
             <div class="flex h-full flex-1 bg-gray-900">
-              <div
-                class="flex h-full w-5 flex-col bg-gradient-to-b from-gray-900 to-[#0c1220] to-30% text-[10px] text-[#8F908A]"
-              >
+              <div class="flex h-full w-5 flex-col bg-gradient-to-b from-gray-900 to-[#0c1220] to-30% text-[10px] text-[#8F908A]">
                 <span class="leading-relaxed">1</span>
                 <span class="leading-relaxed">2</span>
                 <span class="leading-relaxed">3</span>
@@ -221,23 +211,13 @@
         <!--v-if-->
       </div>
       <!-- start footer -->
-      <div
-        class="flex flex-none items-center justify-between border-t border-solid border-gray-600 px-1 pb-1 pt-1 md:px-2 md:pb-2 md:pt-2"
-      >
+      <div class="flex flex-none items-center justify-between border-t border-solid border-gray-600 px-1 pb-1 pt-1 md:px-2 md:pb-2 md:pt-2">
         <nav class="flex" aria-label="Breadcrumb">
           <ol class="inline-flex items-center space-x-1 text-[10px] md:space-x-2">
             <li class="inline-flex items-center">
               <span class="inline-flex items-center font-medium text-white">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  class="mr-2 h-2.5 w-2.5"
-                >
-                  <path
-                    d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"
-                  ></path>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="mr-2 h-2.5 w-2.5">
+                  <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"></path>
                   <path
                     d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z"
                   ></path>
@@ -247,18 +227,8 @@
             </li>
             <li>
               <div class="flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  class="h-2.5 w-2.5 text-pink-500"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
-                    clip-rule="evenodd"
-                  ></path>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-2.5 w-2.5 text-pink-500">
+                  <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z" clip-rule="evenodd"></path>
                 </svg>
                 <span class="ml-1 font-medium text-white md:ml-2">Hello World</span>
               </div>
@@ -269,24 +239,14 @@
           </ol>
         </nav>
         <!-- Progress Tracker Bar -->
-        <div
-          class="relative mt-0 hidden h-4 w-1/6 items-center justify-center rounded-full bg-gray-200 bg-gray-700 md:flex"
-        >
+        <div class="relative mt-0 hidden h-4 w-1/6 items-center justify-center rounded-full bg-gray-200 bg-gray-700 md:flex">
           <div class="absolute left-0 h-5 rounded-full bg-pink-500" style="width: 0%"></div>
           <p class="absolute mx-auto ml-2 inline-flex items-center text-[8px] font-bold text-white">0 / 24 completed</p>
         </div>
         <div class="flex">
-          <button
-            class="w-30 mr-2 mt-0 hidden items-center justify-center rounded border-2 border-solid border-[#E91E63] px-2 py-1 text-[10px] text-white md:flex"
-          >
+          <button class="w-30 mr-2 mt-0 hidden items-center justify-center rounded border-2 border-solid border-[#E91E63] px-2 py-1 text-[10px] text-white md:flex">
             <span>Composer deps</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-              class="ml-2 h-3 w-3"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 h-3 w-3">
               <path d="M21 6.375c0 2.692-4.03 4.875-9 4.875S3 9.067 3 6.375 7.03 1.5 12 1.5s9 2.183 9 4.875z"></path>
               <path
                 d="M12 12.75c2.685 0 5.19-.586 7.078-1.609a8.283 8.283 0 001.897-1.384c.016.121.025.244.025.368C21 12.817 16.97 15 12 15s-9-2.183-9-4.875c0-.124.009-.247.025-.368a8.285 8.285 0 001.897 1.384C6.809 12.164 9.315 12.75 12 12.75z"
@@ -299,18 +259,9 @@
               ></path>
             </svg>
           </button>
-          <button
-            id="show-problem"
-            class="w-30 mr-2 mt-0 hidden items-center justify-center rounded border-2 border-solid border-[#E91E63] px-2 py-1 text-[10px] text-white md:flex"
-          >
+          <button id="show-problem" class="w-30 mr-2 mt-0 hidden items-center justify-center rounded border-2 border-solid border-[#E91E63] px-2 py-1 text-[10px] text-white md:flex">
             <span>Show problem</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-              class="ml-2 h-3 w-3"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 h-3 w-3">
               <path
                 fill-rule="evenodd"
                 d="M8.161 2.58a1.875 1.875 0 011.678 0l4.993 2.498c.106.052.23.052.336 0l3.869-1.935A1.875 1.875 0 0121.75 4.82v12.485c0 .71-.401 1.36-1.037 1.677l-4.875 2.437a1.875 1.875 0 01-1.676 0l-4.994-2.497a.375.375 0 00-.336 0l-3.868 1.935A1.875 1.875 0 012.25 19.18V6.695c0-.71.401-1.36 1.036-1.677l4.875-2.437zM9 6a.75.75 0 01.75.75V15a.75.75 0 01-1.5 0V6.75A.75.75 0 019 6zm6.75 3a.75.75 0 00-1.5 0v8.25a.75.75 0 001.5 0V9z"
@@ -319,18 +270,9 @@
             </svg>
           </button>
           <div class="flex items-center">
-            <button
-              id="run"
-              class="w-18 mr-2 mt-0 hidden items-center justify-center rounded border-2 border-solid border-[#E91E63] px-2 py-1 text-[10px] text-white md:flex"
-            >
+            <button id="run" class="w-18 mr-2 mt-0 hidden items-center justify-center rounded border-2 border-solid border-[#E91E63] px-2 py-1 text-[10px] text-white md:flex">
               <span>Run</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-                class="ml-2 h-3 w-3"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 h-3 w-3">
                 <path
                   fill-rule="evenodd"
                   d="M2.25 6a3 3 0 013-3h13.5a3 3 0 013 3v12a3 3 0 01-3 3H5.25a3 3 0 01-3-3V6zm3.97.97a.75.75 0 011.06 0l2.25 2.25a.75.75 0 010 1.06l-2.25 2.25a.75.75 0 01-1.06-1.06l1.72-1.72-1.72-1.72a.75.75 0 010-1.06zm4.28 4.28a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"
@@ -338,18 +280,9 @@
                 ></path>
               </svg>
             </button>
-            <button
-              id="verify"
-              class="w-18 mt-0 flex items-center justify-center rounded bg-gradient-to-r from-pink-600 to-purple-500 px-2 py-1.5 text-[10px] text-white"
-            >
+            <button id="verify" class="w-18 mt-0 flex items-center justify-center rounded bg-gradient-to-r from-pink-600 to-purple-500 px-2 py-1.5 text-[10px] text-white">
               <span>Verify</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-                class="ml-2 h-3 w-3"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 h-3 w-3">
                 <path
                   fill-rule="evenodd"
                   d="M9 4.5a.75.75 0 01.721.544l.813 2.846a3.75 3.75 0 002.576 2.576l2.846.813a.75.75 0 010 1.442l-2.846.813a3.75 3.75 0 00-2.576 2.576l-.813 2.846a.75.75 0 01-1.442 0l-.813-2.846a3.75 3.75 0 00-2.576-2.576l-2.846-.813a.75.75 0 010-1.442l2.846-.813A3.75 3.75 0 007.466 7.89l.813-2.846A.75.75 0 019 4.5zM18 1.5a.75.75 0 01.728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 010 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 01-1.456 0l-.258-1.036a2.625 2.625 0 00-1.91-1.91l-1.036-.258a.75.75 0 010-1.456l1.036-.258a2.625 2.625 0 001.91-1.91l.258-1.036A.75.75 0 0118 1.5zM16.5 15a.75.75 0 01.712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 010 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 01-1.422 0l-.395-1.183a1.5 1.5 0 00-.948-.948l-1.183-.395a.75.75 0 010-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0116.5 15z"

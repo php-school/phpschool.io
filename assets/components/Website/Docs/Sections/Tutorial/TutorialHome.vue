@@ -3,8 +3,8 @@ import ContentHeader from "../../ContentHeader.vue";
 </script>
 <template>
   <p>
-    So.. you want to create your own workshop? You want to teach a subject using the workshop environment? You want to
-    make a meetup more hands on? You want to showcase your tool? You've come to the right place!
+    So.. you want to create your own workshop? You want to teach a subject using the workshop environment? You want to make a meetup more hands on? You want to showcase your tool? You've come to the
+    right place!
   </p>
   <p>
     We will be building a simple workshop which is available

@@ -93,12 +93,7 @@ const isSelectedFile = (file) => {
 <template>
   <div ref="el">
     <div v-cloak class="fixed inset-0 z-40 bg-gray-900 bg-opacity-70" />
-    <div
-      v-click-away="dismissPassNotification"
-      v-cloak
-      id="pass-notification"
-      class="absolute top-4 z-40 flex w-full justify-center shadow-lg"
-    >
+    <div v-click-away="dismissPassNotification" v-cloak id="pass-notification" class="absolute top-4 z-40 flex w-full justify-center shadow-lg">
       <div class="mx-auto rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 px-3 py-3 sm:px-6 lg:px-8">
         <div class="flex flex-wrap items-center justify-center">
           <div class="flex items-center">
@@ -111,29 +106,16 @@ const isSelectedFile = (file) => {
             </p>
           </div>
           <div v-if="hasOfficialSolution" class="order-3 mt-2 w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
-            <button
-              @click="showOfficialSolution"
-              class="flex items-center justify-center px-2 py-2 text-sm font-bold text-white underline"
-            >
-              See the official solution
-            </button>
+            <button @click="showOfficialSolution" class="flex items-center justify-center px-2 py-2 text-sm font-bold text-white underline">See the official solution</button>
           </div>
           <div v-if="nextExerciseLink" class="order-3 mt-2 flex w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
             <span v-if="hasOfficialSolution" class="flex items-center justify-center text-sm text-white">or</span>
-            <router-link
-              id="next-exercise-link"
-              :to="nextExerciseLink"
-              class="flex items-center justify-center px-2 py-2 text-sm font-bold text-white underline"
-            >
+            <router-link id="next-exercise-link" :to="nextExerciseLink" class="flex items-center justify-center px-2 py-2 text-sm font-bold text-white underline">
               Continue to the next exercise &rarr;
             </router-link>
           </div>
           <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
-            <button
-              @click="dismissPassNotification"
-              type="button"
-              class="-mr-1 flex rounded-md p-2 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2"
-            >
+            <button @click="dismissPassNotification" type="button" class="-mr-1 flex rounded-md p-2 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
               <span class="sr-only">Dismiss</span>
               <XMarkIcon class="h-6 w-6 text-white" />
             </button>
@@ -152,22 +134,11 @@ const isSelectedFile = (file) => {
         <template #body>
           <div class="flex">
             <div class="w-1/3 border-r border-solid border-r-gray-600 bg-gray-900">
-              <file-tree
-                :files="officialSolutionFileTree"
-                :file-select-function="selectSolutionFile"
-                :initial-selected-item="officialSolutionFileTree[0]"
-                :custom-styles="fileTreeStyles"
-              />
+              <file-tree :files="officialSolutionFileTree" :file-select-function="selectSolutionFile" :initial-selected-item="officialSolutionFileTree[0]" :custom-styles="fileTreeStyles" />
             </div>
             <div class="w-2/3">
               <template v-for="file in files" :key="file.name">
-                <AceEditor
-                  v-show="isSelectedFile(file)"
-                  v-model:value="file.content"
-                  :min-lines="20"
-                  :max-lines="20"
-                  readonly
-                ></AceEditor>
+                <AceEditor v-show="isSelectedFile(file)" v-model:value="file.content" :min-lines="20" :max-lines="20" readonly></AceEditor>
               </template>
             </div>
           </div>

@@ -2,17 +2,7 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import { EllipsisVerticalIcon, TrashIcon, PencilIcon, ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 import { ArrowPathIcon } from "@heroicons/vue/24/solid";
-import {
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  TransitionChild,
-  TransitionRoot,
-} from "@headlessui/vue";
+import { Dialog, DialogPanel, DialogTitle, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from "@headlessui/vue";
 
 import Alert from "../Online/SiteAlert.vue";
 import { allEvents, createEvent, deleteEvent, updateEvent } from "./api";
@@ -36,10 +26,7 @@ const filteredEvents = computed(() => {
   }
 
   return events.value.filter((event) => {
-    return (
-      event.name.toLowerCase().includes(props.search.toLowerCase()) ||
-      event.description.toLowerCase().includes(props.search.toLowerCase())
-    );
+    return event.name.toLowerCase().includes(props.search.toLowerCase()) || event.description.toLowerCase().includes(props.search.toLowerCase());
   });
 });
 
@@ -143,9 +130,7 @@ const saveEvent = async () => {
     data.poster = file.value;
   }
 
-  const successMessage = form.id
-    ? "Successfully updated event: " + form.name
-    : "Successfully added event: " + form.name;
+  const successMessage = form.id ? "Successfully updated event: " + form.name : "Successfully added event: " + form.name;
 
   try {
     let response;
@@ -189,36 +174,12 @@ const editEvent = (event) => {
 </script>
 <template>
   <!-- delete alerts -->
-  <alert
-    type="error"
-    :message="deleteError !== '' ? deleteError : 'An error occurred. Please try again later.'"
-    :timeout="4000"
-    :show="showDeleteError"
-    @close="showDeleteError = false"
-  ></alert>
-  <alert
-    type="success"
-    :message="deleteSuccess"
-    :timeout="4000"
-    :show="showDeleteSuccess"
-    @close="showDeleteSuccess = false"
-  ></alert>
+  <alert type="error" :message="deleteError !== '' ? deleteError : 'An error occurred. Please try again later.'" :timeout="4000" :show="showDeleteError" @close="showDeleteError = false"></alert>
+  <alert type="success" :message="deleteSuccess" :timeout="4000" :show="showDeleteSuccess" @close="showDeleteSuccess = false"></alert>
 
   <!-- event create/update alerts -->
-  <alert
-    type="error"
-    :message="eventError !== '' ? eventError : 'An error occurred. Please try again later.'"
-    :timeout="4000"
-    :show="showEventError"
-    @close="showEventError = false"
-  ></alert>
-  <alert
-    type="success"
-    :message="eventSuccess"
-    :timeout="4000"
-    :show="showEventSuccess"
-    @close="showEventSuccess = false"
-  ></alert>
+  <alert type="error" :message="eventError !== '' ? eventError : 'An error occurred. Please try again later.'" :timeout="4000" :show="showEventError" @close="showEventError = false"></alert>
+  <alert type="success" :message="eventSuccess" :timeout="4000" :show="showEventSuccess" @close="showEventSuccess = false"></alert>
 
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
     <h1 class="text-base font-semibold leading-7 text-white">Events</h1>
@@ -232,11 +193,7 @@ const editEvent = (event) => {
   </header>
 
   <ul role="list" class="divide-y divide-pink-600/30">
-    <li
-      v-for="event in filteredEvents"
-      :key="event.id"
-      class="relative flex items-center space-x-4 px-4 py-4 sm:pr-6 lg:pr-8"
-    >
+    <li v-for="event in filteredEvents" :key="event.id" class="relative flex items-center space-x-4 px-4 py-4 sm:pr-6 lg:pr-8">
       <div class="aspect-square h-20">
         <img v-if="event.poster" class="" :src="'/uploads/' + event.poster" />
       </div>
@@ -273,30 +230,16 @@ const editEvent = (event) => {
           leave-from-class="transform opacity-100 scale-100"
           leave-to-class="transform opacity-0 scale-95"
         >
-          <MenuItems
-            class="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-700 rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-none"
-          >
+          <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-700 rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-none">
             <MenuItem v-slot="{ active }">
-              <button
-                @click="editEvent(event)"
-                :class="[
-                  active ? 'p-2 text-white' : 'text-slate-400',
-                  'group flex w-full items-center px-4 py-2 text-sm',
-                ]"
-              >
+              <button @click="editEvent(event)" :class="[active ? 'p-2 text-white' : 'text-slate-400', 'group flex w-full items-center px-4 py-2 text-sm']">
                 <PencilIcon class="mr-3 h-5 w-5" aria-hidden="true" />
                 Edit
                 <span class="sr-only">, {{ event.name }}</span>
               </button>
             </MenuItem>
             <MenuItem v-slot="{ active }">
-              <button
-                @click="confirmDeleteEvent(event)"
-                :class="[
-                  active ? 'p-2 text-white' : 'text-slate-400',
-                  'group flex w-full items-center px-4 py-2 text-sm',
-                ]"
-              >
+              <button @click="confirmDeleteEvent(event)" :class="[active ? 'p-2 text-white' : 'text-slate-400', 'group flex w-full items-center px-4 py-2 text-sm']">
                 <TrashIcon class="mr-3 h-5 w-5" aria-hidden="true" />
                 Delete
                 <span class="sr-only">, {{ event.name }}</span>
@@ -310,15 +253,7 @@ const editEvent = (event) => {
 
   <TransitionRoot as="template" :show="currentlyDeleting !== null">
     <Dialog as="div" class="relative z-50" @close="currentlyDeleting = null">
-      <TransitionChild
-        as="template"
-        enter="ease-out duration-300"
-        enter-from="opacity-0"
-        enter-to="opacity-100"
-        leave="ease-in duration-200"
-        leave-from="opacity-100"
-        leave-to="opacity-0"
-      >
+      <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
       </TransitionChild>
 
@@ -333,23 +268,15 @@ const editEvent = (event) => {
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-gray-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
-            >
+            <DialogPanel class="relative transform overflow-hidden rounded-lg bg-gray-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
               <div class="sm:flex sm:items-start">
-                <div
-                  class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10"
-                >
+                <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10">
                   <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
                 </div>
                 <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-300">
-                    Delete event
-                  </DialogTitle>
+                  <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-300">Delete event</DialogTitle>
                   <div class="mt-2">
-                    <p v-if="currentlyDeleting" class="text-sm text-gray-400">
-                      Are you sure you want to delete "{{ currentlyDeleting.name }}". This action cannot be undone.
-                    </p>
+                    <p v-if="currentlyDeleting" class="text-sm text-gray-400">Are you sure you want to delete "{{ currentlyDeleting.name }}". This action cannot be undone.</p>
                   </div>
                 </div>
               </div>
@@ -380,15 +307,7 @@ const editEvent = (event) => {
 
   <TransitionRoot as="template" :show="showAdd">
     <Dialog as="div" class="relative z-50" @close="showAdd = false">
-      <TransitionChild
-        as="template"
-        enter="ease-out duration-300"
-        enter-from="opacity-0"
-        enter-to="opacity-100"
-        leave="ease-in duration-200"
-        leave-from="opacity-100"
-        leave-to="opacity-0"
-      >
+      <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
       </TransitionChild>
 
@@ -403,9 +322,7 @@ const editEvent = (event) => {
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <DialogPanel
-              class="relative w-full transform overflow-hidden rounded-lg bg-gray-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:p-6 md:max-w-2xl"
-            >
+            <DialogPanel class="relative w-full transform overflow-hidden rounded-lg bg-gray-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:p-6 md:max-w-2xl">
               <div class="sm:flex sm:items-start">
                 <form @submit.prevent="saveEvent" class="w-full" enctype="multipart/form-data">
                   <div class="space-y-12">
@@ -416,9 +333,7 @@ const editEvent = (event) => {
                         <div class="col-span-full">
                           <label for="title" class="block text-sm font-medium leading-6 text-white">Name</label>
                           <div class="mt-2">
-                            <div
-                              class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
-                            >
+                            <div class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
                               <input
                                 v-model="form.name"
                                 type="text"
@@ -437,9 +352,7 @@ const editEvent = (event) => {
                         </div>
 
                         <div class="col-span-full">
-                          <label for="description" class="block text-sm font-medium leading-6 text-white">
-                            Description
-                          </label>
+                          <label for="description" class="block text-sm font-medium leading-6 text-white">Description</label>
                           <div class="mt-2">
                             <textarea
                               v-model="form.description"
@@ -460,9 +373,7 @@ const editEvent = (event) => {
                         <div class="col-span-full">
                           <label for="link" class="block text-sm font-medium leading-6 text-white">Link</label>
                           <div class="mt-2">
-                            <div
-                              class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
-                            >
+                            <div class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
                               <input
                                 v-model="form.link"
                                 type="text"
@@ -483,9 +394,7 @@ const editEvent = (event) => {
                         <div class="col-span-full">
                           <label for="date" class="block text-sm font-medium leading-6 text-white">Date</label>
                           <div class="mt-2">
-                            <div
-                              class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
-                            >
+                            <div class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
                               <input
                                 v-model="form.date"
                                 type="datetime-local"

@@ -7,39 +7,31 @@ import CodeBlock from "../../CodeBlock.vue";
 </script>
 <template>
   <p>
-    As we have seen in the previous articles, you can build your own custom checks. Checks can be used in as many
-    exercises as you want - you could even create a package which consists of common checks you might want to use in
-    your workshops. The check we built in the
+    As we have seen in the previous articles, you can build your own custom checks. Checks can be used in as many exercises as you want - you could even create a package which consists of common
+    checks you might want to use in your workshops. The check we built in the
     <router-link to="/docs/reference/creating-simple-checks">Creating Simple Checks</router-link>
     article is a good example of a reusable check; you might want to include this in all your exercises.
   </p>
-  <p>
-    But what if you want to perform a check that you don't think you will use again? You don't really want to create a
-    class to encompass this logic when it is only to be used in one exercise.
-  </p>
+  <p>But what if you want to perform a check that you don't think you will use again? You don't really want to create a class to encompass this logic when it is only to be used in one exercise.</p>
   <p><em>Enter the Self Checking feature!</em></p>
 
   <p>
     The Self Checking feature allows your exercise to implement an interface which contains one method -
     <Code>check()</Code>
-    during the verification process of the student's solution, your method will be called and passed the input arguments
-    passed to our workshop, which will contain the file name of the student's solution. In this method you can do
-    whatever you want: parse the code into an AST using the
+    during the verification process of the student's solution, your method will be called and passed the input arguments passed to our workshop, which will contain the file name of the student's
+    solution. In this method you can do whatever you want: parse the code into an AST using the
     <Code>PhpParser\Parser</Code>
     service, lint it using a third party tool or whatever else you can think of.
   </p>
 
   <p>
     To give you an example of how you might use it - we use it
-    <a href="https://github.com/php-school/learn-you-php/blob/master/src/Exercise/ConcernedAboutSeparation.php">
-      here in Learn You PHP!
-    </a>
+    <a href="https://github.com/php-school/learn-you-php/blob/master/src/Exercise/ConcernedAboutSeparation.php">here in Learn You PHP!</a>
     to check that a submission contains an
     <Code>include</Code>
     /
     <Code>require</Code>
-    statement as the exercise is teaching how to separate code over multiple files. We want to enforce the student to
-    include a separate file.
+    statement as the exercise is teaching how to separate code over multiple files. We want to enforce the student to include a separate file.
   </p>
 
   <ContentHeader id="creating-self-check-exercise">Creating a self checking exercise</ContentHeader>
@@ -111,8 +103,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
   </CodeBlock>
 
   <p>
-    As you can see, you do the checking logic and then return a result object. The result object is used to render the
-    results to the student. In this case the first argument to
+    As you can see, you do the checking logic and then return a result object. The result object is used to render the results to the student. In this case the first argument to
     <Code>PhpSchool\PhpWorkshop\Result\Success</Code>
     is the name of the check being performed. The same is true for the failure
     <Code>PhpSchool\PhpWorkshop\Result\Failure</Code>
@@ -127,8 +118,8 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
 
   <ContentHeader id="example-self-check">Example PSR2 self checking exercise</ContentHeader>
   <p>
-    Contrary to what we said earlier (a PSR2 check would be a good candidate for a re-usable check), let's build that as
-    a self check. We will use the already built example workshop as a base - the finished code is available on the
+    Contrary to what we said earlier (a PSR2 check would be a good candidate for a re-usable check), let's build that as a self check. We will use the already built example workshop as a base - the
+    finished code is available on the
     <Code>self-checking-exercise</Code>
     branch of the
     <a href="https://github.com/php-school/simple-math">tutorial repository</a>
@@ -140,14 +131,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
     branch for this tutorial, so if you haven't already got it, git clone it and install the dependencies:
   </p>
 
-  <DocTerminal
-    :lines="[
-      'cd projects',
-      'git clone git@github.com:php-school/simple-math.git',
-      'cd simple-math',
-      'composer install',
-    ]"
-  ></DocTerminal>
+  <DocTerminal :lines="['cd projects', 'git clone git@github.com:php-school/simple-math.git', 'cd simple-math', 'composer install']"></DocTerminal>
 
   <p>
     Our check will run the
@@ -159,9 +143,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
 
   <DocTerminal :lines="['composer require squizlabs/php_codesniffer']"></DocTerminal>
 
-  <ContentHeader level="h4" id="check-step-2">
-    2. Modify the exercise to implement the SelfCheck interface
-  </ContentHeader>
+  <ContentHeader level="h4" id="check-step-2">2. Modify the exercise to implement the SelfCheck interface</ContentHeader>
   <p>Our exercise should look like the following:</p>
 
   <CodeBlock lang="php">
@@ -278,8 +260,8 @@ public function check(Input $input)
   <p>
     If the
     <Code>phpcs</Code>
-    binary returns a non-zero exit code - a failure occurred: probably the solution did not pass the coding standard
-    check. So we return a failure with an error message. Otherwise a Success is returned.
+    binary returns a non-zero exit code - a failure occurred: probably the solution did not pass the coding standard check. So we return a failure with an error message. Otherwise a Success is
+    returned.
   </p>
 
   <p>

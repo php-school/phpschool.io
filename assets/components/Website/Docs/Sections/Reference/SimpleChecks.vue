@@ -7,16 +7,12 @@ import CodeBlock from "../../CodeBlock.vue";
 </script>
 <template>
   <p>
-    In this article we will learn how to create a simple check. If you don't fully understand what checks are, head over
-    to the
+    In this article we will learn how to create a simple check. If you don't fully understand what checks are, head over to the
     <router-link to="/docs/reference/exercise-checks">Exercise Checks</router-link>
     article.
   </p>
 
-  <p>
-    We will build a fairly boring check which verifies that a student's solution passes the PSR2 coding standard. Lets
-    get started!
-  </p>
+  <p>We will build a fairly boring check which verifies that a student's solution passes the PSR2 coding standard. Lets get started!</p>
 
   <p>
     Creating a check begins with creating a file and a class for our check . We need to implement the interface
@@ -30,8 +26,7 @@ import CodeBlock from "../../CodeBlock.vue";
   <p>
     This method should just return a
     <code>string</code>
-    which represents the name of the check. This will be printed on the terminal during the verification process. This
-    will be
+    which represents the name of the check. This will be printed on the terminal during the verification process. This will be
     <code>PSR2 Code Check</code>
     for our check.
   </p>
@@ -40,8 +35,8 @@ import CodeBlock from "../../CodeBlock.vue";
   <p>
     This method should just return a
     <Code>string</Code>
-    which is the FQCN (Fully Qualified Class Name) of the interface that the exercise needs to implement when requiring
-    our check. Because we don't need any extra information for our check we can just use
+    which is the FQCN (Fully Qualified Class Name) of the interface that the exercise needs to implement when requiring our check. Because we don't need any extra information for our check we can just
+    use
     <Code>PhpSchool\PhpWorkshop\Exercise\ExerciseInterface</Code>
     .
   </p>
@@ -50,8 +45,7 @@ import CodeBlock from "../../CodeBlock.vue";
   <p>
     This method receives an
     <Code>ExerciseType</Code>
-    instance which represents the type of exercise, we use this to inform the workshop which exercise types our check
-    works with:
+    instance which represents the type of exercise, we use this to inform the workshop which exercise types our check works with:
     <Code>CLI</Code>
     ,
     <Code>CGI</Code>
@@ -66,9 +60,8 @@ import CodeBlock from "../../CodeBlock.vue";
 
   <ContentHeader level="h4-code" id="check">check(ExerciseInterface $exercise, Input $input)</ContentHeader>
   <p>
-    This is the method where we actually perform our check logic, executing PHP_CodeSniffer. This method receives an
-    instance of the current exercise and the input arguments passed to our workshop, which will contain the file name of
-    the student's solution.
+    This is the method where we actually perform our check logic, executing PHP_CodeSniffer. This method receives an instance of the current exercise and the input arguments passed to our workshop,
+    which will contain the file name of the student's solution.
   </p>
 
   <p>
@@ -123,24 +116,21 @@ foreach ($afterChecks as $check) {
   <p>
     When a check uses
     <Code>CHECK_BEFORE</Code>
-    mode it is run before the output verification. The process is also short circuited if a check returns a failure. No
-    more checks will be run and the output will not be compared.
+    mode it is run before the output verification. The process is also short circuited if a check returns a failure. No more checks will be run and the output will not be compared.
   </p>
 
   <ContentHeader level="h4" id="after-verifying">After Verifying</ContentHeader>
   <p>
     When a check use
     <Code>CHECK_AFTER</Code>
-    mode it is run after the output verification. This means that the check is run after the student's solution has been
-    run. After checks are useful for verifying that something was actually performed in the students submission, for
-    example, inserting a row into the database.
+    mode it is run after the output verification. This means that the check is run after the student's solution has been run. After checks are useful for verifying that something was actually
+    performed in the students submission, for example, inserting a row into the database.
   </p>
 
   <ContentHeader id="build-check">Build the check</ContentHeader>
 
   <p>
-    Now - let's build it! We will use the already built tutorial workshop as a base - the finished code is available on
-    the
+    Now - let's build it! We will use the already built tutorial workshop as a base - the finished code is available on the
     <Code>custom-simple-check</Code>
     branch of the
     <a href="https://github.com/php-school/simple-math">tutorial repository</a>
@@ -149,14 +139,7 @@ foreach ($afterChecks as $check) {
     branch for this tutorial, so if you haven't already got it, git clone it and install the dependencies:
   </p>
 
-  <Terminal
-    :lines="[
-      'cd projects',
-      'git clone git@github.com:php-school/simple-math.git',
-      'cd simple-math',
-      'composer install',
-    ]"
-  ></Terminal>
+  <Terminal :lines="['cd projects', 'git clone git@github.com:php-school/simple-math.git', 'cd simple-math', 'composer install']"></Terminal>
 
   <p>
     Our check will run the
@@ -227,8 +210,8 @@ class Psr2Check implements SimpleCheckInterface
   <p>
     If the
     <Code>phpcs</Code>
-    binary returns a non-zero exit code - a failure occurred: probably the solution did not pass the coding standard
-    check. So we return a failure with an error message. Otherwise a Success is returned.
+    binary returns a non-zero exit code - a failure occurred: probably the solution did not pass the coding standard check. So we return a failure with an error message. Otherwise a Success is
+    returned.
   </p>
 
   <Note type="info">
@@ -350,10 +333,7 @@ public function configure(ExerciseDispatcher $dispatcher)
 </pre
     >
   </CodeBlock>
-  <p>
-    Hopefully you will remember this from the previous section - we are just telling the exercise to use our custom
-    check!
-  </p>
+  <p>Hopefully you will remember this from the previous section - we are just telling the exercise to use our custom check!</p>
 
   <ContentHeader id="try-it-out">Try it out!</ContentHeader>
 
@@ -376,11 +356,8 @@ public function configure(ExerciseDispatcher $dispatcher)
 
   <ContentHeader id="custom-interface">Custom Interface</ContentHeader>
   <p>
-    When you build checks, sometimes you need extra information from the exercise to configure the check. For example,
-    the
-    <a href="https://github.com/php-school/php-workshop/blob/master/src/Check/FunctionRequirementsCheck.php">
-      FunctionRequirementsCheck
-    </a>
+    When you build checks, sometimes you need extra information from the exercise to configure the check. For example, the
+    <a href="https://github.com/php-school/php-workshop/blob/master/src/Check/FunctionRequirementsCheck.php">FunctionRequirementsCheck</a>
     check calls
     <Code>getRequiredFunctions()</Code>
     &
@@ -410,8 +387,7 @@ public function configure(ExerciseDispatcher $dispatcher)
   <Terminal :lines="['mkdir src/ExerciseCheck', 'touch src/ExerciseCheck/Psr2ExerciseCheck.php']"></Terminal>
 
   <p>
-    Now would probably be a good idea to change our check name to something a little less specific, but we'll leave that
-    up to you, probably
+    Now would probably be a good idea to change our check name to something a little less specific, but we'll leave that up to you, probably
     <Code>PhpCsCheck</Code>
     might be a little better. Okay, lets define our interface. We want the one method
     <Code>getStandard</Code>
@@ -492,17 +468,15 @@ public function check(ExerciseInterface $exercise, $fileName)
     >
   </CodeBlock>
   <p>
-    We've added a couple of things here - we make sure the exercise actually implements our required interface, if not
-    we throw an exception. We check if the standard provided is in a small subset of supported standards, and finally,
-    we pass the standard along to the
+    We've added a couple of things here - we make sure the exercise actually implements our required interface, if not we throw an exception. We check if the standard provided is in a small subset of
+    supported standards, and finally, we pass the standard along to the
     <Code>phpcs</Code>
     command.
   </p>
 
   <ContentHeader level="h4" id="exercise-step-3">3. Update our exercise</ContentHeader>
   <p>
-    Now we have to implement the new interface and methods in our exercise, for our Mean Average exercise, we will still
-    require
+    Now we have to implement the new interface and methods in our exercise, for our Mean Average exercise, we will still require
     <Code>PSR2</Code>
     as the coding standard. The final exercise should look similar to below:
   </p>
@@ -582,10 +556,7 @@ class Mean extends AbstractExercise implements
     >
   </CodeBlock>
 
-  <p>
-    You should be able to run it just the same as before we added the extra interface. You can now easily update your
-    exercise to use a different coding standard without modifying the check.
-  </p>
+  <p>You should be able to run it just the same as before we added the extra interface. You can now easily update your exercise to use a different coding standard without modifying the check.</p>
 
   <Note type="success">
     Maybe you could try updating the check to take into account the standard when returning the result? It currently has

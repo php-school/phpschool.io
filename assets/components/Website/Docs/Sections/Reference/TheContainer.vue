@@ -8,8 +8,7 @@ import CodeBlock from "../../CodeBlock.vue";
   <p>
     Internally, the workshop framework uses a
     <a target="_blank" href="https://en.wikipedia.org/wiki/Dependency_Injection">dependency injection container</a>
-    . This allows you to request other services from the application and replace services with your own implementations.
-    We use the
+    . This allows you to request other services from the application and replace services with your own implementations. We use the
     <a target="_blank" href="http://php-di.org">PHP-DI</a>
     package for dependency injection, a
     <Code>container-interop</Code>
@@ -26,8 +25,7 @@ import CodeBlock from "../../CodeBlock.vue";
   <p>
     The file
     <Code>app/config.php</Code>
-    should return an array of service definitions for the container. The key being the name of the service and the value
-    the actual factory.
+    should return an array of service definitions for the container. The key being the name of the service and the value the actual factory.
   </p>
 
   <ContentHeader id="defining-factories">Defining Factories</ContentHeader>
@@ -52,19 +50,14 @@ return [
   <p>
     PHP-DI provides more powerful features such as being able to use anonymous functions and any valid PHP
     <Code>callables</Code>
-    as a factory. When using a callable your callable will be injected with the container itself which you can pull
-    other services from!
+    as a factory. When using a callable your callable will be injected with the container itself which you can pull other services from!
   </p>
   <p>
-    If you pulled in a third party library for random number generation you might define a service like below. We use
-    the battle tested package:
+    If you pulled in a third party library for random number generation you might define a service like below. We use the battle tested package:
     <Code>ircmaxell/random-lib</Code>
     as an example.
   </p>
-  <p>
-    We use an anonymous function and pull the strength parameter from the container and create a new random number
-    generator based on that.
-  </p>
+  <p>We use an anonymous function and pull the strength parameter from the container and create a new random number generator based on that.</p>
   <CodeBlock lang="php">
     <pre>
 return [
@@ -81,8 +74,7 @@ return [
   <ContentHeader id="overwriting-services">Overwriting existing services</ContentHeader>
 
   <p>
-    As your workshop configuration is merged into default workshop framework configuration, you can override existing
-    services with your own implementation. Maybe you want to override the
+    As your workshop configuration is merged into default workshop framework configuration, you can override existing services with your own implementation. Maybe you want to override the
     <Code>\Symfony\Component\Filesystem\Filesystem</Code>
     service with your own version, maybe you extended it to add some methods.
   </p>

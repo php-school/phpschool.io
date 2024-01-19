@@ -13,9 +13,7 @@ const currentYear = new Date().getFullYear();
         </a>
       </figure>
 
-      <div
-        class="flex w-full flex-col items-start justify-between justify-items-start gap-5 sm:w-auto sm:flex-row md:gap-10"
-      >
+      <div class="flex w-full flex-col items-start justify-between justify-items-start gap-5 sm:w-auto sm:flex-row md:gap-10">
         <div class="mb-4 flex-grow sm:mb-0">
           <h4 class="mb-2 font-work-sans text-lg font-bold capitalize not-italic text-white">The School</h4>
           <ul class="list-none">

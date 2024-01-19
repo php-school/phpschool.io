@@ -23,13 +23,7 @@ defineProps({
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <Modal
-      :scroll-content="true"
-      size="4xl"
-      max-height="max-h-[calc(5/6*100%)]"
-      v-if="openModal"
-      @close="openModal = false"
-    >
+    <Modal :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openModal" @close="openModal = false">
       <template #header>
         <div class="flex flex-col">
           <div class="flex items-center">

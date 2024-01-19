@@ -3,14 +3,10 @@ import Code from "../../DocCode.vue";
 import ContentHeader from "../../ContentHeader.vue";
 </script>
 <template>
-  <p>
-    In this section you will learn about the internals of the workshop application which will enable you to build robust
-    and advanced workshops.
-  </p>
+  <p>In this section you will learn about the internals of the workshop application which will enable you to build robust and advanced workshops.</p>
   <p>You can use this section as a useful reference to refer back to during the development of your workshop.</p>
   <p>
-    For a walk through approach detailing the initial setup of a workshop and the development of your first exercise,
-    check out the
+    For a walk through approach detailing the initial setup of a workshop and the development of your first exercise, check out the
     <router-link to="/docs/tutorial">Workshop Tutorial</router-link>
     .
   </p>
@@ -20,18 +16,12 @@ import ContentHeader from "../../ContentHeader.vue";
   <h3>
     <router-link to="/docs/reference/container">The Container</router-link>
   </h3>
-  <p>
-    The workshop utilises a container to build and publish services. Learn how to register new services and replace
-    existing ones.
-  </p>
+  <p>The workshop utilises a container to build and publish services. Learn how to register new services and replace existing ones.</p>
 
   <h3>
     <router-link to="/docs/reference/available-services">Available Services</router-link>
   </h3>
-  <p>
-    Learn about the services exposed by the container, many of them utilities you can use in your exercises, checks and
-    other services.
-  </p>
+  <p>Learn about the services exposed by the container, many of them utilities you can use in your exercises, checks and other services.</p>
 
   <h3>
     <router-link to="/docs/reference/exercise-types">Exercise Types</router-link>
@@ -47,10 +37,7 @@ import ContentHeader from "../../ContentHeader.vue";
   <h3>
     <router-link to="/docs/reference/exercise-solutions">Exercise Solutions</router-link>
   </h3>
-  <p>
-    Exercise solutions can consist of one or many files, which could consist of an entire application. They can also
-    contain Composer dependencies in order to model real-world scenarios.
-  </p>
+  <p>Exercise solutions can consist of one or many files, which could consist of an entire application. They can also contain Composer dependencies in order to model real-world scenarios.</p>
 
   <h3>
     <router-link to="/docs/reference/results">Results & Renderers</router-link>

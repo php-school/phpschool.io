@@ -9,17 +9,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Colors,
-} from "chart.js";
+import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Colors } from "chart.js";
 
 import { Line } from "vue-chartjs";
 import { allWorkshops } from "./api";

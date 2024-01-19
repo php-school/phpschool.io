@@ -55,9 +55,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <nav
-    class="relative z-50 w-full bg-nav-pattern bg-center px-4 py-2 sm:bg-nav-pattern sm:bg-[length:110%] sm:bg-center"
-  >
+  <nav class="relative z-50 w-full bg-nav-pattern bg-center px-4 py-2 sm:bg-nav-pattern sm:bg-[length:110%] sm:bg-center">
     <div class="mx-auto flex items-center justify-between">
       <!-- Logo -->
       <figure class="text-white">
@@ -70,28 +68,13 @@ onUnmounted(() => {
       <div class="hidden items-center justify-center sm:flex">
         <ul class="flex space-x-2 md:space-x-4">
           <li>
-            <router-link
-              to="/"
-              class="cursor-pointer text-xs uppercase text-white transition duration-150 hover:text-pink-500"
-            >
-              Home
-            </router-link>
+            <router-link to="/" class="cursor-pointer text-xs uppercase text-white transition duration-150 hover:text-pink-500">Home</router-link>
           </li>
           <li>
-            <router-link
-              to="/online"
-              class="cursor-pointer text-xs uppercase text-white transition duration-150 hover:text-pink-500"
-            >
-              Workshops
-            </router-link>
+            <router-link to="/online" class="cursor-pointer text-xs uppercase text-white transition duration-150 hover:text-pink-500">Workshops</router-link>
           </li>
           <li>
-            <router-link
-              to="/offline"
-              class="cursor-pointer text-xs uppercase text-white transition duration-150 hover:text-pink-500"
-            >
-              Offline
-            </router-link>
+            <router-link to="/offline" class="cursor-pointer text-xs uppercase text-white transition duration-150 hover:text-pink-500">Offline</router-link>
           </li>
 
           <!-- DROPDOWN START -->
@@ -118,20 +101,11 @@ onUnmounted(() => {
               leave-from-class="transform opacity-100 scale-100"
               leave-to-class="transform opacity-0 scale-95"
             >
-              <MenuItems
-                class="absolute right-0 z-40 mt-4 w-56 origin-top-right rounded-md bg-gray-800 text-left shadow-brand-shadow focus:outline-none"
-              >
+              <MenuItems class="absolute right-0 z-40 mt-4 w-56 origin-top-right rounded-md bg-gray-800 text-left shadow-brand-shadow focus:outline-none">
                 <div class="py-1">
                   <RouterLink v-slot="{ href, navigate }" to="/docs" custom>
                     <MenuItem v-slot="{ active, close }">
-                      <a
-                        :href="href"
-                        @click.prevent="navigate() && close()"
-                        :class="[
-                          active ? 'bg-gray-700 text-pink-500' : 'text-white',
-                          'block px-4 py-4 text-xs hover:no-underline',
-                        ]"
-                      >
+                      <a :href="href" @click.prevent="navigate() && close()" :class="[active ? 'bg-gray-700 text-pink-500' : 'text-white', 'block px-4 py-4 text-xs hover:no-underline']">
                         Workshop documentation
                       </a>
                     </MenuItem>
@@ -139,14 +113,7 @@ onUnmounted(() => {
 
                   <RouterLink v-slot="{ href, navigate }" to="/submit" custom>
                     <MenuItem v-slot="{ active, close }">
-                      <a
-                        :href="href"
-                        @click.prevent="navigate() && close()"
-                        :class="[
-                          active ? 'bg-gray-700 text-pink-500' : 'text-white',
-                          'block px-4 py-4 text-xs hover:no-underline',
-                        ]"
-                      >
+                      <a :href="href" @click.prevent="navigate() && close()" :class="[active ? 'bg-gray-700 text-pink-500' : 'text-white', 'block px-4 py-4 text-xs hover:no-underline']">
                         Submit your workshop
                       </a>
                     </MenuItem>
@@ -157,27 +124,14 @@ onUnmounted(() => {
           </Menu>
 
           <li>
-            <router-link
-              to="/events"
-              class="cursor-pointer text-xs uppercase text-white transition duration-150 hover:text-pink-500"
-            >
-              Events
-            </router-link>
+            <router-link to="/events" class="cursor-pointer text-xs uppercase text-white transition duration-150 hover:text-pink-500">Events</router-link>
           </li>
           <li>
-            <router-link
-              to="/blog"
-              class="cursor-pointer text-xs uppercase text-white transition duration-150 hover:text-pink-500"
-            >
-              Blog
-            </router-link>
+            <router-link to="/blog" class="cursor-pointer text-xs uppercase text-white transition duration-150 hover:text-pink-500">Blog</router-link>
           </li>
         </ul>
 
-        <ul
-          v-if="links"
-          class="m-0 ml-4 hidden h-full list-none items-center space-x-4 border-l border-pink-600 py-1 pl-4 lg:flex"
-        >
+        <ul v-if="links" class="m-0 ml-4 hidden h-full list-none items-center space-x-4 border-l border-pink-600 py-1 pl-4 lg:flex">
           <li class="m-0">
             <a :href="links.github" target="_blank" class="block" title="PHPSchool on Github">
               <svg
@@ -242,21 +196,9 @@ onUnmounted(() => {
               >
                 <defs></defs>
                 <g>
-                  <rect
-                    x="54.1"
-                    y="53.8"
-                    transform="matrix(0.3176 0.9482 -0.9482 0.3176 102.0437 -16.5935)"
-                    width="17"
-                    height="17.6"
-                  />
+                  <rect x="54.1" y="53.8" transform="matrix(0.3176 0.9482 -0.9482 0.3176 102.0437 -16.5935)" width="17" height="17.6" />
                   <g>
-                    <rect
-                      x="54.1"
-                      y="53.8"
-                      transform="matrix(0.3176 0.9482 -0.9482 0.3176 102.0437 -16.5935)"
-                      width="17"
-                      height="17.6"
-                    />
+                    <rect x="54.1" y="53.8" transform="matrix(0.3176 0.9482 -0.9482 0.3176 102.0437 -16.5935)" width="17" height="17.6" />
                     <path
                       d="M119.8,45.3c-12.9-43-31.5-53-74.5-40.1s-53,31.5-40.1,74.5s31.5,53,74.5,40.1S132.7,88.3,119.8,45.3z M98.1,73.2L90,75.9l2.8,8.4c1.1,3.4-0.7,7.1-4.1,8.2c-0.7,0.2-1.5,0.4-2.2,0.3c-2.6-0.1-5.1-1.8-6-4.4L77.7,80L61,85.7l2.8,8.4c1.1,3.4-0.7,7.1-4.1,8.2c-0.7,0.2-1.5,0.4-2.2,0.3c-2.6-0.1-5.1-1.8-6-4.4l-2.8-8.4l-8.1,2.7c-0.7,0.2-1.5,0.4-2.2,0.3c-2.6-0.1-5.1-1.8-6-4.4c-1.1-3.4,0.7-7.1,4.1-8.2l8.1-2.7l-5.4-16.1l-8.1,2.7c-0.7,0.2-1.5,0.4-2.2,0.3c-2.6-0.1-5.1-1.8-6-4.4c-1.1-3.4,0.7-7.1,4.1-8.2l8.1-2.7l-2.8-8.4c-1.1-3.4,0.7-7.1,4.1-8.2c3.4-1.1,7.1,0.7,8.2,4.1l2.8,8.4l16.7-5.6L61.3,31c-1.1-3.4,0.7-7.1,4.1-8.2s7.1,0.7,8.2,4.1l2.8,8.4l8.1-2.7c3.4-1.1,7.1,0.7,8.2,4.1c1.1,3.4-0.7,7.1-4.1,8.2l-8.1,2.7l5.4,16.1L94,61c3.4-1.1,7.1,0.7,8.2,4.1C103.3,68.4,101.5,72.1,98.1,73.2z"
                     />
@@ -270,10 +212,7 @@ onUnmounted(() => {
 
       <!-- Mobile Menu Button -->
       <div class="block sm:hidden">
-        <button
-          @click="mobileMenuVisible = !mobileMenuVisible"
-          class="text-white hover:text-gray-300 focus:outline-none"
-        >
+        <button @click="mobileMenuVisible = !mobileMenuVisible" class="text-white hover:text-gray-300 focus:outline-none">
           <img src="../../img/cloud/bars-solid-pink.svg" alt="" class="h-6 w-6" />
         </button>
       </div>
@@ -298,42 +237,12 @@ onUnmounted(() => {
     <!-- Mobile Menu Links and Sign In Button (Hidden by Default) -->
     <div :class="mobileMenuVisible ? 'block' : 'hidden sm:hidden '">
       <div class="flex flex-col divide-y divide-pink-500 text-center text-white">
-        <router-link
-          to="/online"
-          class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500"
-        >
-          Workshops
-        </router-link>
-        <router-link
-          to="/offline"
-          class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500"
-        >
-          Offline
-        </router-link>
-        <router-link
-          to="/docs"
-          class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500"
-        >
-          Workshop Documentation
-        </router-link>
-        <router-link
-          to="/submit"
-          class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500"
-        >
-          Submit Your Workshop
-        </router-link>
-        <router-link
-          to="/events"
-          class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500"
-        >
-          Events
-        </router-link>
-        <router-link
-          to="/blog"
-          class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500"
-        >
-          Blog
-        </router-link>
+        <router-link to="/online" class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500">Workshops</router-link>
+        <router-link to="/offline" class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500">Offline</router-link>
+        <router-link to="/docs" class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500">Workshop Documentation</router-link>
+        <router-link to="/submit" class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500">Submit Your Workshop</router-link>
+        <router-link to="/events" class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500">Events</router-link>
+        <router-link to="/blog" class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500">Blog</router-link>
         <div v-if="studentStore.student" class="py-6">
           <student-dropdown />
         </div>
@@ -349,9 +258,5 @@ onUnmounted(() => {
   <!-- Navigation End -->
 
   <!-- Blur Overlay -->
-  <div
-    :class="mobileMenuVisible ? 'fixed inset-0 z-30 block bg-white bg-opacity-40 backdrop-blur' : 'hidden'"
-    class="transition-opacity duration-300"
-    @click="toggleMenu"
-  ></div>
+  <div :class="mobileMenuVisible ? 'fixed inset-0 z-30 block bg-white bg-opacity-40 backdrop-blur' : 'hidden'" class="transition-opacity duration-300" @click="toggleMenu"></div>
 </template>

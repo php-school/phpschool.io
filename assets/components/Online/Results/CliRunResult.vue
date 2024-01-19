@@ -28,9 +28,7 @@ const openInfoModal = (failure) => {
   <div class="mt-3 border-l-2 border-solid border-red-500 pl-2" v-for="(failure, i) in failures" :key="i">
     <div class="flex w-full justify-between">
       <span class="inline w-2/3 text-sm italic text-gray-300">Run #{{ i + 1 }}</span>
-      <button class="p-x2 ml-2 text-left text-sm text-[#E91E63] underline" @click="openInfoModal(failure)">
-        Show info
-      </button>
+      <button class="p-x2 ml-2 text-left text-sm text-[#E91E63] underline" @click="openInfoModal(failure)">Show info</button>
     </div>
     <component v-if="renderers.hasOwnProperty(failure.type)" :is="renderers[failure.type]" :data="failure"></component>
   </div>
@@ -43,13 +41,7 @@ const openInfoModal = (failure) => {
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <Modal
-      :scroll-content="true"
-      size="2xl"
-      max-height="max-h-[calc(5/6*100%)]"
-      v-if="openModal"
-      @close="openModal = false"
-    >
+    <Modal :scroll-content="true" size="2xl" max-height="max-h-[calc(5/6*100%)]" v-if="openModal" @close="openModal = false">
       <template #header>
         <div class="flex flex-col">
           <div class="flex items-center">

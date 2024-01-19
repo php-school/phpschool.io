@@ -41,17 +41,7 @@ const types = {
   Community: "text-sky-400 bg-sky-400/10 ring-sky-500/30",
 };
 
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Colors,
-} from "chart.js";
+import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Colors } from "chart.js";
 
 import { Line } from "vue-chartjs";
 
@@ -98,12 +88,7 @@ const chartOptions = {
       <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
         <dt class="text-sm font-medium leading-6 text-white">Workshop Type</dt>
         <dd class="mt-1 flex text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-          <div
-            :class="[
-              types[workshop.type],
-              'flex-none rounded-full px-2 py-0.5 text-[10px] font-medium ring-1 ring-inset',
-            ]"
-          >
+          <div :class="[types[workshop.type], 'flex-none rounded-full px-2 py-0.5 text-[10px] font-medium ring-1 ring-inset']">
             {{ workshop.type }}
           </div>
         </dd>

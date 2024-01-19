@@ -1,17 +1,9 @@
 <template>
-  <div
-    class="modal-border relative flex flex-col justify-start rounded-[20px] border-2 border-solid border-transparent bg-gray-800 shadow-[-20px_20px_0_rgba(0,0,0,0.2)]"
-  >
+  <div class="modal-border relative flex flex-col justify-start rounded-[20px] border-2 border-solid border-transparent bg-gray-800 shadow-[-20px_20px_0_rgba(0,0,0,0.2)]">
     <div class="items-top flex flex-none justify-between rounded-t border-b border-solid border-slate-600 p-2.5">
       <div class="flex flex-col">
         <div class="flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            aria-hidden="true"
-            class="mr-2 h-4 w-4 text-pink-500"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="mr-2 h-4 w-4 text-pink-500">
             <path
               fill-rule="evenodd"
               d="M3 6a3 3 0 013-3h12a3 3 0 013 3v12a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm14.25 6a.75.75 0 01-.22.53l-2.25 2.25a.75.75 0 11-1.06-1.06L15.44 12l-1.72-1.72a.75.75 0 111.06-1.06l2.25 2.25c.141.14.22.331.22.53zm-10.28-.53a.75.75 0 000 1.06l2.25 2.25a.75.75 0 101.06-1.06L8.56 12l1.72-1.72a.75.75 0 10-1.06-1.06l-2.25 2.25z"
@@ -21,17 +13,8 @@
           <h3 class="mt-0 pt-0 text-base text-sm font-semibold text-white">Official Solution</h3>
         </div>
       </div>
-      <span
-        type="button"
-        class="ml-auto inline-flex items-center rounded-lg bg-transparent text-sm text-gray-400 focus:outline-none focus:ring focus:ring-pink-800"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          aria-hidden="true"
-          class="h-4 w-4"
-        >
+      <span type="button" class="ml-auto inline-flex items-center rounded-lg bg-transparent text-sm text-gray-400 focus:outline-none focus:ring focus:ring-pink-800">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4">
           <path
             fill-rule="evenodd"
             d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"

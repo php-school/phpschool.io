@@ -8,8 +8,7 @@ import CodeBlock from "../../CodeBlock.vue";
 </script>
 <template>
   <p>
-    This article documents each of the checks bundled with the workshop framework and how to use them. Remember the
-    exercise types from the
+    This article documents each of the checks bundled with the workshop framework and how to use them. Remember the exercise types from the
     <router-link to="/docs/reference/exercise-types">Exercise Types documentation</router-link>
     ?
     <router-link to="/docs/reference/exercise-types#cli">CLI</router-link>
@@ -20,35 +19,22 @@ import CodeBlock from "../../CodeBlock.vue";
     .
   </p>
 
-  <p>
-    Well, checks can support one or more of these exercise types types. So inspect the table below to see if the check
-    you want to use actually supports your exercise type.
-  </p>
+  <p>Well, checks can support one or more of these exercise types types. So inspect the table below to see if the check you want to use actually supports your exercise type.</p>
 
   <List title="Bundled Checks">
     <ListItem>
-      <BundledCheck
-        check="PhpSchool\PhpWorkshop\Check\FileExistsCheck"
-        interface-to-implement="PhpSchool\PhpWorkshop\Exercise\ExerciseInterface"
-      >
-        This check verifies that the student's solution file actually exists. This check is always registered as the
-        first check and verifying will abort if it fails.
+      <BundledCheck check="PhpSchool\PhpWorkshop\Check\FileExistsCheck" interface-to-implement="PhpSchool\PhpWorkshop\Exercise\ExerciseInterface">
+        This check verifies that the student's solution file actually exists. This check is always registered as the first check and verifying will abort if it fails.
       </BundledCheck>
     </ListItem>
     <ListItem>
-      <BundledCheck
-        check="PhpSchool\PhpWorkshop\Check\CodeParseCheck"
-        interface-to-implement="PhpSchool\PhpWorkshop\Exercise\ExerciseInterface"
-      >
+      <BundledCheck check="PhpSchool\PhpWorkshop\Check\CodeParseCheck" interface-to-implement="PhpSchool\PhpWorkshop\Exercise\ExerciseInterface">
         This check verifies that the student's solution file can actually be parsed. Parsing is done with
         <a href="https://github.com/nikic/PHP-Parser">nikic/php-parser</a>
       </BundledCheck>
     </ListItem>
     <ListItem>
-      <BundledCheck
-        check="PhpSchool\PhpWorkshop\Check\PhpLintCheck"
-        interface-to-implement="PhpSchool\PhpWorkshop\Exercise\ExerciseInterface"
-      >
+      <BundledCheck check="PhpSchool\PhpWorkshop\Check\PhpLintCheck" interface-to-implement="PhpSchool\PhpWorkshop\Exercise\ExerciseInterface">
         This check verifies that the student's solution file contains valid PHP syntax. This is as simple as
         <Code>php -l &lt;submission-file&gt;</Code>
       </BundledCheck>
@@ -60,20 +46,13 @@ import CodeBlock from "../../CodeBlock.vue";
         :registered="false"
         link="#check-functional-requirements"
       >
-        This check verifies that the students submission contains usages of some required functions and also does not
-        use certain functions. This check is useful if you want to ban a certain way of achieving something, for
-        example, teaching how to manually write a function that already existing in the standard library.
+        This check verifies that the students submission contains usages of some required functions and also does not use certain functions. This check is useful if you want to ban a certain way of
+        achieving something, for example, teaching how to manually write a function that already existing in the standard library.
       </BundledCheck>
     </ListItem>
     <ListItem>
-      <BundledCheck
-        check="PhpSchool\PhpWorkshop\Check\ComposerCheck"
-        interface-to-implement="PhpSchool\PhpWorkshop\Exercise\ComposerExerciseCheck"
-        :registered="false"
-        link="#check-composer"
-      >
-        This check verifies that the student used Composer to install the required dependencies of the exercise. It
-        checks that a
+      <BundledCheck check="PhpSchool\PhpWorkshop\Check\ComposerCheck" interface-to-implement="PhpSchool\PhpWorkshop\Exercise\ComposerExerciseCheck" :registered="false" link="#check-composer">
+        This check verifies that the student used Composer to install the required dependencies of the exercise. It checks that a
         <Code>composer.lock</Code>
         files exists and contains entries for the required packages.
       </BundledCheck>
@@ -88,11 +67,9 @@ import CodeBlock from "../../CodeBlock.vue";
       >
         This check sets up a database and a
         <Code>PDO</Code>
-        object. It prepends the database DSN as a CLI argument to the student's solution so they can connect to the
-        database. The
+        object. It prepends the database DSN as a CLI argument to the student's solution so they can connect to the database. The
         <Code>PDO</Code>
-        object is passed to the exercise before and after the student's solution has been executed, allowing you to
-        first seed the database and then verify the contents of the database.
+        object is passed to the exercise before and after the student's solution has been executed, allowing you to first seed the database and then verify the contents of the database.
       </BundledCheck>
     </ListItem>
   </List>
@@ -160,8 +137,7 @@ echo file_get_contents('http://example.com');
   <p>
     Here is an example of how to force the student to require the
     <Code>nikic/fast-route</Code>
-    package via Composer. This is useful if you want to focus on a specific problem or promote popular/battle tested
-    packages.
+    package via Composer. This is useful if you want to focus on a specific problem or promote popular/battle tested packages.
   </p>
 
   <CodeBlock lang="php">
@@ -198,8 +174,7 @@ class MyExercise extends AbstractExercise
     <Code>composer.json</Code>
     or a
     <Code>composer.lock</Code>
-    file. If this is the case, the check will fail and a message will be printed. If the required files are present, but
-    the package has not been found, the output will look like the following:
+    file. If this is the case, the check will fail and a message will be printed. If the required files are present, but the package has not been found, the output will look like the following:
   </p>
 
   <a href="/img/composer-check.png">

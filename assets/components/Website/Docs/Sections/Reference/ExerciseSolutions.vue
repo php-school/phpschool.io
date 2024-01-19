@@ -5,21 +5,12 @@ import ContentHeader from "../../ContentHeader.vue";
 import CodeBlock from "../../CodeBlock.vue";
 </script>
 <template>
-  <p>
-    Every CGI & CLI type exercise must have a reference solution. The solution represents a complete working example of
-    how to solve the exercise's problem.
-  </p>
+  <p>Every CGI & CLI type exercise must have a reference solution. The solution represents a complete working example of how to solve the exercise's problem.</p>
 
   <p>The solution is used for a few things in the workshop:</p>
   <ul>
-    <li>
-      When verifying a student's solution to an exercise, the reference solution is invoked and the output of the two
-      are compared.
-    </li>
-    <li>
-      To display to the student as the proposed solution after they have completed the exercise. This is useful if they
-      solved the problem in a less optimal albeit working way.
-    </li>
+    <li>When verifying a student's solution to an exercise, the reference solution is invoked and the output of the two are compared.</li>
+    <li>To display to the student as the proposed solution after they have completed the exercise. This is useful if they solved the problem in a less optimal albeit working way.</li>
   </ul>
 
   <p>
@@ -102,15 +93,14 @@ var_dump($file->getContents());
   <ContentHeader id="directory-solution">DirectorySolution</ContentHeader>
 
   <p>
-    It is possible that your solution contains more than one PHP file. Maybe you have some classes separated into
-    different files, maybe you also pull in some dependencies via Composer. In either case, you should use
+    It is possible that your solution contains more than one PHP file. Maybe you have some classes separated into different files, maybe you also pull in some dependencies via Composer. In either
+    case, you should use
     <Code>PhpSchool\PhpWorkshop\Solution\DirectorySolution</Code>
     .
   </p>
 
   <p>
-    Usage is simple, just pass it the directory and an (optional) entry point. You can also provide an optional list of
-    files to exclude, more on that later. The entry point defaults to
+    Usage is simple, just pass it the directory and an (optional) entry point. You can also provide an optional list of files to exclude, more on that later. The entry point defaults to
     <Code>solution.php</Code>
     . The following is a depiction of a directory structure and the code to encompass the solution:
   </p>
@@ -245,12 +235,10 @@ $solution = DirectorySolution::fromDirectory('/path/to/workshop/exercises/exerci
   <p>
     The method
     <Code>getFiles</Code>
-    is used to find all the files in an solution. One use case is to display the contents of the files to the student
-    when they have finished an exercise. This way they can compare Notes. Sometimes you may want some files to be
-    excluded from this. Perhaps you don't want the
+    is used to find all the files in an solution. One use case is to display the contents of the files to the student when they have finished an exercise. This way they can compare Notes. Sometimes
+    you may want some files to be excluded from this. Perhaps you don't want the
     <Code>composer.lock</Code>
-    file to be printed to the terminal as this can be quite long. To exclude some files from the solution, simply
-    provide an array of excludes, relative to the base directory:
+    file to be printed to the terminal as this can be quite long. To exclude some files from the solution, simply provide an array of excludes, relative to the base directory:
   </p>
   <CodeBlock lang="php">
     <pre>
@@ -378,9 +366,7 @@ interface SolutionInterface
   </CodeBlock>
 
   <ContentHeader level="h4-code" id="get-entry-point">getEntryPoint()</ContentHeader>
-  <p>
-    This method should return the name of the file which should be the entry point to your solution, in absolute form.
-  </p>
+  <p>This method should return the name of the file which should be the entry point to your solution, in absolute form.</p>
 
   <ContentHeader level="h4-code" id="get-files">getFiles()</ContentHeader>
   <p>
@@ -398,7 +384,6 @@ interface SolutionInterface
     <Code>composer.lock</Code>
     file present. If it does, before invoking the solution,
     <Code>composer install</Code>
-    will be executed in the solution base directory. This saves you having to bundle the vendor directory in your
-    workshop.
+    will be executed in the solution base directory. This saves you having to bundle the vendor directory in your workshop.
   </p>
 </template>

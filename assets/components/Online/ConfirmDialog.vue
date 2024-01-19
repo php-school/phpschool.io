@@ -88,10 +88,7 @@ defineExpose({
 
 <template>
   <focus-trap v-model:active="focusActive" :initial-focus="() => confirmButton">
-    <div
-      v-show="isOpen"
-      class="fixed inset-0 z-40 flex h-full w-full flex-col justify-start rounded-lg bg-gray-800 bg-opacity-80"
-    >
+    <div v-show="isOpen" class="fixed inset-0 z-40 flex h-full w-full flex-col justify-start rounded-lg bg-gray-800 bg-opacity-80">
       <div class="bg-grey-800 flex h-full w-full items-center justify-center drop-shadow-xl">
         <div class="max-h-[calc(1/2*100%)] max-w-sm rounded-lg bg-gray-900">
           <div class="items-top flex flex-none justify-between rounded-t border-b border-solid border-slate-600 p-8">

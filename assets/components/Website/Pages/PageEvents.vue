@@ -41,11 +41,7 @@ import Heading from "../PageHeading.vue";
               </p>
 
               <p class="">
-                <a
-                  target="_blank"
-                  class="text-[#e91e63] hover:underline"
-                  :href="'https://maps.google.com/?q=' + encodeURIComponent(event.venueLines.join(','))"
-                >
+                <a target="_blank" class="text-[#e91e63] hover:underline" :href="'https://maps.google.com/?q=' + encodeURIComponent(event.venueLines.join(','))">
                   <address class="text-sm">
                     {{ event.venueLines.join(", ") }}
                   </address>
@@ -61,11 +57,7 @@ import Heading from "../PageHeading.vue";
         <ul v-if="events.previousEvents.length > 0" class="w-full pt-6">
           <h2 class="px-8 font-mono text-2xl text-gray-300">Previous Events</h2>
 
-          <li
-            class="border-b border-gray-600 p-8 last:border-none"
-            v-for="event in events.previousEvents"
-            :key="event.id"
-          >
+          <li class="border-b border-gray-600 p-8 last:border-none" v-for="event in events.previousEvents" :key="event.id">
             <h3 class="pb-4 font-mono text-lg text-gray-300">
               {{ event.date_formatted }}
             </h3>
@@ -86,11 +78,7 @@ import Heading from "../PageHeading.vue";
             </p>
 
             <p class="">
-              <a
-                target="_blank"
-                class="text-[#e91e63] hover:underline"
-                :href="'https://maps.google.com/?q=' + encodeURIComponent(event.venueLines.join(','))"
-              >
+              <a target="_blank" class="text-[#e91e63] hover:underline" :href="'https://maps.google.com/?q=' + encodeURIComponent(event.venueLines.join(','))">
                 <address class="text-sm">
                   {{ event.venueLines.join(", ") }}
                 </address>

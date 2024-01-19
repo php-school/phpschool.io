@@ -13,9 +13,7 @@ import CodeBlock from "../../CodeBlock.vue";
 
   <ContentHeader id="renderer-step-1">1. Create the folder and class</ContentHeader>
 
-  <Terminal
-    :lines="['mkdir src/ResultRenderer', 'touch src/ResultRenderer/CodingStandardFailureRenderer.php']"
-  ></Terminal>
+  <Terminal :lines="['mkdir src/ResultRenderer', 'touch src/ResultRenderer/CodingStandardFailureRenderer.php']"></Terminal>
 
   <ContentHeader id="renderer-step-2">2. Write the renderer class</ContentHeader>
 
@@ -73,8 +71,7 @@ class CodingStandardFailureRenderer implements ResultRendererInterface
   <p>
     This is really simple: the
     <Code>render(ResultsRenderer $renderer)</Code>
-    just returns a string representation of the result, we style the results a little in a bullet pointed list,
-    highlighting them red. We also add a title which describes the coding standard used.
+    just returns a string representation of the result, we style the results a little in a bullet pointed list, highlighting them red. We also add a title which describes the coding standard used.
   </p>
 
   <p>That's basically it - we just need to register the renderer with the application.</p>

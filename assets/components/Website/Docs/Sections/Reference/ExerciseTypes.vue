@@ -7,8 +7,7 @@ import CodeBlock from "../../CodeBlock.vue";
 </script>
 <template>
   <p>
-    The exercise type indicated how the exercise should be verified, each exercise must have a type. There are three
-    types of exercise types as of writing
+    The exercise type indicated how the exercise should be verified, each exercise must have a type. There are three types of exercise types as of writing
     <a href="#cli">CLI</a>
     ,
     <a href="#cgi">CGI</a>
@@ -29,18 +28,13 @@ import CodeBlock from "../../CodeBlock.vue";
     super globals.
   </p>
 
-  <ExerciseType
-    :type="'ExerciseType::CLI()'"
-    :interface-to-implement="'PhpSchool\PhpWorkshop\Exercise\CliExercise'"
-    :methods="'getArgs'"
-  ></ExerciseType>
+  <ExerciseType :type="'ExerciseType::CLI()'" :interface-to-implement="'PhpSchool\PhpWorkshop\Exercise\CliExercise'" :methods="'getArgs'"></ExerciseType>
 
   <ContentHeader level="h4" id="cli-get-args">Implementing getArgs</ContentHeader>
   <p>
     <Code>getArgs</Code>
-    should return an array of string arrays. These are the arguments to be passed to the PHP CLI executable. The number
-    of arguments which can be returned is not limited. All arguments should be strings. If multiple sets of arguments
-    are specified then the program will be executed each time with those arguments.
+    should return an array of string arrays. These are the arguments to be passed to the PHP CLI executable. The number of arguments which can be returned is not limited. All arguments should be
+    strings. If multiple sets of arguments are specified then the program will be executed each time with those arguments.
   </p>
 
   <CodeBlock lang="php">
@@ -101,11 +95,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CliExerc
   </p>
   <p>This exercise type allows to simulate a real HTTP request to a PHP script.</p>
 
-  <ExerciseType
-    :type="'ExerciseType::CGI()'"
-    :interface-to-implement="'PhpSchool\PhpWorkshop\Exercise\CgiExercise'"
-    :methods="'getRequests'"
-  ></ExerciseType>
+  <ExerciseType :type="'ExerciseType::CGI()'" :interface-to-implement="'PhpSchool\PhpWorkshop\Exercise\CgiExercise'" :methods="'getRequests'"></ExerciseType>
 
   <ContentHeader level="h4" id="cgi-get-requests">Implementing getRequests</ContentHeader>
 
@@ -114,9 +104,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CliExerc
     should return an array of PSR-7 Requests. The number of requests is not limited. Check
     <a target="_blank" href="http://www.php-fig.org/psr/psr-7/">here</a>
     for more information about PSR-7. The method is currently type hinted to return an array of the
-    <a target="_blank" href="http://www.php-fig.org/psr/psr-7/#3-2-psr-http-message-requestinterface">
-      Psr\Http\Message\RequestInterface
-    </a>
+    <a target="_blank" href="http://www.php-fig.org/psr/psr-7/#3-2-psr-http-message-requestinterface">Psr\Http\Message\RequestInterface</a>
     interface. You will need to use a library which implements the PSR-7 standard. Currently
     <a target="_blank" href="https://github.com/zendframework/zend-diactoros">zendframework/zend-diactoros</a>
     is shipped with
@@ -267,8 +255,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CgiExerc
     <Code>php-cgi</Code>
     binary to setup the PHP environment. The
     <Code>php-cgi</Code>
-    binary uses environment variables and standard input to configure itself, we export these variables based on the
-    information you provide in
+    binary uses environment variables and standard input to configure itself, we export these variables based on the information you provide in
     <Code>getRequests</Code>
     .
   </p>
@@ -288,17 +275,12 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CgiExerc
   <ContentHeader id="custom">CUSTOM</ContentHeader>
 
   <p>
-    You choose the CUSTOM type if you want the user to perform some arbitrary task that does not involve writing PHP
-    code. For example the exercise could be to ask the user to download and install a program and then we could check
-    that it is running.
+    You choose the CUSTOM type if you want the user to perform some arbitrary task that does not involve writing PHP code. For example the exercise could be to ask the user to download and install a
+    program and then we could check that it is running.
   </p>
   <p>This exercise type allows to simulate a real HTTP request to a PHP script.</p>
 
-  <ExerciseType
-    :type="'ExerciseType::CUSTOM()'"
-    :interface-to-implement="'PhpSchool\PhpWorkshop\Exercise\CustomVerifyingExercise'"
-    :methods="'verify'"
-  ></ExerciseType>
+  <ExerciseType :type="'ExerciseType::CUSTOM()'" :interface-to-implement="'PhpSchool\PhpWorkshop\Exercise\CustomVerifyingExercise'" :methods="'verify'"></ExerciseType>
 
   <ContentHeader level="h4" id="custom-verify">Implementing verify</ContentHeader>
   <p>
@@ -352,8 +334,5 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CustomVe
     >
   </CodeBlock>
 
-  <p>
-    When a student runs the verify command your verify method will be invoked and the results will be displayed to the
-    student!
-  </p>
+  <p>When a student runs the verify command your verify method will be invoked and the results will be displayed to the student!</p>
 </template>

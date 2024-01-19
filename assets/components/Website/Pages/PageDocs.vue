@@ -67,10 +67,7 @@ const homeLink = computed(() => {
       <Heading>
         <template v-slot:title>Documentation</template>
 
-        <template v-slot:description>
-          Ready for the next steps? Use the PHP School workshop documentation to build you own workshop and help teach
-          others how to code with PHP!
-        </template>
+        <template v-slot:description>Ready for the next steps? Use the PHP School workshop documentation to build you own workshop and help teach others how to code with PHP!</template>
       </Heading>
     </section>
     <div class="min-h-screen w-full bg-gray-900">
@@ -84,11 +81,7 @@ const homeLink = computed(() => {
 
             <ul class="">
               <li v-for="section in group.sections" :key="section.title">
-                <router-link
-                  :to="sectionRoute(group, section)"
-                  exact-active-class="border-r-[3px] border-[#e91e63]"
-                  class="block px-3 py-1.5 font-open-sans text-sm text-[#e91e63] hover:underline"
-                >
+                <router-link :to="sectionRoute(group, section)" exact-active-class="border-r-[3px] border-[#e91e63]" class="block px-3 py-1.5 font-open-sans text-sm text-[#e91e63] hover:underline">
                   {{ section.title }}
                 </router-link>
               </li>
@@ -96,20 +89,14 @@ const homeLink = computed(() => {
           </template>
         </div>
         <div class="docs-content w-full px-12 pr-48 md:w-9/12">
-          <Title
-            :title="route.meta.section.title"
-            :id="route.meta.section.title"
-            :file="route.meta.section.file"
-          ></Title>
+          <Title :title="route.meta.section.title" :id="route.meta.section.title" :file="route.meta.section.file"></Title>
           <div class="">
             <router-view></router-view>
           </div>
 
           <div class="flex border-t border-gray-600 pb-2.5 pt-4">
             <div class="w-[40%] text-left">
-              <router-link v-if="previousSection !== null" class="text-sm text-white" :to="prevLink">
-                ⇠ {{ previousSection.title }}
-              </router-link>
+              <router-link v-if="previousSection !== null" class="text-sm text-white" :to="prevLink">⇠ {{ previousSection.title }}</router-link>
             </div>
 
             <div class="w-[20%] text-center">
@@ -143,9 +130,7 @@ const homeLink = computed(() => {
             </div>
 
             <div class="w-[40%] text-right">
-              <router-link v-if="nextSection !== null" class="text-sm text-white" :to="nextLink">
-                {{ nextSection.title }} ⇢
-              </router-link>
+              <router-link v-if="nextSection !== null" class="text-sm text-white" :to="nextLink">{{ nextSection.title }} ⇢</router-link>
             </div>
           </div>
         </div>

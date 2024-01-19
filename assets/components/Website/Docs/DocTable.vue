@@ -16,12 +16,7 @@ defineProps({
           <table class="min-w-full divide-y divide-gray-500">
             <thead>
               <tr>
-                <th
-                  v-for="col in columns"
-                  :key="col"
-                  scope="col"
-                  class="text-left text-sm font-semibold text-white sm:pl-0"
-                >
+                <th v-for="col in columns" :key="col" scope="col" class="text-left text-sm font-semibold text-white sm:pl-0">
                   {{ col }}
                 </th>
               </tr>

@@ -1,28 +1,8 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import {
-  Dialog,
-  DialogPanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  TransitionChild,
-  TransitionRoot,
-} from "@headlessui/vue";
+import { Dialog, DialogPanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
-import {
-  Bars3Icon,
-  ChevronDownIcon,
-  MagnifyingGlassIcon,
-  CalendarDaysIcon,
-  PlusIcon,
-  CubeIcon,
-  HomeIcon,
-  ChartBarIcon,
-  CogIcon,
-  UsersIcon,
-} from "@heroicons/vue/20/solid";
+import { Bars3Icon, ChevronDownIcon, MagnifyingGlassIcon, CalendarDaysIcon, PlusIcon, CubeIcon, HomeIcon, ChartBarIcon, CogIcon, UsersIcon } from "@heroicons/vue/20/solid";
 import Logo from "../Website/SiteLogo.vue";
 
 import { useRoute } from "vue-router";
@@ -128,11 +108,7 @@ const sidebarOpen = ref(false);
               </TransitionChild>
               <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 ring-1 ring-pink-600/30">
                 <div class="flex h-16 shrink-0 items-center">
-                  <img
-                    class="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                    alt="Your Company"
-                  />
+                  <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
                 </div>
                 <nav class="flex flex-1 flex-col">
                   <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -142,9 +118,7 @@ const sidebarOpen = ref(false);
                           <router-link
                             :to="item.to"
                             :class="[
-                              item.to === location.path
-                                ? 'bg-gray-800 text-white'
-                                : 'text-gray-400 hover:bg-gray-800 hover:text-white',
+                              item.to === location.path ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                               'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                             ]"
                           >
@@ -176,9 +150,7 @@ const sidebarOpen = ref(false);
                   <router-link
                     :to="item.to"
                     :class="[
-                      item.to === location.path
-                        ? 'bg-gray-800 text-white'
-                        : 'text-gray-400 hover:bg-gray-800 hover:text-white',
+                      item.to === location.path ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                       'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                     ]"
                   >
@@ -195,9 +167,7 @@ const sidebarOpen = ref(false);
 
     <div class="xl:pl-72">
       <!-- Sticky search header -->
-      <div
-        class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 border-b border-pink-600/30 bg-gray-900 pl-4 pr-2 shadow-sm sm:pl-6 lg:pl-8"
-      >
+      <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 border-b border-pink-600/30 bg-gray-900 pl-4 pr-2 shadow-sm sm:pl-6 lg:pl-8">
         <button type="button" class="-m-2.5 p-2.5 text-white xl:hidden" @click="sidebarOpen = true">
           <span class="sr-only">Open sidebar</span>
           <Bars3Icon class="h-5 w-5" aria-hidden="true" />
@@ -207,10 +177,7 @@ const sidebarOpen = ref(false);
           <form class="flex flex-1" action="#" method="GET">
             <label for="search-field" class="sr-only">Search</label>
             <div class="relative w-full">
-              <MagnifyingGlassIcon
-                class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-500"
-                aria-hidden="true"
-              />
+              <MagnifyingGlassIcon class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-500" aria-hidden="true" />
               <input
                 v-model="search"
                 id="search-field"
@@ -226,9 +193,7 @@ const sidebarOpen = ref(false);
         <div class="ml-4 flex items-center md:ml-6">
           <Menu as="div" class="relative ml-3">
             <div>
-              <MenuButton
-                class="relative flex h-full max-w-xs items-center rounded-md text-sm hover:bg-gray-800 focus:outline-none lg:p-2"
-              >
+              <MenuButton class="relative flex h-full max-w-xs items-center rounded-md text-sm hover:bg-gray-800 focus:outline-none lg:p-2">
                 <span class="absolute -inset-1.5 lg:hidden" />
                 <img class="h-8 w-8 rounded-full" :src="user.avatar" alt="" />
                 <span class="ml-3 hidden text-sm font-medium text-white lg:block">
@@ -246,20 +211,9 @@ const sidebarOpen = ref(false);
               leave-from-class="transform opacity-100 scale-100"
               leave-to-class="transform opacity-0 scale-95"
             >
-              <MenuItems
-                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-none"
-              >
+              <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-none">
                 <MenuItem v-slot="{ active }">
-                  <button
-                    @click="logout"
-                    type="button"
-                    :class="[
-                      active ? 'bg-slate-900/40 text-white' : '',
-                      'block w-full rounded-md px-4 py-2 text-left text-sm text-slate-400',
-                    ]"
-                  >
-                    Logout
-                  </button>
+                  <button @click="logout" type="button" :class="[active ? 'bg-slate-900/40 text-white' : '', 'block w-full rounded-md px-4 py-2 text-left text-sm text-slate-400']">Logout</button>
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -274,9 +228,7 @@ const sidebarOpen = ref(false);
       </main>
 
       <!-- Activity feed -->
-      <aside
-        class="bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-pink-600/30"
-      >
+      <aside class="bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-pink-600/30">
         <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
           <h2 class="text-base font-semibold leading-7 text-white">Activity feed</h2>
         </header>
@@ -295,11 +247,7 @@ const sidebarOpen = ref(false);
               (
               <span class="font-mono text-gray-400">{{ item.code }}</span>
               ) from
-              <a
-                :href="item.repo_url"
-                target="_blank"
-                class="text-xs text-blue-600 hover:cursor-pointer hover:underline"
-              >
+              <a :href="item.repo_url" target="_blank" class="text-xs text-blue-600 hover:cursor-pointer hover:underline">
                 {{ item.repo_url }}
               </a>
               .

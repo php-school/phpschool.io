@@ -74,20 +74,14 @@ const closeModal = (event) => {
   <focus-trap :v-model:active="true">
     <div class="">
       <div class="fixed inset-0 z-40 bg-gray-900 bg-opacity-80" />
-      <div
-        tabindex="-1"
-        class="fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-center overflow-x-hidden md:inset-0 md:h-full"
-      >
+      <div tabindex="-1" class="fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-center overflow-x-hidden md:inset-0 md:h-full">
         <div
           :id="id"
           v-click-away="clickAway"
           class="modal-border relative flex w-full flex-col justify-start overflow-hidden rounded-lg border-2 border-solid border-transparent bg-gray-800 shadow"
           :class="[modalSizeClasses[size], maxHeight]"
         >
-          <div
-            class="items-top flex flex-none justify-between rounded-t p-6"
-            :class="$slots.header ? 'border-b border-solid border-slate-600' : ''"
-          >
+          <div class="items-top flex flex-none justify-between rounded-t p-6" :class="$slots.header ? 'border-b border-solid border-slate-600' : ''">
             <slot name="header" />
             <div>
               <button
@@ -104,9 +98,7 @@ const closeModal = (event) => {
             class="flex-1"
             :class="[
               !$slots.header ? 'pt-0' : '',
-              scrollContent
-                ? 'scrollbar-track-none mr-[3px] overflow-y-auto scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-rounded-full scrollbar-thumb-rounded-full'
-                : '',
+              scrollContent ? 'scrollbar-track-none mr-[3px] overflow-y-auto scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-rounded-full scrollbar-thumb-rounded-full' : '',
               bodyClasses,
             ]"
           >

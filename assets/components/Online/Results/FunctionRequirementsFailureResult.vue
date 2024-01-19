@@ -25,21 +25,13 @@ defineProps({
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <Modal
-      :scroll-content="true"
-      size="4xl"
-      max-height="max-h-[calc(5/6*100%)]"
-      v-if="openModal"
-      @close="openModal = false"
-    >
+    <Modal :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openModal" @close="openModal = false">
       <template #header>
         <div class="flex flex-col">
           <div class="flex items-center">
             <ExclamationTriangleIcon class="mr-2 h-6 w-6 text-rose-600" />
 
-            <h2 class="mt-0 pt-0 font-mono text-base font-semibold text-white lg:text-xl">
-              Function requirements failure...
-            </h2>
+            <h2 class="mt-0 pt-0 font-mono text-base font-semibold text-white lg:text-xl">Function requirements failure...</h2>
           </div>
         </div>
       </template>
@@ -49,9 +41,7 @@ defineProps({
           <div class="flex flex-wrap items-center">
             <div class="flex items-center">
               <p class="truncate font-medium text-white">
-                <span class="text-sm">
-                  Your program was required to use certain functions and was prohibited from using others.
-                </span>
+                <span class="text-sm">Your program was required to use certain functions and was prohibited from using others.</span>
               </p>
             </div>
           </div>
@@ -61,9 +51,7 @@ defineProps({
           <div v-if="data.banned_functions.length" class="w-1/2">
             <h2 class="mb-2 pt-0 font-mono text-lg text-[#E91E63]">Banned functions</h2>
             <p class="mb-4 text-sm">Some functions were used which should not be used in this exercise:</p>
-            <code class="mb-2 block text-xs last:mb-0" v-for="(call, i) in data.banned_functions" :key="i">
-              {{ call.function }} on line {{ call.line }}
-            </code>
+            <code class="mb-2 block text-xs last:mb-0" v-for="(call, i) in data.banned_functions" :key="i">{{ call.function }} on line {{ call.line }}</code>
           </div>
           <div v-if="data.missing_functions.length" class="w-1/2">
             <h2 class="mb-2 pt-0 font-mono text-lg text-[#E91E63]">Missing functions</h2>

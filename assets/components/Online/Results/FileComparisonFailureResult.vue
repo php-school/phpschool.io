@@ -26,13 +26,7 @@ defineProps({
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <Modal
-      :scroll-content="true"
-      size="4xl"
-      max-height="max-h-[calc(5/6*100%)]"
-      v-if="openModal"
-      @close="openModal = false"
-    >
+    <Modal :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openModal" @close="openModal = false">
       <template #header>
         <div class="flex flex-col">
           <div class="flex items-center">
@@ -60,14 +54,10 @@ defineProps({
         <div id="diff">
           <div class="flex w-full">
             <div class="w-1/2">
-              <h3 class="mt-0 pb-3 pl-1 pt-[13.5px] font-mono text-base font-semibold text-white lg:text-base">
-                Your Content
-              </h3>
+              <h3 class="mt-0 pb-3 pl-1 pt-[13.5px] font-mono text-base font-semibold text-white lg:text-base">Your Content</h3>
             </div>
             <div class="w-1/2">
-              <h3 class="mt-0 pb-3 pl-1 pt-[13.5px] font-mono text-base font-semibold text-white lg:text-base">
-                Expected Content
-              </h3>
+              <h3 class="mt-0 pb-3 pl-1 pt-[13.5px] font-mono text-base font-semibold text-white lg:text-base">Expected Content</h3>
             </div>
           </div>
           <Diff mode="split" theme="dark" language="text" :prev="data.actual_value" :current="data.expected_value" />
