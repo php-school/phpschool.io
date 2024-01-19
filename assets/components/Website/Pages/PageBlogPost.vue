@@ -1,81 +1,83 @@
 <script setup>
-import { useBlogStore } from '../../../stores/blog.js'
-const blog = useBlogStore()
+import { useBlogStore } from "../../../stores/blog.js";
+const blog = useBlogStore();
 
-import Heading from '../PageHeading.vue'
-import { computed } from 'vue'
+import Heading from "../PageHeading.vue";
+import { computed } from "vue";
 
 const props = defineProps({
-    slug: String
-})
+  slug: String,
+});
 
 const post = computed(() => {
-    return blog.posts.find((post) => post.slug === props.slug)
-})
+  return blog.posts.find((post) => post.slug === props.slug);
+});
 </script>
 
 <template>
-    <div>
-        <section class="bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed items-stretch">
-            <Heading>
-                <template v-slot:title> What's happening in <br />the PHP School world </template>
-            </Heading>
-        </section>
-        <div class="w-full bg-gray-900">
-            <div class="font-open-sans flex flex-col mx-auto max-w-3xl text-left text-gray-300 p-8">
-                <div class="post" v-if="post">
-                    <div class="text-center mb-3">
-                        <h1
-                            class="text-4xl font-bold leading-normal mt-[9px] mb-3 mx-0 font-mono text-[#e91e63]"
-                        >
-                            {{ post.title }}
-                        </h1>
-                        <span class="text-xs font-bold hover:text-[#e91e63] hover:underline"
-                            ><a :href="post.authorLink">{{ post.author }}</a></span
-                        >
-                        <span class="text-xs text-gray-400"> - {{ post.date }}</span>
-                    </div>
-                    <div v-html="post.content"></div>
-                </div>
-            </div>
+  <div>
+    <section class="items-stretch bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed">
+      <Heading>
+        <template v-slot:title>
+          What's happening in
+          <br />
+          the PHP School world
+        </template>
+      </Heading>
+    </section>
+    <div class="w-full bg-gray-900">
+      <div class="mx-auto flex max-w-3xl flex-col p-8 text-left font-open-sans text-gray-300">
+        <div class="post" v-if="post">
+          <div class="mb-3 text-center">
+            <h1 class="mx-0 mb-3 mt-[9px] font-mono text-4xl font-bold leading-normal text-[#e91e63]">
+              {{ post.title }}
+            </h1>
+            <span class="text-xs font-bold hover:text-[#e91e63] hover:underline">
+              <a :href="post.authorLink">{{ post.author }}</a>
+            </span>
+            <span class="text-xs text-gray-400">- {{ post.date }}</span>
+          </div>
+          <div v-html="post.content"></div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <style>
 .post img {
-    @apply mx-auto;
+  @apply mx-auto;
 }
 
 .post p {
-    @apply mt-[27px] mb-[13.5px] text-lg;
+  @apply mb-[13.5px] mt-[27px] text-lg;
 }
 
 .post h2 {
-    @apply font-bold text-2xl font-mono text-[#e91e63] pt-[13.5px] mb-[13.5px];
+  @apply mb-[13.5px] pt-[13.5px] font-mono text-2xl font-bold text-[#e91e63];
 }
 
 .post h3 {
-    @apply font-bold text-lg font-mono text-gray-300 pt-[13.5px] mb-[13.5px];
+  @apply mb-[13.5px] pt-[13.5px] font-mono text-lg font-bold text-gray-300;
 }
 
 .post ul {
-    @apply mb-[13.5px] pl-[27px] list-disc;
+  @apply mb-[13.5px] list-disc pl-[27px];
 }
 
 .post ul > li {
-    @apply leading-relaxed;
+  @apply leading-relaxed;
 }
 
 .post a {
-    @apply text-[#e91e63] hover:underline;
+  @apply text-[#e91e63] hover:underline;
 }
 
 .post pre > code {
-    @apply block p-4 mb-4 text-xs !bg-gray-900 !border !border-gray-600 rounded-md overflow-y-scroll;
+  @apply mb-4 block overflow-y-scroll rounded-md !border !border-gray-600 !bg-gray-900 p-4 text-xs;
 }
 
 .post :not(pre) > code {
-    @apply px-1 py-0.5 text-[12px] bg-[#2a2c2d] text-pink-500 rounded;
+  @apply rounded bg-[#2a2c2d] px-1 py-0.5 text-[12px] text-pink-500;
 }
 </style>
