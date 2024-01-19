@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Orbitron&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -99,20 +99,14 @@
 }
 
 .horizontal-divider::after {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   width: 50%; /* Adjust the width of the moving part */
   height: 100%;
   top: 0;
   left: -100%; /* Start off-screen to the left */
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    #ff00ff 40%,
-    transparent 60%,
-    transparent 100%
-  ); /* Adjust the gradient colors and stops here */
+  background: linear-gradient(to right, transparent 0%, #ff00ff 40%, transparent 60%, transparent 100%); /* Adjust the gradient colors and stops here */
   border-radius: 50px; /* Adjust the border radius to make it rounded */
   background-size: 200% 100%; /* Adjust the background size */
   animation: slide 7s 0s infinite linear; /* Adjust the animation duration */
@@ -130,7 +124,7 @@
 /* admin */
 @keyframes blinker {
   from {
-    opacity: 1.0;
+    opacity: 1;
   }
   to {
     opacity: 0.3;
@@ -144,7 +138,15 @@
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
   animation-direction: alternate;
-  text-shadow: 0 0 10px #e91e63, 0 0 20px #e91e63, 0 0 30px #e91e63, 0 0 40px #e91e63, 0 0 70px #e91e63, 0 0 80px #e91e63, 0 0 100px #e91e63, 0 0 150px #e91e63;
+  text-shadow:
+    0 0 10px #e91e63,
+    0 0 20px #e91e63,
+    0 0 30px #e91e63,
+    0 0 40px #e91e63,
+    0 0 70px #e91e63,
+    0 0 80px #e91e63,
+    0 0 100px #e91e63,
+    0 0 150px #e91e63;
 }
 
 /* admin end */

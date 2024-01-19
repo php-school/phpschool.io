@@ -1,30 +1,34 @@
 <script setup>
-import Code from "./Code.vue";
+import Code from "../../DocCode.vue";
 
-const props = defineProps({
-    event: String,
-    eventClass: String,
-    args: Array,
-})
+defineProps({
+  event: String,
+  eventClass: String,
+  args: Array,
+});
 </script>
 
 <template>
-    <div class="">
-        <h3 class="font-bold mb-4">{{event}}</h3>
-        <p class="mb-6 text-xs">Event Class: <Code>{{ eventClass }}</Code></p>
+  <div class="">
+    <h3 class="mb-4 font-bold">{{ event }}</h3>
+    <p class="mb-6 text-xs">
+      Event Class:
+      <Code>{{ eventClass }}</Code>
+    </p>
 
-        <p class="mb-8"><slot></slot></p>
+    <p class="mb-8"><slot></slot></p>
 
-        <template v-if="args.length > 0">
-            <p class="text-xs font-semibold">Arguments:</p>
-            <dl class="p-2 mb-4 w-full">
-                <div v-for="arg in args" class="py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 border-b last:border-none">
-                    <dt class="italic text-xs">{{arg.name}}</dt>
-                    <dd class="sm:col-span-2 text-xs"><Code>{{arg.type}}</Code></dd>
-                </div>
-            </dl>
-        </template>
-        <p v-else class="">Arguments - None</p>
-    </div>
-
+    <template v-if="args.length > 0">
+      <p class="text-xs font-semibold">Arguments:</p>
+      <dl class="mb-4 w-full p-2">
+        <div v-for="arg in args" :key="arg.name" class="border-b py-2 last:border-none sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt class="text-xs italic">{{ arg.name }}</dt>
+          <dd class="text-xs sm:col-span-2">
+            <Code>{{ arg.type }}</Code>
+          </dd>
+        </div>
+      </dl>
+    </template>
+    <p v-else class="">Arguments - None</p>
+  </div>
 </template>

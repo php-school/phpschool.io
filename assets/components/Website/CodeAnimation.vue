@@ -1,9 +1,11 @@
 <template>
   <div class="container">
-    <div class="w-100 h-100 text-white text-xs font-orbitron overflow-hidden">
+    <div class="w-100 h-100 overflow-hidden font-orbitron text-xs text-white">
       <div class="flex flex-col">
         <div class="">
-          <div class="h-[20px]" v-for="(line, index) in displayedCode" :key="index">{{ line }}</div>
+          <div class="h-[20px]" v-for="(line, index) in displayedCode" :key="index">
+            {{ line }}
+          </div>
         </div>
       </div>
     </div>
@@ -11,8 +13,7 @@
 </template>
 
 <script setup>
-
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
 const displayedCode = ref([]);
 
@@ -24,14 +25,14 @@ const codeSnippets = [
   "$array = [1, 2, 3, 4, 5];",
   "class MyClass { $name $skill; }",
   "// This is a PHP comment",
-  "<?php $programmingLanguages = ['PHP', 'Javascript']\;",
-  "$favoriteLanguage = 'PHP'\;",
-  "$developer = new Programmer('You', 'expert')\;",
+  "<?php $programmingLanguages = ['PHP', 'Javascript']",
+  "$favoriteLanguage = 'PHP'",
+  "$developer = new Programmer('You', 'expert')",
 ];
 
 onMounted(() => {
   for (let i = 0; i < 20; i++) {
-    displayedCode.value.push(getRandomCodeSnippet())
+    displayedCode.value.push(getRandomCodeSnippet());
   }
 });
 

@@ -1,16 +1,15 @@
 <script setup>
-
-import ace from 'ace-builds';
-import 'ace-builds/src-noconflict/theme-monokai';
-import 'ace-builds/src-noconflict/mode-php';
-import 'ace-builds/src-noconflict/ext-language_tools';
-import 'ace-builds/src-noconflict/snippets/php';
-import {markRaw, onBeforeUnmount, onMounted, ref, watch} from "vue";
+import ace from "ace-builds";
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/mode-php";
+import "ace-builds/src-noconflict/ext-language_tools";
+import "ace-builds/src-noconflict/snippets/php";
+import { markRaw, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
 const props = defineProps({
   readonly: {
     default: false,
-    type: Boolean
+    type: Boolean,
   },
   value: {
     type: String,
@@ -20,7 +19,7 @@ const props = defineProps({
   maxLines: Number,
 });
 
-const emit = defineEmits(['update:value']);
+const emit = defineEmits(["update:value"]);
 
 let editor = null;
 const isSettingContent = ref(false);
@@ -35,8 +34,8 @@ const change = () => {
   }
   const content = editor.session.getValue();
   contentBackup.value = content;
-  emit('update:value', content);
-}
+  emit("update:value", content);
+};
 
 onMounted(() => {
   const options = {};
@@ -51,16 +50,16 @@ onMounted(() => {
   ace.require("ace/ext/language_tools");
   editor = markRaw(ace.edit(container.value, options));
 
-  editor.setOption('useWorker', false);
+  editor.setOption("useWorker", false);
   editor.setShowPrintMargin(false);
   editor.setTheme("ace/theme/monokai");
-  editor.container.style.lineHeight = 2
+  editor.container.style.lineHeight = 2;
   editor.session.setMode("ace/mode/php");
 
   editor.setOptions({
     enableBasicAutocompletion: true,
     enableSnippets: true,
-    enableLiveAutocompletion: false
+    enableLiveAutocompletion: false,
   });
 
   editor.setValue(props.value, 1);
@@ -70,7 +69,7 @@ onMounted(() => {
   if (props.readonly) {
     editor.setReadOnly(true);
   } else {
-    editor.session.on('change', change);
+    editor.session.on("change", change);
   }
 });
 
@@ -80,17 +79,20 @@ onBeforeUnmount(() => {
   }
 });
 
-watch(() => props.value, (val) => {
-  if (contentBackup.value !== val) {
-    try {
-      isSettingContent.value = true;
-      editor.setValue(val, 1);
-    } finally {
-      isSettingContent.value = false;
+watch(
+  () => props.value,
+  (val) => {
+    if (contentBackup.value !== val) {
+      try {
+        isSettingContent.value = true;
+        editor.setValue(val, 1);
+      } finally {
+        isSettingContent.value = false;
+      }
+      contentBackup.value = val;
     }
-    contentBackup.value = val;
-  }
-});
+  },
+);
 </script>
 
 <template>
@@ -99,7 +101,7 @@ watch(() => props.value, (val) => {
 
 <style>
 .ace_gutter {
-  @apply !bg-gradient-to-b to-30% !from-gray-900 !to-[#0c1220];
+  @apply !bg-gradient-to-b !from-gray-900 !to-[#0c1220] to-30%;
 }
 
 .ace_marker-layer .ace_selection {
@@ -113,5 +115,4 @@ watch(() => props.value, (val) => {
 .ace_active-line {
   background-color: #0c1220 !important;
 }
-
 </style>

@@ -1,34 +1,34 @@
 <script setup>
-    const props = defineProps({
-        'id': {
-            type: String,
-            required: true,
-        },
-        level: {
-            type: String,
-            default: 'h3',
-        }
-    })
+defineProps({
+  id: {
+    type: String,
+    required: true,
+  },
+  level: {
+    type: String,
+    default: "h3",
+  },
+});
 </script>
 <template>
-    <h3 v-if="level === 'h3'" :id="id" class="!text-lg flex relative items-center font-mono border-b border-gray-600 !pt-4 !pb-1 !mb-4">
-        <slot></slot>
-        <a class="!text-[#ccc] fill-current inline-block ml-[2px]" :href="'#' + id">#</a><a href="#app" class="absolute right-0 text-xs hover:underline">^ TOP</a>
-    </h3>
+  <h3 v-if="level === 'h3'" :id="id" class="relative !mb-4 flex items-center border-b border-gray-600 !pb-1 !pt-4 font-mono !text-lg">
+    <slot></slot>
+    <a class="ml-[2px] inline-block fill-current !text-[#ccc]" :href="'#' + id">#</a>
+    <a href="#app" class="absolute right-0 text-xs hover:underline">^ TOP</a>
+  </h3>
 
-    <h4 v-if="level === 'h4'" :id="id" class="!text-base flex relative items-center font-mono !pt-4 !pb-1 !mb-4 italic font-semibold border-b border-gray-600">
-        <slot></slot>
-        <a class="!text-[#ccc] fill-current inline-block ml-[2px]" :href="'#' + id">#</a>
-    </h4>
+  <h4 v-if="level === 'h4'" :id="id" class="relative !mb-4 flex items-center border-b border-gray-600 !pb-1 !pt-4 font-mono !text-base font-semibold italic">
+    <slot></slot>
+    <a class="ml-[2px] inline-block fill-current !text-[#ccc]" :href="'#' + id">#</a>
+  </h4>
 
-    <h4 v-if="level === 'h4-code'" :id="id" class="!text-base flex relative items-center font-mono !pt-4 !pb-1 !mb-2 !not-italic">
-        <code class="text-pink-500"><slot></slot></code>
-        <a class="!text-[#ccc] fill-current inline-block ml-[3px]" :href="'#' + id">#</a>
-    </h4>
+  <h4 v-if="level === 'h4-code'" :id="id" class="relative !mb-2 flex items-center !pb-1 !pt-4 font-mono !text-base !not-italic">
+    <code class="text-pink-500"><slot></slot></code>
+    <a class="ml-[3px] inline-block fill-current !text-[#ccc]" :href="'#' + id">#</a>
+  </h4>
 
-    <h5 v-if="level === 'h5'" :id="id" class="!text-base flex relative items-center font-mono !pt-4 !pb-1 !mb-2 italic">
-        <slot></slot>
-        <a class="!text-[#ccc] fill-current inline-block ml-[2px]" :href="'#' + id">#</a>
-    </h5>
+  <h5 v-if="level === 'h5'" :id="id" class="relative !mb-2 flex items-center !pb-1 !pt-4 font-mono !text-base italic">
+    <slot></slot>
+    <a class="ml-[2px] inline-block fill-current !text-[#ccc]" :href="'#' + id">#</a>
+  </h5>
 </template>
-

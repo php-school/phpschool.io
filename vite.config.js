@@ -1,14 +1,10 @@
 import {defineConfig, splitVendorChunkPlugin} from 'vite'
 import vue from '@vitejs/plugin-vue'
-import liveReload from 'vite-plugin-live-reload'
 import path from 'path'
 
 export default defineConfig({
     plugins: [
         vue(),
-        liveReload([
-            __dirname + '/templates/**/*.phtml',
-        ]),
         splitVendorChunkPlugin(),
     ],
 

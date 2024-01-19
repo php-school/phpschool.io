@@ -2,11 +2,13 @@
   "name": "phpschool",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "dev": "cross-env APP_ENV=development vite",
     "build": "vite-ssg build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "prettier": "prettier --write assets/ --config prettier.config.js",
+    "prettier:ci": "prettier --check assets/ --config prettier.config.js"
   },
   "author": "",
   "license": "ISC",
@@ -25,7 +27,6 @@
     "normalize.css": "^8.0.1",
     "postcss": "^8.4.19",
     "postcss-import": "^14.0.1",
-    "prettier": "^3.0.2",
     "prettier-plugin-tailwindcss": "^0.5.3",
     "sass": "^1.56.1",
     "tailwind-scrollbar": "^3.0.0",
@@ -33,7 +34,12 @@
     "vite": "^4.0",
     "vite-plugin-live-reload": "^3.0.1",
     "vite-ssg": "^0.23.5",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "@rushstack/eslint-patch": "^1.3.3",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "eslint": "^8.49.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "prettier": "^3.0.3"
   },
   "dependencies": {
     "@docsearch/js": "^3.5.2",

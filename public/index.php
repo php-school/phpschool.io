@@ -21,7 +21,6 @@ use PhpSchool\Website\Action\Online\ComposerPackageAdd;
 use PhpSchool\Website\Action\Online\ComposerPackageSearch;
 use PhpSchool\Website\Action\Online\WorkshopExercise;
 use PhpSchool\Website\Action\Online\ResetState;
-use PhpSchool\Website\Action\Online\ResetStateFromEditor;
 use PhpSchool\Website\Action\Online\RunExercise;
 use PhpSchool\Website\Action\Online\TourComplete;
 use PhpSchool\Website\Action\Online\VerifyExercise;
