@@ -168,7 +168,12 @@ const verifySolution = () => {
       </template>
       <template #body>
         <div class="">
-          <TabGroup v-if="programRunResult && programRunResult.runs.length > 1">
+          <template v-if="programRunResult && programRunResult.success === false">
+            <h2 class="mb-2 pt-0 font-mono text-lg text-[#E91E63]">Your program could not be executed, there was a syntax error</h2>
+            <pre class="mb-4 whitespace-pre-wrap rounded-none border-none p-0"><code class="language-shell hljs shell  block rounded-lg p-4 text-sm">{{programRunResult.failure.reason}}</code></pre>
+          </template>
+
+          <TabGroup v-else-if="programRunResult && programRunResult.runs.length > 1">
             <TabList className="flex justify-center border-b border-solid border-gray-600">
               <Tab as="template" v-slot="{ selected }" v-for="(run, i) in programRunResult.runs" :key="i">
                 <button
@@ -195,6 +200,7 @@ const verifySolution = () => {
         <div class="flex justify-end">
           <button
             type="button"
+            v-show="programRunResult.success === true"
             class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto sm:text-sm"
             @click="runSolution"
           >
