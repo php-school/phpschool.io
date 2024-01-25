@@ -18,6 +18,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
+          cache: 'npm'
 
       - name: Install NPM Dependencies
         run: npm ci --no-audit --no-fund --prefer-offline
