@@ -5,6 +5,7 @@ namespace PhpSchool\Website\Action\Online;
 use PhpSchool\PhpWorkshop\Event\CgiExecuteEvent;
 use PhpSchool\PhpWorkshop\Event\CliExecuteEvent;
 use PhpSchool\PhpWorkshop\Event\Event;
+use PhpSchool\PhpWorkshop\Exception\CouldNotRunException;
 use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\Website\Action\JsonUtils;
@@ -60,12 +61,19 @@ class RunExercise
                 $this->collectRunInfo($event, $output);
             });
 
-        $result = $workshop->getExerciseDispatcher()->run(
-            $exercise,
-            new Input($workshop->getCode(), ['program' => $project->getEntryPoint()->getAbsolutePath()]),
-            $output
-        );
 
+        try {
+            $result = $workshop->getExerciseDispatcher()->run(
+                $exercise,
+                new Input($workshop->getCode(), ['program' => $project->getEntryPoint()->getAbsolutePath()]),
+                $output
+            );
+        } catch (CouldNotRunException $e) {
+            return $this->withJson([
+                'success' => false,
+                'failure' => $e->getFailure()->toArray(),
+            ], $response);
+        }
 
         $data = [
             'runs' => $this->runInfo,
