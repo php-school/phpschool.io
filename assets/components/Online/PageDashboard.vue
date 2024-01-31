@@ -23,8 +23,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section class="flex-1 overflow-hidden pb-4">
-    <div class="container mx-auto flex h-full flex-col overflow-hidden">
+  <section class="flex-1 overflow-y-scroll pb-4 md:overflow-hidden">
+    <div class="container mx-auto flex flex-col overflow-hidden md:h-full">
       <student-progress></student-progress>
 
       <workshop-exercise-selection-list></workshop-exercise-selection-list>

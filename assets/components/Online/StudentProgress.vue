@@ -33,7 +33,7 @@ const login = async () => {
 </script>
 
 <template>
-  <div class="mx-auto mt-10 w-1/3 grow-0 rounded-xl bg-gray-800 p-8">
+  <div class="mx-4 mt-10 grow-0 rounded-xl bg-gray-800 p-8 md:mx-auto md:w-1/3">
     <div class="flex justify-between">
       <Button v-if="!studentStore.student" @click="login" class="flex items-center px-2 py-2">
         <GitHubIcon class="mr-2 h-5 w-5" />
