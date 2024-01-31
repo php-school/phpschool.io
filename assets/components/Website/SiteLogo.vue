@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="h-20 w-20 transition duration-150 ease-in hover:text-[#e91e63]"
+    class="transition duration-150 ease-in hover:text-[#e91e63]"
     version="1.1"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
@@ -8,8 +8,6 @@
     xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
     x="0px"
     y="0px"
-    width="171.3px"
-    height="167.4px"
     viewBox="0 0 171.3 167.4"
     enable-background="new 0 0 171.3 167.4"
     xml:space="preserve"

@@ -128,10 +128,10 @@ const verifySolution = () => {
 
 <template>
   <alert type="error" @close="showRateLimitError = false" :show="showRateLimitError" :timeout="4000" message="Too many requests. Please try again in a few minutes."></alert>
-  <div class="flex items-center">
+  <div class="flex flex-1 items-center gap-y-2">
     <button
       id="run"
-      class="mr-2 mt-0 flex h-[48px] h-full w-36 items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63]"
+      class="mr-2 mt-0 h-[48px] w-44 items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] hidden md:flex"
       @click.stop="runSolution"
       :disabled="loadingRun"
     >
@@ -141,7 +141,7 @@ const verifySolution = () => {
     </button>
     <button
       id="verify"
-      class="mt-0 flex h-[48px] h-full w-36 items-center justify-center rounded bg-gradient-to-r from-pink-600 to-purple-500 px-4 text-sm text-white transition-all duration-300 ease-in hover:bg-[#aa1145]"
+      class="mr-0 md:mr-2 mt-0 flex h-[48px] w-full md:w-44 items-center justify-center rounded bg-gradient-to-r from-pink-600 to-purple-500 px-4 text-sm text-white transition-all duration-300 ease-in hover:bg-[#aa1145]"
       @click="verifySolution"
       :disabled="loadingVerify"
     >

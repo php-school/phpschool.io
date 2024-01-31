@@ -16,6 +16,7 @@ import { onMounted, ref } from "vue";
 import toFilePath from "./Utils/toFilePath";
 import { useWorkshopStore } from "../../stores/workshops";
 import { useStudentStore } from "../../stores/student";
+import { FolderIcon } from "@heroicons/vue/24/outline";
 
 const workshopStore = useWorkshopStore();
 const studentStore = useStudentStore();
@@ -49,6 +50,7 @@ const composerDeps = ref([]);
 const confirm = ref(null);
 const nextExercise = ref(workshopStore.findNextExercise(props.workshop, props.exercise));
 const problem = ref("");
+const openFileBrowser = ref(false);
 
 onMounted(async () => {
   const response = await fetch("/api/online/workshop/" + currentExercise.workshop.code + "/exercise/" + currentExercise.exercise.slug);
@@ -337,7 +339,7 @@ const deleteFileOrFolder = async (file) => {
 
       <div class="flex h-full flex-col">
         <div class="relative flex h-full flex-1 border-t border-gray-600">
-          <div class="w-3/12 xl:w-2/12">
+          <div class="" :class="{'z-50 absolute left-0 flex h-full w-4/6 md:w-3/12 xl:w-2/12 bg-gray-900 border-r border-gray-600' : openFileBrowser, 'hidden md:flex md:w-3/12 xl:w-2/12':!openFileBrowser}">
             <FileTree
               :files="studentFiles"
               :file-select-function="studentSelectFile"
@@ -350,7 +352,7 @@ const deleteFileOrFolder = async (file) => {
               @rename-file="renameFile"
             />
           </div>
-          <div class="flex h-full border-l border-solid border-gray-600" :class="[openResults ? 'w-6/12 xl:w-7/12' : 'w-9/12 xl:w-10/12']">
+          <div class="flex h-full border-l border-solid border-gray-600" :class="[openResults ? 'w-6/12 xl:w-7/12' : 'w-full md:w-9/12 xl:w-10/12']">
             <EditorTabs :tabList="openFiles.map((file) => file.name)" @close-tab="closeTab" :active-tab="activeTab" @change-tab="(tab) => (activeTab = tab)">
               <template v-slot:[`tab-content-`+index] v-for="(file, index) in openFiles" :key="file.name">
                 <AceEditor :id="'editor-' + (index + 1)" v-model:value="file.content" @update:value="(content) => saveSolution(content, file)" class="h-full w-full border-0" />
@@ -395,24 +397,30 @@ const deleteFileOrFolder = async (file) => {
           </div>
         </div>
         <!-- start footer -->
-        <div class="flex h-16 flex-none items-center justify-between border-t border-solid border-gray-600 p-2">
-          <editor-breadcrumbs :current-exercise="currentExercise"></editor-breadcrumbs>
-          <progress-bar></progress-bar>
-          <div class="flex">
+        <div class="flex flex-wrap items-center border-t border-solid border-gray-600 p-2 justify-between gap-y-3 md:mb-0">
+          <editor-breadcrumbs :current-exercise="currentExercise" class=""></editor-breadcrumbs>
+          <progress-bar class=""></progress-bar>
+          <div class="flex items-start justify-center w-full md:w-auto gap-x-2">
             <button
-              class="mr-2 mt-0 flex h-[48px] w-44 items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63]"
+              class="mr-0 md:mr-2 lg:mb-0 flex h-[48px] w-auto md:w-44 items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63]"
+              @click="openFileBrowser = !openFileBrowser"
+            >
+              <FolderIcon v-cloak class="md:ml-2 h-5 w-5" />
+            </button>
+            <button
+              class="mr-0 md:mr-2 lg:mb-0 flex h-[48px] w-auto md:w-44 items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63]"
               @click="openComposerModal = true"
             >
-              <span>Composer deps</span>
-              <CircleStackIcon v-cloak class="ml-2 h-5 w-5" />
+              <span class="hidden md:flex">Composer deps</span>
+              <CircleStackIcon v-cloak class="md:ml-2 h-5 w-5" />
             </button>
             <button
               id="show-problem"
-              class="mr-2 mt-0 flex h-[48px] w-44 items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63]"
+              class="mr-0 md:mr-2 mt-0 flex h-[48px] w-auto md:w-44 items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63]"
               @click="openProblemModal = true"
             >
-              <span>Show problem</span>
-              <MapIcon v-cloak class="ml-2 h-5 w-5" />
+              <span class="hidden md:flex">Show problem</span>
+              <MapIcon v-cloak class="md:ml-2 h-5 w-5" />
             </button>
             <exercise-verify
               @verify-loading="verifyLoading"

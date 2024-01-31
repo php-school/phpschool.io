@@ -25,8 +25,11 @@ module.exports = {
         },
     },
     plugins: [
-        require('tailwind-scrollbar')({ nocompatible: true }),
         require('@tailwindcss/forms'),
+        require('tailwind-scrollbar')({
+            nocompatible: true,
+            preferredStrategy: 'pseudoelements', 
+        }),
     ],
     variants: {
         scrollbar: ['rounded'],
