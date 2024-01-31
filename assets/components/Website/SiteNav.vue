@@ -3,19 +3,12 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import Button from "./PrimaryButton.vue";
 import GitHubIcon from "../Icons/GitHubIcon.vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
-import Logo from "./SiteLogo.vue";
+import SiteLogo from "./SiteLogo.vue";
 import StudentDropdown from "../Online/StudentDropdown.vue";
 import { onMounted, onUnmounted, ref } from "vue";
 
 import { useStudentStore } from "../../stores/student";
 const studentStore = useStudentStore();
-
-defineProps({
-  compact: {
-    type: Boolean,
-    default: false,
-  },
-});
 
 const links = {
   github: "https://github.com/php-school/learn-you-php",
@@ -60,7 +53,7 @@ onUnmounted(() => {
       <!-- Logo -->
       <figure class="text-white">
         <a href="/">
-          <Logo :class="[compact ? 'h-7 w-7' : 'h-10 w-10 md:h-12 md:w-12']" />
+          <SiteLogo class="h-10 w-10 md:h-12 md:w-12" />
         </a>
       </figure>
 
@@ -219,7 +212,7 @@ onUnmounted(() => {
 
       <!-- Sign In Button -->
       <div v-if="!studentStore.student" class="hidden sm:block">
-        <Button to="/online" class="flex items-center px-2 py-2" :class="{ '!my-0': compact }">
+        <Button to="/online" class="flex items-center px-2 py-2">
           <GitHubIcon class="mr-2 h-5 w-5" />
           <span class="flex text-xs font-normal">
             Log In

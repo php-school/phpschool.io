@@ -77,12 +77,12 @@ const addFolder = () => {
 
 <template>
   <div class="">
-    <div class="flex justify-between border-b border-solid border-gray-600 px-3 py-5">
-      <span class="font-mono text-base text-white">Files</span>
-      <div v-if="showControls" class="flex text-white">
-        <XMarkIcon @click="reset" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important" />
-        <FolderPlusIcon @click="addFolder" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important" />
-        <PlusIcon @click="addFile" class="mr-2 h-5 w-5 cursor-pointer hover:text-pink-500" style="fill: none !important" />
+    <div class="flex flex-col sm:flex-row justify-between border-b border-solid border-gray-600 px-3 py-5">
+      <span class="font-mono text-base text-white mb-2 sm:mb-0 sm:mr-4">Files</span>
+      <div v-if="showControls" class="flex flex-wrap sm:flex-nowrap text-white">
+      <XMarkIcon @click="reset" class="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 cursor-pointer hover:text-pink-500" style="fill: none !important" />
+        <FolderPlusIcon @click="addFolder" class="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 cursor-pointer hover:text-pink-500" style="fill: none !important" />
+        <PlusIcon @click="addFile" class="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 cursor-pointer hover:text-pink-500" style="fill: none !important" />
       </div>
     </div>
     <ul class="w-full font-mono text-gray-300">
