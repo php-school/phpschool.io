@@ -89,7 +89,7 @@ defineExpose({
 <template>
   <focus-trap v-model:active="focusActive" :initial-focus="() => confirmButton">
     <div v-show="isOpen" class="fixed inset-0 z-40 flex h-full w-full flex-col justify-start rounded-lg bg-gray-800 bg-opacity-80">
-      <div class="bg-grey-800 flex h-full w-full items-center justify-center drop-shadow-xl">
+      <div class="bg-grey-800 flex h-full w-full items-center justify-center p-2 drop-shadow-xl md:p-0">
         <div class="max-h-[calc(1/2*100%)] max-w-sm rounded-lg bg-gray-900">
           <div class="items-top flex flex-none justify-between rounded-t border-b border-solid border-slate-600 p-8">
             <div class="flex items-center">
@@ -105,12 +105,12 @@ defineExpose({
             </div>
           </div>
           <div class="flex-none rounded-b border-solid border-slate-600 p-6">
-            <div class="flex justify-end">
+            <div class="flex justify-end gap-x-2">
               <button
                 v-if="showCancel"
                 @click="decline"
                 type="button"
-                class="inline-flex w-full items-center justify-center rounded-full border border-pink-600 px-8 py-2 text-base font-medium text-gray-400 shadow-sm hover:bg-pink-600 hover:text-white focus:outline-none focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto sm:text-sm"
+                class="inline-flex w-full items-center justify-center rounded-full border border-pink-600 px-8 py-2 text-sm font-medium text-gray-400 shadow-sm hover:bg-pink-600 hover:text-white focus:outline-none focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto md:text-base"
               >
                 {{ cancelMessage }}
               </button>
@@ -118,7 +118,7 @@ defineExpose({
                 ref="confirmButton"
                 @click="confirm"
                 type="button"
-                class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto sm:text-sm"
+                class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-sm font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto md:text-base"
               >
                 {{ okMessage }}
               </button>

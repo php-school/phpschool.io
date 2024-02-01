@@ -17,6 +17,8 @@ import toFilePath from "./Utils/toFilePath";
 import { useWorkshopStore } from "../../stores/workshops";
 import { useStudentStore } from "../../stores/student";
 import { FolderIcon } from "@heroicons/vue/24/outline";
+import { vOnClickOutside } from "@vueuse/components";
+import { TransitionChild, TransitionRoot } from "@headlessui/vue";
 
 const workshopStore = useWorkshopStore();
 const studentStore = useStudentStore();
@@ -51,6 +53,7 @@ const confirm = ref(null);
 const nextExercise = ref(workshopStore.findNextExercise(props.workshop, props.exercise));
 const problem = ref("");
 const openFileBrowser = ref(false);
+const openFileBrowserButton = ref(null);
 
 onMounted(async () => {
   const response = await fetch("/api/online/workshop/" + currentExercise.workshop.code + "/exercise/" + currentExercise.exercise.slug);
@@ -338,8 +341,34 @@ const deleteFileOrFolder = async (file) => {
       ></pass-notification>
 
       <div class="flex h-full flex-col">
-        <div class="relative flex h-full flex-1 border-t border-gray-600">
-          <div class="" :class="{'z-50 absolute left-0 flex h-full w-4/6 md:w-3/12 xl:w-2/12 bg-gray-900 border-r border-gray-600' : openFileBrowser, 'hidden md:flex md:w-3/12 xl:w-2/12':!openFileBrowser}">
+        <div class="relative flex h-full flex-1">
+          <TransitionRoot :show="openFileBrowser">
+            <TransitionChild
+              as="template"
+              enter="transform transition ease-in-out duration-500 sm:duration-700"
+              enter-from="-translate-x-full"
+              enter-to="translate-x-0"
+              leave="transform transition ease-in-out duration-500 sm:duration-700"
+              leave-from="translate-x-0"
+              leave-to="-translate-x-full"
+            >
+              <div class="absolute left-0 top-0 z-10 h-full w-4/6 border-r border-t border-gray-600 bg-gray-900" v-on-click-outside.bubble="() => (openFileBrowser = false)">
+                <FileTree
+                  :files="studentFiles"
+                  :file-select-function="studentSelectFile"
+                  :initial-selected-item="studentFiles[0]"
+                  :delete-function="deleteFileOrFolder"
+                  show-controls
+                  @reset="resetFiles"
+                  @add-file="addFile"
+                  @delete-file="deleteFile"
+                  @rename-file="renameFile"
+                />
+              </div>
+            </TransitionChild>
+          </TransitionRoot>
+
+          <div class="hidden h-full border-t border-gray-600 bg-gray-900 md:flex md:w-3/12 xl:w-2/12">
             <FileTree
               :files="studentFiles"
               :file-select-function="studentSelectFile"
@@ -352,75 +381,88 @@ const deleteFileOrFolder = async (file) => {
               @rename-file="renameFile"
             />
           </div>
-          <div class="flex h-full border-l border-solid border-gray-600" :class="[openResults ? 'w-6/12 xl:w-7/12' : 'w-full md:w-9/12 xl:w-10/12']">
+          <div class="flex h-full w-full border-solid border-gray-600 md:w-9/12 md:border-l xl:w-10/12">
             <EditorTabs :tabList="openFiles.map((file) => file.name)" @close-tab="closeTab" :active-tab="activeTab" @change-tab="(tab) => (activeTab = tab)">
               <template v-slot:[`tab-content-`+index] v-for="(file, index) in openFiles" :key="file.name">
                 <AceEditor :id="'editor-' + (index + 1)" v-model:value="file.content" @update:value="(content) => saveSolution(content, file)" class="h-full w-full border-0" />
               </template>
             </EditorTabs>
           </div>
-          <div v-show="openResults" id="results-col" class="absolute right-0 flex h-full w-3/12 flex-col overflow-y-scroll border-l border-solid border-gray-600 bg-gray-900">
-            <div class="flex items-center justify-between border-b border-solid border-gray-600 py-4 pl-4 pr-4">
-              <h1 class="flex items-center pt-0 font-mono text-xl text-white">
-                <AcademicCapIcon class="mr-3 h-5 w-5" />
-                Results
-              </h1>
-              <div>
-                <button @click="openResults = false" type="button" class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:hover:text-white">
-                  <XMarkIcon class="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-
-            <div v-show="loadingResults" class="mt-4 flex animate-pulse space-x-4 px-4">
-              <div class="flex-1 space-y-6 py-1">
-                <div class="h-2 rounded bg-slate-700"></div>
-                <div class="space-y-3">
-                  <div class="grid grid-cols-3 gap-4">
-                    <div class="col-span-2 h-2 rounded bg-slate-700"></div>
-                    <div class="col-span-1 h-2 rounded bg-slate-700"></div>
+          <TransitionRoot :show="openResults">
+            <TransitionChild
+              as="template"
+              enter="transform transition ease-in-out duration-500 sm:duration-700"
+              enter-from="-translate-y-full"
+              enter-to="translate-y-0"
+              leave="transform transition ease-in-out duration-300 sm:duration-700"
+              leave-from="translate-y-0"
+              leave-to="-translate-y-full"
+            >
+              <div id="results-col" class="absolute right-0 z-10 flex h-full w-full flex-col overflow-y-scroll border-t border-solid border-gray-600 bg-gray-900 md:mt-0 md:w-3/12 md:border-l">
+                <div class="flex items-center justify-between border-b border-solid border-gray-600 py-4 pl-4 pr-4">
+                  <h1 class="flex items-center pt-0 font-mono text-xl text-white">
+                    <AcademicCapIcon class="mr-3 h-5 w-5" />
+                    Results
+                  </h1>
+                  <div>
+                    <button @click="openResults = false" type="button" class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:hover:text-white">
+                      <XMarkIcon class="h-5 w-5" />
+                    </button>
                   </div>
-                  <div class="h-2 rounded bg-slate-700"></div>
                 </div>
-                <div class="h-2 rounded bg-slate-700"></div>
-                <div class="space-y-3">
-                  <div class="grid grid-cols-3 gap-4">
-                    <div class="col-span-1 h-2 rounded bg-slate-700"></div>
-                    <div class="col-span-2 h-2 rounded bg-slate-700"></div>
-                  </div>
-                  <div class="h-2 rounded bg-slate-700"></div>
-                </div>
-              </div>
-            </div>
 
-            <ResultList :workshop="currentExercise.workshop" :results="results"></ResultList>
-          </div>
+                <div v-show="loadingResults" class="mt-4 flex animate-pulse space-x-4 px-4">
+                  <div class="flex-1 space-y-6 py-1">
+                    <div class="h-2 rounded bg-slate-700"></div>
+                    <div class="space-y-3">
+                      <div class="grid grid-cols-3 gap-4">
+                        <div class="col-span-2 h-2 rounded bg-slate-700"></div>
+                        <div class="col-span-1 h-2 rounded bg-slate-700"></div>
+                      </div>
+                      <div class="h-2 rounded bg-slate-700"></div>
+                    </div>
+                    <div class="h-2 rounded bg-slate-700"></div>
+                    <div class="space-y-3">
+                      <div class="grid grid-cols-3 gap-4">
+                        <div class="col-span-1 h-2 rounded bg-slate-700"></div>
+                        <div class="col-span-2 h-2 rounded bg-slate-700"></div>
+                      </div>
+                      <div class="h-2 rounded bg-slate-700"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <ResultList :workshop="currentExercise.workshop" :results="results"></ResultList>
+              </div>
+            </TransitionChild>
+          </TransitionRoot>
         </div>
         <!-- start footer -->
-        <div class="flex flex-wrap items-center border-t border-solid border-gray-600 p-2 justify-between gap-y-3 md:mb-0">
-          <editor-breadcrumbs :current-exercise="currentExercise" class=""></editor-breadcrumbs>
-          <progress-bar class=""></progress-bar>
-          <div class="flex items-start justify-center w-full md:w-auto gap-x-2">
+        <div class="flex flex-wrap items-center justify-between gap-y-3 border-t border-solid border-gray-600 p-2 md:mb-0 md:gap-y-0">
+          <editor-breadcrumbs :current-exercise="currentExercise" class="order-3 md:order-1"></editor-breadcrumbs>
+          <progress-bar class="order-2"></progress-bar>
+          <div class="order-1 flex w-full items-start justify-center gap-x-2 md:order-3 md:w-auto md:gap-x-0">
             <button
-              class="mr-0 md:mr-2 lg:mb-0 flex h-[48px] w-auto md:w-44 items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63]"
-              @click="openFileBrowser = !openFileBrowser"
+              ref="openFileBrowserButton"
+              class="mr-0 flex h-[48px] w-auto items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:hidden md:w-44 lg:mb-0"
+              @click.stop="openFileBrowser = !openFileBrowser"
             >
-              <FolderIcon v-cloak class="md:ml-2 h-5 w-5" />
+              <FolderIcon v-cloak class="h-5 w-5 md:ml-2" />
             </button>
             <button
-              class="mr-0 md:mr-2 lg:mb-0 flex h-[48px] w-auto md:w-44 items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63]"
+              class="mr-0 flex h-[48px] w-auto items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:w-44 lg:mb-0"
               @click="openComposerModal = true"
             >
               <span class="hidden md:flex">Composer deps</span>
-              <CircleStackIcon v-cloak class="md:ml-2 h-5 w-5" />
+              <CircleStackIcon v-cloak class="h-5 w-5 md:ml-2" />
             </button>
             <button
               id="show-problem"
-              class="mr-0 md:mr-2 mt-0 flex h-[48px] w-auto md:w-44 items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63]"
+              class="mr-0 mt-0 flex h-[48px] w-auto items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:w-44"
               @click="openProblemModal = true"
             >
               <span class="hidden md:flex">Show problem</span>
-              <MapIcon v-cloak class="md:ml-2 h-5 w-5" />
+              <MapIcon v-cloak class="h-5 w-5 md:ml-2" />
             </button>
             <exercise-verify
               @verify-loading="verifyLoading"

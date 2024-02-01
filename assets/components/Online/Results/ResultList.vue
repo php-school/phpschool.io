@@ -20,7 +20,7 @@ const workshopResultRenderers = resultRenderers[props.workshop.code];
 </script>
 
 <template>
-  <ul v-show="results" class="my-8 h-full max-h-full space-y-4 overflow-y-scroll px-4 text-left text-gray-100">
+  <ul class="my-8 h-full max-h-full space-y-4 overflow-y-scroll px-4 text-left text-gray-100">
     <li v-for="success in successes" :key="success.name" class="flex items-start space-x-3">
       <CheckIcon fill="currentColor" class="h-5 w-5 flex-shrink-0 text-green-500" />
       <div class="flex w-full flex-col">

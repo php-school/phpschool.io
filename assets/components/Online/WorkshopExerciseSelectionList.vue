@@ -26,8 +26,8 @@ const selectWorkshop = (workshopCode) => {
 
 <template>
   <alert type="error" @close="showNotLoggedInError = false" :show="showNotLoggedInError" :timeout="4000" message="You must be logged in to start an exercise"></alert>
-  <div class="mt-10 flex h-full w-full gap-4 overflow-hidden font-mono">
-    <div class="h-full w-1/2">
+  <div class="mx-4 mt-10 flex flex-wrap gap-4 overflow-hidden font-mono md:mx-0 md:w-full md:flex-nowrap">
+    <div class="h-full w-full md:w-1/2">
       <div id="workshops" class="flex flex-col items-center justify-center rounded-lg bg-gray-800 shadow">
         <div class="w-full px-4 py-5 sm:px-6">
           <h3 class="pt-[13.5px] text-lg font-medium leading-6 text-white">PHP School Workshops</h3>
@@ -43,7 +43,7 @@ const selectWorkshop = (workshopCode) => {
             }"
             class="group flex flex-row last:rounded-b-lg hover:bg-gray-600"
           >
-            <div class="flex flex-1 cursor-pointer select-none items-center p-4">
+            <div class="hidden flex-1 cursor-pointer select-none items-center p-4 md:flex">
               <div class="mr-4 flex h-10 w-10 flex-col items-center justify-center">
                 <a href="#" class="relative block">
                   <img alt="workshop" src="../../img/cloud/core-workshops.png" class="mx-auto h-10 w-10 object-cover" />
@@ -63,11 +63,31 @@ const selectWorkshop = (workshopCode) => {
                 <ArrowRightCircleIcon v-else class="h-9 w-9 rounded-full border-2 border-solid border-pink-500 !fill-none text-pink-200" />
               </a>
             </div>
+            <div class="flex flex-1 cursor-pointer select-none flex-col items-center p-4 md:hidden">
+              <div class="flex w-full items-center justify-between">
+                <div class="mr-4 flex-1 text-white group-hover:text-pink-600">
+                  <div class="font-medium">{{ workshop.name }}</div>
+                  <div class="text-xs text-gray-300">
+                    {{ workshop.description }}
+                  </div>
+                </div>
+                <a href="#" class="flex text-right">
+                  <CheckCircleIcon v-if="studentStore.isWorkshopComplete(workshop)" class="h-12 w-12 rounded-full border-2 border-solid border-pink-300 text-pink-500" />
+                  <ArrowRightCircleIcon v-else class="h-9 w-9 rounded-full border-2 border-solid border-pink-500 !fill-none text-pink-200" />
+                </a>
+              </div>
+
+              <div class="mt-4 flex w-full items-center justify-between">
+                <div class="rounded-full bg-pink-600 px-3 py-1 text-xs text-gray-200">
+                  {{ workshop.type }}
+                </div>
+              </div>
+            </div>
           </li>
         </ul>
       </div>
 
-      <div class="mt-20 flex items-center justify-center rounded-lg bg-gray-800 shadow hover:cursor-pointer">
+      <div class="mt-20 flex hidden items-center justify-center rounded-lg bg-gray-800 shadow hover:cursor-pointer md:flex">
         <router-link to="/offline" class="flex items-center justify-center">
           <CommandLineIcon class="mx-3 h-12 w-12 fill-pink-600 text-gray-900"></CommandLineIcon>
           <div class="flex-1 py-5 pr-4 sm:pr-6">
@@ -77,8 +97,8 @@ const selectWorkshop = (workshopCode) => {
         </router-link>
       </div>
     </div>
-    <div class="h-full w-1/2">
-      <div v-if="selectedWorkshop === null" class="flex flex-col items-center justify-center">
+    <div class="h-full w-full md:w-1/2">
+      <div v-if="selectedWorkshop === null" class="hidden flex-col items-center justify-center md:flex">
         <h1 class="pt-[13.5px] font-mono text-2xl text-[#e91e63]">Select a workshop</h1>
 
         <svg

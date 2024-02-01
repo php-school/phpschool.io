@@ -74,7 +74,7 @@ const closeModal = (event) => {
   <focus-trap :v-model:active="true">
     <div class="">
       <div class="fixed inset-0 z-40 bg-gray-900 bg-opacity-80" />
-      <div tabindex="-1" class="fixed left-0 right-0 top-0 z-50 flex w-full items-center justify-center overflow-x-hidden md:inset-0 h-full p-2 md:p-0">
+      <div tabindex="-1" class="fixed left-0 right-0 top-0 z-50 flex h-full w-full items-center justify-center overflow-x-hidden p-2 md:inset-0 md:p-0">
         <div
           :id="id"
           v-click-away="clickAway"
