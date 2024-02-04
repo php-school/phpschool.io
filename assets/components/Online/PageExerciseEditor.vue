@@ -391,12 +391,12 @@ const deleteFileOrFolder = async (file) => {
           <TransitionRoot :show="openResults">
             <TransitionChild
               as="template"
-              enter="transform transition ease-in-out duration-500 sm:duration-700"
-              enter-from="-translate-y-full"
-              enter-to="translate-y-0"
+              enter="transform transition ease-in-out duration-300 sm:duration-700"
+              enter-from="-translate-y-full md:translate-y-0 md:translate-x-full"
+              enter-to="translate-y-0 md:translate-x-0"
               leave="transform transition ease-in-out duration-300 sm:duration-700"
-              leave-from="translate-y-0"
-              leave-to="-translate-y-full"
+              leave-from="translate-y-0 md:translate-x-0"
+              leave-to="-translate-y-full md:translate-y-0 md:translate-x-full"
             >
               <div id="results-col" class="absolute right-0 z-10 flex h-full w-full flex-col overflow-y-scroll border-t border-solid border-gray-600 bg-gray-900 md:mt-0 md:w-3/12 md:border-l">
                 <div class="flex items-center justify-between border-b border-solid border-gray-600 py-4 pl-4 pr-4">
@@ -440,7 +440,7 @@ const deleteFileOrFolder = async (file) => {
         <!-- start footer -->
         <div class="flex flex-wrap items-center justify-between gap-y-3 border-t border-solid border-gray-600 p-2 md:mb-0 md:gap-y-0">
           <editor-breadcrumbs :current-exercise="currentExercise" class="order-3 md:order-1"></editor-breadcrumbs>
-          <progress-bar class="order-2"></progress-bar>
+          <progress-bar></progress-bar>
           <div class="order-1 flex w-full items-start justify-center gap-x-2 md:order-3 md:w-auto md:gap-x-0">
             <button
               ref="openFileBrowserButton"
