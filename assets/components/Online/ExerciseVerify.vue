@@ -3,10 +3,10 @@ import Modal from "./ModalDialog.vue";
 import { ArrowPathIcon, CommandLineIcon, SparklesIcon } from "@heroicons/vue/24/solid";
 import toFilePath from "./Utils/toFilePath";
 import RunResult from "./RunResult.vue";
-import {Menu, MenuButton, MenuItem, MenuItems, Tab, TabGroup, TabList, TabPanel, TabPanels} from "@headlessui/vue";
+import { Menu, MenuButton, MenuItem, MenuItems, Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import Alert from "./SiteAlert.vue";
 import { ref } from "vue";
-import {ChevronDownIcon} from "@heroicons/vue/20/solid";
+import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 
 const emit = defineEmits(["verify-loading", "verify-success", "verify-fail", "run-loaded"]);
 const props = defineProps({
@@ -39,7 +39,7 @@ const enableRateLimitError = () => {
 };
 
 const runSolution = async () => {
-  currentAction.value = 'run';
+  currentAction.value = "run";
 
   if (loadingRun.value) {
     return;
@@ -81,7 +81,7 @@ const runSolution = async () => {
 };
 
 const verifySolution = () => {
-  currentAction.value = 'verify';
+  currentAction.value = "verify";
 
   if (loadingVerify.value) {
     return;
@@ -134,7 +134,7 @@ const verifySolution = () => {
 
 <template>
   <alert type="error" @close="showRateLimitError = false" :show="showRateLimitError" :timeout="4000" message="Too many requests. Please try again in a few minutes."></alert>
-  <div class="flex flex-1 items-center gap-y-2 h-[48px]">
+  <div class="flex h-[48px] flex-1 items-center gap-y-2">
     <button
       id="run"
       class="mr-2 mt-0 hidden h-[48px] w-44 items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:flex"
@@ -146,18 +146,16 @@ const verifySolution = () => {
       <CommandLineIcon v-if="!loadingRun" v-cloak class="ml-2 h-5 w-5" />
     </button>
 
-    <div class="w-full md:w-44 h-[48px] flex justify-between md:justify-center rounded bg-gradient-to-r from-pink-600 to-purple-500 px-3">
-      <button
-          class="mr-0 mt-0 flex h-[48px] w-full items-center text-sm text-white transition-all duration-300 ease-in"
-      >
+    <div class="flex h-[48px] w-full justify-between rounded bg-gradient-to-r from-pink-600 to-purple-500 px-3 md:w-44 md:justify-center">
+      <button class="mr-0 mt-0 flex h-[48px] w-full items-center text-sm text-white transition-all duration-300 ease-in">
         <span v-if="currentAction === 'verify'" class="flex flex-1 items-center md:justify-center" @click="verifySolution">
-          <ArrowPathIcon v-cloak v-show="loadingVerify" class="hidden md:flex h-4 w-4 animate-spin" />
-          <span :class="{'md:hidden': loadingVerify}">Verify</span>
-          <SparklesIcon :class="{'md:hidden': loadingVerify}" v-cloak class="ml-2 h-5 w-5" />
+          <ArrowPathIcon v-cloak v-show="loadingVerify" class="hidden h-4 w-4 animate-spin md:flex" />
+          <span :class="{ 'md:hidden': loadingVerify }">Verify</span>
+          <SparklesIcon :class="{ 'md:hidden': loadingVerify }" v-cloak class="ml-2 h-5 w-5" />
         </span>
 
         <span v-if="currentAction === 'run'" class="flex flex-1 items-center md:justify-center" @click="runSolution">
-          <ArrowPathIcon v-cloak v-show="loadingRun" class="hidden md:flex h-4 w-4 animate-spin" />
+          <ArrowPathIcon v-cloak v-show="loadingRun" class="hidden h-4 w-4 animate-spin md:flex" />
           <span>Run</span>
           <CommandLineIcon v-cloak class="ml-2 h-5 w-5" />
         </span>
@@ -165,40 +163,37 @@ const verifySolution = () => {
       <Menu as="div" class="relative text-xs uppercase text-white" v-slot="{ open }">
         <div class="group">
           <MenuButton class="h-[48px]" :disabled="loadingVerify || loadingRun">
-            <ChevronDownIcon v-if="!loadingRun && !loadingVerify"
-                             :class="open ? '' : 'rotate-180'"
-                             class="flex md:hidden ml-2 h-5 w-5 transition duration-200 focus:outline-none duration-300"
-                             aria-hidden="true"
+            <ChevronDownIcon
+              v-if="!loadingRun && !loadingVerify"
+              :class="open ? '' : 'rotate-180'"
+              class="ml-2 flex h-5 w-5 transition duration-200 duration-300 focus:outline-none md:hidden"
+              aria-hidden="true"
             />
-            <ArrowPathIcon v-cloak v-show="loadingVerify || loadingRun" class="flex md:hidden ml-2 h-4 w-4 animate-spin" />
+            <ArrowPathIcon v-cloak v-show="loadingVerify || loadingRun" class="ml-2 flex h-4 w-4 animate-spin md:hidden" />
           </MenuButton>
         </div>
 
         <transition
-            enter-active-class="transition ease-out duration-100"
-            enter-from-class="transform opacity-0 scale-95"
-            enter-to-class="transform opacity-100 scale-100"
-            leave-active-class="transition ease-in duration-75"
-            leave-from-class="transform opacity-100 scale-100"
-            leave-to-class="transform opacity-0 scale-95"
+          enter-active-class="transition ease-out duration-100"
+          enter-from-class="transform opacity-0 scale-95"
+          enter-to-class="transform opacity-100 scale-100"
+          leave-active-class="transition ease-in duration-75"
+          leave-from-class="transform opacity-100 scale-100"
+          leave-to-class="transform opacity-0 scale-95"
         >
-          <MenuItems class="absolute -top-2 -right-3 -translate-y-full z-40 origin-top-right rounded-md bg-gradient-to-r from-pink-600 to-purple-500 text-left w-[168px] px-3">
-            <MenuItem v-slot="{ active, close }" v-if="currentAction === 'verify'">
-              <button
-                  class="flex flex-1 h-[48px] w-full items-center justify-start rounded px-4 text-sm text-white"
-                  @click.stop="runSolution"
-                  :disabled="loadingRun"
-              >
+          <MenuItems class="absolute -right-3 -top-2 z-40 w-[168px] origin-top-right -translate-y-full rounded-md bg-gradient-to-r from-pink-600 to-purple-500 px-3 text-left">
+            <MenuItem v-if="currentAction === 'verify'">
+              <button class="flex h-[48px] w-full flex-1 items-center justify-start rounded px-4 text-sm text-white" @click.stop="runSolution" :disabled="loadingRun">
                 <span>Run</span>
                 <CommandLineIcon class="ml-2 h-5 w-5" />
               </button>
             </MenuItem>
-            <MenuItem v-slot="{ active, close }" v-if="currentAction === 'run'">
+            <MenuItem v-if="currentAction === 'run'">
               <button
-                  v-if="currentAction === 'run'"
-                  class="flex flex-1 h-[48px] w-full items-center justify-start rounded px-4 text-sm text-white"
-                  @click.stop="verifySolution"
-                  :disabled="loadingVerify"
+                v-if="currentAction === 'run'"
+                class="flex h-[48px] w-full flex-1 items-center justify-start rounded px-4 text-sm text-white"
+                @click.stop="verifySolution"
+                :disabled="loadingVerify"
               >
                 <span>Verify</span>
                 <SparklesIcon class="ml-2 h-5 w-5" />
@@ -211,12 +206,12 @@ const verifySolution = () => {
   </div>
   <Teleport to="body">
     <Transition
-        enter-active-class="transition-opacity duration-100 ease-in"
-        leave-active-class="transition-opacity duration-200 ease-in"
-        enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
+      enter-active-class="transition-opacity duration-100 ease-in"
+      leave-active-class="transition-opacity duration-200 ease-in"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
     >
       <Modal id="run-modal" :scroll-content="true" size="3xl" max-height="max-h-[calc(5/6*100%)]" v-if="openRunModal" @close="openRunModal = false">
         <template #header>
@@ -236,10 +231,10 @@ const verifySolution = () => {
               <TabList className="flex justify-center border-b border-solid border-gray-600">
                 <Tab as="template" v-slot="{ selected }" v-for="(run, i) in programRunResult.runs" :key="i">
                   <button
-                      :class="{
-                    'border-b-2 border-pink-500 px-4 py-3 text-pink-400': selected,
-                    ' px-4 py-3 text-white': !selected,
-                  }"
+                    :class="{
+                      'border-b-2 border-pink-500 px-4 py-3 text-pink-400': selected,
+                      ' px-4 py-3 text-white': !selected,
+                    }"
                   >
                     Run #{{ i + 1 }}
                   </button>
@@ -258,10 +253,10 @@ const verifySolution = () => {
         <template #footer>
           <div class="flex justify-end">
             <button
-                type="button"
-                v-show="programRunResult.success === true"
-                class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto sm:text-sm"
-                @click="runSolution"
+              type="button"
+              v-show="programRunResult.success === true"
+              class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto sm:text-sm"
+              @click="runSolution"
             >
               <ArrowPathIcon :class="{ 'animate-spin': loadingRun }" class="-ml-1 mr-2 h-4 w-4" />
               Run again
@@ -271,6 +266,4 @@ const verifySolution = () => {
       </Modal>
     </Transition>
   </Teleport>
-
-
 </template>
