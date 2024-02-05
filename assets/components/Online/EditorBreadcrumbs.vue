@@ -33,11 +33,9 @@ const exerciseCompleted = computed(() => {
         </div>
       </li>
       <li>
-        <div class="flex items-center">
-          <span v-if="exerciseCompleted" title="You've already completed this exercise!">
-            <TrophyIcon class="h-6 w-6 text-yellow-400" />
-          </span>
-        </div>
+        <span class="ml-1 flex items-center md:ml-0" v-if="exerciseCompleted" title="You've already completed this exercise!">
+          <TrophyIcon class="h-4 w-4 text-yellow-400 md:h-6 md:w-6" />
+        </span>
       </li>
     </ol>
   </nav>

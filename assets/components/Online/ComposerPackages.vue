@@ -98,7 +98,7 @@ const removeDependency = (packageName) => {
             :disabled="newDependency === ''"
             @click.stop="addDependency"
             type="button"
-            class="inline-flex h-9 w-16 items-center justify-center rounded-full border border-transparent bg-pink-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 disabled:opacity-70 disabled:hover:bg-pink-600 sm:ml-3 sm:text-sm"
+            class="ml-3 inline-flex h-9 w-16 items-center justify-center rounded-full border border-transparent bg-pink-600 px-4 py-2 text-base text-sm font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 disabled:opacity-70 disabled:hover:bg-pink-600"
           >
             <ArrowPathIcon v-cloak v-show="loadingComposerAdd" class="h-4 w-4 animate-spin" />
             <span v-if="!loadingComposerAdd">Add</span>
