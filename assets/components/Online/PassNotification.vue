@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onBeforeUnmount, ref } from "vue";
 import Modal from "./ModalDialog.vue";
 import FileTree from "./FileTree.vue";
 import AceEditor from "./AceEditor.vue";
@@ -34,9 +34,10 @@ onMounted(() => {
   };
 
   document.addEventListener("keyup", el.value.escapeEventHandler, true);
+  el.value.focus();
 });
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   document.removeEventListener("keyup", el.value.escapeEventHandler);
 });
 
@@ -94,7 +95,7 @@ const isSelectedFile = (file) => {
   <div ref="el">
     <div v-cloak class="fixed inset-0 z-40 bg-gray-900 bg-opacity-70" />
     <div v-click-away="dismissPassNotification" v-cloak id="pass-notification" class="absolute top-4 z-40 flex w-full justify-center shadow-lg">
-      <div class="mx-auto rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 px-3 py-3 sm:px-6 lg:px-8">
+      <div class="mx-2 rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 px-3 py-3 sm:px-6 md:mx-auto lg:px-8">
         <div class="flex flex-wrap items-center justify-center">
           <div class="flex items-center">
             <span class="flex rounded-lg p-2">
@@ -105,16 +106,16 @@ const isSelectedFile = (file) => {
               <span class="hidden md:inline">Congratulations! your solution passed.</span>
             </p>
           </div>
-          <div v-if="hasOfficialSolution" class="order-3 mt-2 w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
-            <button @click="showOfficialSolution" class="flex items-center justify-center px-2 py-2 text-sm font-bold text-white underline">See the official solution</button>
+          <div v-if="hasOfficialSolution" class="flex w-full flex-shrink-0 justify-center sm:mt-0 md:w-auto">
+            <button @click="showOfficialSolution" class="px-2 py-2 text-sm font-bold text-white underline">See the official solution</button>
           </div>
-          <div v-if="nextExerciseLink" class="order-3 mt-2 flex w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
+          <div v-if="nextExerciseLink" class="flex w-full flex-shrink-0 justify-center sm:mt-0 md:w-auto">
             <span v-if="hasOfficialSolution" class="flex items-center justify-center text-sm text-white">or</span>
             <router-link id="next-exercise-link" :to="nextExerciseLink" class="flex items-center justify-center px-2 py-2 text-sm font-bold text-white underline">
               Continue to the next exercise &rarr;
             </router-link>
           </div>
-          <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-3">
+          <div class="flex-shrink-0 sm:ml-3">
             <button @click="dismissPassNotification" type="button" class="-mr-1 flex rounded-md p-2 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-white sm:-mr-2">
               <span class="sr-only">Dismiss</span>
               <XMarkIcon class="h-6 w-6 text-white" />

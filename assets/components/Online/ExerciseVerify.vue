@@ -146,8 +146,8 @@ const verifySolution = () => {
       <CommandLineIcon v-if="!loadingRun" v-cloak class="ml-2 h-5 w-5" />
     </button>
 
-    <div class="flex h-[48px] w-full justify-between rounded bg-gradient-to-r from-pink-600 to-purple-500 px-3 md:w-44 md:justify-center">
-      <button class="mr-0 mt-0 flex h-[48px] w-full items-center text-sm text-white transition-all duration-300 ease-in">
+    <div class="flex h-[48px] w-full justify-between rounded bg-gradient-to-r from-pink-600 to-purple-500 md:w-44 md:justify-center">
+      <button class="mr-0 mt-0 flex h-[48px] w-full items-center pl-3 text-sm text-white outline-none transition-all duration-300 ease-in">
         <span v-if="currentAction === 'verify'" class="flex flex-1 items-center md:justify-center" @click="verifySolution">
           <ArrowPathIcon v-cloak v-show="loadingVerify" class="hidden h-4 w-4 animate-spin md:flex" />
           <span :class="{ 'md:hidden': loadingVerify }">Verify</span>
@@ -160,7 +160,7 @@ const verifySolution = () => {
           <CommandLineIcon v-cloak class="ml-2 h-5 w-5" />
         </span>
       </button>
-      <Menu as="div" class="relative text-xs uppercase text-white" v-slot="{ open }">
+      <Menu as="div" class="relative pr-3 text-xs uppercase text-white" v-slot="{ open }">
         <div class="group">
           <MenuButton class="h-[48px]" :disabled="loadingVerify || loadingRun">
             <ChevronDownIcon
