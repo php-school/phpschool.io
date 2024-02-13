@@ -14,12 +14,12 @@ import CodeAnimation from "../../CodeAnimation.vue";
           <Logo class="h-64 w-64 text-white hover:text-white" />
         </figure>
         <div class="mt-20">
-          <a
-            href=" /cloud"
+          <router-link
+            to="/online"
             class="items-center rounded-full border-2 bg-none px-10 py-2 font-thin uppercase text-white transition-all duration-300 ease-in-out hover:bg-white hover:text-gray-800 hover:no-underline"
           >
             get started
-          </a>
+          </router-link>
         </div>
       </div>
       <div class="code-fade hidden overflow-hidden px-4 text-white drop-shadow-[0_0_5px_rgba(255,255,255,1)] lg:block">
