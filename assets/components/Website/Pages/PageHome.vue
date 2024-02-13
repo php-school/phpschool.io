@@ -17,6 +17,9 @@ import TheWorkshops from "./Home/Section/TheWorkshops.vue";
 import BuildYourOwn from "./Home/Section/BuildYourOwn.vue";
 
 import { SparklesIcon } from "@heroicons/vue/24/solid";
+import {useStudentStore} from "../../../stores/student";
+
+const studentStore = useStudentStore();
 
 const userInput = ref("");
 const showInitialSetup = ref(true);
@@ -133,7 +136,6 @@ onUnmounted(() => {
                 </div>
               </div>
               <div class="absolute -bottom-36 right-10 z-50 hidden sm:block lg:-bottom-60 lg:left-10 2xl:left-60">
-                <!-- <div class="ellipse bobbing-animation"></div> -->
                 <img class="bobbing-animation h-auto w-auto" src="../../../img/cloud/php-elephant-bandana.png" alt="" srcset="" />
               </div>
             </div>
@@ -165,8 +167,12 @@ onUnmounted(() => {
             </p>
             <div class="flex justify-start">
               <PrimaryButton to="/online" class="flex items-center">
-                <GitHubIcon class="mr-2 h-6 w-6" />
-                <span>Log In with github</span>
+                <span v-if="studentStore.student">TO THE WORKSHOPS</span>
+                <div v-else>
+                  <GitHubIcon class="mr-2 h-6 w-6" />
+                  <span v-if="studentStore.student">Log In with github</span>
+
+                </div>
               </PrimaryButton>
             </div>
           </div>
@@ -249,7 +255,7 @@ onUnmounted(() => {
                   type="text"
                   placeholder="Type Something..."
                   v-model="userInput"
-                  class="w-full rounded-2xl p-5 font-work-sans text-base font-bold text-gray-900 focus:border-pink-500 focus:outline-none focus:ring focus:ring-pink-500"
+                  class="w-full rounded-2xl p-5 font-work-sans text-base border-0 font-bold text-gray-900 focus:border-pink-500 focus:outline-none focus:ring focus:ring-pink-500"
                   @keyup="userInputKeyup"
                 />
 
