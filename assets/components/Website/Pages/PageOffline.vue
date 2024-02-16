@@ -141,19 +141,19 @@ const linux = [
           <TabList class="flex my-20">
             <Tab as="template" v-slot="{ selected }">
               <div class="w-1/3 flex flex-col justify-center items-center cursor-pointer group focus:outline-none">
-                <AppleLogo class="h-[200px] aspect-square " :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></AppleLogo>
+                <AppleLogo class="h-[50px] sm:h-[100px] lg:h-[200px] aspect-square " :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></AppleLogo>
                 <h3 class="mt-4 p-0 font-work-sans text-2xl capitalize not-italic" :class="{ 'text-white group-hover:text-pink-600': !selected, 'text-[#e91e63]': selected }">Apple Mac</h3>
               </div>
             </Tab>
             <Tab as="template" v-slot="{ selected }">
               <div class="w-1/3 flex flex-col justify-center items-center cursor-pointer group focus:outline-none">
-                <LinuxLogo class="h-[200px] aspect-square" :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></LinuxLogo>
+                <LinuxLogo class="h-[50px] sm:h-[100px] lg:h-[200px] aspect-square" :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></LinuxLogo>
                 <h3 class="mt-4 p-0 font-work-sans text-2xl capitalize not-italic" :class="{ 'text-white group-hover:text-pink-600': !selected, 'text-[#e91e63]': selected }">Linux</h3>
               </div>
             </Tab>
             <Tab as="template" v-slot="{ selected }">
               <div class="w-1/3 flex flex-col justify-center items-center cursor-pointer group focus:outline-none">
-                <WindowsLogo class="h-[200px] aspect-square" :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></WindowsLogo>
+                <WindowsLogo class="h-[50px] sm:h-[100px] lg:h-[200px] aspect-square" :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></WindowsLogo>
                 <h3 class="mt-4 p-0 font-work-sans text-2xl capitalize not-italic" :class="{ 'text-white group-hover:text-pink-600 ': !selected, 'text-[#e91e63]': selected }">Windows</h3>
               </div>
             </Tab>
