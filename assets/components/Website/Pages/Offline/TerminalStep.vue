@@ -19,7 +19,7 @@ defineProps({
 <template>
   <li class="mb-12 flex w-full justify-between p-4">
     <div class="flex flex-col">
-      <div class="mb-4 flex h-8 w-8 items-center justify-center rounded bg-slate-800 font-bold">
+      <div class="mb-4 flex h-8 w-8 items-center justify-center rounded bg-slate-800 font-bold text-white">
         {{ step }}
       </div>
       <div class="ml-4 flex-grow border-l border-solid border-slate-800"></div>
