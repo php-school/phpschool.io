@@ -144,9 +144,9 @@ onUnmounted(() => {
 
       <!-- Mobile Menu Button -->
       <div class="block sm:hidden">
-        <button @click="mobileMenuVisible = !mobileMenuVisible" class="text-white hover:text-gray-300 focus:outline-none">
+        <Button @click="mobileMenuVisible = !mobileMenuVisible" class="text-white hover:text-gray-300 focus:outline-none">
           <img src="../../img/cloud/bars-solid-pink.svg" alt="" class="h-6 w-6" />
-        </button>
+        </Button>
       </div>
 
       <!-- Sign In Button -->

@@ -17,7 +17,7 @@ import TheWorkshops from "./Home/Section/TheWorkshops.vue";
 import BuildYourOwn from "./Home/Section/BuildYourOwn.vue";
 
 import { SparklesIcon } from "@heroicons/vue/24/solid";
-import {useStudentStore} from "../../../stores/student";
+import { useStudentStore } from "../../../stores/student";
 
 const studentStore = useStudentStore();
 
@@ -171,7 +171,6 @@ onUnmounted(() => {
                 <div v-else>
                   <GitHubIcon class="mr-2 h-6 w-6" />
                   <span v-if="studentStore.student">Log In with github</span>
-
                 </div>
               </PrimaryButton>
             </div>
@@ -255,7 +254,7 @@ onUnmounted(() => {
                   type="text"
                   placeholder="Type Something..."
                   v-model="userInput"
-                  class="w-full rounded-2xl p-5 font-work-sans text-base border-0 font-bold text-gray-900 focus:border-pink-500 focus:outline-none focus:ring focus:ring-pink-500"
+                  class="w-full rounded-2xl border-0 p-5 font-work-sans text-base font-bold text-gray-900 focus:border-pink-500 focus:outline-none focus:ring focus:ring-pink-500"
                   @keyup="userInputKeyup"
                 />
 

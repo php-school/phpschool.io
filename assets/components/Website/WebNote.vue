@@ -19,7 +19,7 @@ const panelClasses = computed(() => {
 </script>
 
 <template>
-  <div class="my-6  border-l-2 p-3" :class="panelClasses">
+  <div class="my-6 border-l-2 p-3" :class="panelClasses">
     <div class="flex items-start">
       <div class="">
         <p class="!mb-0 text-sm text-gray-300">
