@@ -8,11 +8,10 @@ defineProps({
   title: {
     type: String,
   },
-  description: {
-    type: String,
-  },
   lines: {
     type: Array,
+    required: false,
+    default: () => [],
   },
 });
 </script>
@@ -30,10 +29,10 @@ defineProps({
         <h4 class="mt-0 p-0 font-work-sans text-lg font-bold capitalize not-italic text-pink-600">
           {{ title }}
         </h4>
-        <p class="mt-4 text-sm text-gray-300">{{ description }}</p>
+        <p class="mt-4 text-sm text-gray-300"><slot name="description"></slot></p>
       </div>
 
-      <TerminalDisplay :lines="lines" />
+      <TerminalDisplay v-if="lines.length" :lines="lines" />
     </div>
   </li>
 </template>

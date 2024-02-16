@@ -4,6 +4,12 @@ import PageSection from "./PageSection.vue";
 import { CheckIcon } from "@heroicons/vue/24/solid";
 import TerminalStep from "./Offline/TerminalStep.vue";
 import { CogIcon } from "@heroicons/vue/24/outline";
+import WindowsLogo from "../../Icons/WindowsLogo.vue";
+import AppleLogo from "../../Icons/AppleLogo.vue";
+import LinuxLogo from "../../Icons/LinuxLogo.vue";
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
+import SupportStep from "./Offline/SupportStep.vue";
+import WebNote from "../WebNote.vue";
 
 const steps = [
   {
@@ -102,6 +108,159 @@ const steps = [
     </PageSection>
     <PageSection>
       <template #title>Troubleshooting</template>
+
+      <div class="w-full">
+        <TabGroup>
+          <TabList class="my-20 flex">
+            <Tab as="template" v-slot="{ selected }">
+              <div class="group flex w-1/3 cursor-pointer flex-col items-center justify-center focus:outline-none">
+                <AppleLogo class="aspect-square h-[50px] sm:h-[100px] lg:h-[200px]" :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></AppleLogo>
+                <h3 class="mt-4 p-0 font-work-sans text-2xl capitalize not-italic" :class="{ 'text-white group-hover:text-pink-600': !selected, 'text-[#e91e63]': selected }">Apple Mac</h3>
+              </div>
+            </Tab>
+            <Tab as="template" v-slot="{ selected }">
+              <div class="group flex w-1/3 cursor-pointer flex-col items-center justify-center focus:outline-none">
+                <LinuxLogo class="aspect-square h-[50px] sm:h-[100px] lg:h-[200px]" :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></LinuxLogo>
+                <h3 class="mt-4 p-0 font-work-sans text-2xl capitalize not-italic" :class="{ 'text-white group-hover:text-pink-600': !selected, 'text-[#e91e63]': selected }">Linux</h3>
+              </div>
+            </Tab>
+            <Tab as="template" v-slot="{ selected }">
+              <div class="group flex w-1/3 cursor-pointer flex-col items-center justify-center focus:outline-none">
+                <WindowsLogo class="aspect-square h-[50px] sm:h-[100px] lg:h-[200px]" :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></WindowsLogo>
+                <h3 class="mt-4 p-0 font-work-sans text-2xl capitalize not-italic" :class="{ 'text-white group-hover:text-pink-600 ': !selected, 'text-[#e91e63]': selected }">Windows</h3>
+              </div>
+            </Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <h3 class="mb-8 p-0 font-work-sans text-5xl capitalize not-italic text-pink-600">Apple Mac</h3>
+              <p class="mb-8 text-white">Common issues with Mac OSX installations include not having a new enough version of PHP and not having Composer available.</p>
+              <SupportStep
+                :step="1"
+                :title="'Check your PHP version'"
+                :lines="['/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;', 'brew install php']"
+              >
+                <template #description>
+                  <p>If you have a PHP version less than 8.1, you will need to update it to at least 8.1, you can do so with the following commands</p>
+
+                  <WebNote type="info">
+                    You can check your PHP version with
+                    <code>php -v</code>
+                  </WebNote>
+                </template>
+              </SupportStep>
+              <SupportStep :step="2" :title="'Check PHP School\'s bin directory is available in $PATH'">
+                <template #description>
+                  <p>
+                    After installing a workshop using the workshop manager you may find it's not available to run immediately. If this happens the simplest remedy is to make sure PHP School's workshop
+                    bin directory is available in the
+                    <code>$PATH</code>
+                    environment variable. You can check this with
+                    <code>workshop-manager</code>
+                    verify which will also provide the relevant details on how to resolve the issue. To learn more about the
+                    <code>$PATH</code>
+                    environment, click
+                    <a class="text-[#e91e63] hover:underline" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>
+                    .
+                  </p>
+                </template>
+              </SupportStep>
+            </TabPanel>
+            <TabPanel>
+              <h3 class="mb-8 p-0 font-work-sans text-5xl capitalize not-italic text-pink-600">Linux</h3>
+              <p class="mb-8 text-white">Common issues with Linux installations include not having a new enough version of PHP and not having Composer available.</p>
+              <SupportStep
+                :step="1"
+                :title="'Check your PHP version'"
+                :lines="[
+                  'sudo apt-get update && sudo apt-get upgrade',
+                  'sudo apt-get install software-properties-common',
+                  'sudo add-apt-repository ppa:ondrej/php',
+                  'sudo apt-get update',
+                  'sudo apt-get install php8.3',
+                ]"
+              >
+                <template #description>
+                  <p>If you have a PHP version less than 8.1, you will need to update it to at least 8.1, you can do so with the following commands</p>
+
+                  <WebNote type="info">
+                    You can check your PHP version with
+                    <code>php -v</code>
+                  </WebNote>
+                </template>
+              </SupportStep>
+              <SupportStep :step="2" :title="'Check PHP School\'s bin directory is available in $PATH'">
+                <template #description>
+                  <p>
+                    After installing a workshop using the workshop manager you may find it's not available to run immediately. If this happens the simplest remedy is to make sure PHP School's workshop
+                    bin directory is available in the
+                    <code>$PATH</code>
+                    environment variable. You can check this with
+                    <code>workshop-manager</code>
+                    verify which will also provide the relevant details on how to resolve the issue. To learn more about the
+                    <code>$PATH</code>
+                    environment, click
+                    <a class="text-[#e91e63] hover:underline" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>
+                    .
+                  </p>
+                </template>
+              </SupportStep>
+            </TabPanel>
+            <TabPanel>
+              <h3 class="mb-8 p-0 font-work-sans text-5xl capitalize not-italic text-pink-600">Windows</h3>
+              <p class="mb-8 text-white">
+                Windows is a difficult system to cater for in the PHP world. Unfortunately, it has various differences on the command line and console emulators which PHP unfortunately doesn't
+                support. The best way to get PHP School Workshops running is to install Cygwin + ConEmu. Once the initial setup of these are complete, the process of installing workshops is the same
+                as Linux and Mac OSX operating systems.
+              </p>
+              <SupportStep :step="1" :title="'Check if Cygwin is installed'">
+                <template #description>
+                  <p>If not, follow the instructions below:</p>
+                  <ul class="ml-2 mt-4 list-inside list-decimal">
+                    <li class="list-item p-1">
+                      Head on over to
+                      <a class="text-[#e91e63] hover:underline" href="https://cygwin.com/install.html" target="_blank">https://cygwin.com/install.html</a>
+                      and grab the latest installer for your system, 32-bit or 64-bit.
+                    </li>
+                    <li class="list-item p-1">Run the installer and chose the default values until the package selection point.</li>
+                    <li class="list-item p-1">Ensure you choose to install ALL PHP packages. We also recommend installing GIT and VIM to complete your CLI experience.</li>
+                    <li class="list-item p-1">Complete the installation.</li>
+                  </ul>
+                </template>
+              </SupportStep>
+              <SupportStep :step="2" :title="'Check if ConEmu is installed'">
+                <template #description>
+                  <ul class="ml-2 mt-4 list-inside list-decimal">
+                    <li class="list-item p-1">
+                      Grab the installer from
+                      <a class="text-[#e91e63] hover:underline" href="https://conemu.github.io/" target="_blank">https://conemu.github.io/</a>
+                      .
+                    </li>
+                    <li class="list-item p-1">Run the installer and open ConEmu.</li>
+                    <li class="list-item p-1">Select Cygwin Bash</li>
+                  </ul>
+                </template>
+              </SupportStep>
+              <SupportStep :step="3" :title="'Check PHP School\'s bin directory is available in $PATH'">
+                <template #description>
+                  <p>
+                    After installing a workshop using the workshop manager you may find it's not available to run immediately. If this happens the simplest remedy is to make sure PHP School's workshop
+                    bin directory is available in the
+                    <code>$PATH</code>
+                    environment variable. You can check this with
+                    <code>workshop-manager</code>
+                    verify which will also provide the relevant details on how to resolve the issue. To learn more about the
+                    <code>$PATH</code>
+                    environment, click
+                    <a class="text-[#e91e63] hover:underline" href="https://en.wikipedia.org/wiki/PATH_(variable)">here</a>
+                    .
+                  </p>
+                </template>
+              </SupportStep>
+            </TabPanel>
+          </TabPanels>
+        </TabGroup>
+      </div>
     </PageSection>
   </div>
 </template>
