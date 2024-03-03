@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import {PencilSquareIcon} from '@heroicons/vue/24/outline'
+import { PencilSquareIcon } from "@heroicons/vue/24/outline";
 
 const props = defineProps({
   id: {
@@ -33,7 +33,7 @@ const slug = computed(() => {
       class="ml-2 inline-block fill-current !text-gray-300 hover:!text-gray-200"
       :href="'https://www.github.com/php-school/phpschool.io/tree/master/assets/components/Website/Docs/Sections/' + file"
     >
-        <PencilSquareIcon class="h-6 w-6"></PencilSquareIcon>
+      <PencilSquareIcon class="h-6 w-6"></PencilSquareIcon>
     </a>
     <a href="#app" class="absolute right-0 text-xs hover:underline">^ TOP</a>
   </h2>

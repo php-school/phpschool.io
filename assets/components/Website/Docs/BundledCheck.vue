@@ -12,7 +12,7 @@ defineProps({
   compatible: {
     type: Array,
     validator(value) {
-       return value.every((v) => ["CLI", "CGI"].includes(v));
+      return value.every((v) => ["CLI", "CGI"].includes(v));
     },
     default: () => ["CLI", "CGI"],
   },
