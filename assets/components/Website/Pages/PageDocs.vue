@@ -79,7 +79,7 @@ const homeLink = computed(() => {
               {{ group.title }}
             </h2>
 
-            <ul class="">
+            <ul>
               <li v-for="section in group.sections" :key="section.title">
                 <router-link :to="sectionRoute(group, section)" exact-active-class="border-r-[3px] border-[#e91e63]" class="block px-3 py-1.5 font-open-sans text-sm text-[#e91e63] hover:underline">
                   {{ section.title }}

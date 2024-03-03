@@ -12,8 +12,9 @@ defineProps({
   compatible: {
     type: Array,
     validator(value) {
-      return ["CLI, CGI"].includes(value);
+       return value.every((v) => ["CLI", "CGI"].includes(v));
     },
+    default: () => ["CLI", "CGI"],
   },
   registered: {
     type: Boolean,
