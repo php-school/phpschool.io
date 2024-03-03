@@ -60,7 +60,7 @@ const docRoutes = [].concat(
 
 const routes = [
   { path: "/", component: Home, meta: { layout: MainLayout } },
-  { path: "/online", component: Dashboard, meta: { layout: CompactLayout } },
+  { path: "/online/:workshop?", component: Dashboard, meta: { layout: CompactLayout } },
   {
     path: "/online/editor/:workshop/:exercise",
     component: ExerciseEditor,

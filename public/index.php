@@ -25,6 +25,7 @@ use PhpSchool\Website\Action\Online\RunExercise;
 use PhpSchool\Website\Action\Online\TourComplete;
 use PhpSchool\Website\Action\Online\VerifyExercise;
 use PhpSchool\Website\Action\Online\Workshops;
+use PhpSchool\Website\Action\SlackInvite;
 use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Action\StudentLogout;
 use PhpSchool\Website\Action\SubmitWorkshop;
@@ -67,7 +68,7 @@ $errors = $app->addErrorMiddleware(
 $app->post('/api/submit', SubmitWorkshop::class);
 $app->get('/api/events', Events::class);
 $app->get('/api/posts', BlogPosts::class);
-$app->get('/api/post/{slug}', BlogPost::class);
+$app->post('/api/slack-invite', SlackInvite::class);
 
 $app
     ->group('/api/admin', function (RouteCollectorProxy $group) {

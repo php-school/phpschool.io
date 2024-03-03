@@ -168,9 +168,9 @@ onUnmounted(() => {
             <div class="flex justify-start">
               <PrimaryButton to="/online" class="flex items-center">
                 <span v-if="studentStore.student">TO THE WORKSHOPS</span>
-                <div v-else>
+                <div v-else class="flex items-center">
                   <GitHubIcon class="mr-2 h-6 w-6" />
-                  <span v-if="studentStore.student">Log In with github</span>
+                  <span>Log In with github</span>
                 </div>
               </PrimaryButton>
             </div>
@@ -318,7 +318,7 @@ onUnmounted(() => {
       </InfoSection>
     </section>
     <GettingStarted />
-    <TheWorkshops />
+    <TheWorkshops :logged-in="studentStore.student !== null" />
     <BuildYourOwn />
   </div>
 </template>

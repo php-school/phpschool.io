@@ -11,6 +11,7 @@ import { useStudentStore } from "../../stores/student";
 import TwitterIcon from "../Icons/TwitterIcon.vue";
 import SlackIcon from "../Icons/SlackIcon.vue";
 import LoginWithGitHubButton from "../Online/LoginWithGitHubButton.vue";
+import JoinSlack from "./JoinSlack.vue";
 const studentStore = useStudentStore();
 
 const links = {
@@ -48,6 +49,8 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", hideMobileMenu);
 });
+
+const slackModalOpen = ref(false);
 </script>
 
 <template>
@@ -135,9 +138,9 @@ onUnmounted(() => {
             </a>
           </li>
           <li class="social-nav__item">
-            <a :href="links.slack" target="_blank" class="block" title="PHPSchool on Slack">
+            <button @click="slackModalOpen = true" class="block" title="PHPSchool on Slack">
               <SlackIcon class="h-5 w-5 fill-current align-middle text-white hover:text-[#e91e63]"></SlackIcon>
-            </a>
+            </button>
           </li>
         </ul>
       </div>
@@ -182,4 +185,6 @@ onUnmounted(() => {
 
   <!-- Blur Overlay -->
   <div :class="mobileMenuVisible ? 'fixed inset-0 z-30 block bg-white bg-opacity-40 backdrop-blur' : 'hidden'" class="transition-opacity duration-300" @click="toggleMenu"></div>
+
+  <JoinSlack :open="slackModalOpen" @close="slackModalOpen = false" />
 </template>

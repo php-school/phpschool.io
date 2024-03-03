@@ -2,18 +2,21 @@
 import { CheckCircleIcon, CommandLineIcon } from "@heroicons/vue/24/solid";
 import { ArrowRightCircleIcon } from "@heroicons/vue/24/outline";
 import ExerciseEntry from "./ExerciseEntry.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Alert from "./SiteAlert.vue";
 
 import { useStudentStore } from "../../stores/student";
 const studentStore = useStudentStore();
 
 import { useWorkshopStore } from "../../stores/workshops";
+import { useRoute } from "vue-router";
 const workshopStore = useWorkshopStore();
 
 const selectedWorkshop = ref(null);
 
 const showNotLoggedInError = ref(false);
+
+const route = useRoute();
 
 const notLoggedIn = () => {
   showNotLoggedInError.value = true;
@@ -21,7 +24,19 @@ const notLoggedIn = () => {
 
 const selectWorkshop = (workshopCode) => {
   selectedWorkshop.value = workshopStore.workshops.find((workshop) => workshop.code === workshopCode);
+
+  history.pushState({}, null, "/online/" + workshopCode);
 };
+
+watch(
+  () => route.params,
+  (toParams) => {
+    if (toParams.workshop) {
+      selectedWorkshop.value = workshopStore.workshops.find((workshop) => workshop.code === toParams.workshop);
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <template>

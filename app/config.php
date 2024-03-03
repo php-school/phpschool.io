@@ -44,6 +44,7 @@ use PhpSchool\Website\Action\Admin\Workshop\View;
 use PhpSchool\Website\Action\Online\ComposerPackageAdd;
 use PhpSchool\Website\Action\Online\RunExercise;
 use PhpSchool\Website\Action\Online\VerifyExercise;
+use PhpSchool\Website\Action\SlackInvite;
 use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Action\TrackDownloads;
@@ -232,13 +233,20 @@ return [
     SubmitWorkshop::class => \DI\factory(function (ContainerInterface $c): SubmitWorkshop {
         return new SubmitWorkshop(
             $c->get(FormHandlerFactory::class)->create(
-                new SubmitWorkshopInputFilter(new Client, $c->get(WorkshopRepository::class))
+                new SubmitWorkshopInputFilter(new Client(), $c->get(WorkshopRepository::class))
             ),
-            new WorkshopCreator(new WorkshopComposerJsonInputFilter, $c->get(WorkshopRepository::class)),
+            new WorkshopCreator(new WorkshopComposerJsonInputFilter(), $c->get(WorkshopRepository::class)),
             $c->get(EmailNotifier::class),
             $c->get(LoggerInterface::class)
         );
     }),
+
+    SlackInvite::class => function (ContainerInterface $c): SlackInvite {
+        return new SlackInvite(
+            $c->get('guzzle'),
+            $c->get('config')['slackInviteApiToken']
+        );
+    },
 
     Github::class => function (ContainerInterface $c): Github {
         return new Github([
@@ -318,6 +326,10 @@ return [
             $c->get(WorkshopInstallRepository::class),
             $c->get(PhpRenderer::class)
         );
+    },
+
+    'guzzle' => function (ContainerInterface $c): \GuzzleHttp\Client {
+        return new \GuzzleHttp\Client();
     },
 
     'guzzle.packagist' => function (ContainerInterface $c) {
@@ -618,7 +630,8 @@ return [
             'clientSecret' => $_ENV['GITHUB_CLIENT_SECRET'],
         ],
 
-        'jwtSecret' => $_ENV['JWT_SECRET']
+        'jwtSecret' => $_ENV['JWT_SECRET'],
+        'slackInviteApiToken' => $_ENV['SLACK_INVITE_API_TOKEN'],
     ],
 
     //slim settings
