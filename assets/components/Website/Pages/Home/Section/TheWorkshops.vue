@@ -2,6 +2,7 @@
 import PageSection from "../../PageSection.vue";
 
 import { useWorkshopStore } from "../../../../../stores/workshops";
+import GitHubIcon from "../../../../Icons/GitHubIcon.vue";
 const workshopStore = useWorkshopStore();
 
 const { loggedIn } = defineProps({
@@ -47,6 +48,10 @@ const { loggedIn } = defineProps({
                 <span v-else>{{ workshop.name }}</span>
 
                 <div class="ml-3 flex-none rounded-full bg-pink-500/10 px-2 py-0.5 text-xs font-medium text-pink-500 ring-1 ring-inset ring-pink-500/30">Online</div>
+
+                <a target="_blank" :href="workshop.repo_url">
+                  <GitHubIcon class="ml-2 h-5 w-5 text-white hover:text-pink-600"></GitHubIcon>
+                </a>
               </div>
               <div class="ml-9 mt-4 text-base">
                 {{ workshop.description }}
@@ -65,6 +70,13 @@ const { loggedIn } = defineProps({
                     <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                   </svg>
                   <span>{{ workshop.name }}</span>
+                  <p class="ml-2 mt-1 text-sm text-gray-300">
+                    by
+                    <a target="_blank" class="underline decoration-pink-600 decoration-2 underline-offset-4" :href="workshop.submitter_contact">{{ workshop.submitter_name }}</a>
+                  </p>
+                  <a target="_blank" :href="workshop.repo_url">
+                    <GitHubIcon class="ml-2 mt-1 h-5 w-5 text-white hover:text-pink-600"></GitHubIcon>
+                  </a>
                 </div>
                 <div class="ml-9 mt-4 text-base">
                   {{ workshop.description }}
