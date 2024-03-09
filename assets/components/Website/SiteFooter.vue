@@ -38,8 +38,8 @@ const slackModalOpen = ref(false);
           <h4 class="mb-2 font-work-sans text-lg font-bold capitalize not-italic text-white">The Creators</h4>
           <ul class="list-none">
             <li class="py-1"><router-link to="/events" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">About Us</router-link></li>
-            <li class="py-1"><router-link to="/events" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">Email Us</router-link></li>
-            <li class="py-1"><router-link to="/events" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">GitHub</router-link></li>
+            <li class="py-1"><a href="mailto:phpschool.team@gmail.com" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">Email Us</a></li>
+            <li class="py-1"><a href="https://github.com/php-school" target="_blank" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">GitHub</a></li>
           </ul>
         </div>
       </div>
