@@ -25,6 +25,7 @@ const userInput = ref("");
 const showInitialSetup = ref(true);
 const showCorrectInput = ref(false);
 const showWrongInput = ref(false);
+const inputWrong = ref(false);
 
 const userInputKeyup = (event) => {
   if (event.code === "Enter") {
@@ -34,9 +35,11 @@ const userInputKeyup = (event) => {
   showInitialSetup.value = true;
   showCorrectInput.value = false;
   showWrongInput.value = false;
+  inputWrong.value = false;
 };
 
 const checkInput = () => {
+
   if (userInput.value === 'echo "Hello World";') {
     showInitialSetup.value = false;
     showCorrectInput.value = true;
@@ -45,6 +48,11 @@ const checkInput = () => {
     showInitialSetup.value = false;
     showCorrectInput.value = false;
     showWrongInput.value = true;
+    inputWrong.value = true;
+
+    setTimeout(() => {
+        inputWrong.value = false;
+    }, 2000);
   }
 };
 
@@ -144,10 +152,10 @@ onUnmounted(() => {
 
         <template #right>
           <div class="mt-28 w-full space-y-8 text-left sm:px-5 md:mt-36 lg:mt-0 lg:w-1/3">
-            <h2 class="font-work-sans text-5xl font-bold text-white">Open Source PHP Workshops</h2>
+            <h2 class="font-work-sans text-5xl font-bold text-white">Open Source educational PHP Workshops</h2>
             <p class="font-base font-work-sans text-lg text-white">
               PHP School is a set of workshops each designed to teach a specific topic, tool, technology. Some beginner, some advanced. Each workshop consists of multiple exercises where your task is
-              to code a solution to solve a problem. All our workshops are open source, you can contribute to them also, with bug fixes, new exercises, or your own workshop.
+              to code a solution to solve a problem. All our workshops are open source and you can contribute to them with spelling & bug fixes, new exercises. You can even build and publish your own workshop.
             </p>
             <div class="flex justify-start">
               <PrimaryButton to="/online">GET STARTED</PrimaryButton>
@@ -162,7 +170,7 @@ onUnmounted(() => {
           <div class="order-2 mt-8 w-full space-y-8 text-left sm:px-5 lg:order-1 lg:mt-0 lg:w-1/3">
             <h2 class="balanced font-work-sans text-5xl font-bold text-white">Online Browser Based IDE</h2>
             <p class="font-base font-work-sans text-lg text-white">
-              Login in with your GitHub account, select a workshop and an exercise and jump straight in to our web based text editor (IDE). No complicated setup, no need to install tools, dependencies
+              Login in with your GitHub account, select a workshop, an exercise then jump straight in to our web based text editor (IDE). No complicated setup, no need to install tools, dependencies
               and text editors. Just jump in and start coding.
             </p>
             <div class="flex justify-start">
@@ -223,7 +231,7 @@ onUnmounted(() => {
           <div class="mt-28 w-full space-y-8 text-left sm:mt-40 sm:px-5 lg:mb-40 lg:w-1/3">
             <h2 class="font-work-sans text-5xl font-bold text-white">Work on practical assignments</h2>
             <p class="font-base font-work-sans text-lg text-white">
-              Level up your problem solving skills whilst tackling practical problems that you will be sure to encounter in your chosen path as a software developer. Each exercise comes with a
+              Level up your problem solving skills whilst tackling practical problems that you will be sure to encounter in your chosen career path as a software developer. Each exercise comes with a
               description, code samples to get you started, links to documentation and other resources to help you solve the problem.
             </p>
             <div class="flex justify-start">
@@ -239,8 +247,7 @@ onUnmounted(() => {
           <div class="order-2 mt-8 w-full space-y-8 text-left sm:px-5 lg:order-1 lg:w-1/3">
             <h2 class="font-work-sans text-5xl font-bold text-white">Get instant feedback and track your progress</h2>
             <p class="font-base font-work-sans text-lg text-white">
-              You can test your solution at any time and you will get instance feedback, if you get it wrong, we’ll show you how and what went wrong versus what we expected. You’ll know instantly if
-              you need to start fresh or make a simple tweak. When you solve the exercise, your profile is updated and the exercise is marked as completed. Before proceeding you have the opportunity
+              Test your solution at any time to get instant feedback. If you get it wrong, we’ll show you how and what went wrong versus what we expected. Maybe you just need a simple tweak, or to altogether reconsider your approach. When you solve an exercise, your profile is updated and the exercise is marked as completed. Before proceeding you have the opportunity
               to see our official solution so you can compare notes and optimise your own solution. Maybe your solution is better!
               <br />
               <br />
@@ -249,12 +256,13 @@ onUnmounted(() => {
               in the input below to see how we verify your solution and provide feedback.
             </p>
             <div class="flex justify-start">
-              <div class="relative flex w-full items-center">
+              <div class="relative flex w-full items-center" :class="{'shake' : inputWrong}">
                 <input
                   type="text"
                   placeholder="Type Something..."
                   v-model="userInput"
-                  class="w-full rounded-2xl border-0 p-5 font-work-sans text-base font-bold text-gray-900 focus:border-pink-500 focus:outline-none focus:ring focus:ring-pink-500"
+                  class="w-full rounded-2xl border-0 p-5 font-work-sans text-base font-bold text-gray-900 focus:outline-none focus:ring focus:ring-pink-500"
+                  :class="{'ring ring-red-500' : inputWrong}"
                   @keyup="userInputKeyup"
                 />
 
