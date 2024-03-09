@@ -11,7 +11,7 @@ const build = {
     "Understand the verification system and learn how to check that a students' submission passes the task whilst using dynamic inputs.",
   ],
   build: [
-    "Write descriptions, give hints and links for the student to explore.",
+    "Write challenges, give hints and links for the student to explore.",
     "Define the inputs and outputs, such as writing to files, generating output, communicating with a server or API and whatever else you can think of.",
     "Write the code to verify the student's submission, and give them feedback.",
     "Use our super simple system to write unit tests for your exercises.",
