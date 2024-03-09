@@ -14,10 +14,10 @@ const { loggedIn } = defineProps({
   <PageSection>
     <template #title>The Workshops</template>
 
-    <div class="flex grid grid-cols-2 flex-wrap gap-x-16 py-4">
+    <div id="the-workshops" class="flex grid grid-cols-2 flex-wrap gap-x-16 py-4">
       <div class="mb-4 w-full px-4">
-        <img src="../../../../../img/cloud/core-workshops.png" alt="" class="mb-4 h-56 w-auto" />
-        <h4 class="mb-4 mt-0 p-0 font-work-sans text-lg font-bold capitalize not-italic text-white">core</h4>
+        <img src="../../../../../img/cloud/core-workshops.png" alt="" class="mb-4 h-48 w-auto" />
+        <h4 class="mb-4 mt-0 p-0 font-work-sans text-2xl font-bold capitalize not-italic text-white">core</h4>
         <p class="mb-4 text-base text-white">
           Workshops meticulously crafted by the PHP School team with the utmost quality to help
           <i>you</i>
@@ -26,8 +26,8 @@ const { loggedIn } = defineProps({
       </div>
 
       <div class="mb-4 w-full px-4">
-        <img src="../../../../../img/cloud/community-workshops.png" alt="" class="mb-4 h-56 w-auto" />
-        <h4 class="mb-4 mt-0 p-0 font-work-sans text-lg font-bold capitalize not-italic text-white">Community</h4>
+        <img src="../../../../../img/cloud/community-workshops.png" alt="" class="mb-4 h-48 w-auto" />
+        <h4 class="mb-4 mt-0 p-0 font-work-sans text-2xl font-bold capitalize not-italic text-white">Community</h4>
         <p class="text-balance mb-4 text-base text-white">
           Community workshops are those created by, well, you! They are not officially maintained by the PHP School team and not all of them are compatible with the online system. Compatible ones are
           labeled, otherwise, you can always run run them
