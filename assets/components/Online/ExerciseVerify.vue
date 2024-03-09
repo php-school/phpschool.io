@@ -39,8 +39,6 @@ const enableRateLimitError = () => {
 };
 
 const runSolution = async () => {
-  currentAction.value = "run";
-
   if (loadingRun.value) {
     return;
   }
@@ -81,8 +79,6 @@ const runSolution = async () => {
 };
 
 const verifySolution = () => {
-  currentAction.value = "verify";
-
   if (loadingVerify.value) {
     return;
   }
@@ -183,16 +179,15 @@ const verifySolution = () => {
         >
           <MenuItems class="absolute -right-3 -top-2 z-40 w-[168px] origin-top-right -translate-y-full rounded-md bg-gradient-to-r from-pink-600 to-purple-500 px-3 text-left">
             <MenuItem v-if="currentAction === 'verify'">
-              <button class="flex h-[48px] w-full flex-1 items-center justify-start rounded px-4 text-sm text-white" @click.stop="runSolution" :disabled="loadingRun">
+              <button @click.stop="currentAction = 'run'; runSolution()" class="flex h-[48px] w-full flex-1 items-center justify-start rounded px-4 text-sm text-white"  :disabled="loadingRun">
                 <span>Run</span>
                 <CommandLineIcon class="ml-2 h-5 w-5" />
               </button>
             </MenuItem>
             <MenuItem v-if="currentAction === 'run'">
-              <button
-                v-if="currentAction === 'run'"
+              <button @click.stop="currentAction = 'verify'; verifySolution()"
                 class="flex h-[48px] w-full flex-1 items-center justify-start rounded px-4 text-sm text-white"
-                @click.stop="verifySolution"
+
                 :disabled="loadingVerify"
               >
                 <span>Verify</span>
