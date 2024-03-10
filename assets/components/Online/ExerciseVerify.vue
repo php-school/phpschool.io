@@ -130,7 +130,7 @@ const verifySolution = () => {
 
 <template>
   <alert type="error" @close="showRateLimitError = false" :show="showRateLimitError" :timeout="4000" message="Too many requests. Please try again in a few minutes."></alert>
-  <div class="flex h-[48px] flex-1 items-center gap-y-2">
+  <div class="flex h-[48px] flex-1 items-center gap-y-2 md:flex-none">
     <button
       id="run"
       class="mr-2 mt-0 hidden h-[48px] w-44 items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:flex"
@@ -156,7 +156,7 @@ const verifySolution = () => {
           <CommandLineIcon v-cloak class="ml-2 h-5 w-5" />
         </span>
       </button>
-      <Menu as="div" class="relative pr-3 text-xs uppercase text-white" v-slot="{ open }">
+      <Menu as="div" class="relative mr-3 text-xs uppercase text-white" v-slot="{ open }">
         <div class="group">
           <MenuButton class="h-[48px]" :disabled="loadingVerify || loadingRun">
             <ChevronDownIcon

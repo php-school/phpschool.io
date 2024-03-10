@@ -438,31 +438,31 @@ const deleteFileOrFolder = async (file) => {
           </TransitionRoot>
         </div>
         <!-- start footer -->
-        <div class="flex flex-wrap items-center justify-between gap-y-3 border-t border-solid border-gray-600 p-2 md:mb-0 md:gap-y-0">
-          <editor-breadcrumbs :current-exercise="currentExercise" class="order-3 md:order-1"></editor-breadcrumbs>
+        <div class="flex flex-wrap items-center justify-between gap-y-3 border-t border-solid border-gray-600 p-2 md:mb-0 lg:flex-nowrap">
+          <editor-breadcrumbs :current-exercise="currentExercise" class="order-3 mr-3 lg:order-1"></editor-breadcrumbs>
           <progress-bar></progress-bar>
-          <div class="order-1 flex w-full items-start justify-center gap-x-2 md:order-3 md:w-auto md:gap-x-0">
+          <div class="order-1 flex w-full items-start justify-end gap-x-2 md:gap-x-0 lg:order-3 lg:w-auto">
             <button
               ref="openFileBrowserButton"
-              class="mr-0 flex h-[48px] w-auto items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:hidden md:w-44 lg:mb-0"
+              class="mr-0 flex h-[48px] w-auto items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:hidden lg:mb-0"
               @click.stop="openFileBrowser = !openFileBrowser"
             >
-              <FolderIcon v-cloak class="h-5 w-5 md:ml-2" />
+              <FolderIcon v-cloak class="h-5 w-5 xl:ml-2" />
             </button>
             <button
-              class="mr-0 flex h-[48px] w-auto items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:w-44 lg:mb-0"
+              class="mr-0 flex h-[48px] w-auto items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:w-44 lg:mb-0 lg:w-auto xl:w-44"
               @click="openComposerModal = true"
             >
-              <span class="hidden md:flex">Composer deps</span>
-              <CircleStackIcon v-cloak class="h-5 w-5 md:ml-2" />
+              <span class="hidden md:flex lg:hidden xl:flex">Composer deps</span>
+              <CircleStackIcon v-cloak class="h-5 w-5 md:ml-2 lg:ml-0 xl:ml-2" />
             </button>
             <button
               id="show-problem"
-              class="mr-0 mt-0 flex h-[48px] w-auto items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:w-44"
+              class="mr-0 mt-0 flex h-[48px] w-auto items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:w-44 lg:w-auto xl:w-44"
               @click="openProblemModal = true"
             >
-              <span class="hidden md:flex">Show problem</span>
-              <MapIcon v-cloak class="h-5 w-5 md:ml-2" />
+              <span class="hidden md:flex lg:hidden xl:flex">Show problem</span>
+              <MapIcon v-cloak class="h-5 w-5 md:ml-2 lg:ml-0 xl:ml-2" />
             </button>
             <exercise-verify
               @verify-loading="verifyLoading"
