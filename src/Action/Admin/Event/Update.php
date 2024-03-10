@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Admin\Event;
 
 use PhpSchool\Website\Action\JsonUtils;
@@ -24,8 +26,7 @@ class Update
     public function __construct(
         private readonly EventRepository $repository,
         private readonly FormHandler $formHandler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, Response $response, string $id): MessageInterface
     {

@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Online;
 
 use PhpSchool\PhpWorkshop\UserState\UserState;
 use PhpSchool\Website\User\Entity\Student;
-use PhpSchool\Website\User\Session;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
 use PhpSchool\Website\User\StudentRepository;

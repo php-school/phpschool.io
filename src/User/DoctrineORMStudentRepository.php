@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\User;
 
 use Doctrine\ORM\EntityRepository;

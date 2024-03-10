@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
-use PhpSchool\Website\Cache;
 use PhpSchool\Website\User\Entity\Admin;
 use Symfony\Component\Console\Output\OutputInterface;
 

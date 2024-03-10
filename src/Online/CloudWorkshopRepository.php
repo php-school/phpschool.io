@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Online;
 
 use Composer\InstalledVersions;
@@ -57,7 +59,7 @@ class CloudWorkshopRepository
     {
         /** @var int $total */
         $total = collect($this->findAll())
-            ->map(fn (CloudInstalledWorkshop $worksop) => count($worksop->findAllExercises()))
+            ->map(fn(CloudInstalledWorkshop $workshop) => count($workshop->findAllExercises()))
             ->sum();
 
         return $total;

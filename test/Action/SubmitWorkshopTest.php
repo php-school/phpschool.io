@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Action;
 
 use GuzzleHttp\Psr7\Response;
@@ -8,12 +10,10 @@ use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Exception\WorkshopCreationException;
 use PhpSchool\Website\Form\FormHandler;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\User\Session;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\NullLogger;
 use Psr\Log\Test\TestLogger;
@@ -62,7 +62,7 @@ class SubmitWorkshopTest extends TestCase
                     'field2' => ['error2'],
                 ]
             ],
-            json_decode($actualResponse->getBody(), true)
+            json_decode($actualResponse->getBody()->__toString(), true)
         );
     }
 
@@ -114,7 +114,7 @@ class SubmitWorkshopTest extends TestCase
                     'field2' => ['error2'],
                 ]
             ],
-            json_decode($actualResponse->getBody(), true)
+            json_decode($actualResponse->getBody()->__toString(), true)
         );
     }
 
@@ -162,7 +162,7 @@ class SubmitWorkshopTest extends TestCase
 
         $this->assertEquals(200, $actualResponse->getStatusCode());
         $this->assertEquals('application/json', $actualResponse->getHeaderLine('Content-Type'));
-        $this->assertEquals(['success' => true], json_decode($actualResponse->getBody(), true));
+        $this->assertEquals(['success' => true], json_decode($actualResponse->getBody()->__toString(), true));
         $this->assertTrue($logger->hasErrorThatContains('Email could not be sent. Error: "Could not send"'));
     }
 
@@ -204,7 +204,7 @@ class SubmitWorkshopTest extends TestCase
 
         $this->assertEquals(200, $actualResponse->getStatusCode());
         $this->assertEquals('application/json', $actualResponse->getHeaderLine('Content-Type'));
-        $this->assertEquals(['success' => true], json_decode($actualResponse->getBody(), true));
+        $this->assertEquals(['success' => true], json_decode($actualResponse->getBody()->__toString(), true));
         $this->assertEmpty($logger->records);
     }
 }

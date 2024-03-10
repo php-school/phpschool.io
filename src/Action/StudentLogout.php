@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action;
 
-use Doctrine\ORM\EntityManagerInterface;
 use PhpSchool\Website\User\Session;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface as Response;

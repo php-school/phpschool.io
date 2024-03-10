@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\User\Entity;
 
 use PhpSchool\PhpWorkshop\UserState\UserState;
 use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\User\Entity\Student;
-use PhpSchool\Website\User\StudentDTO;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;

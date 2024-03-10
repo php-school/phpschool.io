@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action;
 
 use GuzzleHttp\Client;
@@ -10,9 +12,7 @@ class SlackInvite
 {
     use JsonUtils;
 
-    public function __construct(private readonly Client $client, private readonly string $slackApiToken)
-    {
-    }
+    public function __construct(private readonly Client $client, private readonly string $slackApiToken) {}
 
     public function __invoke(Request $request, Response $response): Response
     {

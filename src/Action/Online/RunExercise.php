@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\PhpWorkshop\Event\CgiExecuteEvent;
@@ -36,8 +38,7 @@ class RunExercise
         private readonly ProjectUploader $projectUploader,
         private readonly StudentWorkshopState $studentState,
         private readonly SessionStorageInterface $session,
-    ) {
-    }
+    ) {}
 
     public function __invoke(
         Request $request,

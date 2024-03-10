@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Admin\Workshop;
 
 use PhpSchool\Website\Action\JsonUtils;
@@ -19,8 +21,7 @@ class Promote
         private readonly WorkshopRepository $repository,
         private readonly WorkshopFeed $workshopFeed,
         private readonly CacheItemPoolInterface $cache,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, Response $response, string $id): MessageInterface
     {

@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Repository;
 
-use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\User\Entity\Student;
-use PhpSchool\WebsiteTest\Repository\Fixtures\Events;
 use PhpSchool\WebsiteTest\Repository\Fixtures\Students;
 
 class DoctrineORMStudentRepositoryTest extends DoctrineORMRepositoryTest

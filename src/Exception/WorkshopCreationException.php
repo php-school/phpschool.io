@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Exception;
 
 use RuntimeException;
@@ -9,9 +11,7 @@ class WorkshopCreationException extends RuntimeException
     /**
      * @param array<string, array<array<mixed>|string>> $errors
      */
-    public function __construct(private array $errors)
-    {
-    }
+    public function __construct(private array $errors) {}
 
     /**
      * @return array<string, array<array<mixed>|string>>

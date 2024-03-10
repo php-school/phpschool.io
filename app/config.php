@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ahinkle\PackagistLatestVersion\PackagistLatestVersion;
 use DI\Bridge\Slim\Bridge;
 use Doctrine\DBAL\Types\Type;
@@ -10,7 +12,6 @@ use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 use Github\Client;
-use Jenssegers\Agent\Agent;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
@@ -52,7 +53,6 @@ use PhpSchool\Website\Blog\Generator;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\Command\DownloadComposerPackageList;
 use PhpSchool\Website\Online\Middleware\ExerciseRunnerRateLimiter;
-use PhpSchool\Website\Online\Middleware\Styles;
 use PhpSchool\Website\Online\PathGenerator;
 use PhpSchool\Website\Online\ProblemFileConverter;
 use PhpSchool\Website\Online\ProjectUploader;
@@ -101,6 +101,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\RateLimiter\Storage\CacheStorage;
 use Symfony\Contracts\Cache\CacheInterface;
 use Tuupola\Middleware\JwtAuthentication;
+
 use function DI\factory;
 use function DI\get;
 
@@ -121,7 +122,7 @@ return [
         $app =  Bridge::create($c);
         $app->addRoutingMiddleware();
 
-        $app->add(function (Request $request, RequestHandler $handler) use($c) : Response {
+        $app->add(function (Request $request, RequestHandler $handler) use ($c): Response {
             /** @var Session $session */
             $session  = $this->get(Session::class);
 
@@ -139,7 +140,7 @@ return [
     }),
     'cache' => factory(function (ContainerInterface $c): CacheInterface {
         if (!$c->get('config')['enableCache']) {
-            return new NullAdapter;
+            return new NullAdapter();
         }
 
         $redisConnection = new \Predis\Client(['host' => $c->get('config')['redisHost']]);
@@ -157,10 +158,10 @@ return [
 
         return new RedisAdapter($redisConnection, 'default');
     }),
-    LoggerInterface::class => factory(function (ContainerInterface $c): LoggerInterface{
+    LoggerInterface::class => factory(function (ContainerInterface $c): LoggerInterface {
         $settings = $c->get('config')['logger'];
         $logger = new Logger($settings['name']);
-        $logger->pushProcessor(new UidProcessor);
+        $logger->pushProcessor(new UidProcessor());
         $logger->pushHandler(new StreamHandler($settings['path'], Logger::DEBUG));
         return $logger;
     }),
@@ -168,7 +169,7 @@ return [
     SessionStorageInterface::class => get(Session::class),
 
     Session::class => function (ContainerInterface $c): Session {
-        return new Session;
+        return new Session();
     },
 
     FormHandlerFactory::class => function (ContainerInterface $c): FormHandlerFactory {
@@ -230,7 +231,7 @@ return [
     Login::class => \DI\factory(function (ContainerInterface $c): Login {
         return new Login(
             $c->get(AdminAuthenticationService::class),
-            $c->get(FormHandlerFactory::class)->create(new LoginInputFilter),
+            $c->get(FormHandlerFactory::class)->create(new LoginInputFilter()),
             $c->get('config')['jwtSecret']
         );
     }),
@@ -365,7 +366,7 @@ return [
     },
 
     'form.event' => function (ContainerInterface $c): FormHandler {
-        return $c->get(FormHandlerFactory::class)->create(new EventInputFilter);
+        return $c->get(FormHandlerFactory::class)->create(new EventInputFilter());
     },
 
     EventAll::class => function (ContainerInterface $c): EventAll {
@@ -474,7 +475,7 @@ return [
 
     Generator::class => function (ContainerInterface $c): Generator {
         return new Generator(
-            new Parser(null, new class implements \Mni\FrontYAML\Markdown\MarkdownParser {
+            new Parser(null, new class () implements \Mni\FrontYAML\Markdown\MarkdownParser {
                 public function parse($markdown): string
                 {
                     return (new Parsedown())->parse($markdown);
@@ -523,7 +524,7 @@ return [
         );
     },
 
-    JwtAuthentication::class => function (ContainerInterface $c): JwtAuthentication  {
+    JwtAuthentication::class => function (ContainerInterface $c): JwtAuthentication {
         return new JwtAuthentication([
             'secret' => $c->get('config')['jwtSecret'],
             'path' => '/api/admin',
@@ -566,7 +567,7 @@ return [
                     'src/User/Entity',
                 ],
                 'auto_generate_proxies' => true,
-                'proxy_dir' =>  __DIR__.'/../cache/proxies',
+                'proxy_dir' =>  __DIR__ . '/../cache/proxies',
             ],
             'connection' => [
                 'driver'   => 'pdo_mysql',

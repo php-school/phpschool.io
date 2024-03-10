@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Online\Command;
 
 use GuzzleHttp\Client;
@@ -13,9 +15,7 @@ class DownloadComposerPackageList
     private const COMPOSER_PACKAGES_FILE_LOCATION = __DIR__ . '/../../../var/packages.json';
     private const COMPOSER_PACKAGES_NEW_FILE_LOCATION = __DIR__ . '/../../../var/packages-new.json';
 
-    public function __construct(private Client $client, private LoggerInterface $logger)
-    {
-    }
+    public function __construct(private Client $client, private LoggerInterface $logger) {}
 
     public function __invoke(OutputInterface $output): void
     {

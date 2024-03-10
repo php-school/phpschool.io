@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Admin\Workshop;
 
 use PhpSchool\Website\Action\JsonUtils;
@@ -23,8 +25,7 @@ class Approve
         private readonly CacheItemPoolInterface $cache,
         private readonly EmailNotifier $emailNotifier,
         private readonly LoggerInterface $logger
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, Response $response, string $id): MessageInterface
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Service;
 
 use PhpSchool\Website\Entity\Workshop;

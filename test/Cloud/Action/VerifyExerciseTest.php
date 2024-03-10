@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Cloud\Action;
 
 use GuzzleHttp\Psr7\Response;
@@ -52,7 +54,7 @@ class VerifyExerciseTest extends TestCase
                 'success' => false,
                 'error' => 'Cannot find workshop'
             ],
-            json_decode($actualResponse->getBody(), true)
+            json_decode($actualResponse->getBody()->__toString(), true)
         );
     }
 
@@ -88,7 +90,7 @@ class VerifyExerciseTest extends TestCase
                 'success' => false,
                 'error' => 'Cannot find exercise'
             ],
-            json_decode($actualResponse->getBody(), true)
+            json_decode($actualResponse->getBody()->__toString(), true)
         );
     }
 
@@ -117,7 +119,7 @@ class VerifyExerciseTest extends TestCase
                 'success' => false,
                 'error' => 'Some error'
             ],
-            json_decode($actualResponse->getBody(), true)
+            json_decode($actualResponse->getBody()->__toString(), true)
         );
     }
 
@@ -156,7 +158,7 @@ class VerifyExerciseTest extends TestCase
                 'success' => true,
                 'results' => []
             ],
-            json_decode($actualResponse->getBody(), true)
+            json_decode($actualResponse->getBody()->__toString(), true)
         );
         $this->assertFileDoesNotExist($solution->getBaseDirectory());
     }
@@ -196,7 +198,7 @@ class VerifyExerciseTest extends TestCase
                 'success' => true,
                 'results' => []
             ],
-            json_decode($actualResponse->getBody(), true)
+            json_decode($actualResponse->getBody()->__toString(), true)
         );
         $this->assertFileDoesNotExist($solution->getBaseDirectory());
     }
@@ -239,7 +241,7 @@ class VerifyExerciseTest extends TestCase
                 'success' => false,
                 'results' => []
             ],
-            json_decode($actualResponse->getBody(), true)
+            json_decode($actualResponse->getBody()->__toString(), true)
         );
         $this->assertFileDoesNotExist($solution->getBaseDirectory());
     }

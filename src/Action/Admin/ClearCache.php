@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Admin;
 
 use PhpSchool\Website\Action\JsonUtils;
@@ -12,9 +14,7 @@ class ClearCache
 {
     use JsonUtils;
 
-    public function __construct(private readonly CacheItemPoolInterface $cache)
-    {
-    }
+    public function __construct(private readonly CacheItemPoolInterface $cache) {}
 
     public function __invoke(Request $request, Response $response): MessageInterface
     {

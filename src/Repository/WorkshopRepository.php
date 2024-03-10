@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Repository;
 
 use PhpSchool\Website\Entity\Workshop;
-use RuntimeException;
 
 interface WorkshopRepository
 {

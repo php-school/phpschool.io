@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Online;
 
 use PhpSchool\PhpWorkshop\Solution\DirectorySolution;
@@ -11,9 +13,7 @@ use Symfony\Component\Process\Process;
 
 class ProjectUploader
 {
-    public function __construct(private readonly PathGenerator $pathGenerator)
-    {
-    }
+    public function __construct(private readonly PathGenerator $pathGenerator) {}
 
     public function upload(Request $request, StudentDTO $student): DirectorySolution
     {

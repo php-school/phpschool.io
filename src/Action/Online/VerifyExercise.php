@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\PhpWorkshop\Input\Input;
@@ -24,8 +26,7 @@ class VerifyExercise
         private readonly SessionStorageInterface $session,
         private readonly StudentWorkshopState $studentState,
         private readonly VueResultsRenderer $resultsRenderer
-    ) {
-    }
+    ) {}
 
     public function __invoke(
         Request $request,
