@@ -39,7 +39,6 @@ const userInputKeyup = (event) => {
 };
 
 const checkInput = () => {
-
   if (userInput.value === 'echo "Hello World";') {
     showInitialSetup.value = false;
     showCorrectInput.value = true;
@@ -51,7 +50,7 @@ const checkInput = () => {
     inputWrong.value = true;
 
     setTimeout(() => {
-        inputWrong.value = false;
+      inputWrong.value = false;
     }, 2000);
   }
 };
@@ -155,7 +154,8 @@ onUnmounted(() => {
             <h2 class="font-work-sans text-5xl font-bold text-white">Open Source educational PHP Workshops</h2>
             <p class="font-base font-work-sans text-lg text-white">
               PHP School is a set of workshops each designed to teach a specific topic, tool, technology. Some beginner, some advanced. Each workshop consists of multiple exercises where your task is
-              to code a solution to solve a problem. All our workshops are open source and you can contribute to them with spelling & bug fixes, new exercises. You can even build and publish your own workshop.
+              to code a solution to solve a problem. All our workshops are open source and you can contribute to them with spelling & bug fixes, new exercises. You can even build and publish your own
+              workshop.
             </p>
             <div class="flex justify-start">
               <PrimaryButton to="/online">GET STARTED</PrimaryButton>
@@ -247,8 +247,9 @@ onUnmounted(() => {
           <div class="order-2 mt-8 w-full space-y-8 text-left sm:px-5 lg:order-1 lg:w-1/3">
             <h2 class="font-work-sans text-5xl font-bold text-white">Get instant feedback and track your progress</h2>
             <p class="font-base font-work-sans text-lg text-white">
-              Test your solution at any time to get instant feedback. If you get it wrong, we’ll show you how and what went wrong versus what we expected. Maybe you just need a simple tweak, or to altogether reconsider your approach. When you solve an exercise, your profile is updated and the exercise is marked as completed. Before proceeding you have the opportunity
-              to see our official solution so you can compare notes and optimise your own solution. Maybe your solution is better!
+              Test your solution at any time to get instant feedback. If you get it wrong, we’ll show you how and what went wrong versus what we expected. Maybe you just need a simple tweak, or to
+              altogether reconsider your approach. When you solve an exercise, your profile is updated and the exercise is marked as completed. Before proceeding you have the opportunity to see our
+              official solution so you can compare notes and optimise your own solution. Maybe your solution is better!
               <br />
               <br />
               Try writing:
@@ -256,13 +257,13 @@ onUnmounted(() => {
               in the input below to see how we verify your solution and provide feedback.
             </p>
             <div class="flex justify-start">
-              <div class="relative flex w-full items-center" :class="{'shake' : inputWrong}">
+              <div class="relative flex w-full items-center" :class="{ shake: inputWrong }">
                 <input
                   type="text"
                   placeholder="Type Something..."
                   v-model="userInput"
                   class="w-full rounded-2xl border-0 p-5 font-work-sans text-base font-bold text-gray-900 focus:outline-none focus:ring focus:ring-pink-500"
-                  :class="{'ring ring-red-500' : inputWrong}"
+                  :class="{ 'ring ring-red-500': inputWrong }"
                   @keyup="userInputKeyup"
                 />
 
