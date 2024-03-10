@@ -118,6 +118,7 @@ return [
 
         return $app;
     }),
+    'basePath' => __DIR__ . '/../',
     'app' => factory(function (ContainerInterface $c): App {
         $app =  Bridge::create($c);
         $app->addRoutingMiddleware();
