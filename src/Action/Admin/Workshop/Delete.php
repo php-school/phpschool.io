@@ -11,7 +11,6 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use PhpSchool\Website\PhpRenderer;
 use RuntimeException;
 
 class Delete
@@ -27,7 +26,7 @@ class Delete
     ) {
     }
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): MessageInterface
+    public function __invoke(Request $request, Response $response, string $id): MessageInterface
     {
         try {
             $workshop = $this->repository->findById($id);

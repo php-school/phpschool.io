@@ -6,6 +6,9 @@ use DateTime;
 use PhpSchool\Website\Online\StudentCloudState;
 use Ramsey\Uuid\UuidInterface;
 
+/**
+ * @phpstan-import-type WorkshopState from \PhpSchool\Website\Online\StudentCloudState
+ */
 class StudentDTO implements \JsonSerializable
 {
     public function __construct(
@@ -21,6 +24,21 @@ class StudentDTO implements \JsonSerializable
     ) {
     }
 
+    /**
+     * @return array{
+     *     username: string,
+     *     email: string,
+     *     name: string,
+     *     profile_picture: ?string,
+     *     location: ?string,
+     *     join_date: string,
+     *     tour_complete: bool,
+     *     state: array{
+     *         workshops: WorkshopState,
+     *         total_completed: int
+     *     }
+     * }
+     */
     public function jsonSerialize(): array
     {
         return [
@@ -31,7 +49,7 @@ class StudentDTO implements \JsonSerializable
             'location' => $this->location,
             'join_date' => $this->joinDate->format('F Y'),
             'tour_complete' => $this->tourComplete,
-            'state' => $this->workshopState
+            'state' => $this->workshopState->jsonSerialize()
         ];
     }
 }

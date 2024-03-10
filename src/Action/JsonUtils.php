@@ -10,18 +10,21 @@ trait JsonUtils
     {
         $response
             ->getBody()
-            ->write(json_encode(['success' => true]));
+            ->write((string) json_encode(['success' => true]));
 
         return $response
             ->withStatus(200)
             ->withHeader('Content-Type', 'application/json');
     }
 
+    /**
+     * @param array<string, mixed> $json
+     */
     private function withJson(array $json, Response $response, int $status = 200): Response
     {
         $response
             ->getBody()
-            ->write(json_encode($json));
+            ->write((string) json_encode($json));
 
         return $response
             ->withStatus($status)

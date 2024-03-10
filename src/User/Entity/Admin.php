@@ -20,7 +20,7 @@ class Admin implements \JsonSerializable
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private UuidInterface $id;
+    private UuidInterface $id; /** @phpstan-ignore-line */
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -64,6 +64,13 @@ class Admin implements \JsonSerializable
         return $this->passwordHash;
     }
 
+    /**
+     * @return array{
+     *     name: string,
+     *     email: string,
+     *     avatar: string
+     * }
+     */
     public function jsonSerialize(): array
     {
         return [

@@ -4,42 +4,19 @@ namespace PhpSchool\Website\User;
 
 interface SessionStorageInterface
 {
-    /**
-     * @param non-empty-string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function get(string $key, $default = null);
+    public function get(string $key, mixed $default = null): mixed;
 
-    /**
-     * @param string $key
-     * @param string|array|object|null $value
-     */
-    public function set(string $key, $value): void;
+    public function set(string $key, mixed $value): void;
 
     public function delete(string $key): void;
 
     public function clearAll(): void;
 
-    /**
-     * @param string $offset
-     */
-    public function offsetExists($offset): bool;
+    public function offsetExists(string $offset): bool;
 
-    /**
-     * @param non-empty-string $offset
-     * @return mixed
-     */
-    public function offsetGet(mixed $offset): mixed;
+    public function offsetGet(string $offset): mixed;
 
-    /**
-     * @param string $offset
-     * @param string|array|null $value
-     */
-    public function offsetSet($offset, $value): void;
+    public function offsetSet(string $offset, mixed $value): void;
 
-    /**
-     * @param string $offset
-     */
-    public function offsetUnset($offset): void;
+    public function offsetUnset(string $offset): void;
 }

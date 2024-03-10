@@ -19,14 +19,12 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class CloudInstalledWorkshop implements \JsonSerializable
 {
-    private Application $application;
     private \DI\Container $container;
     private Workshop $workshop;
     private AsciiSlugger $slugger;
 
     public function __construct(Application $application, Workshop $workshop)
     {
-        $this->application = $application;
         /** @var \DI\Container $container */
         $container = $application->configure();
         $this->container = $container;
@@ -52,6 +50,9 @@ class CloudInstalledWorkshop implements \JsonSerializable
         return $this->workshop->getDescription();
     }
 
+    /**
+     * @return 'core'|'community'
+     */
     public function getType(): string
     {
         return $this->workshop->getTypeCode();
@@ -62,7 +63,9 @@ class CloudInstalledWorkshop implements \JsonSerializable
      */
     public function findAllExercises(): array
     {
-        return $this->container->get(ExerciseRepository::class)->findAll();
+        /** @var ExerciseRepository $repo */
+        $repo = $this->container->get(ExerciseRepository::class);
+        return $repo->findAll();
     }
 
     public function findExerciseBySlug(string $slug): ExerciseInterface
@@ -101,7 +104,9 @@ class CloudInstalledWorkshop implements \JsonSerializable
 
     public function getExerciseDispatcher(): ExerciseDispatcher
     {
-        return $this->container->get(ExerciseDispatcher::class);
+        /** @var ExerciseDispatcher $exerciseDispatcher */
+        $exerciseDispatcher = $this->container->get(ExerciseDispatcher::class);
+        return $exerciseDispatcher;
     }
 
     public function getService(string $service): mixed
@@ -122,7 +127,9 @@ class CloudInstalledWorkshop implements \JsonSerializable
         /** @var EventDispatcher $eventDispatch */
         $eventDispatch = $this->container->get(EventDispatcher::class);
 
+        /** @var InitialCodeListener $initialCodeListener */
         $initialCodeListener = $this->container->get(InitialCodeListener::class);
+        /** @var OutputRunInfoListener $outputRunInfoListener */
         $outputRunInfoListener = $this->container->get(OutputRunInfoListener::class);
 
         $eventDispatch->removeListener('exercise.selected', [$initialCodeListener, '__invoke']);
@@ -130,12 +137,30 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $eventDispatch->removeListener('cgi.run.student-execute.pre', [$outputRunInfoListener, '__invoke']);
     }
 
+    /**
+     * @return array{
+     *     name: string,
+     *     code: string,
+     *     logo: string,
+     *     description: string,
+     *     type: 'core'|'community',
+     *     exercises: array<int, array{
+     *         slug: string,
+     *         name: string,
+     *         description: string,
+     *         type: string
+     *     }>
+     * }
+     */
     public function jsonSerialize(): array
     {
+        /** @var string $logo */
+        $logo = $this->getService('workshopLogo');
+
         return [
             'name' => $this->getName(),
             'code' => $this->getCode(),
-            'logo' => $this->getService('workshopLogo'),
+            'logo' => $logo,
             'description' => $this->getDescription(),
             'type' => $this->getType(),
             'exercises' => array_map(function (ExerciseInterface $exercise) {

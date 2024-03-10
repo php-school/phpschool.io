@@ -4,10 +4,20 @@ namespace PhpSchool\Website\Online;
 
 use PhpSchool\PhpWorkshop\UserState\UserState;
 
+/**
+ * @phpstan-type WorkshopState array<string, array{completedExercises: array<string>, currentExercise: string|null}>
+ * @phpstan-type StudentState array{}|array{workshops: WorkshopState, total_completed: int}
+ */
 class StudentCloudState implements \JsonSerializable
 {
+    /**
+     * @var WorkshopState
+     */
     private array $workshopState;
 
+    /**
+     * @param WorkshopState $workshopState
+     */
     public function __construct(array $workshopState)
     {
         $this->workshopState = $workshopState;
@@ -26,12 +36,21 @@ class StudentCloudState implements \JsonSerializable
 
     public function getTotalCompletedExercises(): int
     {
-        return collect($this->workshopState)
+        /** @var int $total */
+        $total = collect($this->workshopState)
             ->pluck('completedExercises')
             ->map(fn (array $completed) => count($completed))
             ->sum();
+
+        return $total;
     }
 
+    /**
+     * @return array{
+     *     workshops: WorkshopState,
+     *     total_completed: int
+     * }
+     */
     public function jsonSerialize(): array
     {
         return [

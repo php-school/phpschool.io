@@ -11,6 +11,9 @@ interface WorkshopInstallRepository
 
     public function totalInstalls(Workshop $workshop): int;
 
+    /**
+     * @return array<WorkshopInstall>
+     */
     public function findInstallsInLast30Days(Workshop $workshop): array;
 
     public function save(WorkshopInstall $workshopInstall): void;

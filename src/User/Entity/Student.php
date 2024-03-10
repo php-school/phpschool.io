@@ -10,6 +10,8 @@ use PhpSchool\Website\User\StudentDTO;
 use Ramsey\Uuid\UuidInterface;
 
 /**
+ * @phpstan-import-type WorkshopState from \PhpSchool\Website\Online\StudentCloudState
+ *
  * @ORM\Entity
  * @ORM\Table(name="student"))
  * @ORM\Entity(repositoryClass="PhpSchool\Website\User\DoctrineORMStudentRepository")
@@ -24,7 +26,7 @@ class Student implements \JsonSerializable
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private UuidInterface $id;
+    private UuidInterface $id; /** @phpstan-ignore-line */
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -67,10 +69,15 @@ class Student implements \JsonSerializable
     private bool $tourComplete = false;
 
     /**
+     * @var WorkshopState
+     *
      * @ORM\Column(type="json", nullable=false)
      */
     private array $workshopState = [];
 
+    /**
+     * @param WorkshopState $workshopState
+     */
     public function __construct(
         string $githubId,
         string $username,
@@ -157,11 +164,17 @@ class Student implements \JsonSerializable
         $this->location = $location;
     }
 
+    /**
+     * @return WorkshopState
+     */
     public function getWorkshopState(): array
     {
         return $this->workshopState;
     }
 
+    /**
+     * @param WorkshopState $state
+     */
     public function setWorkshopState(array $state): void
     {
         $this->workshopState = $state;
@@ -200,6 +213,21 @@ class Student implements \JsonSerializable
         );
     }
 
+    /**
+     * @return array{
+     *     username: string,
+     *     email: string,
+     *     name: string,
+     *     profile_picture: ?string,
+     *     location: ?string,
+     *     join_date: string,
+     *     tour_complete: bool,
+     *     state: array{
+     *          workshops: WorkshopState,
+     *          total_completed: int
+     *     }
+     * }
+     */
     public function jsonSerialize(): array
     {
         return $this->toDTO()->jsonSerialize();

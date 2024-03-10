@@ -27,7 +27,7 @@ class StudentRefresher
     {
         $student = $this->session->get('student');
 
-        if ($student === null) {
+        if (!$student instanceof StudentDTO) {
             return $handler->handle($request);
         }
 

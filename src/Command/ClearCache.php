@@ -28,6 +28,6 @@ class ClearCache
             unlink(__DIR__ . '/../../var/cache/router.php');
         }
 
-        $output->writeln(sprintf('<info>FPC Cleared! Result: %s</info>', $res ? 'true' : 'false'));
+        $output->writeln(sprintf('<info>Cleared! Result: %s</info>', $res ? 'true' : 'false'));
     }
 }

@@ -8,6 +8,17 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
 class Session
 {
+    /**
+     * @var array{
+     *       name: string,
+     *       lifetime: int,
+     *       path: string|null,
+     *       domain: string|null,
+     *       secure: bool,
+     *       httponly: bool,
+     *       cache_limiter: string
+     *   }
+     */
     private array $options = [
         'name' => 'phpschool',
         'lifetime' => 0, //until the browser is closed
@@ -18,13 +29,45 @@ class Session
         'cache_limiter' => 'nocache',
     ];
 
+    /**
+     * @param array{
+     *       name?: string,
+     *       lifetime?: int,
+     *       path?: string|null,
+     *       domain?: string|null,
+     *       secure?: bool,
+     *       httponly?: bool,
+     *       cache_limiter?: string
+     *   } $options
+     */
     public function __construct(array $options = [])
     {
-        $keys = array_keys($this->options);
-        foreach ($keys as $key) {
-            if (array_key_exists($key, $options)) {
-                $this->options[$key] = $options[$key];
-            }
+        if (isset($options['name'])) {
+            $this->options['name'] = $options['name'];
+        }
+
+        if (isset($options['lifetime'])) {
+            $this->options['lifetime'] = $options['lifetime'];
+        }
+
+        if (isset($options['path'])) {
+            $this->options['path'] = $options['path'];
+        }
+
+        if (isset($options['domain'])) {
+            $this->options['domain'] = $options['domain'];
+        }
+
+        if (isset($options['secure'])) {
+            $this->options['secure'] = $options['secure'];
+        }
+
+        if (isset($options['httponly'])) {
+            $this->options['httponly'] = $options['httponly'];
+        }
+
+        if (isset($options['cache_limiter'])) {
+            $this->options['cache_limiter'] = $options['cache_limiter'];
         }
     }
 

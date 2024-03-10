@@ -2,10 +2,7 @@
 
 namespace PhpSchool\Website\Form;
 
-use AdamWathan\BootForms\BasicFormBuilder;
-use AdamWathan\BootForms\BootForm;
-use AdamWathan\BootForms\HorizontalFormBuilder;
-use AdamWathan\Form\FormBuilder;
+use Laminas\InputFilter\InputFilter;
 use Laminas\InputFilter\InputFilterInterface;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Action\RedirectUtils;
@@ -15,15 +12,24 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use PhpSchool\Website\User\Session;
 
+/**
+ * @template TFilteredValues of array
+ */
 class FormHandler
 {
     use RedirectUtils;
     use JsonUtils;
 
-    private InputFilterInterface $inputFilter;
+    /**
+     * @var InputFilter<TFilteredValues>
+     */
+    private InputFilter $inputFilter;
     private Session $session;
 
-    public function __construct(InputFilterInterface $inputFilter, Session $session)
+    /**
+     * @param InputFilter<TFilteredValues> $inputFilter
+     */
+    public function __construct(InputFilter $inputFilter, Session $session)
     {
         $this->inputFilter = $inputFilter;
         $this->session = $session;
@@ -40,14 +46,6 @@ class FormHandler
 
         $this->session->set('__old_input', (array) $request->getParsedBody());
         $this->session->set('__errors', $this->inputFilter->getMessages());
-
-        return $this->redirect($request->getHeaderLine('referer'));
-    }
-
-    public function redirectWithErrors(Request $request, Response $response, array $errors): MessageInterface
-    {
-        $this->session->set('__old_input', (array) $request->getParsedBody());
-        $this->session->set('__errors', $errors);
 
         return $this->redirect($request->getHeaderLine('referer'));
     }
@@ -89,31 +87,9 @@ class FormHandler
         return $this->inputFilter->isValid();
     }
 
-    public function getForm(array $bind = null): BootForm
-    {
-        $formBuilder = new FormBuilder();
-        $formBuilder->setOldInputProvider(new OldInput($this->session->get('__old_input', [])));
-        $formBuilder->setErrorStore(new ErrorStore($this->session->get('__errors', [])));
-
-        if (null !== $bind) {
-            $formBuilder->bind($bind);
-        }
-
-        $this->session->delete('__old_input');
-        $this->session->delete('__errors');
-
-        $basicBootFormsBuilder = new BasicFormBuilder($formBuilder);
-        $horizontalBootFormsBuilder = new HorizontalFormBuilder($formBuilder);
-        return new BootForm($basicBootFormsBuilder, $horizontalBootFormsBuilder);
-    }
-
-    public function getPreviousErrors(): array
-    {
-        $errors = $this->session->get('__errors', []);
-        $this->session->delete('__errors');
-        return $errors;
-    }
-
+    /**
+     * @return TFilteredValues
+     */
     public function getData(): array
     {
         return $this->inputFilter->getValues();

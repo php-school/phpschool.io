@@ -24,10 +24,14 @@ class Generator
 
         collect($this->getMarkDownFiles())
             ->map(function (\SplFileInfo $file) {
-                return $this->parser->parse(file_get_contents($file->getRealPath()));
+                return $this->parser->parse((string) file_get_contents($file->getRealPath()));
             })
             ->each(function (Document $document) {
                 $meta = $document->getYAML();
+                if (!is_array($meta)) {
+                    throw new \RuntimeException('Post meta invalid');
+                }
+
                 $missing = array_diff_key(array_flip(['date', 'title', 'author', 'author_link']), $meta);
 
                 if (count($missing) > 0) {
@@ -41,10 +45,10 @@ class Generator
                 }
             })
             ->sort(function (Document $documentA, Document $documentB) {
-                return $documentB->getYAML()['date'] <=> $documentA->getYAML()['date'];
+                return $documentB->getYAML()['date'] <=> $documentA->getYAML()['date']; //@phpstan-ignore-line
             })
             ->map(function (Document $document) {
-                return new Post(PostMeta::fromArray($document->getYAML()), $document->getContent());
+                return new Post(PostMeta::fromArray($document->getYAML()), $document->getContent()); //@phpstan-ignore-line
             })
             ->each(function (Post $post) {
                 $this->repository->save(BlogPost::fromPost($post));

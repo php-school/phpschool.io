@@ -3,6 +3,7 @@
 namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\Website\Action\JsonUtils;
+use PhpSchool\Website\User\Entity\Student;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
 use PhpSchool\Website\User\StudentRepository;
@@ -23,6 +24,7 @@ class TourComplete
     {
         $studentDTO = $this->getStudent();
 
+        /** @var Student $student */
         $student = $this->studentRepository->findById($studentDTO->id);
         $student->setTourComplete();
 

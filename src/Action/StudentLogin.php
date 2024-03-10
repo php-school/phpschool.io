@@ -138,6 +138,11 @@ class StudentLogin
         $this->assertHasValue($email);
         $this->assertHasValue($name);
 
+        /** @var string $id */
+        /** @var string $username */
+        /** @var string $email */
+        /** @var string $name */
+
         $student = new Student(
             $id,
             $username,
@@ -174,6 +179,11 @@ class StudentLogin
         $this->assertHasValue($username);
         $this->assertHasValue($email);
         $this->assertHasValue($name);
+
+        /** @var string $username */
+        /** @var string $email */
+        /** @var string $name */
+
 
         $student->setUsername($username);
         $student->setEmail($email);

@@ -78,6 +78,18 @@ class BlogPost implements \JsonSerializable
         return substr($content, 0, 200) . "...";
     }
 
+    /**
+     * @return array{
+     *     content: string,
+     *     featuredImage: string,
+     *     excerpt: string,
+     *     title: string,
+     *     slug: string,
+     *     author: string,
+     *     authorLink: string,
+     *     date: string
+     * }
+     */
     public function jsonSerialize(): array
     {
         return [

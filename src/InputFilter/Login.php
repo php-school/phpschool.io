@@ -7,7 +7,11 @@ use Laminas\Validator\EmailAddress;
 use Laminas\Validator\StringLength;
 
 /**
- * @psalm-suppress PropertyNotSetInConstructor
+ * @phpstan-type LoginData array{
+ *      email: string,
+ *      password: string,
+ *  }
+ * @extends InputFilter<LoginData>
  */
 class Login extends InputFilter
 {

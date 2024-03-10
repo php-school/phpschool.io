@@ -22,6 +22,9 @@ class PostMeta implements JsonSerializable
         $this->link = $this->slugify($this->title);
     }
 
+    /**
+     * @param array{title: string, date: string, author: string, author_link: string} $data
+     */
     public static function fromArray(array $data): self
     {
         return new self($data['title'], new DateTime('@' . $data['date']), $data['author'], $data['author_link']);
@@ -54,9 +57,17 @@ class PostMeta implements JsonSerializable
 
     private function slugify(string $string): string
     {
-        return trim(strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)), '-');
+        return trim(strtolower((string) preg_replace('/[^A-Za-z0-9-]+/', '-', $string)), '-');
     }
 
+    /**
+     * @return array{
+     *     title: string,
+     *     author: string,
+     *     authorLink: string,
+     *     date: string
+     * }
+     */
     public function jsonSerialize(): array
     {
         return [

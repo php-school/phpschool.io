@@ -18,10 +18,13 @@ class DoctrineORMBlogRepository extends EntityRepository
      */
     public function findAll(): array
     {
-        return $this->createQueryBuilder('e')
+        /** @var array<BlogPost> $result */
+        $result = $this->createQueryBuilder('e')
             ->orderBy('e.dateTime', 'DESC')
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 
     public function save(BlogPost $post): void
