@@ -29,7 +29,7 @@ const docs = [
         path: "",
         title: "Documentation Home",
         component: DocHome,
-        file: "Index.vue",
+        file: "DocHome.vue",
       },
     ],
   },
@@ -41,7 +41,7 @@ const docs = [
         path: "",
         title: "Workshop Tutorial",
         component: TutorialHome,
-        file: "Tutorial/Index.vue",
+        file: "Tutorial/TutorialHome.vue",
       },
       {
         path: "creating-your-own-workshop",
@@ -71,7 +71,7 @@ const docs = [
         path: "",
         title: "Reference Documentation",
         component: ReferenceHome,
-        file: "Reference/Index.vue",
+        file: "Reference/ReferenceHome.vue",
       },
       {
         path: "container",
@@ -101,7 +101,7 @@ const docs = [
         path: "results",
         title: "Results & Renderers",
         component: Results,
-        file: "Reference/Results.vue",
+        file: "Reference/CheckResults.vue",
       },
       {
         path: "exercise-checks",
@@ -137,7 +137,7 @@ const docs = [
         path: "events",
         title: "Events",
         component: Events,
-        file: "Reference/Events.vue",
+        file: "Reference/ExerciseEvents.vue",
       },
       {
         path: "creating-listener-checks",

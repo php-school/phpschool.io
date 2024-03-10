@@ -14,15 +14,15 @@ import ContentHeader from "../../ContentHeader.vue";
 
   <ContentHeader id="tutorial-sections">Tutorial Sections</ContentHeader>
 
-  <h3>
+  <h3 class="mb-2">
     <router-link to="/docs/tutorial/creating-your-own-workshop">1. Creating your own workshop</router-link>
   </h3>
   <p>Learn how to create and setup your very own workshop.</p>
-  <h3>
+  <h3 class="mb-2">
     <router-link to="/docs/tutorial/modify-theme">2. Modifying the theme of your workshop</router-link>
   </h3>
   <p>Customise the look and feel of your workshop, personalise to your brand or subject.</p>
-  <h3>
+  <h3 class="mb-2">
     <router-link to="/docs/tutorial/creating-an-exercise">3. Creating an exercise</router-link>
   </h3>
   <p>Create the first exercise for your workshop.</p>

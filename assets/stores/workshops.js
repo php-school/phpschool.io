@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 const useWorkshopStore = defineStore("workshops", {
   state: () => ({
     workshops: [],
+    allWorkshops: [],
     totalExercises: 0,
   }),
   actions: {
@@ -15,12 +16,19 @@ const useWorkshopStore = defineStore("workshops", {
         const response = await fetch(import.meta.env.VITE_API_URL + "/api/online/workshops");
         const data = await response.json();
 
-        this.workshops = data.workshops;
+        this.workshops = data.onlineWorkshops;
+        this.allWorkshops = data.allWorkshops;
         this.totalExercises = data.totalExercises;
       } catch (error) {
         console.error("Error fetching workshops:", error);
         throw error;
       }
+    },
+    getAllCoreWorkshops() {
+      return this.allWorkshops.filter((workshop) => workshop.type === "Core");
+    },
+    getAllCommunityWorkshops() {
+      return this.allWorkshops.filter((workshop) => workshop.type === "Community");
     },
     getWorkshop(code) {
       return this.workshops.find((workshop) => workshop.code === code);

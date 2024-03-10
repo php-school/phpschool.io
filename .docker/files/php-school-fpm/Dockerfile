@@ -1,4 +1,4 @@
-FROM php:8.1-fpm AS prod
+FROM php:8.3-fpm AS prod
 
 RUN apt-get -qq update && apt-get install -qqy git zlib1g-dev libzip-dev \
 	&& rm -rf /var/lib/apt/lists/* \
