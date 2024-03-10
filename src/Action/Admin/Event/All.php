@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Admin\Event;
 
 use PhpSchool\Website\Action\JsonUtils;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;

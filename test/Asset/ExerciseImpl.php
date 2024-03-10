@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Asset;
 
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
@@ -40,7 +42,5 @@ class ExerciseImpl implements ExerciseInterface
         return ExerciseType::CLI();
     }
 
-    public function configure(ExerciseDispatcher $dispatcher): void
-    {
-    }
+    public function configure(ExerciseDispatcher $dispatcher): void {}
 }

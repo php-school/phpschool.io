@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Middleware;
 
 use Psr\Http\Message\ServerRequestInterface as Request;

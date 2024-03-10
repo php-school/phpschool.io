@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Admin\Workshop;
 
 use PhpSchool\Website\Action\JsonUtils;
@@ -23,8 +25,7 @@ class Delete
         private readonly WorkshopInstallRepository $installRepository,
         private readonly WorkshopFeed $workshopFeed,
         private readonly CacheItemPoolInterface $cache,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, Response $response, string $id): MessageInterface
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
@@ -10,7 +12,6 @@ use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Online\CloudInstalledWorkshop;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProblemFileConverter;
-use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
 use Psr\Http\Message\MessageInterface;
@@ -55,8 +56,7 @@ class WorkshopExercise
         private readonly CloudWorkshopRepository $installedWorkshops,
         private readonly ProblemFileConverter $problemFileConverter,
         private readonly SessionStorageInterface $session
-    ) {
-    }
+    ) {}
 
     public function __invoke(
         Request $request,
@@ -83,7 +83,7 @@ class WorkshopExercise
                 'name' => $exercise->getName(),
                 'slug' => $this->slug($exercise->getName()),
                 'description' => $exercise->getDescription(),
-                'type' => $exercise->getType()
+                'type' => $exercise->getType()->getValue()
             ],
             'problem' => $this->problemFileConverter->htmlFromExercise($exercise),
             'totalExerciseCount' => $this->installedWorkshops->totalExerciseCount(),
@@ -137,7 +137,7 @@ class WorkshopExercise
         }
 
         $data['initial_files'] = array_map(
-            fn (SolutionFile $file) => [
+            fn(SolutionFile $file) => [
                 'name' => $file->getRelativePath(),
                 'content' => $file->getContents(),
             ],

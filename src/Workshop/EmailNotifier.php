@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Workshop;
 
 use PhpSchool\Website\Entity\Workshop;
-use RuntimeException;
 use SendGrid;
-use SendGrid\Mail\Personalization;
-use SendGrid\Mail\Mail;
 
 class EmailNotifier
 {
@@ -28,11 +27,7 @@ class EmailNotifier
         $this->phpSchoolEmail = $phpSchoolEmail;
     }
 
-    public function approved(Workshop $workshop): void
-    {
-    }
+    public function approved(Workshop $workshop): void {}
 
-    public function new(Workshop $workshop): void
-    {
-    }
+    public function new(Workshop $workshop): void {}
 }

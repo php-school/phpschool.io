@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Cloud\Action;
 
 use GuzzleHttp\Psr7\Response;
@@ -11,7 +13,6 @@ use PhpSchool\Website\Action\Online\WorkshopExercise;
 use PhpSchool\Website\Online\CloudInstalledWorkshop;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProblemFileConverter;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\TestUtils\BaseFilesystemTest;
 use PhpSchool\Website\User\ArraySession;
 use PhpSchool\WebsiteTest\Asset\CliExerciseImpl;

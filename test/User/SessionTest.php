@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\User;
 
 use PhpSchool\Website\User\Session;
@@ -56,11 +58,11 @@ class SessionTest extends TestCase
         $this->assertNull($session->get('a'));
     }
 
-//    public function testDestroy(): void
-//    {
-//        @session_start();
-//        $this->assertEquals(PHP_SESSION_ACTIVE, session_status());
-//        @Session::destroy(); // silence headers already sent warning
-//        $this->assertEquals(PHP_SESSION_NONE, session_status());
-//    }
+    //    public function testDestroy(): void
+    //    {
+    //        @session_start();
+    //        $this->assertEquals(PHP_SESSION_ACTIVE, session_status());
+    //        @Session::destroy(); // silence headers already sent warning
+    //        $this->assertEquals(PHP_SESSION_NONE, session_status());
+    //    }
 }

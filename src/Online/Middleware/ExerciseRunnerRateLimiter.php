@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Online\Middleware;
 
 use PhpSchool\Website\User\SessionStorageInterface;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\User;
 
 use DateTime;
@@ -21,8 +23,7 @@ class StudentDTO implements \JsonSerializable
         public readonly DateTime $joinDate,
         public readonly bool $tourComplete,
         public readonly StudentCloudState $workshopState
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{

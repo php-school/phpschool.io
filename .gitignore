@@ -1,6 +1,7 @@
 .idea
 node_modules
 .DS_Store
+.php-cs-fixer.cache
 npm-debug.log
 /vendor/
 /logs/*

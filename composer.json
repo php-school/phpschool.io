@@ -61,11 +61,11 @@
     }
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "^3.6",
     "phpunit/phpunit": "^9.5",
     "weirdan/doctrine-psalm-plugin": "^1.0",
     "doctrine/data-fixtures": "^1.5",
-    "phpstan/phpstan": "^1.9"
+    "phpstan/phpstan": "^1.9",
+    "friendsofphp/php-cs-fixer": "^3.51"
   },
   "scripts" : {
     "test": [
@@ -73,8 +73,9 @@
       "@cs"
     ],
     "phpunit": "phpunit",
-    "cs" : "phpcs",
-    "cs-fix": "phpcbf",
+    "cs" : "php-cs-fixer fix --dry-run --allow-risky=yes",
+    "cs:ci" : "php-cs-fixer fix --dry-run --allow-risky=yes --format=checkstyle | cs2pr",
+    "cs-fix": "php-cs-fixer --allow-risky=yes fix",
     "static": "phpstan --ansi analyse --level max src",
     "app:cc": "php bin/app clear-cache",
     "app:gen:blog": "php bin/app generate-blog",

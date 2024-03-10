@@ -1,18 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Cloud;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use PhpSchool\PhpWorkshop\Solution\SolutionFile;
-use PhpSchool\PhpWorkshop\Utils\System;
 use PhpSchool\Website\Online\PathGenerator;
 use PhpSchool\Website\Online\ProjectUploader;
 use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\TestUtils\BaseFilesystemTest;
 use PhpSchool\Website\User\StudentDTO;
-use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Filesystem\Filesystem;
 
 class ProjectUploaderTest extends BaseFilesystemTest
 {
@@ -170,7 +169,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
                 $path . '/folder/nested/file3.php',
                 $path . '/solution.php',
             ],
-            array_map(fn (SolutionFile $f) => $f->getAbsolutePath(), $result->getFiles())
+            array_map(fn(SolutionFile $f) => $f->getAbsolutePath(), $result->getFiles())
         );
 
         $this->assertFileExists($path . '/solution.php');
@@ -216,7 +215,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
 
         $this->assertEquals(
             [$path . '/composer.json', $path . '/solution.php'],
-            array_map(fn (SolutionFile $f) => $f->getAbsolutePath(), $result->getFiles())
+            array_map(fn(SolutionFile $f) => $f->getAbsolutePath(), $result->getFiles())
         );
 
         $this->assertFileExists($path . '/solution.php');
@@ -266,7 +265,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
                 $path . '/folder/nested/file3.php',
                 $path . '/program.php',
             ],
-            array_map(fn (SolutionFile $f) => $f->getAbsolutePath(), $result->getFiles())
+            array_map(fn(SolutionFile $f) => $f->getAbsolutePath(), $result->getFiles())
         );
 
         $this->assertFileExists($path . '/program.php');

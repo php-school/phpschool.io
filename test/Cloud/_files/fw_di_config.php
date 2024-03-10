@@ -1,7 +1,7 @@
 <?php
 
-use PhpSchool\PhpWorkshop\Exercise\CliExercise;
-use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
+declare(strict_types=1);
+
 use PhpSchool\WebsiteTest\Asset\CliExerciseImpl;
 
 return [
@@ -16,7 +16,7 @@ return [
         );
     },
     'my-service' => function () {
-        return new class {
+        return new class () {
             public $name = 'my-service';
         };
     },

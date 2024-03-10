@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\Website\Action\JsonUtils;
@@ -13,8 +15,7 @@ class ResetState
 
     public function __construct(
         private readonly StudentWorkshopState $studentState,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, Response $response): Response
     {

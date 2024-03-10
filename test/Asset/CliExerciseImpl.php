@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Asset;
 
 use PhpSchool\PhpWorkshop\Exercise\CliExercise;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseType;
-use PhpSchool\PhpWorkshop\Exercise\ProvidesSolution;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\Solution\SolutionInterface;
 
@@ -59,7 +60,5 @@ class CliExerciseImpl implements ExerciseInterface, CliExercise
         return ExerciseType::CLI();
     }
 
-    public function configure(ExerciseDispatcher $dispatcher): void
-    {
-    }
+    public function configure(ExerciseDispatcher $dispatcher): void {}
 }

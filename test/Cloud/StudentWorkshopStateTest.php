@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Cloud;
 
 use PhpSchool\Website\Online\StudentCloudState;

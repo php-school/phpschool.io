@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use PhpSchool\Website\Entity\Event;
-use PhpSchool\Website\Entity\Workshop;
 use RuntimeException;
 
 /**

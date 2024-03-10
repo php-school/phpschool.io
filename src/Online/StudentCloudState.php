@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Online;
 
 use PhpSchool\PhpWorkshop\UserState\UserState;
@@ -39,7 +41,7 @@ class StudentCloudState implements \JsonSerializable
         /** @var int $total */
         $total = collect($this->workshopState)
             ->pluck('completedExercises')
-            ->map(fn (array $completed) => count($completed))
+            ->map(fn(array $completed) => count($completed))
             ->sum();
 
         return $total;

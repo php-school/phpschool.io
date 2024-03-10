@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action;
 
 use PhpSchool\Website\Repository\DoctrineORMBlogRepository;
@@ -10,9 +12,7 @@ class BlogPosts
 {
     use JsonUtils;
 
-    public function __construct(private readonly DoctrineORMBlogRepository $repository)
-    {
-    }
+    public function __construct(private readonly DoctrineORMBlogRepository $repository) {}
 
     public function __invoke(Request $request, Response $response): Response
     {

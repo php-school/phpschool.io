@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Cloud\Action;
 
 use GuzzleHttp\Psr7\Response;
@@ -72,6 +74,6 @@ class TourCompleteTest extends TestCase
 
         $response = $action->__invoke($this->createMock(ServerRequestInterface::class), new Response());
 
-        $this->assertEquals(['success' => true], json_decode($response->getBody(), true));
+        $this->assertEquals(['success' => true], json_decode($response->getBody()->__toString(), true));
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Admin;
 
 use PhpSchool\Website\Action\JsonUtils;
@@ -26,8 +28,7 @@ class Login
         private readonly AdminAuthenticationService $authenticationService,
         private readonly FormHandler $formHandler,
         private readonly string $jwtSecret,
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, Response $response): MessageInterface
     {

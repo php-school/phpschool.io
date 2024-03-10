@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\Website\Action\JsonUtils;
@@ -15,8 +17,7 @@ class Workshops
     public function __construct(
         private readonly CloudWorkshopRepository $installedWorkshops,
         private readonly WorkshopRepository $workshopRepository
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, Response $response): Response
     {

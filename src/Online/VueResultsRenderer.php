@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Online;
 
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\Result\FailureInterface;
-use PhpSchool\PhpWorkshop\Result\Cli\FailureInterface as CliFailure;
-use PhpSchool\PhpWorkshop\Result\Cgi\FailureInterface as CgiFailure;
 use PhpSchool\PhpWorkshop\Result\ResultGroupInterface;
 use PhpSchool\PhpWorkshop\Result\ResultInterface;
 use PhpSchool\PhpWorkshop\Result\SuccessInterface;

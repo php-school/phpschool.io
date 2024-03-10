@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Form;
 
 use Laminas\InputFilter\InputFilter;
-use Laminas\InputFilter\InputFilterInterface;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Action\RedirectUtils;
 use Psr\Http\Message\MessageInterface;

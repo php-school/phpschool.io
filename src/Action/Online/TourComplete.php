@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Online;
 
 use PhpSchool\Website\Action\JsonUtils;
@@ -17,8 +19,7 @@ class TourComplete
     public function __construct(
         private readonly SessionStorageInterface $session,
         private readonly StudentRepository $studentRepository
-    ) {
-    }
+    ) {}
 
     public function __invoke(Request $request, Response $response): Response
     {
