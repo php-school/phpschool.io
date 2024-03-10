@@ -25,15 +25,15 @@ const slug = computed(() => {
 <template>
   <h2 :id="id" class="relative mb-4 flex items-center border-b border-gray-600 pb-1 pt-2 font-mono text-2xl">
     <span class="text-[#e91e63]">{{ title }}</span>
-    <a class="ml-2 inline-block !text-gray-300 hover:!text-gray-200 hover:underline" :href="'#' + slug">#</a>
+    <a class="ml-2 inline-block !text-gray-300 hover:text-gray-200 hover:underline" :href="'#' + slug">#</a>
     <a
       v-if="file"
       title="Edit this page on GitHub!"
       target="_blank"
-      class="ml-2 inline-block fill-current !text-gray-300 hover:!text-gray-200"
+      class="ml-2 inline-block fill-current !text-gray-300 hover:!text-[#e91e63]"
       :href="'https://www.github.com/php-school/phpschool.io/tree/master/assets/components/Website/Docs/Sections/' + file"
     >
-      <PencilSquareIcon class="h-6 w-6"></PencilSquareIcon>
+      <PencilSquareIcon class="h-5 w-5"></PencilSquareIcon>
     </a>
     <a href="#app" class="absolute right-0 text-xs hover:underline">^ TOP</a>
   </h2>
