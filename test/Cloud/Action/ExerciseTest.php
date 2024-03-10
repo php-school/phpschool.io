@@ -29,11 +29,10 @@ class ExerciseTest extends BaseFilesystemTest
             ->willThrowException(new RuntimeException('Cannot find workshop'));
 
         $problemFileConverter = $this->createMock(ProblemFileConverter::class);
-        $renderer = $this->createMock(PhpRenderer::class);
 
         $controller = new WorkshopExercise($installedWorkshopRepo, $problemFileConverter, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
-        $response = $controller->__invoke($request, new Response(), $renderer, 'workshop', 'exercise');
+        $response = $controller->__invoke($request, new Response(), 'workshop', 'exercise');
 
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals([
@@ -57,11 +56,10 @@ class ExerciseTest extends BaseFilesystemTest
             ->willReturn($workshop);
 
         $problemFileConverter = $this->createMock(ProblemFileConverter::class);
-        $renderer = $this->createMock(PhpRenderer::class);
 
         $controller = new WorkshopExercise($installedWorkshopRepo, $problemFileConverter, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
-        $response = $controller->__invoke($request, new Response(), $renderer, 'workshop', 'exercise');
+        $response = $controller->__invoke($request, new Response(), 'workshop', 'exercise');
 
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals([
@@ -80,12 +78,10 @@ class ExerciseTest extends BaseFilesystemTest
             ->with($exercise)
             ->willReturn('<h1>Some problem file</h1>');
 
-        $renderer = new PhpRenderer('');
-
         $controller = new WorkshopExercise($installedWorkshopRepo, $problemFileConverter, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
 
-        $response = $controller->__invoke($request, new Response(), $renderer, 'workshop', 'exercise');
+        $response = $controller->__invoke($request, new Response(), 'workshop', 'exercise');
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals([
@@ -124,17 +120,10 @@ class ExerciseTest extends BaseFilesystemTest
             ->with($exercise)
             ->willReturn('<h1>Some problem file</h1>');
 
-        $renderer = $this->createMock(PhpRenderer::class);
-
         $controller = new WorkshopExercise($installedWorkshopRepo, $problemFileConverter, new ArraySession());
         $request = new ServerRequest('POST', '/editor', [], json_encode([]));
 
-        $renderer->expects($this->once())
-            ->method('slug')
-            ->with('my-exercise')
-            ->willReturn('my-exercise');
-
-        $response = $controller->__invoke($request, new Response(), $renderer, 'workshop', 'exercise');
+        $response = $controller->__invoke($request, new Response(), 'workshop', 'exercise');
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals([

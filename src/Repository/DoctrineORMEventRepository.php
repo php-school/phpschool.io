@@ -17,13 +17,16 @@ class DoctrineORMEventRepository extends EntityRepository implements EventReposi
      */
     public function findPrevious(int $limit = 10): array
     {
-        return $this->createQueryBuilder('e')
+        /** @var list<Event> $result */
+        $result = $this->createQueryBuilder('e')
             ->where('e.dateTime <= :now')
             ->orderBy('e.dateTime', 'DESC')
             ->setMaxResults($limit)
             ->setParameter(':now', new \DateTime())
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 
     /**
@@ -31,13 +34,16 @@ class DoctrineORMEventRepository extends EntityRepository implements EventReposi
      */
     public function findUpcoming(int $limit = 10): array
     {
-        return $this->createQueryBuilder('e')
+        /** @var list<Event> $result */
+        $result = $this->createQueryBuilder('e')
             ->where('e.dateTime > :now')
             ->orderBy('e.dateTime', 'ASC')
             ->setMaxResults($limit)
             ->setParameter(':now', new \DateTime())
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 
     /**

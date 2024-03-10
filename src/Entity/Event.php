@@ -22,7 +22,7 @@ class Event implements \JsonSerializable
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private UuidInterface $id;
+    private UuidInterface $id; /** @phpstan-ignore-line  */
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -130,6 +130,9 @@ class Event implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getVenueLines(): array
     {
         return explode("\n", $this->venue);
@@ -146,10 +149,23 @@ class Event implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return array{
+     *     id: string,
+     *     name: string,
+     *     description: string,
+     *     link: ?string,
+     *     date_formatted: string,
+     *     date: string,
+     *     venue: string,
+     *     venueLines: array<string>,
+     *     poster: ?string
+     * }
+     */
     public function toArray(): array
     {
         return [
-            'id' => $this->getId(),
+            'id' => $this->getId()->toString(),
             'name' => $this->getName(),
             'description' => $this->getDescription(),
             'link' => $this->getLink(),
@@ -161,6 +177,19 @@ class Event implements \JsonSerializable
         ];
     }
 
+    /**
+     * @return array{
+     *     id: string,
+     *     name: string,
+     *     description: string,
+     *     link: ?string,
+     *     date_formatted: string,
+     *     date: string,
+     *     venue: string,
+     *     venueLines: array<string>,
+     *     poster: ?string
+     * }
+     */
     public function jsonSerialize(): array
     {
         return $this->toArray();

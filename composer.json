@@ -24,7 +24,6 @@
     "jenssegers/agent": "^2.3",
     "sendgrid/sendgrid": "^7.9",
     "vlucas/phpdotenv": "^5.3",
-    "adamwathan/bootforms": "^0.9",
     "mnapoli/front-yaml": "^1.5",
     "laminas/laminas-inputfilter": "^2.28",
     "laminas/laminas-uri": "^2.11",

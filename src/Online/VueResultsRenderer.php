@@ -11,8 +11,24 @@ use PhpSchool\PhpWorkshop\Result\ResultInterface;
 use PhpSchool\PhpWorkshop\Result\SuccessInterface;
 use PhpSchool\PhpWorkshop\ResultAggregator;
 
+/**
+ * @phpstan-type InnerResult array{
+ *      success: bool,
+ *      name: string,
+ *      type?: class-string
+ * }
+ * @phpstan-type Result array{
+ *     success: bool,
+ *     name: string,
+ *     type?: class-string,
+ *     results?: array<InnerResult>
+ * }
+ */
 class VueResultsRenderer
 {
+    /**
+     * @return array<Result>
+     */
     public function render(
         ResultAggregator $results,
         ExerciseInterface $exercise
@@ -36,6 +52,9 @@ class VueResultsRenderer
         return $result instanceof ResultGroupInterface;
     }
 
+    /**
+     * @return Result
+     */
     private function renderResult(ResultInterface $result): array
     {
         if ($this->isSuccess($result)) {
@@ -47,38 +66,41 @@ class VueResultsRenderer
 
         if ($this->isResultGroup($result)) {
             /** @var ResultGroupInterface $result */
+            /** @var array<InnerResult> $results */
+            $results = array_map(
+                function (ResultInterface $innerResult) use ($result) {
+
+                    if ($result->isResultSuccess($innerResult)) {
+                        return [
+                            'success' => true,
+                            'name' => $innerResult->getCheckName(),
+                        ];
+                    }
+
+                    /** @var FailureInterface $innerResult  */
+                    return array_merge(
+                        [
+                            'success' => false,
+                            'name' => $innerResult->getCheckName(),
+                            'type' => $innerResult::class,
+                        ],
+                        $innerResult->toArray()
+                    );
+                },
+                $result->getResults()
+            );
+
             return [
                 'success' => false,
                 'name' => $result->getCheckName(),
                 'type' => $result::class,
-                'results' => array_map(
-                    function (ResultInterface $innerResult) use ($result) {
-
-                        if ($result->isResultSuccess($innerResult)) {
-                            return [
-                                'success' => true,
-                                'name' => $innerResult->getCheckName(),
-                            ];
-                        }
-
-                        /** @var FailureInterface $innerResult  */
-
-                        return array_merge(
-                            [
-                                'success' => false,
-                                'name' => $innerResult->getCheckName(),
-                                'type' => $innerResult::class,
-                            ],
-                            $innerResult->toArray()
-                        );
-                    },
-                    $result->getResults()
-                )
+                'results' => $results
             ];
         }
 
         /** @var FailureInterface $result */
-        return array_merge(
+        /** @var InnerResult $failure */
+        $failure = array_merge(
             [
                 'success' => false,
                 'name' => $result->getCheckName(),
@@ -86,5 +108,7 @@ class VueResultsRenderer
             ],
             $result->toArray()
         );
+
+        return $failure;
     }
 }

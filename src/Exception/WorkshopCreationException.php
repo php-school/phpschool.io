@@ -6,13 +6,16 @@ use RuntimeException;
 
 class WorkshopCreationException extends RuntimeException
 {
-    private array $errors;
-
-    public function __construct(array $errors)
+    /**
+     * @param array<string, array<array<mixed>|string>> $errors
+     */
+    public function __construct(private array $errors)
     {
-        $this->errors = $errors;
     }
 
+    /**
+     * @return array<string, array<array<mixed>|string>>
+     */
     public function getErrors(): array
     {
         return $this->errors;

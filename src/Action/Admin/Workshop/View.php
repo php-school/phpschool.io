@@ -12,7 +12,6 @@ use PhpSchool\Website\Repository\WorkshopRepository;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use PhpSchool\Website\PhpRenderer;
 use RuntimeException;
 
 class View
@@ -21,19 +20,16 @@ class View
 
     private WorkshopRepository $repository;
     private WorkshopInstallRepository $workshopInstallRepository;
-    private PhpRenderer $renderer;
 
     public function __construct(
         WorkshopRepository $repository,
         WorkshopInstallRepository $workshopInstallRepository,
-        PhpRenderer $renderer
     ) {
         $this->repository = $repository;
         $this->workshopInstallRepository = $workshopInstallRepository;
-        $this->renderer = $renderer;
     }
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): MessageInterface
+    public function __invoke(Request $request, Response $response, string $id): MessageInterface
     {
         try {
             $workshop = $this->repository->findById($id);
@@ -56,6 +52,10 @@ class View
         ], $response);
     }
 
+    /**
+     * @param array<WorkshopInstall> $installs
+     * @return array{dates: array<string>, data: array<int>}
+     */
     private function getLast30DayInstallGraphData(array $installs): array
     {
         $end = new DateTimeImmutable();

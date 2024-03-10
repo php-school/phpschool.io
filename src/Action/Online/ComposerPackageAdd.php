@@ -5,7 +5,6 @@ namespace PhpSchool\Website\Action\Online;
 use ahinkle\PackagistLatestVersion\PackagistLatestVersion;
 use GuzzleHttp\Exception\ClientException;
 use PhpSchool\Website\Action\JsonUtils;
-use PhpSchool\Website\PhpRenderer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -20,7 +19,7 @@ class ComposerPackageAdd
         $this->packagistLatestVersion = $packagistLatestVersion;
     }
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $renderer): Response
+    public function __invoke(Request $request, Response $response): Response
     {
         $package = $request->getQueryParams()['package'] ?? null;
 

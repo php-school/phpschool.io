@@ -8,7 +8,6 @@ use DateTimeImmutable;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -20,14 +19,11 @@ class All
 
     private WorkshopRepository $repository;
     private WorkshopInstallRepository $workshopInstallRepository;
-    private PhpRenderer $renderer;
 
     public function __construct(
         WorkshopRepository $repository,
         WorkshopInstallRepository $workshopInstallRepository,
-        PhpRenderer $renderer
     ) {
-        $this->renderer = $renderer;
         $this->workshopInstallRepository = $workshopInstallRepository;
         $this->repository = $repository;
     }
@@ -56,6 +52,9 @@ class All
         ], $response);
     }
 
+    /**
+     * @return array<DateTimeImmutable>
+     */
     private function getDateRange(): array
     {
         $end = new DateTimeImmutable();
@@ -66,6 +65,11 @@ class All
         return iterator_to_array(new DatePeriod($begin, $interval, $end));
     }
 
+    /**
+     * @param array<WorkshopInstall> $installs
+     * @param array<DateTimeImmutable> $dateRange
+     * @return array<int>
+     */
     private function getLast30DayInstallGraphData(array $installs, array $dateRange): array
     {
         return array_map(

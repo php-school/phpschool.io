@@ -4,16 +4,19 @@ namespace PhpSchool\Website\User;
 
 class ArraySession implements SessionStorageInterface
 {
+    /**
+     * @param array<string, mixed> $data
+     */
     public function __construct(private array $data = [])
     {
     }
 
-    public function get(string $key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         return $this->data[$key] ?? $default;
     }
 
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         $this->data[$key] = $value;
     }
@@ -30,22 +33,22 @@ class ArraySession implements SessionStorageInterface
         $this->data = [];
     }
 
-    public function offsetExists($offset): bool
+    public function offsetExists(string $offset): bool
     {
         return array_key_exists($offset, $this->data);
     }
 
-    public function offsetGet(mixed $offset): mixed
+    public function offsetGet(string $offset): mixed
     {
         return $this->get($offset);
     }
 
-    public function offsetSet($offset, $value): void
+    public function offsetSet(string $offset, mixed $value): void
     {
         $this->set($offset, $value);
     }
 
-    public function offsetUnset($offset): void
+    public function offsetUnset(string $offset): void
     {
         $this->delete($offset);
     }

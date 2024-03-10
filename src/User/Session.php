@@ -2,6 +2,9 @@
 
 namespace PhpSchool\Website\User;
 
+/**
+ * @implements \ArrayAccess<string, mixed>
+ */
 final class Session implements \ArrayAccess, SessionStorageInterface
 {
     public function regenerate(): void
@@ -18,7 +21,7 @@ final class Session implements \ArrayAccess, SessionStorageInterface
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(
-                session_name(),
+                session_name() ?: 'phpschoolsess',
                 '',
                 time() - 42000,
                 (string) $params["path"],
@@ -33,12 +36,7 @@ final class Session implements \ArrayAccess, SessionStorageInterface
         }
     }
 
-    /**
-     * @param non-empty-string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function get(string $key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         if (array_key_exists($key, $_SESSION ?? [])) {
             return $_SESSION[$key];
@@ -46,11 +44,7 @@ final class Session implements \ArrayAccess, SessionStorageInterface
         return $default;
     }
 
-    /**
-     * @param string $key
-     * @param string|array|object|null $value
-     */
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         $_SESSION[$key] = $value;
     }
@@ -67,18 +61,11 @@ final class Session implements \ArrayAccess, SessionStorageInterface
         $_SESSION = [];
     }
 
-    /**
-     * @param string $offset
-     */
     public function offsetExists($offset): bool
     {
         return isset($_SESSION[$offset]);
     }
 
-    /**
-     * @param non-empty-string $offset
-     * @return mixed
-     */
     public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
@@ -86,17 +73,13 @@ final class Session implements \ArrayAccess, SessionStorageInterface
 
     /**
      * @param string $offset
-     * @param string|array|null $value
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->set($offset, $value);
     }
 
-    /**
-     * @param string $offset
-     */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         $this->delete($offset);
     }

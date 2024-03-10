@@ -22,7 +22,7 @@ class WorkshopInstall
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private UuidInterface $id;
+    private UuidInterface $id; /** @phpstan-ignore-line  */
 
     /**
      * @ORM\ManyToOne(targetEntity="Workshop", inversedBy="installs")

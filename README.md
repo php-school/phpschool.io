@@ -32,11 +32,6 @@ docker compose exec php composer app:gen:blog
 
 Then navigate to `http://localhost` !
 
-Pages are cached on first view.
-If you need to clear the cache, run `docker compose exec php composer app:cc`.
-
-You can disable the cache by setting `CACHE.FPC.ENABLE` to `false` in your `.env` file.
-
 ## Build CSS & JS
 
 This needs to be done for the main website (non cloud) to run in development mode.

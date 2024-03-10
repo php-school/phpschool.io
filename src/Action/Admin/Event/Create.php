@@ -12,13 +12,23 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Laminas\Filter\Exception\RuntimeException;
 
+/**
+ * @phpstan-import-type EventData from \PhpSchool\Website\InputFilter\Event
+ */
 class Create
 {
     use JsonUtils;
 
     private EventRepository $repository;
+
+    /**
+     * @var FormHandler<EventData>
+     */
     private FormHandler $formHandler;
 
+    /**
+     * @param FormHandler<EventData> $formHandler
+     */
     public function __construct(
         EventRepository $repository,
         FormHandler $formHandler,
@@ -47,11 +57,23 @@ class Create
             );
         }
 
+        $date = \DateTime::createFromFormat('Y-m-d\TH:i', $values['date']);
+
+        if (false === $date) {
+            return $this->withJson(
+                [
+                    'success' => false,
+                    'form_errors' => ['date' => 'Invalid date format']
+                ],
+                $response
+            );
+        }
+
         $event = new Event(
             $values['name'],
             $values['description'],
             $values['link'] ?? null,
-            \DateTime::createFromFormat('Y-m-d\TH:i', $values['date']),
+            $date,
             $values['venue'],
             isset($values['poster']['tmp_name']) ? basename($values['poster']['tmp_name']) : null
         );

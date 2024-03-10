@@ -14,7 +14,15 @@ use Laminas\Validator\StringLength;
 use Laminas\Validator\Uri;
 
 /**
- * @psalm-suppress PropertyNotSetInConstructor
+ * @phpstan-type EventData array{
+ *      name: string,
+ *      description: string,
+ *      link: string|null,
+ *      date: string,
+ *      venue: string,
+ *      poster?: array{tmp_name: string},
+ *  }
+ * @extends InputFilter<EventData>
  */
 class Event extends InputFilter
 {

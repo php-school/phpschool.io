@@ -128,8 +128,7 @@ $app
         $group->post('/tour/complete', TourComplete::class);
         $group->post('/reset', ResetState::class);
     })
-    ->add($container->get(StudentAuthenticator::class))
-    ->add(Styles::class);
+    ->add($container->get(StudentAuthenticator::class));
 
 // Run app
 $app->run();

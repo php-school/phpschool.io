@@ -4,7 +4,6 @@ namespace PhpSchool\Website\Action;
 
 use PhpSchool\Website\Exception\WorkshopCreationException;
 use PhpSchool\Website\Form\FormHandler;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use Psr\Http\Message\ResponseInterface;
@@ -13,15 +12,24 @@ use RuntimeException;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
+/**
+ * @phpstan-import-type SubmitWorkshopData from \PhpSchool\Website\InputFilter\SubmitWorkshop
+ */
 class SubmitWorkshop
 {
     use JsonUtils;
 
+    /**
+     * @var FormHandler<SubmitWorkshopData>
+     */
     private FormHandler $formHandler;
     private WorkshopCreator $workshopCreator;
     private EmailNotifier $emailNotifier;
     private LoggerInterface $logger;
 
+    /**
+     * @param FormHandler<SubmitWorkshopData> $formHandler
+     */
     public function __construct(
         FormHandler $formHandler,
         WorkshopCreator $workshopCreator,

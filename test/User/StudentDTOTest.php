@@ -34,7 +34,7 @@ class StudentDTOTest extends TestCase
                 'location' => null,
                 'join_date' => 'February 2022',
                 'tour_complete' => false,
-                'state' => $state
+                'state' => $state->jsonSerialize()
             ],
             $student->jsonSerialize()
         );

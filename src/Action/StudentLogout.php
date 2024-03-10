@@ -13,12 +13,10 @@ class StudentLogout
     use JsonUtils;
 
     private Session $session;
-    private EntityManagerInterface $entityManager;
 
-    public function __construct(Session $session, EntityManagerInterface $entityManager)
+    public function __construct(Session $session)
     {
         $this->session = $session;
-        $this->entityManager = $entityManager;
     }
 
     public function __invoke(Request $request, Response $response): MessageInterface

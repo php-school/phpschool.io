@@ -18,10 +18,17 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * @phpstan-type CliRunInfo array{args: array<string>, output: string}
+ * @phpstan-type CgiRunInfo array{request: array{method: string, uri: string, headers: array<string, array<string>>, body: string}, output: string}
+ */
 class RunExercise
 {
     use JsonUtils;
 
+    /**
+     * @var array<CliRunInfo | CgiRunInfo>
+     */
     private array $runInfo = [];
 
     public function __construct(

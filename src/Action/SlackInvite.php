@@ -16,6 +16,12 @@ class SlackInvite
 
     public function __invoke(Request $request, Response $response): Response
     {
+        $data = $request->getParsedBody();
+
+        if (!is_array($data) && !isset($data['email'])) {
+            return $this->withJson(['error' => 'Email not set'], $response, 500);
+        }
+
         try {
             $apiResponse = $this->client->post('https://phpschool-team.slack.com/api/users.admin.invite', [
                 'headers' => [
@@ -23,7 +29,7 @@ class SlackInvite
                 ],
                 'form_params' => [
                     'token' => $this->slackApiToken,
-                    'email' => $request->getParsedBody()['email'],
+                    'email' => $data['email'],
                     'set_active' => true,
                 ],
             ]);
@@ -32,6 +38,10 @@ class SlackInvite
         }
 
         $apiResponseData = json_decode($apiResponse->getBody()->__toString(), true);
+
+        if (!is_array($apiResponseData)) {
+            return $this->withJson(['error' => 'An unknown error occurred'], $response, 500);
+        }
 
         if (isset($apiResponseData['ok']) && $apiResponseData['ok'] === true) {
             return $this->jsonSuccess($response);

@@ -7,15 +7,46 @@ use PhpSchool\PhpWorkshop\Exercise\ProvidesInitialCode;
 use PhpSchool\PhpWorkshop\Exercise\ProvidesSolution;
 use PhpSchool\PhpWorkshop\Solution\SolutionFile;
 use PhpSchool\Website\Action\JsonUtils;
+use PhpSchool\Website\Online\CloudInstalledWorkshop;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProblemFileConverter;
 use PhpSchool\Website\Online\StudentWorkshopState;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\User\SessionStorageInterface;
+use PhpSchool\Website\User\StudentDTO;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
+/**
+ * @phpstan-type Exercise array{
+ *    student: StudentDTO,
+ *    workshop: CloudInstalledWorkshop,
+ *    exercise: array{name: string, slug: string, description: string, type: string},
+ *    problem: string,
+ *    totalExerciseCount: int,
+ * }
+ *
+ * @phpstan-type ExerciseWithSolution array{
+ *     student: StudentDTO,
+ *     workshop: CloudInstalledWorkshop,
+ *     exercise: array{name: string, slug: string, description: string, type: string},
+ *     problem: string,
+ *     totalExerciseCount: int,
+ *     official_solution?: array<array{file_path: string, entry_point: bool, content: string}>,
+ *  }
+ *
+ * @phpstan-type ExerciseWithInitialFiles array{
+ *    student: StudentDTO,
+ *    workshop: CloudInstalledWorkshop,
+ *    exercise: array{name: string, slug: string, description: string, type: string},
+ *    problem: string,
+ *    totalExerciseCount: int,
+ *    official_solution?: array<array{file_path: string, entry_point: bool, content: string}>,
+ *    initial_files: array<array{name: string, content: string}>,
+ *    entry_point: string
+ * }
+ */
 class WorkshopExercise
 {
     use JsonUtils;
@@ -30,7 +61,6 @@ class WorkshopExercise
     public function __invoke(
         Request $request,
         Response $response,
-        PhpRenderer $renderer,
         string $workshop,
         string $exercise
     ): MessageInterface {
@@ -44,12 +74,14 @@ class WorkshopExercise
             ], $response, 404);
         }
 
+        /** @var StudentDTO $student */
+        $student = $this->session->get('student');
         $data = [
-            'student' => $this->session->get('student'),
+            'student' => $student,
             'workshop' => $workshop,
             'exercise' => [
                 'name' => $exercise->getName(),
-                'slug' => $renderer->slug($exercise->getName()),
+                'slug' => $this->slug($exercise->getName()),
                 'description' => $exercise->getDescription(),
                 'type' => $exercise->getType()
             ],
@@ -63,6 +95,10 @@ class WorkshopExercise
         return $this->withJson($data, $response);
     }
 
+    /**
+     * @param Exercise $data
+     * @return ExerciseWithSolution
+     */
     private function maybeAddOfficialSolution(array $data, ExerciseInterface $exercise): array
     {
         if (!$exercise instanceof ProvidesSolution) {
@@ -84,6 +120,10 @@ class WorkshopExercise
         return $data;
     }
 
+    /**
+     * @param ExerciseWithSolution $data
+     * @return ExerciseWithInitialFiles
+     */
     private function addInitialCode(array $data, ExerciseInterface $exercise): array
     {
         if (!$exercise instanceof ProvidesInitialCode) {
@@ -107,5 +147,10 @@ class WorkshopExercise
         $data['entry_point'] = $exercise->getInitialCode()->getEntryPoint()->getRelativePath();
 
         return $data;
+    }
+
+    private function slug(string $string): string
+    {
+        return (new AsciiSlugger())->slug($string)->toString();
     }
 }

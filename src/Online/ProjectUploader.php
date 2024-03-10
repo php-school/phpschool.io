@@ -19,7 +19,7 @@ class ProjectUploader
     {
         $data = json_decode($request->getBody()->__toString(), true);
 
-        if (empty($data['scripts'])) {
+        if (!is_array($data) || !isset($data['scripts']) || !is_array($data['scripts']) || count($data['scripts']) < 1) {
             throw new \RuntimeException('No files were uploaded');
         }
 
@@ -57,6 +57,9 @@ class ProjectUploader
         return new DirectorySolution($basePath, $entryPoint, ['composer.lock', 'vendor']);
     }
 
+    /**
+     * @param array<string, string> $scripts
+     */
     private function writeScripts(array $scripts, string $basePath): void
     {
         foreach ($scripts as $filePath => $content) {

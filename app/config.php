@@ -71,9 +71,7 @@ use PhpSchool\Website\InputFilter\Event as EventInputFilter;
 use PhpSchool\Website\InputFilter\Login as LoginInputFilter;
 use PhpSchool\Website\InputFilter\SubmitWorkshop as SubmitWorkshopInputFilter;
 use PhpSchool\Website\InputFilter\WorkshopComposerJson as WorkshopComposerJsonInputFilter;
-use PhpSchool\Website\Middleware\FpcCache;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\DoctrineORMBlogRepository;
 use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
@@ -122,21 +120,14 @@ return [
     'app' => factory(function (ContainerInterface $c): App {
         $app =  Bridge::create($c);
         $app->addRoutingMiddleware();
-        $app->add($c->get(FpcCache::class));
 
         $app->add(function (Request $request, RequestHandler $handler) use($c) : Response {
-            $renderer = $this->get(PhpRenderer::class);
             /** @var Session $session */
             $session  = $this->get(Session::class);
 
             $student = $session->get('student');
 
             $request = $request->withAttribute('student', $student);
-            $renderer->addAttribute('student', $student);
-            $renderer->addAttribute(
-                'totalExerciseCount',
-                $c->get(CloudWorkshopRepository::class)->totalExerciseCount()
-            );
 
             return $handler->handle($request)
                 ->withHeader('cache-control', 'no-cache');
@@ -144,24 +135,7 @@ return [
         $app->add(StudentRefresher::class);
         $app->add(new SessionMiddleware(['name' => 'phpschool']));
 
-        $app->add(function (Request $request, RequestHandler $handler) use ($c){
-            $renderer = $c->get(PhpRenderer::class);
-            $renderer->addAttribute('userAgent', new Agent);
-            $renderer->addAttribute('route', $request->getUri()->getPath());
-
-            return $handler->handle($request);
-        });
-
         return $app;
-    }),
-    FpcCache::class => factory(function (ContainerInterface $c): FpcCache {
-        return new FpcCache($c->get('cache.fpc'));
-    }),
-    'cache.fpc' => factory(function (ContainerInterface $c): CacheInterface {
-        if (!$c->get('config')['enablePageCache']) {
-            return new NullAdapter;
-        }
-        return new RedisAdapter(new Predis\Client(['host' => $c->get('config')['redisHost']]), 'fpc');
     }),
     'cache' => factory(function (ContainerInterface $c): CacheInterface {
         if (!$c->get('config')['enableCache']) {
@@ -183,18 +157,6 @@ return [
 
         return new RedisAdapter($redisConnection, 'default');
     }),
-    PhpRenderer::class => factory(function (ContainerInterface $c): PhpRenderer {
-
-        $settings = $c->get('config')['renderer'];
-        $renderer = new PhpRenderer(
-            $settings['template_path'],
-            [
-                'links'  => $c->get('config')['links'],
-            ],
-        );
-
-        return $renderer;
-    }),
     LoggerInterface::class => factory(function (ContainerInterface $c): LoggerInterface{
         $settings = $c->get('config')['logger'];
         $logger = new Logger($settings['name']);
@@ -215,7 +177,7 @@ return [
 
     //commands
     ClearCache::class => factory(function (ContainerInterface $c): ClearCache {
-        return new ClearCache($c->get('cache.fpc'));
+        return new ClearCache($c->get('cache'));
     }),
     CreateAdminUser::class => factory(function (ContainerInterface $c): CreateAdminUser {
         return new CreateAdminUser($c->get(EntityManagerInterface::class));
@@ -275,14 +237,13 @@ return [
 
     ClearCacheAction::class => function (ContainerInterface $c): ClearCacheAction {
         return new ClearCacheAction(
-            $c->get('cache.fpc'),
+            $c->get('cache'),
         );
     },
 
     Requests::class => \DI\factory(function (ContainerInterface $c): Requests {
         return new Requests(
             $c->get(WorkshopRepository::class),
-            $c->get(PhpRenderer::class)
         );
     }),
 
@@ -290,7 +251,6 @@ return [
         return new All(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopInstallRepository::class),
-            $c->get(PhpRenderer::class)
         );
     }),
 
@@ -298,7 +258,7 @@ return [
         return new Approve(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopFeed::class),
-            $c->get('cache.fpc'),
+            $c->get('cache'),
             $c->get(EmailNotifier::class),
             $c->get(LoggerInterface::class)
         );
@@ -308,7 +268,7 @@ return [
         return new Promote(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopFeed::class),
-            $c->get('cache.fpc'),
+            $c->get('cache'),
         );
     }),
 
@@ -317,7 +277,7 @@ return [
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopInstallRepository::class),
             $c->get(WorkshopFeed::class),
-            $c->get('cache.fpc'),
+            $c->get('cache'),
         );
     }),
 
@@ -325,7 +285,6 @@ return [
         return new View(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopInstallRepository::class),
-            $c->get(PhpRenderer::class)
         );
     },
 
@@ -410,7 +369,7 @@ return [
     },
 
     EventAll::class => function (ContainerInterface $c): EventAll {
-        return new EventAll($c->get(EventRepository::class), $c->get(PhpRenderer::class));
+        return new EventAll($c->get(EventRepository::class));
     },
 
     EventCreate::class => function (ContainerInterface $c): EventCreate {
@@ -424,14 +383,13 @@ return [
         return new EventUpdate(
             $c->get(EventRepository::class),
             $c->get('form.event'),
-            $c->get(PhpRenderer::class),
         );
     },
 
     EventDelete::class => function (ContainerInterface $c): EventDelete {
         return new EventDelete(
             $c->get(EventRepository::class),
-            $c->get('cache.fpc'),
+            $c->get('cache'),
         );
     },
 
@@ -473,7 +431,6 @@ return [
     StudentAuthenticator::class => function (ContainerInterface $c): StudentAuthenticator {
         return new StudentAuthenticator(
             $c->get(Session::class),
-            $c->get(StudentRepository::class)
         );
     },
 
@@ -526,10 +483,6 @@ return [
             $c->get(DoctrineORMBlogRepository::class),
             __DIR__ . '/../posts/',
         );
-    },
-
-    Styles::class => function (ContainerInterface $c) {
-        return new Styles($c->get(PhpRenderer::class));
     },
 
     CloudWorkshopRepository::class => function (ContainerInterface $c): CloudWorkshopRepository {
@@ -602,7 +555,6 @@ return [
             'github-website' => 'https://github.com/php-school/phpschool.io',
         ],
 
-        'enablePageCache'   => filter_var($_ENV['CACHE.FPC.ENABLE'], FILTER_VALIDATE_BOOLEAN),
         'enableCache'       => filter_var($_ENV['CACHE.ENABLE'], FILTER_VALIDATE_BOOLEAN),
         'redisHost'         => $_ENV['REDIS_HOST'],
         'devMode'           => filter_var($_ENV['DEV_MODE'], FILTER_VALIDATE_BOOLEAN),

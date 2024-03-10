@@ -12,7 +12,7 @@ class Post
         $this->meta = $meta;
         $this->content = $content;
 
-        $this->content = preg_replace_callback(
+        $this->content = (string) preg_replace_callback(
             '/<pre><code class="language-shell">(.*?)<\/code><\/pre>/s',
             function ($matches) {
                 return sprintf(

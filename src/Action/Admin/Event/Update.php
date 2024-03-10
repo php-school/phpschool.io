@@ -4,7 +4,6 @@ namespace PhpSchool\Website\Action\Admin\Event;
 
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Form\FormHandler;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -12,14 +11,19 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Laminas\Filter\Exception\RuntimeException;
 
+/**
+ * @phpstan-import-type EventData from \PhpSchool\Website\InputFilter\Event
+ */
 class Update
 {
     use JsonUtils;
 
+    /**
+     * @param FormHandler<EventData> $formHandler
+     */
     public function __construct(
         private readonly EventRepository $repository,
         private readonly FormHandler $formHandler,
-        private readonly PhpRenderer $renderer,
     ) {
     }
 
@@ -55,10 +59,22 @@ class Update
             );
         }
 
+        $date = \DateTime::createFromFormat('Y-m-d\TH:i', $values['date']);
+
+        if (false === $date) {
+            return $this->withJson(
+                [
+                    'success' => false,
+                    'form_errors' => ['date' => 'Invalid date format']
+                ],
+                $response
+            );
+        }
+
         $event->setName($values['name'])
             ->setDescription($values['description'])
             ->setLink($values['link'])
-            ->setDateTime(\DateTime::createFromFormat('Y-m-d\TH:i', $values['date']))
+            ->setDateTime($date)
             ->setVenue($values['venue'])
             ->setPoster(isset($values['poster']['tmp_name']) ? basename($values['poster']['tmp_name']) : $event->getPoster());
 

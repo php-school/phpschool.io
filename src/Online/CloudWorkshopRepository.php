@@ -37,7 +37,9 @@ class CloudWorkshopRepository
             function (string $packageName) {
                 /** @var string $path */
                 $path = InstalledVersions::getInstallPath($packageName);
+                /** @var string $path */
                 $path = realpath($path);
+
                 $workshop = $this->workshopRepository->findByCode(
                     $this->getWorkshopCode($path)
                 );
@@ -53,9 +55,12 @@ class CloudWorkshopRepository
 
     public function totalExerciseCount(): int
     {
-        return collect($this->findAll())
+        /** @var int $total */
+        $total = collect($this->findAll())
             ->map(fn (CloudInstalledWorkshop $worksop) => count($worksop->findAllExercises()))
             ->sum();
+
+        return $total;
     }
 
     /**
@@ -64,10 +69,14 @@ class CloudWorkshopRepository
      */
     private function getWorkshopCode(string $path): string
     {
-        $json = json_decode(file_get_contents($path . '/composer.json'), true);
+        /** @var array{bin: non-empty-list<string>} $json */
+        $json = json_decode((string) file_get_contents($path . '/composer.json'), true);
         return basename($json['bin'][0]);
     }
 
+    /**
+     * @return list<string>
+     */
     private function getComposerInstalledWorkshops(): array
     {
         return array_unique(InstalledVersions::getInstalledPackagesByType('php-school-workshop'));
