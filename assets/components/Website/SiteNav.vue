@@ -1,6 +1,5 @@
 <script setup>
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-import Button from "./PrimaryButton.vue";
 import GitHubIcon from "../Icons/GitHubIcon.vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import SiteLogo from "./SiteLogo.vue";
@@ -147,9 +146,9 @@ const slackModalOpen = ref(false);
 
       <!-- Mobile Menu Button -->
       <div class="block sm:hidden">
-        <Button @click="mobileMenuVisible = !mobileMenuVisible" class="text-white hover:text-gray-300 focus:outline-none">
+        <button @click="mobileMenuVisible = !mobileMenuVisible" class="text-white hover:text-gray-300 focus:outline-none">
           <img src="../../img/cloud/bars-solid-pink.svg" alt="" class="h-6 w-6" />
-        </Button>
+        </button>
       </div>
 
       <!-- Sign In Button -->
