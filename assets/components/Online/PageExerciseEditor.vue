@@ -399,7 +399,7 @@ const deleteFileOrFolder = async (file) => {
               leave-to="-translate-y-full md:translate-y-0 md:translate-x-full"
             >
               <div id="results-col" class="absolute right-0 z-10 flex h-full w-full flex-col overflow-y-scroll border-t border-solid border-gray-600 bg-gray-900 md:mt-0 md:w-3/12 md:border-l">
-                <div class="flex items-center justify-between border-b border-solid border-gray-600 py-4 pl-4 pr-4">
+                <div class="flex items-center justify-between border-b border-solid border-gray-600 pb-[15px] pl-4 pr-4 pt-4">
                   <h1 class="flex items-center pt-0 font-mono text-xl text-white">
                     <AcademicCapIcon class="mr-3 h-5 w-5" />
                     Results
