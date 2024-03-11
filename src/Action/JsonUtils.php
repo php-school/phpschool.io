@@ -20,7 +20,7 @@ trait JsonUtils
     }
 
     /**
-     * @param array<string, mixed> $json
+     * @param array<string|int, mixed> $json
      */
     private function withJson(array $json, Response $response, int $status = 200): Response
     {

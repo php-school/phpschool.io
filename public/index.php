@@ -16,6 +16,7 @@ use PhpSchool\Website\Action\Admin\Workshop\Requests;
 use PhpSchool\Website\Action\Admin\Workshop\View;
 use PhpSchool\Website\Action\BlogPost;
 use PhpSchool\Website\Action\BlogPosts;
+use PhpSchool\Website\Action\Contributors;
 use PhpSchool\Website\Action\Events;
 use PhpSchool\Website\Action\Online\ComposerPackageAdd;
 use PhpSchool\Website\Action\Online\ComposerPackageSearch;
@@ -69,6 +70,7 @@ $app->post('/api/submit', SubmitWorkshop::class);
 $app->get('/api/events', Events::class);
 $app->get('/api/posts', BlogPosts::class);
 $app->post('/api/slack-invite', SlackInvite::class);
+$app->get('/api/contributors', Contributors::class);
 
 $app
     ->group('/api/admin', function (RouteCollectorProxy $group) {

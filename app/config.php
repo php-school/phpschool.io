@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use Github\AuthMethod;
 use Github\Client;
 use League\CommonMark\Extension\CommonMarkCoreExtension;
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
@@ -50,6 +51,7 @@ use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Blog\Generator;
+use PhpSchool\Website\Command\SyncContributors;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\Command\DownloadComposerPackageList;
 use PhpSchool\Website\Online\Middleware\ExerciseRunnerRateLimiter;
@@ -112,6 +114,7 @@ return [
         $app->command('create-admin-user name email password', CreateAdminUser::class);
         $app->command('generate-blog', GenerateBlog::class);
         $app->command('download-composer-packages', DownloadComposerPackageList::class);
+        $app->command('sync-contributors', SyncContributors::class);
 
         ConsoleRunner::addCommands($app, new SingleManagerProvider($c->get(EntityManagerInterface::class)));
 
@@ -189,6 +192,9 @@ return [
     DownloadComposerPackageList::class => function (ContainerInterface $c): DownloadComposerPackageList {
         return new DownloadComposerPackageList($c->get('guzzle.packagist'), $c->get(LoggerInterface::class));
     },
+    SyncContributors::class => function (ContainerInterface $c): SyncContributors {
+        return new SyncContributors($c->get(Client::class), $c->get(LoggerInterface::class));
+    },
 
     TrackDownloads::class => function (ContainerInterface $c): TrackDownloads {
         return new TrackDownloads($c->get(WorkshopRepository::class), $c->get(WorkshopInstallRepository::class));
@@ -210,6 +216,13 @@ return [
             $c->get('guzzle'),
             $c->get('config')['slackInviteApiToken']
         );
+    },
+
+    Client::class => function (ContainerInterface $c): Client {
+        $client = new Client();
+        $client->authenticate($c->get('config')['github']['token'], AuthMethod::ACCESS_TOKEN);
+
+        return $client;
     },
 
     Github::class => function (ContainerInterface $c): Github {
@@ -582,6 +595,7 @@ return [
         'github' => [
             'clientId' => $_ENV['GITHUB_CLIENT_ID'],
             'clientSecret' => $_ENV['GITHUB_CLIENT_SECRET'],
+            'token' => $_ENV['GITHUB_TOKEN'],
         ],
 
         'jwtSecret' => $_ENV['JWT_SECRET'],

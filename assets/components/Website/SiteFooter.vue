@@ -3,10 +3,12 @@ import GitHubIcon from "../Icons/GitHubIcon.vue";
 import Logo from "./SiteLogo.vue";
 import { ref } from "vue";
 import JoinSlack from "./JoinSlack.vue";
+import Contributors from "./ProjectContributors.vue";
 
 const currentYear = new Date().getFullYear();
 
 const slackModalOpen = ref(false);
+const contributorModalOpen = ref(false);
 </script>
 <template>
   <footer class="bg-cyan-600 font-sans text-sm text-white">
@@ -37,7 +39,7 @@ const slackModalOpen = ref(false);
         <div class="mb-4 ml-0 flex-grow sm:mb-0 sm:ml-6">
           <h4 class="mb-2 font-work-sans text-lg font-bold capitalize not-italic text-white">The Creators</h4>
           <ul class="list-none">
-            <li class="py-1"><router-link to="/events" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">About Us</router-link></li>
+            <li class="py-1"><span @click="contributorModalOpen = true" class="cursor-pointer decoration-pink-600 decoration-2 underline-offset-4 hover:underline">Contributors</span></li>
             <li class="py-1"><a href="mailto:phpschool.team@gmail.com" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">Email Us</a></li>
             <li class="py-1"><a href="https://github.com/php-school" target="_blank" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">GitHub</a></li>
           </ul>
@@ -67,5 +69,6 @@ const slackModalOpen = ref(false);
       </div>
     </div>
     <JoinSlack :open="slackModalOpen" @close="slackModalOpen = false" />
+    <Contributors v-if="contributorModalOpen" :open="contributorModalOpen" @close="contributorModalOpen = false" />
   </footer>
 </template>
