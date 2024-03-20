@@ -10,12 +10,27 @@ import { highlightCode } from "../../../helpers/highlightCode";
 import { TransitionRoot } from "@headlessui/vue";
 import { ClipboardDocumentIcon } from "@heroicons/vue/24/solid";
 
-const language = ref("php");
 const formattedCode = ref("");
 const code = ref(slots.default()[0].children);
 
+const props = defineProps({
+  lang: {
+    type: String,
+    default: "php",
+  },
+  noHighlight: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const highlight = () => {
-  formattedCode.value = highlightCode(code.value, language.value);
+  if (props.noHighlight === true) {
+    formattedCode.value = code.value;
+    return;
+  }
+
+  formattedCode.value = highlightCode(code.value, props.lang);
 };
 
 onMounted(() => {
@@ -66,7 +81,7 @@ const clipboardAvailable = computed(() => {
       <span class="absolute right-4 top-4 font-mono text-[10px] text-pink-600">Copied!</span>
     </TransitionRoot>
     <div class="mb-4 overflow-y-scroll rounded-md border border-gray-600 bg-gray-900 p-4">
-      <pre><code class="block  text-xs " :class="language" v-html="formattedCode"></code></pre>
+      <pre><code class="block text-xs" :class="lang" v-html="formattedCode"></code></pre>
     </div>
   </div>
 </template>
