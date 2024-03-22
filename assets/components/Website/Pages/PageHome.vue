@@ -15,6 +15,7 @@ import InfoSection from "./Home/InfoSection.vue";
 import GettingStarted from "./Home/Section/GettingStarted.vue";
 import TheWorkshops from "./Home/Section/TheWorkshops.vue";
 import BuildYourOwn from "./Home/Section/BuildYourOwn.vue";
+import { ChevronRightIcon } from "@heroicons/vue/24/solid";
 
 import { SparklesIcon } from "@heroicons/vue/24/solid";
 import { useStudentStore } from "../../../stores/student";
@@ -151,12 +152,18 @@ onUnmounted(() => {
 
         <template #right>
           <div class="mt-28 w-full space-y-8 text-left sm:px-5 md:mt-36 lg:mt-0 lg:w-1/3">
-            <h2 class="font-work-sans text-5xl font-bold text-white">Open Source educational PHP Workshops</h2>
-            <p class="font-base font-work-sans text-lg text-white">
-              PHP School is a set of workshops each designed to teach a specific topic, tool, technology. Some beginner, some advanced. Each workshop consists of multiple exercises where your task is
-              to code a solution to solve a problem. All our workshops are open source and you can contribute to them with spelling & bug fixes, new exercises. You can even build and publish your own
-              workshop.
-            </p>
+            <h2 class="font-work-sans text-5xl font-bold text-white">Open-Source Gateway To PHP Mastery</h2>
+            <div class="grid grid-cols-4">
+              <div class="p-2 col-span-1 text-right w-4"><span class=" text-pink-600 text-xl font-semibold">&#62;</span></div>
+              <div class="p-2 col-span-3 text-white xl:-ml-24 "><span class="text-pink-600 font-semibold">Interactive Workshops:</span><span> Engaging sessions covering beginner to advanced topics in PHP</span></div>
+              <div class="p-2 col-span-1 text-right w-4"><span class=" text-pink-600 text-xl font-semibold">&#62;</span></div>
+              <div class="p-2 col-span-3 text-white xl:-ml-24 "><span class="text-pink-600 font-semibold">Hands-On Learning:</span><span class="col-span-1"> Solve real-world problems through coding exercises</span></div>
+              <div class="p-2 col-span-1 text-right w-4"><span class=" text-pink-600 text-xl font-semibold">&#62;</span></div>
+              <div class="p-2 col-span-3 text-white xl:-ml-24 "><span class="text-pink-600 font-semibold">Community Collaboration:</span><span class="col-span-1"> Contribute, fix bugs, and create your own workshops</span></div>
+              <div class="p-2 col-span-1 text-right w-4"><span class=" text-pink-600 text-xl font-semibold">&#62;</span></div>
+              <div class="p-2 col-span-3 text-white xl:-ml-24 "><span class="text-pink-600 font-semibold">Open Source Education:</span><span class="col-span-1"> Access all workshops for free and learn at your own pace</span></div>
+            </div>
+
             <div class="flex justify-start">
               <PrimaryButton to="/online">GET STARTED</PrimaryButton>
             </div>
