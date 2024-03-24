@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Admin\Workshop;
 
+use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Action\RedirectUtils;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
@@ -10,40 +13,32 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use PhpSchool\Website\PhpRenderer;
 use RuntimeException;
-use Slim\Flash\Messages;
 
 class Delete
 {
     use RedirectUtils;
-
-    private WorkshopRepository $repository;
-    private WorkshopInstallRepository $installRepository;
-    private WorkshopFeed $workshopFeed;
-    private CacheItemPoolInterface $cache;
-    private Messages $messages;
+    use JsonUtils;
 
     public function __construct(
-        WorkshopRepository $repository,
-        WorkshopInstallRepository $installRepository,
-        WorkshopFeed $workshopFeed,
-        CacheItemPoolInterface $cache,
-        Messages $messages
-    ) {
-        $this->workshopFeed = $workshopFeed;
-        $this->repository = $repository;
-        $this->cache = $cache;
-        $this->messages = $messages;
-        $this->installRepository = $installRepository;
-    }
+        private readonly WorkshopRepository $repository,
+        private readonly WorkshopInstallRepository $installRepository,
+        private readonly WorkshopFeed $workshopFeed,
+        private readonly CacheItemPoolInterface $cache,
+    ) {}
 
-    public function __invoke(Request $request, Response $response, PhpRenderer $renderer, string $id): MessageInterface
+    public function __invoke(Request $request, Response $response, string $id): MessageInterface
     {
         try {
             $workshop = $this->repository->findById($id);
         } catch (RuntimeException $e) {
-            return $this->redirect('/admin/workshop/all');
+            return $this->withJson(
+                [
+                    'error' => 'Could not find workshop with id: ' . $id
+                ],
+                $response,
+                404
+            );
         }
 
         $this->installRepository->removeAllByWorkshop($workshop);
@@ -53,17 +48,15 @@ class Delete
 
         try {
             $this->workshopFeed->generate();
-            $this->messages->addMessage(
-                'admin.success',
-                sprintf('Successfully removed %s and regenerated workshop feed!', $workshop->getDisplayName())
-            );
+            return $this->jsonSuccess($response);
         } catch (RuntimeException $e) {
-            $this->messages->addMessage(
-                'admin.error',
-                sprintf('Workshop feed could not be generated. Error: "%s"', $e->getMessage())
+            return $this->withJson(
+                [
+                    'error' => sprintf('Workshop feed could not be generated. Error: "%s"', $e->getMessage())
+                ],
+                $response,
+                500
             );
         }
-
-        return $this->redirect('/admin/workshop/all');
     }
 }

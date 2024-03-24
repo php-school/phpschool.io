@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Admin\Workshop;
 
 use DateInterval;
 use DatePeriod;
 use DateTimeImmutable;
+use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -15,27 +17,25 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class All
 {
+    use JsonUtils;
+
     private WorkshopRepository $repository;
     private WorkshopInstallRepository $workshopInstallRepository;
-    private PhpRenderer $renderer;
 
     public function __construct(
         WorkshopRepository $repository,
         WorkshopInstallRepository $workshopInstallRepository,
-        PhpRenderer $renderer
     ) {
-        $this->renderer = $renderer;
         $this->workshopInstallRepository = $workshopInstallRepository;
         $this->repository = $repository;
     }
 
     public function __invoke(Request $request, Response $response): Response
     {
-        $this->renderer->addJs('charts', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.min.js');
-
         $workshops = $this->repository->findAll();
         $dateRange = $this->getDateRange();
-        $inner = $this->renderer->fetch('admin/workshop/all.phtml', [
+
+        return $this->withJson([
             'workshops' => $workshops,
             'workshopInstalls' => [
                 'dates' => array_map(function (\DateTimeImmutable $dateTime) {
@@ -50,29 +50,28 @@ class All
                         )
                     ];
                 }, $workshops)
-            ]
-        ]);
-
-        return $this->renderer->render($response, 'layouts/admin.phtml', [
-            'pageTitle'       => 'All Workshops',
-            'pageDescription' => 'All Workshops',
-            'content'         => $inner
-        ]);
+            ],
+        ], $response);
     }
 
+    /**
+     * @return array<DateTimeImmutable>
+     */
     private function getDateRange(): array
     {
         $end = new DateTimeImmutable();
-
         $begin = $end->sub(new DateInterval("P30D"));
-        assert(false !== $begin);
-
         $end  = $end->add(new DateInterval("P1D"));
 
         $interval   = new DateInterval('P1D');
         return iterator_to_array(new DatePeriod($begin, $interval, $end));
     }
 
+    /**
+     * @param array<WorkshopInstall> $installs
+     * @param array<DateTimeImmutable> $dateRange
+     * @return array<int>
+     */
     private function getLast30DayInstallGraphData(array $installs, array $dateRange): array
     {
         return array_map(

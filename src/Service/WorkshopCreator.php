@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Service;
 
 use PhpSchool\Website\Entity\Workshop;
@@ -28,14 +30,14 @@ class WorkshopCreator
      *     workshop-name: string,
      *     email: string,
      *     name: string,
-     *     contact: string,
+     *     contact?: string,
      *     github-url: string
      * } $data
      * @return Workshop
      */
     public function create(array $data): Workshop
     {
-        preg_match(static::$gitHubRepoUrlRegex, $data['github-url'], $matches);
+        preg_match(self::$gitHubRepoUrlRegex, $data['github-url'], $matches);
         $owner  = $matches[3];
         $repo   = $matches[4];
 
@@ -56,17 +58,20 @@ class WorkshopCreator
             $jsonData['description'],
             $data['email'],
             $data['name'],
-            $data['contact']
+            $data['contact'] ?? null
         );
 
         $this->workshopRepository->save($workshop);
         return $workshop;
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getComposerJsonContents(string $owner, string $repo): array
     {
         return (array) json_decode(
-            file_get_contents(sprintf(static::$gitHubComposerJsonUrlFormat, $owner, $repo)),
+            file_get_contents(sprintf(self::$gitHubComposerJsonUrlFormat, $owner, $repo)) ?: '',
             true
         );
     }

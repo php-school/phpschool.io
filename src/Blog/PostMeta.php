@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Blog;
 
 use DateTime;
+use JsonSerializable;
 
-class PostMeta
+class PostMeta implements JsonSerializable
 {
     private string $title;
     private DateTime $date;
@@ -18,15 +21,12 @@ class PostMeta
         $this->date = $date;
         $this->author = $author;
         $this->authorLink = $authorLink;
-        $this->link = sprintf(
-            '/%s/%s/%s/%s',
-            $date->format('Y'),
-            $date->format('m'),
-            $date->format('d'),
-            $this->slugify($this->title)
-        );
+        $this->link = $this->slugify($this->title);
     }
 
+    /**
+     * @param array{title: string, date: string, author: string, author_link: string} $data
+     */
     public static function fromArray(array $data): self
     {
         return new self($data['title'], new DateTime('@' . $data['date']), $data['author'], $data['author_link']);
@@ -59,6 +59,24 @@ class PostMeta
 
     private function slugify(string $string): string
     {
-        return trim(strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)), '-');
+        return trim(strtolower((string) preg_replace('/[^A-Za-z0-9-]+/', '-', $string)), '-');
+    }
+
+    /**
+     * @return array{
+     *     title: string,
+     *     author: string,
+     *     authorLink: string,
+     *     date: string
+     * }
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'title' => $this->getTitle(),
+            'author' => $this->getAuthor(),
+            'authorLink' => $this->getAuthorLink(),
+            'date' => $this->date->format('F j, Y'),
+        ];
     }
 }

@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\User;
 
-final class Session implements \ArrayAccess
+/**
+ * @implements \ArrayAccess<string, mixed>
+ */
+final class Session implements \ArrayAccess, SessionStorageInterface
 {
-    public static function regenerate(): void
+    public function regenerate(): void
     {
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_regenerate_id(true);
@@ -18,7 +23,7 @@ final class Session implements \ArrayAccess
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(
-                session_name(),
+                session_name() ?: 'phpschoolsess',
                 '',
                 time() - 42000,
                 (string) $params["path"],
@@ -33,11 +38,7 @@ final class Session implements \ArrayAccess
         }
     }
 
-    /**
-     * @param mixed $default
-     * @return mixed
-     */
-    public function get(string $key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         if (array_key_exists($key, $_SESSION ?? [])) {
             return $_SESSION[$key];
@@ -45,11 +46,7 @@ final class Session implements \ArrayAccess
         return $default;
     }
 
-    /**
-     * @param string $key
-     * @param string|array|null $value
-     */
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         $_SESSION[$key] = $value;
     }
@@ -66,18 +63,11 @@ final class Session implements \ArrayAccess
         $_SESSION = [];
     }
 
-    /**
-     * @param string $offset
-     */
     public function offsetExists($offset): bool
     {
         return isset($_SESSION[$offset]);
     }
 
-    /**
-     * @param string $offset
-     * @return mixed
-     */
     public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
@@ -85,17 +75,13 @@ final class Session implements \ArrayAccess
 
     /**
      * @param string $offset
-     * @param string|array|null $value
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->set($offset, $value);
     }
 
-    /**
-     * @param string $offset
-     */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         $this->delete($offset);
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\InputFilter;
 
 use Laminas\InputFilter\InputFilter;
@@ -9,7 +11,12 @@ use Laminas\Validator\NotEmpty;
 use Laminas\Validator\StringLength;
 
 /**
- * @psalm-suppress PropertyNotSetInConstructor
+ * @phpstan-type WorkshopComposerJsonData array{
+ *      name: string,
+ *      bin: string,
+ *      description: string
+ * }
+ * @extends InputFilter<WorkshopComposerJsonData>
  */
 class WorkshopComposerJson extends InputFilter
 {

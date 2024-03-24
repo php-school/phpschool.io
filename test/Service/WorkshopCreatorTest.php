@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Service;
 
 use PhpSchool\Website\Entity\Workshop;
@@ -33,7 +35,7 @@ class WorkshopCreatorTest extends TestCase
         $creator = new WorkshopCreator($inputFilter, $repo);
 
         $creator->create([
-            'github-url' => 'https://github.com/php-school/php8-appreciate',
+            'github-url' => 'https://github.com/php-school/test-workshop',
         ]);
     }
 
@@ -53,8 +55,8 @@ class WorkshopCreatorTest extends TestCase
         $inputFilter->expects($this->once())
             ->method('getValues')
             ->willReturn([
-                'bin' => ['bin/php8appreciate'],
-                'description' => '2020 PHP: A showcase and classroom for the cutting edge features of PHP 8'
+                'bin' => ['bin/testworkshop'],
+                'description' => 'Test Workshop'
             ]);
 
         $repo
@@ -62,10 +64,10 @@ class WorkshopCreatorTest extends TestCase
             ->method('save')
             ->with($this->callback(function (Workshop $workshop) {
                 $this->assertEquals('php-school', $workshop->getGitHubOwner());
-                $this->assertEquals('php8-appreciate', $workshop->getGitHubRepoName());
-                $this->assertEquals('php8appreciate', $workshop->getCode());
-                $this->assertEquals('PHP8 Appreciate', $workshop->getDisplayName());
-                $this->assertEquals('2020 PHP: A showcase and classroom for the cutting edge features of PHP 8', $workshop->getDescription());
+                $this->assertEquals('test-workshop', $workshop->getGitHubRepoName());
+                $this->assertEquals('testworkshop', $workshop->getCode());
+                $this->assertEquals('Test Workshop', $workshop->getDisplayName());
+                $this->assertEquals('Test Workshop', $workshop->getDescription());
                 $this->assertEquals('aydin@hotmail.co.uk', $workshop->getSubmitterEmail());
                 $this->assertEquals('Aydin Hassan', $workshop->getSubmitterName());
                 $this->assertEquals('https://twitter.com/aydin_h', $workshop->getSubmitterContact());
@@ -76,8 +78,8 @@ class WorkshopCreatorTest extends TestCase
         $creator = new WorkshopCreator($inputFilter, $repo);
 
         $creator->create([
-            'github-url' => 'https://github.com/php-school/php8-appreciate',
-            'workshop-name' => 'PHP8 Appreciate',
+            'github-url' => 'https://github.com/php-school/test-workshop',
+            'workshop-name' => 'Test Workshop',
             'email' => 'aydin@hotmail.co.uk',
             'name' => 'Aydin Hassan',
             'contact' => 'https://twitter.com/aydin_h'
@@ -87,30 +89,29 @@ class WorkshopCreatorTest extends TestCase
     private function getComposerJson(): array
     {
         return [
-            'name' => 'php-school/php8-appreciate',
-            'description' => '2020 PHP: A showcase and classroom for the cutting edge features of PHP 8',
+            'name' => 'php-school/test-workshop',
+            'description' => 'Test Workshop',
             'type' => 'php-school-workshop',
             'keywords' => ["cli", "console", "terminal", "phpschool", "php-school", "workshop", "learning", "education"],
             'homepage' => 'https://www.phpschool.io',
             'license' => 'MIT',
             'authors' => [['name' => 'Aydin Hassan', 'email' => 'aydin@hotmail.co.uk']],
-            'require' => ['php' => '^8.0', 'php-school/php-workshop' => '^4.0'],
+            'require' => ['php' => '>=7.3', 'php-school/php-workshop' => '^4.0.1'],
             'require-dev' => [
                 'phpunit/phpunit' => '^9',
-                'squizlabs/php_codesniffer' => '^3.5',
-                'phpstan/phpstan' => '^0.12.52',
-                'timeweb/phpstan-enum' => '^2.2',
+                'squizlabs/php_codesniffer' => '^3.7',
+                'phpstan/phpstan' => '^1.8.11',
             ],
-            'autoload' => ['psr-4' => ['PhpSchool\\PHP8Appreciate\\' => 'src/']],
-            'autoload-dev' => ['psr-4' => ['PhpSchool\\PHP8AppreciateTest\\' => 'test']],
+            'autoload' => ['psr-4' => ['PhpSchool\\TestWorkshop\\' => 'src/']],
+            'autoload-dev' => ['psr-4' => ['PhpSchool\\TestWorkshopTest\\' => 'test']],
             'scripts' => [
                 'test' => ['@unit-tests', '@cs', '@static'],
                 'unit-tests' => 'phpunit',
                 'static' => 'phpstan --ansi analyse --level max src',
-                'cs' => ['phpcs src --standard=PSR12', "phpcs test --standard=PSR12 --ignore='test/solutions'"],
-                'cs-fix' => ['phpcbf src --standard=PSR12 --encoding=UTF-8', "phpcbf test --standard=PSR12 --encoding=UTF-8 --ignore='test/solutions'"],
+                'cs' => ['phpcs src --standard=PSR12', "phpcs test --standard=PSR12"],
+                'cs-fix' => ['phpcbf src --standard=PSR12 --encoding=UTF-8', "phpcbf test --standard=PSR12 --encoding=UTF-8"],
             ],
-            'bin' => ['bin/php8appreciate'],
+            'bin' => ['bin/testworkshop'],
         ];
     }
 }

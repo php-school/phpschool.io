@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Entity;
 
 use DateTime;
@@ -12,7 +14,7 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Table(name="event"))
  * @ORM\Entity(repositoryClass="PhpSchool\Website\Repository\DoctrineORMEventRepository")
  */
-class Event
+class Event implements \JsonSerializable
 {
     /**
      *
@@ -22,7 +24,7 @@ class Event
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private UuidInterface $id;
+    private UuidInterface $id; /** @phpstan-ignore-line  */
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -130,6 +132,9 @@ class Event
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getVenueLines(): array
     {
         return explode("\n", $this->venue);
@@ -146,15 +151,49 @@ class Event
         return $this;
     }
 
+    /**
+     * @return array{
+     *     id: string,
+     *     name: string,
+     *     description: string,
+     *     link: ?string,
+     *     date_formatted: string,
+     *     date: string,
+     *     venue: string,
+     *     venueLines: array<string>,
+     *     poster: ?string
+     * }
+     */
     public function toArray(): array
     {
         return [
+            'id' => $this->getId()->toString(),
             'name' => $this->getName(),
             'description' => $this->getDescription(),
             'link' => $this->getLink(),
-            'date' => $this->getDateTime(),
+            'date_formatted' => $this->getDateTime()->format('l M jS - g:i A'),
+            'date' => $this->getDateTime()->format('Y-m-d\TH:i'),
             'venue' => $this->getVenue(),
+            'venueLines' => $this->getVenueLines(),
             'poster' => $this->getPoster(),
         ];
+    }
+
+    /**
+     * @return array{
+     *     id: string,
+     *     name: string,
+     *     description: string,
+     *     link: ?string,
+     *     date_formatted: string,
+     *     date: string,
+     *     venue: string,
+     *     venueLines: array<string>,
+     *     poster: ?string
+     * }
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }

@@ -1,56 +1,41 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Admin;
 
+use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Form\FormHandler;
-use PhpSchool\Website\PhpRenderer;
-use PhpSchool\Website\User\AuthenticationService;
+use PhpSchool\Website\User\AdminAuthenticationService;
+use PhpSchool\Website\User\Entity\Admin;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Firebase\JWT\JWT;
 
+/**
+ * @phpstan-import-type LoginData from \PhpSchool\Website\InputFilter\Login
+ */
 class Login
 {
-    private AuthenticationService $authenticationService;
-    private FormHandler $formHandler;
-    private PhpRenderer $renderer;
+    use JsonUtils;
 
+    /**
+     * @param FormHandler<LoginData> $formHandler
+     */
     public function __construct(
-        AuthenticationService $authenticationService,
-        FormHandler $formHandler,
-        PhpRenderer $renderer
-    ) {
-        $this->authenticationService = $authenticationService;
-        $this->formHandler           = $formHandler;
-        $this->renderer              = $renderer;
-    }
+        private readonly AdminAuthenticationService $authenticationService,
+        private readonly FormHandler $formHandler,
+        private readonly string $jwtSecret,
+    ) {}
 
-    public function showLoginForm(Request $request, Response $response): MessageInterface
+    public function __invoke(Request $request, Response $response): MessageInterface
     {
-        if ($this->authenticationService->hasIdentity()) {
-            return $response
-                ->withStatus(302)
-                ->withHeader('Location', '/admin');
-        }
-
-        $this->renderer->appendLocalCss('login', __DIR__ . '/../../../public/css/page-login.css');
-
-        $response = $response->withAddedHeader('Cache-Control', 'no-cache');
-
-        return $this->renderer->render($response, 'admin/login.phtml', [
-            'pageTitle'       => 'Login to Admin',
-            'pageDescription' => 'Login to Admin',
-            'errors'          => $this->formHandler->getPreviousErrors()
-        ]);
-    }
-
-    public function login(Request $request, Response $response): MessageInterface
-    {
-        $res = $this->formHandler->validateAndRedirectIfErrors($request, $response);
+        $res = $this->formHandler->validateJsonRequest($request, $response);
 
         if ($res instanceof ResponseInterface) {
-            return $res;
+            return $res->withStatus(401);
         }
 
         $result = $this->authenticationService->login(
@@ -59,13 +44,28 @@ class Login
         );
 
         if (!$result->isValid()) {
-            return $this->formHandler->redirectWithErrors($request, $response, [
-                $result->getMessages()
-            ]);
+            return $this->withJson([
+                'success' => false,
+                'form_errors' => ['auth' => $result->getMessages()],
+            ], $response, 401);
         }
 
-        return $response
-            ->withStatus(302)
-            ->withHeader('Location', '/admin');
+        /** @var Admin $admin */
+        $admin = $result->getIdentity();
+
+        $token = [
+            "iss" => "https://www.phpschool.io",
+            "iat" => time(),
+            "exp" => time() + 3600, //1hr
+            "data" => [
+                "adminId" => $admin->getId()->toString(),
+            ]
+        ];
+
+        return $this->withJson([
+            'success' => true,
+            'token' => JWT::encode($token, $this->jwtSecret),
+            'admin' => $admin,
+        ], $response);
     }
 }
