@@ -64,7 +64,7 @@ echo $count / $numberCount;</pre
   </ul>
 
   <p>Our problem file might look like the following.</p>
-  <CodeBlock lang="md">
+  <CodeBlock lang="md" no-highlight>
     <pre>
 Write a program that accepts one or more numbers as command-line arguments and prints the mean average of those numbers to the console (stdout).
 
