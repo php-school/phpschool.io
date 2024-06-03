@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Repository\Fixtures;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use PhpSchool\Website\Entity\Event;
-use PhpSchool\Website\Entity\Workshop;
 use Ramsey\Uuid\UuidInterface;
 
 class Events implements FixtureInterface

@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./assets/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

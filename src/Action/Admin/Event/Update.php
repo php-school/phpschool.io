@@ -1,70 +1,48 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action\Admin\Event;
 
+use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Form\FormHandler;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Repository\EventRepository;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Flash\Messages;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Laminas\Filter\Exception\RuntimeException;
 
+/**
+ * @phpstan-import-type EventData from \PhpSchool\Website\InputFilter\Event
+ */
 class Update
 {
-    private EventRepository $repository;
-    private FormHandler $formHandler;
-    private PhpRenderer $renderer;
-    private Messages $messages;
+    use JsonUtils;
 
+    /**
+     * @param FormHandler<EventData> $formHandler
+     */
     public function __construct(
-        EventRepository $repository,
-        FormHandler $formHandler,
-        PhpRenderer $renderer,
-        Messages $messages
-    ) {
-        $this->repository = $repository;
-        $this->messages = $messages;
-        $this->renderer = $renderer;
-        $this->formHandler = $formHandler;
-    }
+        private readonly EventRepository $repository,
+        private readonly FormHandler $formHandler,
+    ) {}
 
-    public function showUpdateForm(Request $request, Response $response, string $id): MessageInterface
+    public function __invoke(Request $request, Response $response, string $id): MessageInterface
     {
         try {
             $event = $this->repository->findById($id);
         } catch (RuntimeException $e) {
-            return $response
-                ->withStatus(302)
-                ->withHeader('Location', '/admin/event/all');
-        }
-
-        return $this->renderer->render($response, 'layouts/admin.phtml', [
-            'pageTitle'       => 'Admin Area - Update Event',
-            'pageDescription' => 'Admin Area - Update Event',
-            'content'         => $this->renderer->fetch(
-                'admin/event/update.phtml',
+            return $this->withJson(
                 [
-                    'form'  => $this->formHandler->getForm($event->toArray()),
-                    'event' => $event
-                ]
-            )
-        ]);
-    }
-
-    public function update(Request $request, Response $response, string $id): MessageInterface
-    {
-        try {
-            $event = $this->repository->findById($id);
-        } catch (RuntimeException $e) {
-            return $response
-                ->withStatus(302)
-                ->withHeader('Location', '/admin/event/all');
+                    'error' => 'Could not find event with id: ' . $id
+                ],
+                $response,
+                404
+            );
         }
 
-        $res = $this->formHandler->validateAndRedirectIfErrors($request, $response);
+        $res = $this->formHandler->validateJsonRequest($request, $response);
 
         if ($res instanceof ResponseInterface) {
             return $res;
@@ -73,31 +51,36 @@ class Update
         try {
             $values = $this->formHandler->getData();
         } catch (RuntimeException $e) {
-            return $this->formHandler->redirectWithErrors(
-                $request,
-                $response,
-                [ 'poster' => [
-                    'There was a problem uploading the file. Please try again.'
-                ]]
+            return $this->withJson(
+                [
+                    'success' => false,
+                    'form_errors' => ['poster' => 'There was a problem uploading the file. Please try again.']
+                ],
+                $response
+            );
+        }
+
+        $date = \DateTime::createFromFormat('Y-m-d\TH:i', $values['date']);
+
+        if (false === $date) {
+            return $this->withJson(
+                [
+                    'success' => false,
+                    'form_errors' => ['date' => 'Invalid date format']
+                ],
+                $response
             );
         }
 
         $event->setName($values['name'])
             ->setDescription($values['description'])
             ->setLink($values['link'])
-            ->setDateTime(\DateTime::createFromFormat('Y-m-d\TH:i', $values['date']))
+            ->setDateTime($date)
             ->setVenue($values['venue'])
             ->setPoster(isset($values['poster']['tmp_name']) ? basename($values['poster']['tmp_name']) : $event->getPoster());
 
         $this->repository->save($event);
 
-        $this->messages->addMessage(
-            'admin.success',
-            sprintf('Event %s was successfully updated.', $event->getName())
-        );
-
-        return $response
-            ->withStatus(302)
-            ->withHeader('Location', '/admin/event/all');
+        return $this->jsonSuccess($response);
     }
 }

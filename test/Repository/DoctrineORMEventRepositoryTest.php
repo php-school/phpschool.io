@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Repository;
 
 use PhpSchool\Website\Entity\Event;
@@ -17,7 +19,7 @@ class DoctrineORMEventRepositoryTest extends DoctrineORMRepositoryTest
 
         $this->assertEquals(
             ['Event 5', 'Event 4', 'Event 3', 'Event 2', 'Event 1'],
-            array_map(fn (Event $event) => $event->getName(), $events)
+            array_map(fn(Event $event) => $event->getName(), $events)
         );
     }
 
@@ -31,7 +33,7 @@ class DoctrineORMEventRepositoryTest extends DoctrineORMRepositoryTest
 
         $this->assertEquals(
             ['Event 6', 'Event 7', 'Event 8', 'Event 9', 'Event 10'],
-            array_map(fn (Event $event) => $event->getName(), $events)
+            array_map(fn(Event $event) => $event->getName(), $events)
         );
     }
 
@@ -45,7 +47,7 @@ class DoctrineORMEventRepositoryTest extends DoctrineORMRepositoryTest
 
         $this->assertEquals(
             ['Event 10', 'Event 9', 'Event 8', 'Event 7', 'Event 6', 'Event 5', 'Event 4', 'Event 3', 'Event 2', 'Event 1'],
-            array_map(fn (Event $event) => $event->getName(), $events)
+            array_map(fn(Event $event) => $event->getName(), $events)
         );
     }
 
@@ -63,7 +65,7 @@ class DoctrineORMEventRepositoryTest extends DoctrineORMRepositoryTest
 
         $this->assertEquals(
             'Event 1',
-            $this->getRepository(Event::class)->findById($fixture->event1Id)->getName()
+            $this->getRepository(Event::class)->findById($fixture->event1Id->toString())->getName()
         );
     }
 
@@ -103,7 +105,7 @@ class DoctrineORMEventRepositoryTest extends DoctrineORMRepositoryTest
 
         $this->assertEquals(
             ['Event 10', 'Event 9', 'Event 8', 'Event 7', 'Event 6', 'Event 5', 'Event 4', 'Event 3', 'Event 2'],
-            array_map(fn (Event $event) => $event->getName(), $events)
+            array_map(fn(Event $event) => $event->getName(), $events)
         );
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Repository;
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;

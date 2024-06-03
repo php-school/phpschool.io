@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Repository;
 
 use PhpSchool\Website\Entity\Workshop;
@@ -52,7 +54,7 @@ class DoctrineORMWorkshopRepositoryTest extends DoctrineORMRepositoryTest
 
         $this->assertEquals(
             'learnyouphp',
-            $this->getRepository(Workshop::class)->findById($fixture->learnYouPhpId)->getCode()
+            $this->getRepository(Workshop::class)->findById($fixture->learnYouPhpId->toString())->getCode()
         );
     }
 

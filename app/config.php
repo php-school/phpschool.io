@@ -1,105 +1,149 @@
 <?php
 
-use Cache\Bridge\Doctrine\DoctrineCacheBridge;
+declare(strict_types=1);
+
+use ahinkle\PackagistLatestVersion\PackagistLatestVersion;
 use DI\Bridge\Slim\Bridge;
-use Doctrine\ORM\Configuration;
-use Doctrine\ORM\ORMSetup;
-use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
-use PhpSchool\Website\Form\FormHandler;
-use PhpSchool\Website\Middleware\Session as SessionMiddleware;
-use Predis\Connection\ConnectionException;
-use Slim\App;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Contracts\Cache\CacheInterface;
-use function DI\factory;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use Github\AuthMethod;
 use Github\Client;
-use Psr\Container\ContainerInterface;
+use League\CommonMark\Extension\CommonMarkCoreExtension;
+use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\MarkdownConverter;
+use League\CommonMark\MarkdownConverterInterface;
+use League\OAuth2\Client\Provider\Github;
 use Mni\FrontYAML\Parser;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
+use PhpSchool\PhpWorkshop\Markdown\CurrentContext;
+use PhpSchool\PhpWorkshop\Markdown\ProblemFileExtension;
+use PhpSchool\PhpWorkshop\Markdown\Renderer\ContextSpecificRenderer;
+use PhpSchool\PhpWorkshop\Markdown\Shorthands\Cloud\AppName;
+use PhpSchool\PhpWorkshop\Markdown\Shorthands\Cloud\Run;
+use PhpSchool\PhpWorkshop\Markdown\Shorthands\Cloud\Verify;
+use PhpSchool\PhpWorkshop\Markdown\Shorthands\Context;
+use PhpSchool\PhpWorkshop\Markdown\Shorthands\Documentation as DocumentationShorthand;
 use PhpSchool\Website\Action\Admin\ClearCache as ClearCacheAction;
 use PhpSchool\Website\Action\Admin\Event\All as EventAll;
 use PhpSchool\Website\Action\Admin\Event\Create as EventCreate;
-use PhpSchool\Website\Action\Admin\Event\Update as EventUpdate;
 use PhpSchool\Website\Action\Admin\Event\Delete as EventDelete;
+use PhpSchool\Website\Action\Admin\Event\Update as EventUpdate;
 use PhpSchool\Website\Action\Admin\Login;
+use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\Approve;
 use PhpSchool\Website\Action\Admin\Workshop\Delete;
 use PhpSchool\Website\Action\Admin\Workshop\Promote;
 use PhpSchool\Website\Action\Admin\Workshop\Requests;
-use PhpSchool\Website\Action\Admin\Workshop\All;
 use PhpSchool\Website\Action\Admin\Workshop\View;
-use PhpSchool\Website\Action\DocsAction;
-use PhpSchool\Website\Action\TrackDownloads;
+use PhpSchool\Website\Action\Online\ComposerPackageAdd;
+use PhpSchool\Website\Action\Online\RunExercise;
+use PhpSchool\Website\Action\Online\VerifyExercise;
+use PhpSchool\Website\Action\SlackInvite;
+use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Action\SubmitWorkshop;
+use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Blog\Generator;
+use PhpSchool\Website\Command\SyncContributors;
+use PhpSchool\Website\Online\CloudWorkshopRepository;
+use PhpSchool\Website\Online\Command\DownloadComposerPackageList;
+use PhpSchool\Website\Online\Middleware\ExerciseRunnerRateLimiter;
+use PhpSchool\Website\Online\PathGenerator;
+use PhpSchool\Website\Online\ProblemFileConverter;
+use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\StudentWorkshopState;
+use PhpSchool\Website\Online\VueResultsRenderer;
 use PhpSchool\Website\Command\ClearCache;
-use PhpSchool\Website\Command\CreateUser;
+use PhpSchool\Website\Command\CreateAdminUser;
 use PhpSchool\Website\Command\GenerateBlog;
-use PhpSchool\Website\Documentation;
-use PhpSchool\Website\DocumentationGroup;
+use PhpSchool\Website\Entity\BlogPost;
 use PhpSchool\Website\Entity\Event;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
+use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Form\FormHandlerFactory;
+use PhpSchool\Website\InputFilter\Event as EventInputFilter;
+use PhpSchool\Website\InputFilter\Login as LoginInputFilter;
 use PhpSchool\Website\InputFilter\SubmitWorkshop as SubmitWorkshopInputFilter;
-use PhpSchool\Website\Middleware\FpcCache;
+use PhpSchool\Website\InputFilter\WorkshopComposerJson as WorkshopComposerJsonInputFilter;
+use PhpSchool\Website\Middleware\Session as SessionMiddleware;
+use PhpSchool\Website\Repository\DoctrineORMBlogRepository;
 use PhpSchool\Website\Repository\EventRepository;
 use PhpSchool\Website\Repository\WorkshopInstallRepository;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\User\Adapter\Doctrine;
-use PhpSchool\Website\User\AuthenticationService;
-use PhpSchool\Website\User\Middleware\Authenticator;
-use PhpSchool\Website\InputFilter\Event as EventInputFilter;
-use PhpSchool\Website\InputFilter\WorkshopComposerJson as WorkshopComposerJsonInputFilter;
-use PhpSchool\Website\InputFilter\Login as LoginInputFilter;
+use PhpSchool\Website\User\AdminAuthenticationService;
+use PhpSchool\Website\User\Entity\Student;
+use PhpSchool\Website\User\Middleware\StudentAuthenticator;
+use PhpSchool\Website\User\Middleware\StudentRefresher;
+use PhpSchool\Website\User\Session;
+use PhpSchool\Website\User\SessionStorageInterface;
+use PhpSchool\Website\User\StudentRepository;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use PhpSchool\Website\WorkshopFeed;
+use Predis\Connection\ConnectionException;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Psr\Log\LoggerInterface;
-use PhpSchool\Website\PhpRenderer;
 use Ramsey\Uuid\Doctrine\UuidType;
-use PhpSchool\Website\User\Session;
-use Slim\Flash\Messages;
+use Slim\App;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\Storage\CacheStorage;
+use Symfony\Contracts\Cache\CacheInterface;
+use Tuupola\Middleware\JwtAuthentication;
+
+use function DI\factory;
+use function DI\get;
 
 return [
     'console' => factory(function (DI\Container $c): Silly\Edition\PhpDi\Application {
         $app = new Silly\Edition\PhpDi\Application('PHP School Website', 'UNKNOWN', $c);
         $app->command('clear-cache', ClearCache::class);
-        $app->command('create-user name email password', CreateUser::class);
+        $app->command('create-admin-user name email password', CreateAdminUser::class);
         $app->command('generate-blog', GenerateBlog::class);
+        $app->command('download-composer-packages', DownloadComposerPackageList::class);
+        $app->command('sync-contributors', SyncContributors::class);
 
         ConsoleRunner::addCommands($app, new SingleManagerProvider($c->get(EntityManagerInterface::class)));
 
         return $app;
     }),
+    'basePath' => __DIR__ . '/../',
     'app' => factory(function (ContainerInterface $c): App {
         $app =  Bridge::create($c);
         $app->addRoutingMiddleware();
-        $app->add($c->get(FpcCache::class));
+
+        $app->add(function (Request $request, RequestHandler $handler) use ($c): Response {
+            /** @var Session $session */
+            $session  = $this->get(Session::class);
+
+            $student = $session->get('student');
+
+            $request = $request->withAttribute('student', $student);
+
+            return $handler->handle($request)
+                ->withHeader('cache-control', 'no-cache');
+        });
+        $app->add(StudentRefresher::class);
         $app->add(new SessionMiddleware(['name' => 'phpschool']));
 
         return $app;
     }),
-    FpcCache::class => factory(function (ContainerInterface $c): FpcCache {
-        return new FpcCache($c->get('cache.fpc'));
-    }),
-    'cache.fpc' => factory(function (ContainerInterface $c): CacheInterface {
-        if (!$c->get('config')['enablePageCache']) {
-            return new NullAdapter;
-        }
-        return new RedisAdapter(new Predis\Client(['host' => $c->get('config')['redisHost']]), 'fpc');
-    }),
     'cache' => factory(function (ContainerInterface $c): CacheInterface {
         if (!$c->get('config')['enableCache']) {
-            return new NullAdapter;
+            return new NullAdapter();
         }
 
         $redisConnection = new \Predis\Client(['host' => $c->get('config')['redisHost']]);
@@ -117,35 +161,18 @@ return [
 
         return new RedisAdapter($redisConnection, 'default');
     }),
-    PhpRenderer::class => factory(function (ContainerInterface $c): PhpRenderer {
-        $settings = $c->get('config')['renderer'];
-        $renderer = new PhpRenderer(
-            $settings['template_path'],
-            [
-                'links'  => $c->get('config')['links'],
-            ]
-        );
-
-        //default CSS
-        $renderer->appendLocalCss('main-css', __DIR__ . '/../public/css/core.css');
-        $renderer->appendRemoteCss('font', 'https://fonts.googleapis.com/css?family=Open+Sans: 400,700');
-
-        //default JS
-        $renderer->addJs('jquery', '//code.jquery.com/jquery-1.12.0.min.js');
-        $renderer->addJs('main-js', '/js/main.min.js');
-
-        return $renderer;
-    }),
-    LoggerInterface::class => factory(function (ContainerInterface $c): LoggerInterface{
+    LoggerInterface::class => factory(function (ContainerInterface $c): LoggerInterface {
         $settings = $c->get('config')['logger'];
         $logger = new Logger($settings['name']);
-        $logger->pushProcessor(new UidProcessor);
+        $logger->pushProcessor(new UidProcessor());
         $logger->pushHandler(new StreamHandler($settings['path'], Logger::DEBUG));
         return $logger;
     }),
 
+    SessionStorageInterface::class => get(Session::class),
+
     Session::class => function (ContainerInterface $c): Session {
-        return new Session;
+        return new Session();
     },
 
     FormHandlerFactory::class => function (ContainerInterface $c): FormHandlerFactory {
@@ -154,55 +181,20 @@ return [
 
     //commands
     ClearCache::class => factory(function (ContainerInterface $c): ClearCache {
-        return new ClearCache($c->get('cache.fpc'));
+        return new ClearCache($c->get('cache'));
     }),
-    CreateUser::class => factory(function (ContainerInterface $c): CreateUser {
-        return new CreateUser($c->get(EntityManagerInterface::class));
+    CreateAdminUser::class => factory(function (ContainerInterface $c): CreateAdminUser {
+        return new CreateAdminUser($c->get(EntityManagerInterface::class));
     }),
     GenerateBlog::class => function (ContainerInterface $c): GenerateBlog {
         return new GenerateBlog($c->get(Generator::class));
     },
-
-    Documentation::class => \DI\factory(function (ContainerInterface $c): Documentation {
-        $tutorialGroup = new DocumentationGroup('tutorial', 'Workshop Tutorial');
-        $tutorialGroup->addSection('index', 'Workshop Tutorial', 'docs/tutorial/index.phtml');
-        $tutorialGroup->addSection('creating-your-own-workshop', 'Creating your own workshop', 'docs/tutorial/creating-your-own-workshop.phtml');
-        $tutorialGroup->addSection('modify-theme', 'Modifying the theme of your workshop', 'docs/tutorial/modify-theme.phtml');
-        $tutorialGroup->addSection('creating-an-exercise', 'Creating an exercise', 'docs/tutorial/creating-an-exercise.phtml');
-
-        $referenceGroup = new DocumentationGroup('reference', 'Reference Documentation');
-        $referenceGroup->addSection('index', 'Reference Documentation', 'docs/reference/index.phtml');
-        $referenceGroup->addSection('container', 'The Container', 'docs/reference/container.phtml');
-        $referenceGroup->addSection('available-services', 'Available Services', 'docs/reference/available-services.phtml');
-        $referenceGroup->addSection('exercise-types', 'Exercise Types', 'docs/reference/exercise-types.phtml');
-        $referenceGroup->addSection('exercise-solutions', 'Exercise Solutions', 'docs/reference/exercise-solutions.phtml');
-        $referenceGroup->addSection('results', 'Results & Renderers', 'docs/reference/results.phtml');
-        $referenceGroup->addSection('exercise-checks', 'Exercise Checks', 'docs/reference/exercise-checks.phtml');
-        $referenceGroup->addSection('bundled-checks', 'Bundled Checks', 'docs/reference/bundled-checks.phtml');
-        $referenceGroup->addSection('creating-simple-checks', 'Creating Simple Checks', 'docs/reference/creating-simple-checks.phtml');
-        $referenceGroup->addSection('creating-custom-results', 'Creating Custom Results', 'docs/reference/creating-custom-results.phtml');
-        $referenceGroup->addSection('creating-custom-result-renderers', 'Creating Custom Result Renderers', 'docs/reference/creating-custom-result-renderers.phtml');
-        $referenceGroup->addSection('events', 'Events', 'docs/reference/events.phtml');
-        $referenceGroup->addSection('creating-listener-checks', 'Creating Listener Checks', 'docs/reference/creating-listener-checks.phtml');
-        $referenceGroup->addSection('self-checking-exercises', 'Self Checking Exercises', 'docs/reference/self-checking-exercises.phtml');
-        $referenceGroup->addSection('exercise-events', 'Exercise Events', 'docs/reference/exercise-events.phtml');
-        $referenceGroup->addSection('patching-exercise-solutions', 'Patching Exercise Submissions', 'docs/reference/patching-exercise-solutions.phtml');
-
-
-        $indexGroup = new DocumentationGroup('index', 'Documentation Home');
-        $indexGroup->addSection('index', 'Documentation Home', 'docs/index.phtml');
-
-        $docs = new Documentation;
-        $docs->addGroup($indexGroup);
-        $docs->addGroup($tutorialGroup);
-        $docs->addGroup($referenceGroup);
-
-        return $docs;
-    }),
-
-    DocsAction::class => \DI\factory(function (ContainerInterface $c): DocsAction {
-        return new DocsAction($c->get(PhpRenderer::class), $c->get(Documentation::class));
-    }),
+    DownloadComposerPackageList::class => function (ContainerInterface $c): DownloadComposerPackageList {
+        return new DownloadComposerPackageList($c->get('guzzle.packagist'), $c->get(LoggerInterface::class));
+    },
+    SyncContributors::class => function (ContainerInterface $c): SyncContributors {
+        return new SyncContributors($c->get(Client::class), $c->get(LoggerInterface::class));
+    },
 
     TrackDownloads::class => function (ContainerInterface $c): TrackDownloads {
         return new TrackDownloads($c->get(WorkshopRepository::class), $c->get(WorkshopInstallRepository::class));
@@ -211,34 +203,61 @@ return [
     SubmitWorkshop::class => \DI\factory(function (ContainerInterface $c): SubmitWorkshop {
         return new SubmitWorkshop(
             $c->get(FormHandlerFactory::class)->create(
-                new SubmitWorkshopInputFilter(new Client, $c->get(WorkshopRepository::class))
+                new SubmitWorkshopInputFilter(new Client(), $c->get(WorkshopRepository::class))
             ),
-            new WorkshopCreator(new WorkshopComposerJsonInputFilter, $c->get(WorkshopRepository::class)),
+            new WorkshopCreator(new WorkshopComposerJsonInputFilter(), $c->get(WorkshopRepository::class)),
             $c->get(EmailNotifier::class),
             $c->get(LoggerInterface::class)
         );
     }),
 
+    SlackInvite::class => function (ContainerInterface $c): SlackInvite {
+        return new SlackInvite(
+            $c->get('guzzle'),
+            $c->get('config')['slackInviteApiToken']
+        );
+    },
+
+    Client::class => function (ContainerInterface $c): Client {
+        $client = new Client();
+        $client->authenticate($c->get('config')['github']['token'], AuthMethod::ACCESS_TOKEN);
+
+        return $client;
+    },
+
+    Github::class => function (ContainerInterface $c): Github {
+        return new Github([
+            'clientId' => $c->get('config')['github']['clientId'],
+            'clientSecret' => $c->get('config')['github']['clientSecret'],
+        ]);
+    },
+
+    StudentLogin::class => function (ContainerInterface $c): StudentLogin {
+        return new StudentLogin(
+            $c->get(Github::class),
+            $c->get(Session::class),
+            $c->get(EntityManagerInterface::class)
+        );
+    },
+
     //admin
     Login::class => \DI\factory(function (ContainerInterface $c): Login {
         return new Login(
-            $c->get(AuthenticationService::class),
-            $c->get(FormHandlerFactory::class)->create(new LoginInputFilter),
-            $c->get(PhpRenderer::class)
+            $c->get(AdminAuthenticationService::class),
+            $c->get(FormHandlerFactory::class)->create(new LoginInputFilter()),
+            $c->get('config')['jwtSecret']
         );
     }),
 
     ClearCacheAction::class => function (ContainerInterface $c): ClearCacheAction {
         return new ClearCacheAction(
-            $c->get('cache.fpc'),
-            $c->get(Messages::class)
+            $c->get('cache'),
         );
     },
 
     Requests::class => \DI\factory(function (ContainerInterface $c): Requests {
         return new Requests(
             $c->get(WorkshopRepository::class),
-            $c->get(PhpRenderer::class)
         );
     }),
 
@@ -246,7 +265,6 @@ return [
         return new All(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopInstallRepository::class),
-            $c->get(PhpRenderer::class)
         );
     }),
 
@@ -254,8 +272,7 @@ return [
         return new Approve(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopFeed::class),
-            $c->get('cache.fpc'),
-            $c->get(Messages::class),
+            $c->get('cache'),
             $c->get(EmailNotifier::class),
             $c->get(LoggerInterface::class)
         );
@@ -265,8 +282,7 @@ return [
         return new Promote(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopFeed::class),
-            $c->get('cache.fpc'),
-            $c->get(Messages::class)
+            $c->get('cache'),
         );
     }),
 
@@ -275,8 +291,7 @@ return [
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopInstallRepository::class),
             $c->get(WorkshopFeed::class),
-            $c->get('cache.fpc'),
-            $c->get(Messages::class)
+            $c->get('cache'),
         );
     }),
 
@@ -284,24 +299,97 @@ return [
         return new View(
             $c->get(WorkshopRepository::class),
             $c->get(WorkshopInstallRepository::class),
-            $c->get(PhpRenderer::class)
         );
     },
 
+    'guzzle' => function (ContainerInterface $c): \GuzzleHttp\Client {
+        return new \GuzzleHttp\Client();
+    },
+
+    'guzzle.packagist' => function (ContainerInterface $c) {
+        return new \GuzzleHttp\Client(['headers' => ['User-Agent' => 'PHP School: phpschool.team@gmail.com']]);
+    },
+
+    ComposerPackageAdd::class => function (ContainerInterface $c): ComposerPackageAdd {
+        return new ComposerPackageAdd(
+            new PackagistLatestVersion($c->get('guzzle.packagist')),
+        );
+    },
+
+    CurrentContext::class => function (): CurrentContext {
+        return CurrentContext::cloud();
+    },
+
+    //cloud
+    MarkdownConverterInterface::class => function (ContainerInterface $c): MarkdownConverterInterface {
+        $environment = new \League\CommonMark\Environment([
+            'external_link' => [
+                'internal_hosts' => 'www.phpschool.io',
+                'open_in_new_window' => true,
+                'nofollow' => '',
+                'noopener' => 'external',
+                'noreferrer' => 'external',
+            ],
+        ]);
+
+        $environment->addExtension(new CommonMarkCoreExtension());
+        $environment->addExtension(new GithubFlavoredMarkdownExtension());
+        $environment->addExtension(new ExternalLinkExtension());
+
+        $environment
+            ->addExtension(new ProblemFileExtension(
+                $c->get(ContextSpecificRenderer::class),
+                [
+                    new AppName(),
+                    new DocumentationShorthand(),
+                    new Run(),
+                    new Verify(),
+                    $c->get(Context::class)
+                ]
+            ));
+
+        return new MarkdownConverter($environment);
+    },
+
+    ProblemFileConverter::class => function (ContainerInterface $c): ProblemFileConverter {
+        return new ProblemFileConverter($c->get(MarkdownConverterInterface::class));
+    },
+
+    RunExercise::class => function (ContainerInterface $c): RunExercise {
+        return new RunExercise(
+            $c->get(CloudWorkshopRepository::class),
+            $c->get(ProjectUploader::class),
+            $c->get(StudentWorkshopState::class),
+            $c->get(SessionStorageInterface::class),
+        );
+    },
+
+    VerifyExercise::class => function (ContainerInterface $c): VerifyExercise {
+        return new VerifyExercise(
+            $c->get(CloudWorkshopRepository::class),
+            $c->get(ProjectUploader::class),
+            $c->get(SessionStorageInterface::class),
+            $c->get(StudentWorkshopState::class),
+            new VueResultsRenderer()
+        );
+    },
+
+    ProjectUploader::class => function (ContainerInterface $c): ProjectUploader {
+        return new ProjectUploader(new PathGenerator());
+    },
+
     'form.event' => function (ContainerInterface $c): FormHandler {
-        return $c->get(FormHandlerFactory::class)->create(new EventInputFilter);
+        return $c->get(FormHandlerFactory::class)->create(new EventInputFilter());
     },
 
     EventAll::class => function (ContainerInterface $c): EventAll {
-        return new EventAll($c->get(EventRepository::class), $c->get(PhpRenderer::class));
+        return new EventAll($c->get(EventRepository::class));
     },
 
     EventCreate::class => function (ContainerInterface $c): EventCreate {
         return new EventCreate(
             $c->get(EventRepository::class),
             $c->get('form.event'),
-            $c->get(PhpRenderer::class),
-            $c->get(Messages::class)
         );
     },
 
@@ -309,22 +397,15 @@ return [
         return new EventUpdate(
             $c->get(EventRepository::class),
             $c->get('form.event'),
-            $c->get(PhpRenderer::class),
-            $c->get(Messages::class)
         );
     },
 
     EventDelete::class => function (ContainerInterface $c): EventDelete {
         return new EventDelete(
             $c->get(EventRepository::class),
-            $c->get('cache.fpc'),
-            $c->get(Messages::class)
+            $c->get('cache'),
         );
     },
-
-    Messages::class => \DI\factory(function (ContainerInterface $c): Messages {
-        return new Messages();
-    }),
 
     WorkshopFeed::class => \DI\factory(function (ContainerInterface $c): WorkshopFeed {
         return new WorkshopFeed(
@@ -345,15 +426,27 @@ return [
         return $c->get(EntityManagerInterface::class)->getRepository(Event::class);
     },
 
-    AuthenticationService::class => \DI\factory(function (ContainerInterface $c): AuthenticationService {
-        $authService = new \Laminas\Authentication\AuthenticationService;
-        $authService->setAdapter(new Doctrine($c->get(EntityManagerInterface::class)));
-        return new AuthenticationService($authService);
+    DoctrineORMBlogRepository::class => function (ContainerInterface $c): DoctrineORMBlogRepository {
+        return $c->get(EntityManagerInterface::class)->getRepository(BlogPost::class);
+    },
+
+    StudentRepository::class => function (ContainerInterface $c): StudentRepository {
+        return $c->get(EntityManagerInterface::class)->getRepository(Student::class);
+    },
+
+    AdminAuthenticationService::class => \DI\factory(function (ContainerInterface $c): AdminAuthenticationService {
+        $authService = new \Laminas\Authentication\AuthenticationService(
+            new \Laminas\Authentication\Storage\NonPersistent(),
+            new Doctrine($c->get(EntityManagerInterface::class))
+        );
+        return new AdminAuthenticationService($authService);
     }),
 
-    Authenticator::class => \DI\factory(function (ContainerInterface $c): Authenticator {
-        return new Authenticator($c->get(AuthenticationService::class));
-    }),
+    StudentAuthenticator::class => function (ContainerInterface $c): StudentAuthenticator {
+        return new StudentAuthenticator(
+            $c->get(Session::class),
+        );
+    },
 
     ORMSetup::class => \DI\factory(function (ContainerInterface $c): Configuration {
         $doctrineConfig = $c->get('config')['doctrine'];
@@ -375,8 +468,13 @@ return [
     EntityManagerInterface::class => \DI\factory(function (ContainerInterface $c): EntityManagerInterface {
         Type::addType('uuid', UuidType::class);
 
-        return EntityManager::create(
+
+        $driver = \Doctrine\DBAL\DriverManager::getConnection(
             $c->get('config')['doctrine']['connection'],
+        );
+
+        return new EntityManager(
+            $driver,
             $c->get(ORMSetup::class)
         );
     }),
@@ -390,11 +488,62 @@ return [
 
     Generator::class => function (ContainerInterface $c): Generator {
         return new Generator(
-            new Parser,
+            new Parser(null, new class () implements \Mni\FrontYAML\Markdown\MarkdownParser {
+                public function parse($markdown): string
+                {
+                    return (new Parsedown())->parse($markdown);
+                }
+            }),
+            $c->get(DoctrineORMBlogRepository::class),
             __DIR__ . '/../posts/',
-            __DIR__ . '/../public/blog',
-            $c->get(PhpRenderer::class)
         );
+    },
+
+    CloudWorkshopRepository::class => function (ContainerInterface $c): CloudWorkshopRepository {
+        return new CloudWorkshopRepository($c->get(WorkshopRepository::class));
+    },
+
+    'exerciseRunnerRateLimiterFactory' => function (ContainerInterface $c): RateLimiterFactory {
+        $redisConnection = new \Predis\Client(['host' => $c->get('config')['redisHost']]);
+        try {
+            $redisConnection->connect();
+        } catch (ConnectionException $e) {
+            throw new \RuntimeException(
+                sprintf(
+                    'Could not connect to redis using host: "%s". Message: "%s"',
+                    $c->get('config')['redisHost'],
+                    $e->getMessage()
+                )
+            );
+        }
+
+        $adapter = new RedisAdapter($redisConnection, 'rate_limiter');
+
+        return new RateLimiterFactory(
+            [
+                'id' => 'exerciseRunner',
+                'policy' => 'sliding_window',
+                'limit' => 10,
+                'interval' => '1 minute',
+            ],
+            new CacheStorage($adapter)
+        );
+    },
+
+    ExerciseRunnerRateLimiter::class => function (ContainerInterface $c): ExerciseRunnerRateLimiter {
+        return new ExerciseRunnerRateLimiter(
+            $c->get(SessionStorageInterface::class),
+            $c->get('exerciseRunnerRateLimiterFactory')
+        );
+    },
+
+    JwtAuthentication::class => function (ContainerInterface $c): JwtAuthentication {
+        return new JwtAuthentication([
+            'secret' => $c->get('config')['jwtSecret'],
+            'path' => '/api/admin',
+            "ignore" => ["/api/admin/login"],
+            "secure" => !$c->get('config')['devMode'],
+        ]);
     },
 
     'config' => [
@@ -420,9 +569,9 @@ return [
             'github-website' => 'https://github.com/php-school/phpschool.io',
         ],
 
-        'enablePageCache'   => filter_var($_ENV['CACHE.FPC.ENABLE'], FILTER_VALIDATE_BOOLEAN),
         'enableCache'       => filter_var($_ENV['CACHE.ENABLE'], FILTER_VALIDATE_BOOLEAN),
         'redisHost'         => $_ENV['REDIS_HOST'],
+        'devMode'           => filter_var($_ENV['DEV_MODE'], FILTER_VALIDATE_BOOLEAN),
 
         'doctrine' => [
             'meta' => [
@@ -431,7 +580,7 @@ return [
                     'src/User/Entity',
                 ],
                 'auto_generate_proxies' => true,
-                'proxy_dir' =>  __DIR__.'/../cache/proxies',
+                'proxy_dir' =>  __DIR__ . '/../cache/proxies',
             ],
             'connection' => [
                 'driver'   => 'pdo_mysql',
@@ -439,8 +588,18 @@ return [
                 'dbname'   => $_ENV['MYSQL_DATABASE'],
                 'user'     => $_ENV['MYSQL_USER'],
                 'password' => $_ENV['MYSQL_PASSWORD'],
+                'charset' => 'utf8mb4',
             ]
-        ]
+        ],
+
+        'github' => [
+            'clientId' => $_ENV['GITHUB_CLIENT_ID'],
+            'clientSecret' => $_ENV['GITHUB_CLIENT_SECRET'],
+            'token' => $_ENV['GITHUB_TOKEN'],
+        ],
+
+        'jwtSecret' => $_ENV['JWT_SECRET'],
+        'slackInviteApiToken' => $_ENV['SLACK_INVITE_API_TOKEN'],
     ],
 
     //slim settings

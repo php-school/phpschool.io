@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Entity;
 
 use DateTime;
@@ -15,11 +17,14 @@ use Ramsey\Uuid\UuidInterface;
  * @ORM\Table(name="workshop"))
  * @ORM\Entity(repositoryClass="PhpSchool\Website\Repository\DoctrineORMWorkshopRepository")
  */
-class Workshop
+class Workshop implements \JsonSerializable
 {
     public const TYPE_COMMUNITY = 0;
     public const TYPE_CORE = 1;
 
+    /**
+     * @var array<int, 'core'|'community'>
+     */
     private array $typeMap = [
         self::TYPE_COMMUNITY => 'community',
         self::TYPE_CORE => 'core',
@@ -33,7 +38,7 @@ class Workshop
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private UuidInterface $id;
+    private UuidInterface $id; /** @phpstan-ignore-line  */
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -92,6 +97,8 @@ class Workshop
 
     /**
      * @ORM\OneToMany(targetEntity="WorkshopInstall", mappedBy="workshop")
+     *
+     * @var Collection<string, WorkshopInstall>
      */
     private Collection $installs;
 
@@ -194,11 +201,17 @@ class Workshop
         return $this->type;
     }
 
+    /**
+     * @return 'core'|'community'
+     */
     public function getTypeCode(): string
     {
         return $this->typeMap[$this->getType()];
     }
 
+    /**
+     * @return 'Core'|'Community'
+     */
     public function getTypeName(): string
     {
         return ucfirst($this->getTypeCode());
@@ -219,6 +232,17 @@ class Workshop
         return $this->installs->count();
     }
 
+    /**
+     * @return array{
+     *     workshop_code: string,
+     *     display_name: string,
+     *     github_owner: string,
+     *     github_repo_name: string,
+     *     repo_url: string,
+     *     type: 'core'|'community',
+     *     description: string
+     * }
+     */
     public function toArray(): array
     {
         return [
@@ -229,6 +253,42 @@ class Workshop
             'repo_url' => $this->getRepoUrl(),
             'type' => $this->getTypeCode(),
             "description" => $this->getDescription()
+        ];
+    }
+
+    /**
+     * @return array{
+     *     id: string,
+     *     code: string,
+     *     name: string,
+     *     description: string,
+     *     repo_url: string,
+     *     submitter_name: string,
+     *     submitter_email: string,
+     *     submitter_contact: string|null,
+     *     submitter_avatar: string,
+     *     status: 'Approved'|'Not-approved',
+     *     type: 'Core'|'Community',
+     *     installs: int,
+     *     created_at: string
+     * }
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->getId()->toString(),
+            'code' => $this->getCode(),
+            'name' => $this->getDisplayName(),
+            'description' => $this->getDescription(),
+            'repo_url' => $this->getRepoUrl(),
+            'submitter_name' => $this->getSubmitterName(),
+            'submitter_email' => $this->getSubmitterEmail(),
+            'submitter_contact' => $this->getSubmitterContact(),
+            'submitter_avatar' => 'https://www.gravatar.com/avatar/' . md5($this->getSubmitterEmail()),
+            'status' => $this->isApproved() ? 'Approved' : 'Not-approved',
+            'type' => $this->getTypeName(),
+            'installs' => $this->getTotalInstalls(),
+            'created_at' => $this->getCreatedAt()->format('M jS, y h:i')
         ];
     }
 }

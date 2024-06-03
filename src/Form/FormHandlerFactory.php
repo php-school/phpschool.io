@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Form;
 
+use Laminas\InputFilter\InputFilter;
 use PhpSchool\Website\User\Session;
-use Laminas\InputFilter\InputFilterInterface;
 
 class FormHandlerFactory
 {
@@ -14,7 +16,7 @@ class FormHandlerFactory
         $this->session = $session;
     }
 
-    public function create(InputFilterInterface $inputFilter): FormHandler
+    public function create(InputFilter $inputFilter): FormHandler /** @phpstan-ignore-line  */
     {
         return new FormHandler($inputFilter, $this->session);
     }

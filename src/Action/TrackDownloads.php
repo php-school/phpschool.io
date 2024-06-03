@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action;
 
 use PhpSchool\Website\Entity\WorkshopInstall;
@@ -33,8 +35,11 @@ class TrackDownloads
                 ->withJson(['status' => 'error', 'message' => "Workshop: \"$workshop\" not found."], $response, 404);
         }
 
+        /** @var string $ipAddress */
+        $ipAddress = $request->getAttribute('ip_address');
+
         $this->workshopInstallRepository->save(
-            new WorkshopInstall($workshopEntity, $request->getAttribute('ip_address'), $version)
+            new WorkshopInstall($workshopEntity, $ipAddress, $version)
         );
 
         return $this->jsonSuccess($response);

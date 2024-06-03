@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Repository;
 
-use DateTime;
 use Doctrine\ORM\EntityRepository;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Entity\WorkshopInstall;
 
+/**
+ * @extends EntityRepository<WorkshopInstall>
+ */
 class DoctrineORMWorkshopInstallRepository extends EntityRepository implements WorkshopInstallRepository
 {
     public function totalInstallsInLast30Days(Workshop $workshop): int
@@ -31,7 +35,10 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
                 'workshop' => $workshop
             ]);
 
-        return $qb->getQuery()->getSingleScalarResult() ?? 0;
+        /** @var ?int $result */
+        $result = $qb->getQuery()->getSingleScalarResult();
+
+        return  $result ?? 0;
     }
 
     public function totalInstalls(Workshop $workshop): int
@@ -41,7 +48,10 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
             ->where('s.workshop = :workshop')
             ->setParameter('workshop', $workshop);
 
-        return $qb->getQuery()->getSingleScalarResult() ?? 0;
+        /** @var ?int $result */
+        $result = $qb->getQuery()->getSingleScalarResult();
+
+        return  $result ?? 0;
     }
 
     /**
@@ -67,7 +77,9 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
                 'workshop' => $workshop
             ]);
 
-        return $qb->getQuery()->getResult();
+        /** @var array<WorkshopInstall> $result */
+        $result = $qb->getQuery()->getResult();
+        return $result;
     }
 
     public function save(WorkshopInstall $workshopInstall): void

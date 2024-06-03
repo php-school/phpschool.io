@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\InputFilter;
 
 use Laminas\Filter\File\RenameUpload;
@@ -9,12 +11,19 @@ use Laminas\Validator\File\IsImage;
 use Laminas\Validator\File\Size;
 use Laminas\Validator\File\UploadFile;
 use Laminas\InputFilter\FileInput;
-use Laminas\InputFilter\Input;
 use Laminas\Validator\StringLength;
 use Laminas\Validator\Uri;
 
 /**
- * @psalm-suppress PropertyNotSetInConstructor
+ * @phpstan-type EventData array{
+ *      name: string,
+ *      description: string,
+ *      link: string|null,
+ *      date: string,
+ *      venue: string,
+ *      poster?: array{tmp_name: string},
+ *  }
+ * @extends InputFilter<EventData>
  */
 class Event extends InputFilter
 {

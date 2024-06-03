@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\Action;
 
 use GuzzleHttp\Psr7\Response;
@@ -42,7 +44,7 @@ class TrackDownloadsTest extends TestCase
                 'status' => 'error',
                 'message' => 'Workshop: "non-existent-workshop" not found.'
             ],
-            json_decode($actualResponse->getBody(), true)
+            json_decode($actualResponse->getBody()->__toString(), true)
         );
     }
 
@@ -86,6 +88,6 @@ class TrackDownloadsTest extends TestCase
 
         $this->assertEquals(200, $actualResponse->getStatusCode());
         $this->assertEquals('application/json', $actualResponse->getHeaderLine('Content-Type'));
-        $this->assertEquals(['success' => true], json_decode($actualResponse->getBody(), true));
+        $this->assertEquals(['success' => true], json_decode($actualResponse->getBody()->__toString(), true));
     }
 }

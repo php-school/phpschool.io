@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Repository;
 
 use PhpSchool\Website\Entity\Workshop;
@@ -11,6 +13,9 @@ interface WorkshopInstallRepository
 
     public function totalInstalls(Workshop $workshop): int;
 
+    /**
+     * @return array<WorkshopInstall>
+     */
     public function findInstallsInLast30Days(Workshop $workshop): array;
 
     public function save(WorkshopInstall $workshopInstall): void;
