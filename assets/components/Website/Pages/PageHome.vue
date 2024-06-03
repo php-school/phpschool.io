@@ -15,6 +15,8 @@ import InfoSection from "./Home/InfoSection.vue";
 import GettingStarted from "./Home/Section/GettingStarted.vue";
 import TheWorkshops from "./Home/Section/TheWorkshops.vue";
 import BuildYourOwn from "./Home/Section/BuildYourOwn.vue";
+import HomeList from "./Home/HomeList.vue";
+
 
 import { SparklesIcon } from "@heroicons/vue/24/solid";
 import { useStudentStore } from "../../../stores/student";
@@ -116,6 +118,73 @@ onUnmounted(() => {
   window.removeEventListener("scroll", checkImages);
   window.removeEventListener("resize", debouncedCheckImages);
 });
+
+const phpSchoolBreakdown = {
+  openSource: {
+    heading: "Open-Source Gateway To PHP Mastery",
+    list: [
+    {
+      title: "Interactive Workshops",
+      description: "Engaging sessions covering beginner to advanced topics in PHP"
+    },
+    {
+      title: "Hands-On Learning",
+      description: "Solve real-world problems through coding exercises"
+    },
+    {
+      title: "Community Collaboration",
+      description: "Contribute, fix bugs, and create your own workshops"
+    },
+    {
+      title: "Open Source Education",
+      description: "Access all workshops for free and learn at your own pace"
+    }
+  ]
+  },
+  editor: {
+    heading: "Seamless Online Coding Experience",
+    list: [
+      {
+        title: "Effortless Access",
+        description: "Login with your GitHub account and seamlessly navigate through workshops and exercises",
+      },
+      {
+        title: "No Setup Hassle",
+        description: "Say goodbye to complex setups and installations; our IDE is ready to use right from your browser",
+      },
+      {
+        title: "Streamlined Interface",
+        description: "Jump straight into coding with our intuitive web-based text editor, no additional tools or dependencies required",
+      },
+      {
+        title: "Instant Start",
+        description: "Begin coding instantly without the need for downloading or installing text editors, dependencies, or plugins",
+      }
+    ]
+  },
+  assignments: {
+    heading: "Work On Practical Assignments",
+    list: [
+      {
+        title: "Real-World Challenges",
+        description: "Complete practical problems that you will be sure to encounter in your respective field",
+      },
+      {
+        title: "Level Up Your Problem Solving Skills",
+        description: "Gain hands-on experience and develop critical problem-solving skills through immersive assignments"
+      },
+      {
+        title: "Guided Progression",
+        description: "Access detailed descriptions, code samples, and curated resources to support your problem-solving process"
+      },
+      {
+        title: "Career Preparation",
+        description: "Equip yourself with the skills necessary to excel in your chosen career path, ensuring readiness for the challenges ahead"
+      }
+    ]
+  },
+};
+ 
 </script>
 
 <template>
@@ -129,11 +198,11 @@ onUnmounted(() => {
       <!-- Section 1 -->
       <InfoSection>
         <template #left>
-          <div class="mx-auto w-full lg:w-2/3">
+          <div class="mx-auto w-full lg:w-2/3 lg:mb-36">
             <div class="relative flex items-center justify-center">
               <img class="cover" src="../../../img/cloud/pattern-bg-square.svg" alt="" />
               <div class="absolute mx-auto scale-75 sm:scale-100 md:left-auto">
-                <div :ref="transitions.exerciseList" class="fadeIn translate-y-6 opacity-0 transition-all duration-[1000ms] ease-in lg:mb-36">
+                <div :ref="transitions.exerciseList" class="fadeIn translate-y-6 opacity-0 transition-all duration-[1000ms] ease-in">
                   <MockWorkshopExerciseList />
                 </div>
               </div>
@@ -151,12 +220,8 @@ onUnmounted(() => {
 
         <template #right>
           <div class="mt-28 w-full space-y-8 text-left sm:px-5 md:mt-36 lg:mt-0 lg:w-1/3">
-            <h2 class="font-work-sans text-5xl font-bold text-white">Open Source educational PHP Workshops</h2>
-            <p class="font-base font-work-sans text-lg text-white">
-              PHP School is a set of workshops each designed to teach a specific topic, tool, technology. Some beginner, some advanced. Each workshop consists of multiple exercises where your task is
-              to code a solution to solve a problem. All our workshops are open source and you can contribute to them with spelling & bug fixes, new exercises. You can even build and publish your own
-              workshop.
-            </p>
+            <HomeList :heading="phpSchoolBreakdown.openSource.heading" :list="phpSchoolBreakdown.openSource.list"></HomeList>
+
             <div class="flex justify-start">
               <PrimaryButton to="/online">GET STARTED</PrimaryButton>
             </div>
@@ -168,11 +233,7 @@ onUnmounted(() => {
       <InfoSection>
         <template #left>
           <div class="order-2 mt-8 w-full space-y-8 text-left sm:px-5 lg:order-1 lg:mt-0 lg:w-1/3">
-            <h2 class="balanced font-work-sans text-5xl font-bold text-white">Online Browser Based IDE</h2>
-            <p class="font-base font-work-sans text-lg text-white">
-              Login in with your GitHub account, select a workshop, an exercise then jump straight in to our web based text editor (IDE). No complicated setup, no need to install tools, dependencies
-              and text editors. Just jump in and start coding.
-            </p>
+            <HomeList :heading="phpSchoolBreakdown.editor.heading" :list="phpSchoolBreakdown.editor.list"></HomeList>
             <div class="flex justify-start">
               <PrimaryButton to="/online" class="flex items-center">
                 <span v-if="studentStore.student">TO THE WORKSHOPS</span>
@@ -208,7 +269,7 @@ onUnmounted(() => {
       <!-- Section 3 -->
       <InfoSection>
         <template #left>
-          <div class="relative mx-auto mt-20 w-full lg:w-2/3">
+          <div class="relative mx-auto mt-8 w-full lg:w-2/3">
             <div class="relative flex items-center justify-center">
               <img class="" src="../../../img/cloud/pattern-bg-square-alt.svg" alt="" />
               <div :ref="transitions.mockProblemModal" class="fadeIn absolute translate-y-6 opacity-0 transition-all duration-[1000ms] ease-in">
@@ -229,11 +290,7 @@ onUnmounted(() => {
 
         <template #right>
           <div class="mt-28 w-full space-y-8 text-left sm:mt-40 sm:px-5 lg:mb-40 lg:w-1/3">
-            <h2 class="font-work-sans text-5xl font-bold text-white">Work on practical assignments</h2>
-            <p class="font-base font-work-sans text-lg text-white">
-              Level up your problem solving skills whilst tackling practical problems that you will be sure to encounter in your chosen career path as a software developer. Each exercise comes with a
-              description, code samples to get you started, links to documentation and other resources to help you solve the problem.
-            </p>
+            <HomeList :heading="phpSchoolBreakdown.assignments.heading" :list="phpSchoolBreakdown.assignments.list"></HomeList>
             <div class="flex justify-start">
               <PrimaryButton to="/online">GET STARTED</PrimaryButton>
             </div>

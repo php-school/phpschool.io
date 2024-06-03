@@ -30,7 +30,7 @@ const { loggedIn } = defineProps({
         <h4 class="mb-4 mt-0 p-0 font-work-sans text-2xl font-bold capitalize not-italic text-white">Community</h4>
         <p class="text-balance mb-4 text-base text-white">
           Community workshops are those created by, well, you! They are not officially maintained by the PHP School team and not all of them are compatible with the online system. Compatible ones are
-          labeled, otherwise, you can always run run them
+          labeled, otherwise, you can always run them
           <router-link class="text-[#e91e63] hover:underline" to="/offline">offline</router-link>
           .
         </p>
