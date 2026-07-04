@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
+  <file src="app/config.php">
+    <DeprecatedMethod occurrences="2"/>
+  </file>
+  <file src="src/Action/Admin/Workshop/All.php">
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>assert(false !== $begin)</code>
+      <code>false !== $begin</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Action/Admin/Workshop/View.php">
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>assert(false !== $begin)</code>
+      <code>false !== $begin</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/InputFilter/Event.php">
+    <InvalidArgument occurrences="6"/>
+  </file>
+  <file src="src/InputFilter/Login.php">
+    <InvalidArgument occurrences="2"/>
+  </file>
+  <file src="src/InputFilter/SubmitWorkshop.php">
+    <InvalidArgument occurrences="5"/>
+  </file>
+  <file src="src/InputFilter/WorkshopComposerJson.php">
+    <InvalidArgument occurrences="3"/>
+  </file>
+  <file src="src/Repository/DoctrineORMWorkshopInstallRepository.php">
+    <InvalidReturnStatement occurrences="2">
+      <code>$qb-&gt;getQuery()-&gt;getSingleScalarResult() ?? 0</code>
+      <code>$qb-&gt;getQuery()-&gt;getSingleScalarResult() ?? 0</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="2">
+      <code>int</code>
+      <code>int</code>
+    </InvalidReturnType>
+  </file>
+  <file src="src/User/Session.php">
+    <PossiblyInvalidArrayOffset occurrences="1">
+      <code>$_SESSION[$key]</code>
+    </PossiblyInvalidArrayOffset>
+  </file>
+</files>
