@@ -7,7 +7,6 @@ use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Middleware\Session as SessionMiddleware;
-use Predis\Connection\ConnectionException;
 use Slim\App;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -95,21 +94,20 @@ return [
         if (!$c->get('config')['enablePageCache']) {
             return new NullAdapter;
         }
-        return new RedisAdapter(new Predis\Client(['host' => $c->get('config')['redisHost']]), 'fpc');
+        return new RedisAdapter(RedisAdapter::createConnection($c->get('config')['redisDsn']), 'fpc');
     }),
     'cache' => factory(function (ContainerInterface $c): CacheInterface {
         if (!$c->get('config')['enableCache']) {
             return new NullAdapter;
         }
 
-        $redisConnection = new \Predis\Client(['host' => $c->get('config')['redisHost']]);
         try {
-            $redisConnection->connect();
-        } catch (ConnectionException $e) {
+            $redisConnection = RedisAdapter::createConnection($c->get('config')['redisDsn']);
+        } catch (\InvalidArgumentException $e) {
             throw new \RuntimeException(
                 sprintf(
-                    'Could not connect to redis using host: "%s". Message: "%s"',
-                    $c->get('config')['redisHost'],
+                    'Could not connect to redis using DSN: "%s". Message: "%s"',
+                    $c->get('config')['redisDsn'],
                     $e->getMessage()
                 )
             );
@@ -423,6 +421,7 @@ return [
         'enablePageCache'   => filter_var($_ENV['CACHE.FPC.ENABLE'], FILTER_VALIDATE_BOOLEAN),
         'enableCache'       => filter_var($_ENV['CACHE.ENABLE'], FILTER_VALIDATE_BOOLEAN),
         'redisHost'         => $_ENV['REDIS_HOST'],
+        'redisDsn'          => sprintf('redis://%s/%d', $_ENV['REDIS_HOST'], $_ENV['REDIS_DB']),
 
         'doctrine' => [
             'meta' => [
