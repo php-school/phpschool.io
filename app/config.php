@@ -69,8 +69,8 @@ use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 return [
-    'console' => factory(function (DI\Container $c): Silly\Edition\PhpDi\Application {
-        $app = new Silly\Edition\PhpDi\Application('PHP School Website', 'UNKNOWN', $c);
+    'console' => factory(function (\DI\Container $c): \Silly\Edition\PhpDi\Application {
+        $app = new \Silly\Edition\PhpDi\Application('PHP School Website', 'UNKNOWN', $c);
         $app->command('clear-cache', ClearCache::class);
         $app->command('create-user name email password', CreateUser::class);
         $app->command('generate-blog', GenerateBlog::class);
