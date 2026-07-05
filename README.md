@@ -54,10 +54,11 @@ docker compose exec php composer app:cc
 
 ## Deploy
 
-You will need capistrano installed and SSH access to the production server.
+Deploys are handled by [Deployer](https://deployer.org/). You will need SSH
+access to the production server (`deploy@78.47.39.62`, the `imp` host).
 
 ```shell
-cap production deploy
+vendor/bin/dep deploy imp
 ```
 
 ## Production deploy requisites

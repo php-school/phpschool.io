@@ -58,7 +58,8 @@
     "vimeo/psalm": "^6.0",
     "weirdan/doctrine-psalm-plugin": "^2.0",
     "fig/log-test": "dev-main",
-    "doctrine/data-fixtures": "^1.5"
+    "doctrine/data-fixtures": "^1.5",
+    "deployer/deployer": "^7.5"
   },
   "scripts" : {
     "test": [
