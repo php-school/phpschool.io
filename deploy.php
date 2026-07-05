@@ -33,7 +33,7 @@ task('deploy:clear-cache', function () {
 })->desc('Clear the application cache');
 
 task('deploy:schema-update', function () {
-    run('cd {{release_path}} && {{bin/php}} vendor/bin/doctrine orm:schema-tool:update -f');
+    run('cd {{release_path}} && {{bin/php}} bin/app orm:schema-tool:update -f');
 })->desc('Update the Doctrine schema');
 
 task('deploy:generate-blog', function () {
