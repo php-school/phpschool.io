@@ -1,45 +1,673 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.30.0@d0bc6e25d89f649e4f36a534f330f8bb4643dd69">
+<files psalm-version="6.16.1@f1f5de594dc76faf8784e02d3dc4716c91c6f6ac">
   <file src="app/config.php">
-    <DeprecatedMethod occurrences="2"/>
+    <DeprecatedMethod>
+      <code><![CDATA[EntityManager::create(
+            $c->get('config')['doctrine']['connection'],
+            $c->get(ORMSetup::class)
+        )]]></code>
+      <code><![CDATA[ORMSetup::createAnnotationMetadataConfiguration(
+            $doctrineConfig['meta']['entity_path'],
+            $doctrineConfig['meta']['auto_generate_proxies'],
+            $doctrineConfig['meta']['proxy_dir'],
+        )]]></code>
+    </DeprecatedMethod>
+    <UnusedClosureParam>
+      <code><![CDATA[$c]]></code>
+      <code><![CDATA[$c]]></code>
+      <code><![CDATA[$c]]></code>
+      <code><![CDATA[$c]]></code>
+    </UnusedClosureParam>
+  </file>
+  <file src="src/Action/Admin/ClearCache.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ClearCache]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$request]]></code>
+      <code><![CDATA[$response]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/Action/Admin/Event/All.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[All]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$request]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/Action/Admin/Event/Create.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Create]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[create]]></code>
+      <code><![CDATA[showCreateForm]]></code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$request]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/Action/Admin/Event/Delete.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Delete]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$renderer]]></code>
+      <code><![CDATA[$request]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/Action/Admin/Event/Update.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Update]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[showUpdateForm]]></code>
+      <code><![CDATA[update]]></code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$request]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/Action/Admin/Login.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Login]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[login]]></code>
+      <code><![CDATA[showLoginForm]]></code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$request]]></code>
+    </PossiblyUnusedParam>
   </file>
   <file src="src/Action/Admin/Workshop/All.php">
-    <RedundantConditionGivenDocblockType occurrences="2">
-      <code>assert(false !== $begin)</code>
-      <code>false !== $begin</code>
+    <ClassMustBeFinal>
+      <code><![CDATA[All]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$request]]></code>
+    </PossiblyUnusedParam>
+    <RedundantConditionGivenDocblockType>
+      <code><![CDATA[assert(false !== $begin)]]></code>
+      <code><![CDATA[false !== $begin]]></code>
     </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Action/Admin/Workshop/Approve.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Approve]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$renderer]]></code>
+      <code><![CDATA[$request]]></code>
+      <code><![CDATA[$response]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/Action/Admin/Workshop/Delete.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Delete]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$renderer]]></code>
+      <code><![CDATA[$request]]></code>
+      <code><![CDATA[$response]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/Action/Admin/Workshop/Promote.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Promote]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$renderer]]></code>
+      <code><![CDATA[$request]]></code>
+      <code><![CDATA[$response]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/Action/Admin/Workshop/Requests.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Requests]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$request]]></code>
+    </PossiblyUnusedParam>
   </file>
   <file src="src/Action/Admin/Workshop/View.php">
-    <RedundantConditionGivenDocblockType occurrences="2">
-      <code>assert(false !== $begin)</code>
-      <code>false !== $begin</code>
+    <ClassMustBeFinal>
+      <code><![CDATA[View]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$renderer]]></code>
+      <code><![CDATA[$request]]></code>
+    </PossiblyUnusedParam>
+    <RedundantConditionGivenDocblockType>
+      <code><![CDATA[assert(false !== $begin)]]></code>
+      <code><![CDATA[false !== $begin]]></code>
     </RedundantConditionGivenDocblockType>
   </file>
+  <file src="src/Action/DocsAction.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[DocsAction]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Action/JsonUtils.php">
+    <PossiblyFalseArgument>
+      <code><![CDATA[json_encode($json)]]></code>
+      <code><![CDATA[json_encode(['success' => true])]]></code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="src/Action/SubmitWorkshop.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[SubmitWorkshop]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[showSubmitForm]]></code>
+      <code><![CDATA[submit]]></code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$request]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/Action/TrackDownloads.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[TrackDownloads]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Blog/Generator.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Generator]]></code>
+    </ClassMustBeFinal>
+    <PossiblyFalseArgument>
+      <code><![CDATA[file_get_contents($file->getRealPath())]]></code>
+    </PossiblyFalseArgument>
+    <UndefinedMagicMethod>
+      <code><![CDATA[ifEmpty]]></code>
+    </UndefinedMagicMethod>
+  </file>
+  <file src="src/Blog/Post.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Post]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getExcerpt]]></code>
+      <code><![CDATA[getFeatureImage]]></code>
+      <code><![CDATA[hasFeatureImage]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Blog/PostMeta.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[PostMeta]]></code>
+    </ClassMustBeFinal>
+    <PossiblyNullArgument>
+      <code><![CDATA[preg_replace('/[^A-Za-z0-9-]+/', '-', $string)]]></code>
+    </PossiblyNullArgument>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getAuthor]]></code>
+      <code><![CDATA[getAuthorLink]]></code>
+      <code><![CDATA[getDate]]></code>
+      <code><![CDATA[getTitle]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Command/ClearCache.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ClearCache]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Command/CreateUser.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[CreateUser]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/Command/GenerateBlog.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[GenerateBlog]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/ContainerFactory.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ContainerFactory]]></code>
+    </ClassMustBeFinal>
+    <UnusedClass>
+      <code><![CDATA[ContainerFactory]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Documentation.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Documentation]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getIterator(): ArrayIterator]]></code>
+    </MissingOverrideAttribute>
+    <MissingTemplateParam>
+      <code><![CDATA[IteratorAggregate]]></code>
+    </MissingTemplateParam>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getHome]]></code>
+      <code><![CDATA[getNextSection]]></code>
+      <code><![CDATA[getPreviousSection]]></code>
+      <code><![CDATA[hasHome]]></code>
+      <code><![CDATA[hasNextSection]]></code>
+      <code><![CDATA[hasPreviousSection]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/DocumentationGroup.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[DocumentationGroup]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getIterator(): ArrayIterator]]></code>
+    </MissingOverrideAttribute>
+    <MissingTemplateParam>
+      <code><![CDATA[IteratorAggregate]]></code>
+    </MissingTemplateParam>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[addExternalSection]]></code>
+      <code><![CDATA[getTitle]]></code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$enabled]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/DocumentationSection.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[DocumentationSection]]></code>
+    </ClassMustBeFinal>
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getHref(): string]]></code>
+      <code><![CDATA[public function getName(): string]]></code>
+      <code><![CDATA[public function getTitle(): string]]></code>
+    </MissingOverrideAttribute>
+    <NullableReturnStatement>
+      <code><![CDATA[preg_replace('/(\/index)+$/', '', $this->href)]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="src/DocumentationSectionInterface.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getHref]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Entity/Event.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Event]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getVenueLines]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Entity/Workshop.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Workshop]]></code>
+    </ClassMustBeFinal>
+    <MissingClassConstType>
+      <code><![CDATA[TYPE_COMMUNITY = 0]]></code>
+      <code><![CDATA[TYPE_CORE = 1]]></code>
+    </MissingClassConstType>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getCreatedAt]]></code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getSubmitterContact]]></code>
+      <code><![CDATA[getSubmitterEmail]]></code>
+      <code><![CDATA[getSubmitterName]]></code>
+      <code><![CDATA[getTotalInstalls]]></code>
+      <code><![CDATA[getTypeName]]></code>
+      <code><![CDATA[isApproved]]></code>
+      <code><![CDATA[isCommunity]]></code>
+      <code><![CDATA[isCore]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Entity/WorkshopInstall.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[WorkshopInstall]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getIpAddress]]></code>
+      <code><![CDATA[getVersion]]></code>
+      <code><![CDATA[getWorkshop]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Exception/WorkshopCreationException.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[WorkshopCreationException]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/ExternalDocumentationSection.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ExternalDocumentationSection]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getHref(): string]]></code>
+      <code><![CDATA[public function getName(): string]]></code>
+      <code><![CDATA[public function getTitle(): string]]></code>
+    </MissingOverrideAttribute>
+  </file>
+  <file src="src/Form/ErrorStore.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[ErrorStore]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getError($key)]]></code>
+      <code><![CDATA[public function hasError($key)]]></code>
+    </MissingOverrideAttribute>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[setErrors]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Form/FormHandler.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[FormHandler]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$response]]></code>
+      <code><![CDATA[$response]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/Form/FormHandlerFactory.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[FormHandlerFactory]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[create]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Form/OldInput.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[OldInput]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getOldInput($key): ?string]]></code>
+      <code><![CDATA[public function hasOldInput(): bool]]></code>
+    </MissingOverrideAttribute>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[setOldInput]]></code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="src/InputFilter/Event.php">
-    <InvalidArgument occurrences="6"/>
+    <ClassMustBeFinal>
+      <code><![CDATA[Event]]></code>
+    </ClassMustBeFinal>
+    <MissingTemplateParam>
+      <code><![CDATA[Event]]></code>
+    </MissingTemplateParam>
+    <PossiblyFalseOperand>
+      <code><![CDATA[realpath(__DIR__ . '/../../public/uploads')]]></code>
+    </PossiblyFalseOperand>
   </file>
   <file src="src/InputFilter/Login.php">
-    <InvalidArgument occurrences="2"/>
+    <ClassMustBeFinal>
+      <code><![CDATA[Login]]></code>
+    </ClassMustBeFinal>
+    <MissingTemplateParam>
+      <code><![CDATA[Login]]></code>
+    </MissingTemplateParam>
   </file>
   <file src="src/InputFilter/SubmitWorkshop.php">
-    <InvalidArgument occurrences="5"/>
+    <ArgumentTypeCoercion>
+      <code><![CDATA[static::$gitHubRepoUrlRegex]]></code>
+      <code><![CDATA[static::$gitHubRepoUrlRegex]]></code>
+    </ArgumentTypeCoercion>
+    <ClassMustBeFinal>
+      <code><![CDATA[SubmitWorkshop]]></code>
+    </ClassMustBeFinal>
+    <MissingTemplateParam>
+      <code><![CDATA[SubmitWorkshop]]></code>
+    </MissingTemplateParam>
   </file>
   <file src="src/InputFilter/WorkshopComposerJson.php">
-    <InvalidArgument occurrences="3"/>
+    <ClassMustBeFinal>
+      <code><![CDATA[WorkshopComposerJson]]></code>
+    </ClassMustBeFinal>
+    <MissingTemplateParam>
+      <code><![CDATA[WorkshopComposerJson]]></code>
+    </MissingTemplateParam>
+  </file>
+  <file src="src/Middleware/AdminStyle.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[AdminStyle]]></code>
+    </ClassMustBeFinal>
+    <UnusedClass>
+      <code><![CDATA[AdminStyle]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Middleware/FpcCache.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[FpcCache]]></code>
+    </ClassMustBeFinal>
+    <FalsableReturnStatement>
+      <code><![CDATA[json_encode([
+            'body'      => (string) $response->getBody(),
+            'headers'   => $response->getHeaders(),
+        ])]]></code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidFalsableReturnType>
+    <PossiblyNullArgument>
+      <code><![CDATA[preg_replace('/[^A-Za-z0-9-]+/', '-', $urlPath)]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Middleware/Session.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Session]]></code>
+    </ClassMustBeFinal>
+  </file>
+  <file src="src/PhpRenderer.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[PhpRenderer]]></code>
+    </ClassMustBeFinal>
+    <FalsableReturnStatement>
+      <code><![CDATA[$output]]></code>
+    </FalsableReturnStatement>
+    <InvalidFalsableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidFalsableReturnType>
+    <PossiblyFalseArgument>
+      <code><![CDATA[file_get_contents($css['url'])]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getAttribute]]></code>
+      <code><![CDATA[getJs]]></code>
+      <code><![CDATA[prependLocalCss]]></code>
+      <code><![CDATA[prependRemoteCss]]></code>
+      <code><![CDATA[renderContentHeader]]></code>
+      <code><![CDATA[renderCss]]></code>
+      <code><![CDATA[slugClass]]></code>
+    </PossiblyUnusedMethod>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$useLayout]]></code>
+    </PossiblyUnusedParam>
+  </file>
+  <file src="src/Repository/DoctrineORMEventRepository.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[DoctrineORMEventRepository]]></code>
+    </ClassMustBeFinal>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$this->createQueryBuilder('e')
+            ->where('e.dateTime <= :now')
+            ->orderBy('e.dateTime', 'DESC')
+            ->setMaxResults($limit)
+            ->setParameter(':now', new \DateTime())
+            ->getQuery()
+            ->getResult()]]></code>
+      <code><![CDATA[$this->createQueryBuilder('e')
+            ->where('e.dateTime > :now')
+            ->orderBy('e.dateTime', 'ASC')
+            ->setMaxResults($limit)
+            ->setParameter(':now', new \DateTime())
+            ->getQuery()
+            ->getResult()]]></code>
+    </LessSpecificReturnStatement>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function findAll(): array]]></code>
+      <code><![CDATA[public function findById(string $id): Event]]></code>
+      <code><![CDATA[public function findPrevious(int $limit = 10): array]]></code>
+      <code><![CDATA[public function findUpcoming(int $limit = 10): array]]></code>
+      <code><![CDATA[public function remove(Event $event): void]]></code>
+      <code><![CDATA[public function save(Event $event): void]]></code>
+    </MissingOverrideAttribute>
+    <MoreSpecificReturnType>
+      <code><![CDATA[list<Event>]]></code>
+      <code><![CDATA[list<Event>]]></code>
+    </MoreSpecificReturnType>
+    <UnusedClass>
+      <code><![CDATA[DoctrineORMEventRepository]]></code>
+    </UnusedClass>
   </file>
   <file src="src/Repository/DoctrineORMWorkshopInstallRepository.php">
-    <InvalidReturnStatement occurrences="2">
-      <code>$qb-&gt;getQuery()-&gt;getSingleScalarResult() ?? 0</code>
-      <code>$qb-&gt;getQuery()-&gt;getSingleScalarResult() ?? 0</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
-      <code>int</code>
-      <code>int</code>
-    </InvalidReturnType>
+    <ClassMustBeFinal>
+      <code><![CDATA[DoctrineORMWorkshopInstallRepository]]></code>
+    </ClassMustBeFinal>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[$qb->getQuery()->getSingleScalarResult() ?? 0]]></code>
+      <code><![CDATA[$qb->getQuery()->getSingleScalarResult() ?? 0]]></code>
+    </LessSpecificReturnStatement>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function findInstallsInLast30Days(Workshop $workshop): array]]></code>
+      <code><![CDATA[public function removeAllByWorkshop(Workshop $workshop): void]]></code>
+      <code><![CDATA[public function save(WorkshopInstall $workshopInstall): void]]></code>
+      <code><![CDATA[public function totalInstalls(Workshop $workshop): int]]></code>
+      <code><![CDATA[public function totalInstallsInLast30Days(Workshop $workshop): int]]></code>
+    </MissingOverrideAttribute>
+    <MissingTemplateParam>
+      <code><![CDATA[DoctrineORMWorkshopInstallRepository]]></code>
+    </MissingTemplateParam>
+    <MoreSpecificReturnType>
+      <code><![CDATA[int]]></code>
+      <code><![CDATA[int]]></code>
+    </MoreSpecificReturnType>
+    <UnusedClass>
+      <code><![CDATA[DoctrineORMWorkshopInstallRepository]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Repository/DoctrineORMWorkshopRepository.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[DoctrineORMWorkshopRepository]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function findAll(): array]]></code>
+      <code><![CDATA[public function findAllApproved(): array]]></code>
+      <code><![CDATA[public function findAllPendingApproval(): array]]></code>
+      <code><![CDATA[public function findByCode(string $name): Workshop]]></code>
+      <code><![CDATA[public function findByDisplayName(string $displayName): Workshop]]></code>
+      <code><![CDATA[public function findById(string $id): Workshop]]></code>
+      <code><![CDATA[public function remove(Workshop $workshop): void]]></code>
+      <code><![CDATA[public function save(Workshop $workshopSubmission): void]]></code>
+    </MissingOverrideAttribute>
+    <UnusedClass>
+      <code><![CDATA[DoctrineORMWorkshopRepository]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Repository/EventRepository.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[findPrevious]]></code>
+      <code><![CDATA[findUpcoming]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Repository/WorkshopInstallRepository.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[totalInstalls]]></code>
+      <code><![CDATA[totalInstallsInLast30Days]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Repository/WorkshopRepository.php">
+    <PossiblyUnusedReturnValue>
+      <code><![CDATA[Workshop]]></code>
+    </PossiblyUnusedReturnValue>
+  </file>
+  <file src="src/Service/WorkshopCreator.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[static::$gitHubRepoUrlRegex]]></code>
+    </ArgumentTypeCoercion>
+    <ClassMustBeFinal>
+      <code><![CDATA[WorkshopCreator]]></code>
+    </ClassMustBeFinal>
+    <PossiblyFalseArgument>
+      <code><![CDATA[file_get_contents(sprintf(static::$gitHubComposerJsonUrlFormat, $owner, $repo))]]></code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="src/User/Adapter/Doctrine.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Doctrine]]></code>
+    </ClassMustBeFinal>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function authenticate(): AuthenticationResult]]></code>
+    </MissingOverrideAttribute>
+  </file>
+  <file src="src/User/AuthenticationService.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[AuthenticationService]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getIdentity]]></code>
+      <code><![CDATA[logout]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/User/Entity/User.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[User]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getEmail]]></code>
+      <code><![CDATA[getId]]></code>
+      <code><![CDATA[getUsername]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/User/Middleware/Authenticator.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Authenticator]]></code>
+    </ClassMustBeFinal>
   </file>
   <file src="src/User/Session.php">
-    <PossiblyInvalidArrayOffset occurrences="1">
-      <code>$_SESSION[$key]</code>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function offsetExists($offset): bool]]></code>
+      <code><![CDATA[public function offsetGet(mixed $offset): mixed]]></code>
+      <code><![CDATA[public function offsetSet($offset, $value): void]]></code>
+      <code><![CDATA[public function offsetUnset($offset): void]]></code>
+    </MissingOverrideAttribute>
+    <MissingTemplateParam>
+      <code><![CDATA[\ArrayAccess]]></code>
+    </MissingTemplateParam>
+    <PossiblyFalseArgument>
+      <code><![CDATA[session_name()]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyInvalidArrayOffset>
+      <code><![CDATA[$_SESSION[$key]]]></code>
     </PossiblyInvalidArrayOffset>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[clearAll]]></code>
+      <code><![CDATA[destroy]]></code>
+      <code><![CDATA[regenerate]]></code>
+    </PossiblyUnusedMethod>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[ini_get("session.use_cookies")]]></code>
+    </RiskyTruthyFalsyComparison>
+  </file>
+  <file src="src/Workshop/EmailNotifier.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[EmailNotifier]]></code>
+    </ClassMustBeFinal>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$workshop]]></code>
+      <code><![CDATA[$workshop]]></code>
+    </PossiblyUnusedParam>
+    <UnusedProperty>
+      <code><![CDATA[$phpSchoolEmail]]></code>
+      <code><![CDATA[$sendGrid]]></code>
+      <code><![CDATA[$templates]]></code>
+    </UnusedProperty>
+  </file>
+  <file src="src/WorkshopFeed.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[WorkshopFeed]]></code>
+    </ClassMustBeFinal>
+    <PossiblyFalseArgument>
+      <code><![CDATA[json_encode($workshops, JSON_PRETTY_PRINT)]]></code>
+    </PossiblyFalseArgument>
+    <RiskyTruthyFalsyComparison>
+      <code><![CDATA[!$result]]></code>
+    </RiskyTruthyFalsyComparison>
   </file>
 </files>
