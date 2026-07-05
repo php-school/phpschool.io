@@ -11,6 +11,7 @@ set('branch', 'master');
 set('shared_files', ['.env', 'public/workshops.json']);
 set('shared_dirs', ['var/logs', 'public/uploads']);
 set('writable_dirs', ['var/logs', 'public/uploads']);
+set('writable_use_sudo', true);
 set('keep_releases', 5);
 
 set('git_tty', false);
