@@ -1,0 +1,44 @@
+name: Deploy
+
+on:
+  push:
+    branches: [online]
+
+concurrency:
+  group: deploy-online
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          tools: composer:v2
+
+      - name: Install PHP dependencies
+        run: composer install --no-progress --prefer-dist --no-interaction
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+
+      - name: Add server to known hosts
+        run: ssh-keyscan -H 100.70.13.88 >> ~/.ssh/known_hosts
+
+      - name: Deploy
+        run: vendor/bin/dep deploy imp --no-interaction
