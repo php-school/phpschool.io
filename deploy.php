@@ -5,7 +5,8 @@ namespace Deployer;
 require 'recipe/common.php';
 
 set('application', 'phpschool');
-set('repository', 'https://github.com/php-school/phpschool.io.git');
+set('repository', 'git@github-phpschool:php-school/phpschool.io.git');
+set('branch', 'master');
 
 set('shared_files', ['.env', 'public/workshops.json']);
 set('shared_dirs', ['var/logs', 'public/uploads']);

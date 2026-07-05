@@ -2,10 +2,10 @@ name: Deploy
 
 on:
   push:
-    branches: [online]
+    branches: [master]
 
 concurrency:
-  group: deploy-online
+  group: deploy-master
   cancel-in-progress: false
 
 jobs:
