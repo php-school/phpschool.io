@@ -8,11 +8,15 @@ use PhpSchool\PhpWorkshop\Event\CgiExecuteEvent;
 use PhpSchool\PhpWorkshop\Event\CliExecuteEvent;
 use PhpSchool\PhpWorkshop\Event\Event;
 use PhpSchool\PhpWorkshop\Exception\CouldNotRunException;
+use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\PhpWorkshop\Output\BufferedOutput;
+use PhpSchool\PhpWorkshop\Solution\DirectorySolution;
 use PhpSchool\Website\Action\JsonUtils;
+use PhpSchool\Website\Online\CloudInstalledWorkshop;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\Sandbox\SandboxedCliRunner;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
@@ -61,6 +65,20 @@ class RunExercise
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
         }
 
+        try {
+            return $this->runProject($workshop, $exercise, $project, $response);
+        } finally {
+            $this->runInfo = [];
+            (new Filesystem())->remove($project->getBaseDirectory());
+        }
+    }
+
+    private function runProject(
+        CloudInstalledWorkshop $workshop,
+        ExerciseInterface $exercise,
+        DirectorySolution $project,
+        Response $response
+    ): Response {
         $output = new BufferedOutput();
 
         $workshop->getExerciseDispatcher()
@@ -69,11 +87,13 @@ class RunExercise
                 $this->collectRunInfo($event, $output);
             });
 
-
         try {
             $result = $workshop->getExerciseDispatcher()->run(
                 $exercise,
-                new Input($workshop->getCode(), ['program' => $project->getEntryPoint()->getAbsolutePath()]),
+                new Input($workshop->getCode(), [
+                    'program' => $project->getEntryPoint()->getAbsolutePath(),
+                    SandboxedCliRunner::ROOT_ARGUMENT => $project->getBaseDirectory(),
+                ]),
                 $output
             );
         } catch (CouldNotRunException $e) {
@@ -83,16 +103,10 @@ class RunExercise
             ], $response);
         }
 
-        $data = [
+        return $this->withJson([
             'runs' => $this->runInfo,
             'success' => $result
-        ];
-
-        $this->runInfo = [];
-
-        (new Filesystem())->remove($project->getBaseDirectory());
-
-        return $this->withJson($data, $response);
+        ], $response);
     }
 
     private function getStudent(): StudentDTO

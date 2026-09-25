@@ -9,11 +9,17 @@ use PhpSchool\PhpWorkshop\Utils\Path;
 use PhpSchool\Website\User\StudentDTO;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Symfony\Component\Filesystem\Filesystem;
+use PhpSchool\Website\Online\Sandbox\PhpSandbox;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
 
 class ProjectUploader
 {
-    public function __construct(private readonly PathGenerator $pathGenerator) {}
+    public function __construct(
+        private readonly PathGenerator $pathGenerator,
+        private readonly ComposerPackageAllowlist $composerPackageAllowlist = new ComposerPackageAllowlist(),
+        private readonly PhpSandbox $sandbox = new PhpSandbox(),
+    ) {}
 
     public function upload(Request $request, StudentDTO $student): DirectorySolution
     {
@@ -23,34 +29,30 @@ class ProjectUploader
             throw new \RuntimeException('No files were uploaded');
         }
 
+        $require = [];
+        if (!empty($data['composer_deps'])) {
+            $require = $this->composerPackageAllowlist->validate($data['composer_deps']);
+        }
+
         $basePath = $this->pathGenerator->random($student);
 
         if (file_exists($basePath)) {
             throw new \RuntimeException('Temporary directory already exists');
         }
+
         try {
             $this->writeScripts($data['scripts'], $basePath);
+
+            if (count($require) > 0) {
+                $this->installDependencies($require, $basePath);
+            }
         } catch (\RuntimeException $e) {
             (new Filesystem())->remove($basePath);
             throw $e;
         }
 
-        if (isset($data['composer_deps']) && count($data['composer_deps']) > 0) {
-            $composer = [
-                'require' => array_combine(
-                    array_column($data['composer_deps'], 'name'),
-                    array_column($data['composer_deps'], 'version'),
-                )
-            ];
-
-            file_put_contents(Path::join($basePath, 'composer.json'), json_encode($composer));
-
-            $process = (new Process(['composer', 'update',  '--no-interaction'], $basePath, ['XDEBUG_MODE' => 'off']));
-            $process->run();
-        }
-
         $entryPoint = 'solution.php';
-        if (isset($data['entry_point']) && isset($data['scripts'][$data['entry_point']])) {
+        if (isset($data['entry_point']) && is_string($data['entry_point']) && isset($data['scripts'][$data['entry_point']])) {
             $entryPoint = $data['entry_point'];
         }
 
@@ -58,11 +60,55 @@ class ProjectUploader
     }
 
     /**
-     * @param array<string, string> $scripts
+     * @param array<string, string> $require
+     */
+    private function installDependencies(array $require, string $basePath): void
+    {
+        $composer = [
+            'require' => $require,
+            'config' => ['allow-plugins' => false],
+        ];
+
+        file_put_contents(Path::join($basePath, 'composer.json'), json_encode($composer));
+
+        $env = ['XDEBUG_MODE' => 'off', 'COMPOSER_NO_INTERACTION' => '1'];
+        foreach (['PATH', 'HOME', 'COMPOSER_HOME', 'COMPOSER_CACHE_DIR'] as $name) {
+            $value = getenv($name);
+            if (is_string($value) && $value !== '') {
+                $env[$name] = $value;
+            }
+        }
+
+        $process = new Process(
+            ['composer', 'update', '--no-interaction', '--no-plugins', '--no-scripts', '--no-progress'],
+            $basePath,
+            $this->sandbox->environment($env),
+            null,
+            120
+        );
+
+        try {
+            $process->run();
+        } catch (ProcessTimedOutException) {
+            throw new \RuntimeException('Composer dependencies could not be installed');
+        }
+
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException('Composer dependencies could not be installed');
+        }
+    }
+
+    /**
+     * @param array<mixed> $scripts
      */
     private function writeScripts(array $scripts, string $basePath): void
     {
         foreach ($scripts as $filePath => $content) {
+            if (!is_string($content)) {
+                throw new \RuntimeException('Invalid file contents');
+            }
+
+            $filePath = (string) $filePath;
             $this->validatePath($filePath);
 
             $fileName = basename($filePath);

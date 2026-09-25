@@ -8,7 +8,14 @@ use PhpSchool\PhpWorkshop\Application;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\Website\Online\CloudInstalledWorkshop;
 use PhpSchool\Website\Entity\Workshop;
+use PhpSchool\PhpWorkshop\Input\Input;
+use PhpSchool\PhpWorkshop\Output\BufferedOutput;
+use PhpSchool\PhpWorkshop\Solution\SingleFileSolution;
+use PhpSchool\PhpWorkshop\Utils\System;
+use PhpSchool\WebsiteTest\Asset\CliExerciseImpl;
+use PhpSchool\Website\Online\Sandbox\SandboxedCliRunner;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Filesystem\Filesystem;
 
 class CloudInstalledWorkshopTest extends TestCase
 {
@@ -287,5 +294,49 @@ class CloudInstalledWorkshopTest extends TestCase
             ],
             (new CloudInstalledWorkshop($app, $workshop))->jsonSerialize()
         );
+    }
+
+    public function testStudentCodeIsRunInTheSandbox(): void
+    {
+        $workshop = new Workshop(
+            'php-school',
+            'my-workshop',
+            'myworkshop',
+            'My Workshop',
+            'My Workshop',
+            'aydin@hotmail.co.uk',
+            'Aydin Hassan'
+        );
+
+        $app = new Application('My Workshop', __DIR__ . '/_files/sandbox_di_config.php');
+        $app->addExercise('Exercise1');
+
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop);
+
+        $root = System::tempDir('cloud-sandbox-' . bin2hex(random_bytes(4)));
+        mkdir($root, 0777, true);
+        file_put_contents($root . '/solution.php', '<?php echo shell_exec("echo SANDBOX_ESCAPED");');
+
+        file_put_contents($root . '/reference.php', '<?php');
+
+        /** @var CliExerciseImpl $exercise */
+        $exercise = $cloudWorkshop->findExerciseByName('Exercise 1');
+        $exercise->setSolution(SingleFileSolution::fromFile($root . '/reference.php'));
+
+        $output = new BufferedOutput();
+
+        try {
+            $cloudWorkshop->getExerciseDispatcher()->run(
+                $exercise,
+                new Input('myworkshop', ['program' => $root . '/solution.php', SandboxedCliRunner::ROOT_ARGUMENT => $root]),
+                $output
+            );
+        } finally {
+            (new Filesystem())->remove($root);
+        }
+
+        $result = $output->fetch();
+        $this->assertStringContainsString('Call to undefined function shell_exec()', $result);
+        $this->assertStringNotContainsString('SANDBOX_ESCAPED', $result);
     }
 }

@@ -8,6 +8,7 @@ use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\Sandbox\SandboxedCliRunner;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\Online\VueResultsRenderer;
 use PhpSchool\Website\User\SessionStorageInterface;
@@ -49,10 +50,17 @@ class VerifyExercise
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
         }
 
-        $results = $workshop->getExerciseDispatcher()->verify(
-            $exercise,
-            new Input($workshop->getCode(), ['program' => $project->getEntryPoint()->getAbsolutePath()]),
-        );
+        try {
+            $results = $workshop->getExerciseDispatcher()->verify(
+                $exercise,
+                new Input($workshop->getCode(), [
+                    'program' => $project->getEntryPoint()->getAbsolutePath(),
+                    SandboxedCliRunner::ROOT_ARGUMENT => $project->getBaseDirectory(),
+                ]),
+            );
+        } finally {
+            (new Filesystem())->remove($project->getBaseDirectory());
+        }
 
         $data = [
             'results' => $this->resultsRenderer->render($results, $exercise),
@@ -65,9 +73,6 @@ class VerifyExercise
                 $exercise->getName()
             );
         }
-
-        //clean up
-        (new Filesystem())->remove($project->getBaseDirectory());
 
         return $this->withJson($data, $response);
     }

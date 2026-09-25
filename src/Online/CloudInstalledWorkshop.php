@@ -9,12 +9,16 @@ use PhpSchool\PhpWorkshop\Event\EventDispatcher;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\ExerciseRepository;
+use PhpSchool\PhpWorkshop\ExerciseRunner\Factory\CustomVerifyingRunnerFactory;
+use PhpSchool\PhpWorkshop\ExerciseRunner\RunnerManager;
 use PhpSchool\PhpWorkshop\Listener\InitialCodeListener;
 use PhpSchool\PhpWorkshop\Listener\OutputRunInfoListener;
 use PhpSchool\PhpWorkshop\Logger\Logger;
 use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\PhpWorkshop\Output\OutputInterface;
 use PhpSchool\Website\Entity\Workshop;
+use PhpSchool\Website\Online\Sandbox\PhpSandbox;
+use PhpSchool\Website\Online\Sandbox\SandboxedRunnerFactory;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -25,7 +29,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
     private Workshop $workshop;
     private AsciiSlugger $slugger;
 
-    public function __construct(Application $application, Workshop $workshop)
+    public function __construct(Application $application, Workshop $workshop, PhpSandbox $sandbox = new PhpSandbox())
     {
         /** @var \DI\Container $container */
         $container = $application->configure();
@@ -34,6 +38,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $this->slugger = new AsciiSlugger();
 
         $this->configureLogger();
+        $this->configureRunners($sandbox);
         $this->configureEvents();
     }
 
@@ -122,6 +127,18 @@ class CloudInstalledWorkshop implements \JsonSerializable
 
         $this->container->set(LoggerInterface::class, $logger);
         $this->container->set(OutputInterface::class, new BufferedOutput());
+    }
+
+    private function configureRunners(PhpSandbox $sandbox): void
+    {
+        /** @var EventDispatcher $eventDispatcher */
+        $eventDispatcher = $this->container->get(EventDispatcher::class);
+
+        $manager = new RunnerManager();
+        $manager->addFactory(new SandboxedRunnerFactory($eventDispatcher, $sandbox));
+        $manager->addFactory(new CustomVerifyingRunnerFactory());
+
+        $this->container->set(RunnerManager::class, $manager);
     }
 
     private function configureEvents(): void

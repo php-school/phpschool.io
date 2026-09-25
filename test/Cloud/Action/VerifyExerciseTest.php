@@ -246,6 +246,34 @@ class VerifyExerciseTest extends TestCase
         $this->assertFileDoesNotExist($solution->getBaseDirectory());
     }
 
+    public function testProjectIsRemovedWhenVerifyThrows(): void
+    {
+        $solution = $this->createProjectSolution();
+
+        [$installedWorkshopRepo, , $exerciseDispatcher, $session, $student] = $this->getDependencies();
+
+        $exerciseDispatcher->expects($this->once())
+            ->method('verify')
+            ->willThrowException(new \LogicException('Runner exploded'));
+
+        $request = new ServerRequest('POST', '/verify', [], json_encode([]));
+
+        $renderer = $this->createMock(VueResultsRenderer::class);
+        $uploader = $this->createMock(ProjectUploader::class);
+        $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
+        $state = $this->createMock(StudentWorkshopState::class);
+
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
+
+        try {
+            $controller->__invoke($request, new Response(), 'workshop', 'exercise');
+            $this->fail('Expected exception');
+        } catch (\LogicException $e) {
+        }
+
+        $this->assertFileDoesNotExist($solution->getBaseDirectory());
+    }
+
     private function createProjectSolution(string $entryPoint = 'solution.php'): DirectorySolution
     {
         $base = System::tempDir($this->getName());

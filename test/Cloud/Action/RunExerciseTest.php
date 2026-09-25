@@ -6,7 +6,9 @@ namespace PhpSchool\WebsiteTest\Cloud\Action;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use PhpSchool\PhpWorkshop\Exception\CouldNotRunException;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
+use PhpSchool\PhpWorkshop\Result\Failure;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\PhpWorkshop\Solution\DirectorySolution;
@@ -15,6 +17,7 @@ use PhpSchool\Website\Action\Online\RunExercise;
 use PhpSchool\Website\Online\CloudInstalledWorkshop;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\Sandbox\SandboxedCliRunner;
 use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\User\SessionStorageInterface;
@@ -193,6 +196,82 @@ class RunExerciseTest extends TestCase
             json_decode($actualResponse->getBody()->__toString(), true)
         );
         $this->assertFileDoesNotExist($solution->getBaseDirectory());
+    }
+
+    public function testProjectIsRemovedWhenSolutionCouldNotRun(): void
+    {
+        $solution = $this->createProjectSolution();
+
+        [$installedWorkshopRepo, , $exerciseDispatcher, $session, $student] = $this->getDependencies();
+
+        $exerciseDispatcher->expects($this->once())
+            ->method('run')
+            ->willThrowException(new CouldNotRunException(new Failure('Failure', 'Syntax error')));
+
+        $request = new ServerRequest('POST', '/run', [], json_encode([]));
+
+        $uploader = $this->createMock(ProjectUploader::class);
+        $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
+        $state = $this->createMock(StudentWorkshopState::class);
+
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
+
+        $actualResponse = $controller->__invoke($request, new Response(), 'workshop', 'exercise');
+
+        $this->assertFalse(json_decode($actualResponse->getBody()->__toString(), true)['success']);
+        $this->assertFileDoesNotExist($solution->getBaseDirectory());
+    }
+
+    public function testProjectIsRemovedWhenRunnerThrows(): void
+    {
+        $solution = $this->createProjectSolution();
+
+        [$installedWorkshopRepo, , $exerciseDispatcher, $session, $student] = $this->getDependencies();
+
+        $exerciseDispatcher->expects($this->once())
+            ->method('run')
+            ->willThrowException(new \LogicException('Runner exploded'));
+
+        $request = new ServerRequest('POST', '/run', [], json_encode([]));
+
+        $uploader = $this->createMock(ProjectUploader::class);
+        $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
+        $state = $this->createMock(StudentWorkshopState::class);
+
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
+
+        try {
+            $controller->__invoke($request, new Response(), 'workshop', 'exercise');
+            $this->fail('Expected exception');
+        } catch (\LogicException $e) {
+        }
+
+        $this->assertFileDoesNotExist($solution->getBaseDirectory());
+    }
+
+    public function testProjectRootIsPassedToTheRunnerSoItCanBeSandboxed(): void
+    {
+        $solution = $this->createProjectSolution();
+
+        [$installedWorkshopRepo, $exercise, $exerciseDispatcher, $session, $student] = $this->getDependencies();
+
+        $exerciseDispatcher->expects($this->once())
+            ->method('run')
+            ->with($exercise, $this->callback(function (Input $input) use ($solution) {
+                $this->assertEquals($solution->getBaseDirectory(), $input->getArgument(SandboxedCliRunner::ROOT_ARGUMENT));
+
+                return true;
+            }))
+            ->willReturn(true);
+
+        $request = new ServerRequest('POST', '/run', [], json_encode([]));
+
+        $uploader = $this->createMock(ProjectUploader::class);
+        $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
+        $state = $this->createMock(StudentWorkshopState::class);
+
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
+        $controller->__invoke($request, new Response(), 'workshop', 'exercise');
     }
 
     private function createProjectSolution(string $entryPoint = 'solution.php'): DirectorySolution

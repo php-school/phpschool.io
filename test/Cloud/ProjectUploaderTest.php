@@ -6,6 +6,7 @@ namespace PhpSchool\WebsiteTest\Cloud;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use PhpSchool\PhpWorkshop\Solution\SolutionFile;
+use PhpSchool\Website\Online\ComposerPackageAllowlist;
 use PhpSchool\Website\Online\PathGenerator;
 use PhpSchool\Website\Online\ProjectUploader;
 use PhpSchool\Website\Online\StudentCloudState;
@@ -207,6 +208,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ])
         );
 
+        $uploader = new ProjectUploader($generator, $this->getAllowlist());
         $result = $uploader->upload($request, $student);
 
         $this->assertEquals($path, $result->getBaseDirectory());
@@ -225,7 +227,10 @@ class ProjectUploaderTest extends BaseFilesystemTest
         $this->assertFileExists($path . '/composer.lock');
 
         $this->assertFileExists($path . '/composer.json');
-        $this->assertEquals('{"require":{"symfony\/console":"6.2.0"}}', file_get_contents($path . '/composer.json'));
+        $this->assertEquals(
+            '{"require":{"symfony\/console":"6.2.0"},"config":{"allow-plugins":false}}',
+            file_get_contents($path . '/composer.json')
+        );
     }
 
     public function testWithAlternateEntryPoint(): void
@@ -275,6 +280,151 @@ class ProjectUploaderTest extends BaseFilesystemTest
         $this->assertEquals('<?php', file_get_contents($path . '/program.php'));
         $this->assertEquals('<?php', file_get_contents($path . '/folder/file2.php'));
         $this->assertEquals('<?php', file_get_contents($path . '/folder/nested/file3.php'));
+    }
+
+    /**
+     * @dataProvider rejectedComposerDependenciesProvider
+     */
+    public function testRejectedComposerDependenciesDoNotCreateAProject(mixed $dependencies, string $message): void
+    {
+        $student = $this->getStudent();
+        $path = $this->getTemporaryDirectoryWithoutCreating();
+        $generator = $this->createMock(PathGenerator::class);
+        $generator->expects($this->never())->method('random');
+
+        $uploader = new ProjectUploader($generator, $this->getAllowlist());
+
+        $request = new ServerRequest(
+            'POST',
+            '/verify',
+            [],
+            json_encode([
+                'scripts' => ['solution.php' => '<?php'],
+                'composer_deps' => $dependencies,
+            ])
+        );
+
+        try {
+            $uploader->upload($request, $student);
+            $this->fail('Expected exception');
+        } catch (\RuntimeException $e) {
+            $this->assertEquals($message, $e->getMessage());
+        }
+
+        $this->assertFileDoesNotExist($path);
+    }
+
+    /**
+     * @return array<string, array{0: mixed, 1: string}>
+     */
+    public function rejectedComposerDependenciesProvider(): array
+    {
+        return [
+            'package not in the allowlist' => [
+                [['name' => 'evil/composer-plugin', 'version' => '1.0.0']],
+                'Composer package "evil/composer-plugin" is not allowed',
+            ],
+            'invalid package name' => [
+                [['name' => '../../etc/passwd', 'version' => '1.0.0']],
+                'Composer package "../../etc/passwd" is not allowed',
+            ],
+            'vcs style version' => [
+                [['name' => 'symfony/console', 'version' => 'dev-main#abc"; rm -rf /']],
+                'Invalid version constraint for composer package "symfony/console"',
+            ],
+            'not a list' => ['symfony/console', 'Invalid composer dependencies'],
+            'missing version' => [[['name' => 'symfony/console']], 'Invalid composer dependencies'],
+            'too many packages' => [
+                array_fill(0, 11, ['name' => 'psr/log', 'version' => '^3.0']),
+                'A maximum of 10 composer dependencies are allowed',
+            ],
+        ];
+    }
+
+    public function testComposerDependenciesAreRejectedWhenThePackageListIsMissing(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Composer package "symfony/console" is not allowed');
+
+        $uploader = new ProjectUploader(
+            new PathGenerator(),
+            new ComposerPackageAllowlist(__DIR__ . '/_files/does-not-exist.json')
+        );
+
+        $request = new ServerRequest(
+            'POST',
+            '/verify',
+            [],
+            json_encode([
+                'scripts' => ['solution.php' => '<?php'],
+                'composer_deps' => [['name' => 'symfony/console', 'version' => '6.2.0']],
+            ])
+        );
+
+        $uploader->upload($request, $this->getStudent());
+    }
+
+    public function testProjectIsRemovedWhenComposerInstallFails(): void
+    {
+        $student = $this->getStudent();
+        $path = $this->getTemporaryDirectoryWithoutCreating();
+        $generator = $this->createMock(PathGenerator::class);
+        $generator->expects($this->once())
+            ->method('random')
+            ->with($student)
+            ->willReturn($path);
+
+        $uploader = new ProjectUploader($generator, $this->getAllowlist());
+
+        $request = new ServerRequest(
+            'POST',
+            '/verify',
+            [],
+            json_encode([
+                'scripts' => ['solution.php' => '<?php'],
+                'composer_deps' => [['name' => 'psr/log', 'version' => '999.0.0']],
+            ])
+        );
+
+        try {
+            $uploader->upload($request, $student);
+            $this->fail('Expected exception');
+        } catch (\RuntimeException $e) {
+            $this->assertEquals('Composer dependencies could not be installed', $e->getMessage());
+        }
+
+        $this->assertFileDoesNotExist($path);
+    }
+
+    public function testNonStringScriptContentsAreRejected(): void
+    {
+        $student = $this->getStudent();
+        $path = $this->getTemporaryDirectoryWithoutCreating();
+        $generator = $this->createMock(PathGenerator::class);
+        $generator->method('random')->willReturn($path);
+
+        $uploader = new ProjectUploader($generator, $this->getAllowlist());
+
+        $request = new ServerRequest(
+            'POST',
+            '/verify',
+            [],
+            json_encode(['scripts' => ['solution.php' => ['not', 'a', 'string']]])
+        );
+
+        try {
+            $uploader->upload($request, $student);
+            $this->fail('Expected exception');
+        } catch (\RuntimeException $e) {
+            $this->assertEquals('Invalid file contents', $e->getMessage());
+        }
+
+        $this->assertFileDoesNotExist($path);
+    }
+
+    private function getAllowlist(): ComposerPackageAllowlist
+    {
+        return new ComposerPackageAllowlist(__DIR__ . '/_files/packages.json');
     }
 
     private function getStudent(): StudentDTO
