@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -29,7 +30,7 @@ jobs:
         run: composer install --prefer-dist
 
       - name: Run phpunit tests
-        run:  composer phpunit
+        run:  composer phpunit -- --stop-on-error
 
       - name: Run phpcs
         run: composer cs:ci
