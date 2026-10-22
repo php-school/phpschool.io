@@ -14,6 +14,8 @@ use PhpSchool\PhpWorkshop\Listener\OutputRunInfoListener;
 use PhpSchool\PhpWorkshop\Logger\Logger;
 use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\PhpWorkshop\Output\OutputInterface;
+use PhpSchool\PhpWorkshop\Process\DockerProcessFactory;
+use PhpSchool\PhpWorkshop\Process\ProcessFactory;
 use PhpSchool\Website\Entity\Workshop;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -25,13 +27,23 @@ class CloudInstalledWorkshop implements \JsonSerializable
     private Workshop $workshop;
     private AsciiSlugger $slugger;
 
-    public function __construct(Application $application, Workshop $workshop)
-    {
+    public function __construct(
+        Application $application,
+        Workshop $workshop,
+        string $workshopPath,
+        string $composerCacheDir,
+    ) {
         /** @var \DI\Container $container */
         $container = $application->configure();
         $this->container = $container;
         $this->workshop = $workshop;
         $this->slugger = new AsciiSlugger();
+
+        //student code must only ever run in the sandbox. Set before anything pulls the process factory from the container.
+        $this->container->set(
+            ProcessFactory::class,
+            new DockerProcessFactory($workshopPath, $this->getCode(), $composerCacheDir),
+        );
 
         $this->configureLogger();
         $this->configureEvents();
@@ -102,6 +114,13 @@ class CloudInstalledWorkshop implements \JsonSerializable
         }
 
         return null;
+    }
+
+    public function getProcessFactory(): ProcessFactory
+    {
+        /** @var ProcessFactory $processFactory */
+        $processFactory = $this->container->get(ProcessFactory::class);
+        return $processFactory;
     }
 
     public function getExerciseDispatcher(): ExerciseDispatcher

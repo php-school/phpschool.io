@@ -56,7 +56,7 @@ class RunExercise
         $this->studentState->setCurrentExercise($workshop->getCode(), $exercise->getName());
 
         try {
-            $project = $this->projectUploader->upload($request, $this->getStudent());
+            $project = $this->projectUploader->upload($request, $this->getStudent(), $workshop->getProcessFactory());
         } catch (\RuntimeException $e) {
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
         }
@@ -81,6 +81,8 @@ class RunExercise
                 'success' => false,
                 'failure' => $e->getFailure()->toArray(),
             ], $response);
+        } finally {
+            (new Filesystem())->remove($project->getBaseDirectory());
         }
 
         $data = [
@@ -89,8 +91,6 @@ class RunExercise
         ];
 
         $this->runInfo = [];
-
-        (new Filesystem())->remove($project->getBaseDirectory());
 
         return $this->withJson($data, $response);
     }

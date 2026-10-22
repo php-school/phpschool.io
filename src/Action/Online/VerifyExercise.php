@@ -44,15 +44,19 @@ class VerifyExercise
         $this->studentState->setCurrentExercise($workshop->getCode(), $exercise->getName());
 
         try {
-            $project = $this->projectUploader->upload($request, $this->getStudent());
+            $project = $this->projectUploader->upload($request, $this->getStudent(), $workshop->getProcessFactory());
         } catch (\RuntimeException $e) {
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
         }
 
-        $results = $workshop->getExerciseDispatcher()->verify(
-            $exercise,
-            new Input($workshop->getCode(), ['program' => $project->getEntryPoint()->getAbsolutePath()]),
-        );
+        try {
+            $results = $workshop->getExerciseDispatcher()->verify(
+                $exercise,
+                new Input($workshop->getCode(), ['program' => $project->getEntryPoint()->getAbsolutePath()]),
+            );
+        } finally {
+            (new Filesystem())->remove($project->getBaseDirectory());
+        }
 
         $data = [
             'results' => $this->resultsRenderer->render($results, $exercise),
@@ -65,9 +69,6 @@ class VerifyExercise
                 $exercise->getName(),
             );
         }
-
-        //clean up
-        (new Filesystem())->remove($project->getBaseDirectory());
 
         return $this->withJson($data, $response);
     }
