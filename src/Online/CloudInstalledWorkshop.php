@@ -19,6 +19,7 @@ use PhpSchool\PhpWorkshop\Process\ProcessFactory;
 use PhpSchool\Website\Entity\Workshop;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
+use Symfony\Component\Process\Process;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class CloudInstalledWorkshop implements \JsonSerializable
@@ -26,6 +27,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
     private \DI\Container $container;
     private Workshop $workshop;
     private AsciiSlugger $slugger;
+    private DockerProcessFactory $processFactory;
 
     public function __construct(
         Application $application,
@@ -40,13 +42,19 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $this->slugger = new AsciiSlugger();
 
         //student code must only ever run in the sandbox. Set before anything pulls the process factory from the container.
-        $this->container->set(
-            ProcessFactory::class,
-            new DockerProcessFactory($workshopPath, $this->getCode(), $composerCacheDir),
-        );
+        $this->processFactory = new DockerProcessFactory($workshopPath, $this->getCode(), $composerCacheDir);
+        $this->container->set(ProcessFactory::class, $this->processFactory);
 
         $this->configureLogger();
         $this->configureEvents();
+    }
+
+    /**
+     * Builds the sandbox image student code runs in. Run on deploy, not per request.
+     */
+    public function createRuntimeImageBuildProcess(): Process
+    {
+        return $this->processFactory->createBuildProcess();
     }
 
     public function getCode(): string

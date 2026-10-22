@@ -60,6 +60,7 @@ use PhpSchool\Website\Online\ProblemFileConverter;
 use PhpSchool\Website\Online\ProjectUploader;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\Online\VueResultsRenderer;
+use PhpSchool\Website\Command\BuildRuntimeImages;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateAdminUser;
 use PhpSchool\Website\Command\GenerateBlog;
@@ -117,6 +118,7 @@ return [
         $app = new \Silly\Application('PHP School Website', 'UNKNOWN');
         $app->useContainer($c, true, true);
         $app->command('clear-cache', ClearCache::class);
+        $app->command('build-runtime-images', BuildRuntimeImages::class);
         $app->command('create-admin-user name email password', CreateAdminUser::class);
         $app->command('generate-blog', GenerateBlog::class);
         $app->command('download-composer-packages', DownloadComposerPackageList::class);
