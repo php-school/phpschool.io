@@ -64,7 +64,7 @@ class Login
 
         return $this->withJson([
             'success' => true,
-            'token' => JWT::encode($token, $this->jwtSecret),
+            'token' => JWT::encode($token, $this->jwtSecret, 'HS256'),
             'admin' => $admin,
         ], $response);
     }

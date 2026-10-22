@@ -13,7 +13,7 @@ class Events implements FixtureInterface
 {
     public UuidInterface $event1Id;
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $date = new \DateTime('5 days ago');
 

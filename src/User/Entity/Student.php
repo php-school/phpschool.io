@@ -13,68 +13,48 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @phpstan-import-type WorkshopState from \PhpSchool\Website\Online\StudentCloudState
- *
- * @ORM\Entity
- * @ORM\Table(name="student"))
- * @ORM\Entity(repositoryClass="PhpSchool\Website\User\DoctrineORMStudentRepository")
  */
+#[ORM\Table(name: "student")]
+#[ORM\Entity(repositoryClass: "PhpSchool\Website\User\DoctrineORMStudentRepository")]
 class Student implements \JsonSerializable
 {
     /**
      * @psalm-suppress PropertyNotSetInConstructor
-     *
-     * @ORM\Id
-     * @ORM\Column(type="uuid")
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid")]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: "Ramsey\Uuid\Doctrine\UuidGenerator")]
     private UuidInterface $id; /** @phpstan-ignore-line */
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
+    #[ORM\Column(type: "string", length: 255, unique: true)]
     private string $githubId;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
+    #[ORM\Column(type: "string", length: 255, unique: true)]
     private string $username;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
+    #[ORM\Column(type: "string", length: 255, unique: true)]
     private string $email;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=false)
-     */
+    #[ORM\Column(type: "string", length: 255, unique: false)]
     private string $name;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=false, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, unique: false, nullable: true)]
     private ?string $profilePicture;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=false, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, unique: false, nullable: true)]
     private ?string $location;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: "datetime")]
     private DateTime $joinDate;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: "boolean")]
     private bool $tourComplete = false;
 
     /**
      * @var WorkshopState
-     *
-     * @ORM\Column(type="json", nullable=false)
      */
+    #[ORM\Column(type: "json", nullable: false)]
     private array $workshopState = [];
 
     /**

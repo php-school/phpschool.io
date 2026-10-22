@@ -13,7 +13,7 @@ class Students implements FixtureInterface
 {
     public UuidInterface $student1Id;
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $manager->persist(
             $s = new Student('GH1', 'Student 1', 'student1@phpschool.com', 'Student 1', null, null)

@@ -14,7 +14,7 @@ class ApprovedAndUnApprovedWorkshops implements FixtureInterface
     public UuidInterface $php8appreciateId;
     public UuidInterface $learnYouPhpId;
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $approvedWorkshop = new Workshop(
             'php-school',
