@@ -40,7 +40,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Slim\Routing\RouteCollectorProxy;
-use Tuupola\Middleware\JwtAuthentication;
+use JimTools\JwtAuth\Exceptions\AuthorizationException;
+use JimTools\JwtAuth\Middleware\JwtAuthentication;
 
 if (PHP_SAPI == 'cli-server') {
     // To help the built-in PHP dev server, check if the request was actually for
@@ -64,6 +65,10 @@ $errors = $app->addErrorMiddleware(
     true,
     true,
     $container->get(LoggerInterface::class)
+);
+$errors->setErrorHandler(
+    AuthorizationException::class,
+    static fn (Request $request) => $app->getResponseFactory()->createResponse(401)
 );
 
 $app->post('/api/submit', SubmitWorkshop::class);

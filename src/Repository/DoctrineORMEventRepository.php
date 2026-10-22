@@ -67,13 +67,13 @@ class DoctrineORMEventRepository extends EntityRepository implements EventReposi
 
     public function save(Event $event): void
     {
-        $this->_em->persist($event);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($event);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(Event $event): void
     {
-        $this->_em->remove($event);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($event);
+        $this->getEntityManager()->flush();
     }
 }

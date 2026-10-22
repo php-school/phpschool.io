@@ -7,6 +7,7 @@ namespace PhpSchool\WebsiteTest\Repository;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +29,7 @@ abstract class DoctrineORMRepositoryTest extends TestCase
             Type::addType('uuid', UuidType::class);
         }
 
-        $config = ORMSetup::createAnnotationMetadataConfiguration(
+        $config = ORMSetup::createAttributeMetadataConfiguration(
             [
                 'src/Entity',
                 'src/User/Entity',
@@ -37,8 +38,8 @@ abstract class DoctrineORMRepositoryTest extends TestCase
             sys_get_temp_dir(),
         );
 
-        $this->entityManager = EntityManager::create(
-            ['driver' => 'pdo_sqlite', 'url' => 'sqlite:///:memory:'],
+        $this->entityManager = new EntityManager(
+            DriverManager::getConnection(['driver' => 'pdo_sqlite', 'url' => 'sqlite:///:memory:'], $config),
             $config
         );
 

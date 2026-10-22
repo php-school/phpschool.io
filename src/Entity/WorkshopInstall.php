@@ -9,43 +9,30 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="workshop_installs"))
- * @ORM\Entity(repositoryClass="PhpSchool\Website\Repository\DoctrineORMWorkshopInstallRepository")
- */
+#[ORM\Table(name: "workshop_installs")]
+#[ORM\Entity(repositoryClass: "PhpSchool\Website\Repository\DoctrineORMWorkshopInstallRepository")]
 class WorkshopInstall
 {
     /**
      * @psalm-suppress PropertyNotSetInConstructor
-     *
-     * @ORM\Id
-     * @ORM\Column(type="uuid")
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid")]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: "Ramsey\Uuid\Doctrine\UuidGenerator")]
     private UuidInterface $id; /** @phpstan-ignore-line  */
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Workshop", inversedBy="installs")
-     * @ORM\JoinColumn(name="workshop_id", referencedColumnName="id")
-     */
+    #[ORM\ManyToOne(targetEntity: Workshop::class, inversedBy: "installs")]
+    #[ORM\JoinColumn(name: "workshop_id", referencedColumnName: "id")]
     private Workshop $workshop;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: "datetime")]
     private DateTime $dateTime;
 
-    /**
-     *
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private string $ipAddress;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private string $version;
 
     public function __construct(Workshop $workshop, string $ipAddress, string $version)

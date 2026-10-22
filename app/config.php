@@ -102,7 +102,12 @@ use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\RateLimiter\Storage\CacheStorage;
 use Symfony\Contracts\Cache\CacheInterface;
-use Tuupola\Middleware\JwtAuthentication;
+use JimTools\JwtAuth\Decoder\FirebaseDecoder;
+use JimTools\JwtAuth\Middleware\JwtAuthentication;
+use JimTools\JwtAuth\Options as JwtOptions;
+use JimTools\JwtAuth\Rules\RequestMethodRule;
+use JimTools\JwtAuth\Rules\RequestPathRule;
+use JimTools\JwtAuth\Secret as JwtSecret;
 
 use function DI\factory;
 use function DI\get;
@@ -450,7 +455,7 @@ return [
     ORMSetup::class => \DI\factory(function (ContainerInterface $c): Configuration {
         $doctrineConfig = $c->get('config')['doctrine'];
 
-        $config = ORMSetup::createAnnotationMetadataConfiguration(
+        $config = ORMSetup::createAttributeMetadataConfiguration(
             $doctrineConfig['meta']['entity_path'],
             $doctrineConfig['meta']['auto_generate_proxies'],
             $doctrineConfig['meta']['proxy_dir'],
@@ -468,13 +473,14 @@ return [
         Type::addType('uuid', UuidType::class);
 
 
-        $driver = \Doctrine\DBAL\DriverManager::getConnection(
-            $c->get('config')['doctrine']['connection'],
-        );
+        $ormConfig = $c->get(ORMSetup::class);
 
         return new EntityManager(
-            $driver,
-            $c->get(ORMSetup::class)
+            \Doctrine\DBAL\DriverManager::getConnection(
+                $c->get('config')['doctrine']['connection'],
+                $ormConfig,
+            ),
+            $ormConfig
         );
     }),
 
@@ -537,12 +543,11 @@ return [
     },
 
     JwtAuthentication::class => function (ContainerInterface $c): JwtAuthentication {
-        return new JwtAuthentication([
-            'secret' => $c->get('config')['jwtSecret'],
-            'path' => '/api/admin',
-            "ignore" => ["/api/admin/login"],
-            "secure" => !$c->get('config')['devMode'],
-        ]);
+        return new JwtAuthentication(
+            new JwtOptions(isSecure: !$c->get('config')['devMode']),
+            new FirebaseDecoder(new JwtSecret($c->get('config')['jwtSecret'], 'HS256')),
+            [new RequestMethodRule(), new RequestPathRule(['/api/admin'], ['/api/admin/login'])],
+        );
     },
 
     'config' => [

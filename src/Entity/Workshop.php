@@ -11,12 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-/**
- *
- * @ORM\Entity
- * @ORM\Table(name="workshop"))
- * @ORM\Entity(repositoryClass="PhpSchool\Website\Repository\DoctrineORMWorkshopRepository")
- */
+#[ORM\Table(name: "workshop")]
+#[ORM\Entity(repositoryClass: "PhpSchool\Website\Repository\DoctrineORMWorkshopRepository")]
 class Workshop implements \JsonSerializable
 {
     public const TYPE_COMMUNITY = 0;
@@ -32,74 +28,51 @@ class Workshop implements \JsonSerializable
 
     /**
      * @psalm-suppress PropertyNotSetInConstructor
-     *
-     * @ORM\Id
-     * @ORM\Column(type="uuid")
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid")]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: "Ramsey\Uuid\Doctrine\UuidGenerator")]
     private UuidInterface $id; /** @phpstan-ignore-line  */
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private string $gitHubOwner;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private string $gitHubRepoName;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private string $code;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
+    #[ORM\Column(type: "string", length: 255, unique: true)]
     private string $displayName;
 
-    /**
-     * @ORM\Column(type="string", length=512)
-     */
+    #[ORM\Column(type: "string", length: 512)]
     private string $description;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private string $submitterEmail;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private string $submitterName;
 
-    /**
-     * @ORM\Column(type="string", length=512, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 512, nullable: true)]
     private ?string $submitterContact;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: "boolean")]
     private bool $approved;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: "integer")]
     private int $type = self::TYPE_COMMUNITY;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: "datetime")]
     private DateTime $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="WorkshopInstall", mappedBy="workshop")
      *
      * @var Collection<string, WorkshopInstall>
      */
+    #[ORM\OneToMany(targetEntity: WorkshopInstall::class, mappedBy: "workshop")]
     private Collection $installs;
 
     public function __construct(
@@ -110,7 +83,7 @@ class Workshop implements \JsonSerializable
         string $description,
         string $submitterEmail,
         string $submitterName,
-        string $submitterContact = null,
+        ?string $submitterContact = null,
         bool $approved = false
     ) {
         $this->gitHubOwner = $gitHubOwner;
