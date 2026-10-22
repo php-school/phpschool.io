@@ -86,8 +86,7 @@ var_dump($file->__toString());
 //Outputs: "/path/to/workshop/exercises/exercise-name/solution.php"
 
 var_dump($file->getContents());
-//Outputs: "contents-of-the-file"</pre
-    >
+//Outputs: "contents-of-the-file"</pre>
   </CodeBlock>
 
   <ContentHeader id="directory-solution">DirectorySolution</ContentHeader>
@@ -109,8 +108,7 @@ var_dump($file->getContents());
 /path/to/workshop/exercises/exercise-name/solution
 ├── SomeClass.php
 └── solution.php
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -127,8 +125,7 @@ var_dump($file->getContents());
 public function getSolution()
 {
     return DirectorySolution::fromDirectory('/path/to/workshop/exercises/exercise-name');
-}</pre
-    >
+}</pre>
   </CodeBlock>
 
   <p>
@@ -185,8 +182,7 @@ var_dump($file2->__toString());
 //Outputs: "/path/to/workshop/exercises/exercise-name/solution/SomeClass.php"
 
 var_dump($file2->getContents());
-//Outputs: "contents-of-the-file"</pre
-    >
+//Outputs: "contents-of-the-file"</pre>
   </CodeBlock>
 
   <ContentHeader level="h4" id="different-entry-point">Using a different entry point file</ContentHeader>
@@ -203,8 +199,7 @@ var_dump($file2->getContents());
 /path/to/workshop/exercises/exercise-name
 ├── SomeClass.php
 └── index.php
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <CodeBlock lang="php">
@@ -215,8 +210,7 @@ require __DIR__ . '/vendor/autoload.php';
 use PhpSchool\PhpWorkshop\Solution\DirectorySolution;
 
 $solution = DirectorySolution::fromDirectory('/path/to/workshop/exercises/exercise-name', [], 'index.php');
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <Note type="info">
@@ -253,8 +247,7 @@ $solution = DirectorySolution::fromDirectory(
         'composer.lock',
         'vendor'
     ]
-);</pre
-    >
+);</pre>
   </CodeBlock>
 
   <p>
@@ -298,8 +291,7 @@ $solution = new DirectorySolution(
     '/path/to/workshop/exercises/exercise-name/solution',
     'solution.php',
     ['vendor']
-);</pre
-    >
+);</pre>
   </CodeBlock>
 
   <Note type="info">
@@ -361,8 +353,7 @@ interface SolutionInterface
      * @return bool
      */
     public function hasComposerFile();
-}</pre
-    >
+}</pre>
   </CodeBlock>
 
   <ContentHeader level="h4-code" id="get-entry-point">getEntryPoint()</ContentHeader>

@@ -38,8 +38,7 @@ for ($i = 1; $i &lt; count($argv); $i++) {
 }
 
 $numberCount = count($argv) - 1;
-echo $count / $numberCount;</pre
-    >
+echo $count / $numberCount;</pre>
   </CodeBlock>
   <p>
     We should place this file in
@@ -109,8 +108,7 @@ Also be aware that all elements of `$argv` are strings and you may need to *coer
 
 `{appname}` will be supplying arguments to your program when you run `{appname} verify program.php` so you don't need to supply them yourself. To test your program without verifying it, you can invoke it with `{appname} run program.php`. When you use `run`, you are invoking the test environment that `{appname}` sets up for each exercise.
 
-----------------------------------------------------------------------</pre
-    >
+----------------------------------------------------------------------</pre>
   </CodeBlock>
 
   <Note type="info">
@@ -182,8 +180,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
         return ExerciseType::CLI();
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
   <p>
     Place the above in
@@ -302,8 +299,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise
     <pre>
 return [
     Mean::class => \DI\object(),
-];</pre
-    >
+];</pre>
   </CodeBlock>
   <p>
     The file
@@ -375,8 +371,7 @@ $app->setFgColour('red');
 $app->setBgColour('black');
 
 return $app;
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>That's it! You should now see your exercise in the menu when you run the app.</p>

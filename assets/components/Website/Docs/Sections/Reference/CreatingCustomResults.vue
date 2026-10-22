@@ -107,8 +107,7 @@ class CodingStandardFailure implements FailureInterface
         return $this->errors;
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -159,8 +158,7 @@ public function check(ExerciseInterface $exercise, Input $input)
 
     return CodingStandardFailure::fromCheckAndOutput($this, $standard, $errors);
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ul>
