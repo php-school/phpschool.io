@@ -191,7 +191,7 @@ class Student implements \JsonSerializable
             $this->location,
             $this->joinDate,
             $this->tourComplete,
-            new StudentCloudState($this->workshopState)
+            new StudentCloudState($this->workshopState),
         );
     }
 

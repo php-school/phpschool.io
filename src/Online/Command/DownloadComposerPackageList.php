@@ -23,7 +23,7 @@ class DownloadComposerPackageList
             $response = $this->client->request(
                 'GET',
                 self::COMPOSER_PACKAGES_API_URL,
-                ['sink' => self::COMPOSER_PACKAGES_NEW_FILE_LOCATION]
+                ['sink' => self::COMPOSER_PACKAGES_NEW_FILE_LOCATION],
             );
         } catch (TransferException $e) {
             $this->logger->error('Could not download composer packages. Error: ' . $e->getMessage());

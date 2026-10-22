@@ -25,14 +25,14 @@ class SubmitWorkshopTest extends TestCase
         $inputFilter = $this->createMock(InputFilter::class);
         $formHandler = new FormHandler(
             $inputFilter,
-            new Session()
+            new Session(),
         );
 
         $action = new SubmitWorkshop(
             $formHandler,
             $this->createMock(WorkshopCreator::class),
             $this->createMock(EmailNotifier::class),
-            new NullLogger()
+            new NullLogger(),
         );
 
         $request = $this->createMock(ServerRequestInterface::class);
@@ -60,9 +60,9 @@ class SubmitWorkshopTest extends TestCase
                 'form_errors' => [
                     'field1' => ['error1'],
                     'field2' => ['error2'],
-                ]
+                ],
             ],
-            json_decode($actualResponse->getBody()->__toString(), true)
+            json_decode($actualResponse->getBody()->__toString(), true),
         );
     }
 
@@ -71,7 +71,7 @@ class SubmitWorkshopTest extends TestCase
         $inputFilter = $this->createMock(InputFilter::class);
         $formHandler = new FormHandler(
             $inputFilter,
-            new Session()
+            new Session(),
         );
         $workshopCreator = $this->createMock(WorkshopCreator::class);
 
@@ -79,7 +79,7 @@ class SubmitWorkshopTest extends TestCase
             $formHandler,
             $workshopCreator,
             $this->createMock(EmailNotifier::class),
-            new NullLogger()
+            new NullLogger(),
         );
 
         $request = $this->createMock(ServerRequestInterface::class);
@@ -112,9 +112,9 @@ class SubmitWorkshopTest extends TestCase
                 'workshop_errors' => [
                     'field1' => ['error1'],
                     'field2' => ['error2'],
-                ]
+                ],
             ],
-            json_decode($actualResponse->getBody()->__toString(), true)
+            json_decode($actualResponse->getBody()->__toString(), true),
         );
     }
 
@@ -124,7 +124,7 @@ class SubmitWorkshopTest extends TestCase
         $inputFilter = $this->createMock(InputFilter::class);
         $formHandler = new FormHandler(
             $inputFilter,
-            new Session()
+            new Session(),
         );
         $workshopCreator = $this->createMock(WorkshopCreator::class);
         $emailer = $this->createMock(EmailNotifier::class);
@@ -133,7 +133,7 @@ class SubmitWorkshopTest extends TestCase
             $formHandler,
             $workshopCreator,
             $emailer,
-            $logger
+            $logger,
         );
 
         $request = $this->createMock(ServerRequestInterface::class);
@@ -172,7 +172,7 @@ class SubmitWorkshopTest extends TestCase
         $inputFilter = $this->createMock(InputFilter::class);
         $formHandler = new FormHandler(
             $inputFilter,
-            new Session()
+            new Session(),
         );
         $workshopCreator = $this->createMock(WorkshopCreator::class);
 
@@ -180,7 +180,7 @@ class SubmitWorkshopTest extends TestCase
             $formHandler,
             $workshopCreator,
             $this->createMock(EmailNotifier::class),
-            $logger
+            $logger,
         );
 
         $request = $this->createMock(ServerRequestInterface::class);

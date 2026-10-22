@@ -22,7 +22,7 @@ class Post
                     json_encode(explode("\n", $matches[1]), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_THROW_ON_ERROR),
                 );
             },
-            $this->content
+            $this->content,
         );
     }
 

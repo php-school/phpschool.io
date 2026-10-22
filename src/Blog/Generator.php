@@ -43,8 +43,8 @@ class Generator
                         sprintf(
                             'Post meta keys: "%s" %s missing and required',
                             implode(", ", array_keys($missing)),
-                            count($missing) > 1 ? 'are' : 'is'
-                        )
+                            count($missing) > 1 ? 'are' : 'is',
+                        ),
                     );
                 }
             })

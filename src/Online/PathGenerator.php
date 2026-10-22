@@ -13,7 +13,7 @@ class PathGenerator
     public function random(StudentDTO $student): string
     {
         return System::tempDir(
-            Path::join($student->id->toString(), bin2hex(random_bytes(6)))
+            Path::join($student->id->toString(), bin2hex(random_bytes(6))),
         );
     }
 }

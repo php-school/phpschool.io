@@ -23,7 +23,7 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
         $where = $qb->expr()->between(
             's.dateTime',
             ':from',
-            ':to'
+            ':to',
         );
 
         $qb
@@ -63,7 +63,7 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
         $where = $qb->expr()->between(
             's.dateTime',
             ':from',
-            ':to'
+            ':to',
         );
 
         $qb

@@ -16,15 +16,15 @@ class StudentCloudStateTest extends TestCase
                 'completedExercises' => [
                     "Exercise 1",
                     "Exercise 2",
-                ]
+                ],
             ],
             'Workshop 2' => [
                 'completedExercises' => [
                     "Exercise 1",
                     "Exercise 2",
                     "Exercise 3",
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->assertEquals(5, $state->getTotalCompletedExercises());
@@ -37,15 +37,15 @@ class StudentCloudStateTest extends TestCase
                 'completedExercises' => [
                     "Exercise 1",
                     "Exercise 2",
-                ]
+                ],
             ],
             'Workshop 2' => [
                 'completedExercises' => [
                     "Exercise 1",
                     "Exercise 2",
                     "Exercise 3",
-                ]
-            ]
+                ],
+            ],
         ];
 
         $state = new StudentCloudState($stateData);
@@ -53,9 +53,9 @@ class StudentCloudStateTest extends TestCase
         $this->assertEquals(
             [
                 'workshops' => $stateData,
-                'total_completed' => 5
+                'total_completed' => 5,
             ],
-            $state->jsonSerialize()
+            $state->jsonSerialize(),
         );
     }
 }

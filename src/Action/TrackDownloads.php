@@ -20,7 +20,7 @@ class TrackDownloads
 
     public function __construct(
         WorkshopRepository $workshopRepository,
-        WorkshopInstallRepository $workshopInstallRepository
+        WorkshopInstallRepository $workshopInstallRepository,
     ) {
         $this->workshopRepository = $workshopRepository;
         $this->workshopInstallRepository = $workshopInstallRepository;
@@ -39,7 +39,7 @@ class TrackDownloads
         $ipAddress = $request->getAttribute('ip_address');
 
         $this->workshopInstallRepository->save(
-            new WorkshopInstall($workshopEntity, $ipAddress, $version)
+            new WorkshopInstall($workshopEntity, $ipAddress, $version),
         );
 
         return $this->jsonSuccess($response);

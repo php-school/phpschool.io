@@ -40,7 +40,7 @@ abstract class DoctrineORMRepositoryTest extends TestCase
 
         $this->entityManager = new EntityManager(
             DriverManager::getConnection(['driver' => 'pdo_sqlite', 'url' => 'sqlite:///:memory:'], $config),
-            $config
+            $config,
         );
 
         $this->schemaTool = new SchemaTool($this->entityManager);

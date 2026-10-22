@@ -6,7 +6,6 @@ namespace PhpSchool\Website\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 #[ORM\Table(name: "event")]
@@ -47,7 +46,7 @@ class Event implements \JsonSerializable
         ?string $link,
         DateTime $dateTime,
         string $venue,
-        ?string $poster
+        ?string $poster,
     ) {
         $this->name = $name;
         $this->description = $description;

@@ -53,9 +53,9 @@ class Create
             return $this->withJson(
                 [
                     'success' => false,
-                    'form_errors' => ['poster' => 'There was a problem uploading the file. Please try again.']
+                    'form_errors' => ['poster' => 'There was a problem uploading the file. Please try again.'],
                 ],
-                $response
+                $response,
             );
         }
 
@@ -65,9 +65,9 @@ class Create
             return $this->withJson(
                 [
                     'success' => false,
-                    'form_errors' => ['date' => 'Invalid date format']
+                    'form_errors' => ['date' => 'Invalid date format'],
                 ],
-                $response
+                $response,
             );
         }
 
@@ -77,7 +77,7 @@ class Create
             $values['link'] ?? null,
             $date,
             $values['venue'],
-            isset($values['poster']['tmp_name']) ? basename($values['poster']['tmp_name']) : null
+            isset($values['poster']['tmp_name']) ? basename($values['poster']['tmp_name']) : null,
         );
 
         $this->repository->save($event);

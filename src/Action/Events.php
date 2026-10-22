@@ -27,7 +27,7 @@ class Events
                 'events' => $this->repository->findUpcoming(),
                 'previousEvents' => $this->repository->findPrevious(),
             ],
-            $response
+            $response,
         );
     }
 }

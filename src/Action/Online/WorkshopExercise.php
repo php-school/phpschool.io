@@ -55,14 +55,14 @@ class WorkshopExercise
     public function __construct(
         private readonly CloudWorkshopRepository $installedWorkshops,
         private readonly ProblemFileConverter $problemFileConverter,
-        private readonly SessionStorageInterface $session
+        private readonly SessionStorageInterface $session,
     ) {}
 
     public function __invoke(
         Request $request,
         Response $response,
         string $workshop,
-        string $exercise
+        string $exercise,
     ): MessageInterface {
         try {
             $workshop = $this->installedWorkshops->findByCode($workshop);
@@ -70,7 +70,7 @@ class WorkshopExercise
         } catch (\RuntimeException $e) {
             return $this->withJson([
                 'success' => false,
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], $response, 404);
         }
 
@@ -83,7 +83,7 @@ class WorkshopExercise
                 'name' => $exercise->getName(),
                 'slug' => $this->slug($exercise->getName()),
                 'description' => $exercise->getDescription(),
-                'type' => $exercise->getType()->getValue()
+                'type' => $exercise->getType()->getValue(),
             ],
             'problem' => $this->problemFileConverter->htmlFromExercise($exercise),
             'totalExerciseCount' => $this->installedWorkshops->totalExerciseCount(),
@@ -113,7 +113,7 @@ class WorkshopExercise
             $data['official_solution'][] = [
                 'file_path' => $file->getRelativePath(),
                 'entry_point' => $file === $entryPoint,
-                'content'  => base64_encode($file->getContents())
+                'content'  => base64_encode($file->getContents()),
             ];
         }
 
@@ -141,7 +141,7 @@ class WorkshopExercise
                 'name' => $file->getRelativePath(),
                 'content' => $file->getContents(),
             ],
-            $exercise->getInitialCode()->getFiles()
+            $exercise->getInitialCode()->getFiles(),
         );
 
         $data['entry_point'] = $exercise->getInitialCode()->getEntryPoint()->getRelativePath();

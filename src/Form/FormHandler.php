@@ -79,7 +79,7 @@ class FormHandler
                     'name' => $file->getClientFilename(),
                     'type' => $file->getClientMediaType(),
                     'size' => $file->getSize(),
-                    'error' => $file->getError()
+                    'error' => $file->getError(),
                 ];
             })
             ->all();

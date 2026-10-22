@@ -22,13 +22,13 @@ class CreateAdminUser
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         $this->entityManager->persist(
-            new Admin($name, $email, $password)
+            new Admin($name, $email, $password),
         );
         try {
             $this->entityManager->flush();
         } catch (\Exception $e) {
             $output->writeln(
-                sprintf("\n<error>User %s was not created. Error: %s!</error>\n", $email, $e->getMessage())
+                sprintf("\n<error>User %s was not created. Error: %s!</error>\n", $email, $e->getMessage()),
             );
             return 1;
         }

@@ -53,7 +53,7 @@ class SlackInvite
                 'already_in_team' => 'You are already a member of the PHP School Slack',
                 'invalid_email' => 'The email address you entered is not valid',
                 'not_authed' => 'An error occurred while trying to authenticate your request',
-                default => $apiResponseData['error']
+                default => $apiResponseData['error'],
             };
 
             return $this->withJson(['error' => $error], $response, 500);

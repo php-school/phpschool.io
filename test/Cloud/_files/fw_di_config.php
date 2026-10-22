@@ -10,13 +10,13 @@ return [
             new \PhpSchool\PhpWorkshop\ExerciseRunner\RunnerManager(),
             new \PhpSchool\PhpWorkshop\ResultAggregator(),
             new \PhpSchool\PhpWorkshop\Event\EventDispatcher(
-                new \PhpSchool\PhpWorkshop\ResultAggregator()
+                new \PhpSchool\PhpWorkshop\ResultAggregator(),
             ),
-            new \PhpSchool\PhpWorkshop\Check\CheckRepository()
+            new \PhpSchool\PhpWorkshop\Check\CheckRepository(),
         );
     },
     'my-service' => function () {
-        return new class () {
+        return new class {
             public $name = 'my-service';
         };
     },

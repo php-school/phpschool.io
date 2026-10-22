@@ -41,10 +41,10 @@ class Event extends InputFilter
                         'messages' => [
                             StringLength::TOO_SHORT => 'Title should be between %min% and %max% characters long.',
                             StringLength::TOO_LONG => 'Title should be between %min% and %max% characters long.',
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $this->add([
@@ -59,10 +59,10 @@ class Event extends InputFilter
                         'messages' => [
                             StringLength::TOO_SHORT => 'Description should be between %min% and %max% characters long.',
                             StringLength::TOO_LONG => 'Description should be between %min% and %max% characters long.',
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $this->add([
@@ -77,13 +77,13 @@ class Event extends InputFilter
                         'messages' => [
                             StringLength::TOO_SHORT => 'Link should be between %min% and %max% characters long.',
                             StringLength::TOO_LONG => 'Link should be between %min% and %max% characters long.',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 [
-                    'name' => Uri::class
-                ]
-            ]
+                    'name' => Uri::class,
+                ],
+            ],
         ]);
 
         $this->add([
@@ -94,9 +94,9 @@ class Event extends InputFilter
                     'name' => Date::class,
                     'options' => [
                         'format' => 'Y-m-d\TH:i',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $this->add([
@@ -111,10 +111,10 @@ class Event extends InputFilter
                         'messages' => [
                             StringLength::TOO_SHORT => 'Venue should be between %min% and %max% characters long.',
                             StringLength::TOO_LONG => 'Venue should be between %min% and %max% characters long.',
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $this->add([
@@ -127,9 +127,9 @@ class Event extends InputFilter
                 [
                     'name' => Size::class,
                     'options' => [
-                        'max' => '2MB'
-                    ]
-                ]
+                        'max' => '2MB',
+                    ],
+                ],
             ],
             'filters' => [
                 [
@@ -139,9 +139,9 @@ class Event extends InputFilter
                         'use_upload_name' => false,
                         'use_upload_extension' => false,
                         'randomize' => true,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
     }
 }

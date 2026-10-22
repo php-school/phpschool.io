@@ -40,7 +40,7 @@ class ExerciseRunnerRateLimiter
         if (false === $limit->isAccepted()) {
             return new \GuzzleHttp\Psr7\Response(
                 429,
-                $headers
+                $headers,
             );
         }
 

@@ -18,8 +18,8 @@ class StudentTest extends TestCase
         $state = [
             'learnyouphp' => [
                 'currentExercise' => 'Exceptional Coding',
-                "completedExercises" => [ "Hello World", "Baby Steps", "My First IO",]
-            ]
+                "completedExercises" => [ "Hello World", "Baby Steps", "My First IO",],
+            ],
         ];
 
         $args = ['GH1', 'Student 1', 'student@phpschool.com', 'Student 1', null, null, $state];
@@ -57,8 +57,8 @@ class StudentTest extends TestCase
         $state = [
             'learnyouphp' => [
                 'currentExercise' => 'Exceptional Coding',
-                "completedExercises" => [ "Hello World", "Baby Steps", "My First IO",]
-            ]
+                "completedExercises" => [ "Hello World", "Baby Steps", "My First IO",],
+            ],
         ];
 
         $student = new Student('GH1', 'Student 1', 'student@phpschool.com', 'Student 1', null, null, $state);
@@ -75,8 +75,8 @@ class StudentTest extends TestCase
         $state = [
             'learnyouphp' => [
                 'currentExercise' => 'E3',
-                "completedExercises" => [ "E1", "E2", "E3"]
-            ]
+                "completedExercises" => [ "E1", "E2", "E3"],
+            ],
         ];
 
         $student = new Student('GH1', 'Student 1', 'student@phpschool.com', 'Student 1', null, null, $state);
@@ -88,10 +88,10 @@ class StudentTest extends TestCase
             [
                 'learnyouphp' => [
                     'currentExercise' => 'E4',
-                    "completedExercises" => [ "E1", "E2", "E3", "E4"]
-                ]
+                    "completedExercises" => [ "E1", "E2", "E3", "E4"],
+                ],
             ],
-            $student->getWorkshopState()
+            $student->getWorkshopState(),
         );
     }
 

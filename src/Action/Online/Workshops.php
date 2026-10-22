@@ -16,7 +16,7 @@ class Workshops
 
     public function __construct(
         private readonly CloudWorkshopRepository $installedWorkshops,
-        private readonly WorkshopRepository $workshopRepository
+        private readonly WorkshopRepository $workshopRepository,
     ) {}
 
     public function __invoke(Request $request, Response $response): Response
@@ -27,7 +27,7 @@ class Workshops
                 'allWorkshops' => $this->workshopRepository->findAll(),
                 'totalExercises' => $this->installedWorkshops->totalExerciseCount(),
             ],
-            $response
+            $response,
         );
     }
 }

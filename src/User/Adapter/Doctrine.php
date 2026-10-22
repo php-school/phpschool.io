@@ -27,7 +27,7 @@ class Doctrine extends AbstractAdapter implements AdapterInterface
             return new AuthenticationResult(
                 AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND,
                 null,
-                ['User not found.']
+                ['User not found.'],
             );
         }
 
@@ -35,7 +35,7 @@ class Doctrine extends AbstractAdapter implements AdapterInterface
             return new AuthenticationResult(
                 AuthenticationResult::FAILURE_CREDENTIAL_INVALID,
                 null,
-                ['No credential found.']
+                ['No credential found.'],
             );
         }
 
@@ -46,7 +46,7 @@ class Doctrine extends AbstractAdapter implements AdapterInterface
         return new AuthenticationResult(
             AuthenticationResult::FAILURE_CREDENTIAL_INVALID,
             null,
-            ['Invalid username or password provided']
+            ['Invalid username or password provided'],
         );
     }
 }

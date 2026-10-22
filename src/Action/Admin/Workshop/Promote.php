@@ -30,10 +30,10 @@ class Promote
         } catch (RuntimeException $e) {
             return $this->withJson(
                 [
-                    'error' => 'Could not find workshop with id: ' . $id
+                    'error' => 'Could not find workshop with id: ' . $id,
                 ],
                 $response,
-                404
+                404,
             );
         }
 
@@ -49,10 +49,10 @@ class Promote
         } catch (RuntimeException $e) {
             return $this->withJson(
                 [
-                    'error' => sprintf('Workshop feed could not be generated. Error: "%s"', $e->getMessage())
+                    'error' => sprintf('Workshop feed could not be generated. Error: "%s"', $e->getMessage()),
                 ],
                 $response,
-                500
+                500,
             );
         }
     }

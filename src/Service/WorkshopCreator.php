@@ -19,7 +19,7 @@ class WorkshopCreator
 
     public function __construct(
         WorkshopComposerJsonInputFilter $composerJsonInputFilter,
-        WorkshopRepository $workshopRepository
+        WorkshopRepository $workshopRepository,
     ) {
         $this->composerJsonInputFilter = $composerJsonInputFilter;
         $this->workshopRepository = $workshopRepository;
@@ -58,7 +58,7 @@ class WorkshopCreator
             $jsonData['description'],
             $data['email'],
             $data['name'],
-            $data['contact'] ?? null
+            $data['contact'] ?? null,
         );
 
         $this->workshopRepository->save($workshop);
@@ -72,7 +72,7 @@ class WorkshopCreator
     {
         return (array) json_decode(
             file_get_contents(sprintf(self::$gitHubComposerJsonUrlFormat, $owner, $repo)) ?: '',
-            true
+            true,
         );
     }
 }
