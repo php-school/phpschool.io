@@ -37,11 +37,13 @@ class SyncContributors
      */
     private function downloadContributors(): array
     {
+        /** @var list<array{name: string}> $repositories */
         $repositories = $this->client->user()->repositories('php-school');
 
         $contributors = [];
 
         foreach ($repositories as $repository) {
+            /** @var list<array{login: string, contributions: int|string, avatar_url: string, html_url: string}>|string $result */
             $result = $this->client->repositories()->contributors('php-school', $repository['name']);
 
             if (!is_array($result)) {

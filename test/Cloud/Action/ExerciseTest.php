@@ -160,7 +160,7 @@ class ExerciseTest extends BaseFilesystemTest
     /**
      * @return array{0: CloudWorkshopRepository, 1: ExerciseInterface, 2: ExerciseDispatcher}
      */
-    private function getDependencies(ExerciseInterface $exercise = null): array
+    private function getDependencies(?ExerciseInterface $exercise = null): array
     {
         $exercise = $exercise ?? new ExerciseImpl();
 
