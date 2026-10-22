@@ -14,7 +14,10 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ProjectUploader
 {
-    public function __construct(private readonly PathGenerator $pathGenerator) {}
+    public function __construct(
+        private readonly PathGenerator $pathGenerator,
+        private readonly ComposerPackageAllowlist $composerPackageAllowlist = new ComposerPackageAllowlist(),
+    ) {}
 
     public function upload(Request $request, StudentDTO $student, ProcessFactory $processFactory): DirectorySolution
     {
@@ -62,20 +65,7 @@ class ProjectUploader
      */
     private function installComposerDeps(array $deps, string $basePath, ProcessFactory $processFactory): void
     {
-        $require = [];
-        foreach ($deps as $dep) {
-            if (
-                !is_array($dep)
-                || !is_string($dep['name'] ?? null)
-                || !is_string($dep['version'] ?? null)
-                || 1 !== preg_match('#^[a-z0-9]([_.-]?[a-z0-9]+)*/[a-z0-9](([_.]|-{1,2})?[a-z0-9]+)*$#', $dep['name'])
-                || 1 !== preg_match('#^[a-zA-Z0-9.^~*|, <>=@-]{1,64}$#', $dep['version'])
-            ) {
-                throw new \RuntimeException('Invalid composer dependency');
-            }
-
-            $require[$dep['name']] = $dep['version'];
-        }
+        $require = $this->composerPackageAllowlist->validate($deps);
 
         file_put_contents(Path::join($basePath, 'composer.json'), json_encode(['require' => $require]));
 
