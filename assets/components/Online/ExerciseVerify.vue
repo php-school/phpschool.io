@@ -238,7 +238,7 @@ const verifySolution = () => {
                   <button
                     :class="{
                       'border-b-2 border-pink-500 px-4 py-3 text-pink-400': selected,
-                      ' px-4 py-3 text-white': !selected,
+                      'px-4 py-3 text-white': !selected,
                     }"
                   >
                     Run #{{ i + 1 }}

@@ -36,7 +36,7 @@ const changeTab = (tab) => {
         :key="index"
         @click="changeTab(index)"
         class="inline-block flex items-center justify-between border-r border-solid border-r-gray-600 pl-2 pr-1 text-xs text-white no-underline hover:text-pink-500"
-        :class="[activeTab === index ? 'border-t border-t-pink-600' : 'border-b border-t border-gray-600 ']"
+        :class="[activeTab === index ? 'border-t border-t-pink-600' : 'border-b border-t border-gray-600']"
       >
         <a href="#" class="py-6 pl-1 text-gray-300 hover:no-underline" :class="[activeTab === index ? 'text-pink-600' : '']">
           {{ tab }}

@@ -114,8 +114,7 @@ class MyExercise extends AbstractExercise
         return ['file_get_contents'];
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>If a student submitted something like:</p>
@@ -124,8 +123,7 @@ class MyExercise extends AbstractExercise
 &lt;?php
 
 echo file_get_contents('http://example.com');
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>The output would be something along the lines of:</p>
@@ -165,8 +163,7 @@ class MyExercise extends AbstractExercise
         ];
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -225,8 +222,7 @@ class MyExercise extends AbstractExercise
         return $db->query('select COUNT(*) from users')->fetchColumn() > 0;
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>If the student did not insert into the database, for example, if they submitted the following:</p>
@@ -235,8 +231,7 @@ class MyExercise extends AbstractExercise
 &lt;?php
 
 echo "Where is the database?";
-</pre
-    >
+</pre>
   </CodeBlock>
   <p>Then they would receive the following failure:</p>
 
@@ -253,8 +248,7 @@ $db = new PDO($dsn);
 $stmt = $db->prepare('INSERT INTO users (name, age, gender) VALUES (:name, :age, :gender)');
 $stmt->execute([':name' => 'Karl Renner', ':age' => 80, ':gender' => 'Male']);
 
-</pre
-    >
+</pre>
   </CodeBlock>
   <p>They would receive this success:</p>
 

@@ -127,7 +127,7 @@ const steps = [
             <Tab as="template" v-slot="{ selected }">
               <div class="group flex w-1/3 cursor-pointer flex-col items-center justify-center focus:outline-none">
                 <WindowsLogo class="aspect-square h-[50px] sm:h-[100px] lg:h-[200px]" :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></WindowsLogo>
-                <h3 class="mt-4 p-0 font-work-sans text-2xl capitalize not-italic" :class="{ 'text-white group-hover:text-pink-600 ': !selected, 'text-[#e91e63]': selected }">Windows</h3>
+                <h3 class="mt-4 p-0 font-work-sans text-2xl capitalize not-italic" :class="{ 'text-white group-hover:text-pink-600': !selected, 'text-[#e91e63]': selected }">Windows</h3>
               </div>
             </Tab>
           </TabList>

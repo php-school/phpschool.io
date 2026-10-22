@@ -182,7 +182,7 @@ const deleteChild = async (child) => {
 
 <template>
   <alert ref="fileAlert" />
-  <li :class="[model === state.selectedFile ? customStyles?.selectedFileClasses ?? '' : '']" class="flex w-full flex-col py-2 pl-3">
+  <li :class="[model === state.selectedFile ? (customStyles?.selectedFileClasses ?? '') : '']" class="flex w-full flex-col py-2 pl-3">
     <div @click="selectNode(model)" class="group flex w-full cursor-pointer items-center justify-between">
       <div class="flex min-w-0 items-center">
         <FolderIcon v-if="isFolder" v-show="!isOpen || !hasChildren" class="mr-1 h-3.5 w-3.5 md:h-5 md:w-5" style="fill: none !important" />

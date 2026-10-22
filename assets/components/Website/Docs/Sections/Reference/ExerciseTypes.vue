@@ -70,8 +70,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CliExerc
     {
         return ExerciseType::CLI();
     }
-}</pre
-    >
+}</pre>
   </CodeBlock>
   <p>This exercise would cause PHP to be invoked like so:</p>
   <CodeBlock lang="sh">
@@ -150,8 +149,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CgiExerc
         return ExerciseType::CGI();
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
   <p>The request above will result in PHP super globals looking something like this:</p>
   <CodeBlock lang="php">
@@ -177,8 +175,7 @@ array(13) {
 array(2) {
     ["genre"] => string(4) "punk"
     ["limit"] => string(2) "50"
-}</pre
-    >
+}</pre>
   </CodeBlock>
   <ContentHeader level="h5" id="cgi-post">Simulating a POST request</ContentHeader>
   <CodeBlock lang="php">
@@ -218,8 +215,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CgiExerc
     {
         return ExerciseType::CGI();
     }
-}</pre
-    >
+}</pre>
   </CodeBlock>
   <p>The request above will result in PHP super globals looking something like this:</p>
   <CodeBlock lang="php">
@@ -246,8 +242,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CgiExerc
  array(2) {
     ["genre"] => string(4) "punk"
     ["limit"] => string(2) "50"
- }</pre
-    >
+ }</pre>
   </CodeBlock>
   <ContentHeader id="how-does-this-work">How does this work?</ContentHeader>
   <p>
@@ -330,8 +325,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CustomVe
     {
         return ExerciseType::CGI();
     }
-}</pre
-    >
+}</pre>
   </CodeBlock>
 
   <p>When a student runs the verify command your verify method will be invoked and the results will be displayed to the student!</p>

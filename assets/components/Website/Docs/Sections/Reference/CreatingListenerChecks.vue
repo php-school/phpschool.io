@@ -187,8 +187,7 @@ interface CouchDbExerciseCheck
      */
     public function verify(CouchDBClient $couchDbClient);
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -272,8 +271,7 @@ class CouchDbCheck implements ListenableCheckInterface
 
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -323,8 +321,7 @@ $solutionClient = CouchDBClient::create(['dbname' => static::$solutionDb]);
 
 $studentClient->createDatabase($studentClient->getDatabase());
 $solutionClient->createDatabase($solutionClient->getDatabase());
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader level="h5" id="db-seed">Seed the databases for verify mode</ContentHeader>
@@ -355,8 +352,7 @@ $eventDispatcher->listen('verify.start', function (Event $e) use ($studentClient
     $e->getParameter('exercise')->seed($studentClient);
     $this->replicateDbFromStudentToSolution($studentClient, $solutionClient);
 });
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -403,8 +399,7 @@ private function replicateDbFromStudentToSolution(CouchDBClient $studentClient, 
         }
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader level="h5" id="db-seed-run">Seed the database for run mode</ContentHeader>
@@ -421,8 +416,7 @@ private function replicateDbFromStudentToSolution(CouchDBClient $studentClient, 
 $eventDispatcher->listen('run.start', function (Event $e) use ($studentClient) {
     $e->getParameter('exercise')->seed($studentClient);
 });
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader level="h5" id="db-arg">Adding the database name to the programs' arguments</ContentHeader>
@@ -465,8 +459,7 @@ $eventDispatcher->listen(
         $e->prependArg('phpschool-student');
     }
 );
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader level="h5" id="db-verify">Verify the database</ContentHeader>
@@ -493,8 +486,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $e) use ($stud
 
     return Success::fromCheck($this);
 });
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -532,8 +524,7 @@ $eventDispatcher->listen(
         $solutionClient->deleteDatabase(static::$solutionDb);
     }
 );
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <Note type="success">
@@ -661,8 +652,7 @@ class CouchDbCheck implements ListenableCheckInterface
         }
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader id="using-the-check">Build an exercise using the Couch DB check</ContentHeader>
@@ -751,8 +741,7 @@ $client->putDocument($updatedDoc, $docId, $docRevision);
 `{appname}` will be supplying arguments to your program when you run `{appname} verify program.php` so you don't need to supply them yourself. To test your program without verifying it, you can invoke it with `{appname} run program.php`. When you use `run`, you are invoking the test environment that `{appname}` sets up for each exercise.
 
 ----------------------------------------------------------------------
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>We note that the student must have Couch DB installed, we give a few links, an example of how to use the Doctrine Couch DB client and we describe the actual task.</p>
@@ -864,8 +853,7 @@ class CouchDbExercise extends AbstractExercise implements
         return isset($total->body['total']) && $total->body['total'] == $this->total;
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -945,8 +933,7 @@ $total = array_sum($doc['numbers']);
 $doc['total'] = $total;
 $client->putDocument(['total' => $total, 'numbers' => $doc['numbers']], $argv[2], $doc['_rev']);
 echo $total;
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader level="h4-code" id="composer-json">composer.json</ContentHeader>
@@ -959,8 +946,7 @@ echo $total;
         "doctrine/couchdb": "^1.0@beta"
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader level="h4-code" id="composer-lock">composer.lock</ContentHeader>
@@ -984,8 +970,7 @@ echo $total;
     <pre>
 CouchDbExercise::class => object(),
 CouchDbCheck::class => object(),
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>The result should look like:</p>
@@ -1013,8 +998,7 @@ return [
     CouchDbExercise::class => object(),
     CouchDbCheck::class => object(),
 ];
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -1075,8 +1059,7 @@ $app->setFgColour('red');
 $app->setBgColour('black');
 
 return $app;
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <Note type="success">Our exercise is complete - let's try it out!</Note>
@@ -1109,8 +1092,7 @@ $total = 30; //we guess total is 30
 $doc['total'] = $total;
 $client->putDocument(['total' => $total, 'numbers' => $doc['numbers']], $argv[2], $doc['_rev']);
 echo $total;
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <a href="/img/couch-db-fail.png">

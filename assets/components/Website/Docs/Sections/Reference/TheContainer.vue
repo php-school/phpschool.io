@@ -42,8 +42,7 @@ import CodeBlock from "../../CodeBlock.vue";
 return [
     ...snip
     Generator::class => \DI\Object(),
-];</pre
-    >
+];</pre>
   </CodeBlock>
   <ContentHeader level="h4" id="with-deps">Object with dependencies</ContentHeader>
 
@@ -67,8 +66,7 @@ return [
         $factory = new \RandomLib\Factory;
         return $factory->getGenerator(new \SecurityLib\Strength($strength));
     }),
-];</pre
-    >
+];</pre>
   </CodeBlock>
 
   <ContentHeader id="overwriting-services">Overwriting existing services</ContentHeader>
@@ -95,8 +93,7 @@ return [
     Symfony\Component\Filesystem\Filesystem::class => \DI\factory(function (ContainerInterface $c) {
         return new MyFileSystem;
     }),
-];</pre
-    >
+];</pre>
   </CodeBlock>
 
   <p>

@@ -33,8 +33,7 @@ const login = async () => {
   \ \ \/  \ \ \ \ \ \ \/       /\ \L\ \/\ \__/\ \ \ \ \/\ \L\ /\ \L\ \_\ \_
    \ \_\   \ \_\ \_\ \_\       \ `\____\ \____\\ \_\ \_\ \____\ \____/\____\
     \/_/    \/_/\/_/\/_/        \/_____/\/____/ \/_/\/_/\/___/ \/___/\/____/
-                </pre
-    >
+                </pre>
     <form @submit.prevent="login" class="flex w-[300px] flex-col items-center justify-center gap-y-4" action="/login" method="POST">
       <input
         v-model="email"

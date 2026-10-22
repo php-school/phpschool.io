@@ -64,8 +64,7 @@ class CodingStandardFailureRenderer implements ResultRendererInterface
         return implode("\n", $output);
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -134,8 +133,7 @@ $app->setFgColour('red');
 $app->setBgColour('black');
 
 return $app;
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader id="try-it-out">Try it out!</ContentHeader>

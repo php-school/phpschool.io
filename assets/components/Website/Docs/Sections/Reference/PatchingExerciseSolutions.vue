@@ -62,8 +62,7 @@ $patch = new Patch;
 $patch = $patch->withInsertion($insertion1);
 $patch = $patch->withInsertion($insertion2);
 $patch = $patch->withTransformer($transformer);
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <Note type="info">
@@ -85,8 +84,7 @@ use PhpSchool\PhpWorkshop\CodeInsertion;
 
 $before = new CodeInsertion(CodeInsertion::TYPE_BEFORE, 'echo "Before";');
 $after = new CodeInsertion(CodeInsertion::TYPE_AFTER, 'echo "After";');
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader id="transformers">Transformers</ContentHeader>
@@ -158,8 +156,7 @@ class MyExercise extends AbstractExercise implements
             ->withTransformer($wrapInTryCatch);
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -231,8 +228,7 @@ class MyExercise extends AbstractExercise implements
            ->withInsertion(new CodeInsertion(CodeInsertion::TYPE_AFTER, "echo 'Finish';"));
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>If the following solution was submitted:</p>
@@ -243,8 +239,7 @@ class MyExercise extends AbstractExercise implements
 
 echo "Hello World"
 throw new InvalidArgumentException('What is this magic?');
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>Then the code that is actually invoked by the workshop framework would be the following:</p>
@@ -261,8 +256,7 @@ try {
     echo $e->getMessage();
 }
 echo 'Finish';
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <Note type="info">The students solution will be reverted to the original form at the end of the verifying/running process so the student will never see the code in their solution file.</Note>

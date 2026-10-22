@@ -191,7 +191,7 @@ const homeLink = computed(() => {
 }
 
 .DocSearch-Button-Key {
-  @apply mr-0 !w-auto  p-0 font-sans text-xs;
+  @apply mr-0 !w-auto p-0 font-sans text-xs;
 }
 
 .DocSearch-Commands-Key {
