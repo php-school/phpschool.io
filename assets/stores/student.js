@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 
-export const useStudentStore = defineStore({
-  id: "student",
+export const useStudentStore = defineStore("student", {
   state: () => {
     let student = localStorage.getItem("student");
 
