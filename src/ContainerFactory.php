@@ -22,7 +22,7 @@ class ContainerFactory
         $config = include __DIR__ . '/../app/config.php';
 
         Collection::macro('ifEmpty', function (callable $callback) {
-            /** @var Collection $this */
+            /** @var Collection<array-key, mixed> $this */
             if ($this->isEmpty()) {
                 $callback($this);
             }

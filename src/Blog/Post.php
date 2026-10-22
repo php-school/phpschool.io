@@ -42,6 +42,6 @@ class Post
 
         preg_match('/<img\s[^>]*?src\s*=\s*[\'\"]([^\'\"]*?)[\'\"][^>]*?>/', $content, $matches);
 
-        return $matches[0];
+        return $matches[0] ?? '';
     }
 }

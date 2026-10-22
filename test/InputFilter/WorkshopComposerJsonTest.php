@@ -18,7 +18,7 @@ class WorkshopComposerJsonTest extends TestCase
      * @param array $messages
      * @dataProvider inputDataProvider
      */
-    public function testInputFilter(array $input, array $output = null, array $messages = null)
+    public function testInputFilter(array $input, ?array $output = null, ?array $messages = null)
     {
         $filter = new WorkshopComposerJson();
         $filter->setData($input);

@@ -25,8 +25,10 @@ class Generator
         $this->deletePosts();
 
         collect($this->getMarkDownFiles())
-            ->map(function (\SplFileInfo $file) {
-                return $this->parser->parse((string) file_get_contents($file->getRealPath()));
+            ->map(function (\SplFileInfo|string $file) {
+                $path = $file instanceof \SplFileInfo ? $file->getRealPath() : $file;
+
+                return $this->parser->parse((string) file_get_contents($path));
             })
             ->each(function (Document $document) {
                 $meta = $document->getYAML();

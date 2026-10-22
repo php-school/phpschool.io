@@ -12,7 +12,7 @@ class LoginTest extends TestCase
     /**
      * @dataProvider inputDataProvider
      */
-    public function testInputFilter(array $input, array $output = null, array $messages = null): void
+    public function testInputFilter(array $input, ?array $output = null, ?array $messages = null): void
     {
         $filter = new Login();
         $filter->setData($input);

@@ -37,10 +37,7 @@ class CloudWorkshopRepository
 
         return array_map(
             function (string $packageName) {
-                /** @var string $path */
-                $path = InstalledVersions::getInstallPath($packageName);
-                /** @var string $path */
-                $path = realpath($path);
+                $path = (string) realpath((string) InstalledVersions::getInstallPath($packageName));
 
                 $workshop = $this->workshopRepository->findByCode(
                     $this->getWorkshopCode($path)
@@ -81,6 +78,6 @@ class CloudWorkshopRepository
      */
     private function getComposerInstalledWorkshops(): array
     {
-        return array_unique(InstalledVersions::getInstalledPackagesByType('php-school-workshop'));
+        return array_values(array_unique(InstalledVersions::getInstalledPackagesByType('php-school-workshop')));
     }
 }

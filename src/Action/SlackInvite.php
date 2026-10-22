@@ -18,7 +18,7 @@ class SlackInvite
     {
         $data = $request->getParsedBody();
 
-        if (!is_array($data) && !isset($data['email'])) {
+        if (!is_array($data) || !isset($data['email'])) {
             return $this->withJson(['error' => 'Email not set'], $response, 500);
         }
 

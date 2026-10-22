@@ -61,7 +61,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
     }
 
     /**
-     * @return array<int, ExerciseInterface>
+     * @return array<ExerciseInterface>
      */
     public function findAllExercises(): array
     {

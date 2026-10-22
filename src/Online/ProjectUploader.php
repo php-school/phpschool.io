@@ -17,11 +17,15 @@ class ProjectUploader
 
     public function upload(Request $request, StudentDTO $student): DirectorySolution
     {
+        /** @var array{scripts?: mixed, composer_deps?: list<array{name: string, version: string}>, entry_point?: string}|null $data */
         $data = json_decode($request->getBody()->__toString(), true);
 
         if (!is_array($data) || !isset($data['scripts']) || !is_array($data['scripts']) || count($data['scripts']) < 1) {
             throw new \RuntimeException('No files were uploaded');
         }
+
+        /** @var array<string, string> $scripts */
+        $scripts = $data['scripts'];
 
         $basePath = $this->pathGenerator->random($student);
 
@@ -29,7 +33,7 @@ class ProjectUploader
             throw new \RuntimeException('Temporary directory already exists');
         }
         try {
-            $this->writeScripts($data['scripts'], $basePath);
+            $this->writeScripts($scripts, $basePath);
         } catch (\RuntimeException $e) {
             (new Filesystem())->remove($basePath);
             throw $e;
