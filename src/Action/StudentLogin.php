@@ -37,7 +37,7 @@ class StudentLogin
         if ($this->session->get('student') instanceof StudentDTO) {
             return $this->withJson([
                 'success' => true,
-                'student' => $this->session->get('student')
+                'student' => $this->session->get('student'),
             ], $response);
         }
 
@@ -49,7 +49,7 @@ class StudentLogin
         if ($this->session->get('student') instanceof StudentDTO) {
             return $this->withJson([
                 'success' => true,
-                'student' => $this->session->get('student')
+                'student' => $this->session->get('student'),
             ], $response);
         }
 
@@ -66,7 +66,7 @@ class StudentLogin
         if ($this->session->get('student') instanceof StudentDTO) {
             return $this->withJson([
                 'success' => true,
-                'student' => $this->session->get('student')
+                'student' => $this->session->get('student'),
             ], $response);
         }
 
@@ -83,7 +83,7 @@ class StudentLogin
 
         /** @var AccessToken $token */
         $token = $this->githubProvider->getAccessToken('authorization_code', [
-            'code' => $params['code']
+            'code' => $params['code'],
         ]);
 
         try {
@@ -112,7 +112,7 @@ class StudentLogin
 
             return $this->withJson([
                 'success' => true,
-                'student' => $student
+                'student' => $student,
             ], $response);
         } catch (IdentityProviderException $e) {
             return $this->withJson([

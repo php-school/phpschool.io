@@ -40,12 +40,12 @@ class CloudWorkshopRepository
                 $path = (string) realpath((string) InstalledVersions::getInstallPath($packageName));
 
                 $workshop = $this->workshopRepository->findByCode(
-                    $this->getWorkshopCode($path)
+                    $this->getWorkshopCode($path),
                 );
 
                 return new CloudInstalledWorkshop(
                     include $path . '/app/bootstrap.php',
-                    $workshop
+                    $workshop,
                 );
             },
             $workshops,

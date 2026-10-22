@@ -26,7 +26,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             'POST',
             '/verify',
             [],
-            json_encode([])
+            json_encode([]),
         );
 
         $uploader->upload($request, $this->getStudent());
@@ -54,9 +54,9 @@ class ProjectUploaderTest extends BaseFilesystemTest
             [],
             json_encode([
                 'scripts' => [
-                    'file1.php' => '<?php'
-                ]
-            ])
+                    'file1.php' => '<?php',
+                ],
+            ]),
         );
 
         $uploader->upload($request, $student);
@@ -78,9 +78,9 @@ class ProjectUploaderTest extends BaseFilesystemTest
             [],
             json_encode([
                 'scripts' => [
-                    $path => '<?php'
-                ]
-            ])
+                    $path => '<?php',
+                ],
+            ]),
         );
 
         $uploader->upload($request, $this->getStudent());
@@ -118,9 +118,9 @@ class ProjectUploaderTest extends BaseFilesystemTest
             [],
             json_encode([
                 'scripts' => [
-                    '/invalid/path' => '<?php'
-                ]
-            ])
+                    '/invalid/path' => '<?php',
+                ],
+            ]),
         );
 
         try {
@@ -153,9 +153,9 @@ class ProjectUploaderTest extends BaseFilesystemTest
                 'scripts' => [
                     'solution.php' => '<?php',
                     'folder/file2.php' => '<?php',
-                    'folder/nested/file3.php' => '<?php'
-                ]
-            ])
+                    'folder/nested/file3.php' => '<?php',
+                ],
+            ]),
         );
 
         $result = $uploader->upload($request, $student);
@@ -169,7 +169,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
                 $path . '/folder/nested/file3.php',
                 $path . '/solution.php',
             ],
-            array_map(fn(SolutionFile $f) => $f->getAbsolutePath(), $result->getFiles())
+            array_map(fn(SolutionFile $f) => $f->getAbsolutePath(), $result->getFiles()),
         );
 
         $this->assertFileExists($path . '/solution.php');
@@ -202,9 +202,9 @@ class ProjectUploaderTest extends BaseFilesystemTest
                     'solution.php' => '<?php',
                 ],
                 'composer_deps' => [
-                    ['name' => 'symfony/console', 'version' => '6.2.0']
-                ]
-            ])
+                    ['name' => 'symfony/console', 'version' => '6.2.0'],
+                ],
+            ]),
         );
 
         $result = $uploader->upload($request, $student);
@@ -215,7 +215,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
 
         $this->assertEquals(
             [$path . '/composer.json', $path . '/solution.php'],
-            array_map(fn(SolutionFile $f) => $f->getAbsolutePath(), $result->getFiles())
+            array_map(fn(SolutionFile $f) => $f->getAbsolutePath(), $result->getFiles()),
         );
 
         $this->assertFileExists($path . '/solution.php');
@@ -248,10 +248,10 @@ class ProjectUploaderTest extends BaseFilesystemTest
                 'scripts' => [
                     'program.php' => '<?php',
                     'folder/file2.php' => '<?php',
-                    'folder/nested/file3.php' => '<?php'
+                    'folder/nested/file3.php' => '<?php',
                 ],
-                'entry_point' => 'program.php'
-            ])
+                'entry_point' => 'program.php',
+            ]),
         );
 
         $result = $uploader->upload($request, $student);
@@ -265,7 +265,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
                 $path . '/folder/nested/file3.php',
                 $path . '/program.php',
             ],
-            array_map(fn(SolutionFile $f) => $f->getAbsolutePath(), $result->getFiles())
+            array_map(fn(SolutionFile $f) => $f->getAbsolutePath(), $result->getFiles()),
         );
 
         $this->assertFileExists($path . '/program.php');
@@ -288,7 +288,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             null,
             new \DateTime(),
             false,
-            new StudentCloudState([])
+            new StudentCloudState([]),
         );
     }
 }

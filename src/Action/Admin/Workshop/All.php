@@ -46,10 +46,10 @@ class All
                         'name' => $workshop->getDisplayName(),
                         'installs' => $this->getLast30DayInstallGraphData(
                             $this->workshopInstallRepository->findInstallsInLast30Days($workshop),
-                            $dateRange
-                        )
+                            $dateRange,
+                        ),
                     ];
-                }, $workshops)
+                }, $workshops),
             ],
         ], $response);
     }
@@ -80,7 +80,7 @@ class All
                     return $install->getDateTime()->format('d-m-Y') === $dateTime->format('d-m-Y');
                 }));
             },
-            $dateRange
+            $dateRange,
         );
     }
 }

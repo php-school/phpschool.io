@@ -38,10 +38,10 @@ class View
         } catch (RuntimeException $e) {
             return $this->withJson(
                 [
-                    'error' => 'Could not find workshop with id: ' . $id
+                    'error' => 'Could not find workshop with id: ' . $id,
                 ],
                 $response,
-                500
+                500,
             );
         }
 
@@ -50,7 +50,7 @@ class View
         return $this->withJson([
             'workshop' => $workshop,
             'installs' => $installs,
-            'graphData' => $this->getLast30DayInstallGraphData($installs)
+            'graphData' => $this->getLast30DayInstallGraphData($installs),
         ], $response);
     }
 

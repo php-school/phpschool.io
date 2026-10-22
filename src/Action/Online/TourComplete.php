@@ -18,7 +18,7 @@ class TourComplete
 
     public function __construct(
         private readonly SessionStorageInterface $session,
-        private readonly StudentRepository $studentRepository
+        private readonly StudentRepository $studentRepository,
     ) {}
 
     public function __invoke(Request $request, Response $response): Response

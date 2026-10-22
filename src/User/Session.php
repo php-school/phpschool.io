@@ -29,7 +29,7 @@ final class Session implements \ArrayAccess, SessionStorageInterface
                 (string) $params["path"],
                 (string) $params["domain"],
                 (bool) $params["secure"],
-                (bool) $params["httponly"]
+                (bool) $params["httponly"],
             );
         }
 

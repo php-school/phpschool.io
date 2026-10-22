@@ -58,7 +58,7 @@ class StudentRefresherTest extends TestCase
 
         $middleware = new StudentRefresher(
             $this->session,
-            $this->studentRepository
+            $this->studentRepository,
         );
 
         $response = $middleware->__invoke($request, $handler);
@@ -78,13 +78,13 @@ class StudentRefresherTest extends TestCase
             null,
             new \DateTime(),
             false,
-            new StudentCloudState([])
+            new StudentCloudState([]),
         );
     }
 
     private function getRequestHandler(): RequestHandlerInterface
     {
-        return new class () implements RequestHandlerInterface {
+        return new class implements RequestHandlerInterface {
             public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 return new Response();

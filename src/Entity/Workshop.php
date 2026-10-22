@@ -8,7 +8,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 #[ORM\Table(name: "workshop")]
@@ -84,7 +83,7 @@ class Workshop implements \JsonSerializable
         string $submitterEmail,
         string $submitterName,
         ?string $submitterContact = null,
-        bool $approved = false
+        bool $approved = false,
     ) {
         $this->gitHubOwner = $gitHubOwner;
         $this->gitHubRepoName = $gitHubRepoName;
@@ -225,7 +224,7 @@ class Workshop implements \JsonSerializable
             "github_repo_name" => $this->getGitHubRepoName(),
             'repo_url' => $this->getRepoUrl(),
             'type' => $this->getTypeCode(),
-            "description" => $this->getDescription()
+            "description" => $this->getDescription(),
         ];
     }
 
@@ -261,7 +260,7 @@ class Workshop implements \JsonSerializable
             'status' => $this->isApproved() ? 'Approved' : 'Not-approved',
             'type' => $this->getTypeName(),
             'installs' => $this->getTotalInstalls(),
-            'created_at' => $this->getCreatedAt()->format('M jS, y h:i')
+            'created_at' => $this->getCreatedAt()->format('M jS, y h:i'),
         ];
     }
 }

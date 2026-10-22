@@ -21,7 +21,7 @@ class CloudInstalledWorkshopTest extends TestCase
             'My Workshop',
             'My Workshop',
             'aydin@hotmail.co.uk',
-            'Aydin Hassan'
+            'Aydin Hassan',
         );
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
@@ -43,7 +43,7 @@ class CloudInstalledWorkshopTest extends TestCase
             'My Workshop',
             'My Workshop',
             'aydin@hotmail.co.uk',
-            'Aydin Hassan'
+            'Aydin Hassan',
         );
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
@@ -62,7 +62,7 @@ class CloudInstalledWorkshopTest extends TestCase
             'My Workshop',
             'My Workshop',
             'aydin@hotmail.co.uk',
-            'Aydin Hassan'
+            'Aydin Hassan',
         );
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
@@ -81,7 +81,7 @@ class CloudInstalledWorkshopTest extends TestCase
             'My Workshop',
             'My Workshop',
             'aydin@hotmail.co.uk',
-            'Aydin Hassan'
+            'Aydin Hassan',
         );
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
@@ -108,7 +108,7 @@ class CloudInstalledWorkshopTest extends TestCase
             'My Workshop',
             'My Workshop',
             'aydin@hotmail.co.uk',
-            'Aydin Hassan'
+            'Aydin Hassan',
         );
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
@@ -129,7 +129,7 @@ class CloudInstalledWorkshopTest extends TestCase
             'My Workshop',
             'My Workshop',
             'aydin@hotmail.co.uk',
-            'Aydin Hassan'
+            'Aydin Hassan',
         );
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
@@ -156,7 +156,7 @@ class CloudInstalledWorkshopTest extends TestCase
             'My Workshop',
             'My Workshop',
             'aydin@hotmail.co.uk',
-            'Aydin Hassan'
+            'Aydin Hassan',
         );
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
@@ -177,7 +177,7 @@ class CloudInstalledWorkshopTest extends TestCase
             'My Workshop',
             'My Workshop',
             'aydin@hotmail.co.uk',
-            'Aydin Hassan'
+            'Aydin Hassan',
         );
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
@@ -201,7 +201,7 @@ class CloudInstalledWorkshopTest extends TestCase
             'My Workshop',
             'My Workshop',
             'aydin@hotmail.co.uk',
-            'Aydin Hassan'
+            'Aydin Hassan',
         );
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
@@ -224,7 +224,7 @@ class CloudInstalledWorkshopTest extends TestCase
             'My Workshop',
             'My Workshop',
             'aydin@hotmail.co.uk',
-            'Aydin Hassan'
+            'Aydin Hassan',
         );
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
@@ -249,7 +249,7 @@ class CloudInstalledWorkshopTest extends TestCase
             'My Workshop',
             'My Workshop Description',
             'aydin@hotmail.co.uk',
-            'Aydin Hassan'
+            'Aydin Hassan',
         );
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
@@ -268,24 +268,24 @@ class CloudInstalledWorkshopTest extends TestCase
                         'slug' => 'Exercise-1',
                         'name' => 'Exercise 1',
                         'description' => 'Exercise 1',
-                        'type' => 'CLI'
+                        'type' => 'CLI',
                     ],
                     [
                         'slug' => 'Exercise-2',
                         'name' => 'Exercise 2',
                         'description' => 'Exercise 2',
-                        'type' => 'CLI'
+                        'type' => 'CLI',
                     ],
                     [
                         'slug' => 'Exercise-3',
                         'name' => 'Exercise 3',
                         'description' => 'Exercise 3',
-                        'type' => 'CLI'
-                    ]
+                        'type' => 'CLI',
+                    ],
                 ],
-                'logo' => null
+                'logo' => null,
             ],
-            (new CloudInstalledWorkshop($app, $workshop))->jsonSerialize()
+            (new CloudInstalledWorkshop($app, $workshop))->jsonSerialize(),
         );
     }
 }

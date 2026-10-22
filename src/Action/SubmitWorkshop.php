@@ -36,7 +36,7 @@ class SubmitWorkshop
         FormHandler $formHandler,
         WorkshopCreator $workshopCreator,
         EmailNotifier $emailNotifier,
-        LoggerInterface $logger
+        LoggerInterface $logger,
     ) {
         $this->formHandler = $formHandler;
         $this->workshopCreator = $workshopCreator;

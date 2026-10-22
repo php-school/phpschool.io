@@ -42,7 +42,7 @@ class SubmitWorkshop extends InputFilter
                             Regex::NOT_MATCH => 'The URL "%value%" is not a valid GitHub repository URL.',
                         ],
                         'break_chain_on_failure' => true,
-                    ]
+                    ],
                 ],
                 [
                     'name' => Callback::class,
@@ -64,7 +64,7 @@ class SubmitWorkshop extends InputFilter
                             Callback::INVALID_VALUE => 'Cannot download the contents of composer.json from "%value%". Does it exist?',
                         ],
                         'break_chain_on_failure' => true,
-                    ]
+                    ],
                 ],
                 [
                     'name' => Callback::class,
@@ -83,9 +83,9 @@ class SubmitWorkshop extends InputFilter
                             Callback::INVALID_VALUE => 'Cannot find any git tags in "%value%". Make sure you tag a release.',
                         ],
                         'break_chain_on_failure' => true,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $this->add([
@@ -93,8 +93,8 @@ class SubmitWorkshop extends InputFilter
             'required' => true,
             'validators' => [
                 [
-                    'name' => EmailAddress::class
-                ]
+                    'name' => EmailAddress::class,
+                ],
             ],
         ]);
 
@@ -109,10 +109,10 @@ class SubmitWorkshop extends InputFilter
                         'max' => 255,
                         'messages' => [
                             StringLength::TOO_LONG => 'Name should be between %min% and %max% characters long.',
-                            StringLength::TOO_SHORT => 'Name should be between %min% and %max% characters long.'
-                        ]
-                    ]
-                ]
+                            StringLength::TOO_SHORT => 'Name should be between %min% and %max% characters long.',
+                        ],
+                    ],
+                ],
             ],
         ]);
 
@@ -127,10 +127,10 @@ class SubmitWorkshop extends InputFilter
                         'max' => 512,
                         'messages' => [
                             StringLength::TOO_LONG => 'Contact should be between %min% and %max% characters long.',
-                            StringLength::TOO_SHORT => 'Contact should be between %min% and %max% characters long.'
-                        ]
-                    ]
-                ]
+                            StringLength::TOO_SHORT => 'Contact should be between %min% and %max% characters long.',
+                        ],
+                    ],
+                ],
             ],
         ]);
 
@@ -150,9 +150,9 @@ class SubmitWorkshop extends InputFilter
                             return false;
                         },
                         'messages' => [
-                            Callback::INVALID_VALUE => 'The name is used by an existing workshop, please try another.'
-                        ]
-                    ]
+                            Callback::INVALID_VALUE => 'The name is used by an existing workshop, please try another.',
+                        ],
+                    ],
                 ],
                 [
                     'name' => StringLength::class,
@@ -161,10 +161,10 @@ class SubmitWorkshop extends InputFilter
                         'max' => 255,
                         'messages' => [
                             StringLength::TOO_LONG => 'Workshop name should be between %min% and %max% characters long.',
-                            StringLength::TOO_SHORT => 'Workshop name should be between %min% and %max% characters long.'
-                        ]
-                    ]
-                ]
+                            StringLength::TOO_SHORT => 'Workshop name should be between %min% and %max% characters long.',
+                        ],
+                    ],
+                ],
             ],
         ]);
     }

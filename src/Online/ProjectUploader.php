@@ -44,7 +44,7 @@ class ProjectUploader
                 'require' => array_combine(
                     array_column($data['composer_deps'], 'name'),
                     array_column($data['composer_deps'], 'version'),
-                )
+                ),
             ];
 
             file_put_contents(Path::join($basePath, 'composer.json'), json_encode($composer));

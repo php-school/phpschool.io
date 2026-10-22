@@ -7,7 +7,6 @@ namespace PhpSchool\Website\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use PhpSchool\Website\Blog\Post;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 #[ORM\Table(name: "posts")]

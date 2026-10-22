@@ -46,7 +46,7 @@ class TourCompleteTest extends TestCase
             null,
             new \DateTime('14 February 2022'),
             false,
-            new StudentCloudState([])
+            new StudentCloudState([]),
         );
 
         $studentEntity = $this->createMock(Student::class);

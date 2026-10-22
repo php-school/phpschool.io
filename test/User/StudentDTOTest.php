@@ -24,7 +24,7 @@ class StudentDTOTest extends TestCase
             null,
             new \DateTime('14 February 2022'),
             false,
-            $state
+            $state,
         );
 
         $this->assertEquals(
@@ -36,9 +36,9 @@ class StudentDTOTest extends TestCase
                 'location' => null,
                 'join_date' => 'February 2022',
                 'tour_complete' => false,
-                'state' => $state->jsonSerialize()
+                'state' => $state->jsonSerialize(),
             ],
-            $student->jsonSerialize()
+            $student->jsonSerialize(),
         );
     }
 }

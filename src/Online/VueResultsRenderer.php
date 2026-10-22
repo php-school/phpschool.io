@@ -31,13 +31,13 @@ class VueResultsRenderer
      */
     public function render(
         ResultAggregator $results,
-        ExerciseInterface $exercise
+        ExerciseInterface $exercise,
     ): array {
         return array_map(
             function (ResultInterface $result) {
                 return $this->renderResult($result);
             },
-            $results->getIterator()->getArrayCopy()
+            $results->getIterator()->getArrayCopy(),
         );
     }
 
@@ -60,7 +60,7 @@ class VueResultsRenderer
         if ($this->isSuccess($result)) {
             return [
                 'success' => true,
-                'name' => $result->getCheckName()
+                'name' => $result->getCheckName(),
             ];
         }
 
@@ -84,17 +84,17 @@ class VueResultsRenderer
                             'name' => $innerResult->getCheckName(),
                             'type' => $innerResult::class,
                         ],
-                        $innerResult->toArray()
+                        $innerResult->toArray(),
                     );
                 },
-                $result->getResults()
+                $result->getResults(),
             );
 
             return [
                 'success' => false,
                 'name' => $result->getCheckName(),
                 'type' => $result::class,
-                'results' => $results
+                'results' => $results,
             ];
         }
 
@@ -106,7 +106,7 @@ class VueResultsRenderer
                 'name' => $result->getCheckName(),
                 'type' => $result::class,
             ],
-            $result->toArray()
+            $result->toArray(),
         );
 
         return $failure;

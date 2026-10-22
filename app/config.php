@@ -158,8 +158,8 @@ return [
                 sprintf(
                     'Could not connect to redis using DSN: "%s". Message: "%s"',
                     $c->get('config')['redisDsn'],
-                    $e->getMessage()
-                )
+                    $e->getMessage(),
+                ),
             );
         }
 
@@ -207,18 +207,18 @@ return [
     SubmitWorkshop::class => \DI\factory(function (ContainerInterface $c): SubmitWorkshop {
         return new SubmitWorkshop(
             $c->get(FormHandlerFactory::class)->create(
-                new SubmitWorkshopInputFilter(new Client(), $c->get(WorkshopRepository::class))
+                new SubmitWorkshopInputFilter(new Client(), $c->get(WorkshopRepository::class)),
             ),
             new WorkshopCreator(new WorkshopComposerJsonInputFilter(), $c->get(WorkshopRepository::class)),
             $c->get(EmailNotifier::class),
-            $c->get(LoggerInterface::class)
+            $c->get(LoggerInterface::class),
         );
     }),
 
     SlackInvite::class => function (ContainerInterface $c): SlackInvite {
         return new SlackInvite(
             $c->get('guzzle'),
-            $c->get('config')['slackInviteApiToken']
+            $c->get('config')['slackInviteApiToken'],
         );
     },
 
@@ -240,7 +240,7 @@ return [
         return new StudentLogin(
             $c->get(Github::class),
             $c->get(Session::class),
-            $c->get(EntityManagerInterface::class)
+            $c->get(EntityManagerInterface::class),
         );
     },
 
@@ -249,7 +249,7 @@ return [
         return new Login(
             $c->get(AdminAuthenticationService::class),
             $c->get(FormHandlerFactory::class)->create(new LoginInputFilter()),
-            $c->get('config')['jwtSecret']
+            $c->get('config')['jwtSecret'],
         );
     }),
 
@@ -278,7 +278,7 @@ return [
             $c->get(WorkshopFeed::class),
             $c->get('cache'),
             $c->get(EmailNotifier::class),
-            $c->get(LoggerInterface::class)
+            $c->get(LoggerInterface::class),
         );
     }),
 
@@ -348,8 +348,8 @@ return [
                     new DocumentationShorthand(),
                     new Run(),
                     new Verify(),
-                    $c->get(Context::class)
-                ]
+                    $c->get(Context::class),
+                ],
             ));
 
         return new MarkdownConverter($environment);
@@ -374,7 +374,7 @@ return [
             $c->get(ProjectUploader::class),
             $c->get(SessionStorageInterface::class),
             $c->get(StudentWorkshopState::class),
-            new VueResultsRenderer()
+            new VueResultsRenderer(),
         );
     },
 
@@ -414,7 +414,7 @@ return [
     WorkshopFeed::class => \DI\factory(function (ContainerInterface $c): WorkshopFeed {
         return new WorkshopFeed(
             $c->get(WorkshopRepository::class),
-            __DIR__ . '/../public/workshops.json'
+            __DIR__ . '/../public/workshops.json',
         );
     }),
 
@@ -441,7 +441,7 @@ return [
     AdminAuthenticationService::class => \DI\factory(function (ContainerInterface $c): AdminAuthenticationService {
         $authService = new \Laminas\Authentication\AuthenticationService(
             new \Laminas\Authentication\Storage\NonPersistent(),
-            new Doctrine($c->get(EntityManagerInterface::class))
+            new Doctrine($c->get(EntityManagerInterface::class)),
         );
         return new AdminAuthenticationService($authService);
     }),
@@ -480,20 +480,20 @@ return [
                 $c->get('config')['doctrine']['connection'],
                 $ormConfig,
             ),
-            $ormConfig
+            $ormConfig,
         );
     }),
 
     EmailNotifier::class => function (ContainerInterface $c): EmailNotifier {
         return new EmailNotifier(
             new \SendGrid((string) getenv('SEND_GRID_API_KEY')),
-            (string) getenv('SEND_GRID_SENDER_EMAIL')
+            (string) getenv('SEND_GRID_SENDER_EMAIL'),
         );
     },
 
     Generator::class => function (ContainerInterface $c): Generator {
         return new Generator(
-            new Parser(null, new class () implements \Mni\FrontYAML\Markdown\MarkdownParser {
+            new Parser(null, new class implements \Mni\FrontYAML\Markdown\MarkdownParser {
                 public function parse($markdown): string
                 {
                     return (new Parsedown())->parse($markdown);
@@ -517,8 +517,8 @@ return [
                 sprintf(
                     'Could not connect to redis using host: "%s". Message: "%s"',
                     $c->get('config')['redisHost'],
-                    $e->getMessage()
-                )
+                    $e->getMessage(),
+                ),
             );
         }
 
@@ -531,14 +531,14 @@ return [
                 'limit' => 10,
                 'interval' => '1 minute',
             ],
-            new CacheStorage($adapter)
+            new CacheStorage($adapter),
         );
     },
 
     ExerciseRunnerRateLimiter::class => function (ContainerInterface $c): ExerciseRunnerRateLimiter {
         return new ExerciseRunnerRateLimiter(
             $c->get(SessionStorageInterface::class),
-            $c->get('exerciseRunnerRateLimiterFactory')
+            $c->get('exerciseRunnerRateLimiterFactory'),
         );
     },
 
@@ -594,7 +594,7 @@ return [
                 'user'     => $_ENV['MYSQL_USER'],
                 'password' => $_ENV['MYSQL_PASSWORD'],
                 'charset' => 'utf8mb4',
-            ]
+            ],
         ],
 
         'github' => [
@@ -609,4 +609,4 @@ return [
 
     //slim settings
     'settings.displayErrorDetails' => filter_var($_ENV['DISPLAY_ERRORS'], FILTER_VALIDATE_BOOLEAN),
- ];
+];
