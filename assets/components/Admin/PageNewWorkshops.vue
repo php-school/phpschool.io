@@ -5,6 +5,7 @@ import { CubeIcon } from "@heroicons/vue/24/solid";
 import Alert from "../Online/SiteAlert.vue";
 import { approveWorkshop, newWorkshops } from "./api";
 import { useSearch } from "./search";
+import { useNotice } from "./notice";
 
 const props = defineProps({
   search: {
@@ -28,42 +29,26 @@ const statuses = {
   Approved: "text-pink-500 bg-pink-500/10 ring-pink-500/30",
 };
 
+const { notice, success, error } = useNotice();
+
 const currentlyApproving = ref(null);
-const showApproveSuccess = ref(false);
-const approveSuccess = ref("");
-
-const showApproveError = ref(false);
-const approveError = ref("");
-
-const confirmApprove = (workshop) => {
-  currentlyApproving.value = workshop;
-};
 
 const doApproveWorkshop = async () => {
+  const workshop = currentlyApproving.value;
+  currentlyApproving.value = null;
+
   try {
-    await approveWorkshop(currentlyApproving.value.id);
-
-    const approveId = currentlyApproving.value.id;
-
-    approveSuccess.value = "Successfully approved: " + currentlyApproving.value.name + "  and regenerated workshop feed";
-    showApproveSuccess.value = true;
-
-    workshops.value = workshops.value.filter((workshop) => workshop.id !== approveId);
-  } catch (error) {
-    if (error.message) {
-      approveError.value = error.message;
-    }
-    showApproveError.value = true;
-  } finally {
-    currentlyApproving.value = null;
+    await approveWorkshop(workshop.id);
+    workshops.value = workshops.value.filter(({ id }) => id !== workshop.id);
+    success(`Successfully approved: ${workshop.name} and regenerated workshop feed`);
+  } catch (e) {
+    error(e);
   }
 };
 </script>
 
 <template>
-  <!-- approve alerts -->
-  <alert type="error" :message="approveError || 'An error occurred. Please try again later.'" :timeout="4000" :show="showApproveError" @close="showApproveError = false"></alert>
-  <alert type="success" :message="approveSuccess" :timeout="4000" :show="showApproveSuccess" @close="showApproveSuccess = false"></alert>
+  <alert v-bind="notice" :timeout="4000" @close="notice.show = false" />
 
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
     <h1 class="text-base leading-7 font-semibold text-white">New Workshop Requests</h1>
@@ -107,7 +92,7 @@ const doApproveWorkshop = async () => {
       </div>
 
       <button
-        @click="confirmApprove(workshop)"
+        @click="currentlyApproving = workshop"
         type="button"
         class="rounded-md bg-green-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-green-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500 focus-visible:outline-solid"
       >

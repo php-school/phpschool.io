@@ -9,6 +9,7 @@ import { Dialog, DialogPanel, Menu, MenuButton, MenuItem, MenuItems, TransitionC
 import Alert from "../Online/SiteAlert.vue";
 import { allEvents, createEvent, deleteEvent, updateEvent } from "./api";
 import { useSearch } from "./search";
+import { useNotice } from "./notice";
 
 const props = defineProps({
   search: {
@@ -25,158 +26,93 @@ onMounted(async () => {
 
 const filteredEvents = useSearch(events, () => props.search, ["name", "description"]);
 
+const { notice, success, error } = useNotice();
+
 const currentlyDeleting = ref(null);
-const showDeleteSuccess = ref(false);
-const deleteSuccess = ref("");
-
-const showDeleteError = ref(false);
-const deleteError = ref("");
-
 const deleteLoading = ref(false);
 
-const confirmDeleteEvent = (event) => {
-  currentlyDeleting.value = event;
-};
-
 const doDeleteEvent = async () => {
+  const event = currentlyDeleting.value;
   deleteLoading.value = true;
 
   try {
-    await deleteEvent(currentlyDeleting.value.id);
-
-    const deletedId = currentlyDeleting.value.id;
-
-    deleteSuccess.value = "Successfully removed: " + currentlyDeleting.value.name;
-    showDeleteSuccess.value = true;
-
-    events.value = events.value.filter((event) => event.id !== deletedId);
-  } catch (error) {
-    if (error.message) {
-      deleteError.value = error.message;
-    }
-
-    showDeleteError.value = true;
+    await deleteEvent(event.id);
+    events.value = events.value.filter(({ id }) => id !== event.id);
+    success("Successfully removed: " + event.name);
+  } catch (e) {
+    error(e);
   } finally {
     deleteLoading.value = false;
     currentlyDeleting.value = null;
   }
 };
 
-const showAdd = ref(false);
-const form = reactive({
-  id: null,
-  name: null,
-  description: null,
-  link: null,
-  date: null,
-  venue: null,
-});
+const showForm = ref(false);
+const form = reactive({});
 const errors = ref({});
-
-const getNow = () => {
-  const now = new Date();
-  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-
-  now.setMilliseconds(null);
-  now.setSeconds(null);
-
-  return now.toISOString().slice(0, -8);
-};
-
-const addEvent = () => {
-  form.id = null;
-  form.name = null;
-  form.description = null;
-  form.link = "";
-  form.date = getNow();
-  form.venue = null;
-  file.value = null;
-  errors.value = {};
-
-  showAdd.value = true;
-};
-
-const showEventSuccess = ref(false);
-const eventSuccess = ref("");
-
-const showEventError = ref(false);
-const eventError = ref("");
-
 const loading = ref(false);
-
 const file = ref(null);
 const fileInput = ref(null);
+
+// The current local time in the datetime-local format, e.g. 2026-10-23T09:30.
+const now = () => {
+  const date = new Date();
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return date.toISOString().slice(0, 16);
+};
+
+const openForm = (event = {}) => {
+  Object.assign(form, {
+    id: event.id ?? null,
+    name: event.name ?? null,
+    description: event.description ?? null,
+    link: event.link ?? "",
+    date: event.date ?? now(),
+    venue: event.venue ?? null,
+  });
+  file.value = null;
+  errors.value = {};
+  showForm.value = true;
+};
 
 const changeEventImage = () => {
   file.value = fileInput.value?.files[0];
 };
 
 const saveEvent = async () => {
-  errors.value = {}; //reset errors
+  errors.value = {};
   loading.value = true;
 
-  const data = {
-    name: form.name,
-    description: form.description,
-    link: form.link,
-    date: form.date,
-    venue: form.venue,
-  };
-
+  const { id, ...data } = form;
   if (file.value) {
     data.poster = file.value;
   }
 
-  const successMessage = form.id ? "Successfully updated event: " + form.name : "Successfully added event: " + form.name;
-
   try {
-    const response = form.id ? await updateEvent(form.id, data) : await createEvent(data);
+    const response = id ? await updateEvent(id, data) : await createEvent(data);
 
     // the server answers validation failures with a 200 and form_errors
     if (response.form_errors) {
       errors.value = response.form_errors;
     } else {
       events.value = await allEvents();
-
-      eventSuccess.value = successMessage;
-      showEventSuccess.value = true;
-
-      showAdd.value = false;
+      success((id ? "Successfully updated event: " : "Successfully added event: ") + data.name);
+      showForm.value = false;
     }
-  } catch (error) {
-    eventError.value = error.message;
-    showEventError.value = true;
+  } catch (e) {
+    error(e);
   } finally {
     loading.value = false;
   }
 };
-
-const editEvent = (event) => {
-  form.id = event.id;
-  form.name = event.name;
-  form.description = event.description;
-  form.link = event.link ?? "";
-  form.date = event.date;
-  form.venue = event.venue;
-  file.value = null;
-  errors.value = {};
-
-  showAdd.value = true;
-};
 </script>
 <template>
-  <!-- delete alerts -->
-  <alert type="error" :message="deleteError || 'An error occurred. Please try again later.'" :timeout="4000" :show="showDeleteError" @close="showDeleteError = false"></alert>
-  <alert type="success" :message="deleteSuccess" :timeout="4000" :show="showDeleteSuccess" @close="showDeleteSuccess = false"></alert>
-
-  <!-- event create/update alerts -->
-  <alert type="error" :message="eventError || 'An error occurred. Please try again later.'" :timeout="4000" :show="showEventError" @close="showEventError = false"></alert>
-  <alert type="success" :message="eventSuccess" :timeout="4000" :show="showEventSuccess" @close="showEventSuccess = false"></alert>
+  <alert v-bind="notice" :timeout="4000" @close="notice.show = false" />
 
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
     <h1 class="text-base leading-7 font-semibold text-white">Events</h1>
     <button
-      @click="addEvent"
+      @click="openForm()"
       type="button"
       class="flex-none rounded-md bg-pink-500/10 px-2 py-1.5 text-xs font-medium text-pink-500 ring-1 ring-pink-500/30 ring-inset hover:text-pink-600 hover:ring-pink-600/30"
     >
@@ -224,14 +160,14 @@ const editEvent = (event) => {
         >
           <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-700 rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-hidden">
             <MenuItem v-slot="{ active }">
-              <button @click="editEvent(event)" :class="[active ? 'p-2 text-white' : 'text-slate-400', 'group flex w-full items-center px-4 py-2 text-sm']">
+              <button @click="openForm(event)" :class="[active ? 'p-2 text-white' : 'text-slate-400', 'group flex w-full items-center px-4 py-2 text-sm']">
                 <PencilIcon class="mr-3 h-5 w-5" aria-hidden="true" />
                 Edit
                 <span class="sr-only">, {{ event.name }}</span>
               </button>
             </MenuItem>
             <MenuItem v-slot="{ active }">
-              <button @click="confirmDeleteEvent(event)" :class="[active ? 'p-2 text-white' : 'text-slate-400', 'group flex w-full items-center px-4 py-2 text-sm']">
+              <button @click="currentlyDeleting = event" :class="[active ? 'p-2 text-white' : 'text-slate-400', 'group flex w-full items-center px-4 py-2 text-sm']">
                 <TrashIcon class="mr-3 h-5 w-5" aria-hidden="true" />
                 Delete
                 <span class="sr-only">, {{ event.name }}</span>
@@ -247,8 +183,8 @@ const editEvent = (event) => {
     Are you sure you want to delete "{{ currentlyDeleting?.name }}". This action cannot be undone.
   </ConfirmDialog>
 
-  <TransitionRoot as="template" :show="showAdd">
-    <Dialog as="div" class="relative z-50" @close="showAdd = false">
+  <TransitionRoot as="template" :show="showForm">
+    <Dialog as="div" class="relative z-50" @close="showForm = false">
       <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
         <div class="fixed inset-0 bg-gray-500/75 transition-opacity" />
       </TransitionChild>
@@ -334,7 +270,7 @@ const editEvent = (event) => {
                   type="button"
                   class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20 sm:mt-0 sm:w-auto"
                   ref="cancelButtonRef"
-                  @click="showAdd = false"
+                  @click="showForm = false"
                 >
                   Cancel
                 </button>

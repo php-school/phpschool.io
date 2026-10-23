@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from "vue";
 import Alert from "../Online/SiteAlert.vue";
 
 import { clearCache } from "./api";
+import { useNotice } from "./notice";
 
 defineProps({
   search: {
@@ -11,28 +11,20 @@ defineProps({
   },
 });
 
-const showCacheClearSuccess = ref(false);
-const cacheClearError = ref("");
-const showCacheClearError = ref(false);
+const { notice, success, error } = useNotice();
 
 const clear = async () => {
   try {
     await clearCache();
-    showCacheClearSuccess.value = true;
-  } catch (error) {
-    if (error.message) {
-      cacheClearError.value = error.message;
-    }
-
-    showCacheClearError.value = true;
+    success("Cache was successfully cleared");
+  } catch (e) {
+    error(e);
   }
 };
 </script>
 
 <template>
-  <!-- cc alerts -->
-  <alert type="error" :message="cacheClearError || 'An error occurred. Please try again later.'" :timeout="4000" :show="showCacheClearError" @close="showCacheClearError = false"></alert>
-  <alert type="success" message="Cache was successfully cleared" :timeout="4000" :show="showCacheClearSuccess" @close="showCacheClearSuccess = false"></alert>
+  <alert v-bind="notice" :timeout="4000" @close="notice.show = false" />
 
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
     <h1 class="text-base leading-7 font-semibold text-white">Settings</h1>
