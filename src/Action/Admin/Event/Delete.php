@@ -33,10 +33,10 @@ class Delete
         } catch (RuntimeException $e) {
             return $this->withJson(
                 [
-                    'error' => 'Could not find workshop with id: ' . $id,
+                    'error' => 'Could not find event with id: ' . $id,
                 ],
                 $response,
-                500,
+                404,
             );
         }
 
