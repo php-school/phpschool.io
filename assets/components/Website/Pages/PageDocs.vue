@@ -63,7 +63,7 @@ const homeLink = computed(() => {
 
 <template>
   <div>
-    <section class="items-stretch bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed">
+    <section class="items-stretch bg-linear-to-b/srgb from-gray-900 to-cyan-500 bg-fixed">
       <Heading>
         <template v-slot:title>Documentation</template>
 
@@ -73,9 +73,9 @@ const homeLink = computed(() => {
     <div class="min-h-screen w-full bg-gray-900">
       <div class="flex flex-wrap p-6 text-left font-open-sans text-gray-800">
         <div class="w-full border-r border-gray-600 bg-gray-900 pl-48 md:w-3/12 md:pt-8">
-          <div ref="docSearchContainer" class="mb-2 mr-4"></div>
+          <div ref="docSearchContainer" class="mr-4 mb-2"></div>
           <template v-for="group in docs" :key="group.title">
-            <h2 class="mb-4 border-b border-gray-600 pb-4 pt-4 font-mono text-base text-white">
+            <h2 class="mb-4 border-b border-gray-600 pt-4 pb-4 font-mono text-base text-white">
               {{ group.title }}
             </h2>
 
@@ -94,7 +94,7 @@ const homeLink = computed(() => {
             <router-view></router-view>
           </div>
 
-          <div class="flex border-t border-gray-600 pb-2.5 pt-4">
+          <div class="flex border-t border-gray-600 pt-4 pb-2.5">
             <div class="w-[40%] text-left">
               <router-link v-if="previousSection !== null" class="text-sm text-white" :to="prevLink">⇠ {{ previousSection.title }}</router-link>
             </div>
@@ -140,6 +140,7 @@ const homeLink = computed(() => {
 </template>
 
 <style>
+@reference "../../../styles/online.css";
 /** docs **/
 .docs-content {
   @apply text-white;
@@ -179,11 +180,11 @@ const homeLink = computed(() => {
 }
 
 .DocSearch-Button {
-  @apply ml-0 w-full rounded-md bg-gray-800 pr-3 !ring-1 !ring-[#e91e63] hover:bg-gray-700;
+  @apply ml-0 w-full rounded-md bg-gray-800 pr-3 ring-1! ring-[#e91e63]! hover:bg-gray-700;
 }
 
 .DocSearch-Search-Icon {
-  @apply !mr-3 !text-sm !text-[#e91e63];
+  @apply mr-3! text-sm! !text-[#e91e63];
 }
 
 .DocSearch-Button-Keys {
@@ -191,7 +192,7 @@ const homeLink = computed(() => {
 }
 
 .DocSearch-Button-Key {
-  @apply mr-0 !w-auto p-0 font-sans text-xs;
+  @apply mr-0 w-auto! p-0 font-sans text-xs;
 }
 
 .DocSearch-Commands-Key {
@@ -203,7 +204,7 @@ const homeLink = computed(() => {
 }
 
 .DocSearch-Input {
-  @apply bg-transparent focus:outline-none focus:ring-0;
+  @apply bg-transparent focus:ring-0 focus:outline-hidden;
 }
 
 :root {

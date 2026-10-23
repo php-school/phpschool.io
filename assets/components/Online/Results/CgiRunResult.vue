@@ -33,7 +33,7 @@ const headers = (headers) => {
 <template>
   <div class="mt-3 border-l-2 border-solid border-red-500 pl-2" v-for="(failure, i) in failures" :key="i">
     <div class="flex w-full justify-between">
-      <span class="inline w-2/3 text-sm italic text-gray-300">Run #{{ i + 1 }}</span>
+      <span class="inline w-2/3 text-sm text-gray-300 italic">Run #{{ i + 1 }}</span>
       <button class="p-x2 ml-2 text-left text-sm text-[#E91E63] underline" @click="openInfoModal(failure)">Run info</button>
     </div>
     <component v-if="renderers.hasOwnProperty(failure.type)" :is="renderers[failure.type]" :data="failure"></component>
@@ -47,7 +47,7 @@ const headers = (headers) => {
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <Modal :scroll-content="true" size="2xl" max-height="max-h-[calc(5/6*100%)]" v-if="openModal" @close="openModal = false">
+    <Modal :scroll-content="true" size="2xl" max-height="max-h-5/6" v-if="openModal" @close="openModal = false">
       <template #header>
         <div class="flex flex-col">
           <div class="flex items-center">
@@ -83,7 +83,7 @@ const headers = (headers) => {
           <button
             @click="openModal = false"
             type="button"
-            class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto sm:text-sm"
+            class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-xs hover:bg-pink-700 focus:ring-3 focus:ring-pink-800 focus:outline-hidden sm:ml-3 sm:w-auto sm:text-sm"
           >
             Close
           </button>
@@ -94,6 +94,7 @@ const headers = (headers) => {
 </template>
 
 <style>
+@reference "../../../styles/online.css";
 #cgi-run-info pre {
   background-color: initial;
   @apply mb-4 rounded-none border-none p-0;

@@ -164,7 +164,7 @@ const deleteChild = async (file) => {
         v-slot="{ isExpanded }"
         :class="[item.value === selectedFile ? (customStyles?.selectedFileClasses ?? '') : '']"
         :style="rowStyle(item, flattenItems[index + 1])"
-        class="flex flex-col py-2 pl-3 focus:outline-none focus-visible:ring-1 focus-visible:ring-gray-500"
+        class="flex flex-col py-2 pl-3 focus:outline-hidden focus-visible:ring-1 focus-visible:ring-gray-500"
         @select="(event) => onSelect(event, item.value)"
         @toggle="onToggle"
         @keydown.enter.space="(event) => onKeydown(event, item.value)"
@@ -174,10 +174,10 @@ const deleteChild = async (file) => {
             <FolderOpenIcon v-if="isFolder(item.value) && item.value.children.length && isExpanded" class="mr-1 h-3.5 w-3.5 md:h-5 md:w-5" style="fill: none !important" />
             <FolderIcon v-else-if="isFolder(item.value)" class="mr-1 h-3.5 w-3.5 md:h-5 md:w-5" style="fill: none !important" />
             <DocumentIcon v-else class="mr-1 h-3.5 w-3.5 md:h-5 md:w-5" style="fill: none !important" />
-            <input v-if="editing === item.value" ref="nameInput" @keyup.enter="saveName" class="rounded-sm bg-gray-700 p-1" v-model="fileName" />
+            <input v-if="editing === item.value" ref="nameInput" @keyup.enter="saveName" class="rounded-xs bg-gray-700 p-1" v-model="fileName" />
             <template v-else>
               <span class="flex-1 truncate text-sm hover:text-white">{{ item.value.name }}</span>
-              <span class="ml-2 mr-2 text-sm" v-if="isFolder(item.value) && item.value.children.length">[{{ isExpanded ? "-" : "+" }}]</span>
+              <span class="mr-2 ml-2 text-sm" v-if="isFolder(item.value) && item.value.children.length">[{{ isExpanded ? "-" : "+" }}]</span>
             </template>
           </div>
           <div v-if="showControls && editing !== item.value" class="flex group-hover:flex md:hidden">

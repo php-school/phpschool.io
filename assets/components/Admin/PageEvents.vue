@@ -182,25 +182,25 @@ const editEvent = (event) => {
   <alert type="success" :message="eventSuccess" :timeout="4000" :show="showEventSuccess" @close="showEventSuccess = false"></alert>
 
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
-    <h1 class="text-base font-semibold leading-7 text-white">Events</h1>
+    <h1 class="text-base leading-7 font-semibold text-white">Events</h1>
     <button
       @click="addEvent"
       type="button"
-      class="flex-none rounded-md bg-pink-500/10 px-2 py-1.5 text-xs font-medium text-pink-500 ring-1 ring-inset ring-pink-500/30 hover:text-pink-600 hover:ring-pink-600/30"
+      class="flex-none rounded-md bg-pink-500/10 px-2 py-1.5 text-xs font-medium text-pink-500 ring-1 ring-pink-500/30 ring-inset hover:text-pink-600 hover:ring-pink-600/30"
     >
       Add
     </button>
   </header>
 
   <ul role="list" class="divide-y divide-pink-600/30">
-    <li v-for="event in filteredEvents" :key="event.id" class="relative flex items-center space-x-4 px-4 py-4 sm:pr-6 lg:pr-8">
+    <li v-for="event in filteredEvents" :key="event.id" class="relative flex items-center gap-x-4 px-4 py-4 sm:pr-6 lg:pr-8">
       <div class="aspect-square h-20">
         <img v-if="event.poster" class="" :src="'/uploads/' + event.poster" />
       </div>
 
       <div class="min-w-0 flex-auto">
         <div class="flex items-center gap-x-3">
-          <h2 class="min-w-0 text-sm font-semibold leading-6 text-white">
+          <h2 class="min-w-0 text-sm leading-6 font-semibold text-white">
             <a v-if="event.link" :href="event.link">{{ event.name }}</a>
             <span v-else>{{ event.name }}</span>
           </h2>
@@ -230,7 +230,7 @@ const editEvent = (event) => {
           leave-from-class="transform opacity-100 scale-100"
           leave-to-class="transform opacity-0 scale-95"
         >
-          <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-700 rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-none">
+          <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-700 rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-hidden">
             <MenuItem v-slot="{ active }">
               <button @click="editEvent(event)" :class="[active ? 'p-2 text-white' : 'text-slate-400', 'group flex w-full items-center px-4 py-2 text-sm']">
                 <PencilIcon class="mr-3 h-5 w-5" aria-hidden="true" />
@@ -254,7 +254,7 @@ const editEvent = (event) => {
   <TransitionRoot as="template" :show="currentlyDeleting !== null">
     <Dialog as="div" class="relative z-50" @close="currentlyDeleting = null">
       <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" />
       </TransitionChild>
 
       <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -268,13 +268,13 @@ const editEvent = (event) => {
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <DialogPanel class="relative transform overflow-hidden rounded-lg bg-gray-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+            <DialogPanel class="relative transform overflow-hidden rounded-lg bg-gray-900 px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
               <div class="sm:flex sm:items-start">
-                <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                <div class="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10">
                   <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
                 </div>
-                <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-300">Delete event</DialogTitle>
+                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                  <DialogTitle as="h3" class="text-base leading-6 font-semibold text-gray-300">Delete event</DialogTitle>
                   <div class="mt-2">
                     <p v-if="currentlyDeleting" class="text-sm text-gray-400">Are you sure you want to delete "{{ currentlyDeleting.name }}". This action cannot be undone.</p>
                   </div>
@@ -283,7 +283,7 @@ const editEvent = (event) => {
               <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                  class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
                   @click="doDeleteEvent"
                 >
                   <ArrowPathIcon v-show="deleteLoading" class="h-5 w-5 animate-spin" />
@@ -291,7 +291,7 @@ const editEvent = (event) => {
                 </button>
                 <button
                   type="button"
-                  class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20 sm:mt-0 sm:w-auto"
+                  class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20 sm:mt-0 sm:w-auto"
                   ref="cancelButtonRef"
                   @click="currentlyDeleting = null"
                 >
@@ -308,7 +308,7 @@ const editEvent = (event) => {
   <TransitionRoot as="template" :show="showAdd">
     <Dialog as="div" class="relative z-50" @close="showAdd = false">
       <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" />
       </TransitionChild>
 
       <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -322,18 +322,18 @@ const editEvent = (event) => {
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <DialogPanel class="relative w-full transform overflow-hidden rounded-lg bg-gray-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:p-6 md:max-w-2xl">
+            <DialogPanel class="relative w-full transform overflow-hidden rounded-lg bg-gray-900 px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:p-6 md:max-w-2xl">
               <div class="sm:flex sm:items-start">
                 <form @submit.prevent="saveEvent" class="w-full" enctype="multipart/form-data">
                   <div class="space-y-12">
                     <div class="border-b border-white/10 pb-12">
-                      <h2 v-if="form.id" class="text-base font-semibold leading-7 text-white">Updating event</h2>
-                      <h2 v-else class="text-base font-semibold leading-7 text-white">Creating new event</h2>
+                      <h2 v-if="form.id" class="text-base leading-7 font-semibold text-white">Updating event</h2>
+                      <h2 v-else class="text-base leading-7 font-semibold text-white">Creating new event</h2>
                       <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div class="col-span-full">
-                          <label for="title" class="block text-sm font-medium leading-6 text-white">Name</label>
+                          <label for="title" class="block text-sm leading-6 font-medium text-white">Name</label>
                           <div class="mt-2">
-                            <div class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                            <div class="flex rounded-md bg-white/5 ring-1 ring-white/10 ring-inset focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-inset">
                               <input
                                 v-model="form.name"
                                 type="text"
@@ -352,14 +352,14 @@ const editEvent = (event) => {
                         </div>
 
                         <div class="col-span-full">
-                          <label for="description" class="block text-sm font-medium leading-6 text-white">Description</label>
+                          <label for="description" class="block text-sm leading-6 font-medium text-white">Description</label>
                           <div class="mt-2">
                             <textarea
                               v-model="form.description"
                               id="description"
                               name="description"
                               rows="3"
-                              class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                              class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-xs ring-1 ring-white/10 ring-inset focus:ring-2 focus:ring-indigo-500 focus:ring-inset sm:text-sm sm:leading-6"
                             />
                           </div>
                           <p class="mt-3 text-sm leading-6 text-gray-400">Write a description of the event.</p>
@@ -371,9 +371,9 @@ const editEvent = (event) => {
                         </div>
 
                         <div class="col-span-full">
-                          <label for="link" class="block text-sm font-medium leading-6 text-white">Link</label>
+                          <label for="link" class="block text-sm leading-6 font-medium text-white">Link</label>
                           <div class="mt-2">
-                            <div class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                            <div class="flex rounded-md bg-white/5 ring-1 ring-white/10 ring-inset focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-inset">
                               <input
                                 v-model="form.link"
                                 type="text"
@@ -392,9 +392,9 @@ const editEvent = (event) => {
                         </div>
 
                         <div class="col-span-full">
-                          <label for="date" class="block text-sm font-medium leading-6 text-white">Date</label>
+                          <label for="date" class="block text-sm leading-6 font-medium text-white">Date</label>
                           <div class="mt-2">
-                            <div class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500">
+                            <div class="flex rounded-md bg-white/5 ring-1 ring-white/10 ring-inset focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-inset">
                               <input
                                 v-model="form.date"
                                 type="datetime-local"
@@ -413,14 +413,14 @@ const editEvent = (event) => {
                         </div>
 
                         <div class="col-span-full">
-                          <label for="venue" class="block text-sm font-medium leading-6 text-white">Venue</label>
+                          <label for="venue" class="block text-sm leading-6 font-medium text-white">Venue</label>
                           <div class="mt-2">
                             <textarea
                               v-model="form.venue"
                               id="venue"
                               name="venue"
                               rows="3"
-                              class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                              class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-xs ring-1 ring-white/10 ring-inset focus:ring-2 focus:ring-indigo-500 focus:ring-inset sm:text-sm sm:leading-6"
                             />
                           </div>
                           <ul v-if="errors.venue" class="">
@@ -431,7 +431,7 @@ const editEvent = (event) => {
                         </div>
 
                         <div class="col-span-full">
-                          <label for="poster" class="block text-sm font-medium leading-6 text-white">Poster</label>
+                          <label for="poster" class="block text-sm leading-6 font-medium text-white">Poster</label>
 
                           <div class="mt-2">
                             <label for="file-input" class="sr-only">Choose file</label>
@@ -442,7 +442,7 @@ const editEvent = (event) => {
                               accept="image/*"
                               name="poster"
                               id="poster"
-                              class="block w-full rounded-lg border border-gray-200 bg-white/5 text-sm text-white shadow-sm file:me-4 file:border-0 file:bg-white/5 file:px-4 file:py-3 file:text-white focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                              class="block w-full rounded-lg border border-gray-200 bg-white/5 text-sm text-white shadow-xs file:me-4 file:border-0 file:bg-white/5 file:px-4 file:py-3 file:text-white focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:focus:ring-1 dark:focus:ring-gray-600 dark:focus:outline-hidden"
                             />
                           </div>
                           <ul v-if="errors.poster" class="">
@@ -459,7 +459,7 @@ const editEvent = (event) => {
               <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                  class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
                   @click="saveEvent"
                 >
                   <ArrowPathIcon v-show="loading" class="h-5 w-5 animate-spin" />
@@ -467,7 +467,7 @@ const editEvent = (event) => {
                 </button>
                 <button
                   type="button"
-                  class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20 sm:mt-0 sm:w-auto"
+                  class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20 sm:mt-0 sm:w-auto"
                   ref="cancelButtonRef"
                   @click="showAdd = false"
                 >

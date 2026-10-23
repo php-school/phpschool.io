@@ -1,6 +1,6 @@
 <template>
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
-    <h1 class="text-base font-semibold leading-7 text-white">Workshops Installs for the last 30 days</h1>
+    <h1 class="text-base leading-7 font-semibold text-white">Workshops Installs for the last 30 days</h1>
   </header>
 
   <Line class="m-4" :data="chartData" :options="chartOptions" />

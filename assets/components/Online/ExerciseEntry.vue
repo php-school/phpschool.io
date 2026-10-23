@@ -47,7 +47,7 @@ const isNextWorkshop = computed(() => {
 
 <template>
   <li @click="selectExercise" class="group flex flex-row hover:bg-gray-600 last:hover:rounded-b-lg">
-    <div class="hidden flex-1 cursor-pointer select-none items-center p-4 md:flex">
+    <div class="hidden flex-1 cursor-pointer items-center p-4 select-none md:flex">
       <div class="mr-4 flex h-10 w-10 flex-col items-center justify-center">
         <a href="#" class="relative block">
           <img alt="workshop" src="../../img/cloud/core-workshops.png" class="mx-auto h-10 w-10 object-cover" />
@@ -62,10 +62,10 @@ const isNextWorkshop = computed(() => {
       </div>
       <a href="#" class="flex w-24 justify-end text-right">
         <CheckCircleIcon v-if="isCurrentExerciseComplete" class="h-8 w-8 rounded-full border-2 border-solid border-pink-300 text-pink-500" />
-        <ArrowRightCircleIcon v-else class="h-8 w-8 rounded-full border-2 border-solid border-pink-500 !fill-none text-pink-200" :class="{ 'animate-bounce': isNextWorkshop }" />
+        <ArrowRightCircleIcon v-else class="h-8 w-8 rounded-full border-2 border-solid border-pink-500 fill-none! text-pink-200" :class="{ 'animate-bounce': isNextWorkshop }" />
       </a>
     </div>
-    <div class="flex flex-1 cursor-pointer select-none flex-col items-center p-4 md:hidden">
+    <div class="flex flex-1 cursor-pointer flex-col items-center p-4 select-none md:hidden">
       <div class="flex w-full items-center justify-between">
         <div class="mr-4 flex-1 text-white group-hover:text-pink-600">
           <div class="font-medium">{{ exercise.name }}</div>
@@ -73,7 +73,7 @@ const isNextWorkshop = computed(() => {
         </div>
         <a href="#" class="flex justify-end text-right">
           <CheckCircleIcon v-if="isCurrentExerciseComplete" class="h-8 w-8 rounded-full border-2 border-solid border-pink-300 text-pink-500" />
-          <ArrowRightCircleIcon v-else class="h-8 w-8 rounded-full border-2 border-solid border-pink-500 !fill-none text-pink-200" :class="{ 'animate-bounce': isNextWorkshop }" />
+          <ArrowRightCircleIcon v-else class="h-8 w-8 rounded-full border-2 border-solid border-pink-500 fill-none! text-pink-200" :class="{ 'animate-bounce': isNextWorkshop }" />
         </a>
       </div>
       <div class="mt-4 flex w-full items-center justify-between">

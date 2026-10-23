@@ -7,7 +7,7 @@ import Heading from "../PageHeading.vue";
 
 <template>
   <div>
-    <section class="items-stretch bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed">
+    <section class="items-stretch bg-linear-to-b/srgb from-gray-900 to-cyan-500 bg-fixed">
       <Heading>
         <template v-slot:title>Events</template>
 
@@ -32,7 +32,7 @@ import Heading from "../PageHeading.vue";
                 <img :src="'/uploads/' + event.poster" :alt="event.name" />
               </a>
 
-              <p class="whitespace-pre-line text-sm text-gray-300">
+              <p class="text-sm whitespace-pre-line text-gray-300">
                 {{ event.description }}
               </p>
               <p v-if="event.link" class="py-4 text-gray-300">
@@ -69,7 +69,7 @@ import Heading from "../PageHeading.vue";
               <img :src="'/uploads/' + event.poster" :alt="event.name" />
             </a>
 
-            <p class="whitespace-pre-line text-sm text-gray-300">
+            <p class="text-sm whitespace-pre-line text-gray-300">
               {{ event.description }}
             </p>
             <p v-if="event.link" class="py-4 text-gray-300">

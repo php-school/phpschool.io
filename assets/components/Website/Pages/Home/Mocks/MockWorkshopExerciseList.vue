@@ -64,13 +64,13 @@ const exercises = [
   >
     <div class="w-full px-4 py-3 sm:px-6 md:py-5">
       <div class="flex w-full flex-col items-center">
-        <h3 class="mt-4 text-lg font-medium leading-6 text-white">Learn You PHP! Exercises</h3>
-        <p class="mb-2 mt-1 max-w-2xl text-sm text-gray-200 md:mb-4">Pick an exercise to start hacking!</p>
+        <h3 class="mt-4 text-lg leading-6 font-medium text-white">Learn You PHP! Exercises</h3>
+        <p class="mt-1 mb-2 max-w-2xl text-sm text-gray-200 md:mb-4">Pick an exercise to start hacking!</p>
       </div>
     </div>
     <ul id="workshop-exercises-list" class="flex w-full flex-col">
-      <li v-for="(exercise, i) in exercises" :key="exercise.title" class="group flex flex-row last:mb-4 last:md:mb-0">
-        <div class="flex flex-1 select-none items-center px-3 py-2">
+      <li v-for="(exercise, i) in exercises" :key="exercise.title" class="group flex flex-row last:mb-4 md:last:mb-0">
+        <div class="flex flex-1 items-center px-3 py-2 select-none">
           <div class="mr-3 flex h-6 flex-col items-center justify-center md:mr-4 md:h-10">
             <a href="#" class="relative block">
               <img alt="workshop" src="../../../../../img/cloud/core-workshops.png" class="mx-auto h-5 w-5 object-cover md:h-8 md:w-8" />
@@ -93,7 +93,7 @@ const exercises = [
               stroke-width="1.5"
               stroke="currentColor"
               aria-hidden="true"
-              class="h-6 w-6 rounded-full border-2 border-solid border-pink-500 !fill-none text-pink-200"
+              class="h-6 w-6 rounded-full border-2 border-solid border-pink-500 fill-none! text-pink-200"
               :class="{ 'animate-bounce': i === 0 }"
             >
               <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>

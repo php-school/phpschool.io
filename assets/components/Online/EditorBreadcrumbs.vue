@@ -17,7 +17,7 @@ const exerciseCompleted = computed(() => {
 
 <template>
   <nav class="flex w-full justify-center md:w-auto" aria-label="Breadcrumb">
-    <ol class="inline-flex items-center space-x-1 font-mono md:space-x-3">
+    <ol class="inline-flex items-center gap-x-1 font-mono md:gap-x-3">
       <li class="inline-flex items-center">
         <router-link to="/online" class="inline-flex items-center text-sm font-medium text-white hover:text-pink-500">
           <HomeIcon class="mr-2 h-4 w-4"></HomeIcon>

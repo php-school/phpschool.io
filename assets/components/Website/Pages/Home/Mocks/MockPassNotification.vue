@@ -1,5 +1,5 @@
 <template>
-  <div class="relative top-3 mx-auto flex w-full rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 px-2 py-2">
+  <div class="relative top-3 mx-auto flex w-full rounded-lg bg-linear-to-r/srgb from-pink-500 to-purple-500 px-2 py-2">
     <div class="flex w-full items-center justify-center">
       <div class="flex items-center">
         <span class="flex rounded-lg p-2">
@@ -11,20 +11,20 @@
             ></path>
           </svg>
         </span>
-        <p class="ml-1 mr-2 truncate text-xs font-medium text-white sm:mr-0 md:text-sm">
+        <p class="mr-2 ml-1 truncate text-xs font-medium text-white sm:mr-0 md:text-sm">
           <span class="md:hidden">Congratulations! your solution passed.</span>
           <span class="hidden md:inline">Congratulations! your solution passed.</span>
         </p>
       </div>
-      <div class="order-3 mt-2 hidden w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto md:flex">
+      <div class="order-3 mt-2 hidden w-full shrink-0 sm:order-2 sm:mt-0 sm:w-auto md:flex">
         <button class="flex items-center justify-center px-2 py-2 text-xs font-bold text-white underline">See the official solution</button>
       </div>
-      <div class="order-3 mt-2 hidden w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto md:flex">
+      <div class="order-3 mt-2 hidden w-full shrink-0 sm:order-2 sm:mt-0 sm:w-auto md:flex">
         <span class="flex items-center justify-center text-xs text-white">or</span>
         <span id="next-exercise-link" class="flex items-center justify-center px-2 py-2 text-xs font-bold text-white underline">Continue to the next exercise →</span>
       </div>
-      <div class="order-2 hidden flex-shrink-0 sm:order-3 sm:ml-1 sm:flex">
-        <button type="button" class="mr-2 flex rounded-md focus:outline-none focus:ring-2 focus:ring-white">
+      <div class="order-2 hidden shrink-0 sm:order-3 sm:ml-1 sm:flex">
+        <button type="button" class="mr-2 flex rounded-md focus:ring-2 focus:ring-white focus:outline-hidden">
           <span class="sr-only">Dismiss</span>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4 text-white">
             <path

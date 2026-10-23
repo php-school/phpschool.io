@@ -128,8 +128,8 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
       <Tab as="template" v-slot="{ selected }" v-for="tab in tabs" :key="tab">
         <button
           :class="[
-            selected ? 'border-x border-b-0 border-t border-pink-600 border-x-gray-600 text-white' : 'hover:border-b hover:border-pink-600',
-            'w-full border-b border-b-gray-600 px-3 py-2 text-lg font-medium focus:outline-none',
+            selected ? 'border-x border-t border-b-0 border-pink-600 border-x-gray-600 text-white' : 'hover:border-b hover:border-pink-600',
+            'w-full border-b border-b-gray-600 px-3 py-2 text-lg font-medium focus:outline-hidden',
           ]"
         >
           {{ tab }}
@@ -137,7 +137,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
       </Tab>
     </TabList>
     <TabPanels>
-      <TabPanel class="border-b border-l border-r border-gray-600 p-6 pb-0 focus:outline-none">
+      <TabPanel class="border-r border-b border-l border-gray-600 p-6 pb-0 focus:outline-hidden">
         <DocList title="CLI Verify Events">
           <DocListItem>
             <EventDescription event="route.pre.resolve.args" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[{ name: 'command', type: 'callable' }]">
@@ -348,7 +348,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
           </DocListItem>
         </DocList>
       </TabPanel>
-      <TabPanel class="border-b border-l border-r border-gray-600 p-6 focus:outline-none">
+      <TabPanel class="border-r border-b border-l border-gray-600 p-6 focus:outline-hidden">
         <DocList title="CLI Run Events">
           <DocListItem>
             <EventDescription event="route.pre.resolve.args" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[{ name: 'command', type: 'callable' }]">
@@ -450,7 +450,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
           </DocListItem>
         </DocList>
       </TabPanel>
-      <TabPanel class="border-b border-l border-r border-gray-600 p-6 focus:outline-none">
+      <TabPanel class="border-r border-b border-l border-gray-600 p-6 focus:outline-hidden">
         <DocList title="CGI Verify Events">
           <DocListItem>
             <EventDescription event="route.pre.resolve.args" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[{ name: 'command', type: 'callable' }]">
@@ -661,7 +661,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
           </DocListItem>
         </DocList>
       </TabPanel>
-      <TabPanel class="border-b border-l border-r border-gray-600 p-6 focus:outline-none">
+      <TabPanel class="border-r border-b border-l border-gray-600 p-6 focus:outline-hidden">
         <DocList title="CGI Run Events">
           <DocListItem>
             <EventDescription event="route.pre.resolve.args" event-class="PhpSchool\PhpWorkshop\Event\Event" :args="[{ name: 'command', type: 'callable' }]">

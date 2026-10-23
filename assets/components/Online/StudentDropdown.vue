@@ -70,7 +70,7 @@ const logout = () => {
     <MenuItems
       static
       :class="{ 'sm:hidden': !open }"
-      class="block divide-y divide-solid divide-gray-600 rounded-lg bg-gray-800 shadow-xl focus:outline-none sm:absolute sm:right-2.5 sm:top-10 sm:z-10 sm:w-[250px]"
+      class="block divide-y divide-solid divide-gray-600 rounded-lg bg-gray-800 shadow-xl focus:outline-hidden sm:absolute sm:top-10 sm:right-2.5 sm:z-10 sm:w-[250px]"
     >
       <div class="flex flex-row items-center px-6 py-4 text-left text-sm text-white">
         <img class="mr-4 block h-8 w-8 rounded-full sm:hidden" :src="studentStore.student.profile_picture" alt="{{ studentStore.student.name }}" />

@@ -8,7 +8,7 @@ const code = ref(highlightCode('<?php\necho "text";', "php"));
 <template>
   <div
     id="problem-modal"
-    class="modal-border relative flex max-h-[24rem] w-full max-w-[20rem] flex-col justify-start rounded-3xl border-2 border-solid border-transparent bg-gray-800 p-2 shadow-[-20px_20px_0_rgba(0,0,0,0.2)] sm:max-h-[39rem] sm:max-w-2xl lg:max-w-lg xl:max-w-2xl"
+    class="modal-border relative flex max-h-96 w-full max-w-[20rem] flex-col justify-start rounded-3xl border-2 border-solid border-transparent bg-gray-800 p-2 shadow-[-20px_20px_0_rgba(0,0,0,0.2)] sm:max-h-156 sm:max-w-2xl lg:max-w-lg xl:max-w-2xl"
   >
     <div class="items-top flex flex-none justify-between rounded-t border-b border-solid border-slate-600 p-2">
       <div class="flex flex-col">
@@ -22,10 +22,10 @@ const code = ref(highlightCode('<?php\necho "text";', "php"));
           </svg>
           <h3 class="mt-0 pt-0 font-mono text-base font-semibold text-white lg:text-lg">The problem...</h3>
         </div>
-        <h2 class="mb-2 mt-0 pt-[13.5px] text-left font-mono text-lg text-[#E91E63]">Hello World</h2>
+        <h2 class="mt-0 mb-2 pt-[13.5px] text-left font-mono text-lg text-[#E91E63]">Hello World</h2>
       </div>
       <div>
-        <button type="button" class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 focus:outline-none focus:ring focus:ring-pink-800">
+        <button type="button" class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 focus:ring-3 focus:ring-pink-800 focus:outline-hidden">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
             <path
               fill-rule="evenodd"
@@ -38,61 +38,61 @@ const code = ref(highlightCode('<?php\necho "text";', "php"));
     </div>
     <div class="mr-[3px] flex-1 items-start justify-start overflow-y-hidden p-2">
       <div id="problem-file" class="text-left text-white">
-        <p class="mb-4 mt-2 text-[12px] leading-loose tracking-wide">Write a program that prints the text "Hello World" to the console (stdout).</p>
+        <p class="mt-2 mb-4 text-[12px] leading-loose tracking-wide">Write a program that prints the text "Hello World" to the console (stdout).</p>
         <hr class="border-dotted border-gray-600" />
-        <h3 class="mb-4 mt-2 text-base text-[#e91e63]">HINTS</h3>
-        <p class="mb-4 mt-2 text-xs leading-loose tracking-wide">
+        <h3 class="mt-2 mb-4 text-base text-[#e91e63]">HINTS</h3>
+        <p class="mt-2 mb-4 text-xs leading-loose tracking-wide">
           We've created you an empty file, look in the file tree for
-          <code class="rounded bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">solution.php</code>
+          <code class="rounded-sm bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">solution.php</code>
           . That's your starting point.
         </p>
-        <p class="mb-4 mt-2 text-xs leading-loose tracking-wide">
+        <p class="mt-2 mb-4 text-xs leading-loose tracking-wide">
           We'll execute your solution file for you when you press the
-          <code class="rounded bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Run</code>
+          <code class="rounded-sm bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Run</code>
           or
-          <code class="rounded bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Verify</code>
+          <code class="rounded-sm bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Verify</code>
           buttons. The
-          <code class="rounded bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Run</code>
+          <code class="rounded-sm bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Run</code>
           button simply runs your program and captures the output, displaying it for you to view. The
-          <code class="rounded bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Verify</code>
+          <code class="rounded-sm bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Verify</code>
           button runs your program but performs some extra tasks, such as comparing the output, checking for certain structures and function calls, etc. It then displays the result of those
           verifications.
         </p>
-        <p class="mb-4 mt-2 text-xs leading-loose tracking-wide">
+        <p class="mt-2 mb-4 text-xs leading-loose tracking-wide">
           Both
-          <code class="rounded bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Run</code>
+          <code class="rounded-sm bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Run</code>
           and
-          <code class="rounded bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Verify</code>
+          <code class="rounded-sm bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Verify</code>
           execute your program with random inputs which are determined by the current exercise. For example one exercise might generate a bunch of numbers to pass to your program, where another one
           might pass you a JSON encoded string.
         </p>
-        <p class="mb-4 mt-2 text-xs leading-loose tracking-wide">You can write to the console from a PHP program with the following code:</p>
+        <p class="mt-2 mb-4 text-xs leading-loose tracking-wide">You can write to the console from a PHP program with the following code:</p>
         <pre
-          class="mb-4 mt-2 rounded-none border-none p-0"
+          class="mt-2 mb-4 rounded-none border-none p-0"
         ><code class="language-php hljs php text-xs p-4 rounded-lg block border border-gray-600 bg-[#2a2c2d]" data-lang="php" v-html="code"></code></pre>
-        <p class="mb-4 mt-2 text-xs leading-loose tracking-wide">
+        <p class="mt-2 mb-4 text-xs leading-loose tracking-wide">
           The first line tells PHP to interpret the code following it. It is required before any PHP code is written. The second line is the instruction to print out some text.
         </p>
-        <p class="mb-4 mt-2 text-xs leading-loose tracking-wide">
+        <p class="mt-2 mb-4 text-xs leading-loose tracking-wide">
           Documentation on
-          <code class="rounded bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">PHP tags</code>
+          <code class="rounded-sm bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">PHP tags</code>
           can be found by pointing your browser here:
           <br />
           <a rel="noopener noreferrer" target="_blank" href="#">https://php.net/manual/en/language.basic-syntax.phptags.php</a>
         </p>
-        <p class="mb-4 mt-2 text-xs leading-loose tracking-wide">
+        <p class="mt-2 mb-4 text-xs leading-loose tracking-wide">
           Try pressing the
-          <code class="rounded bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Run</code>
+          <code class="rounded-sm bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Run</code>
           button in the bottom right corner to execute your program.
         </p>
-        <p class="mb-4 mt-2 text-xs leading-loose tracking-wide">You should see the word "text" printed out on the console.</p>
+        <p class="mt-2 mb-4 text-xs leading-loose tracking-wide">You should see the word "text" printed out on the console.</p>
         <p class="text-xs">Now you must adapt the code to pass the presented challenge. Remember, the challenge was: Write a program that prints the text "Hello World" to the console.</p>
-        <p class="mb-4 mt-2 text-xs leading-loose tracking-wide">
+        <p class="mt-2 mb-4 text-xs leading-loose tracking-wide">
           When you have finished editing your program you must verify it. Click the
-          <code class="rounded bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Verify</code>
+          <code class="rounded-sm bg-[#2a2c2d] px-2 py-1 text-[#ff75b5]">Verify</code>
           button in the bottom right corner.
         </p>
-        <p class="mb-4 mt-2 text-xs leading-loose tracking-wide">Your program will be tested, a report will be generated, and the lesson will be marked 'completed' if you are successful.</p>
+        <p class="mt-2 mb-4 text-xs leading-loose tracking-wide">Your program will be tested, a report will be generated, and the lesson will be marked 'completed' if you are successful.</p>
         <hr class="border-dotted border-gray-600" />
       </div>
     </div>
@@ -100,7 +100,7 @@ const code = ref(highlightCode('<?php\necho "text";', "php"));
       <div class="flex justify-end">
         <button
           type="button"
-          class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-4 py-1 text-xs text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto"
+          class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-4 py-1 text-xs text-white shadow-xs hover:bg-pink-700 focus:ring-3 focus:ring-pink-800 focus:outline-hidden sm:ml-3 sm:w-auto"
         >
           Let's go!
         </button>

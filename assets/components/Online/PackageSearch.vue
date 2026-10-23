@@ -52,7 +52,7 @@ defineExpose({
     <Combobox v-model="selected" nullable v-slot="{ open }">
       <div class="relative">
         <div
-          class="relative w-full cursor-default overflow-hidden border-2 border-solid border-pink-500 bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-pink-300 sm:text-sm"
+          class="relative w-full cursor-default overflow-hidden border-2 border-solid border-pink-500 bg-white text-left shadow-md focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-pink-300 sm:text-sm"
           :class="{
             'rounded-t-md': open,
             'rounded-md': !open,
@@ -60,20 +60,20 @@ defineExpose({
         >
           <ComboboxInput
             placeholder="Start typing..."
-            class="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
+            class="w-full border-none py-2 pr-10 pl-3 text-sm leading-5 text-gray-900 focus:ring-0"
             :displayValue="(composerPackage) => composerPackage"
             @change="searchPackages($event.target.value)"
           />
         </div>
         <TransitionRoot leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0" @after-leave="query = ''">
           <ComboboxOptions
-            class="absolute max-h-60 w-full overflow-auto rounded-b-md border-2 border-solid border-pink-500 bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            class="absolute max-h-60 w-full overflow-auto rounded-b-md border-2 border-solid border-pink-500 bg-white text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm"
           >
-            <div v-if="filteredPackages.length === 0 && query.length > 3" class="relative cursor-default select-none px-4 py-2 text-gray-700">Nothing found.</div>
-            <div v-if="query.length < 4" class="relative cursor-default select-none px-4 py-2 text-gray-700">Type 3 or more characters to search.</div>
+            <div v-if="filteredPackages.length === 0 && query.length > 3" class="relative cursor-default px-4 py-2 text-gray-700 select-none">Nothing found.</div>
+            <div v-if="query.length < 4" class="relative cursor-default px-4 py-2 text-gray-700 select-none">Type 3 or more characters to search.</div>
             <ComboboxOption v-for="composerPackage in filteredPackages" :key="composerPackage" as="template" :value="composerPackage" v-slot="{ selected, active }">
               <li
-                class="relative cursor-default select-none py-3 pl-3 pr-4"
+                class="relative cursor-default py-3 pr-4 pl-3 select-none"
                 :class="{
                   'bg-pink-500 text-white': active,
                   'text-gray-900': !active,

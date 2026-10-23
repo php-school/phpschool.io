@@ -27,7 +27,7 @@ const headers = (headers) => {
       <h2 class="mb-2 pt-0 font-mono text-lg text-[#E91E63]">Command line arguments</h2>
       <div v-if="run.args.length">
         <div class="mb-8">
-          <ul v-if="longestRunCliArg(run.args) > 5" class="ml-2 mt-2 list-inside list-disc">
+          <ul v-if="longestRunCliArg(run.args) > 5" class="mt-2 ml-2 list-inside list-disc">
             <li v-for="arg in run.args" :key="arg" class="list-item p-1 text-white">
               {{ arg }}
             </li>
@@ -79,6 +79,7 @@ const headers = (headers) => {
 </template>
 
 <style>
+@reference "../../styles/online.css";
 #run-info pre {
   background-color: initial;
   @apply mb-4 rounded-none border-none p-0;

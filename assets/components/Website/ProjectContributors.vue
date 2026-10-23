@@ -26,7 +26,7 @@ onMounted(async () => {
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <Modal :scroll-content="true" size="md" max-height="max-h-[calc(5/6*100%)]" v-if="open" @close="emit('close')">
+      <Modal :scroll-content="true" size="md" max-height="max-h-5/6" v-if="open" @close="emit('close')">
         <template #header>
           <div class="flex items-center">
             <ChatBubbleLeftRightIcon class="mr-2 h-6 w-6 text-pink-500" />
@@ -34,7 +34,7 @@ onMounted(async () => {
           </div>
         </template>
         <template #body>
-          <p class="mb-4 text-justify text-sm italic text-white">The PHP School project is made possible by the following contributors. Thank you for your hard work and dedication to the project!</p>
+          <p class="mb-4 text-justify text-sm text-white italic">The PHP School project is made possible by the following contributors. Thank you for your hard work and dedication to the project!</p>
           <ul role="list" class="divide-y divide-gray-800">
             <li v-for="contributor in contributors" :key="contributor.username" class="flex justify-between gap-x-6 py-2">
               <div class="flex min-w-0 gap-x-3">

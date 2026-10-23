@@ -24,6 +24,6 @@ const percentComplete = computed(() => {
       <div class="absolute left-0 z-0 h-2 rounded-full bg-pink-500 md:h-5" :style="{ width: percentComplete + '%' }"></div>
       <p class="absolute mx-auto ml-2 hidden items-center font-mono text-xs font-bold text-white md:inline-flex">{{ studentStore.totalCompleted() }}/{{ workshopStore.totalExercises }} Completed</p>
     </div>
-    <p class="mx-auto ml-2 mr-2 items-center font-mono text-xs text-white md:hidden">{{ studentStore.totalCompleted() }}/{{ workshopStore.totalExercises }} Completed</p>
+    <p class="mx-auto mr-2 ml-2 items-center font-mono text-xs text-white md:hidden">{{ studentStore.totalCompleted() }}/{{ workshopStore.totalExercises }} Completed</p>
   </div>
 </template>
