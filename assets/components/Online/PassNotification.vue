@@ -1,5 +1,6 @@
 <script setup>
-import { computed, onMounted, onBeforeUnmount, ref } from "vue";
+import { computed, ref } from "vue";
+import { DialogContent, DialogOverlay, DialogRoot, DialogTitle } from "reka-ui";
 import Modal from "./ModalDialog.vue";
 import FileTree from "./FileTree.vue";
 import AceEditor from "./AceEditor.vue";
@@ -19,27 +20,6 @@ const emit = defineEmits(["close"]);
 const padStringToLines = (inputString, desiredLines) => {
   return inputString + "\n".repeat(Math.max(0, desiredLines - inputString.split("\n").length));
 };
-
-const el = ref(null);
-
-onMounted(() => {
-  el.value.escapeEventHandler = (evt) => {
-    if (evt.code === "Escape") {
-      if (openOfficialSolutionModal.value) {
-        return;
-      }
-
-      dismissPassNotification();
-    }
-  };
-
-  document.addEventListener("keyup", el.value.escapeEventHandler, true);
-  el.value.focus();
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener("keyup", el.value.escapeEventHandler);
-});
 
 const hasOfficialSolution = props.officialSolution !== null;
 const currentSolutionFile = ref(props.officialSolution !== null ? props.officialSolution[0] : null);
@@ -92,19 +72,19 @@ const isSelectedFile = (file) => {
 </script>
 
 <template>
-  <div ref="el">
-    <div v-cloak class="fixed inset-0 z-40 bg-gray-900 bg-opacity-70" />
-    <div v-click-away="dismissPassNotification" v-cloak id="pass-notification" class="absolute top-4 z-40 flex w-full justify-center shadow-lg">
+  <DialogRoot :open="true" @update:open="dismissPassNotification">
+    <DialogOverlay v-cloak class="fixed inset-0 z-40 bg-gray-900 bg-opacity-70" />
+    <DialogContent v-cloak id="pass-notification" :aria-describedby="undefined" @open-auto-focus.prevent class="absolute top-4 z-40 flex w-full justify-center shadow-lg focus:outline-none">
       <div class="mx-2 rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 px-3 py-3 sm:px-6 md:mx-auto lg:px-8">
         <div class="flex flex-wrap items-center justify-center">
           <div class="flex items-center">
             <span class="flex rounded-lg p-2">
               <TrophyIcon class="h-6 w-6 text-yellow-400" />
             </span>
-            <p class="ml-3 truncate font-medium text-white">
+            <DialogTitle as="p" class="ml-3 truncate font-medium text-white">
               <span class="md:hidden">Congratulations! your solution passed.</span>
               <span class="hidden md:inline">Congratulations! your solution passed.</span>
-            </p>
+            </DialogTitle>
           </div>
           <div v-if="hasOfficialSolution" class="flex w-full flex-shrink-0 justify-center sm:mt-0 md:w-auto">
             <button @click="showOfficialSolution" class="px-2 py-2 text-sm font-bold text-white underline">See the official solution</button>
@@ -145,6 +125,6 @@ const isSelectedFile = (file) => {
           </div>
         </template>
       </Modal>
-    </div>
-  </div>
+    </DialogContent>
+  </DialogRoot>
 </template>

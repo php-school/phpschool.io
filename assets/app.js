@@ -1,7 +1,5 @@
 import "vite/modulepreload-polyfill";
 import "./styles";
-import { FocusTrap } from "focus-trap-vue";
-import VueClickAway from "vue3-click-away";
 import VueDiff from "vue-diff";
 import "vue-diff/dist/index.css";
 import { markRaw } from "vue";
@@ -172,9 +170,6 @@ export const createApp = ViteSSG(
     Object.entries(results).forEach(([name, resultComponent]) => {
       app.component(name, resultComponent);
     });
-    app.component("FocusTrap", FocusTrap);
-
-    app.use(VueClickAway);
     app.use(VueDiff);
     app.use(VueShepherdPlugin);
     const pinia = createPinia();
