@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\ServerRequest;
 use PhpSchool\PhpWorkshop\Process\HostProcessFactory;
 use PhpSchool\PhpWorkshop\Process\ProcessFactory;
 use PhpSchool\PhpWorkshop\Solution\SolutionFile;
+use PhpSchool\Website\Online\ComposerPackageAllowlist;
 use PhpSchool\Website\Online\PathGenerator;
 use PhpSchool\Website\Online\ProjectUploader;
 use PhpSchool\Website\Online\StudentCloudState;
@@ -193,7 +194,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ->with($student)
             ->willReturn($path);
 
-        $uploader = new ProjectUploader($generator);
+        $uploader = new ProjectUploader($generator, $this->getAllowlist());
 
         $request = new ServerRequest(
             'POST',
@@ -251,12 +252,12 @@ class ProjectUploaderTest extends BaseFilesystemTest
         );
 
         try {
-            (new ProjectUploader($generator))->upload($request, $student, $processFactory);
+            (new ProjectUploader($generator, $this->getAllowlist()))->upload($request, $student, $processFactory);
         } catch (\RuntimeException $e) {
         }
 
         $this->assertTrue(isset($e));
-        $this->assertEquals('Invalid composer dependency', $e->getMessage());
+        $this->assertMatchesRegularExpression('/^Invalid composer dependencies|is not allowed|Invalid version constraint/', $e->getMessage());
         $this->assertFileDoesNotExist($path);
     }
 
@@ -336,5 +337,55 @@ class ProjectUploaderTest extends BaseFilesystemTest
             false,
             new StudentCloudState([]),
         );
+    }
+
+    /**
+     * @dataProvider disallowedComposerDepsProvider
+     */
+    public function testDisallowedComposerDependenciesAreRejected(array $deps, string $message): void
+    {
+        $path = $this->getTemporaryDirectoryWithoutCreating();
+        $generator = $this->createMock(PathGenerator::class);
+        $generator->method('random')->willReturn($path);
+
+        $processFactory = $this->createMock(ProcessFactory::class);
+        $processFactory->expects($this->never())->method('create');
+
+        $request = new ServerRequest(
+            'POST',
+            '/verify',
+            [],
+            json_encode(['scripts' => ['solution.php' => '<?php'], 'composer_deps' => $deps]),
+        );
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage($message);
+
+        try {
+            (new ProjectUploader($generator, $this->getAllowlist()))->upload($request, $this->getStudent(), $processFactory);
+        } finally {
+            $this->assertFileDoesNotExist($path);
+        }
+    }
+
+    public static function disallowedComposerDepsProvider(): array
+    {
+        return [
+            'not in package list' => [[['name' => 'evil/package', 'version' => '1.0']], 'Composer package "evil/package" is not allowed'],
+            'too many' => [array_fill(0, 11, ['name' => 'psr/log', 'version' => '1.0']), 'A maximum of 10 composer dependencies are allowed'],
+        ];
+    }
+
+    public function testAllPackagesAreRejectedIfThePackageListIsMissing(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Composer package "psr/log" is not allowed');
+
+        (new ComposerPackageAllowlist('/does/not/exist.json'))->validate([['name' => 'psr/log', 'version' => '1.0']]);
+    }
+
+    private function getAllowlist(): ComposerPackageAllowlist
+    {
+        return new ComposerPackageAllowlist(__DIR__ . '/_files/packages.json');
     }
 }
