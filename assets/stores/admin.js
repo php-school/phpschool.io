@@ -21,12 +21,12 @@ export const useAdminStore = defineStore("admin", {
         }),
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         return {
           success: false,
-          errors: data.form_errors,
+          errors: data.form_errors ?? { auth: [`Login failed (${response.status}). Please try again later.`] },
         };
       }
 
@@ -48,6 +48,10 @@ export const useAdminStore = defineStore("admin", {
       this.router.push("/login");
     },
     getToken() {
+      if (!this.adminToken) {
+        return null;
+      }
+
       //verify token not expired
       const decodedToken = JSON.parse(atob(this.adminToken.split(".")[1]));
       const expirationTime = decodedToken.exp * 1000;
