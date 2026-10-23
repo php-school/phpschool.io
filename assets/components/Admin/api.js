@@ -25,7 +25,13 @@ const adminFetch = async (endpoint, options) => {
     throw new Error("Token rejected");
   }
 
-  const data = await response.json();
+  let data;
+  try {
+    data = await response.json();
+  } catch {
+    // the app always answers JSON, so this is e.g. the web server's own error page when PHP is down
+    throw new Error(`The server responded with ${response.status}`);
+  }
 
   // Failures come back as { error: "..." }, including crashes and unknown routes.
   // Form validation failures are a 200 with { form_errors: {...} }, which callers read themselves.
@@ -95,5 +101,5 @@ export const regenerateWorkshopFeed = async () => {
 };
 
 export const clearCache = async () => {
-  return await adminFetch("/api/admin/cache/clear", { method: "POST" });
+  await adminFetch("/api/admin/cache/clear", { method: "POST" });
 };

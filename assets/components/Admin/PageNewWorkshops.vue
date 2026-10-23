@@ -72,7 +72,7 @@ const doApproveWorkshop = async () => {
 
 <template>
   <!-- approve alerts -->
-  <alert type="error" :message="approveError ?? 'An error occurred. Please try again later.'" :timeout="4000" :show="showApproveError" @close="showApproveError = false"></alert>
+  <alert type="error" :message="approveError || 'An error occurred. Please try again later.'" :timeout="4000" :show="showApproveError" @close="showApproveError = false"></alert>
   <alert type="success" :message="approveSuccess" :timeout="4000" :show="showApproveSuccess" @close="showApproveSuccess = false"></alert>
 
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
