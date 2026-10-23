@@ -58,28 +58,15 @@ export const useStudentStore = defineStore("student", {
 
       this.router.push("/online");
     },
+    // The student's progress in a workshop, if they have started it.
+    progress(workshopCode) {
+      return this.student?.state.workshops[workshopCode];
+    },
     isWorkshopComplete(workshop) {
-      if (this.student === null) {
-        return false;
-      }
-
-      if (this.student.state.workshops[workshop.code] === undefined) {
-        return false;
-      }
-
-      const completedExercises = this.student.state.workshops[workshop.code].completedExercises;
-      return workshop.exercises.length === completedExercises.length;
+      return this.progress(workshop.code)?.completedExercises.length === workshop.exercises.length;
     },
     isExerciseCompleted(workshopCode, exerciseName) {
-      if (this.student === null) {
-        return false;
-      }
-
-      if (this.student.state.workshops[workshopCode] === undefined) {
-        return false;
-      }
-
-      return this.student.state.workshops[workshopCode].completedExercises.includes(exerciseName);
+      return this.progress(workshopCode)?.completedExercises.includes(exerciseName) ?? false;
     },
     async completeExercise() {
       await this.initialize();
@@ -107,7 +94,7 @@ export const useStudentStore = defineStore("student", {
       }
 
       this.student.state.total_completed = 0;
-      this.student.state.workshops = [];
+      this.student.state.workshops = {};
 
       localStorage.setItem("student", JSON.stringify(this.student));
     },
