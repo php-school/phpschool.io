@@ -13,7 +13,7 @@ import ComposerPackages from "./ComposerPackages.vue";
 import ProgressBar from "./ProgressBar.vue";
 import EditorBreadcrumbs from "./EditorBreadcrumbs.vue";
 import { onMounted, ref } from "vue";
-import toFilePath from "./Utils/toFilePath";
+import { buildTree, savedFiles } from "./Utils/studentFiles";
 import { useWorkshopStore } from "../../stores/workshops";
 import { useStudentStore } from "../../stores/student";
 import { FolderIcon } from "@heroicons/vue/24/outline";
@@ -54,6 +54,7 @@ const nextExercise = ref(workshopStore.findNextExercise(props.workshop, props.ex
 const problem = ref("");
 const openFileBrowser = ref(false);
 const openFileBrowserButton = ref(null);
+const storage = savedFiles(currentExercise.workshop.code, currentExercise.exercise.slug);
 
 onMounted(async () => {
   const response = await fetch("/api/online/workshop/" + currentExercise.workshop.code + "/exercise/" + currentExercise.exercise.slug);
@@ -66,30 +67,10 @@ onMounted(async () => {
   }
 
   entryPoint.value = data.entry_point;
-  initialFiles.value = data.initial_files;
-  //sort the initial files so entry point is at the top
-  //and opened in a tab
-  initialFiles.value.sort((a) => {
-    return a.name === props.entryPoint ? -1 : 0;
-  });
+  // the entry point goes first, so it is at the top of the tree and opened in a tab
+  initialFiles.value = [...data.initial_files].sort((a, b) => (b.name === entryPoint.value) - (a.name === entryPoint.value));
 
-  const initialFileCopy = initialFiles.value.map((file) => {
-    return { ...file };
-  });
-
-  studentFiles.value = toTree(initialFileCopy);
-
-  const files = getSavedFiles();
-
-  for (const fileName in files) {
-    const fileContent = files[fileName];
-    const folderParts = fileName.split("/");
-
-    createFileInFolderStructure(studentFiles.value, folderParts, fileContent);
-  }
-
-  //make sure new files added from saved files have two way relationship
-  studentFiles.value = toTree(studentFiles.value);
+  studentFiles.value = buildTree([...initialFiles.value.map((file) => [file.name, file.content]), ...storage.load()]);
   openFiles.value = [studentFiles.value[0]];
 });
 
@@ -99,6 +80,7 @@ const addFile = (file) => {
 
 const deleteFile = (file) => {
   file.parent.splice(file.index, 1);
+  storage.sync(studentFiles.value);
 };
 
 const renameFile = (file) => {
@@ -107,72 +89,7 @@ const renameFile = (file) => {
   }
 
   file.file.name = file.name;
-};
-
-const toTree = (files, parent = null) => {
-  return files.map((file) => {
-    file.parent = parent;
-
-    if (file.children) {
-      file.children = toTree(file.children, file);
-    }
-
-    return file;
-  });
-};
-
-const getSavedFiles = () => {
-  const items = { ...localStorage };
-  const key = currentExercise.workshop.code + "." + currentExercise.exercise.slug;
-
-  const files = {};
-  for (const localStorageKey in items) {
-    if (localStorageKey.startsWith(key)) {
-      files[localStorageKey.substring(key.length + 1)] = items[localStorageKey];
-    }
-  }
-  return files;
-};
-
-const createFileInFolderStructure = (rootFolder, parts, fileContent) => {
-  if (parts.length === 1) {
-    const file = rootFolder.find((child) => child.name === parts[0]);
-    if (file) {
-      file.content = fileContent;
-      return;
-    }
-
-    rootFolder.push({ name: parts[0], content: fileContent });
-    return;
-  }
-
-  const directories = parts;
-  const fileName = directories.pop();
-
-  let currentDirectory = rootFolder.find((directory) => directory.name === directories[0]);
-
-  if (!currentDirectory) {
-    currentDirectory = { name: directories.shift(), children: [] };
-    rootFolder.push(currentDirectory);
-  }
-
-  currentDirectory = directories.reduce((parent, name) => {
-    return findOrCreateDirectory(parent, name);
-  }, currentDirectory);
-
-  const file = { name: fileName, content: fileContent };
-  currentDirectory.children.push(file);
-};
-
-const findOrCreateDirectory = (directory, name) => {
-  let subdirectory = directory.children.find((child) => child.name === name);
-
-  if (!subdirectory) {
-    subdirectory = { name, children: [] };
-    directory.children.push(subdirectory);
-  }
-
-  return subdirectory;
+  storage.sync(studentFiles.value);
 };
 
 const closeTab = (tab) => {
@@ -229,9 +146,7 @@ const verifyFail = (newResults) => {
 };
 
 const saveSolution = (fileContent, file) => {
-  const filePath = toFilePath(file);
-
-  localStorage.setItem(currentExercise.workshop.code + "." + currentExercise.exercise.slug + "." + filePath, fileContent);
+  storage.save(file, fileContent);
 };
 
 const resetFiles = async () => {
@@ -245,17 +160,8 @@ const resetFiles = async () => {
     return;
   }
 
-  const key = currentExercise.workshop.code + "." + currentExercise.exercise.slug;
-  const files = getSavedFiles();
-  for (const fileName in files) {
-    localStorage.removeItem(key + "." + fileName);
-  }
-
-  const initialFileCopy = initialFiles.value.map((file) => {
-    return { ...file };
-  });
-
-  studentFiles.value = toTree(initialFileCopy);
+  storage.clear();
+  studentFiles.value = buildTree(initialFiles.value.map((file) => [file.name, file.content]));
   openFiles.value = [studentFiles.value[0]];
   activeTab.value = 0;
 };
@@ -288,7 +194,7 @@ const studentSelectFile = (selectedFile) => {
 };
 
 const deleteFileOrFolder = async (file) => {
-  if (file.name === props.entryPoint && file.parent === null) {
+  if (file.name === entryPoint.value && file.parent === null) {
     //cannot delete entry point
     confirm.value.show({
       title: "Error",
@@ -310,10 +216,13 @@ const deleteFileOrFolder = async (file) => {
     return false;
   }
 
-  const index = openFiles.value.findIndex((elem) => elem === file);
-  if (index !== -1) {
-    openFiles.value.splice(index, 1);
-    findAndActivateNearestTab(index);
+  // close the file's tab, or the tabs of every file inside a deleted folder
+  const isInside = (node) => node && (node === file || isInside(node.parent));
+  for (let index = openFiles.value.length - 1; index >= 0; index--) {
+    if (isInside(openFiles.value[index])) {
+      openFiles.value.splice(index, 1);
+      findAndActivateNearestTab(index);
+    }
   }
 
   return true;
