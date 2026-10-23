@@ -1,7 +1,7 @@
 <script setup>
 import { offset } from "@floating-ui/dom";
 import waitUntil from "./Utils/waitUntil.js";
-import { onMounted, ref, watch } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import Shepherd from "shepherd.js";
 
 import { useStudentStore } from "../../stores/student";
@@ -25,6 +25,16 @@ const emit = defineEmits(["tour-starting"]);
 const tour = ref(null);
 const container = ref(null);
 
+// Only the overlay of a finished tour is removed, so a tour still running when the editor goes away is cancelled, without marking it complete.
+const stopTour = () => {
+  if (tour.value?.isActive()) {
+    tour.value.off("cancel");
+    tour.value.cancel();
+  }
+};
+
+onBeforeUnmount(stopTour);
+
 onMounted(() => {
   if (studentStore.tourComplete()) {
     return;
@@ -38,6 +48,7 @@ watch(
   () => studentStore.forceTour,
   (newValue) => {
     if (newValue) {
+      stopTour();
       createTour();
       tour.value.start();
 
@@ -137,7 +148,7 @@ const createTour = () => {
   tour.value.addStep({
     canClickTarget: true,
     attachTo: { element: "#editor-1", on: "left-start" },
-    text: '<p class="error bg-red-500 text-white p-3 text-base inline rounded-lg font-bold hidden absolute-center top-6"> Try again!<br></p>Write some code to solve the problem. Try adding <code>echo "Hey!";</code>. Then click next.',
+    text: '<p class="error bg-red-500 text-white p-3 text-base rounded-lg font-bold hidden absolute-center top-6"> Try again!<br></p>Write some code to solve the problem. Try adding <code>echo "Hey!";</code>. Then click next.',
     buttons: [
       {
         text: "Next",
@@ -272,6 +283,10 @@ const createTour = () => {
 
 <style>
 @reference "../../styles/online.css";
+/* the problem dialog makes the rest of the page ignore clicks while it is open, so the tour has to opt back in */
+.shepherd-element {
+  pointer-events: auto;
+}
 .shepherd-element > .shepherd-arrow {
   @apply absolute h-[20px] w-[20px] border-10 border-solid border-transparent;
 }
