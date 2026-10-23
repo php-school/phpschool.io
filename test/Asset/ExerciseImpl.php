@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpSchool\WebsiteTest\Asset;
 
+use PhpSchool\PhpWorkshop\Event\EventDispatcher;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseType;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
@@ -43,4 +44,11 @@ class ExerciseImpl implements ExerciseInterface
     }
 
     public function configure(ExerciseDispatcher $dispatcher): void {}
+
+    public function getRequiredChecks(): array
+    {
+        return [];
+    }
+
+    public function defineListeners(EventDispatcher $dispatcher): void {}
 }

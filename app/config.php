@@ -13,7 +13,7 @@ use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 use Github\AuthMethod;
 use Github\Client;
-use League\CommonMark\Extension\CommonMarkCoreExtension;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\MarkdownConverter;
@@ -60,6 +60,7 @@ use PhpSchool\Website\Online\ProblemFileConverter;
 use PhpSchool\Website\Online\ProjectUploader;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\Online\VueResultsRenderer;
+use PhpSchool\Website\Command\BuildRuntimeImages;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateAdminUser;
 use PhpSchool\Website\Command\GenerateBlog;
@@ -113,9 +114,11 @@ use function DI\factory;
 use function DI\get;
 
 return [
-    'console' => factory(function (\DI\Container $c): \Silly\Edition\PhpDi\Application {
-        $app = new \Silly\Edition\PhpDi\Application('PHP School Website', 'UNKNOWN', $c);
+    'console' => factory(function (\DI\Container $c): \Silly\Application {
+        $app = new \Silly\Application('PHP School Website', 'UNKNOWN');
+        $app->useContainer($c, true, true);
         $app->command('clear-cache', ClearCache::class);
+        $app->command('build-runtime-images', BuildRuntimeImages::class);
         $app->command('create-admin-user name email password', CreateAdminUser::class);
         $app->command('generate-blog', GenerateBlog::class);
         $app->command('download-composer-packages', DownloadComposerPackageList::class);
@@ -326,7 +329,7 @@ return [
 
     //cloud
     MarkdownConverterInterface::class => function (ContainerInterface $c): MarkdownConverterInterface {
-        $environment = new \League\CommonMark\Environment([
+        $environment = new \League\CommonMark\Environment\Environment([
             'external_link' => [
                 'internal_hosts' => 'www.phpschool.io',
                 'open_in_new_window' => true,
@@ -505,7 +508,10 @@ return [
     },
 
     CloudWorkshopRepository::class => function (ContainerInterface $c): CloudWorkshopRepository {
-        return new CloudWorkshopRepository($c->get(WorkshopRepository::class));
+        return new CloudWorkshopRepository(
+            $c->get(WorkshopRepository::class),
+            __DIR__ . '/../var/composer-cache',
+        );
     },
 
     'exerciseRunnerRateLimiterFactory' => function (ContainerInterface $c): RateLimiterFactory {

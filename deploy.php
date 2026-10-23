@@ -36,6 +36,11 @@ task('deploy:schema-update', function () {
     run('cd {{release_path}} && {{bin/php}} bin/app orm:schema-tool:update -f');
 })->desc('Update the Doctrine schema');
 
+// Student code runs in these images, so they must exist before the release goes live.
+task('deploy:build-runtime-images', function () {
+    run('cd {{release_path}} && {{bin/php}} bin/app build-runtime-images');
+})->desc('Build the workshop sandbox images');
+
 task('deploy:generate-blog', function () {
     run('cd {{release_path}} && {{bin/php}} bin/app generate-blog');
 })->desc('Generate the blog');
@@ -47,6 +52,7 @@ task('deploy', [
     'deploy:clear-cache',
     'deploy:schema-update',
     'deploy:generate-blog',
+    'deploy:build-runtime-images',
     'deploy:publish',
 ])->desc('Deploy phpschool.io');
 

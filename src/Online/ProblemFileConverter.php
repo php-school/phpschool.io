@@ -24,6 +24,6 @@ class ProblemFileConverter
             throw ProblemFileDoesNotExistException::fromFile($problemFile);
         }
 
-        return $this->commonMarkConverter->convertToHtml((string) file_get_contents($problemFile));
+        return (string) $this->commonMarkConverter->convertToHtml((string) file_get_contents($problemFile));
     }
 }

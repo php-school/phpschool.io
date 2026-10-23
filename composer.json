@@ -10,11 +10,10 @@
     }
   ],
   "require": {
-    "php": "^8.3",
+    "php": "^8.5",
     "slim/slim": "^4.15",
     "monolog/monolog": "^2.10",
     "php-di/slim-bridge": "^3.4",
-    "mnapoli/silly-php-di": "^1.3",
     "psr/cache": "^3.0",
     "symfony/cache": "^7.4",
     "predis/predis": "^3.0",
@@ -39,16 +38,16 @@
     "illuminate/collections": "^13.0",
     "psr/log": "^1.1",
     "php-school/php-workshop": "dev-master",
-    "php-school/learn-you-php": "dev-master",
-    "php-school/php8-appreciate": "dev-master",
+    "php-school/learn-you-php": "dev-workshop-rewrite",
+    "php-school/php8-appreciate": "dev-workshop-rewrite",
     "league/oauth2-github": "^3.1",
     "symfony/string": "^7.4",
     "symfony/translation-contracts": "^3.7",
-    "spatie/commonmark-highlighter": "^2.1",
     "ahinkle/packagist-latest-version": "^2.1",
     "symfony/rate-limiter": "^7.4",
     "jimtools/jwt-auth": "^3.0",
-    "symfony/var-exporter": "^7.4"
+    "symfony/var-exporter": "^7.4",
+    "mnapoli/silly": "^1.10"
   },
   "autoload": {
     "psr-4": {
@@ -89,6 +88,8 @@
     "allow-plugins": {
       "phpstan/extension-installer": true,
       "php-http/discovery": true
+    },
+    "platform": {
     }
   }
 }

@@ -12,7 +12,7 @@ class CloudWorkshopRepository
 {
     private WorkshopRepository $workshopRepository;
 
-    public function __construct(WorkshopRepository $workshopRepository)
+    public function __construct(WorkshopRepository $workshopRepository, private readonly string $composerCacheDir)
     {
         $this->workshopRepository = $workshopRepository;
     }
@@ -46,6 +46,8 @@ class CloudWorkshopRepository
                 return new CloudInstalledWorkshop(
                     include $path . '/app/bootstrap.php',
                     $workshop,
+                    $path,
+                    $this->composerCacheDir,
                 );
             },
             $workshops,
