@@ -17,7 +17,7 @@ import { buildTree, savedFiles } from "./Utils/studentFiles";
 import { useWorkshopStore } from "../../stores/workshops";
 import { useStudentStore } from "../../stores/student";
 import { FolderIcon } from "@heroicons/vue/24/outline";
-import { vOnClickOutside } from "@vueuse/components";
+import { onClickOutside } from "@vueuse/core";
 import { TransitionChild, TransitionRoot } from "@headlessui/vue";
 
 const workshopStore = useWorkshopStore();
@@ -54,6 +54,8 @@ const nextExercise = ref(workshopStore.findNextExercise(props.workshop, props.ex
 const problem = ref("");
 const openFileBrowser = ref(false);
 const openFileBrowserButton = ref(null);
+const fileBrowser = ref(null);
+onClickOutside(fileBrowser, () => (openFileBrowser.value = false), { ignore: [openFileBrowserButton] });
 const storage = savedFiles(currentExercise.workshop.code, currentExercise.exercise.slug);
 const saveFiles = () => storage.save(studentFiles.value);
 // the exercise's own files, flat (see Utils/studentFiles.js)
@@ -261,7 +263,7 @@ const deleteFileOrFolder = async (file) => {
               leave-from="translate-x-0"
               leave-to="-translate-x-full"
             >
-              <div class="absolute top-0 left-0 z-10 h-full w-4/6 border-t border-r border-gray-600 bg-gray-900" v-on-click-outside.bubble="() => (openFileBrowser = false)">
+              <div class="absolute top-0 left-0 z-10 h-full w-4/6 border-t border-r border-gray-600 bg-gray-900" ref="fileBrowser">
                 <FileTree
                   :files="studentFiles"
                   :file-select-function="studentSelectFile"

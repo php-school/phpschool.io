@@ -31,9 +31,9 @@
   },
   "dependencies": {
     "@docsearch/js": "^3.5.2",
+    "@floating-ui/dom": "^1.8.0",
     "@headlessui/vue": "^1.7.4",
     "@heroicons/vue": "^2.0.13",
-    "@vueuse/components": "^10.7.2",
     "@vueuse/core": "^10.7.2",
     "ace-builds": "^1.13.0",
     "chart.js": "^4.4.0",
