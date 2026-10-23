@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { ArrowPathIcon, CheckIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import Heading from "../PageHeading.vue";
 
@@ -19,16 +19,6 @@ const loading = ref(false);
 
 const hasErrors = ref(false);
 
-onMounted(() => {
-  form.value = {
-    email: null,
-    name: null,
-    contact: null,
-    "workshop-name": null,
-    "github-url": null,
-  };
-});
-
 const submit = async () => {
   if (submitted.value) {
     return;
@@ -39,38 +29,35 @@ const submit = async () => {
   errors.value = {};
   workshopErrors.value = {};
 
-  const response = await fetch("/api/submit", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(form),
-  });
+  let data;
+  try {
+    const response = await fetch("/api/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
 
-  loading.value = false;
+    data = response.ok ? await response.json() : null;
+  } catch {
+    data = null;
+  } finally {
+    loading.value = false;
+  }
 
-  if (response.ok) {
-    const data = await response.json();
-
-    if (data.success === false) {
-      if (data.form_errors) {
-        errors.value = data.form_errors;
-      }
-
-      if (data.workshop_errors) {
-        workshopErrors.value = data.workshop_errors;
-      }
-
-      hasErrors.value = true;
-
-      setTimeout(() => {
-        hasErrors.value = false;
-      }, 5000);
-    } else {
-      submitted.value = true;
-    }
-  } else {
+  if (data === null) {
     submitError.value = true;
+  } else if (data.success === false) {
+    errors.value = data.form_errors ?? {};
+    workshopErrors.value = data.workshop_errors ?? {};
+    hasErrors.value = true;
+
+    setTimeout(() => {
+      hasErrors.value = false;
+    }, 5000);
+  } else {
+    submitted.value = true;
   }
 };
 </script>
