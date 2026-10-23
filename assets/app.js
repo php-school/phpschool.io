@@ -203,9 +203,13 @@ export const createApp = ViteSSG(
         return;
       }
 
-      //if we are not logged in redirect to login page
+      //if we are not logged in redirect to login page, and skip the login page if we are
       if (!adminStore.admin && to.name !== "admin-login") {
         return { name: "admin-login" };
+      }
+
+      if (adminStore.admin && to.name === "admin-login") {
+        return { path: "/admin/workshops" };
       }
     });
   },
