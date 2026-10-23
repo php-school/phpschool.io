@@ -1,5 +1,6 @@
 <script setup>
 import { XMarkIcon } from "@heroicons/vue/24/solid";
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "reka-ui";
 
 defineProps({
   activeTab: {
@@ -29,26 +30,25 @@ const changeTab = (tab) => {
 </script>
 
 <template>
-  <div class="tabs flex flex-1 flex-col">
-    <ul class="tabs list-reset flex flex-none justify-start">
-      <li
+  <TabsRoot :model-value="activeTab" @update:model-value="changeTab" class="tabs flex flex-1 flex-col">
+    <TabsList as="ul" class="tabs list-reset flex flex-none justify-start">
+      <TabsTrigger
         v-for="(tab, index) in tabList"
         :key="index"
-        @click="changeTab(index)"
-        class="inline-block flex items-center justify-between border-r border-solid border-r-gray-600 pl-2 pr-1 text-xs text-white no-underline hover:text-pink-500"
+        :value="index"
+        as="li"
+        class="inline-block flex cursor-pointer items-center justify-between border-r border-solid border-r-gray-600 pl-2 pr-1 text-xs text-white no-underline hover:text-pink-500 focus:outline-none"
         :class="[activeTab === index ? 'border-t border-t-pink-600' : 'border-b border-t border-gray-600']"
       >
-        <a href="#" class="py-6 pl-1 text-gray-300 hover:no-underline" :class="[activeTab === index ? 'text-pink-600' : '']">
+        <span class="py-6 pl-1 text-gray-300 hover:no-underline" :class="[activeTab === index ? 'text-pink-600' : '']">
           {{ tab }}
-        </a>
-        <XMarkIcon v-show="disableClose === false" @click.stop="closeTab(tab)" class="ml-2 mr-1 h-3 w-3 cursor-pointer text-zinc-400 hover:text-white" />
-      </li>
+        </span>
+        <XMarkIcon v-show="disableClose === false" @mousedown.stop @click.stop="closeTab(tab)" class="ml-2 mr-1 h-3 w-3 cursor-pointer text-zinc-400 hover:text-white" />
+      </TabsTrigger>
       <li class="flex-1 border-b border-t border-solid border-gray-600"></li>
-    </ul>
-    <template v-for="(tab, index) in tabList">
-      <div class="tabs-panel flex h-full flex-1" :key="index" v-if="index === activeTab">
-        <slot :name="`tab-content-${index}`" />
-      </div>
-    </template>
-  </div>
+    </TabsList>
+    <TabsContent v-for="(tab, index) in tabList" :key="index" :value="index" class="tabs-panel flex h-full flex-1">
+      <slot :name="`tab-content-${index}`" />
+    </TabsContent>
+  </TabsRoot>
 </template>
