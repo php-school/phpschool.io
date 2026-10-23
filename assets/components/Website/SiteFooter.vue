@@ -18,8 +18,8 @@ const contributorModalOpen = ref(false);
       </figure>
 
       <div class="flex w-full flex-col items-start justify-between justify-items-start gap-5 sm:w-auto sm:flex-row md:gap-10">
-        <div class="mb-4 flex-grow sm:mb-0">
-          <h4 class="mb-2 font-work-sans text-lg font-bold capitalize not-italic text-white">The School</h4>
+        <div class="mb-4 grow sm:mb-0">
+          <h4 class="mb-2 font-work-sans text-lg font-bold text-white capitalize not-italic">The School</h4>
           <ul class="list-none">
             <li class="py-1"><router-link to="/online" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">PHP School Online</router-link></li>
             <li class="py-1"><router-link to="/online" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">PHP School School Offline</router-link></li>
@@ -27,8 +27,8 @@ const contributorModalOpen = ref(false);
           </ul>
         </div>
 
-        <div class="mb-4 ml-0 flex-grow sm:mb-0 sm:ml-6">
-          <h4 class="mb-2 font-work-sans text-lg font-bold capitalize not-italic text-white">The Community</h4>
+        <div class="mb-4 ml-0 grow sm:mb-0 sm:ml-6">
+          <h4 class="mb-2 font-work-sans text-lg font-bold text-white capitalize not-italic">The Community</h4>
           <ul class="list-none">
             <li class="py-1"><router-link to="/events" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">Events</router-link></li>
             <li class="py-1"><router-link to="/blog" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">Blog</router-link></li>
@@ -36,8 +36,8 @@ const contributorModalOpen = ref(false);
           </ul>
         </div>
 
-        <div class="mb-4 ml-0 flex-grow sm:mb-0 sm:ml-6">
-          <h4 class="mb-2 font-work-sans text-lg font-bold capitalize not-italic text-white">The Creators</h4>
+        <div class="mb-4 ml-0 grow sm:mb-0 sm:ml-6">
+          <h4 class="mb-2 font-work-sans text-lg font-bold text-white capitalize not-italic">The Creators</h4>
           <ul class="list-none">
             <li class="py-1"><span @click="contributorModalOpen = true" class="cursor-pointer decoration-pink-600 decoration-2 underline-offset-4 hover:underline">Contributors</span></li>
             <li class="py-1"><a href="mailto:phpschool.team@gmail.com" class="decoration-pink-600 decoration-2 underline-offset-4 hover:underline">Email Us</a></li>

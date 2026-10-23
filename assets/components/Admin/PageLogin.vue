@@ -39,7 +39,7 @@ const login = async () => {
         v-model="email"
         type="text"
         name="email"
-        class="block w-full rounded-full border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        class="block w-full rounded-full border-0 px-4 py-1.5 text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 focus:ring-inset sm:text-sm sm:leading-6"
         placeholder="Email"
         required=""
       />
@@ -52,7 +52,7 @@ const login = async () => {
         v-model="password"
         type="password"
         name="password"
-        class="block w-full rounded-full border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        class="block w-full rounded-full border-0 px-4 py-1.5 text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 focus:ring-inset sm:text-sm sm:leading-6"
         placeholder="Password"
         required=""
       />
@@ -61,7 +61,7 @@ const login = async () => {
           {{ err }}
         </li>
       </ul>
-      <button class="flex w-48 items-center justify-center rounded-full bg-pink-600 px-10 py-2 text-base uppercase text-white hover:bg-pink-500" type="submit">
+      <button class="flex w-48 items-center justify-center rounded-full bg-pink-600 px-10 py-2 text-base text-white uppercase hover:bg-pink-500" type="submit">
         <ArrowPathIcon v-show="loading" class="h-5 w-5 animate-spin" />
         <span v-show="!loading">Login</span>
       </button>

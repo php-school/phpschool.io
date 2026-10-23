@@ -65,7 +65,7 @@ const clipboardAvailable = computed(() => {
     <ClipboardDocumentIcon
       v-if="clipboardAvailable && !copied"
       @click="copy"
-      class="absolute right-4 top-4 h-4 w-4 bg-gray-900 text-gray-300 opacity-0 transition-all duration-300 group-hover:opacity-100 hover:cursor-pointer hover:text-pink-600"
+      class="absolute top-4 right-4 h-4 w-4 bg-gray-900 text-gray-300 opacity-0 transition-all duration-300 group-hover:opacity-100 hover:cursor-pointer hover:text-pink-600"
     ></ClipboardDocumentIcon>
 
     <TransitionRoot
@@ -78,7 +78,7 @@ const clipboardAvailable = computed(() => {
       leave-to="opacity-0"
       class="leading-none"
     >
-      <span class="absolute right-4 top-4 font-mono text-[10px] text-pink-600">Copied!</span>
+      <span class="absolute top-4 right-4 font-mono text-[10px] text-pink-600">Copied!</span>
     </TransitionRoot>
     <div class="mb-4 overflow-y-scroll rounded-md border border-gray-600 bg-gray-900 p-4">
       <pre><code class="block text-xs" :class="lang" v-html="formattedCode"></code></pre>

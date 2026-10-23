@@ -192,7 +192,7 @@ const phpSchoolBreakdown = {
     </header>
 
     <!-- Information Section -->
-    <section class="items-stretch overflow-hidden bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed py-20 sm:py-40">
+    <section class="items-stretch overflow-hidden bg-linear-to-b/srgb from-gray-900 to-cyan-500 bg-fixed py-20 sm:py-40">
       <!-- Section 1 -->
       <InfoSection>
         <template #left>
@@ -200,16 +200,16 @@ const phpSchoolBreakdown = {
             <div class="relative flex items-center justify-center">
               <img class="cover" src="../../../img/cloud/pattern-bg-square.svg" alt="" />
               <div class="absolute mx-auto scale-75 sm:scale-100 md:left-auto">
-                <div :ref="transitions.exerciseList" class="fadeIn translate-y-6 opacity-0 transition-all duration-[1000ms] ease-in">
+                <div :ref="transitions.exerciseList" class="fadeIn translate-y-6 opacity-0 transition-all duration-1000 ease-in">
                   <MockWorkshopExerciseList />
                 </div>
               </div>
-              <div class="absolute -right-4 top-1/4 scale-75 sm:scale-95 md:left-4 md:top-[80] md:scale-100 lg:top-[30] xl:top-[90]">
-                <div :ref="transitions.workshopList" class="fadeIn translate-x-10 opacity-0 transition-all duration-[1000ms] ease-in">
+              <div class="absolute top-1/4 -right-4 scale-75 sm:scale-95 md:top-[80] md:left-4 md:scale-100 lg:top-[30] xl:top-[90]">
+                <div :ref="transitions.workshopList" class="fadeIn translate-x-10 opacity-0 transition-all duration-1000 ease-in">
                   <MockWorkshopList />
                 </div>
               </div>
-              <div class="absolute -bottom-36 right-10 z-50 hidden sm:block lg:-bottom-60 lg:left-10 2xl:left-60">
+              <div class="absolute right-10 -bottom-36 z-50 hidden sm:block lg:-bottom-60 lg:left-10 2xl:left-60">
                 <img class="bobbing-animation h-auto w-auto" src="../../../img/cloud/php-elephant-bandana.png" alt="" srcset="" />
               </div>
             </div>
@@ -250,12 +250,12 @@ const phpSchoolBreakdown = {
               <img class="cover sm:h-auto sm:w-auto" src="../../../img/cloud/pattern-bg-rectangle.svg" alt="" />
               <div
                 :ref="transitions.editor"
-                class="fadeIn absolute flex h-[400px] w-[350px] translate-y-6 opacity-0 transition-all duration-[1000ms] ease-in sm:h-[500px] sm:w-[600px] md:h-[500px] md:w-[700px] md:items-center md:justify-center lg:scale-[0.9] xl:h-[500px] xl:w-[800px] xl:scale-100"
+                class="fadeIn absolute flex h-[400px] w-[350px] translate-y-6 opacity-0 transition-all duration-1000 ease-in sm:h-[500px] sm:w-[600px] md:h-[500px] md:w-[700px] md:items-center md:justify-center lg:scale-[0.9] xl:h-[500px] xl:w-[800px] xl:scale-100"
               >
                 <MockEditor class="overflow-hidden" />
               </div>
-              <div :ref="transitions.editorWorkshopList" class="absolute -right-9 top-1/3 scale-75 sm:right-2 sm:top-1/2 md:top-1/3 xl:scale-100">
-                <div class="fadeIn translate-x-10 opacity-0 transition-all duration-[1000ms] ease-in">
+              <div :ref="transitions.editorWorkshopList" class="absolute top-1/3 -right-9 scale-75 sm:top-1/2 sm:right-2 md:top-1/3 xl:scale-100">
+                <div class="fadeIn translate-x-10 opacity-0 transition-all duration-1000 ease-in">
                   <MockWorkshopList />
                 </div>
               </div>
@@ -270,11 +270,11 @@ const phpSchoolBreakdown = {
           <div class="relative mx-auto mt-8 w-full lg:w-2/3">
             <div class="relative flex items-center justify-center">
               <img class="" src="../../../img/cloud/pattern-bg-square-alt.svg" alt="" />
-              <div :ref="transitions.mockProblemModal" class="fadeIn absolute translate-y-6 opacity-0 transition-all duration-[1000ms] ease-in">
+              <div :ref="transitions.mockProblemModal" class="fadeIn absolute translate-y-6 opacity-0 transition-all duration-1000 ease-in">
                 <MockProblemModal />
               </div>
-              <div class="absolute -right-9 top-1/3 hidden scale-75 sm:-right-2 sm:top-1/3 sm:flex sm:scale-100 md:top-1/3">
-                <div :ref="transitions.mockProgress" class="fadeIn translate-x-10 opacity-0 transition-all duration-[1000ms] ease-in">
+              <div class="absolute top-1/3 -right-9 hidden scale-75 sm:top-1/3 sm:-right-2 sm:flex sm:scale-100 md:top-1/3">
+                <div :ref="transitions.mockProgress" class="fadeIn translate-x-10 opacity-0 transition-all duration-1000 ease-in">
                   <MockProgress />
                 </div>
               </div>
@@ -317,14 +317,14 @@ const phpSchoolBreakdown = {
                   type="text"
                   placeholder="Type Something..."
                   v-model="userInput"
-                  class="w-full rounded-2xl border-0 p-5 font-work-sans text-base font-bold text-gray-900 focus:outline-none focus:ring focus:ring-pink-500"
-                  :class="{ 'ring ring-red-500': inputWrong }"
+                  class="w-full rounded-2xl border-0 p-5 font-work-sans text-base font-bold text-gray-900 focus:ring-3 focus:ring-pink-500 focus:outline-hidden"
+                  :class="{ 'ring-3 ring-red-500': inputWrong }"
                   @keyup="userInputKeyup"
                 />
 
                 <PrimaryButton
                   @click="checkInput"
-                  class="absolute right-0 m-0 flex h-[52px] w-24 items-center justify-center rounded-xl bg-gradient-to-r from-pink-600 to-purple-500 px-2 text-sm normal-case text-white shadow-none transition-all duration-300 ease-in hover:bg-[#aa1145] hover:opacity-90"
+                  class="absolute right-0 flex h-[52px] w-24 items-center justify-center rounded-xl bg-linear-to-r/srgb from-pink-600 to-purple-500 px-2 text-sm text-white normal-case shadow-none transition-all duration-300 ease-in hover:bg-[#aa1145] hover:opacity-90"
                 >
                   <span>Verify</span>
                   <SparklesIcon v-cloak class="ml-2 h-5 w-5" />
@@ -341,11 +341,11 @@ const phpSchoolBreakdown = {
               <img class="cover w-2/3 sm:h-auto sm:w-auto" src="../../../img/cloud/pattern-bg-rectangle.svg" alt="" />
               <div
                 :ref="transitions.feedbackEditor"
-                class="fadeIn absolute flex h-[400px] w-[350px] translate-y-6 opacity-0 transition-all duration-[1000ms] ease-in sm:h-[500px] sm:w-[600px] md:h-[500px] md:w-[700px] md:items-center md:justify-center lg:scale-[0.9] xl:h-[500px] xl:w-[800px] xl:scale-100"
+                class="fadeIn absolute flex h-[400px] w-[350px] translate-y-6 opacity-0 transition-all duration-1000 ease-in sm:h-[500px] sm:w-[600px] md:h-[500px] md:w-[700px] md:items-center md:justify-center lg:scale-[0.9] xl:h-[500px] xl:w-[800px] xl:scale-100"
               >
                 <MockEditor />
               </div>
-              <div :ref="transitions.feedbackProblemModal" class="fadeIn absolute translate-x-10 scale-75 opacity-0 transition-all duration-[1000ms] ease-in">
+              <div :ref="transitions.feedbackProblemModal" class="fadeIn absolute translate-x-10 scale-75 opacity-0 transition-all duration-1000 ease-in">
                 <MockProblemModal />
               </div>
             </div>
@@ -357,10 +357,10 @@ const phpSchoolBreakdown = {
                 class="absolute flex h-[400px] w-[350px] sm:h-[500px] sm:w-[600px] md:h-[500px] md:w-[700px] md:items-center md:justify-center lg:scale-[0.9] xl:h-[500px] xl:w-[800px] xl:scale-100"
               >
                 <MockEditor />
-                <div class="absolute left-1/2 top-5 -translate-x-1/2 transform md:top-10 md:w-full md:scale-105 lg:top-8 xl:top-12 xl:px-4">
+                <div class="absolute top-5 left-1/2 -translate-x-1/2 transform md:top-10 md:w-full md:scale-105 lg:top-8 xl:top-12 xl:px-4">
                   <MockPassNotification class="w-full shadow-[-10px_10px_0_rgba(0,0,0,0.2)]" />
                 </div>
-                <div class="absolute left-10 top-1/3 flex scale-50 sm:-left-4 sm:bottom-8 sm:scale-95 md:-left-5 md:bottom-8 md:scale-100 xl:bottom-14">
+                <div class="absolute top-1/3 left-10 flex scale-50 sm:bottom-8 sm:-left-4 sm:scale-95 md:bottom-8 md:-left-5 md:scale-100 xl:bottom-14">
                   <MockOfficialSolution class="h-[250px] w-[400px]" />
                 </div>
               </div>

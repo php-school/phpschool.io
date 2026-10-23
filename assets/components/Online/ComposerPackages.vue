@@ -84,7 +84,7 @@ const removeDependency = (packageName) => {
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <Modal size="sm" max-height="max-h-[calc(1/2*100%)]" v-if="open" @close="emit('close')" scrollContent>
+    <Modal size="sm" max-height="max-h-1/2" v-if="open" @close="emit('close')" scrollContent>
       <template #header>
         <div class="flex items-center">
           <CircleStackIcon class="mr-2 h-6 w-6 text-pink-500" />
@@ -98,7 +98,7 @@ const removeDependency = (packageName) => {
             :disabled="newDependency === ''"
             @click.stop="addDependency"
             type="button"
-            class="ml-3 inline-flex h-9 w-16 items-center justify-center rounded-full border border-transparent bg-pink-600 px-4 py-2 text-base text-sm font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 disabled:opacity-70 disabled:hover:bg-pink-600"
+            class="ml-3 inline-flex h-9 w-16 items-center justify-center rounded-full border border-transparent bg-pink-600 px-4 py-2 text-base text-sm font-medium text-white shadow-xs hover:bg-pink-700 focus:ring-3 focus:ring-pink-800 focus:outline-hidden disabled:opacity-70 disabled:hover:bg-pink-600"
           >
             <ArrowPathIcon v-cloak v-show="loadingComposerAdd" class="h-4 w-4 animate-spin" />
             <span v-if="!loadingComposerAdd">Add</span>
@@ -107,7 +107,7 @@ const removeDependency = (packageName) => {
         <ul v-show="composerDeps.length > 0" class="mt-4 overflow-y-scroll">
           <li v-for="dep in composerDeps" :key="dep.name" class="mb-2 flex items-center pl-2 text-white">
             <p class="text-base">{{ dep.name }}</p>
-            <p class="ml-2 rounded bg-gray-900 px-2 py-1">{{ dep.version }}</p>
+            <p class="ml-2 rounded-sm bg-gray-900 px-2 py-1">{{ dep.version }}</p>
             <XMarkIcon @click.stop="removeDependency(dep.name)" class="ml-2 h-5 w-5 cursor-pointer text-zinc-400 hover:text-pink-600" />
           </li>
         </ul>
@@ -121,7 +121,7 @@ const removeDependency = (packageName) => {
           <button
             @click="emit('close')"
             type="button"
-            class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto sm:text-sm"
+            class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-xs hover:bg-pink-700 focus:ring-3 focus:ring-pink-800 focus:outline-hidden sm:ml-3 sm:w-auto sm:text-sm"
           >
             Close
           </button>

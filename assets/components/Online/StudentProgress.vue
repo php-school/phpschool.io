@@ -40,7 +40,7 @@ const login = async () => {
         <span class="text-xs font-normal">Log In with github</span>
       </Button>
 
-      <div v-cloak v-if="studentStore.student" class="flex items-center space-x-4">
+      <div v-cloak v-if="studentStore.student" class="flex items-center gap-x-4">
         <img v-if="studentStore.student.profile_picture" class="h-10 w-10 rounded-full" :src="studentStore.student.profile_picture" alt="{{ studentStore.student.name }}" />
         <div v-if="!studentStore.student.profile_picture" class="h-10 w-10 rounded-full">
           <UserCircleIcon class="text-pink-600" />

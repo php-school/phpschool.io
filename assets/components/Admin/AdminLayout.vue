@@ -99,7 +99,7 @@ const sidebarOpen = ref(false);
                 leave-from="opacity-100"
                 leave-to="opacity-0"
               >
-                <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
+                <div class="absolute top-0 left-full flex w-16 justify-center pt-5">
                   <button type="button" class="-m-2.5 p-2.5" @click="sidebarOpen = false">
                     <span class="sr-only">Close sidebar</span>
                     <XMarkIcon class="h-6 w-6 text-white" aria-hidden="true" />
@@ -119,7 +119,7 @@ const sidebarOpen = ref(false);
                             :to="item.to"
                             :class="[
                               item.to === location.path ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white',
-                              'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                              'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                             ]"
                           >
                             {{ item.name }}
@@ -151,7 +151,7 @@ const sidebarOpen = ref(false);
                     :to="item.to"
                     :class="[
                       item.to === location.path ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white',
-                      'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                      'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                     ]"
                   >
                     <component :is="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
@@ -167,7 +167,7 @@ const sidebarOpen = ref(false);
 
     <div class="xl:pl-72">
       <!-- Sticky search header -->
-      <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 border-b border-pink-600/30 bg-gray-900 pl-4 pr-2 shadow-sm sm:pl-6 lg:pl-8">
+      <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 border-b border-pink-600/30 bg-gray-900 pr-2 pl-4 shadow-xs sm:pl-6 lg:pl-8">
         <button type="button" class="-m-2.5 p-2.5 text-white xl:hidden" @click="sidebarOpen = true">
           <span class="sr-only">Open sidebar</span>
           <Bars3Icon class="h-5 w-5" aria-hidden="true" />
@@ -181,7 +181,7 @@ const sidebarOpen = ref(false);
               <input
                 v-model="search"
                 id="search-field"
-                class="block h-full w-full border-0 bg-transparent py-0 pl-8 pr-0 text-white focus:ring-0 sm:text-sm"
+                class="block h-full w-full border-0 bg-transparent py-0 pr-0 pl-8 text-white focus:ring-0 sm:text-sm"
                 placeholder="Search..."
                 type="search"
                 name="search"
@@ -193,14 +193,14 @@ const sidebarOpen = ref(false);
         <div class="ml-4 flex items-center md:ml-6">
           <Menu as="div" class="relative ml-3">
             <div>
-              <MenuButton class="relative flex h-full max-w-xs items-center rounded-md text-sm hover:bg-gray-800 focus:outline-none lg:p-2">
+              <MenuButton class="relative flex h-full max-w-xs items-center rounded-md text-sm hover:bg-gray-800 focus:outline-hidden lg:p-2">
                 <span class="absolute -inset-1.5 lg:hidden" />
                 <img class="h-8 w-8 rounded-full" :src="user.avatar" alt="" />
                 <span class="ml-3 hidden text-sm font-medium text-white lg:block">
                   <span class="sr-only">Open user menu for</span>
                   {{ user.name }}
                 </span>
-                <ChevronDownIcon class="ml-1 hidden h-5 w-5 flex-shrink-0 text-white lg:block" aria-hidden="true" />
+                <ChevronDownIcon class="ml-1 hidden h-5 w-5 shrink-0 text-white lg:block" aria-hidden="true" />
               </MenuButton>
             </div>
             <transition
@@ -211,7 +211,7 @@ const sidebarOpen = ref(false);
               leave-from-class="transform opacity-100 scale-100"
               leave-to-class="transform opacity-0 scale-95"
             >
-              <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-none">
+              <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-hidden">
                 <MenuItem v-slot="{ active }">
                   <button @click="logout" type="button" :class="[active ? 'bg-slate-900/40 text-white' : '', 'block w-full rounded-md px-4 py-2 text-left text-sm text-slate-400']">Logout</button>
                 </MenuItem>
@@ -228,15 +228,15 @@ const sidebarOpen = ref(false);
       </main>
 
       <!-- Activity feed -->
-      <aside class="bg-black/10 lg:fixed lg:bottom-0 lg:right-0 lg:top-16 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-pink-600/30">
+      <aside class="bg-black/10 lg:fixed lg:top-16 lg:right-0 lg:bottom-0 lg:w-96 lg:overflow-y-auto lg:border-l lg:border-pink-600/30">
         <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
-          <h2 class="text-base font-semibold leading-7 text-white">Activity feed</h2>
+          <h2 class="text-base leading-7 font-semibold text-white">Activity feed</h2>
         </header>
         <ul role="list" class="divide-y divide-white/5">
           <li v-for="item in activityItems" class="px-4 py-4 sm:px-6 lg:px-8" :key="item.id">
             <div class="flex items-center gap-x-3">
               <img :src="item.submitter.imageUrl" alt="" class="h-6 w-6 flex-none rounded-full bg-gray-800" />
-              <h3 class="flex-auto truncate text-sm font-semibold leading-6 text-white">
+              <h3 class="flex-auto truncate text-sm leading-6 font-semibold text-white">
                 {{ item.submitter.name }}
               </h3>
               <time :datetime="item.dateTime" class="flex-none text-xs text-gray-600">{{ item.dateTime }}</time>
@@ -260,6 +260,7 @@ const sidebarOpen = ref(false);
 </template>
 
 <style>
+@reference "../../styles/online.css";
 html {
   @apply bg-gray-900;
 }

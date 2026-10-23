@@ -352,7 +352,7 @@ const deleteFileOrFolder = async (file) => {
               leave-from="translate-x-0"
               leave-to="-translate-x-full"
             >
-              <div class="absolute left-0 top-0 z-10 h-full w-4/6 border-r border-t border-gray-600 bg-gray-900" v-on-click-outside.bubble="() => (openFileBrowser = false)">
+              <div class="absolute top-0 left-0 z-10 h-full w-4/6 border-t border-r border-gray-600 bg-gray-900" v-on-click-outside.bubble="() => (openFileBrowser = false)">
                 <FileTree
                   :files="studentFiles"
                   :file-select-function="studentSelectFile"
@@ -399,7 +399,7 @@ const deleteFileOrFolder = async (file) => {
               leave-to="-translate-y-full md:translate-y-0 md:translate-x-full"
             >
               <div id="results-col" class="absolute right-0 z-10 flex h-full w-full flex-col overflow-y-scroll border-t border-solid border-gray-600 bg-gray-900 md:mt-0 md:w-3/12 md:border-l">
-                <div class="flex items-center justify-between border-b border-solid border-gray-600 pb-[15px] pl-4 pr-4 pt-4">
+                <div class="flex items-center justify-between border-b border-solid border-gray-600 pt-4 pr-4 pb-[15px] pl-4">
                   <h1 class="flex items-center pt-0 font-mono text-xl text-white">
                     <AcademicCapIcon class="mr-3 h-5 w-5" />
                     Results
@@ -411,23 +411,23 @@ const deleteFileOrFolder = async (file) => {
                   </div>
                 </div>
 
-                <div v-show="loadingResults" class="mt-4 flex animate-pulse space-x-4 px-4">
+                <div v-show="loadingResults" class="mt-4 flex animate-pulse gap-x-4 px-4">
                   <div class="flex-1 space-y-6 py-1">
-                    <div class="h-2 rounded bg-slate-700"></div>
+                    <div class="h-2 rounded-sm bg-slate-700"></div>
                     <div class="space-y-3">
                       <div class="grid grid-cols-3 gap-4">
-                        <div class="col-span-2 h-2 rounded bg-slate-700"></div>
-                        <div class="col-span-1 h-2 rounded bg-slate-700"></div>
+                        <div class="col-span-2 h-2 rounded-sm bg-slate-700"></div>
+                        <div class="col-span-1 h-2 rounded-sm bg-slate-700"></div>
                       </div>
-                      <div class="h-2 rounded bg-slate-700"></div>
+                      <div class="h-2 rounded-sm bg-slate-700"></div>
                     </div>
-                    <div class="h-2 rounded bg-slate-700"></div>
+                    <div class="h-2 rounded-sm bg-slate-700"></div>
                     <div class="space-y-3">
                       <div class="grid grid-cols-3 gap-4">
-                        <div class="col-span-1 h-2 rounded bg-slate-700"></div>
-                        <div class="col-span-2 h-2 rounded bg-slate-700"></div>
+                        <div class="col-span-1 h-2 rounded-sm bg-slate-700"></div>
+                        <div class="col-span-2 h-2 rounded-sm bg-slate-700"></div>
                       </div>
-                      <div class="h-2 rounded bg-slate-700"></div>
+                      <div class="h-2 rounded-sm bg-slate-700"></div>
                     </div>
                   </div>
                 </div>
@@ -444,13 +444,13 @@ const deleteFileOrFolder = async (file) => {
           <div class="order-1 flex w-full items-start justify-end gap-x-2 md:gap-x-0 lg:order-3 lg:w-auto">
             <button
               ref="openFileBrowserButton"
-              class="mr-0 flex h-[48px] w-auto items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:hidden lg:mb-0"
+              class="mr-0 flex h-[48px] w-auto items-center justify-center rounded-sm border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:hidden lg:mb-0"
               @click.stop="openFileBrowser = !openFileBrowser"
             >
               <FolderIcon v-cloak class="h-5 w-5 xl:ml-2" />
             </button>
             <button
-              class="mr-0 flex h-[48px] w-auto items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:w-44 lg:mb-0 lg:w-auto xl:w-44"
+              class="mr-0 flex h-[48px] w-auto items-center justify-center rounded-sm border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:w-44 lg:mb-0 lg:w-auto xl:w-44"
               @click="openComposerModal = true"
             >
               <span class="hidden md:flex lg:hidden xl:flex">Composer deps</span>
@@ -458,7 +458,7 @@ const deleteFileOrFolder = async (file) => {
             </button>
             <button
               id="show-problem"
-              class="mr-0 mt-0 flex h-[48px] w-auto items-center justify-center rounded border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:w-44 lg:w-auto xl:w-44"
+              class="mt-0 mr-0 flex h-[48px] w-auto items-center justify-center rounded-sm border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:mr-2 md:w-44 lg:w-auto xl:w-44"
               @click="openProblemModal = true"
             >
               <span class="hidden md:flex lg:hidden xl:flex">Show problem</span>

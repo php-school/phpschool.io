@@ -60,7 +60,7 @@ const chartOptions = {
 
 <template>
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
-    <h1 class="text-base font-semibold leading-7 text-white">
+    <h1 class="text-base leading-7 font-semibold text-white">
       {{ workshop.name }}
     </h1>
   </header>
@@ -68,25 +68,25 @@ const chartOptions = {
   <div class="">
     <dl class="divide-y divide-white/10">
       <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm font-medium leading-6 text-white">Workshop Code</dt>
+        <dt class="text-sm leading-6 font-medium text-white">Workshop Code</dt>
         <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
           {{ workshop.code }}
         </dd>
       </div>
       <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm font-medium leading-6 text-white">Workshop Name</dt>
+        <dt class="text-sm leading-6 font-medium text-white">Workshop Name</dt>
         <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
           {{ workshop.name }}
         </dd>
       </div>
       <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm font-medium leading-6 text-white">Workshop Description</dt>
+        <dt class="text-sm leading-6 font-medium text-white">Workshop Description</dt>
         <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
           {{ workshop.description }}
         </dd>
       </div>
       <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm font-medium leading-6 text-white">Workshop Type</dt>
+        <dt class="text-sm leading-6 font-medium text-white">Workshop Type</dt>
         <dd class="mt-1 flex text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
           <div :class="[types[workshop.type], 'flex-none rounded-full px-2 py-0.5 text-[10px] font-medium ring-1 ring-inset']">
             {{ workshop.type }}
@@ -94,19 +94,19 @@ const chartOptions = {
         </dd>
       </div>
       <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm font-medium leading-6 text-white">Submitter Name</dt>
+        <dt class="text-sm leading-6 font-medium text-white">Submitter Name</dt>
         <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
           {{ workshop.submitter_name }}
         </dd>
       </div>
       <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm font-medium leading-6 text-white">Submitter email</dt>
+        <dt class="text-sm leading-6 font-medium text-white">Submitter email</dt>
         <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
           {{ workshop.submitter_email }}
         </dd>
       </div>
       <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm font-medium leading-6 text-white">Submitter contact</dt>
+        <dt class="text-sm leading-6 font-medium text-white">Submitter contact</dt>
         <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
           {{ workshop.submitter_contact }}
         </dd>

@@ -64,12 +64,12 @@ const onOpenChange = (open) => {
 <template>
   <DialogRoot :open="true" @update:open="onOpenChange">
     <DialogPortal>
-      <DialogOverlay class="fixed inset-0 z-40 bg-gray-900 bg-opacity-80" />
-      <div class="fixed left-0 right-0 top-0 z-50 flex h-full w-full items-center justify-center overflow-x-hidden p-2 md:inset-0 md:p-0">
+      <DialogOverlay class="fixed inset-0 z-40 bg-gray-900/80" />
+      <div class="fixed top-0 right-0 left-0 z-50 flex h-full w-full items-center justify-center overflow-x-hidden p-2 md:inset-0 md:p-0">
         <DialogContent
           :id="id"
           :aria-describedby="undefined"
-          class="modal-border relative flex w-full flex-col justify-start overflow-hidden rounded-lg border-2 border-solid border-transparent bg-gray-800 shadow focus:outline-none"
+          class="modal-border relative flex w-full flex-col justify-start overflow-hidden rounded-lg border-2 border-solid border-transparent bg-gray-800 shadow-sm focus:outline-hidden"
           :class="[modalSizeClasses[size], maxHeight]"
           @interact-outside="interactOutside"
           @open-auto-focus="openAutoFocus"
@@ -79,7 +79,7 @@ const onOpenChange = (open) => {
             <div>
               <DialogClose
                 :id="id + '-close'"
-                class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-600 hover:text-white focus:outline-none focus:ring focus:ring-pink-800"
+                class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-600 hover:text-white focus:ring-3 focus:ring-pink-800 focus:outline-hidden"
               >
                 <XMarkIcon class="h-5 w-5" />
               </DialogClose>
@@ -89,7 +89,7 @@ const onOpenChange = (open) => {
             class="flex-1"
             :class="[
               !$slots.header ? 'pt-0' : '',
-              scrollContent ? 'scrollbar-track-none mr-[3px] overflow-y-auto scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-rounded-full scrollbar-thumb-rounded-full' : '',
+              scrollContent ? 'scrollbar-track-none mr-[3px] scrollbar-thin scrollbar-thumb-pink-500 overflow-y-auto scrollbar-thumb-rounded-full scrollbar-track-rounded-full' : '',
               bodyClasses,
             ]"
           >

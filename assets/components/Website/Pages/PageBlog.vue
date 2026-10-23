@@ -10,7 +10,7 @@ defineProps({
 </script>
 <template>
   <div>
-    <section class="items-stretch bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed">
+    <section class="items-stretch bg-linear-to-b/srgb from-gray-900 to-cyan-500 bg-fixed">
       <Heading>
         <template v-slot:title>
           What's happening in
@@ -25,9 +25,9 @@ defineProps({
           <h1>No posts yet!</h1>
         </div>
 
-        <div v-for="post in blog.posts" :key="post.slug" class="border-1 border-b border-solid border-pink-600/40 p-8 text-lg last:border-none">
+        <div v-for="post in blog.posts" :key="post.slug" class="border border-b border-solid border-pink-600/40 p-8 text-lg last:border-none">
           <div class="mb-3 text-center">
-            <h1 class="mx-0 mb-3 mt-[9px] font-mono text-4xl font-bold leading-normal text-white hover:text-[#e91e63]">
+            <h1 class="mx-0 mt-[9px] mb-3 font-mono text-4xl leading-normal font-bold text-white hover:text-[#e91e63]">
               <router-link :to="'/blog/' + post.slug">{{ post.title }}</router-link>
             </h1>
             <span class="text-xs font-bold hover:text-[#e91e63]">

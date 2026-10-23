@@ -13,7 +13,7 @@
           <h3 class="mt-0 pt-0 text-base text-sm font-semibold text-white">Official Solution</h3>
         </div>
       </div>
-      <span type="button" class="ml-auto inline-flex items-center rounded-lg bg-transparent text-sm text-gray-400 focus:outline-none focus:ring focus:ring-pink-800">
+      <span type="button" class="ml-auto inline-flex items-center rounded-lg bg-transparent text-sm text-gray-400 focus:ring-3 focus:ring-pink-800 focus:outline-hidden">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-4 w-4">
           <path
             fill-rule="evenodd"

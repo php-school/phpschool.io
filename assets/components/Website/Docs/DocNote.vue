@@ -22,7 +22,7 @@ const panelClasses = computed(() => {
   <div class="my-4 rounded-md border border-gray-600 p-3" :class="panelClasses">
     <div class="flex items-start">
       <div class="">
-        <p class="!mb-0 !text-xs text-gray-300">
+        <p class="mb-0! text-xs! text-gray-300">
           <slot />
         </p>
       </div>

@@ -94,7 +94,7 @@
                       ></path>
                     </svg>
                     <span class="flex-1 truncate hover:text-white" style="">cloud</span>
-                    <span class="ml-2 mr-2">[-]</span>
+                    <span class="mr-2 ml-2">[-]</span>
                   </div>
                 </div>
                 <div class="ml-3" style="">
@@ -147,7 +147,7 @@
                       ></path>
                     </svg>
                     <span class="flex-1 truncate hover:text-white" style="">styles</span>
-                    <span class="ml-2 mr-2">[-]</span>
+                    <span class="mr-2 ml-2">[-]</span>
                   </div>
                 </div>
                 <div class="ml-3" style="">
@@ -184,11 +184,9 @@
         <div class="flex h-full w-9/12 border-l border-solid border-gray-600">
           <div class="tabs flex w-full flex-col">
             <ul class="tabs list-reset flex flex-none justify-start border-solid border-gray-600">
-              <li
-                class="-mt-[1px] inline-block flex items-center justify-between border-r border-t border-solid border-r-gray-600 border-t-pink-600 pl-2 pr-1 text-xs text-white no-underline hover:text-pink-500"
-              >
+              <li class="-mt-px flex items-center justify-between border-t border-r border-solid border-t-pink-600 border-r-gray-600 pr-1 pl-2 text-xs text-white no-underline hover:text-pink-500">
                 <a href="#" class="py-3 pl-1 text-xs text-gray-300 text-pink-600 hover:no-underline">solution.php</a>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 mr-1 h-3 w-3 cursor-pointer text-zinc-400 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="mr-1 ml-2 h-3 w-3 cursor-pointer text-zinc-400 hover:text-white">
                   <path
                     fill-rule="evenodd"
                     d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
@@ -199,7 +197,7 @@
               <li class="flex-1 border-b border-solid border-gray-600"></li>
             </ul>
             <div class="flex h-full flex-1 bg-gray-900">
-              <div class="flex h-full w-5 flex-col bg-gradient-to-b from-gray-900 to-[#0c1220] to-30% text-[10px] text-[#8F908A]">
+              <div class="flex h-full w-5 flex-col bg-linear-to-b/srgb from-gray-900 to-[#0c1220] to-30% text-[10px] text-[#8F908A]">
                 <span class="leading-relaxed">1</span>
                 <span class="leading-relaxed">2</span>
                 <span class="leading-relaxed">3</span>
@@ -211,9 +209,9 @@
         <!--v-if-->
       </div>
       <!-- start footer -->
-      <div class="flex flex-none items-center justify-between border-t border-solid border-gray-600 px-1 pb-1 pt-1 md:px-2 md:pb-2 md:pt-2">
+      <div class="flex flex-none items-center justify-between border-t border-solid border-gray-600 px-1 pt-1 pb-1 md:px-2 md:pt-2 md:pb-2">
         <nav class="flex" aria-label="Breadcrumb">
-          <ol class="inline-flex items-center space-x-1 text-[10px] md:space-x-2">
+          <ol class="inline-flex items-center gap-x-1 text-[10px] md:gap-x-2">
             <li class="inline-flex items-center">
               <span class="inline-flex items-center font-medium text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="mr-2 h-2.5 w-2.5">
@@ -244,7 +242,7 @@
           <p class="absolute mx-auto ml-2 inline-flex items-center text-[8px] font-bold text-white">0 / 24 completed</p>
         </div>
         <div class="flex">
-          <button class="w-30 mr-2 mt-0 hidden items-center justify-center rounded border-2 border-solid border-[#E91E63] px-2 py-1 text-[10px] text-white md:flex">
+          <button class="mt-0 mr-2 hidden items-center justify-center rounded-sm border-2 border-solid border-[#E91E63] px-2 py-1 text-[10px] text-white md:flex">
             <span>Composer deps</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 h-3 w-3">
               <path d="M21 6.375c0 2.692-4.03 4.875-9 4.875S3 9.067 3 6.375 7.03 1.5 12 1.5s9 2.183 9 4.875z"></path>
@@ -259,7 +257,7 @@
               ></path>
             </svg>
           </button>
-          <button id="show-problem" class="w-30 mr-2 mt-0 hidden items-center justify-center rounded border-2 border-solid border-[#E91E63] px-2 py-1 text-[10px] text-white md:flex">
+          <button id="show-problem" class="mt-0 mr-2 hidden items-center justify-center rounded-sm border-2 border-solid border-[#E91E63] px-2 py-1 text-[10px] text-white md:flex">
             <span>Show problem</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 h-3 w-3">
               <path
@@ -270,7 +268,7 @@
             </svg>
           </button>
           <div class="flex items-center">
-            <button id="run" class="w-18 mr-2 mt-0 hidden items-center justify-center rounded border-2 border-solid border-[#E91E63] px-2 py-1 text-[10px] text-white md:flex">
+            <button id="run" class="mt-0 mr-2 hidden items-center justify-center rounded-sm border-2 border-solid border-[#E91E63] px-2 py-1 text-[10px] text-white md:flex">
               <span>Run</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 h-3 w-3">
                 <path
@@ -280,7 +278,7 @@
                 ></path>
               </svg>
             </button>
-            <button id="verify" class="w-18 mt-0 flex items-center justify-center rounded bg-gradient-to-r from-pink-600 to-purple-500 px-2 py-1.5 text-[10px] text-white">
+            <button id="verify" class="mt-0 flex items-center justify-center rounded-sm bg-linear-to-r/srgb from-pink-600 to-purple-500 px-2 py-1.5 text-[10px] text-white">
               <span>Verify</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="ml-2 h-3 w-3">
                 <path

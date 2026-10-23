@@ -54,7 +54,7 @@ const createTour = () => {
     defaultStepOptions: {
       canClickTarget: false,
       classes:
-        "rounded-lg shadow-lg p-4 bg-gradient-to-r from-pink-600 to-purple-500 right-4 text-center text-white max-w-xs leading-6 border-4 border-solid border-purple-600 font-mono text-xs absolute top-[20px] z-[9998]",
+        "rounded-lg shadow-lg p-4 bg-linear-to-r/srgb from-pink-600 to-purple-500 right-4 text-center text-white max-w-xs leading-6 border-4 border-solid border-purple-600 font-mono text-xs absolute top-[20px] z-9998",
       scrollTo: true,
       floatingUIOptions: {
         middleware: [offset({ mainAxis: 10 })],
@@ -271,8 +271,9 @@ const createTour = () => {
 </template>
 
 <style>
+@reference "../../styles/online.css";
 .shepherd-element > .shepherd-arrow {
-  @apply absolute h-[20px] w-[20px] border-[10px] border-solid border-transparent;
+  @apply absolute h-[20px] w-[20px] border-10 border-solid border-transparent;
 }
 
 .shepherd-element[data-popper-placement^="top"] > .shepherd-arrow {
@@ -296,15 +297,15 @@ const createTour = () => {
 }
 
 .shepherd-content .shepherd-footer {
-  @apply mb-4 mt-4 flex justify-center space-x-3;
+  @apply mt-4 mb-4 flex justify-center gap-x-3;
 }
 
 .shepherd-content .shepherd-button {
-  @apply inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none sm:w-auto sm:text-sm;
+  @apply inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-xs hover:bg-pink-700 focus:outline-hidden sm:w-auto sm:text-sm;
 }
 
 .shepherd-modal-overlay-container {
-  @apply pointer-events-none fixed left-0 top-0 z-[9997] h-0 w-screen overflow-hidden opacity-0;
+  @apply pointer-events-none fixed top-0 left-0 z-9997 h-0 w-screen overflow-hidden opacity-0;
   transition:
     all 0.3s ease-out,
     height 0ms 0.3s,
@@ -329,7 +330,7 @@ const createTour = () => {
   @apply pointer-events-none;
 }
 .shepherd-content .shepherd-cancel-icon {
-  @apply absolute right-[7px] top-[1px];
+  @apply absolute top-[1px] right-[7px];
 }
 
 .absolute-center {

@@ -47,7 +47,7 @@ const sendInvite = async () => {
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <Modal :scroll-content="true" size="md" max-height="max-h-[calc(5/6*100%)]" v-if="open" @close="emit('close')">
+      <Modal :scroll-content="true" size="md" max-height="max-h-5/6" v-if="open" @close="emit('close')">
         <template #header>
           <div class="flex items-center">
             <ChatBubbleLeftRightIcon class="mr-2 h-6 w-6 text-pink-500" />
@@ -61,16 +61,16 @@ const sendInvite = async () => {
             . If you don't have an account, use the form below with your e-mail to get an invite.
           </p>
 
-          <div v-if="!inviteSent" class="relative flex w-full items-center pb-2 pt-6">
+          <div v-if="!inviteSent" class="relative flex w-full items-center pt-6 pb-2">
             <input
               type="email"
               placeholder="Type Something..."
               v-model="email"
-              class="w-full rounded-2xl border-0 p-5 font-work-sans text-base font-bold text-gray-900 focus:border-pink-500 focus:outline-none focus:ring focus:ring-pink-500"
+              class="w-full rounded-2xl border-0 p-5 font-work-sans text-base font-bold text-gray-900 focus:border-pink-500 focus:ring-3 focus:ring-pink-500 focus:outline-hidden"
             />
             <PrimaryButton
               @click.stop="sendInvite"
-              class="absolute right-0 m-0 flex h-[52px] items-center justify-center rounded-xl bg-gradient-to-r from-pink-600 to-purple-500 px-2 text-sm normal-case text-white shadow-none transition-all duration-300 ease-in hover:bg-[#aa1145] hover:opacity-90"
+              class="absolute right-0 flex h-[52px] items-center justify-center rounded-xl bg-linear-to-r/srgb from-pink-600 to-purple-500 px-2 text-sm text-white normal-case shadow-none transition-all duration-300 ease-in hover:bg-[#aa1145] hover:opacity-90"
             >
               <span>Request Invite</span>
             </PrimaryButton>

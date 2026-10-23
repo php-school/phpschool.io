@@ -57,13 +57,13 @@ const clipboardAvailable = computed(() => {
           <span class="font-mono text-[10px] text-pink-600">Copied!</span>
         </TransitionRoot>
       </div>
-      <div class="whitespace-pre-wrap border-none bg-gray-900 p-0 font-mono text-white">
+      <div class="border-none bg-gray-900 p-0 font-mono whitespace-pre-wrap text-white">
         <div v-for="line in lines" :key="line">
           <span v-if="line.startsWith('//')" class="text-xs text-pink-600">
             <br />
             {{ line }}
           </span>
-          <span v-else class="whitespace-pre text-xs before:mr-2 before:text-pink-600 before:content-['>']">
+          <span v-else class="text-xs whitespace-pre before:mr-2 before:text-pink-600 before:content-['>']">
             {{ line }}
           </span>
         </div>

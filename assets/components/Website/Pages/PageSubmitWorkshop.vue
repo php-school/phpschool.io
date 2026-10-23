@@ -77,7 +77,7 @@ const submit = async () => {
 
 <template>
   <div>
-    <section class="items-stretch bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed">
+    <section class="items-stretch bg-linear-to-b/srgb from-gray-900 to-cyan-500 bg-fixed">
       <Heading>
         <template v-slot:title>Submit your workshop</template>
 
@@ -115,7 +115,7 @@ const submit = async () => {
                   v-model="form.email"
                   name="email"
                   id="email"
-                  class="h-[48px] w-full rounded-full border border-[#ccc] bg-[url('/img/cloud/mail.svg')] bg-[size:1.5em] bg-[1em] bg-no-repeat pl-[3em] text-sm text-black focus:border-[#e91e63] focus:outline-none"
+                  class="h-[48px] w-full rounded-full border border-[#ccc] bg-[url('/img/cloud/mail.svg')] bg-size-[1.5em] bg-position-[1em] bg-no-repeat pl-[3em] text-sm text-black focus:border-[#e91e63] focus:outline-hidden"
                   type="text"
                   placeholder="myname@example.com"
                   required=""
@@ -139,7 +139,7 @@ const submit = async () => {
                   v-model="form.name"
                   name="name"
                   id="name"
-                  class="h-[48px] w-full rounded-full border border-[#ccc] bg-[url('/img/cloud/woman.svg')] bg-[size:1.5em] bg-[1em] bg-no-repeat pl-[3em] text-sm text-black focus:border-[#e91e63] focus:outline-none"
+                  class="h-[48px] w-full rounded-full border border-[#ccc] bg-[url('/img/cloud/woman.svg')] bg-size-[1.5em] bg-position-[1em] bg-no-repeat pl-[3em] text-sm text-black focus:border-[#e91e63] focus:outline-hidden"
                   type="text"
                   placeholder="Jane Doe"
                   required=""
@@ -160,7 +160,7 @@ const submit = async () => {
                   v-model="form.contact"
                   name="contact"
                   id="contact"
-                  class="h-[48px] w-full rounded-full border border-[#ccc] bg-[url('/img/cloud/social-media.svg')] bg-[size:1.5em] bg-[1em] bg-no-repeat pl-[3em] text-sm text-black focus:border-[#e91e63] focus:outline-none"
+                  class="h-[48px] w-full rounded-full border border-[#ccc] bg-[url('/img/cloud/social-media.svg')] bg-size-[1.5em] bg-position-[1em] bg-no-repeat pl-[3em] text-sm text-black focus:border-[#e91e63] focus:outline-hidden"
                   type="text"
                   placeholder="https://twitter.com/your-name"
                 />
@@ -181,7 +181,7 @@ const submit = async () => {
                   v-model="form['workshop-name']"
                   name="workshop-name"
                   id="workshop-name"
-                  class="h-[48px] w-full rounded-full border border-[#ccc] bg-[url('/img/cloud/pencil.svg')] bg-[size:1.5em] bg-[1em] bg-no-repeat pl-[3em] text-sm text-black focus:border-[#e91e63] focus:outline-none"
+                  class="h-[48px] w-full rounded-full border border-[#ccc] bg-[url('/img/cloud/pencil.svg')] bg-size-[1.5em] bg-position-[1em] bg-no-repeat pl-[3em] text-sm text-black focus:border-[#e91e63] focus:outline-hidden"
                   type="text"
                   placeholder="Learn You PHP!"
                   required=""
@@ -204,7 +204,7 @@ const submit = async () => {
                   v-model="form['github-url']"
                   name="github-url"
                   id="github-url"
-                  class="h-[48px] w-full rounded-full border border-[#ccc] bg-[url('/img/cloud/github-dk.svg')] bg-[size:1.5em] bg-[1em] bg-no-repeat pl-[3em] text-sm text-black focus:border-[#e91e63] focus:outline-none"
+                  class="h-[48px] w-full rounded-full border border-[#ccc] bg-[url('/img/cloud/github-dk.svg')] bg-size-[1.5em] bg-position-[1em] bg-no-repeat pl-[3em] text-sm text-black focus:border-[#e91e63] focus:outline-hidden"
                   type="text"
                   placeholder="https://github.com/php-school/learn-you-php"
                   required=""
@@ -218,7 +218,7 @@ const submit = async () => {
             </div>
 
             <div>
-              <button class="my-4 mr-2 flex h-[48px] w-48 items-center justify-center rounded-full bg-pink-600 px-10 py-2 text-base font-bold uppercase text-white hover:bg-pink-500">
+              <button class="my-4 mr-2 flex h-[48px] w-48 items-center justify-center rounded-full bg-pink-600 px-10 py-2 text-base font-bold text-white uppercase hover:bg-pink-500">
                 <ArrowPathIcon v-cloak v-show="loading" class="h-5 w-5 animate-spin" />
                 <CheckIcon v-cloak v-show="submitted" class="h-5 w-5" />
                 <XMarkIcon v-cloak v-show="hasErrors" class="h-5 w-5" />

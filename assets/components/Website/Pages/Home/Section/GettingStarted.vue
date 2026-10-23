@@ -25,7 +25,7 @@ const offline = ["Workshops are always available", "No internet connection requi
 
       <div class="mt-8 grid grid-cols-1 gap-x-8 lg:grid-cols-2">
         <div class="order-1 max-w-2xl px-8 pt-8">
-          <h4 class="mb-8 mt-0 flex p-0 font-work-sans text-4xl font-bold capitalize not-italic text-white">
+          <h4 class="mt-0 mb-8 flex p-0 font-work-sans text-4xl font-bold text-white capitalize not-italic">
             <GlobeEuropeAfricaIcon class="mr-2 h-10 w-10 text-pink-600"></GlobeEuropeAfricaIcon>
             Online Browser Based
           </h4>
@@ -36,7 +36,7 @@ const offline = ["Workshops are always available", "No internet connection requi
           </p>
         </div>
         <div class="order-4 max-w-2xl px-8 pt-8 lg:order-2">
-          <h4 class="mb-8 mt-0 flex p-0 font-work-sans text-4xl font-bold capitalize not-italic text-white">
+          <h4 class="mt-0 mb-8 flex p-0 font-work-sans text-4xl font-bold text-white capitalize not-italic">
             <CommandLineIcon class="mr-2 h-10 w-10 text-pink-600"></CommandLineIcon>
             Offline, in your Terminal
           </h4>
@@ -50,7 +50,7 @@ const offline = ["Workshops are always available", "No internet connection requi
           <li v-for="line in online" :key="line" class="group">
             <div class="mr-16 py-3 pl-1 text-white">
               <div class="flex items-start text-base text-pink-600">
-                <CheckIcon class="ml-1 mr-2 mt-0.5 h-5 w-5 flex-none" />
+                <CheckIcon class="mt-0.5 mr-2 ml-1 h-5 w-5 flex-none" />
                 <span class="">{{ line }}</span>
               </div>
             </div>
@@ -60,7 +60,7 @@ const offline = ["Workshops are always available", "No internet connection requi
           <li v-for="line in offline" :key="line" class="group">
             <div class="mr-16 py-3 pl-1 text-white">
               <div class="flex items-start text-base text-pink-600">
-                <CheckIcon class="ml-1 mr-2 mt-0.5 h-5 w-5 flex-none" />
+                <CheckIcon class="mt-0.5 mr-2 ml-1 h-5 w-5 flex-none" />
                 <span class="">{{ line }}</span>
               </div>
             </div>

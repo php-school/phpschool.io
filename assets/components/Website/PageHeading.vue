@@ -3,7 +3,7 @@
     <div class="flex w-full flex-row">
       <div class="h-12 w-[20px] border-l-4 border-solid border-pink-600"></div>
       <div>
-        <h3 class="flex-inline p-0 font-work-sans text-6xl font-bold capitalize text-pink-600">
+        <h3 class="flex-inline p-0 font-work-sans text-6xl font-bold text-pink-600 capitalize">
           <slot name="title"></slot>
         </h3>
       </div>

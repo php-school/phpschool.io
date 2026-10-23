@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="w-100 h-100 overflow-hidden font-orbitron text-xs text-white">
+    <div class="overflow-hidden font-orbitron text-xs text-white">
       <div class="flex flex-col">
         <div class="">
           <div class="h-[20px]" v-for="(line, index) in displayedCode" :key="index">

@@ -16,7 +16,7 @@ import CodeAnimation from "../../CodeAnimation.vue";
         <div class="mt-20">
           <router-link
             to="/online"
-            class="items-center rounded-full border-2 bg-none px-10 py-2 font-thin uppercase text-white transition-all duration-300 ease-in-out hover:bg-white hover:text-gray-800 hover:no-underline"
+            class="items-center rounded-full border-2 bg-none px-10 py-2 font-thin text-white uppercase transition-all duration-300 ease-in-out hover:bg-white hover:text-gray-800 hover:no-underline"
           >
             get started
           </router-link>

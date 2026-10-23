@@ -55,14 +55,14 @@ watch(
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <Modal id="problem-modal" :scroll-content="true" size="4xl" max-height="max-h-[calc(5/6*100%)]" v-if="openProblemModal" @close="emit('close')">
+    <Modal id="problem-modal" :scroll-content="true" size="4xl" max-height="max-h-5/6" v-if="openProblemModal" @close="emit('close')">
       <template #header>
         <div class="flex flex-col">
           <div class="flex items-center">
             <MapIcon class="mr-2 h-6 w-6 text-pink-500" />
             <h3 class="mt-0 pt-0 font-mono text-base font-semibold text-white lg:text-xl">The problem...</h3>
           </div>
-          <h2 class="mb-2 mt-2 pt-[13.5px] font-mono text-2xl text-white">
+          <h2 class="mt-2 mb-2 pt-[13.5px] font-mono text-2xl text-white">
             {{ exercise.name }}
           </h2>
         </div>
@@ -79,7 +79,7 @@ watch(
             id="lets-go"
             @click="emit('close')"
             type="button"
-            class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto sm:text-sm"
+            class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-xs hover:bg-pink-700 focus:ring-3 focus:ring-pink-800 focus:outline-hidden sm:ml-3 sm:w-auto sm:text-sm"
           >
             Let's go!
           </button>
@@ -90,8 +90,9 @@ watch(
 </template>
 
 <style>
+@reference "../../styles/online.css";
 #problem-file p {
-  @apply mb-4 mt-2 text-sm leading-loose tracking-wide;
+  @apply mt-2 mb-4 text-sm leading-loose tracking-wide;
 }
 
 #problem-file hr {
@@ -99,15 +100,15 @@ watch(
 }
 
 #problem-file h2 {
-  @apply mb-4 mt-2 text-2xl text-[#E91E63];
+  @apply mt-2 mb-4 text-2xl text-[#E91E63];
 }
 
 #problem-file h3 {
-  @apply mb-4 mt-2 text-xl text-[#E91E63];
+  @apply mt-2 mb-4 text-xl text-[#E91E63];
 }
 
 #problem-file h4 {
-  @apply mb-4 mt-2 text-lg not-italic text-[#E91E63];
+  @apply mt-2 mb-4 text-lg text-[#E91E63] not-italic;
 }
 
 #problem-file a {
@@ -116,11 +117,11 @@ watch(
 
 #problem-file pre {
   background-color: initial;
-  @apply mb-4 mt-2 rounded-none border-none p-0;
+  @apply mt-2 mb-4 rounded-none border-none p-0;
 }
 
 #problem-file pre code {
-  @apply block rounded-lg border border-gray-600 !bg-[#2a2c2d] p-4 text-sm;
+  @apply block rounded-lg border border-gray-600 bg-[#2a2c2d]! p-4 text-sm;
 }
 
 #problem-file :not(pre) > code {
@@ -129,7 +130,7 @@ watch(
 }
 
 #problem-file ul {
-  @apply mb-4 mt-2 list-inside list-disc;
+  @apply mt-2 mb-4 list-inside list-disc;
 }
 
 #problem-file ul li {

@@ -96,12 +96,13 @@ watch(
 </script>
 
 <template>
-  <div ref="container" class="h-full border-0 bg-gray-900"></div>
+  <div ref="container" class="h-full border-0 bg-gray-900!"></div>
 </template>
 
 <style>
+@reference "../../styles/online.css";
 .ace_gutter {
-  @apply !bg-gradient-to-b !from-gray-900 !to-[#0c1220] to-30%;
+  @apply bg-linear-to-b/srgb! from-gray-900! to-[#0c1220]! to-30%;
 }
 
 .ace_marker-layer .ace_selection {

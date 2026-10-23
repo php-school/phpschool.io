@@ -28,15 +28,15 @@ const filteredStudents = computed(() => {
 
 <template>
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
-    <h1 class="text-base font-semibold leading-7 text-white">All Students</h1>
+    <h1 class="text-base leading-7 font-semibold text-white">All Students</h1>
   </header>
 
   <ul role="list" class="divide-y divide-pink-600/30">
-    <li v-for="student in filteredStudents" :key="student.email" class="flex items-center justify-between space-x-4 px-4 py-4 sm:px-6 lg:px-8">
+    <li v-for="student in filteredStudents" :key="student.email" class="flex items-center justify-between gap-x-4 px-4 py-4 sm:px-6 lg:px-8">
       <div class="flex min-w-0 gap-x-4">
         <img class="h-12 w-12 flex-none rounded-full bg-gray-800" :src="student.profile_picture" alt="" />
         <div class="min-w-0 flex-auto">
-          <p class="text-sm font-semibold leading-6 text-white">
+          <p class="text-sm leading-6 font-semibold text-white">
             {{ student.name }}
           </p>
           <p class="mt-1 truncate text-xs leading-5 text-gray-400">

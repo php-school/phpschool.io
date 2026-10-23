@@ -27,7 +27,7 @@ const openInfoModal = (failure) => {
 <template>
   <div class="mt-3 border-l-2 border-solid border-red-500 pl-2" v-for="(failure, i) in failures" :key="i">
     <div class="flex w-full justify-between">
-      <span class="inline w-2/3 text-sm italic text-gray-300">Run #{{ i + 1 }}</span>
+      <span class="inline w-2/3 text-sm text-gray-300 italic">Run #{{ i + 1 }}</span>
       <button class="p-x2 ml-2 text-left text-sm text-[#E91E63] underline" @click="openInfoModal(failure)">Show info</button>
     </div>
     <component v-if="renderers.hasOwnProperty(failure.type)" :is="renderers[failure.type]" :data="failure"></component>
@@ -41,7 +41,7 @@ const openInfoModal = (failure) => {
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <Modal :scroll-content="true" size="2xl" max-height="max-h-[calc(5/6*100%)]" v-if="openModal" @close="openModal = false">
+    <Modal :scroll-content="true" size="2xl" max-height="max-h-5/6" v-if="openModal" @close="openModal = false">
       <template #header>
         <div class="flex flex-col">
           <div class="flex items-center">
@@ -57,7 +57,7 @@ const openInfoModal = (failure) => {
           <h2 class="mb-2 pt-0 font-mono text-lg text-[#E91E63]">Command line arguments</h2>
           <div v-if="currentFailure.args.length">
             <div class="mb-8">
-              <ul v-if="longestArg > 5" class="ml-2 mt-2 list-inside list-disc">
+              <ul v-if="longestArg > 5" class="mt-2 ml-2 list-inside list-disc">
                 <li v-for="arg in currentFailure.args" :key="arg" class="list-item p-1">
                   {{ arg }}
                 </li>
@@ -82,7 +82,7 @@ const openInfoModal = (failure) => {
           <button
             @click="openModal = false"
             type="button"
-            class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto sm:text-sm"
+            class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-xs hover:bg-pink-700 focus:ring-3 focus:ring-pink-800 focus:outline-hidden sm:ml-3 sm:w-auto sm:text-sm"
           >
             Close
           </button>
@@ -93,6 +93,7 @@ const openInfoModal = (failure) => {
 </template>
 
 <style>
+@reference "../../../styles/online.css";
 #cli-run-info pre {
   background-color: initial;
   @apply mb-4 rounded-none border-none p-0;

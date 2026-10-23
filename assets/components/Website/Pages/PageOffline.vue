@@ -51,7 +51,7 @@ const steps = [
 </script>
 <template>
   <div>
-    <section class="items-stretch bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed">
+    <section class="items-stretch bg-linear-to-b/srgb from-gray-900 to-cyan-500 bg-fixed">
       <Heading>
         <template v-slot:title>
           PHP School on the
@@ -71,15 +71,15 @@ const steps = [
         <ol class="mx-auto flex w-full flex-col">
           <li class="mb-12 flex w-full justify-between p-4">
             <div class="flex flex-col">
-              <div class="mb-4 flex h-8 w-8 items-center justify-center rounded bg-slate-800 font-bold">
-                <CogIcon class="h-6 w-6 !fill-none text-white" />
+              <div class="mb-4 flex h-8 w-8 items-center justify-center rounded-sm bg-slate-800 font-bold">
+                <CogIcon class="h-6 w-6 fill-none! text-white" />
               </div>
-              <div class="ml-4 flex-grow border-l border-solid border-slate-800"></div>
+              <div class="ml-4 grow border-l border-solid border-slate-800"></div>
             </div>
 
             <div class="flex w-full flex-col">
               <div class="mr-8 w-full flex-1 px-4">
-                <h4 class="mt-0 p-0 font-work-sans text-lg font-bold capitalize not-italic text-pink-600">Requirements Check</h4>
+                <h4 class="mt-0 p-0 font-work-sans text-lg font-bold text-pink-600 capitalize not-italic">Requirements Check</h4>
                 <p class="mt-4 text-sm text-gray-300">
                   In order to get started with PHP School workshops, you first need to install the workshop manager. Before we can do this we need to check you have a few things:
                 </p>
@@ -87,11 +87,11 @@ const steps = [
 
               <ul class="m-0 mt-8 w-full list-none p-4 lg:m-0 lg:mt-0">
                 <li class="flex p-2">
-                  <CheckIcon fill="currentColor" class="mr-4 h-5 w-5 flex-shrink-0 text-green-500" />
+                  <CheckIcon fill="currentColor" class="mr-4 h-5 w-5 shrink-0 text-green-500" />
                   <p>You will need PHP with a version of at least 7.1 although we recommend using the latest available.</p>
                 </li>
                 <li class="flex p-2">
-                  <CheckIcon fill="currentColor" class="mr-4 h-5 w-5 flex-shrink-0 text-green-500" />
+                  <CheckIcon fill="currentColor" class="mr-4 h-5 w-5 shrink-0 text-green-500" />
                   <p>You will also need a Text Editor so you can work through the workshops. You can try Atom or Sublime if you don't already have one.</p>
                 </li>
               </ul>
@@ -113,19 +113,19 @@ const steps = [
         <TabGroup>
           <TabList class="my-20 flex">
             <Tab as="template" v-slot="{ selected }">
-              <div class="group flex w-1/3 cursor-pointer flex-col items-center justify-center focus:outline-none">
+              <div class="group flex w-1/3 cursor-pointer flex-col items-center justify-center focus:outline-hidden">
                 <AppleLogo class="aspect-square h-[50px] sm:h-[100px] lg:h-[200px]" :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></AppleLogo>
                 <h3 class="mt-4 p-0 font-work-sans text-2xl capitalize not-italic" :class="{ 'text-white group-hover:text-pink-600': !selected, 'text-[#e91e63]': selected }">Apple Mac</h3>
               </div>
             </Tab>
             <Tab as="template" v-slot="{ selected }">
-              <div class="group flex w-1/3 cursor-pointer flex-col items-center justify-center focus:outline-none">
+              <div class="group flex w-1/3 cursor-pointer flex-col items-center justify-center focus:outline-hidden">
                 <LinuxLogo class="aspect-square h-[50px] sm:h-[100px] lg:h-[200px]" :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></LinuxLogo>
                 <h3 class="mt-4 p-0 font-work-sans text-2xl capitalize not-italic" :class="{ 'text-white group-hover:text-pink-600': !selected, 'text-[#e91e63]': selected }">Linux</h3>
               </div>
             </Tab>
             <Tab as="template" v-slot="{ selected }">
-              <div class="group flex w-1/3 cursor-pointer flex-col items-center justify-center focus:outline-none">
+              <div class="group flex w-1/3 cursor-pointer flex-col items-center justify-center focus:outline-hidden">
                 <WindowsLogo class="aspect-square h-[50px] sm:h-[100px] lg:h-[200px]" :class="{ 'text-white group-hover:text-[#e91e63]': !selected, 'text-[#e91e63]': selected }"></WindowsLogo>
                 <h3 class="mt-4 p-0 font-work-sans text-2xl capitalize not-italic" :class="{ 'text-white group-hover:text-pink-600': !selected, 'text-[#e91e63]': selected }">Windows</h3>
               </div>
@@ -133,7 +133,7 @@ const steps = [
           </TabList>
           <TabPanels>
             <TabPanel>
-              <h3 class="mb-8 p-0 font-work-sans text-5xl capitalize not-italic text-pink-600">Apple Mac</h3>
+              <h3 class="mb-8 p-0 font-work-sans text-5xl text-pink-600 capitalize not-italic">Apple Mac</h3>
               <p class="mb-8 text-white">Common issues with Mac OSX installations include not having a new enough version of PHP and not having Composer available.</p>
               <SupportStep
                 :step="1"
@@ -167,7 +167,7 @@ const steps = [
               </SupportStep>
             </TabPanel>
             <TabPanel>
-              <h3 class="mb-8 p-0 font-work-sans text-5xl capitalize not-italic text-pink-600">Linux</h3>
+              <h3 class="mb-8 p-0 font-work-sans text-5xl text-pink-600 capitalize not-italic">Linux</h3>
               <p class="mb-8 text-white">Common issues with Linux installations include not having a new enough version of PHP and not having Composer available.</p>
               <SupportStep
                 :step="1"
@@ -207,7 +207,7 @@ const steps = [
               </SupportStep>
             </TabPanel>
             <TabPanel>
-              <h3 class="mb-8 p-0 font-work-sans text-5xl capitalize not-italic text-pink-600">Windows</h3>
+              <h3 class="mb-8 p-0 font-work-sans text-5xl text-pink-600 capitalize not-italic">Windows</h3>
               <p class="mb-8 text-white">
                 Windows is a difficult system to cater for in the PHP world. Unfortunately, it has various differences on the command line and console emulators which PHP unfortunately doesn't
                 support. The best way to get PHP School Workshops running is to install Cygwin + ConEmu. Once the initial setup of these are complete, the process of installing workshops is the same
@@ -216,7 +216,7 @@ const steps = [
               <SupportStep :step="1" :title="'Check if Cygwin is installed'">
                 <template #description>
                   <p>If not, follow the instructions below:</p>
-                  <ul class="ml-2 mt-4 list-inside list-decimal">
+                  <ul class="mt-4 ml-2 list-inside list-decimal">
                     <li class="list-item p-1">
                       Head on over to
                       <a class="text-[#e91e63] hover:underline" href="https://cygwin.com/install.html" target="_blank">https://cygwin.com/install.html</a>
@@ -230,7 +230,7 @@ const steps = [
               </SupportStep>
               <SupportStep :step="2" :title="'Check if ConEmu is installed'">
                 <template #description>
-                  <ul class="ml-2 mt-4 list-inside list-decimal">
+                  <ul class="mt-4 ml-2 list-inside list-decimal">
                     <li class="list-item p-1">
                       Grab the installer from
                       <a class="text-[#e91e63] hover:underline" href="https://conemu.github.io/" target="_blank">https://conemu.github.io/</a>

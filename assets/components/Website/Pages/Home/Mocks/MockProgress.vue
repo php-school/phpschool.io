@@ -1,7 +1,7 @@
 <template>
   <div class="modal-border mx-auto mt-10 flex flex-col rounded-[20px] border-2 border-solid border-transparent bg-gray-800 p-8 shadow-[-20px_20px_0_rgba(0,0,0,0.2)]">
     <div class="flex justify-between text-left">
-      <div class="flex items-center space-x-2">
+      <div class="flex items-center gap-x-2">
         <img class="h-8 w-8 rounded-full" src="https://avatars.githubusercontent.com/u/2817002?v=4" alt="Aydin Hassan" />
         <div class="font-medium">
           <p class="text-xs text-white">Aydin Hassan</p>

@@ -43,9 +43,9 @@ watch(
   <alert type="error" @close="showNotLoggedInError = false" :show="showNotLoggedInError" :timeout="4000" message="You must be logged in to start an exercise"></alert>
   <div class="mx-4 mt-10 flex flex-wrap gap-4 overflow-hidden font-mono md:mx-0 md:w-full md:flex-nowrap">
     <div class="h-full w-full md:w-1/2">
-      <div id="workshops" class="flex flex-col items-center justify-center rounded-lg bg-gray-800 shadow">
+      <div id="workshops" class="flex flex-col items-center justify-center rounded-lg bg-gray-800 shadow-sm">
         <div class="w-full px-4 py-5 sm:px-6">
-          <h3 class="pt-[13.5px] text-lg font-medium leading-6 text-white">PHP School Workshops</h3>
+          <h3 class="pt-[13.5px] text-lg leading-6 font-medium text-white">PHP School Workshops</h3>
           <p class="mt-1 max-w-2xl text-sm text-gray-200">Pick a workshop to try it out online!</p>
         </div>
         <ul id="workshops-list" class="flex flex-col overflow-hidden">
@@ -58,7 +58,7 @@ watch(
             }"
             class="group flex flex-row last:rounded-b-lg hover:bg-gray-600"
           >
-            <div class="hidden flex-1 cursor-pointer select-none items-center p-4 md:flex">
+            <div class="hidden flex-1 cursor-pointer items-center p-4 select-none md:flex">
               <div class="mr-4 flex h-10 w-10 flex-col items-center justify-center">
                 <a href="#" class="relative block">
                   <img alt="workshop" src="../../img/cloud/core-workshops.png" class="mx-auto h-10 w-10 object-cover" />
@@ -75,10 +75,10 @@ watch(
               </div>
               <a href="#" class="flex w-24 justify-end text-right">
                 <CheckCircleIcon v-if="studentStore.isWorkshopComplete(workshop)" class="h-12 w-12 rounded-full border-2 border-solid border-pink-300 text-pink-500" />
-                <ArrowRightCircleIcon v-else class="h-9 w-9 rounded-full border-2 border-solid border-pink-500 !fill-none text-pink-200" />
+                <ArrowRightCircleIcon v-else class="h-9 w-9 rounded-full border-2 border-solid border-pink-500 fill-none! text-pink-200" />
               </a>
             </div>
-            <div class="flex flex-1 cursor-pointer select-none flex-col items-center p-4 md:hidden">
+            <div class="flex flex-1 cursor-pointer flex-col items-center p-4 select-none md:hidden">
               <div class="flex w-full items-center justify-between">
                 <div class="mr-4 flex-1 text-white group-hover:text-pink-600">
                   <div class="font-medium">{{ workshop.name }}</div>
@@ -88,7 +88,7 @@ watch(
                 </div>
                 <a href="#" class="flex text-right">
                   <CheckCircleIcon v-if="studentStore.isWorkshopComplete(workshop)" class="h-12 w-12 rounded-full border-2 border-solid border-pink-300 text-pink-500" />
-                  <ArrowRightCircleIcon v-else class="h-9 w-9 rounded-full border-2 border-solid border-pink-500 !fill-none text-pink-200" />
+                  <ArrowRightCircleIcon v-else class="h-9 w-9 rounded-full border-2 border-solid border-pink-500 fill-none! text-pink-200" />
                 </a>
               </div>
 
@@ -102,11 +102,11 @@ watch(
         </ul>
       </div>
 
-      <div class="mt-20 flex hidden items-center justify-center rounded-lg bg-gray-800 shadow hover:cursor-pointer md:flex">
+      <div class="mt-20 hidden items-center justify-center rounded-lg bg-gray-800 shadow-sm hover:cursor-pointer md:flex">
         <router-link to="/offline" class="flex items-center justify-center">
           <CommandLineIcon class="mx-3 h-12 w-12 fill-pink-600 text-gray-900"></CommandLineIcon>
           <div class="flex-1 py-5 pr-4 sm:pr-6">
-            <h3 class="pt-[13.5px] text-sm font-medium leading-6 text-white">PHP School On The Terminal</h3>
+            <h3 class="pt-[13.5px] text-sm leading-6 font-medium text-white">PHP School On The Terminal</h3>
             <p class="mt-1 max-w-2xl text-xs text-gray-200">An alternative way to complete the PHP School workshops is to download them and run them in your own terminal. Check it out here.</p>
           </div>
         </router-link>
@@ -140,13 +140,13 @@ watch(
       <div
         v-if="selectedWorkshop"
         id="workshop-exercises"
-        class="scrollbar-track-none flex h-full flex-col items-center overflow-hidden overflow-y-scroll rounded-lg bg-gray-800 shadow scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-rounded-full scrollbar-thumb-rounded-full"
+        class="scrollbar-track-none scrollbar-thin flex h-full scrollbar-thumb-pink-500 flex-col items-center overflow-hidden overflow-y-scroll rounded-lg bg-gray-800 shadow-sm scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
       >
         <div class="w-full px-4 py-5 sm:px-6">
           <div class="flex w-full flex-col items-center">
-            <h3 class="pt-[13.5px] text-lg font-medium leading-6 text-white">{{ selectedWorkshop.name }} Exercises</h3>
-            <p class="mb-4 mt-1 max-w-2xl text-sm text-gray-200">Pick an exercise to start hacking!</p>
-            <p class="whitespace-pre font-mono tracking-wide text-white">
+            <h3 class="pt-[13.5px] text-lg leading-6 font-medium text-white">{{ selectedWorkshop.name }} Exercises</h3>
+            <p class="mt-1 mb-4 max-w-2xl text-sm text-gray-200">Pick an exercise to start hacking!</p>
+            <p class="font-mono tracking-wide whitespace-pre text-white">
               {{ selectedWorkshop.logo }}
             </p>
           </div>

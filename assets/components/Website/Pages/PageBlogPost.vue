@@ -16,7 +16,7 @@ const post = computed(() => {
 
 <template>
   <div>
-    <section class="items-stretch bg-gradient-to-b from-gray-900 to-cyan-500 bg-fixed">
+    <section class="items-stretch bg-linear-to-b/srgb from-gray-900 to-cyan-500 bg-fixed">
       <Heading>
         <template v-slot:title>
           What's happening in
@@ -29,7 +29,7 @@ const post = computed(() => {
       <div class="mx-auto flex max-w-3xl flex-col p-8 text-left font-open-sans text-gray-300">
         <div class="post" v-if="post">
           <div class="mb-3 text-center">
-            <h1 class="mx-0 mb-3 mt-[9px] font-mono text-4xl font-bold leading-normal text-[#e91e63]">
+            <h1 class="mx-0 mt-[9px] mb-3 font-mono text-4xl leading-normal font-bold text-[#e91e63]">
               {{ post.title }}
             </h1>
             <span class="text-xs font-bold hover:text-[#e91e63] hover:underline">
@@ -45,12 +45,13 @@ const post = computed(() => {
 </template>
 
 <style>
+@reference "../../../styles/online.css";
 .post img {
   @apply mx-auto;
 }
 
 .post p {
-  @apply mb-[13.5px] mt-[27px] text-lg;
+  @apply mt-[27px] mb-[13.5px] text-lg;
 }
 
 .post h2 {
@@ -74,7 +75,7 @@ const post = computed(() => {
 }
 
 .post pre > code {
-  @apply mb-4 block overflow-y-scroll rounded-md !border !border-gray-600 !bg-gray-900 p-4 text-xs;
+  @apply mb-4 block overflow-y-scroll rounded-md !border border-gray-600! bg-gray-900! p-4 text-xs;
 }
 
 .post :not(pre) > code {

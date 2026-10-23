@@ -132,24 +132,24 @@ const regenerateFeed = async () => {
   <alert type="success" message="Successfully regenerated workshop feed" :timeout="4000" :show="showRegenerateSuccess" @close="showRegenerateSuccess = false"></alert>
 
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
-    <h1 class="text-base font-semibold leading-7 text-white">All Workshops</h1>
+    <h1 class="text-base leading-7 font-semibold text-white">All Workshops</h1>
     <button
       @click="regenerateFeed"
       type="button"
-      class="flex-none rounded-md bg-pink-500/10 px-2 py-1.5 text-xs font-medium text-pink-500 ring-1 ring-inset ring-pink-500/30 hover:text-pink-600 hover:ring-pink-600/30"
+      class="flex-none rounded-md bg-pink-500/10 px-2 py-1.5 text-xs font-medium text-pink-500 ring-1 ring-pink-500/30 ring-inset hover:text-pink-600 hover:ring-pink-600/30"
     >
       Regenerate Feed
     </button>
   </header>
 
   <ul role="list" class="divide-y divide-pink-600/30">
-    <li v-for="workshop in filteredWorkshops" :key="workshop.id" class="relative flex items-center space-x-4 px-4 py-4 sm:px-6 lg:px-8">
+    <li v-for="workshop in filteredWorkshops" :key="workshop.id" class="relative flex items-center gap-x-4 px-4 py-4 sm:px-6 lg:px-8">
       <div class="min-w-0 flex-auto">
         <div class="flex items-center gap-x-3">
           <div :class="[statuses[workshop.status], 'flex-none rounded-full p-1']">
             <div class="h-2 w-2 rounded-full bg-current" />
           </div>
-          <h2 class="min-w-0 text-sm font-semibold leading-6 text-white">
+          <h2 class="min-w-0 text-sm leading-6 font-semibold text-white">
             <router-link :to="'/admin/workshop/' + workshop.id" class="flex gap-x-2">
               <span class="truncate">{{ workshop.name }}</span>
               <span class="text-gray-400">/</span>
@@ -193,7 +193,7 @@ const regenerateFeed = async () => {
           leave-from-class="transform opacity-100 scale-100"
           leave-to-class="transform opacity-0 scale-95"
         >
-          <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-700 rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-none">
+          <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-700 rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-hidden">
             <MenuItem v-if="workshop.type === 'Community'" v-slot="{ active }">
               <button @click="confirmPromoteWorkshop(workshop)" :class="[active ? 'p-2 text-white' : 'text-slate-400', 'group flex w-full items-center px-4 py-2 text-sm']">
                 <ArrowUpIcon class="mr-3 h-5 w-5" aria-hidden="true" />
@@ -217,7 +217,7 @@ const regenerateFeed = async () => {
   <TransitionRoot as="template" :show="currentlyDeleting !== null">
     <Dialog as="div" class="relative z-50" @close="currentlyDeleting = null">
       <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" />
       </TransitionChild>
 
       <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -231,13 +231,13 @@ const regenerateFeed = async () => {
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <DialogPanel class="relative transform overflow-hidden rounded-lg bg-gray-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+            <DialogPanel class="relative transform overflow-hidden rounded-lg bg-gray-900 px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
               <div class="sm:flex sm:items-start">
-                <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                <div class="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10">
                   <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
                 </div>
-                <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-300">Delete workshop</DialogTitle>
+                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                  <DialogTitle as="h3" class="text-base leading-6 font-semibold text-gray-300">Delete workshop</DialogTitle>
                   <div class="mt-2">
                     <p v-if="currentlyDeleting" class="text-sm text-gray-400">Are you sure you want to delete "{{ currentlyDeleting.name }}". This action cannot be undone.</p>
                   </div>
@@ -246,14 +246,14 @@ const regenerateFeed = async () => {
               <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                  class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
                   @click="doDeleteWorkshop"
                 >
                   Delete
                 </button>
                 <button
                   type="button"
-                  class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20 sm:mt-0 sm:w-auto"
+                  class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20 sm:mt-0 sm:w-auto"
                   ref="cancelButtonRef"
                   @click="currentlyDeleting = null"
                 >
@@ -270,7 +270,7 @@ const regenerateFeed = async () => {
   <TransitionRoot as="template" :show="currentlyPromoting !== null">
     <Dialog as="div" class="relative z-50" @close="currentlyPromoting = null">
       <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" />
       </TransitionChild>
 
       <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -284,13 +284,13 @@ const regenerateFeed = async () => {
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <DialogPanel class="relative transform overflow-hidden rounded-lg bg-gray-900 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+            <DialogPanel class="relative transform overflow-hidden rounded-lg bg-gray-900 px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
               <div class="sm:flex sm:items-start">
-                <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10">
+                <div class="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full sm:mx-0 sm:h-10 sm:w-10">
                   <ExclamationTriangleIcon class="h-6 w-6 text-green-600" aria-hidden="true" />
                 </div>
-                <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-300">Promote workshop</DialogTitle>
+                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                  <DialogTitle as="h3" class="text-base leading-6 font-semibold text-gray-300">Promote workshop</DialogTitle>
                   <div class="mt-2">
                     <p v-if="currentlyPromoting" class="text-sm text-gray-400">Are you sure you want to promote "{{ currentlyPromoting.name }}" to Core?</p>
                   </div>
@@ -299,14 +299,14 @@ const regenerateFeed = async () => {
               <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
+                  class="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto"
                   @click="doPromoteWorkshop"
                 >
                   Promote
                 </button>
                 <button
                   type="button"
-                  class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20 sm:mt-0 sm:w-auto"
+                  class="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20 sm:mt-0 sm:w-auto"
                   ref="cancelButtonRef"
                   @click="currentlyPromoting = null"
                 >
