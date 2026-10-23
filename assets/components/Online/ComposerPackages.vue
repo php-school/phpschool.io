@@ -13,68 +13,58 @@ const props = defineProps({
 const emit = defineEmits(["close", "package-added", "package-removed"]);
 const newDependency = ref("");
 const loadingComposerAdd = ref(false);
-const showPackageAddError = ref(false);
 const packageSearchRef = ref(null);
 
 const packageSelected = (composerPackage) => {
   newDependency.value = composerPackage;
 };
 
-const addDependency = () => {
-  loadingComposerAdd.value = true;
-  const index = props.composerDeps.find((p) => p.name === newDependency.value);
+const addError = ref("");
+const showAddError = ref(false);
+const failed = (message) => {
+  addError.value = message;
+  showAddError.value = true;
+};
 
-  if (index) {
-    newDependency.value = "";
-    return;
+const addDependency = async () => {
+  const name = newDependency.value;
+
+  if (!props.composerDeps.some((dep) => dep.name === name)) {
+    loadingComposerAdd.value = true;
+
+    try {
+      const response = await fetch("/api/online/composer-package/add?package=" + encodeURIComponent(name), {
+        headers: { Accept: "application/json" },
+      });
+      const json = await response.json();
+
+      if (json.status === "error") {
+        failed("Package could not be added because it has no tagged version.");
+      } else {
+        emit("package-added", { name, version: json.latest_version, versions: json.versions });
+      }
+    } catch {
+      failed("Package could not be added. Please try again.");
+    } finally {
+      loadingComposerAdd.value = false;
+    }
   }
 
-  const opts = {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  };
-
-  fetch("/api/online/composer-package/add?package=" + encodeURIComponent(newDependency.value), opts)
-    .then((response) => response.json())
-    .then((json) => {
-      if (json.status === "error") {
-        loadingComposerAdd.value = false;
-        packageSearchRef.value.reset();
-
-        showPackageAddError.value = true;
-        return;
-      }
-
-      emit("package-added", {
-        name: newDependency.value,
-        version: json.latest_version,
-        versions: json.versions,
-      });
-
-      newDependency.value = "";
-      loadingComposerAdd.value = false;
-      packageSearchRef.value.reset();
-    })
-    .catch(() => {
-      loadingComposerAdd.value = false;
-      packageSearchRef.value.reset();
-    });
+  newDependency.value = "";
+  packageSearchRef.value.reset();
 };
 
 const removeDependency = (packageName) => {
-  const index = props.composerDeps.find((p) => p.name === packageName);
+  const dep = props.composerDeps.find((dep) => dep.name === packageName);
 
-  if (index) {
-    emit("package-removed", index);
+  if (dep) {
+    emit("package-removed", dep);
   }
 };
 </script>
 
 <template>
-  <alert type="error" @close="showPackageAddError = false" :show="showPackageAddError" :timeout="4000" message="Package could not be added because it has no tagged version."></alert>
+  <alert type="error" @close="showAddError = false" :show="showAddError" :timeout="4000" :message="addError"></alert>
 
   <Transition
     enter-active-class="transition-opacity duration-100 ease-in"
