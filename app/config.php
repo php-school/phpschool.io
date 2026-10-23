@@ -108,8 +108,8 @@ use function DI\factory;
 use function DI\get;
 
 return [
-    'console' => factory(function (DI\Container $c): Silly\Edition\PhpDi\Application {
-        $app = new Silly\Edition\PhpDi\Application('PHP School Website', 'UNKNOWN', $c);
+    'console' => factory(function (\DI\Container $c): \Silly\Edition\PhpDi\Application {
+        $app = new \Silly\Edition\PhpDi\Application('PHP School Website', 'UNKNOWN', $c);
         $app->command('clear-cache', ClearCache::class);
         $app->command('create-admin-user name email password', CreateAdminUser::class);
         $app->command('generate-blog', GenerateBlog::class);
@@ -146,14 +146,13 @@ return [
             return new NullAdapter();
         }
 
-        $redisConnection = new \Predis\Client(['host' => $c->get('config')['redisHost']]);
         try {
-            $redisConnection->connect();
-        } catch (ConnectionException $e) {
+            $redisConnection = RedisAdapter::createConnection($c->get('config')['redisDsn']);
+        } catch (\InvalidArgumentException $e) {
             throw new \RuntimeException(
                 sprintf(
-                    'Could not connect to redis using host: "%s". Message: "%s"',
-                    $c->get('config')['redisHost'],
+                    'Could not connect to redis using DSN: "%s". Message: "%s"',
+                    $c->get('config')['redisDsn'],
                     $e->getMessage()
                 )
             );
@@ -572,6 +571,7 @@ return [
         'enableCache'       => filter_var($_ENV['CACHE.ENABLE'], FILTER_VALIDATE_BOOLEAN),
         'redisHost'         => $_ENV['REDIS_HOST'],
         'devMode'           => filter_var($_ENV['DEV_MODE'], FILTER_VALIDATE_BOOLEAN),
+        'redisDsn'          => sprintf('redis://%s/%d', $_ENV['REDIS_HOST'], $_ENV['REDIS_DB']),
 
         'doctrine' => [
             'meta' => [
