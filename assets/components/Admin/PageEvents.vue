@@ -1,4 +1,5 @@
 <script setup>
+import FormField from "./FormField.vue";
 import ConfirmDialog from "./ConfirmDialog.vue";
 import { onMounted, reactive, ref } from "vue";
 import { EllipsisVerticalIcon, TrashIcon, PencilIcon } from "@heroicons/vue/24/outline";
@@ -271,127 +272,50 @@ const editEvent = (event) => {
                       <h2 v-if="form.id" class="text-base leading-7 font-semibold text-white">Updating event</h2>
                       <h2 v-else class="text-base leading-7 font-semibold text-white">Creating new event</h2>
                       <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                        <div class="col-span-full">
-                          <label for="title" class="block text-sm leading-6 font-medium text-white">Name</label>
-                          <div class="mt-2">
-                            <div class="flex rounded-md bg-white/5 ring-1 ring-white/10 ring-inset focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-inset">
-                              <input
-                                v-model="form.name"
-                                type="text"
-                                name="name"
-                                id="name"
-                                autocomplete="title"
-                                class="flex-1 border-0 bg-transparent py-1.5 pl-1 text-white focus:ring-0 sm:text-sm sm:leading-6"
-                              />
-                            </div>
+                        <FormField id="name" label="Name" :errors="errors.name">
+                          <div class="flex rounded-md bg-white/5 ring-1 ring-white/10 ring-inset focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-inset">
+                            <input v-model="form.name" type="text" name="name" id="name" class="flex-1 border-0 bg-transparent py-1.5 pl-1 text-white focus:ring-0 sm:text-sm sm:leading-6" />
                           </div>
-                          <ul v-if="errors.name" class="">
-                            <li v-for="err in errors.name" :key="err" class="mt-2 text-xs text-red-600">
-                              {{ err }}
-                            </li>
-                          </ul>
-                        </div>
-
-                        <div class="col-span-full">
-                          <label for="description" class="block text-sm leading-6 font-medium text-white">Description</label>
-                          <div class="mt-2">
-                            <textarea
-                              v-model="form.description"
-                              id="description"
-                              name="description"
-                              rows="3"
-                              class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-xs ring-1 ring-white/10 ring-inset focus:ring-2 focus:ring-indigo-500 focus:ring-inset sm:text-sm sm:leading-6"
-                            />
+                        </FormField>
+                        <FormField id="description" label="Description" hint="Write a description of the event." :errors="errors.description">
+                          <textarea
+                            v-model="form.description"
+                            id="description"
+                            name="description"
+                            rows="3"
+                            class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-xs ring-1 ring-white/10 ring-inset focus:ring-2 focus:ring-indigo-500 focus:ring-inset sm:text-sm sm:leading-6"
+                          />
+                        </FormField>
+                        <FormField id="link" label="Link" :errors="errors.link">
+                          <div class="flex rounded-md bg-white/5 ring-1 ring-white/10 ring-inset focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-inset">
+                            <input v-model="form.link" type="text" name="link" id="link" class="flex-1 border-0 bg-transparent py-1.5 pl-1 text-white focus:ring-0 sm:text-sm sm:leading-6" />
                           </div>
-                          <p class="mt-3 text-sm leading-6 text-gray-400">Write a description of the event.</p>
-                          <ul v-if="errors.description" class="">
-                            <li v-for="err in errors.description" :key="err" class="mt-2 text-xs text-red-600">
-                              {{ err }}
-                            </li>
-                          </ul>
-                        </div>
-
-                        <div class="col-span-full">
-                          <label for="link" class="block text-sm leading-6 font-medium text-white">Link</label>
-                          <div class="mt-2">
-                            <div class="flex rounded-md bg-white/5 ring-1 ring-white/10 ring-inset focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-inset">
-                              <input
-                                v-model="form.link"
-                                type="text"
-                                name="link"
-                                id="link"
-                                autocomplete="link"
-                                class="flex-1 border-0 bg-transparent py-1.5 pl-1 text-white focus:ring-0 sm:text-sm sm:leading-6"
-                              />
-                            </div>
+                        </FormField>
+                        <FormField id="date" label="Date" :errors="errors.date">
+                          <div class="flex rounded-md bg-white/5 ring-1 ring-white/10 ring-inset focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-inset">
+                            <input v-model="form.date" type="datetime-local" name="date" id="date" class="flex-1 border-0 bg-transparent py-1.5 pl-1 text-white focus:ring-0 sm:text-sm sm:leading-6" />
                           </div>
-                          <ul v-if="errors.link" class="">
-                            <li v-for="err in errors.link" :key="err" class="mt-2 text-xs text-red-600">
-                              {{ err }}
-                            </li>
-                          </ul>
-                        </div>
-
-                        <div class="col-span-full">
-                          <label for="date" class="block text-sm leading-6 font-medium text-white">Date</label>
-                          <div class="mt-2">
-                            <div class="flex rounded-md bg-white/5 ring-1 ring-white/10 ring-inset focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-inset">
-                              <input
-                                v-model="form.date"
-                                type="datetime-local"
-                                name="date"
-                                id="date"
-                                autocomplete="link"
-                                class="flex-1 border-0 bg-transparent py-1.5 pl-1 text-white focus:ring-0 sm:text-sm sm:leading-6"
-                              />
-                            </div>
-                          </div>
-                          <ul v-if="errors.date" class="">
-                            <li v-for="err in errors.date" :key="err" class="mt-2 text-xs text-red-600">
-                              {{ err }}
-                            </li>
-                          </ul>
-                        </div>
-
-                        <div class="col-span-full">
-                          <label for="venue" class="block text-sm leading-6 font-medium text-white">Venue</label>
-                          <div class="mt-2">
-                            <textarea
-                              v-model="form.venue"
-                              id="venue"
-                              name="venue"
-                              rows="3"
-                              class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-xs ring-1 ring-white/10 ring-inset focus:ring-2 focus:ring-indigo-500 focus:ring-inset sm:text-sm sm:leading-6"
-                            />
-                          </div>
-                          <ul v-if="errors.venue" class="">
-                            <li v-for="err in errors.venue" :key="err" class="mt-2 text-xs text-red-600">
-                              {{ err }}
-                            </li>
-                          </ul>
-                        </div>
-
-                        <div class="col-span-full">
-                          <label for="poster" class="block text-sm leading-6 font-medium text-white">Poster</label>
-
-                          <div class="mt-2">
-                            <label for="file-input" class="sr-only">Choose file</label>
-                            <input
-                              type="file"
-                              ref="fileInput"
-                              @change="changeEventImage"
-                              accept="image/*"
-                              name="poster"
-                              id="poster"
-                              class="block w-full rounded-lg border border-gray-200 bg-white/5 text-sm text-white shadow-xs file:me-4 file:border-0 file:bg-white/5 file:px-4 file:py-3 file:text-white focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:focus:ring-1 dark:focus:ring-gray-600 dark:focus:outline-hidden"
-                            />
-                          </div>
-                          <ul v-if="errors.poster" class="">
-                            <li v-for="err in errors.poster" :key="err" class="mt-2 text-xs text-red-600">
-                              {{ err }}
-                            </li>
-                          </ul>
-                        </div>
+                        </FormField>
+                        <FormField id="venue" label="Venue" :errors="errors.venue">
+                          <textarea
+                            v-model="form.venue"
+                            id="venue"
+                            name="venue"
+                            rows="3"
+                            class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-xs ring-1 ring-white/10 ring-inset focus:ring-2 focus:ring-indigo-500 focus:ring-inset sm:text-sm sm:leading-6"
+                          />
+                        </FormField>
+                        <FormField id="poster" label="Poster" :errors="errors.poster">
+                          <input
+                            type="file"
+                            ref="fileInput"
+                            @change="changeEventImage"
+                            accept="image/*"
+                            name="poster"
+                            id="poster"
+                            class="block w-full rounded-lg border border-gray-200 bg-white/5 text-sm text-white shadow-xs file:me-4 file:border-0 file:bg-white/5 file:px-4 file:py-3 file:text-white focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:focus:ring-1 dark:focus:ring-gray-600 dark:focus:outline-hidden"
+                          />
+                        </FormField>
                       </div>
                     </div>
                   </div>
