@@ -185,16 +185,11 @@ export const createApp = ViteSSG(
       await studentStore.initialize();
     }
 
-    if (!isClient || import.meta.env.DEV) {
-      const blogStore = useBlogStore(pinia);
-      await blogStore.initialize();
+    // Pre-rendered pages carry this data in their initial state, and initialize() skips a store that
+    // already has it; every other page fetches it here.
+    await Promise.all([useBlogStore(pinia), useEventStore(pinia), useWorkshopStore(pinia)].map((store) => store.initialize()));
 
-      const eventStore = useEventStore(pinia);
-      await eventStore.initialize();
-
-      const workshopStore = useWorkshopStore(pinia);
-      await workshopStore.initialize();
-
+    if (!isClient) {
       onSSRAppRendered(() => {
         initialState.pinia = pinia.state.value;
       });
