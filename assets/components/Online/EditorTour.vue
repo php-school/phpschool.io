@@ -137,7 +137,7 @@ const createTour = () => {
   tour.value.addStep({
     canClickTarget: true,
     attachTo: { element: "#editor-1", on: "left-start" },
-    text: '<p class="error bg-red-500 text-white p-3 text-base inline rounded-lg font-bold hidden absolute-center top-6"> Try again!<br></p>Write some code to solve the problem. Try adding <code>echo "Hey!";</code>. Then click next.',
+    text: '<p class="error bg-red-500 text-white p-3 text-base rounded-lg font-bold hidden absolute-center top-6"> Try again!<br></p>Write some code to solve the problem. Try adding <code>echo "Hey!";</code>. Then click next.',
     buttons: [
       {
         text: "Next",
