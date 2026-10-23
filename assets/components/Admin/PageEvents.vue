@@ -139,12 +139,7 @@ const saveEvent = async () => {
     } else {
       response = await createEvent(data);
     }
-    if (response.status === 404) {
-      if (response.error) {
-        eventError.value = response.error;
-      }
-      showEventError.value = true;
-    } else if (response.status === 400) {
+    if (response.status === 400) {
       if (response.form_errors) {
         errors.value = response.form_errors;
       }
@@ -157,6 +152,9 @@ const saveEvent = async () => {
 
       showAdd.value = false;
     }
+  } catch (e) {
+    eventError.value = e.message;
+    showEventError.value = true;
   } finally {
     loading.value = false;
   }
