@@ -272,6 +272,10 @@ const createTour = () => {
 
 <style>
 @reference "../../styles/online.css";
+/* the problem dialog makes the rest of the page ignore clicks while it is open, so the tour has to opt back in */
+.shepherd-element {
+  pointer-events: auto;
+}
 .shepherd-element > .shepherd-arrow {
   @apply absolute h-[20px] w-[20px] border-10 border-solid border-transparent;
 }
