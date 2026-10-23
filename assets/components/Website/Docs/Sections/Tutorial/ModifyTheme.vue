@@ -13,8 +13,7 @@ import CodeBlock from "../../CodeBlock.vue";
     <pre>
 $app->setLogo($art);
 $app->setFgColour('green');
-$app->setBgColour('black');</pre
-    >
+$app->setBgColour('black');</pre>
   </CodeBlock>
 
   <p>
@@ -49,8 +48,7 @@ ART;
 
 $app->setLogo($art);
 $app->setFgColour('red');
-$app->setBgColour('black');</pre
-    >
+$app->setBgColour('black');</pre>
   </CodeBlock>
 
   <a href="/img/themed-workshop.png">

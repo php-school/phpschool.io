@@ -163,7 +163,7 @@ const slackModalOpen = ref(false);
       </ul>
     </div>
     <!-- Mobile Menu Links and Sign In Button (Hidden by Default) -->
-    <div :class="mobileMenuVisible ? 'block' : 'hidden sm:hidden '">
+    <div :class="mobileMenuVisible ? 'block' : 'hidden sm:hidden'">
       <div class="flex flex-col divide-y divide-pink-500 text-center text-white">
         <router-link to="/online" class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500">Workshops</router-link>
         <router-link to="/offline" class="block px-4 py-6 font-open-sans text-xl font-semibold uppercase text-white no-underline hover:text-pink-500">Offline</router-link>

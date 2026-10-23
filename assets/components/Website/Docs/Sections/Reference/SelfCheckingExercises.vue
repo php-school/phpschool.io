@@ -69,8 +69,7 @@ interface SelfCheck
      */
     public function check(Input $input);
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>You can implement like so:</p>
@@ -98,8 +97,7 @@ class Mean extends AbstractExercise implements ExerciseInterface, CliExercise, S
         return new Failure('My Check', "Something didn't go well!");
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -216,8 +214,7 @@ class Mean extends AbstractExercise implements
 
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader level="h4" id="check-step-3">3. Implement the check logic</ContentHeader>
@@ -253,8 +250,7 @@ public function check(Input $input)
 
     return new Failure('PSR2 Code Check', 'Coding style did not conform to PSR2!');
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>

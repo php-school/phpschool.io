@@ -108,8 +108,7 @@ foreach ($afterChecks as $check) {
     $result = $check->check($exercise, $submissionFilePath);
     //store result
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader level="h4" id="before-verifying">Before Verifying</ContentHeader>
@@ -203,8 +202,7 @@ class Psr2Check implements SimpleCheckInterface
         return static::CHECK_BEFORE;
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -249,8 +247,7 @@ return [
     //my checks
     Psr2Check::class => object(),
 ];
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -309,8 +306,7 @@ $app->setFgColour('red');
 $app->setBgColour('black');
 
 return $app;
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader level="h4" id="check-step-5">5. Require the check in an exercise</ContentHeader>
@@ -330,8 +326,7 @@ public function configure(ExerciseDispatcher $dispatcher)
 {
     $dispatcher->requireCheck(Psr2Check::class);
 }
-</pre
-    >
+</pre>
   </CodeBlock>
   <p>Hopefully you will remember this from the previous section - we are just telling the exercise to use our custom check!</p>
 
@@ -409,8 +404,7 @@ interface Psr2ExerciseCheck
      */
     public function getStandard();
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader level="h4" id="exercise-step-2">2. Update our check</ContentHeader>
@@ -430,8 +424,7 @@ public function getExerciseInterface()
 {
     return Psr2ExerciseCheck::class;
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -464,8 +457,7 @@ public function check(ExerciseInterface $exercise, $fileName)
 
     return new Failure($this->getName(), 'Coding style did not conform to PSR2!');
 }
-</pre
-    >
+</pre>
   </CodeBlock>
   <p>
     We've added a couple of things here - we make sure the exercise actually implements our required interface, if not we throw an exception. We check if the standard provided is in a small subset of
@@ -552,8 +544,7 @@ class Mean extends AbstractExercise implements
     {
         return 'PSR2';
     }
-}</pre
-    >
+}</pre>
   </CodeBlock>
 
   <p>You should be able to run it just the same as before we added the extra interface. You can now easily update your exercise to use a different coding standard without modifying the check.</p>

@@ -63,8 +63,7 @@ interface ResultInterface
      * @return string
      */
     public function getCheckName();
-}</pre
-    >
+}</pre>
   </CodeBlock>
 
   <p>This method should just return the name of the check associated with this result. This is used when rendering the result to the console.</p>
@@ -90,8 +89,7 @@ interface ResultInterface
 use PhpSchool\PhpWorkshop\Result\Success;
 
 $success = new Success('My Check');
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -122,8 +120,7 @@ class MyCheck implements SimpleCheckInterface
         return Success::fromCheck($this);
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader level="h4-code" id="failure">PhpSchool\PhpWorkshop\Result\Failure</ContentHeader>
@@ -148,8 +145,7 @@ $failure = Failure::fromNameAndReason('My Check', 'Something went wrong!');
 //static constructor with check
 $myCheck = new MyCheck;
 $failure = Failure::fromCheckAndReason($check, 'Something went wrong!');
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader id="failure-implementations">Bundled Failure Implementations</ContentHeader>
@@ -203,8 +199,7 @@ interface ResultRendererInterface
      */
     public function render(ResultsRenderer $renderer);
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>

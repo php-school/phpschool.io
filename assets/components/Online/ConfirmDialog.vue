@@ -110,7 +110,7 @@ defineExpose({
                 v-if="showCancel"
                 @click="decline"
                 type="button"
-                class="inline-flex w-full items-center justify-center rounded-full border border-pink-600 px-8 py-2 text-sm font-medium text-gray-400 shadow-sm hover:bg-pink-600 hover:text-white focus:outline-none focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto md:text-base"
+                class="inline-flex w-full items-center justify-center rounded-full border border-pink-600 px-8 py-2 text-sm font-medium text-gray-400 shadow-sm hover:bg-pink-600 hover:text-white focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto md:text-base"
               >
                 {{ cancelMessage }}
               </button>
@@ -118,7 +118,7 @@ defineExpose({
                 ref="confirmButton"
                 @click="confirm"
                 type="button"
-                class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-sm font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto md:text-base"
+                class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-sm font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto md:text-base"
               >
                 {{ okMessage }}
               </button>

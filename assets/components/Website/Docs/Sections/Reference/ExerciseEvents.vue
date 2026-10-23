@@ -39,8 +39,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface
         });
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>

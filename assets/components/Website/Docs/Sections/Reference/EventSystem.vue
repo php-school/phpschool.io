@@ -78,8 +78,7 @@ $eventDispatcher->listen('verify.start', function (Event $event) {
 $eventDispatcher->listen(['verify.start', 'run.start'], function (Event $event) {
     //do something
 });
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -119,8 +118,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
     }
     return new Success('DB Check');
 });
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <ContentHeader id="event-list">Events</ContentHeader>
@@ -130,7 +128,7 @@ $eventDispatcher->insertVerifier('verify.finish', function (Event $event) {
       <Tab as="template" v-slot="{ selected }" v-for="tab in tabs" :key="tab">
         <button
           :class="[
-            selected ? 'border-x border-b-0 border-t border-pink-600 border-x-gray-600 text-white' : ' hover:border-b hover:border-pink-600',
+            selected ? 'border-x border-b-0 border-t border-pink-600 border-x-gray-600 text-white' : 'hover:border-b hover:border-pink-600',
             'w-full border-b border-b-gray-600 px-3 py-2 text-lg font-medium focus:outline-none',
           ]"
         >

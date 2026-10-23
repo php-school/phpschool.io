@@ -67,8 +67,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface
         $dispatcher->requireCheck(ComposerCheck::class);
     }
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 
   <p>
@@ -137,7 +136,6 @@ class MyExercise extends AbstractExercise implements
     }
 
 }
-</pre
-    >
+</pre>
   </CodeBlock>
 </template>

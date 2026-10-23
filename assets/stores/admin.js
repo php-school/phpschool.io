@@ -1,10 +1,12 @@
 import { defineStore } from "pinia";
 
-export const useAdminStore = defineStore({
-  id: "admin",
+// localStorage does not exist while pre-rendering (vite-ssg runs this in Node)
+const readStored = (key) => (typeof localStorage === "undefined" ? null : JSON.parse(localStorage.getItem(key)));
+
+export const useAdminStore = defineStore("admin", {
   state: () => ({
-    admin: JSON.parse(localStorage.getItem("admin")),
-    adminToken: JSON.parse(localStorage.getItem("adminToken")),
+    admin: readStored("admin"),
+    adminToken: readStored("adminToken"),
   }),
   actions: {
     async login(email, password) {
