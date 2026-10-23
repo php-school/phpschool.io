@@ -1,10 +1,11 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 import { CubeIcon } from "@heroicons/vue/24/solid";
 import Alert from "../Online/SiteAlert.vue";
 import { approveWorkshop, newWorkshops } from "./api";
+import { useSearch } from "./search";
 
 const props = defineProps({
   search: {
@@ -17,21 +18,11 @@ const loading = ref(true);
 const workshops = ref([]);
 
 onMounted(async () => {
-  const data = await newWorkshops();
-
+  workshops.value = (await newWorkshops()).workshops;
   loading.value = false;
-  return (workshops.value = data.workshops);
 });
 
-const filteredWorkshops = computed(() => {
-  if (props.search === "" || props.search === null) {
-    return workshops.value;
-  }
-
-  return workshops.value.filter((workshop) => {
-    return workshop.name.toLowerCase().includes(props.search.toLowerCase()) || workshop.code.toLowerCase().includes(props.search.toLowerCase());
-  });
-});
+const filteredWorkshops = useSearch(workshops, () => props.search, ["name", "code"]);
 
 const statuses = {
   "Not-approved": "text-gray-400 bg-gray-400/10 ring-gray-400/20",

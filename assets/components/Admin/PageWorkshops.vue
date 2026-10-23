@@ -1,10 +1,11 @@
 <script setup>
 import Alert from "../Online/SiteAlert.vue";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { Dialog, DialogPanel, DialogTitle, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { EllipsisVerticalIcon, ArrowUpIcon, TrashIcon, ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 
 import { allWorkshops, regenerateWorkshopFeed, deleteWorkshop, promoteWorkshop } from "./api";
+import { useSearch } from "./search";
 
 const props = defineProps({
   search: {
@@ -15,15 +16,7 @@ const props = defineProps({
 
 const workshops = ref([]);
 
-const filteredWorkshops = computed(() => {
-  if (props.search === "" || props.search === null) {
-    return workshops.value;
-  }
-
-  return workshops.value.filter((workshop) => {
-    return workshop.name.toLowerCase().includes(props.search.toLowerCase()) || workshop.code.toLowerCase().includes(props.search.toLowerCase());
-  });
-});
+const filteredWorkshops = useSearch(workshops, () => props.search, ["name", "code"]);
 
 onMounted(async () => {
   const data = await allWorkshops();
