@@ -1,23 +1,11 @@
 import { defineStore } from "pinia";
 
 export const useStudentStore = defineStore("student", {
-  state: () => {
-    let student = localStorage.getItem("student");
-
-    if (student === null) {
-      return {
-        student: null,
-        forceTour: false,
-      };
-    }
-
-    student = JSON.parse(student);
-
-    return {
-      student,
-      forceTour: false,
-    };
-  },
+  state: () => ({
+    // localStorage doesn't exist while the static pages are rendered
+    student: import.meta.env.SSR ? null : JSON.parse(localStorage.getItem("student") ?? "null"),
+    forceTour: false,
+  }),
   actions: {
     async initialize() {
       const response = await fetch("/api/online/student", {
@@ -28,7 +16,6 @@ export const useStudentStore = defineStore("student", {
 
       if (response.status === 401) {
         this.student = null;
-        this.studentState = null;
         localStorage.removeItem("student");
         return;
       }
@@ -56,12 +43,6 @@ export const useStudentStore = defineStore("student", {
 
       if (response.ok && data.success) {
         this.student = data.student;
-
-        this.studentState = {
-          totalCompleted: data.student.state.total_completed,
-          workshops: data.student.state.workshops,
-        };
-
         localStorage.setItem("student", JSON.stringify(this.student));
       }
 
@@ -73,7 +54,6 @@ export const useStudentStore = defineStore("student", {
       });
 
       this.student = null;
-      this.studentState = null;
       localStorage.removeItem("student");
 
       this.router.push("/online");

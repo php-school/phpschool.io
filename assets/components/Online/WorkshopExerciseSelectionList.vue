@@ -159,7 +159,6 @@ watch(
             :exercise="exercise"
             :selected-workshop="selectedWorkshop"
             :student="studentStore.student"
-            :student-state="studentStore.studentState"
           />
         </ul>
       </div>
