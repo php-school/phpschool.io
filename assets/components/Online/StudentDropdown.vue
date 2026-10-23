@@ -1,6 +1,7 @@
 <script setup>
 import { TrophyIcon } from "@heroicons/vue/24/outline";
 import { ArrowPathIcon } from "@heroicons/vue/24/solid";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import Confirm from "./ConfirmDialog.vue";
 import Alert from "./SiteAlert.vue";
 import { computed, ref } from "vue";
@@ -14,7 +15,6 @@ const studentStore = useStudentStore();
 import { useWorkshopStore } from "../../stores/workshops";
 const workshopStore = useWorkshopStore();
 
-const isOpen = ref(false);
 const loadingStateReset = ref(false);
 const showResetProgressAlert = ref(false);
 
@@ -23,14 +23,6 @@ const resetProgressConfirm = ref(null);
 const percentComplete = computed(() => {
   return (studentStore.totalCompleted() / workshopStore.totalExercises) * 100;
 });
-
-const clickAway = () => {
-  isOpen.value = false;
-};
-
-const toggleDropdown = () => {
-  isOpen.value = !isOpen.value;
-};
 
 const resetState = async () => {
   if (loadingStateReset.value) {
@@ -58,7 +50,6 @@ const resetState = async () => {
 };
 
 const showTour = () => {
-  isOpen.value = false;
   studentStore.showTourAgain();
 };
 
@@ -69,16 +60,17 @@ const logout = () => {
 
 <template>
   <alert type="success" @close="showResetProgressAlert = false" :show="showResetProgressAlert" :timeout="4000" message="Progress successfully reset"></alert>
-  <div class="relative">
-    <button @click.stop="toggleDropdown" class="hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-600 sm:flex" type="button">
+  <!-- on small screens the menu is always shown inline in the mobile nav, so it is static and only hidden on larger screens -->
+  <Menu as="div" class="relative" v-slot="{ open }">
+    <MenuButton class="hidden rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-600 sm:flex">
       <span class="sr-only">Open user menu</span>
       <img class="h-8 w-8 rounded-full" :src="studentStore.student.profile_picture" alt="{{ studentStore.student.name }}" />
-    </button>
+    </MenuButton>
 
-    <div
-      :class="{ 'sm:hidden': !isOpen }"
-      v-click-away="clickAway"
-      class="block divide-y divide-solid divide-gray-600 rounded-lg bg-gray-800 shadow-xl sm:absolute sm:right-2.5 sm:top-10 sm:z-10 sm:w-[250px]"
+    <MenuItems
+      static
+      :class="{ 'sm:hidden': !open }"
+      class="block divide-y divide-solid divide-gray-600 rounded-lg bg-gray-800 shadow-xl focus:outline-none sm:absolute sm:right-2.5 sm:top-10 sm:z-10 sm:w-[250px]"
     >
       <div class="flex flex-row items-center px-6 py-4 text-left text-sm text-white">
         <img class="mr-4 block h-8 w-8 rounded-full sm:hidden" :src="studentStore.student.profile_picture" alt="{{ studentStore.student.name }}" />
@@ -109,24 +101,28 @@ const logout = () => {
       </div>
 
       <ul class="py-2 text-sm text-gray-200">
-        <li>
-          <router-link to="/online" class="block px-6 py-2 text-left no-underline hover:bg-gray-600 hover:text-white">Workshop Dashboard</router-link>
-        </li>
-        <li v-if="route.name === 'editor'">
-          <a href="#" @click="showTour" class="block px-6 py-2 text-left no-underline hover:bg-gray-600 hover:text-white">Show Tour Again</a>
-        </li>
-        <li>
-          <a href="#" @click="resetState" class="flex justify-between px-6 py-2 text-left no-underline hover:bg-gray-600 hover:text-white">
+        <MenuItem as="li" v-slot="{ active, close }">
+          <router-link to="/online" @click="close" class="block px-6 py-2 text-left no-underline hover:bg-gray-600 hover:text-white" :class="{ 'bg-gray-600 text-white': active }">
+            Workshop Dashboard
+          </router-link>
+        </MenuItem>
+        <MenuItem as="li" v-if="route.name === 'editor'" v-slot="{ active }">
+          <a href="#" @click="showTour" class="block px-6 py-2 text-left no-underline hover:bg-gray-600 hover:text-white" :class="{ 'bg-gray-600 text-white': active }">Show Tour Again</a>
+        </MenuItem>
+        <MenuItem as="li" v-slot="{ active }">
+          <a href="#" @click="resetState" class="flex justify-between px-6 py-2 text-left no-underline hover:bg-gray-600 hover:text-white" :class="{ 'bg-gray-600 text-white': active }">
             <span>Reset Progress</span>
             <ArrowPathIcon v-cloak v-show="loadingStateReset" class="h-4 w-4 animate-spin text-pink-500" />
           </a>
-        </li>
+        </MenuItem>
       </ul>
-      <confirm ref="resetProgressConfirm"></confirm>
 
       <div class="py-3">
-        <a href="#" @click="logout" class="block px-6 py-2 text-left text-sm text-gray-200 no-underline hover:bg-gray-600 hover:text-white">Sign out</a>
+        <MenuItem v-slot="{ active }">
+          <a href="#" @click="logout" class="block px-6 py-2 text-left text-sm text-gray-200 no-underline hover:bg-gray-600 hover:text-white" :class="{ 'bg-gray-600 text-white': active }">Sign out</a>
+        </MenuItem>
       </div>
-    </div>
-  </div>
+    </MenuItems>
+  </Menu>
+  <confirm ref="resetProgressConfirm"></confirm>
 </template>
