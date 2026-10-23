@@ -1,7 +1,7 @@
 <script setup>
 import { XMarkIcon } from "@heroicons/vue/24/solid";
+import { DialogClose, DialogContent, DialogOverlay, DialogPortal, DialogRoot } from "reka-ui";
 import Shepherd from "shepherd.js";
-import { onMounted, onUnmounted } from "vue";
 
 defineProps({
   id: String,
@@ -39,59 +39,50 @@ const modalSizeClasses = {
   "7xl": "max-w-7xl",
 };
 
-const escapeHandler = (evt) => {
-  if (evt.code === "Escape") {
-    closeModal();
+//the editor tour highlights elements inside and outside the modal, so clicking them must not close it
+const interactOutside = (event) => {
+  const target = event.detail?.originalEvent?.target ?? event.target;
+
+  if (Shepherd.activeTour || target?.closest?.(".shepherd-element")) {
+    event.preventDefault();
   }
 };
 
-onMounted(() => {
-  document.addEventListener("keyup", escapeHandler);
-});
-
-onUnmounted(() => {
-  document.removeEventListener("keyup", escapeHandler);
-});
-
-const clickAway = (e) => {
-  if (Shepherd.activeTour) {
-    return;
-  }
-
-  if (e.target.parentElement && e.target.parentElement.classList.contains("shepherd-cancel-icon")) {
-    return;
-  }
-
-  closeModal(e);
+//focus the dialog itself rather than the close button, so no focus ring shows until the user tabs
+const openAutoFocus = (event) => {
+  event.preventDefault();
+  event.currentTarget?.focus?.();
 };
 
-const closeModal = (event) => {
-  emit("close", event);
+const onOpenChange = (open) => {
+  if (!open) {
+    emit("close");
+  }
 };
 </script>
 
 <template>
-  <focus-trap :v-model:active="true">
-    <div class="">
-      <div class="fixed inset-0 z-40 bg-gray-900 bg-opacity-80" />
-      <div tabindex="-1" class="fixed left-0 right-0 top-0 z-50 flex h-full w-full items-center justify-center overflow-x-hidden p-2 md:inset-0 md:p-0">
-        <div
+  <DialogRoot :open="true" @update:open="onOpenChange">
+    <DialogPortal>
+      <DialogOverlay class="fixed inset-0 z-40 bg-gray-900 bg-opacity-80" />
+      <div class="fixed left-0 right-0 top-0 z-50 flex h-full w-full items-center justify-center overflow-x-hidden p-2 md:inset-0 md:p-0">
+        <DialogContent
           :id="id"
-          v-click-away="clickAway"
-          class="modal-border relative flex w-full flex-col justify-start overflow-hidden rounded-lg border-2 border-solid border-transparent bg-gray-800 shadow"
+          :aria-describedby="undefined"
+          class="modal-border relative flex w-full flex-col justify-start overflow-hidden rounded-lg border-2 border-solid border-transparent bg-gray-800 shadow focus:outline-none"
           :class="[modalSizeClasses[size], maxHeight]"
+          @interact-outside="interactOutside"
+          @open-auto-focus="openAutoFocus"
         >
           <div class="items-top flex flex-none justify-between rounded-t p-6" :class="$slots.header ? 'border-b border-solid border-slate-600' : ''">
             <slot name="header" />
             <div>
-              <button
+              <DialogClose
                 :id="id + '-close'"
-                @click="closeModal($event)"
-                type="button"
                 class="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-600 hover:text-white focus:outline-none focus:ring focus:ring-pink-800"
               >
                 <XMarkIcon class="h-5 w-5" />
-              </button>
+              </DialogClose>
             </div>
           </div>
           <div
@@ -107,10 +98,10 @@ const closeModal = (event) => {
           <div v-if="$slots.footer" class="flex-none rounded-b border-t border-solid border-slate-600 p-6">
             <slot name="footer" />
           </div>
-        </div>
+        </DialogContent>
       </div>
-    </div>
-  </focus-trap>
+    </DialogPortal>
+  </DialogRoot>
 </template>
 
 <style>

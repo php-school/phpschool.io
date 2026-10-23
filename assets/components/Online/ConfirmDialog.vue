@@ -1,43 +1,16 @@
 <script setup>
 import { ExclamationTriangleIcon } from "@heroicons/vue/24/solid";
-import { nextTick, ref } from "vue";
+import { AlertDialogContent, AlertDialogDescription, AlertDialogPortal, AlertDialogRoot, AlertDialogTitle } from "reka-ui";
+import { ref } from "vue";
 
-const focusActive = ref(false);
 const isOpen = ref(false);
-const showCancel = ref(false);
+const showCancel = ref(true);
 const title = ref(null);
 const message = ref(null);
 const okMessage = ref("Confirm");
 const cancelMessage = ref("Cancel");
 const resolvePromise = ref(null);
-const rejectPromise = ref(null);
 const confirmButton = ref(null);
-
-const onEscapeKeyConfirm = (evt) => {
-  if (evt.code === "Escape") {
-    confirm();
-  }
-};
-
-const onEscapeKeyDecline = (evt) => {
-  if (evt.code === "Escape") {
-    decline();
-  }
-};
-
-let escapeHandler = null;
-
-const open = () => {
-  isOpen.value = true;
-};
-
-const close = () => {
-  document.removeEventListener("keyup", escapeHandler);
-
-  isOpen.value = false;
-  focusActive.value = false;
-  showCancel.value = true;
-};
 
 const show = (options) => {
   title.value = options.title;
@@ -49,36 +22,28 @@ const show = (options) => {
     cancelMessage.value = options.cancelMessage;
   }
 
-  if (options.disableCancel) {
-    showCancel.value = false;
-    escapeHandler = onEscapeKeyConfirm;
-  } else {
-    //hitting escape is the same as cancelling
-    escapeHandler = onEscapeKeyDecline;
-  }
+  showCancel.value = !options.disableCancel;
+  isOpen.value = true;
 
-  document.addEventListener("keyup", escapeHandler);
-
-  open();
-
-  nextTick(() => {
-    focusActive.value = true;
-  });
-
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     resolvePromise.value = resolve;
-    rejectPromise.value = reject;
   });
 };
 
-const confirm = () => {
-  close();
-  resolvePromise.value(true);
+const close = (result) => {
+  isOpen.value = false;
+  resolvePromise.value(result);
 };
 
-const decline = () => {
-  close();
-  resolvePromise.value(false);
+const confirm = () => close(true);
+const decline = () => close(false);
+
+//hitting escape is the same as cancelling, or confirming when there is nothing to cancel
+const onEscape = () => (showCancel.value ? decline() : confirm());
+
+const focusConfirm = (event) => {
+  event.preventDefault();
+  confirmButton.value?.focus();
 };
 
 defineExpose({
@@ -87,45 +52,47 @@ defineExpose({
 </script>
 
 <template>
-  <focus-trap v-model:active="focusActive" :initial-focus="() => confirmButton">
-    <div v-show="isOpen" class="fixed inset-0 z-40 flex h-full w-full flex-col justify-start rounded-lg bg-gray-800 bg-opacity-80">
-      <div class="bg-grey-800 flex h-full w-full items-center justify-center p-2 drop-shadow-xl md:p-0">
-        <div class="max-h-[calc(1/2*100%)] max-w-sm rounded-lg bg-gray-900">
-          <div class="items-top flex flex-none justify-between rounded-t border-b border-solid border-slate-600 p-8">
-            <div class="flex items-center">
-              <ExclamationTriangleIcon class="mr-2 h-6 w-6 text-pink-500" />
-              <h3 class="mt-0 pt-0 font-mono text-base font-semibold text-white lg:text-lg">
-                {{ title }}
-              </h3>
+  <AlertDialogRoot :open="isOpen">
+    <AlertDialogPortal>
+      <div v-if="isOpen" class="fixed inset-0 z-[60] flex h-full w-full flex-col justify-start rounded-lg bg-gray-800 bg-opacity-80">
+        <div class="bg-grey-800 flex h-full w-full items-center justify-center p-2 drop-shadow-xl md:p-0">
+          <AlertDialogContent class="max-h-[calc(1/2*100%)] max-w-sm rounded-lg bg-gray-900 focus:outline-none" @open-auto-focus="focusConfirm" @escape-key-down="onEscape">
+            <div class="items-top flex flex-none justify-between rounded-t border-b border-solid border-slate-600 p-8">
+              <div class="flex items-center">
+                <ExclamationTriangleIcon class="mr-2 h-6 w-6 text-pink-500" />
+                <AlertDialogTitle as="h3" class="mt-0 pt-0 font-mono text-base font-semibold text-white lg:text-lg">
+                  {{ title }}
+                </AlertDialogTitle>
+              </div>
             </div>
-          </div>
-          <div class="items-top flex flex-none justify-between rounded-t border-b border-solid border-slate-600 p-8">
-            <div class="flex items-center">
-              <p class="text-sm text-white">{{ message }}</p>
+            <div class="items-top flex flex-none justify-between rounded-t border-b border-solid border-slate-600 p-8">
+              <div class="flex items-center">
+                <AlertDialogDescription as="p" class="text-sm text-white">{{ message }}</AlertDialogDescription>
+              </div>
             </div>
-          </div>
-          <div class="flex-none rounded-b border-solid border-slate-600 p-6">
-            <div class="flex justify-end gap-x-2">
-              <button
-                v-if="showCancel"
-                @click="decline"
-                type="button"
-                class="inline-flex w-full items-center justify-center rounded-full border border-pink-600 px-8 py-2 text-sm font-medium text-gray-400 shadow-sm hover:bg-pink-600 hover:text-white focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto md:text-base"
-              >
-                {{ cancelMessage }}
-              </button>
-              <button
-                ref="confirmButton"
-                @click="confirm"
-                type="button"
-                class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-sm font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto md:text-base"
-              >
-                {{ okMessage }}
-              </button>
+            <div class="flex-none rounded-b border-solid border-slate-600 p-6">
+              <div class="flex justify-end gap-x-2">
+                <button
+                  v-if="showCancel"
+                  @click="decline"
+                  type="button"
+                  class="inline-flex w-full items-center justify-center rounded-full border border-pink-600 px-8 py-2 text-sm font-medium text-gray-400 shadow-sm hover:bg-pink-600 hover:text-white focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto md:text-base"
+                >
+                  {{ cancelMessage }}
+                </button>
+                <button
+                  ref="confirmButton"
+                  @click="confirm"
+                  type="button"
+                  class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-sm font-medium text-white shadow-sm hover:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-800 sm:ml-3 sm:w-auto md:text-base"
+                >
+                  {{ okMessage }}
+                </button>
+              </div>
             </div>
-          </div>
+          </AlertDialogContent>
         </div>
       </div>
-    </div>
-  </focus-trap>
+    </AlertDialogPortal>
+  </AlertDialogRoot>
 </template>

@@ -46,6 +46,7 @@
     "focus-trap-vue": "^4.0.2",
     "highlight.js": "^11.9.0",
     "pinia": "^4.1.0",
+    "reka-ui": "^2.11.0",
     "shepherd.js": "11.0.1",
     "vue": "^3.5.44",
     "vue-chartjs": "^5.2.0",
