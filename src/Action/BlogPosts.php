@@ -20,7 +20,7 @@ class BlogPosts
             [
                 'posts' => $this->repository->findAll(),
             ],
-            $response
+            $response,
         );
     }
 }

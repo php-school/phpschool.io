@@ -61,7 +61,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
     }
 
     /**
-     * @return array<int, ExerciseInterface>
+     * @return array<ExerciseInterface>
      */
     public function findAllExercises(): array
     {
@@ -170,9 +170,9 @@ class CloudInstalledWorkshop implements \JsonSerializable
                     'slug' => $this->slugger->slug($exercise->getName())->toString(),
                     'name' => $exercise->getName(),
                     'description' => $exercise->getDescription(),
-                    'type' => $exercise->getType()->getValue()
+                    'type' => $exercise->getType()->getValue(),
                 ];
-            }, $this->findAllExercises())
+            }, $this->findAllExercises()),
         ];
     }
 }

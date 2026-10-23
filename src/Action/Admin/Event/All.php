@@ -25,7 +25,7 @@ class All
     {
         return $this->withJson(
             ['events' => $this->repository->findAll()],
-            $response
+            $response,
         );
     }
 }

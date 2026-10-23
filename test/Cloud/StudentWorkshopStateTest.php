@@ -36,14 +36,14 @@ class StudentWorkshopStateTest extends TestCase
             null,
             new \DateTime(),
             false,
-            new StudentCloudState($state)
+            new StudentCloudState($state),
         );
     }
 
     public function testCompleteExercise(): void
     {
         $student = $this->getStudent([
-            'learnyouphp' => ['currentExercise' => 'Exercise 1', 'completedExercises' => []]
+            'learnyouphp' => ['currentExercise' => 'Exercise 1', 'completedExercises' => []],
         ]);
 
         $entity = $this->getMockBuilder(Student::class)
@@ -73,10 +73,10 @@ class StudentWorkshopStateTest extends TestCase
                     [
                         'learnyouphp' => [
                             'completedExercises' => ['Exercise 1'],
-                            'currentExercise' => 'Exercise 1'
-                        ]
+                            'currentExercise' => 'Exercise 1',
+                        ],
                     ],
-                    $student->getWorkshopState()
+                    $student->getWorkshopState(),
                 );
 
                 return true;
@@ -94,7 +94,7 @@ class StudentWorkshopStateTest extends TestCase
     public function testSetCurrentExercise(): void
     {
         $student = $this->getStudent([
-            'learnyouphp' => ['currentExercise' => 'Exercise 1', 'completedExercises' => ['Exercise 1']]
+            'learnyouphp' => ['currentExercise' => 'Exercise 1', 'completedExercises' => ['Exercise 1']],
         ]);
 
         $entity = $this->getMockBuilder(Student::class)
@@ -124,10 +124,10 @@ class StudentWorkshopStateTest extends TestCase
                     [
                         'learnyouphp' => [
                             'completedExercises' => ['Exercise 1'],
-                            'currentExercise' => 'Exercise 2'
-                        ]
+                            'currentExercise' => 'Exercise 2',
+                        ],
                     ],
-                    $student->getWorkshopState()
+                    $student->getWorkshopState(),
                 );
 
                 return true;

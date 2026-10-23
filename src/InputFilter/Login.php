@@ -29,12 +29,12 @@ class Login extends InputFilter
                         'min' => 3,
                         'max' => 254,
                         'break_chain_on_failure' => true,
-                    ]
+                    ],
                 ],
                 [
                     'name' => EmailAddress::class,
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->add([
@@ -46,9 +46,9 @@ class Login extends InputFilter
                     'options' => [
                         'min' => 3,
                         'max' => 255,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
     }
 }

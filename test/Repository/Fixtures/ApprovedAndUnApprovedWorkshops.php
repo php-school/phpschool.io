@@ -14,7 +14,7 @@ class ApprovedAndUnApprovedWorkshops implements FixtureInterface
     public UuidInterface $php8appreciateId;
     public UuidInterface $learnYouPhpId;
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $approvedWorkshop = new Workshop(
             'php-school',
@@ -25,7 +25,7 @@ class ApprovedAndUnApprovedWorkshops implements FixtureInterface
             'aydin@hotmail.co.uk',
             'Aydin Hassan',
             'https://twitter.com/aydin_h',
-            true
+            true,
         );
 
         $unApprovedWorkshop = new Workshop(
@@ -37,7 +37,7 @@ class ApprovedAndUnApprovedWorkshops implements FixtureInterface
             'aydin@hotmail.co.uk',
             'Aydin Hassan',
             'https://twitter.com/aydin_h',
-            false
+            false,
         );
 
         $manager->persist($approvedWorkshop);

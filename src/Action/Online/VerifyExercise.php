@@ -25,14 +25,14 @@ class VerifyExercise
         private readonly ProjectUploader $projectUploader,
         private readonly SessionStorageInterface $session,
         private readonly StudentWorkshopState $studentState,
-        private readonly VueResultsRenderer $resultsRenderer
+        private readonly VueResultsRenderer $resultsRenderer,
     ) {}
 
     public function __invoke(
         Request $request,
         Response $response,
         string $workshop,
-        string $exercise
+        string $exercise,
     ): Response {
         try {
             $workshop = $this->installedWorkshops->findByCode($workshop);
@@ -56,13 +56,13 @@ class VerifyExercise
 
         $data = [
             'results' => $this->resultsRenderer->render($results, $exercise),
-            'success' => $results->isSuccessful()
+            'success' => $results->isSuccessful(),
         ];
 
         if ($results->isSuccessful()) {
             $this->studentState->completeExercise(
                 $workshop->getCode(),
-                $exercise->getName()
+                $exercise->getName(),
             );
         }
 

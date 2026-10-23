@@ -23,17 +23,15 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
         $where = $qb->expr()->between(
             's.dateTime',
             ':from',
-            ':to'
+            ':to',
         );
 
         $qb
             ->where($where)
             ->andWhere('s.workshop = :workshop')
-            ->setParameters([
-                'from' => $thirtyDaysAgo,
-                'to' => $now,
-                'workshop' => $workshop
-            ]);
+            ->setParameter('from', $thirtyDaysAgo)
+            ->setParameter('to', $now)
+            ->setParameter('workshop', $workshop);
 
         /** @var ?int $result */
         $result = $qb->getQuery()->getSingleScalarResult();
@@ -65,17 +63,15 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
         $where = $qb->expr()->between(
             's.dateTime',
             ':from',
-            ':to'
+            ':to',
         );
 
         $qb
             ->where($where)
             ->andWhere('s.workshop = :workshop')
-            ->setParameters([
-                'from' => $thirtyDaysAgo,
-                'to' => $now,
-                'workshop' => $workshop
-            ]);
+            ->setParameter('from', $thirtyDaysAgo)
+            ->setParameter('to', $now)
+            ->setParameter('workshop', $workshop);
 
         /** @var array<WorkshopInstall> $result */
         $result = $qb->getQuery()->getResult();
@@ -84,8 +80,8 @@ class DoctrineORMWorkshopInstallRepository extends EntityRepository implements W
 
     public function save(WorkshopInstall $workshopInstall): void
     {
-        $this->_em->persist($workshopInstall);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($workshopInstall);
+        $this->getEntityManager()->flush();
     }
 
     public function removeAllByWorkshop(Workshop $workshop): void

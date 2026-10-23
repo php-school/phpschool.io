@@ -44,7 +44,7 @@ class RunExercise
         Request $request,
         Response $response,
         string $workshop,
-        string $exercise
+        string $exercise,
     ): Response {
         try {
             $workshop = $this->installedWorkshops->findByCode($workshop);
@@ -74,7 +74,7 @@ class RunExercise
             $result = $workshop->getExerciseDispatcher()->run(
                 $exercise,
                 new Input($workshop->getCode(), ['program' => $project->getEntryPoint()->getAbsolutePath()]),
-                $output
+                $output,
             );
         } catch (CouldNotRunException $e) {
             return $this->withJson([
@@ -85,7 +85,7 @@ class RunExercise
 
         $data = [
             'runs' => $this->runInfo,
-            'success' => $result
+            'success' => $result,
         ];
 
         $this->runInfo = [];
@@ -112,7 +112,7 @@ class RunExercise
             case CliExecuteEvent::class:
                 $this->runInfo[] = [
                     'args' => $event->getArgs()->getArrayCopy(),
-                    'output' => trim($output->fetch(true))
+                    'output' => trim($output->fetch(true)),
                 ];
                 break;
             case CgiExecuteEvent::class:
@@ -123,7 +123,7 @@ class RunExercise
                         'headers' => $event->getRequest()->getHeaders(),
                         'body' => $event->getRequest()->getBody()->__toString(),
                     ],
-                    'output' => trim($output->fetch(true))
+                    'output' => trim($output->fetch(true)),
                 ];
                 break;
         }

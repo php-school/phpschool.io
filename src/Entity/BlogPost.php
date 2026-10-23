@@ -7,57 +7,37 @@ namespace PhpSchool\Website\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use PhpSchool\Website\Blog\Post;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="posts"))
- * @ORM\Entity(repositoryClass="PhpSchool\Website\Repository\DoctrineORMBlogRepository")
- */
+#[ORM\Table(name: "posts")]
+#[ORM\Entity(repositoryClass: "PhpSchool\Website\Repository\DoctrineORMBlogRepository")]
 class BlogPost implements \JsonSerializable
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid")
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid")]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: "Ramsey\Uuid\Doctrine\UuidGenerator")]
     public UuidInterface $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     public string $slug;
 
-    /**
-     * @ORM\Column(type="text", length=65535, options={"charset"="utf8mb4"})
-     */
+    #[ORM\Column(type: "text", length: 65535, options: ["charset" => "utf8mb4"])]
     public string $content;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     public string $featuredImage;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     public string $title;
 
-    /**
-     * @ORM\Column(type="datetime", length=512)
-     */
+    #[ORM\Column(type: "datetime", length: 512)]
     public DateTime $dateTime;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     public string $author;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     public string $authorLink;
 
     public static function fromPost(Post $post): self

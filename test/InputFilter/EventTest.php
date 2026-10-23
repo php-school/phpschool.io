@@ -18,7 +18,7 @@ class EventTest extends TestCase
      * @param array $messages
      * @dataProvider inputDataProvider
      */
-    public function testInputFilter(array $input, array $output = null, array $messages = null)
+    public function testInputFilter(array $input, ?array $output = null, ?array $messages = null)
     {
         $filter = new Event();
         $filter->setData($input);
@@ -59,7 +59,7 @@ class EventTest extends TestCase
                     'description'   => ['isEmpty' => 'Value is required and can\'t be empty'],
                     'date'          => ['isEmpty' => 'Value is required and can\'t be empty'],
                     'venue'         => ['isEmpty' => 'Value is required and can\'t be empty'],
-                ]
+                ],
             ],
             'invalid-name-too-short' => [
                 [
@@ -72,9 +72,9 @@ class EventTest extends TestCase
                 null,
                 [
                     'name' => [
-                        'stringLengthTooShort' => 'Title should be between 5 and 255 characters long.'
-                    ]
-                ]
+                        'stringLengthTooShort' => 'Title should be between 5 and 255 characters long.',
+                    ],
+                ],
             ],
             'invalid-name-too-long' => [
                 [
@@ -87,9 +87,9 @@ class EventTest extends TestCase
                 null,
                 [
                     'name' => [
-                        'stringLengthTooLong' => 'Title should be between 5 and 255 characters long.'
-                    ]
-                ]
+                        'stringLengthTooLong' => 'Title should be between 5 and 255 characters long.',
+                    ],
+                ],
             ],
             'invalid-description-too-short' => [
                 [
@@ -102,9 +102,9 @@ class EventTest extends TestCase
                 null,
                 [
                     'description' => [
-                        'stringLengthTooShort' => 'Description should be between 10 and 512 characters long.'
-                    ]
-                ]
+                        'stringLengthTooShort' => 'Description should be between 10 and 512 characters long.',
+                    ],
+                ],
             ],
             'invalid-description-too-long' => [
                 [
@@ -117,9 +117,9 @@ class EventTest extends TestCase
                 null,
                 [
                     'description' => [
-                        'stringLengthTooLong' => 'Description should be between 10 and 512 characters long.'
-                    ]
-                ]
+                        'stringLengthTooLong' => 'Description should be between 10 and 512 characters long.',
+                    ],
+                ],
             ],
             'invalid-link' => [
                 [
@@ -132,9 +132,9 @@ class EventTest extends TestCase
                 null,
                 [
                     'link' => [
-                        'notUri' => 'The input does not appear to be a valid Uri'
-                    ]
-                ]
+                        'notUri' => 'The input does not appear to be a valid Uri',
+                    ],
+                ],
             ],
             'invalid-link-too-short' => [
                 [
@@ -147,9 +147,9 @@ class EventTest extends TestCase
                 null,
                 [
                     'link' => [
-                        'stringLengthTooShort' => 'Link should be between 2 and 255 characters long.'
-                    ]
-                ]
+                        'stringLengthTooShort' => 'Link should be between 2 and 255 characters long.',
+                    ],
+                ],
             ],
             'invalid-link-too-long' => [
                 [
@@ -162,9 +162,9 @@ class EventTest extends TestCase
                 null,
                 [
                     'link' => [
-                        'stringLengthTooLong' => 'Link should be between 2 and 255 characters long.'
-                    ]
-                ]
+                        'stringLengthTooLong' => 'Link should be between 2 and 255 characters long.',
+                    ],
+                ],
             ],
             'invalid-date' => [
                 [
@@ -177,9 +177,9 @@ class EventTest extends TestCase
                 null,
                 [
                     'date' => [
-                        'dateInvalidDate' => 'The input does not appear to be a valid date'
-                    ]
-                ]
+                        'dateInvalidDate' => 'The input does not appear to be a valid date',
+                    ],
+                ],
             ],
             'invalid-venue-too-short' => [
                 [
@@ -192,9 +192,9 @@ class EventTest extends TestCase
                 null,
                 [
                     'venue' => [
-                        'stringLengthTooShort' => 'Venue should be between 10 and 512 characters long.'
-                    ]
-                ]
+                        'stringLengthTooShort' => 'Venue should be between 10 and 512 characters long.',
+                    ],
+                ],
             ],
             'invalid-venue-too-long' => [
                 [
@@ -207,9 +207,9 @@ class EventTest extends TestCase
                 null,
                 [
                     'venue' => [
-                        'stringLengthTooLong' => 'Venue should be between 10 and 512 characters long.'
-                    ]
-                ]
+                        'stringLengthTooLong' => 'Venue should be between 10 and 512 characters long.',
+                    ],
+                ],
             ],
         ];
     }

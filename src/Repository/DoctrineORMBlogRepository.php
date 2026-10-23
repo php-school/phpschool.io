@@ -29,19 +29,19 @@ class DoctrineORMBlogRepository extends EntityRepository
 
     public function save(BlogPost $post): void
     {
-        $this->_em->persist($post);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($post);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(BlogPost $post): void
     {
-        $this->_em->remove($post);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($post);
+        $this->getEntityManager()->flush();
     }
 
     public function deleteAll(): void
     {
-        $this->_em->createQuery('DELETE FROM ' . BlogPost::class)->execute();
+        $this->getEntityManager()->createQuery('DELETE FROM ' . BlogPost::class)->execute();
     }
 
     public function findBySlug(string $slug): BlogPost

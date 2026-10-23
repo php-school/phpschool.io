@@ -40,7 +40,7 @@ class Login
 
         $result = $this->authenticationService->login(
             $this->formHandler->getData()['email'],
-            $this->formHandler->getData()['password']
+            $this->formHandler->getData()['password'],
         );
 
         if (!$result->isValid()) {
@@ -59,12 +59,12 @@ class Login
             "exp" => time() + 3600, //1hr
             "data" => [
                 "adminId" => $admin->getId()->toString(),
-            ]
+            ],
         ];
 
         return $this->withJson([
             'success' => true,
-            'token' => JWT::encode($token, $this->jwtSecret),
+            'token' => JWT::encode($token, $this->jwtSecret, 'HS256'),
             'admin' => $admin,
         ], $response);
     }

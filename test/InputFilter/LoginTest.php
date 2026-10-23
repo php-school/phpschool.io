@@ -12,7 +12,7 @@ class LoginTest extends TestCase
     /**
      * @dataProvider inputDataProvider
      */
-    public function testInputFilter(array $input, array $output = null, array $messages = null): void
+    public function testInputFilter(array $input, ?array $output = null, ?array $messages = null): void
     {
         $filter = new Login();
         $filter->setData($input);
@@ -44,7 +44,7 @@ class LoginTest extends TestCase
                 [
                     'email'    => ['isEmpty' => 'Value is required and can\'t be empty'],
                     'password' => ['isEmpty' => 'Value is required and can\'t be empty'],
-                ]
+                ],
             ],
             'invalid-email-too-short' => [
                 [
@@ -54,9 +54,9 @@ class LoginTest extends TestCase
                 null,
                 [
                     'email' => [
-                        'stringLengthTooShort' => 'The input is less than 3 characters long'
-                    ]
-                ]
+                        'stringLengthTooShort' => 'The input is less than 3 characters long',
+                    ],
+                ],
             ],
             'invalid-email-too-long' => [
                 [
@@ -66,9 +66,9 @@ class LoginTest extends TestCase
                 null,
                 [
                     'email' => [
-                        'stringLengthTooLong' => 'The input is more than 254 characters long'
-                    ]
-                ]
+                        'stringLengthTooLong' => 'The input is more than 254 characters long',
+                    ],
+                ],
             ],
             'invalid-email' => [
                 [
@@ -78,9 +78,9 @@ class LoginTest extends TestCase
                 null,
                 [
                     'email' => [
-                        'emailAddressInvalidFormat' => 'The input is not a valid email address. Use the basic format local-part@hostname'
-                    ]
-                ]
+                        'emailAddressInvalidFormat' => 'The input is not a valid email address. Use the basic format local-part@hostname',
+                    ],
+                ],
             ],
             'invalid-password-too-short' => [
                 [
@@ -90,9 +90,9 @@ class LoginTest extends TestCase
                 null,
                 [
                     'password' => [
-                        'stringLengthTooShort' => 'The input is less than 3 characters long'
-                    ]
-                ]
+                        'stringLengthTooShort' => 'The input is less than 3 characters long',
+                    ],
+                ],
             ],
             'invalid-password-too-long' => [
                 [
@@ -102,9 +102,9 @@ class LoginTest extends TestCase
                 null,
                 [
                     'password' => [
-                        'stringLengthTooLong' => 'The input is more than 255 characters long'
-                    ]
-                ]
+                        'stringLengthTooLong' => 'The input is more than 255 characters long',
+                    ],
+                ],
             ],
         ];
     }

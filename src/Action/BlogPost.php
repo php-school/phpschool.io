@@ -20,7 +20,7 @@ class BlogPost
             [
                 'post' => $this->repository->findBySlug($slug),
             ],
-            $response
+            $response,
         );
     }
 }

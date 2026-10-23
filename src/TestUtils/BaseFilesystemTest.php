@@ -32,7 +32,7 @@ abstract class BaseFilesystemTest extends TestCase
         return $this->tempDirectory;
     }
 
-    public function getTemporaryFile(string $filename, string $content = null): string
+    public function getTemporaryFile(string $filename, ?string $content = null): string
     {
         $file = Path::join($this->getTemporaryDirectory(), $filename);
 

@@ -57,7 +57,7 @@ class StudentCloudState implements \JsonSerializable
     {
         return [
             'workshops' => $this->workshopState,
-            'total_completed' => $this->getTotalCompletedExercises()
+            'total_completed' => $this->getTotalCompletedExercises(),
         ];
     }
 }

@@ -38,7 +38,7 @@ class ExerciseTest extends BaseFilesystemTest
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals([
             'success' => false,
-            'error' => 'Cannot find workshop'
+            'error' => 'Cannot find workshop',
         ], json_decode($response->getBody()->__toString(), true));
     }
 
@@ -65,7 +65,7 @@ class ExerciseTest extends BaseFilesystemTest
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals([
             'success' => false,
-            'error' => 'Cannot find exercise'
+            'error' => 'Cannot find exercise',
         ], json_decode($response->getBody()->__toString(), true));
     }
 
@@ -92,12 +92,12 @@ class ExerciseTest extends BaseFilesystemTest
                 'name' => 'my-exercise',
                 'slug' => 'my-exercise',
                 'description' => 'my-exercise',
-                'type' => $exercise->getType()
+                'type' => $exercise->getType(),
             ],
             'problem' => '<h1>Some problem file</h1>',
             'totalExerciseCount' => 10,
             'initial_files' => [
-                ['name' => 'solution.php', 'content' => '<?php ']
+                ['name' => 'solution.php', 'content' => '<?php '],
             ],
             'entry_point' => 'solution.php',
         ], json_decode($response->getBody()->__toString(), true));
@@ -134,12 +134,12 @@ class ExerciseTest extends BaseFilesystemTest
                 'name' => 'my-exercise',
                 'slug' => 'my-exercise',
                 'description' => 'my-exercise',
-                'type' => $exercise->getType()
+                'type' => $exercise->getType(),
             ],
             'problem' => '<h1>Some problem file</h1>',
             'totalExerciseCount' => 10,
             'initial_files' => [
-                ['name' => 'solution.php', 'content' => '<?php ']
+                ['name' => 'solution.php', 'content' => '<?php '],
             ],
             'entry_point' => 'solution.php',
             'official_solution' => [
@@ -152,7 +152,7 @@ class ExerciseTest extends BaseFilesystemTest
                     'file_path' => 'some-class.php',
                     'entry_point' => false,
                     'content' => 'U09NRSBDTEFTUw==',
-                ]
+                ],
             ],
         ], json_decode($response->getBody()->__toString(), true));
     }
@@ -160,7 +160,7 @@ class ExerciseTest extends BaseFilesystemTest
     /**
      * @return array{0: CloudWorkshopRepository, 1: ExerciseInterface, 2: ExerciseDispatcher}
      */
-    private function getDependencies(ExerciseInterface $exercise = null): array
+    private function getDependencies(?ExerciseInterface $exercise = null): array
     {
         $exercise = $exercise ?? new ExerciseImpl();
 

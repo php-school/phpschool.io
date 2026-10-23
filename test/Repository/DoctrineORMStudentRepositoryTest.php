@@ -15,7 +15,7 @@ class DoctrineORMStudentRepositoryTest extends DoctrineORMRepositoryTest
 
         $this->assertEquals(
             'Student 1',
-            $this->getRepository(Student::class)->findById($fixture->student1Id)->getName()
+            $this->getRepository(Student::class)->findById($fixture->student1Id)->getName(),
         );
     }
 

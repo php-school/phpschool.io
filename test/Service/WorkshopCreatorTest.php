@@ -56,7 +56,7 @@ class WorkshopCreatorTest extends TestCase
             ->method('getValues')
             ->willReturn([
                 'bin' => ['bin/testworkshop'],
-                'description' => 'Test Workshop'
+                'description' => 'Test Workshop',
             ]);
 
         $repo
@@ -82,7 +82,7 @@ class WorkshopCreatorTest extends TestCase
             'workshop-name' => 'Test Workshop',
             'email' => 'aydin@hotmail.co.uk',
             'name' => 'Aydin Hassan',
-            'contact' => 'https://twitter.com/aydin_h'
+            'contact' => 'https://twitter.com/aydin_h',
         ]);
     }
 

@@ -5,6 +5,10 @@
       <directory suffix=".php">./src</directory>
     </include>
   </coverage>
+  <php>
+    <!-- the pinned php-workshop still has implicit nullable parameters, deprecated in PHP 8.4; drop this once it is updated -->
+    <ini name="error_reporting" value="E_ALL &amp; ~E_DEPRECATED"/>
+  </php>
   <testsuite name="PHP School Website Test Suite">
     <directory>./test</directory>
   </testsuite>

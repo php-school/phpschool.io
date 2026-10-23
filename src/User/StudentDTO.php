@@ -22,7 +22,7 @@ class StudentDTO implements \JsonSerializable
         public readonly ?string $location,
         public readonly DateTime $joinDate,
         public readonly bool $tourComplete,
-        public readonly StudentCloudState $workshopState
+        public readonly StudentCloudState $workshopState,
     ) {}
 
     /**
@@ -50,7 +50,7 @@ class StudentDTO implements \JsonSerializable
             'location' => $this->location,
             'join_date' => $this->joinDate->format('F Y'),
             'tour_complete' => $this->tourComplete,
-            'state' => $this->workshopState->jsonSerialize()
+            'state' => $this->workshopState->jsonSerialize(),
         ];
     }
 }

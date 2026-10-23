@@ -6,54 +6,38 @@ namespace PhpSchool\Website\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="event"))
- * @ORM\Entity(repositoryClass="PhpSchool\Website\Repository\DoctrineORMEventRepository")
- */
+#[ORM\Table(name: "event")]
+#[ORM\Entity(repositoryClass: "PhpSchool\Website\Repository\DoctrineORMEventRepository")]
 class Event implements \JsonSerializable
 {
     /**
      *
      * @psalm-suppress PropertyNotSetInConstructor
-     * @ORM\Id
-     * @ORM\Column(type="uuid")
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
+    #[ORM\Id]
+    #[ORM\Column(type: "uuid")]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: "Ramsey\Uuid\Doctrine\UuidGenerator")]
     private UuidInterface $id; /** @phpstan-ignore-line  */
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private string $name;
 
-    /**
-     * @ORM\Column(type="string", length=512)
-     */
+    #[ORM\Column(type: "string", length: 512)]
     private string $description;
 
-    /**
-     * @ORM\Column(type="string", length=512, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 512, nullable: true)]
     private ?string $link;
 
-    /**
-     * @ORM\Column(type="datetime", length=512)
-     */
+    #[ORM\Column(type: "datetime", length: 512)]
     private DateTime $dateTime;
 
-    /**
-     * @ORM\Column(type="string", length=512)
-     */
+    #[ORM\Column(type: "string", length: 512)]
     private string $venue;
 
-    /**
-     * @ORM\Column(type="string", length=512, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 512, nullable: true)]
     private ?string $poster;
 
     public function __construct(
@@ -62,7 +46,7 @@ class Event implements \JsonSerializable
         ?string $link,
         DateTime $dateTime,
         string $venue,
-        ?string $poster
+        ?string $poster,
     ) {
         $this->name = $name;
         $this->description = $description;
@@ -104,7 +88,7 @@ class Event implements \JsonSerializable
         return $this->link;
     }
 
-    public function setLink(string $link = null): Event
+    public function setLink(?string $link = null): Event
     {
         $this->link = $link;
         return $this;

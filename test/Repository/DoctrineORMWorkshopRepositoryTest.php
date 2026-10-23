@@ -54,7 +54,7 @@ class DoctrineORMWorkshopRepositoryTest extends DoctrineORMRepositoryTest
 
         $this->assertEquals(
             'learnyouphp',
-            $this->getRepository(Workshop::class)->findById($fixture->learnYouPhpId->toString())->getCode()
+            $this->getRepository(Workshop::class)->findById($fixture->learnYouPhpId->toString())->getCode(),
         );
     }
 
@@ -103,7 +103,7 @@ class DoctrineORMWorkshopRepositoryTest extends DoctrineORMRepositoryTest
             'aydin@hotmail.co.uk',
             'Aydin Hassan',
             'https://twitter.com/aydin_h',
-            true
+            true,
         );
 
         $repo->save($workshop);
