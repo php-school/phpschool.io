@@ -17,7 +17,6 @@ import TheWorkshops from "./Home/Section/TheWorkshops.vue";
 import BuildYourOwn from "./Home/Section/BuildYourOwn.vue";
 import HomeList from "./Home/HomeList.vue";
 
-
 import { SparklesIcon } from "@heroicons/vue/24/solid";
 import { useStudentStore } from "../../../stores/student";
 
@@ -123,23 +122,23 @@ const phpSchoolBreakdown = {
   openSource: {
     heading: "Open-Source Gateway To PHP Mastery",
     list: [
-    {
-      title: "Interactive Workshops",
-      description: "Engaging sessions covering beginner to advanced topics in PHP"
-    },
-    {
-      title: "Hands-On Learning",
-      description: "Solve real-world problems through coding exercises"
-    },
-    {
-      title: "Community Collaboration",
-      description: "Contribute, fix bugs, and create your own workshops"
-    },
-    {
-      title: "Open Source Education",
-      description: "Access all workshops for free and learn at your own pace"
-    }
-  ]
+      {
+        title: "Interactive Workshops",
+        description: "Engaging sessions covering beginner to advanced topics in PHP",
+      },
+      {
+        title: "Hands-On Learning",
+        description: "Solve real-world problems through coding exercises",
+      },
+      {
+        title: "Community Collaboration",
+        description: "Contribute, fix bugs, and create your own workshops",
+      },
+      {
+        title: "Open Source Education",
+        description: "Access all workshops for free and learn at your own pace",
+      },
+    ],
   },
   editor: {
     heading: "Seamless Online Coding Experience",
@@ -159,8 +158,8 @@ const phpSchoolBreakdown = {
       {
         title: "Instant Start",
         description: "Begin coding instantly without the need for downloading or installing text editors, dependencies, or plugins",
-      }
-    ]
+      },
+    ],
   },
   assignments: {
     heading: "Work On Practical Assignments",
@@ -171,20 +170,19 @@ const phpSchoolBreakdown = {
       },
       {
         title: "Level Up Your Problem Solving Skills",
-        description: "Gain hands-on experience and develop critical problem-solving skills through immersive assignments"
+        description: "Gain hands-on experience and develop critical problem-solving skills through immersive assignments",
       },
       {
         title: "Guided Progression",
-        description: "Access detailed descriptions, code samples, and curated resources to support your problem-solving process"
+        description: "Access detailed descriptions, code samples, and curated resources to support your problem-solving process",
       },
       {
         title: "Career Preparation",
-        description: "Equip yourself with the skills necessary to excel in your chosen career path, ensuring readiness for the challenges ahead"
-      }
-    ]
+        description: "Equip yourself with the skills necessary to excel in your chosen career path, ensuring readiness for the challenges ahead",
+      },
+    ],
   },
 };
- 
 </script>
 
 <template>
@@ -198,7 +196,7 @@ const phpSchoolBreakdown = {
       <!-- Section 1 -->
       <InfoSection>
         <template #left>
-          <div class="mx-auto w-full lg:w-2/3 lg:mb-36">
+          <div class="mx-auto w-full lg:mb-36 lg:w-2/3">
             <div class="relative flex items-center justify-center">
               <img class="cover" src="../../../img/cloud/pattern-bg-square.svg" alt="" />
               <div class="absolute mx-auto scale-75 sm:scale-100 md:left-auto">
