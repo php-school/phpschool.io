@@ -8,7 +8,7 @@ import Alert from "./SiteAlert.vue";
 import { ref } from "vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 
-const emit = defineEmits(["verify-loading", "verify-success", "verify-fail", "run-loaded"]);
+const emit = defineEmits(["verify-loading", "verify-success", "verify-fail", "verify-error", "run-loaded"]);
 const props = defineProps({
   currentExercise: Object,
   files: Array,
@@ -20,11 +20,33 @@ const loadingRun = ref(false);
 const programRunResult = ref(null);
 const openRunModal = ref(false);
 const loadingVerify = ref(false);
-const showRateLimitError = ref(false);
+const errorMessage = ref("");
+const showError = ref(false);
 const currentAction = ref("verify");
 
-const enableRateLimitError = () => {
-  showRateLimitError.value = true;
+// Posts the solution to the run or verify endpoint; returns the JSON response, or null after showing an error.
+const submit = async (action) => {
+  const { workshop, exercise } = props.currentExercise;
+
+  try {
+    const response = await fetch(`/api/online/workshop/${action}/${workshop.code}/exercise/${exercise.slug}`, {
+      method: "POST",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({ entry_point: props.entryPoint, scripts: flatten(props.files), composer_deps: props.composerDeps }),
+    });
+
+    if (response.ok) {
+      return await response.json();
+    }
+
+    errorMessage.value = response.status === 429 ? "Too many requests. Please try again in a few minutes." : "Something went wrong. Please try again.";
+  } catch {
+    errorMessage.value = "Something went wrong. Please try again.";
+  }
+
+  showError.value = true;
+
+  return null;
 };
 
 const runSolution = async () => {
@@ -33,92 +55,38 @@ const runSolution = async () => {
   }
 
   loadingRun.value = true;
-  const url = "/api/online/workshop/run/" + props.currentExercise.workshop.code + "/exercise/" + props.currentExercise.exercise.slug;
-
-  const opts = {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      entry_point: props.entryPoint,
-      scripts: flatten(props.files),
-      composer_deps: props.composerDeps,
-    }),
-  };
-
-  const response = await fetch(url, opts);
-
-  if (response.status === 429) {
-    loadingRun.value = false;
-    enableRateLimitError();
-    return;
-  }
-
-  if (response.ok) {
-    programRunResult.value = await response.json();
-    openRunModal.value = true;
-    loadingRun.value = false;
-    emit("run-loaded");
-    return;
-  }
-
+  const result = await submit("run");
   loadingRun.value = false;
+
+  if (result) {
+    programRunResult.value = result;
+    openRunModal.value = true;
+    emit("run-loaded");
+  }
 };
 
-const verifySolution = () => {
+const verifySolution = async () => {
   if (loadingVerify.value) {
     return;
   }
 
   emit("verify-loading");
   loadingVerify.value = true;
+  const result = await submit("verify");
+  loadingVerify.value = false;
 
-  const url = "/api/online/workshop/verify/" + props.currentExercise.workshop.code + "/exercise/" + props.currentExercise.exercise.slug;
-
-  const opts = {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      entry_point: props.entryPoint,
-      scripts: flatten(props.files),
-      composer_deps: props.composerDeps,
-    }),
-  };
-  fetch(url, opts)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-
-      if (response.status === 429) {
-        enableRateLimitError();
-        return;
-      }
-
-      throw Error(response.statusText, response.json());
-    })
-    .then((json) => {
-      if (json.success === true) {
-        emit("verify-success");
-      } else {
-        emit("verify-fail", json.results);
-      }
-
-      loadingVerify.value = false;
-    })
-    .catch(() => {
-      loadingVerify.value = false;
-    });
+  if (!result) {
+    emit("verify-error");
+  } else if (result.success === true) {
+    emit("verify-success");
+  } else {
+    emit("verify-fail", result.results);
+  }
 };
 </script>
 
 <template>
-  <alert type="error" @close="showRateLimitError = false" :show="showRateLimitError" :timeout="4000" message="Too many requests. Please try again in a few minutes."></alert>
+  <alert type="error" @close="showError = false" :show="showError" :timeout="4000" :message="errorMessage"></alert>
   <div class="flex h-[48px] flex-1 items-center gap-y-2 md:flex-none">
     <button
       id="run"
