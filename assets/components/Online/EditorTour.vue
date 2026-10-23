@@ -1,7 +1,7 @@
 <script setup>
 import { offset } from "@floating-ui/dom";
 import waitUntil from "./Utils/waitUntil.js";
-import { onMounted, ref, watch } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import Shepherd from "shepherd.js";
 
 import { useStudentStore } from "../../stores/student";
@@ -25,6 +25,16 @@ const emit = defineEmits(["tour-starting"]);
 const tour = ref(null);
 const container = ref(null);
 
+// Only the overlay of a finished tour is removed, so a tour still running when the editor goes away is cancelled, without marking it complete.
+const stopTour = () => {
+  if (tour.value?.isActive()) {
+    tour.value.off("cancel");
+    tour.value.cancel();
+  }
+};
+
+onBeforeUnmount(stopTour);
+
 onMounted(() => {
   if (studentStore.tourComplete()) {
     return;
@@ -38,6 +48,7 @@ watch(
   () => studentStore.forceTour,
   (newValue) => {
     if (newValue) {
+      stopTour();
       createTour();
       tour.value.start();
 
