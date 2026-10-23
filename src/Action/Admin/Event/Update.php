@@ -54,7 +54,7 @@ class Update
             return $this->withJson(
                 [
                     'success' => false,
-                    'form_errors' => ['poster' => 'There was a problem uploading the file. Please try again.'],
+                    'form_errors' => ['poster' => ['There was a problem uploading the file. Please try again.']],
                 ],
                 $response,
             );
@@ -66,7 +66,7 @@ class Update
             return $this->withJson(
                 [
                     'success' => false,
-                    'form_errors' => ['date' => 'Invalid date format'],
+                    'form_errors' => ['date' => ['Invalid date format']],
                 ],
                 $response,
             );
