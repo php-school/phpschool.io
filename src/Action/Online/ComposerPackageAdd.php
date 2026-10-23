@@ -14,12 +14,9 @@ class ComposerPackageAdd
 {
     use JsonUtils;
 
-    private PackagistLatestVersion $packagistLatestVersion;
-
-    public function __construct(PackagistLatestVersion $packagistLatestVersion)
-    {
-        $this->packagistLatestVersion = $packagistLatestVersion;
-    }
+    public function __construct(
+        private readonly PackagistLatestVersion $packagistLatestVersion,
+    ) {}
 
     public function __invoke(Request $request, Response $response): Response
     {

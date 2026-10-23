@@ -10,12 +10,9 @@ use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
 
 class ProblemFileConverter
 {
-    private MarkdownConverterInterface $commonMarkConverter;
-
-    public function __construct(MarkdownConverterInterface $commonMarkConverter)
-    {
-        $this->commonMarkConverter = $commonMarkConverter;
-    }
+    public function __construct(
+        private readonly MarkdownConverterInterface $commonMarkConverter,
+    ) {}
 
     public function htmlFromExercise(ExerciseInterface $exercise): string
     {

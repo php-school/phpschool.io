@@ -12,13 +12,9 @@ class Events
 {
     use JsonUtils;
 
-    private EventRepository $repository;
-
     public function __construct(
-        EventRepository $repository,
-    ) {
-        $this->repository = $repository;
-    }
+        private readonly EventRepository $repository,
+    ) {}
 
     public function __invoke(Request $request, Response $response): Response
     {

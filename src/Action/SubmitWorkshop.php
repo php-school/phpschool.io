@@ -22,27 +22,14 @@ class SubmitWorkshop
     use JsonUtils;
 
     /**
-     * @var FormHandler<SubmitWorkshopData>
-     */
-    private FormHandler $formHandler;
-    private WorkshopCreator $workshopCreator;
-    private EmailNotifier $emailNotifier;
-    private LoggerInterface $logger;
-
-    /**
      * @param FormHandler<SubmitWorkshopData> $formHandler
      */
     public function __construct(
-        FormHandler $formHandler,
-        WorkshopCreator $workshopCreator,
-        EmailNotifier $emailNotifier,
-        LoggerInterface $logger,
-    ) {
-        $this->formHandler = $formHandler;
-        $this->workshopCreator = $workshopCreator;
-        $this->emailNotifier = $emailNotifier;
-        $this->logger = $logger;
-    }
+        private readonly FormHandler $formHandler,
+        private readonly WorkshopCreator $workshopCreator,
+        private readonly EmailNotifier $emailNotifier,
+        private readonly LoggerInterface $logger,
+    ) {}
 
 
     public function __invoke(Request $request, Response $response): Response

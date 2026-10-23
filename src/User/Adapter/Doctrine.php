@@ -12,12 +12,9 @@ use Laminas\Authentication\Result as AuthenticationResult;
 
 class Doctrine extends AbstractAdapter implements AdapterInterface
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+    ) {}
 
     public function authenticate(): AuthenticationResult
     {

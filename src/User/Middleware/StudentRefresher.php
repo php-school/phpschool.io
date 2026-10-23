@@ -16,14 +16,10 @@ class StudentRefresher
 {
     use RedirectUtils;
 
-    private SessionStorageInterface $session;
-    private StudentRepository $studentRepository;
-
-    public function __construct(SessionStorageInterface $session, StudentRepository $studentRepository)
-    {
-        $this->session = $session;
-        $this->studentRepository = $studentRepository;
-    }
+    public function __construct(
+        private readonly SessionStorageInterface $session,
+        private readonly StudentRepository $studentRepository,
+    ) {}
 
     public function __invoke(Request $request, RequestHandler $handler): MessageInterface
     {

@@ -13,12 +13,9 @@ class Requests
 {
     use JsonUtils;
 
-    private WorkshopRepository $repository;
-
-    public function __construct(WorkshopRepository $repository)
-    {
-        $this->repository = $repository;
-    }
+    public function __construct(
+        private readonly WorkshopRepository $repository,
+    ) {}
 
     public function __invoke(Request $request, Response $response): Response
     {

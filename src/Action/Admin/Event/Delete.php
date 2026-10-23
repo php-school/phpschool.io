@@ -15,16 +15,10 @@ class Delete
 {
     use JsonUtils;
 
-    private EventRepository $repository;
-    private CacheItemPoolInterface $cache;
-
     public function __construct(
-        EventRepository $repository,
-        CacheItemPoolInterface $cache,
-    ) {
-        $this->repository = $repository;
-        $this->cache = $cache;
-    }
+        private readonly EventRepository $repository,
+        private readonly CacheItemPoolInterface $cache,
+    ) {}
 
     public function __invoke(Request $request, Response $response, string $id): Response
     {

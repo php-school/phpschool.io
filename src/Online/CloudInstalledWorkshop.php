@@ -25,20 +25,18 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 class CloudInstalledWorkshop implements \JsonSerializable
 {
     private \DI\Container $container;
-    private Workshop $workshop;
     private AsciiSlugger $slugger;
     private DockerProcessFactory $processFactory;
 
     public function __construct(
         Application $application,
-        Workshop $workshop,
+        private readonly Workshop $workshop,
         string $workshopPath,
         string $composerCacheDir,
     ) {
         /** @var \DI\Container $container */
         $container = $application->configure();
         $this->container = $container;
-        $this->workshop = $workshop;
         $this->slugger = new AsciiSlugger();
 
         //student code must only ever run in the sandbox. Set before anything pulls the process factory from the container.

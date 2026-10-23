@@ -11,12 +11,9 @@ use PhpSchool\Website\User\Entity\Admin;
 
 class AdminAuthenticationService
 {
-    private LaminasAuthService $authenticationService;
-
-    public function __construct(LaminasAuthService $authenticationService)
-    {
-        $this->authenticationService = $authenticationService;
-    }
+    public function __construct(
+        private readonly LaminasAuthService $authenticationService,
+    ) {}
 
     public function login(string $username, string $password): Result
     {

@@ -9,12 +9,9 @@ use PhpSchool\Website\User\Session;
 
 class FormHandlerFactory
 {
-    private Session $session;
-
-    public function __construct(Session $session)
-    {
-        $this->session = $session;
-    }
+    public function __construct(
+        private readonly Session $session,
+    ) {}
 
     public function create(InputFilter $inputFilter): FormHandler /** @phpstan-ignore-line  */
     {
