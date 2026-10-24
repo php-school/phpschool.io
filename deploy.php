@@ -38,6 +38,8 @@ task('deploy:schema-update', function () {
 
 // Student code runs in these images, so they must exist before the release goes live.
 task('deploy:build-runtime-images', function () {
+    //exercises that expose ports run on this network, it has no internet access
+    run('docker network inspect php-school-sandbox >/dev/null 2>&1 || docker network create -o com.docker.network.bridge.enable_ip_masquerade=false php-school-sandbox');
     run('cd {{release_path}} && {{bin/php}} bin/app build-runtime-images');
 })->desc('Build the workshop sandbox images');
 
