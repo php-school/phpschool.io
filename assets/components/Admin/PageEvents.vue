@@ -2,6 +2,7 @@
 import FormField from "./FormField.vue";
 import ConfirmDialog from "./ConfirmDialog.vue";
 import { onMounted, reactive, ref } from "vue";
+import { useAsyncState } from "@vueuse/core";
 import { EllipsisVerticalIcon, TrashIcon, PencilIcon } from "@heroicons/vue/24/outline";
 import { ArrowPathIcon } from "@heroicons/vue/24/solid";
 import { Dialog, DialogPanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from "@headlessui/vue";
@@ -29,28 +30,25 @@ const filteredEvents = useSearch(events, () => props.search, ["name", "descripti
 const { notice, success, error } = useNotice();
 
 const currentlyDeleting = ref(null);
-const deleteLoading = ref(false);
+const { isLoading: deleteLoading, executeImmediate: doDeleteEvent } = useAsyncState(
+  async () => {
+    const event = currentlyDeleting.value;
 
-const doDeleteEvent = async () => {
-  const event = currentlyDeleting.value;
-  deleteLoading.value = true;
-
-  try {
-    await deleteEvent(event.id);
-    events.value = events.value.filter(({ id }) => id !== event.id);
-    success("Successfully removed: " + event.name);
-  } catch (e) {
-    error(e);
-  } finally {
-    deleteLoading.value = false;
-    currentlyDeleting.value = null;
-  }
-};
+    try {
+      await deleteEvent(event.id);
+      events.value = events.value.filter(({ id }) => id !== event.id);
+      success("Successfully removed: " + event.name);
+    } finally {
+      currentlyDeleting.value = null;
+    }
+  },
+  null,
+  { immediate: false, onError: error },
+);
 
 const showForm = ref(false);
 const form = reactive({});
 const errors = ref({});
-const loading = ref(false);
 const file = ref(null);
 const fileInput = ref(null);
 
@@ -79,16 +77,15 @@ const changeEventImage = () => {
   file.value = fileInput.value?.files[0];
 };
 
-const saveEvent = async () => {
-  errors.value = {};
-  loading.value = true;
+const { isLoading: loading, executeImmediate: saveEvent } = useAsyncState(
+  async () => {
+    errors.value = {};
 
-  const { id, ...data } = form;
-  if (file.value) {
-    data.poster = file.value;
-  }
+    const { id, ...data } = form;
+    if (file.value) {
+      data.poster = file.value;
+    }
 
-  try {
     const response = id ? await updateEvent(id, data) : await createEvent(data);
 
     // the server answers validation failures with a 200 and form_errors
@@ -99,12 +96,10 @@ const saveEvent = async () => {
       success((id ? "Successfully updated event: " : "Successfully added event: ") + data.name);
       showForm.value = false;
     }
-  } catch (e) {
-    error(e);
-  } finally {
-    loading.value = false;
-  }
-};
+  },
+  null,
+  { immediate: false, onError: error },
+);
 </script>
 <template>
   <alert v-bind="notice" :timeout="4000" @close="notice.show = false" />

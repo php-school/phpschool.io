@@ -4,6 +4,7 @@ import { ChatBubbleLeftRightIcon } from "@heroicons/vue/24/solid";
 import Modal from "../Online/ModalDialog.vue";
 import { useStudentStore } from "../../stores/student";
 import { ref } from "vue";
+import { useAsyncState } from "@vueuse/core";
 
 const studentStore = useStudentStore();
 
@@ -17,15 +18,8 @@ const { open } = defineProps({
 
 const emit = defineEmits(["close"]);
 
-let sending = false;
-
-const sendInvite = async () => {
-  if (sending) {
-    return;
-  }
-  sending = true;
-
-  try {
+const { isLoading: sending, executeImmediate: send } = useAsyncState(
+  async () => {
     const response = await fetch("/api/slack-invite", {
       method: "POST",
       headers: {
@@ -41,13 +35,20 @@ const sendInvite = async () => {
       const data = await response.json().catch(() => ({}));
       inviteError.value = data.error ?? "The invite could not be sent. Please try again later.";
     }
-  } catch {
-    inviteError.value = "The invite could not be sent. Please try again later.";
-  } finally {
+
     inviteSent.value = true;
-    sending = false;
-  }
-};
+  },
+  null,
+  {
+    immediate: false,
+    onError: () => {
+      inviteError.value = "The invite could not be sent. Please try again later.";
+      inviteSent.value = true;
+    },
+  },
+);
+
+const sendInvite = () => sending.value || send();
 </script>
 
 <template>
@@ -88,8 +89,12 @@ const sendInvite = async () => {
               <span>Request Invite</span>
             </PrimaryButton>
           </div>
-          <p v-if="inviteSent && inviteError === null" class="mt-4 w-full text-center text-base text-[#e91e63]"><i>Invite was sent, please check your e-mails.</i></p>
-          <p v-if="inviteSent && inviteError" class="mt-4 w-full text-center text-base text-red-600">{{ inviteError }}</p>
+          <p v-if="inviteSent && inviteError === null" class="mt-4 w-full text-center text-base text-[#e91e63]">
+            <i>Invite was sent, please check your e-mails.</i>
+          </p>
+          <p v-if="inviteSent && inviteError" class="mt-4 w-full text-center text-base text-red-600">
+            {{ inviteError }}
+          </p>
         </template>
       </Modal>
     </Transition>

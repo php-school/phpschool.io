@@ -6,6 +6,7 @@ import Confirm from "./ConfirmDialog.vue";
 import Alert from "./SiteAlert.vue";
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
+import { useAsyncState } from "@vueuse/core";
 
 const route = useRoute();
 
@@ -15,7 +16,14 @@ const studentStore = useStudentStore();
 import { useWorkshopStore } from "../../stores/workshops";
 const workshopStore = useWorkshopStore();
 
-const loadingStateReset = ref(false);
+const { isLoading: loadingStateReset, executeImmediate: reset } = useAsyncState(
+  async () => {
+    await studentStore.resetState();
+    showResetProgressAlert.value = true;
+  },
+  null,
+  { immediate: false },
+);
 const showResetProgressAlert = ref(false);
 
 const resetProgressConfirm = ref(null);
@@ -39,14 +47,7 @@ const resetState = async () => {
     return;
   }
 
-  loadingStateReset.value = true;
-
-  try {
-    await studentStore.resetState();
-    showResetProgressAlert.value = true;
-  } finally {
-    loadingStateReset.value = false;
-  }
+  await reset();
 };
 
 const showTour = () => {

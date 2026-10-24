@@ -1,32 +1,32 @@
 <script setup>
 import { ref } from "vue";
+import { useAsyncState } from "@vueuse/core";
 import { useAdminStore } from "../../stores/admin";
 import { ArrowPathIcon } from "@heroicons/vue/24/solid";
 
 const adminStore = useAdminStore();
 
-const loading = ref(false);
 const errors = ref({});
 
 const email = ref(null);
 const password = ref(null);
 
-const login = async () => {
-  errors.value = {}; //reset errors
-  loading.value = true;
+const { isLoading: loading, executeImmediate: login } = useAsyncState(
+  async () => {
+    errors.value = {}; //reset errors
 
-  try {
     const loginResult = await adminStore.login(email.value, password.value);
 
     if (loginResult.success === false) {
       errors.value = loginResult.errors;
     }
-  } catch {
-    errors.value = { auth: ["Could not reach the server. Please try again."] };
-  } finally {
-    loading.value = false;
-  }
-};
+  },
+  null,
+  {
+    immediate: false,
+    onError: () => (errors.value = { auth: ["Could not reach the server. Please try again."] }),
+  },
+);
 </script>
 <template>
   <div class="content mx-auto flex h-screen flex-col items-center justify-center bg-black">

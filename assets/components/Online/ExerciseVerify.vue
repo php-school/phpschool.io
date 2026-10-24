@@ -6,6 +6,7 @@ import RunResult from "./RunResult.vue";
 import { Menu, MenuButton, MenuItem, MenuItems, Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import Alert from "./SiteAlert.vue";
 import { ref } from "vue";
+import { useAsyncState } from "@vueuse/core";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 
 const emit = defineEmits(["verify-loading", "verify-success", "verify-fail", "verify-error", "run-loaded"]);
@@ -16,10 +17,8 @@ const props = defineProps({
   entryPoint: String,
 });
 
-const loadingRun = ref(false);
 const programRunResult = ref(null);
 const openRunModal = ref(false);
-const loadingVerify = ref(false);
 const errorMessage = ref("");
 const showError = ref(false);
 const currentAction = ref("verify");
@@ -32,7 +31,11 @@ const submit = async (action) => {
     const response = await fetch(`/api/online/workshop/${action}/${workshop.code}/exercise/${exercise.slug}`, {
       method: "POST",
       headers: { Accept: "application/json", "Content-Type": "application/json" },
-      body: JSON.stringify({ entry_point: props.entryPoint, scripts: flatten(props.files), composer_deps: props.composerDeps }),
+      body: JSON.stringify({
+        entry_point: props.entryPoint,
+        scripts: flatten(props.files),
+        composer_deps: props.composerDeps,
+      }),
     });
 
     if (response.ok) {
@@ -49,40 +52,40 @@ const submit = async (action) => {
   return null;
 };
 
-const runSolution = async () => {
-  if (loadingRun.value) {
-    return;
-  }
+const { isLoading: loadingRun, executeImmediate: run } = useAsyncState(
+  async () => {
+    const result = await submit("run");
 
-  loadingRun.value = true;
-  const result = await submit("run");
-  loadingRun.value = false;
+    if (result) {
+      programRunResult.value = result;
+      openRunModal.value = true;
+      emit("run-loaded");
+    }
+  },
+  null,
+  { immediate: false },
+);
 
-  if (result) {
-    programRunResult.value = result;
-    openRunModal.value = true;
-    emit("run-loaded");
-  }
-};
+const runSolution = () => loadingRun.value || run();
 
-const verifySolution = async () => {
-  if (loadingVerify.value) {
-    return;
-  }
+const { isLoading: loadingVerify, executeImmediate: verify } = useAsyncState(
+  async () => {
+    emit("verify-loading");
+    const result = await submit("verify");
 
-  emit("verify-loading");
-  loadingVerify.value = true;
-  const result = await submit("verify");
-  loadingVerify.value = false;
+    if (!result) {
+      emit("verify-error");
+    } else if (result.success === true) {
+      emit("verify-success");
+    } else {
+      emit("verify-fail", result.results);
+    }
+  },
+  null,
+  { immediate: false },
+);
 
-  if (!result) {
-    emit("verify-error");
-  } else if (result.success === true) {
-    emit("verify-success");
-  } else {
-    emit("verify-fail", result.results);
-  }
-};
+const verifySolution = () => loadingVerify.value || verify();
 </script>
 
 <template>
