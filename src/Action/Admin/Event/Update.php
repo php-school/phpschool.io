@@ -11,7 +11,7 @@ use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use Laminas\Filter\Exception\RuntimeException;
+use RuntimeException;
 
 /**
  * @phpstan-import-type EventData from \PhpSchool\Website\InputFilter\Event
