@@ -20,7 +20,7 @@ const reset = () => {
   filteredPackages.value = [];
 };
 
-const searchPackages = useDebounceFn((newQuery) => {
+const searchPackages = useDebounceFn(async (newQuery) => {
   query.value = newQuery;
 
   if (newQuery.length < 4) {
@@ -28,18 +28,20 @@ const searchPackages = useDebounceFn((newQuery) => {
     return;
   }
 
-  const opts = {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  };
-  fetch("/api/online/composer-package/search?package=" + encodeURIComponent(newQuery), opts)
-    .then((response) => response.json())
-    .then((packages) => {
-      filteredPackages.value = packages.results;
+  let results = [];
+  try {
+    const response = await fetch("/api/online/composer-package/search?package=" + encodeURIComponent(newQuery), {
+      headers: { Accept: "application/json" },
     });
+    results = (await response.json()).results;
+  } catch {
+    // show "Nothing found." rather than stale results
+  }
+
+  // ignore a slow answer to a query the student has since changed
+  if (query.value === newQuery) {
+    filteredPackages.value = results;
+  }
 }, 500);
 
 defineExpose({
@@ -70,7 +72,7 @@ defineExpose({
             class="absolute max-h-60 w-full overflow-auto rounded-b-md border-2 border-solid border-pink-500 bg-white text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm"
           >
             <div v-if="filteredPackages.length === 0 && query.length > 3" class="relative cursor-default px-4 py-2 text-gray-700 select-none">Nothing found.</div>
-            <div v-if="query.length < 4" class="relative cursor-default px-4 py-2 text-gray-700 select-none">Type 3 or more characters to search.</div>
+            <div v-if="query.length < 4" class="relative cursor-default px-4 py-2 text-gray-700 select-none">Type 4 or more characters to search.</div>
             <ComboboxOption v-for="composerPackage in filteredPackages" :key="composerPackage" as="template" :value="composerPackage" v-slot="{ selected, active }">
               <li
                 class="relative cursor-default py-3 pr-4 pl-3 select-none"
