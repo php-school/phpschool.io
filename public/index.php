@@ -39,6 +39,7 @@ use PhpSchool\Website\User\Middleware\StudentAuthenticator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
+use Slim\Exception\HttpException;
 use Slim\Routing\RouteCollectorProxy;
 use JimTools\JwtAuth\Exceptions\AuthorizationException;
 use JimTools\JwtAuth\Middleware\JwtAuthentication;
@@ -70,6 +71,15 @@ $errors->setErrorHandler(
     AuthorizationException::class,
     static fn (Request $request) => $app->getResponseFactory()->createResponse(401)
 );
+// every route is an API, so errors are always JSON, whatever the request's Accept header says,
+// and in the same { "error": "..." } shape the actions use, e.g. { "error": "Not found." }
+$errors->getDefaultErrorHandler()->forceContentType('application/json');
+$errors->getDefaultErrorHandler()->registerErrorRenderer(
+    'application/json',
+    static fn (Throwable $e, bool $displayErrorDetails) => json_encode([
+        'error' => $e instanceof HttpException || $displayErrorDetails ? $e->getMessage() : 'Something went wrong',
+    ])
+);
 
 $app->post('/api/submit', SubmitWorkshop::class);
 $app->get('/api/events', Events::class);
@@ -86,18 +96,18 @@ $app
         $group->group('/workshop', function (RouteCollectorProxy $group) {
             $group->get('/all', All::class);
             $group->get('/new', Requests::class);
-            $group->post('/approve/{id}', Approve::class);
-            $group->post('/promote/{id}', Promote::class);
-            $group->delete('/delete/{id}', Delete::class);
-            $group->get('/view/{id}', View::class);
+            $group->post('/approve/{id:[0-9a-f-]{36}}', Approve::class);
+            $group->post('/promote/{id:[0-9a-f-]{36}}', Promote::class);
+            $group->delete('/delete/{id:[0-9a-f-]{36}}', Delete::class);
+            $group->get('/view/{id:[0-9a-f-]{36}}', View::class);
             $group->post('/regenerate', RegenerateFeed::class);
         });
 
         $group->group('/event', function (RouteCollectorProxy $group) {
             $group->get('/all', AllEvents::class);
             $group->post('/create', EventCreate::class);
-            $group->post('/update/{id}', EventUpdate::class);
-            $group->delete('/delete/{id}', EventDelete::class);
+            $group->post('/update/{id:[0-9a-f-]{36}}', EventUpdate::class);
+            $group->delete('/delete/{id:[0-9a-f-]{36}}', EventDelete::class);
         });
 
         $group->group('/student', function (RouteCollectorProxy $group) {

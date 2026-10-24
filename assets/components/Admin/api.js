@@ -26,9 +26,10 @@ const adminFetch = async (endpoint, options) => {
 
   const data = await response.json();
 
-  // failures come back as { error: "..." }; form validation failures as { form_errors: {...} }, which callers read themselves
-  if (data.error) {
-    throw new Error(data.error);
+  // Failures come back as { error: "..." }, including crashes and unknown routes.
+  // Form validation failures are a 200 with { form_errors: {...} }, which callers read themselves.
+  if (!response.ok || data.error) {
+    throw new Error(data.error ?? `The server responded with ${response.status}`);
   }
 
   return data;
