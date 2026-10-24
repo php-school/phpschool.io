@@ -11,12 +11,15 @@ use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Exception\WorkshopCreationException;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Service\WorkshopCreator;
+use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\User\Session;
+use PhpSchool\Website\User\StudentDTO;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\NullLogger;
 use Psr\Log\Test\TestLogger;
+use Ramsey\Uuid\Uuid;
 
 class SubmitWorkshopTest extends TestCase
 {
@@ -33,6 +36,7 @@ class SubmitWorkshopTest extends TestCase
             $this->createMock(WorkshopCreator::class),
             $this->createMock(EmailNotifier::class),
             new NullLogger(),
+            $this->getSessionWithStudent(),
         );
 
         $request = $this->createMock(ServerRequestInterface::class);
@@ -80,6 +84,7 @@ class SubmitWorkshopTest extends TestCase
             $workshopCreator,
             $this->createMock(EmailNotifier::class),
             new NullLogger(),
+            $this->getSessionWithStudent(),
         );
 
         $request = $this->createMock(ServerRequestInterface::class);
@@ -96,7 +101,7 @@ class SubmitWorkshopTest extends TestCase
         $workshopCreator
             ->expects($this->once())
             ->method('create')
-            ->with([])
+            ->with(['email' => 'aydin@hotmail.co.uk', 'name' => 'Aydin Hassan'])
             ->willThrowException(new WorkshopCreationException([
                 'field1' => ['error1'],
                 'field2' => ['error2'],
@@ -134,6 +139,7 @@ class SubmitWorkshopTest extends TestCase
             $workshopCreator,
             $emailer,
             $logger,
+            $this->getSessionWithStudent(),
         );
 
         $request = $this->createMock(ServerRequestInterface::class);
@@ -150,7 +156,7 @@ class SubmitWorkshopTest extends TestCase
         $workshopCreator
             ->expects($this->once())
             ->method('create')
-            ->with([])
+            ->with(['email' => 'aydin@hotmail.co.uk', 'name' => 'Aydin Hassan'])
             ->willReturn($this->createMock(Workshop::class));
 
         $emailer
@@ -181,6 +187,7 @@ class SubmitWorkshopTest extends TestCase
             $workshopCreator,
             $this->createMock(EmailNotifier::class),
             $logger,
+            $this->getSessionWithStudent(),
         );
 
         $request = $this->createMock(ServerRequestInterface::class);
@@ -197,7 +204,7 @@ class SubmitWorkshopTest extends TestCase
         $workshopCreator
             ->expects($this->once())
             ->method('create')
-            ->with([])
+            ->with(['email' => 'aydin@hotmail.co.uk', 'name' => 'Aydin Hassan'])
             ->willReturn($this->createMock(Workshop::class));
 
         $actualResponse = $action->__invoke($request, $response);
@@ -206,5 +213,23 @@ class SubmitWorkshopTest extends TestCase
         $this->assertEquals('application/json', $actualResponse->getHeaderLine('Content-Type'));
         $this->assertEquals(['success' => true], json_decode($actualResponse->getBody()->__toString(), true));
         $this->assertEmpty($logger->records);
+    }
+
+    private function getSessionWithStudent(): Session
+    {
+        $session = new Session();
+        $session->set('student', new StudentDTO(
+            Uuid::uuid4(),
+            'AydinHassan',
+            'aydin@hotmail.co.uk',
+            'Aydin Hassan',
+            null,
+            null,
+            new \DateTime(),
+            false,
+            new StudentCloudState([]),
+        ));
+
+        return $session;
     }
 }

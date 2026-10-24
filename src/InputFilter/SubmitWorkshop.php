@@ -9,15 +9,12 @@ use GuzzleHttp\Exception\TransferException;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use Laminas\InputFilter\InputFilter;
 use Laminas\Validator\Callback;
-use Laminas\Validator\EmailAddress;
 use Laminas\Validator\Regex;
 use Laminas\Validator\StringLength;
 
 /**
  * @phpstan-type SubmitWorkshopData array{
  *      github-url: string,
- *      email: string,
- *      name: string,
  *      contact?: string,
  *      workshop-name: string,
  *  }
@@ -88,33 +85,6 @@ class SubmitWorkshop extends InputFilter
             ],
         ]);
 
-        $this->add([
-            'name' => 'email',
-            'required' => true,
-            'validators' => [
-                [
-                    'name' => EmailAddress::class,
-                ],
-            ],
-        ]);
-
-        $this->add([
-            'name' => 'name',
-            'required' => true,
-            'validators' => [
-                [
-                    'name' => StringLength::class,
-                    'options' => [
-                        'min' => 2,
-                        'max' => 255,
-                        'messages' => [
-                            StringLength::TOO_LONG => 'Name should be between %min% and %max% characters long.',
-                            StringLength::TOO_SHORT => 'Name should be between %min% and %max% characters long.',
-                        ],
-                    ],
-                ],
-            ],
-        ]);
 
         $this->add([
             'name' => 'contact',

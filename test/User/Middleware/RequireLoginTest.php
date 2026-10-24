@@ -7,7 +7,7 @@ namespace PhpSchool\WebsiteTest\User\Middleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use PhpSchool\Website\Online\StudentCloudState;
-use PhpSchool\Website\User\Middleware\StudentAuthenticator;
+use PhpSchool\Website\User\Middleware\RequireLogin;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
 use PhpSchool\Website\User\StudentRepository;
@@ -18,7 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Ramsey\Uuid\Uuid;
 
-class StudentAuthenticatorTest extends TestCase
+class RequireLoginTest extends TestCase
 {
     private SessionStorageInterface&MockObject $session;
     private StudentRepository&MockObject $studentRepository;
@@ -35,7 +35,7 @@ class StudentAuthenticatorTest extends TestCase
 
         $handler = $this->getRequestHandler();
 
-        $middleware = new StudentAuthenticator(
+        $middleware = new RequireLogin(
             $this->session,
             $this->studentRepository,
         );
@@ -49,7 +49,7 @@ class StudentAuthenticatorTest extends TestCase
     {
         $request = new ServerRequest('POST', '/api/%6Fnline/reset');
 
-        $middleware = new StudentAuthenticator($this->session);
+        $middleware = new RequireLogin($this->session);
 
         $response = $middleware->__invoke($request, $this->getRequestHandler());
 
@@ -69,7 +69,7 @@ class StudentAuthenticatorTest extends TestCase
             ->with('student')
             ->willReturn($student);
 
-        $middleware = new StudentAuthenticator(
+        $middleware = new RequireLogin(
             $this->session,
             $this->studentRepository,
         );

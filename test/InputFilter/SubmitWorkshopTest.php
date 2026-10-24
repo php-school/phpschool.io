@@ -62,15 +62,11 @@ class SubmitWorkshopTest extends TestCase
             'completely-valid-input' => [
                 [
                     'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'contact'       => 'https://twitter.com/aydin_h',
                     'workshop-name' => 'PHP7',
                 ],
                 [
                     'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'contact'       => 'https://twitter.com/aydin_h',
                     'workshop-name' => 'PHP7',
                 ],
@@ -78,14 +74,10 @@ class SubmitWorkshopTest extends TestCase
             'completely-valid-input-missing-contact' => [
                 [
                     'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'workshop-name' => 'PHP7',
                 ],
                 [
                     'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'contact'       => null,
                     'workshop-name' => 'PHP7',
                 ],
@@ -93,8 +85,6 @@ class SubmitWorkshopTest extends TestCase
             'invalid-github-url' => [
                 [
                     'github-url'    => 'https://www.google.com',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'contact'       => 'https://twitter.com/aydin_h',
                     'workshop-name' => 'PHP7',
                 ],
@@ -108,8 +98,6 @@ class SubmitWorkshopTest extends TestCase
             'invalid-no-composer.json' => [
                 [
                     'github-url'    => 'https://github.com/AydinHassan/private',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'contact'       => 'https://twitter.com/aydin_h',
                     'workshop-name' => 'PHP7',
                 ],
@@ -123,8 +111,6 @@ class SubmitWorkshopTest extends TestCase
             'invalid-no-git-tags' => [
                 [
                     'github-url'    => 'https://github.com/php-school/phpschool.io',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'contact'       => 'https://twitter.com/aydin_h',
                     'workshop-name' => 'PHP7',
                 ],
@@ -135,56 +121,9 @@ class SubmitWorkshopTest extends TestCase
                     ],
                 ],
             ],
-            'invalid-email' => [
-                [
-                    'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin',
-                    'name'          => 'Aydin Hassan',
-                    'contact'       => 'https://twitter.com/aydin_h',
-                    'workshop-name' => 'PHP7',
-                ],
-                null,
-                [
-                    'email' => [
-                        'emailAddressInvalidFormat' => 'The input is not a valid email address. Use the basic format local-part@hostname',
-                    ],
-                ],
-            ],
-            'invalid-name-too-short' => [
-                [
-                    'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'A',
-                    'contact'       => 'https://twitter.com/aydin_h',
-                    'workshop-name' => 'PHP7',
-                ],
-                null,
-                [
-                    'name' => [
-                        'stringLengthTooShort' => 'Name should be between 2 and 255 characters long.',
-                    ],
-                ],
-            ],
-            'invalid-name-too-long' => [
-                [
-                    'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => str_repeat('A', 256),
-                    'contact'       => 'https://twitter.com/aydin_h',
-                    'workshop-name' => 'PHP7',
-                ],
-                null,
-                [
-                    'name' => [
-                        'stringLengthTooLong' => 'Name should be between 2 and 255 characters long.',
-                    ],
-                ],
-            ],
             'invalid-contact-not-a-link' => [
                 [
                     'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'contact'       => 'javascript:alert(1)',
                     'workshop-name' => 'PHP7',
                 ],
@@ -198,8 +137,6 @@ class SubmitWorkshopTest extends TestCase
             'invalid-contact-too-short' => [
                 [
                     'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'contact'       => 'A',
                     'workshop-name' => 'PHP7',
                 ],
@@ -214,8 +151,6 @@ class SubmitWorkshopTest extends TestCase
             'invalid-contact-too-long' => [
                 [
                     'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'contact'       => str_repeat('A', 513),
                     'workshop-name' => 'PHP7',
                 ],
@@ -230,8 +165,6 @@ class SubmitWorkshopTest extends TestCase
             'invalid-workshop-name-too-short' => [
                 [
                     'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'contact'       => 'https://twitter.com/aydin_h',
                     'workshop-name' => 'A',
                 ],
@@ -245,8 +178,6 @@ class SubmitWorkshopTest extends TestCase
             'invalid-workshop-name-too-short' => [
                 [
                     'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'contact'       => 'https://twitter.com/aydin_h',
                     'workshop-name' => str_repeat('A', 513),
                 ],
@@ -260,8 +191,6 @@ class SubmitWorkshopTest extends TestCase
             'invalid-workshop-name-not-unique' => [
                 [
                     'github-url'    => 'https://github.com/php-school/learn-you-php',
-                    'email'         => 'aydin@hotmail.co.uk',
-                    'name'          => 'Aydin Hassan',
                     'contact'       => 'https://twitter.com/aydin_h',
                     'workshop-name' => 'Learn You PHP!',
                 ],
@@ -277,8 +206,6 @@ class SubmitWorkshopTest extends TestCase
                 null,
                 [
                     'github-url'    => ['isEmpty' => 'Value is required and can\'t be empty'],
-                    'email'         => ['isEmpty' => 'Value is required and can\'t be empty'],
-                    'name'          => ['isEmpty' => 'Value is required and can\'t be empty'],
                     'workshop-name' => ['isEmpty' => 'Value is required and can\'t be empty'],
                 ],
             ],

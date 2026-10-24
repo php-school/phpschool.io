@@ -12,7 +12,7 @@ use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
-class StudentAuthenticator
+class RequireLogin
 {
     use RedirectUtils;
 
@@ -22,8 +22,8 @@ class StudentAuthenticator
 
     public function __invoke(Request $request, RequestHandler $handler): MessageInterface
     {
-        //only the online route group uses this middleware, so never skip by path. Slim routes the decoded
-        //path, so a raw path check let "/api/%6Fnline/reset" through
+        //added per route, so never skip by path. Slim routes the decoded path, so a raw path check let
+        //"/api/%6Fnline/reset" through
         $student = $this->session->get('student');
 
         if (!$student instanceof StudentDTO) {
