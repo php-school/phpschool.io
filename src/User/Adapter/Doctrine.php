@@ -24,7 +24,8 @@ class Doctrine extends AbstractAdapter implements AdapterInterface
             return new AuthenticationResult(
                 AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND,
                 null,
-                ['User not found.'],
+                //same message as a wrong password, so the form doesn't reveal which emails are admins
+                ['Invalid username or password provided'],
             );
         }
 

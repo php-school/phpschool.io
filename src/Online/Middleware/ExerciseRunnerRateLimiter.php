@@ -16,6 +16,8 @@ class ExerciseRunnerRateLimiter
     public function __construct(
         private readonly SessionStorageInterface $session,
         private readonly RateLimiterFactory $limiterFactory,
+        //shared by every student, so lots of accounts can't start more sandbox containers than the server can run
+        private readonly RateLimiterFactory $allStudentsLimiterFactory,
     ) {}
 
     public function __invoke(Request $request, RequestHandler $handler): Response
@@ -33,7 +35,7 @@ class ExerciseRunnerRateLimiter
             'X-RateLimit-Limit' => (string) $limit->getLimit(),
         ];
 
-        if (false === $limit->isAccepted()) {
+        if (false === $limit->isAccepted() || false === $this->allStudentsLimiterFactory->create('all')->consume()->isAccepted()) {
             return new \GuzzleHttp\Psr7\Response(
                 429,
                 $headers,

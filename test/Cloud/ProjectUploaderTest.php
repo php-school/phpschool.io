@@ -136,6 +136,30 @@ class ProjectUploaderTest extends BaseFilesystemTest
         $this->assertFileDoesNotExist($path);
     }
 
+    public function testBaseFolderIsRemovedIfFileContentIsNotAString(): void
+    {
+        $student = $this->getStudent();
+        $path = $this->getTemporaryDirectoryWithoutCreating();
+        $generator = $this->createMock(PathGenerator::class);
+        $generator->method('random')->willReturn($path);
+
+        $request = new ServerRequest(
+            'POST',
+            '/verify',
+            [],
+            json_encode(['scripts' => ['solution.php' => '<?php', 'other.php' => ['not', 'a', 'string']]]),
+        );
+
+        try {
+            (new ProjectUploader($generator))->upload($request, $student, new HostProcessFactory());
+        } catch (\RuntimeException $e) {
+        }
+
+        $this->assertTrue(isset($e));
+        $this->assertEquals('Invalid file', $e->getMessage());
+        $this->assertFileDoesNotExist($path);
+    }
+
     public function testScriptsAreCorrectlyWrittenInGeneratedPath(): void
     {
         $student = $this->getStudent();
