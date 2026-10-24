@@ -28,36 +28,12 @@ const navigation = [
   { name: "Settings", to: "/admin/settings", icon: CogIcon },
 ];
 
-const logout = () => {
-  adminStore.logout();
-};
-
-const workshops = ref([]);
-const activityItems = ref([]);
-
+// New workshop submissions, shown in the activity feed.
+const activity = ref([]);
 const search = ref("");
 
 onMounted(async () => {
-  const data = await newWorkshops();
-
-  if (data === null) {
-    return;
-  }
-
-  activityItems.value = data.workshops.map((workshop) => {
-    return {
-      submitter: {
-        name: workshop.submitter_name,
-        imageUrl: workshop.submitter_avatar,
-      },
-      dateTime: workshop.created_at,
-      name: workshop.name,
-      code: workshop.code,
-      repo_url: workshop.repo_url,
-    };
-  });
-
-  workshops.value = data.workshops;
+  activity.value = (await newWorkshops()).workshops;
 });
 
 const sidebarOpen = ref(false);
@@ -213,7 +189,9 @@ const sidebarOpen = ref(false);
             >
               <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-hidden">
                 <MenuItem v-slot="{ active }">
-                  <button @click="logout" type="button" :class="[active ? 'bg-slate-900/40 text-white' : '', 'block w-full rounded-md px-4 py-2 text-left text-sm text-slate-400']">Logout</button>
+                  <button @click="adminStore.logout()" type="button" :class="[active ? 'bg-slate-900/40 text-white' : '', 'block w-full rounded-md px-4 py-2 text-left text-sm text-slate-400']">
+                    Logout
+                  </button>
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -233,22 +211,22 @@ const sidebarOpen = ref(false);
           <h2 class="text-base leading-7 font-semibold text-white">Activity feed</h2>
         </header>
         <ul role="list" class="divide-y divide-white/5">
-          <li v-for="item in activityItems" class="px-4 py-4 sm:px-6 lg:px-8" :key="item.id">
+          <li v-for="workshop in activity" class="px-4 py-4 sm:px-6 lg:px-8" :key="workshop.id">
             <div class="flex items-center gap-x-3">
-              <img :src="item.submitter.imageUrl" alt="" class="h-6 w-6 flex-none rounded-full bg-gray-800" />
+              <img :src="workshop.submitter_avatar" alt="" class="h-6 w-6 flex-none rounded-full bg-gray-800" />
               <h3 class="flex-auto truncate text-sm leading-6 font-semibold text-white">
-                {{ item.submitter.name }}
+                {{ workshop.submitter_name }}
               </h3>
-              <time :datetime="item.dateTime" class="flex-none text-xs text-gray-600">{{ item.dateTime }}</time>
+              <time :datetime="workshop.created_at" class="flex-none text-xs text-gray-600">{{ workshop.created_at }}</time>
             </div>
             <p class="mt-3 text-sm text-gray-500">
               Submitted
-              <span class="text-gray-400">{{ item.name }}</span>
+              <span class="text-gray-400">{{ workshop.name }}</span>
               (
-              <span class="font-mono text-gray-400">{{ item.code }}</span>
+              <span class="font-mono text-gray-400">{{ workshop.code }}</span>
               ) from
-              <a :href="item.repo_url" target="_blank" class="text-xs text-blue-600 hover:cursor-pointer hover:underline">
-                {{ item.repo_url }}
+              <a :href="workshop.repo_url" target="_blank" class="text-xs text-blue-600 hover:cursor-pointer hover:underline">
+                {{ workshop.repo_url }}
               </a>
               .
             </p>
