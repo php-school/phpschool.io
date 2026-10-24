@@ -1,7 +1,7 @@
 <script setup>
 import FormField from "./FormField.vue";
 import ConfirmDialog from "./ConfirmDialog.vue";
-import { onMounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { useAsyncState } from "@vueuse/core";
 import { EllipsisVerticalIcon, TrashIcon, PencilIcon } from "@heroicons/vue/24/outline";
 import { ArrowPathIcon } from "@heroicons/vue/24/solid";
@@ -19,15 +19,11 @@ const props = defineProps({
   },
 });
 
-const events = ref([]);
+const { notice, success, error } = useNotice();
 
-onMounted(async () => {
-  events.value = await allEvents();
-});
+const { state: events } = useAsyncState(allEvents, [], { onError: error });
 
 const filteredEvents = useSearch(events, () => props.search, ["name", "description"]);
-
-const { notice, success, error } = useNotice();
 
 const currentlyDeleting = ref(null);
 const { isLoading: deleteLoading, executeImmediate: doDeleteEvent } = useAsyncState(

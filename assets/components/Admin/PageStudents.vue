@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { useAsyncState } from "@vueuse/core";
 import { allStudents } from "./api";
 import { useSearch } from "./search";
 
@@ -10,11 +10,7 @@ const props = defineProps({
   },
 });
 
-const students = ref([]);
-
-onMounted(async () => {
-  students.value = await allStudents();
-});
+const { state: students } = useAsyncState(allStudents, []);
 
 const filteredStudents = useSearch(students, () => props.search, ["name", "email"]);
 </script>

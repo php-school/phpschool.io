@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { useAsyncState } from "@vueuse/core";
 
 import InstallsChart from "./InstallsChart.vue";
 import { allWorkshops } from "./api";
@@ -19,24 +19,21 @@ defineProps({
   },
 });
 
-const chartData = ref({
-  labels: [],
-  datasets: [],
-});
-onMounted(async () => {
-  const data = await allWorkshops();
+const { state: chartData } = useAsyncState(
+  async () => {
+    const { workshopInstalls } = await allWorkshops();
 
-  chartData.value = {
-    labels: data.workshopInstalls.dates,
-    datasets: data.workshopInstalls.installs.map(function (workshop) {
-      return {
+    return {
+      labels: workshopInstalls.dates,
+      datasets: workshopInstalls.installs.map((workshop) => ({
         label: workshop.name,
         data: workshop.installs,
         fill: false,
         tension: 0.5,
         borderWidth: 5,
-      };
-    }),
-  };
-});
+      })),
+    };
+  },
+  { labels: [], datasets: [] },
+);
 </script>

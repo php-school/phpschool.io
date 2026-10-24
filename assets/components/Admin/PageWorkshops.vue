@@ -1,7 +1,8 @@
 <script setup>
 import ConfirmDialog from "./ConfirmDialog.vue";
 import Alert from "../Online/SiteAlert.vue";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
+import { useAsyncState } from "@vueuse/core";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { EllipsisVerticalIcon, ArrowUpIcon, TrashIcon } from "@heroicons/vue/24/outline";
 
@@ -16,14 +17,12 @@ const props = defineProps({
   },
 });
 
-const workshops = ref([]);
+const { notice, success, error } = useNotice();
+
+// not shallow: promoting a workshop changes its type in place
+const { state: workshops } = useAsyncState(async () => (await allWorkshops()).workshops, [], { shallow: false, onError: error });
 
 const filteredWorkshops = useSearch(workshops, () => props.search, ["name", "code"]);
-
-onMounted(async () => {
-  const data = await allWorkshops();
-  workshops.value = data.workshops;
-});
 
 const statuses = {
   "Not-approved": "text-gray-400 bg-gray-400/10 ring-gray-400/20",
@@ -34,8 +33,6 @@ const types = {
   Core: "text-green-400 bg-green-400/10 ring-green-400/30",
   Community: "text-sky-400 bg-sky-400/10 ring-sky-500/30",
 };
-
-const { notice, success, error } = useNotice();
 
 const currentlyDeleting = ref(null);
 

@@ -1,5 +1,6 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
+import { useAsyncState } from "@vueuse/core";
 import { Dialog, DialogPanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { Bars3Icon, ChevronDownIcon, MagnifyingGlassIcon, CalendarDaysIcon, PlusIcon, CubeIcon, HomeIcon, ChartBarIcon, CogIcon, UsersIcon } from "@heroicons/vue/20/solid";
@@ -29,12 +30,8 @@ const navigation = [
 ];
 
 // New workshop submissions, shown in the activity feed.
-const activity = ref([]);
+const { state: activity } = useAsyncState(async () => (await newWorkshops()).workshops, []);
 const search = ref("");
-
-onMounted(async () => {
-  activity.value = (await newWorkshops()).workshops;
-});
 
 const sidebarOpen = ref(false);
 </script>

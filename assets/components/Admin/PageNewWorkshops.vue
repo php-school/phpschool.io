@@ -1,6 +1,7 @@
 <script setup>
 import ConfirmDialog from "./ConfirmDialog.vue";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
+import { useAsyncState } from "@vueuse/core";
 import { CubeIcon } from "@heroicons/vue/24/solid";
 import Alert from "../Online/SiteAlert.vue";
 import { approveWorkshop, newWorkshops } from "./api";
@@ -14,13 +15,9 @@ const props = defineProps({
   },
 });
 
-const loading = ref(true);
-const workshops = ref([]);
+const { notice, success, error } = useNotice();
 
-onMounted(async () => {
-  workshops.value = (await newWorkshops()).workshops;
-  loading.value = false;
-});
+const { state: workshops, isLoading: loading } = useAsyncState(async () => (await newWorkshops()).workshops, [], { onError: error });
 
 const filteredWorkshops = useSearch(workshops, () => props.search, ["name", "code"]);
 
@@ -28,8 +25,6 @@ const statuses = {
   "Not-approved": "text-gray-400 bg-gray-400/10 ring-gray-400/20",
   Approved: "text-pink-500 bg-pink-500/10 ring-pink-500/30",
 };
-
-const { notice, success, error } = useNotice();
 
 const currentlyApproving = ref(null);
 
