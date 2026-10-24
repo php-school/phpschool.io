@@ -55,6 +55,14 @@ class CloudInstalledWorkshop implements \JsonSerializable
         return $this->processFactory->createBuildProcess();
     }
 
+    /**
+     * Creates the network for exercises that expose ports, which has no internet access. Shared by every workshop.
+     */
+    public function createSandboxNetworkProcess(): Process
+    {
+        return $this->processFactory->createNetworkProcess();
+    }
+
     public function getCode(): string
     {
         return $this->workshop->getCode();
