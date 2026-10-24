@@ -136,6 +136,21 @@ class EventTest extends TestCase
                     ],
                 ],
             ],
+            'invalid-link-not-http' => [
+                [
+                    'name' => 'My Event',
+                    'description' => 'My description',
+                    'link' => 'javascript:alert(1)',
+                    'date' => '2016-10-01T10:00',
+                    'venue' => 'Some Venue',
+                ],
+                null,
+                [
+                    'link' => [
+                        'regexNotMatch' => 'Link should start with https://',
+                    ],
+                ],
+            ],
             'invalid-link-too-short' => [
                 [
                     'name'        => 'My Event',
@@ -148,6 +163,7 @@ class EventTest extends TestCase
                 [
                     'link' => [
                         'stringLengthTooShort' => 'Link should be between 2 and 255 characters long.',
+                        'regexNotMatch' => 'Link should start with https://',
                     ],
                 ],
             ],
@@ -163,6 +179,7 @@ class EventTest extends TestCase
                 [
                     'link' => [
                         'stringLengthTooLong' => 'Link should be between 2 and 255 characters long.',
+                        'regexNotMatch' => 'Link should start with https://',
                     ],
                 ],
             ],
