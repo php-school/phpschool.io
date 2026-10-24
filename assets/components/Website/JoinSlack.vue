@@ -17,22 +17,35 @@ const { open } = defineProps({
 
 const emit = defineEmits(["close"]);
 
-const sendInvite = async () => {
-  const response = await fetch("/api/slack-invite", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: email.value,
-    }),
-  });
+let sending = false;
 
-  inviteSent.value = true;
-  if (!response.ok) {
-    const data = await response.json();
-    inviteError.value = data.error;
+const sendInvite = async () => {
+  if (sending) {
+    return;
+  }
+  sending = true;
+
+  try {
+    const response = await fetch("/api/slack-invite", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email.value,
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      inviteError.value = data.error ?? "The invite could not be sent. Please try again later.";
+    }
+  } catch {
+    inviteError.value = "The invite could not be sent. Please try again later.";
+  } finally {
+    inviteSent.value = true;
+    sending = false;
   }
 };
 </script>
