@@ -171,11 +171,11 @@ const editEvent = (event) => {
 </script>
 <template>
   <!-- delete alerts -->
-  <alert type="error" :message="deleteError !== '' ? deleteError : 'An error occurred. Please try again later.'" :timeout="4000" :show="showDeleteError" @close="showDeleteError = false"></alert>
+  <alert type="error" :message="deleteError || 'An error occurred. Please try again later.'" :timeout="4000" :show="showDeleteError" @close="showDeleteError = false"></alert>
   <alert type="success" :message="deleteSuccess" :timeout="4000" :show="showDeleteSuccess" @close="showDeleteSuccess = false"></alert>
 
   <!-- event create/update alerts -->
-  <alert type="error" :message="eventError !== '' ? eventError : 'An error occurred. Please try again later.'" :timeout="4000" :show="showEventError" @close="showEventError = false"></alert>
+  <alert type="error" :message="eventError || 'An error occurred. Please try again later.'" :timeout="4000" :show="showEventError" @close="showEventError = false"></alert>
   <alert type="success" :message="eventSuccess" :timeout="4000" :show="showEventSuccess" @close="showEventSuccess = false"></alert>
 
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
