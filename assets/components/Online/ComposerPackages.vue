@@ -3,6 +3,7 @@ import Modal from "./ModalDialog.vue";
 import { ArrowPathIcon, CircleStackIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import PackageSearch from "./PackageSearch.vue";
 import { ref } from "vue";
+import { useAsyncState } from "@vueuse/core";
 import Alert from "./SiteAlert.vue";
 
 const props = defineProps({
@@ -12,7 +13,6 @@ const props = defineProps({
 
 const emit = defineEmits(["close", "package-added", "package-removed"]);
 const newDependency = ref("");
-const loadingComposerAdd = ref(false);
 const packageSearchRef = ref(null);
 
 const packageSelected = (composerPackage) => {
@@ -26,28 +26,28 @@ const failed = (message) => {
   showAddError.value = true;
 };
 
+const { isLoading: loadingComposerAdd, executeImmediate: addPackage } = useAsyncState(
+  async (name) => {
+    const response = await fetch("/api/online/composer-package/add?package=" + encodeURIComponent(name), {
+      headers: { Accept: "application/json" },
+    });
+    const json = await response.json();
+
+    if (json.status === "error") {
+      failed("Package could not be added because it has no tagged version.");
+    } else {
+      emit("package-added", { name, version: json.latest_version, versions: json.versions });
+    }
+  },
+  null,
+  { immediate: false, onError: () => failed("Package could not be added. Please try again.") },
+);
+
 const addDependency = async () => {
   const name = newDependency.value;
 
   if (!props.composerDeps.some((dep) => dep.name === name)) {
-    loadingComposerAdd.value = true;
-
-    try {
-      const response = await fetch("/api/online/composer-package/add?package=" + encodeURIComponent(name), {
-        headers: { Accept: "application/json" },
-      });
-      const json = await response.json();
-
-      if (json.status === "error") {
-        failed("Package could not be added because it has no tagged version.");
-      } else {
-        emit("package-added", { name, version: json.latest_version, versions: json.versions });
-      }
-    } catch {
-      failed("Package could not be added. Please try again.");
-    } finally {
-      loadingComposerAdd.value = false;
-    }
+    await addPackage(name);
   }
 
   newDependency.value = "";

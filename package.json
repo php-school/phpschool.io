@@ -34,7 +34,7 @@
     "@floating-ui/dom": "^1.8.0",
     "@headlessui/vue": "^1.7.4",
     "@heroicons/vue": "^2.0.13",
-    "@vueuse/core": "^10.7.2",
+    "@vueuse/core": "^15.0.0",
     "ace-builds": "^1.13.0",
     "chart.js": "^4.4.0",
     "highlight.js": "^11.9.0",
