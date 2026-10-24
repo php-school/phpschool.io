@@ -1,8 +1,9 @@
 import { useAdminStore } from "../../stores/admin";
 
-const getHeaders = (token) => ({
+// FormData bodies set their own multipart Content-Type.
+const getHeaders = (token, body) => ({
   Authorization: `Bearer ${token}`,
-  "Content-Type": "application/json",
+  ...(body instanceof FormData ? {} : { "Content-Type": "application/json" }),
 });
 
 const adminFetch = async (endpoint, options) => {
@@ -15,7 +16,7 @@ const adminFetch = async (endpoint, options) => {
 
   const response = await fetch(endpoint, {
     ...options,
-    headers: getHeaders(token),
+    headers: getHeaders(token, options?.body),
   });
 
   // the server rejected the token, e.g. after the JWT secret changed
@@ -72,18 +73,21 @@ export const deleteEvent = async (id) => {
   await adminFetch(`/api/admin/event/delete/${id}`, { method: "DELETE" });
 };
 
+// Sent as multipart so the poster file can be uploaded.
+const eventForm = (event) => {
+  const body = new FormData();
+  for (const [key, value] of Object.entries(event)) {
+    body.append(key, value ?? "");
+  }
+  return body;
+};
+
 export const createEvent = async (event) => {
-  return await adminFetch("/api/admin/event/create", {
-    method: "POST",
-    body: JSON.stringify(event),
-  });
+  return await adminFetch("/api/admin/event/create", { method: "POST", body: eventForm(event) });
 };
 
 export const updateEvent = async (id, event) => {
-  return await adminFetch(`/api/admin/event/update/${id}`, {
-    method: "POST",
-    body: JSON.stringify(event),
-  });
+  return await adminFetch(`/api/admin/event/update/${id}`, { method: "POST", body: eventForm(event) });
 };
 
 export const regenerateWorkshopFeed = async () => {

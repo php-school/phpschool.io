@@ -95,6 +95,8 @@ const addEvent = () => {
   form.link = "";
   form.date = getNow();
   form.venue = null;
+  file.value = null;
+  errors.value = {};
 
   showAdd.value = true;
 };
@@ -133,18 +135,12 @@ const saveEvent = async () => {
   const successMessage = form.id ? "Successfully updated event: " + form.name : "Successfully added event: " + form.name;
 
   try {
-    let response;
-    if (form.id) {
-      response = await updateEvent(form.id, data);
+    const response = form.id ? await updateEvent(form.id, data) : await createEvent(data);
+
+    // the server answers validation failures with a 200 and form_errors
+    if (response.form_errors) {
+      errors.value = response.form_errors;
     } else {
-      response = await createEvent(data);
-    }
-    if (response.status === 400) {
-      if (response.form_errors) {
-        errors.value = response.form_errors;
-      }
-    } else {
-      //success
       events.value = await allEvents();
 
       eventSuccess.value = successMessage;
@@ -152,8 +148,8 @@ const saveEvent = async () => {
 
       showAdd.value = false;
     }
-  } catch (e) {
-    eventError.value = e.message;
+  } catch (error) {
+    eventError.value = error.message;
     showEventError.value = true;
   } finally {
     loading.value = false;
@@ -164,8 +160,11 @@ const editEvent = (event) => {
   form.id = event.id;
   form.name = event.name;
   form.description = event.description;
+  form.link = event.link ?? "";
   form.date = event.date;
   form.venue = event.venue;
+  file.value = null;
+  errors.value = {};
 
   showAdd.value = true;
 };
