@@ -86,11 +86,11 @@ $app->get('/api/events', Events::class);
 $app->get('/api/posts', BlogPosts::class);
 $app->post('/api/slack-invite', SlackInvite::class);
 $app->get('/api/contributors', Contributors::class);
+$app->post('/api/admin/login', Login::class);
 
 $app
     ->group('/api/admin', function (RouteCollectorProxy $group) {
 
-        $group->post('/login', Login::class);
         $group->post('/cache/clear', ClearCache::class);
 
         $group->group('/workshop', function (RouteCollectorProxy $group) {

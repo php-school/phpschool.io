@@ -97,8 +97,6 @@ use Symfony\Contracts\Cache\CacheInterface;
 use JimTools\JwtAuth\Decoder\FirebaseDecoder;
 use JimTools\JwtAuth\Middleware\JwtAuthentication;
 use JimTools\JwtAuth\Options as JwtOptions;
-use JimTools\JwtAuth\Rules\RequestMethodRule;
-use JimTools\JwtAuth\Rules\RequestPathRule;
 use JimTools\JwtAuth\Secret as JwtSecret;
 
 use function DI\factory;
@@ -478,7 +476,9 @@ return [
         return new JwtAuthentication(
             new JwtOptions(isSecure: !$c->get('config')['devMode']),
             new FirebaseDecoder(new JwtSecret($c->get('config')['jwtSecret'], 'HS256')),
-            [new RequestMethodRule(), new RequestPathRule(['/api/admin'], ['/api/admin/login'])],
+            //only the admin route group uses this middleware, so check every request it sees. A path rule
+            //would compare the raw path, and Slim routes the decoded one, eg "/api/%61dmin/cache/clear"
+            [],
         );
     },
 

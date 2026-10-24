@@ -29,57 +29,6 @@ class StudentAuthenticatorTest extends TestCase
         $this->studentRepository = $this->createMock(StudentRepository::class);
     }
 
-    public function testThatNonExistentRouteSkipsMiddleware(): void
-    {
-        $request = new ServerRequest('GET', '/non-cloud-route');
-
-        $handler = $this->getRequestHandler();
-
-        $middleware = new StudentAuthenticator(
-            $this->session,
-            $this->studentRepository,
-        );
-
-        $response = $middleware->__invoke($request, $handler);
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEmpty($response->getHeaderLine('Location'));
-    }
-
-    public function testThatNonCloudRouteSkipsMiddleware(): void
-    {
-        $request = new ServerRequest('GET', '/');
-
-        $handler = $this->getRequestHandler();
-
-        $middleware = new StudentAuthenticator(
-            $this->session,
-            $this->studentRepository,
-        );
-
-        $response = $middleware->__invoke($request, $handler);
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEmpty($response->getHeaderLine('Location'));
-    }
-
-    public function testThatNonLoggedInStudentCanAccessCloudHome(): void
-    {
-        $request = new ServerRequest('GET', '/cloud');
-
-        $handler = $this->getRequestHandler();
-
-        $middleware = new StudentAuthenticator(
-            $this->session,
-            $this->studentRepository,
-        );
-
-        $response = $middleware->__invoke($request, $handler);
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEmpty($response->getHeaderLine('Location'));
-    }
-
     public function testThatNonLoggedInStudentReceives401(): void
     {
         $request = new ServerRequest('GET', '/api/online/workshop/verify');
@@ -92,6 +41,17 @@ class StudentAuthenticatorTest extends TestCase
         );
 
         $response = $middleware->__invoke($request, $handler);
+
+        $this->assertEquals(401, $response->getStatusCode());
+    }
+
+    public function testThatNonLoggedInStudentReceives401ForAnEncodedPath(): void
+    {
+        $request = new ServerRequest('POST', '/api/%6Fnline/reset');
+
+        $middleware = new StudentAuthenticator($this->session);
+
+        $response = $middleware->__invoke($request, $this->getRequestHandler());
 
         $this->assertEquals(401, $response->getStatusCode());
     }
