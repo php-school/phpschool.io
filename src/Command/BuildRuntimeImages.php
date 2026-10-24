@@ -13,7 +13,20 @@ class BuildRuntimeImages
 
     public function __invoke(OutputInterface $output): int
     {
-        foreach ($this->workshopRepository->findAll() as $workshop) {
+        $workshops = $this->workshopRepository->findAll();
+
+        if (count($workshops) > 0) {
+            $process = $workshops[0]->createSandboxNetworkProcess();
+            $process->run();
+
+            //it only needs creating once, every deploy after that it already exists
+            if (!$process->isSuccessful() && !str_contains($process->getErrorOutput(), 'already exists')) {
+                $output->writeln(sprintf('<error>%s</error>', $process->getErrorOutput()));
+                return 1;
+            }
+        }
+
+        foreach ($workshops as $workshop) {
             $output->writeln(sprintf('<info>Building runtime image for %s</info>', $workshop->getCode()));
 
             $process = $workshop->createRuntimeImageBuildProcess();
