@@ -1,7 +1,7 @@
 <script setup>
 import Modal from "./ModalDialog.vue";
 import { ArrowPathIcon, CommandLineIcon, SparklesIcon } from "@heroicons/vue/24/solid";
-import toFilePath from "./Utils/toFilePath";
+import { flatten } from "./Utils/studentFiles";
 import RunResult from "./RunResult.vue";
 import { Menu, MenuButton, MenuItem, MenuItems, Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import Alert from "./SiteAlert.vue";
@@ -23,17 +23,6 @@ const loadingVerify = ref(false);
 const showRateLimitError = ref(false);
 const currentAction = ref("verify");
 
-const flattenFiles = (nodes, files = {}) => {
-  nodes.forEach((node) => {
-    if (!node.children) {
-      files[toFilePath(node)] = node.content ?? "";
-    } else {
-      flattenFiles(node.children, files);
-    }
-  });
-  return files;
-};
-
 const enableRateLimitError = () => {
   showRateLimitError.value = true;
 };
@@ -54,7 +43,7 @@ const runSolution = async () => {
     },
     body: JSON.stringify({
       entry_point: props.entryPoint,
-      scripts: flattenFiles(props.files),
+      scripts: flatten(props.files),
       composer_deps: props.composerDeps,
     }),
   };
@@ -96,7 +85,7 @@ const verifySolution = () => {
     },
     body: JSON.stringify({
       entry_point: props.entryPoint,
-      scripts: flattenFiles(props.files),
+      scripts: flatten(props.files),
       composer_deps: props.composerDeps,
     }),
   };
