@@ -100,7 +100,6 @@ function checkImages() {
 
     if (rect.top < windowHeight * 0.8) {
       container.classList.remove("opacity-0", "translate-y-6", "translate-x-10");
-      container.classList.add("opacity-1");
     }
   });
 }

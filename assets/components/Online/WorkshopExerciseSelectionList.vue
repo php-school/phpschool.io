@@ -48,7 +48,7 @@ watch(
           <h3 class="pt-[13.5px] text-lg leading-6 font-medium text-white">PHP School Workshops</h3>
           <p class="mt-1 max-w-2xl text-sm text-gray-200">Pick a workshop to try it out online!</p>
         </div>
-        <ul id="workshops-list" class="flex flex-col overflow-hidden">
+        <ul id="workshops-list" class="flex w-full flex-col overflow-hidden">
           <li
             v-for="workshop in workshopStore.workshops"
             :key="workshop.code"
