@@ -65,7 +65,7 @@ import ContentHeader from "../../ContentHeader.vue";
   <p>Create a custom result to use in your check.</p>
 
   <h3>
-    <router-link to="/docs/reference/creating-custom-result-renderer">Creating Custom Result Renderers</router-link>
+    <router-link to="/docs/reference/creating-custom-result-renderers">Creating Custom Result Renderers</router-link>
   </h3>
   <p>Create a renderer for your result.</p>
 

@@ -286,7 +286,7 @@ class MyExercise extends AbstractExercise implements ExerciseInterface, CgiExerc
     or
     <Code>PhpSchool\PhpWorkshop\Result\FailureInterface</Code>
     . Learn about results
-    <router-link to="/docs/reference/result">here</router-link>
+    <router-link to="/docs/reference/results">here</router-link>
     .
   </p>
 
