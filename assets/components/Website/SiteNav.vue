@@ -4,7 +4,8 @@ import GitHubIcon from "../Icons/GitHubIcon.vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import SiteLogo from "./SiteLogo.vue";
 import StudentDropdown from "../Online/StudentDropdown.vue";
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, ref } from "vue";
+import { useEventListener } from "@vueuse/core";
 
 import { useStudentStore } from "../../stores/student";
 import TwitterIcon from "../Icons/TwitterIcon.vue";
@@ -23,7 +24,6 @@ const links = {
 };
 
 const mobileMenuVisible = ref(false);
-const showMobileMenuBlur = ref(false);
 
 const hideMobileMenu = () => {
   if (window.innerWidth > 640) {
@@ -31,23 +31,8 @@ const hideMobileMenu = () => {
   }
 };
 
-onUnmounted(() => {
-  window.removeEventListener("resize", hideMobileMenu);
-});
-
-const toggleMenu = () => {
-  mobileMenuVisible.value = !mobileMenuVisible.value;
-  showMobileMenuBlur.value = mobileMenuVisible.value;
-};
-
-onMounted(() => {
-  window.addEventListener("resize", hideMobileMenu);
-  hideMobileMenu();
-});
-
-onUnmounted(() => {
-  window.removeEventListener("resize", hideMobileMenu);
-});
+useEventListener("resize", hideMobileMenu);
+onMounted(hideMobileMenu);
 
 const slackModalOpen = ref(false);
 </script>
@@ -183,7 +168,7 @@ const slackModalOpen = ref(false);
   <!-- Navigation End -->
 
   <!-- Blur Overlay -->
-  <div :class="mobileMenuVisible ? 'fixed inset-0 z-30 block bg-white/40 backdrop-blur-sm' : 'hidden'" class="transition-opacity duration-300" @click="toggleMenu"></div>
+  <div :class="mobileMenuVisible ? 'fixed inset-0 z-30 block bg-white/40 backdrop-blur-sm' : 'hidden'" class="transition-opacity duration-300" @click="mobileMenuVisible = false"></div>
 
   <JoinSlack :open="slackModalOpen" @close="slackModalOpen = false" />
 </template>

@@ -1,5 +1,6 @@
 <script setup>
-import { computed, useSlots } from "vue";
+import { useClipboard } from "@vueuse/core";
+import { useSlots } from "vue";
 
 const slots = useSlots();
 
@@ -44,21 +45,8 @@ watch(
   },
 );
 
-const copied = ref(false);
-
-const copy = () => {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(code.value);
-
-    copied.value = true;
-
-    setTimeout(() => (copied.value = false), 2000);
-  }
-};
-
-const clipboardAvailable = computed(() => {
-  return typeof window !== "undefined" && navigator.clipboard;
-});
+const { copy: copyText, copied, isSupported: clipboardAvailable } = useClipboard({ copiedDuring: 2000 });
+const copy = () => copyText(code.value);
 </script>
 <template>
   <div class="group relative">

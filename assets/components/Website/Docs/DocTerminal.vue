@@ -1,6 +1,6 @@
 <script setup>
+import { useClipboard } from "@vueuse/core";
 import { ClipboardDocumentIcon } from "@heroicons/vue/24/solid";
-import { computed, ref } from "vue";
 import { TransitionRoot } from "@headlessui/vue";
 
 const props = defineProps({
@@ -9,23 +9,8 @@ const props = defineProps({
   },
 });
 
-const copied = ref(false);
-
-const copy = () => {
-  const lines = props.lines.join("\n");
-
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(lines);
-
-    copied.value = true;
-
-    setTimeout(() => (copied.value = false), 2000);
-  }
-};
-
-const clipboardAvailable = computed(() => {
-  return typeof window !== "undefined" && navigator.clipboard;
-});
+const { copy: copyText, copied, isSupported: clipboardAvailable } = useClipboard({ copiedDuring: 2000 });
+const copy = () => copyText(props.lines.join("\n"));
 </script>
 
 <template>
