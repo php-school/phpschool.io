@@ -16,12 +16,9 @@ class StudentAuthenticator
 {
     use RedirectUtils;
 
-    private readonly SessionStorageInterface $session;
-
-    public function __construct(SessionStorageInterface $session)
-    {
-        $this->session = $session;
-    }
+    public function __construct(
+        private readonly SessionStorageInterface $session,
+    ) {}
 
     public function __invoke(Request $request, RequestHandler $handler): MessageInterface
     {

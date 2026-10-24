@@ -13,14 +13,10 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 class ExerciseRunnerRateLimiter
 {
-    private SessionStorageInterface $session;
-    private RateLimiterFactory $limiterFactory;
-
-    public function __construct(SessionStorageInterface $session, RateLimiterFactory $limiterFactory)
-    {
-        $this->session = $session;
-        $this->limiterFactory = $limiterFactory;
-    }
+    public function __construct(
+        private readonly SessionStorageInterface $session,
+        private readonly RateLimiterFactory $limiterFactory,
+    ) {}
 
     public function __invoke(Request $request, RequestHandler $handler): Response
     {

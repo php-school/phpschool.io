@@ -15,16 +15,10 @@ class TrackDownloads
 {
     use JsonUtils;
 
-    private WorkshopRepository $workshopRepository;
-    private WorkshopInstallRepository $workshopInstallRepository;
-
     public function __construct(
-        WorkshopRepository $workshopRepository,
-        WorkshopInstallRepository $workshopInstallRepository,
-    ) {
-        $this->workshopRepository = $workshopRepository;
-        $this->workshopInstallRepository = $workshopInstallRepository;
-    }
+        private readonly WorkshopRepository $workshopRepository,
+        private readonly WorkshopInstallRepository $workshopInstallRepository,
+    ) {}
 
     public function __invoke(Request $request, Response $response, string $workshop, string $version): Response
     {

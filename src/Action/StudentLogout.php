@@ -13,12 +13,9 @@ class StudentLogout
 {
     use JsonUtils;
 
-    private Session $session;
-
-    public function __construct(Session $session)
-    {
-        $this->session = $session;
-    }
+    public function __construct(
+        private readonly Session $session,
+    ) {}
 
     public function __invoke(Request $request, Response $response): MessageInterface
     {

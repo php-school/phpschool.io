@@ -14,16 +14,10 @@ class WorkshopCreator
     private static string $gitHubComposerJsonUrlFormat = 'https://raw.githubusercontent.com/%s/%s/master/composer.json';
     private static string $gitHubRepoUrlRegex = '/^(https?:\/\/)?(www.)?github.com\/([A-Za-z\d-]+)\/([A-Za-z\d-]+)\/?$/';
 
-    private WorkshopComposerJsonInputFilter $composerJsonInputFilter;
-    private WorkshopRepository $workshopRepository;
-
     public function __construct(
-        WorkshopComposerJsonInputFilter $composerJsonInputFilter,
-        WorkshopRepository $workshopRepository,
-    ) {
-        $this->composerJsonInputFilter = $composerJsonInputFilter;
-        $this->workshopRepository = $workshopRepository;
-    }
+        private readonly WorkshopComposerJsonInputFilter $composerJsonInputFilter,
+        private readonly WorkshopRepository $workshopRepository,
+    ) {}
 
     /**
      * @param  array{

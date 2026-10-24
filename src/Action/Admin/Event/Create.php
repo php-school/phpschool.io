@@ -21,23 +21,13 @@ class Create
 {
     use JsonUtils;
 
-    private EventRepository $repository;
-
-    /**
-     * @var FormHandler<EventData>
-     */
-    private FormHandler $formHandler;
-
     /**
      * @param FormHandler<EventData> $formHandler
      */
     public function __construct(
-        EventRepository $repository,
-        FormHandler $formHandler,
-    ) {
-        $this->repository = $repository;
-        $this->formHandler = $formHandler;
-    }
+        private readonly EventRepository $repository,
+        private readonly FormHandler $formHandler,
+    ) {}
 
     public function __invoke(Request $request, Response $response): MessageInterface
     {

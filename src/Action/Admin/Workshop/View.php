@@ -20,16 +20,10 @@ class View
 {
     use JsonUtils;
 
-    private WorkshopRepository $repository;
-    private WorkshopInstallRepository $workshopInstallRepository;
-
     public function __construct(
-        WorkshopRepository $repository,
-        WorkshopInstallRepository $workshopInstallRepository,
-    ) {
-        $this->repository = $repository;
-        $this->workshopInstallRepository = $workshopInstallRepository;
-    }
+        private readonly WorkshopRepository $repository,
+        private readonly WorkshopInstallRepository $workshopInstallRepository,
+    ) {}
 
     public function __invoke(Request $request, Response $response, string $id): MessageInterface
     {

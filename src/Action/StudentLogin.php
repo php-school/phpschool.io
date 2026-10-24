@@ -21,16 +21,11 @@ class StudentLogin
     use RedirectUtils;
     use JsonUtils;
 
-    private Session $session;
-    private EntityManagerInterface $entityManager;
-    private Github $githubProvider;
-
-    public function __construct(Github $githubProvider, Session $session, EntityManagerInterface $entityManager)
-    {
-        $this->session = $session;
-        $this->entityManager = $entityManager;
-        $this->githubProvider = $githubProvider;
-    }
+    public function __construct(
+        private readonly Github $githubProvider,
+        private readonly Session $session,
+        private readonly EntityManagerInterface $entityManager,
+    ) {}
 
     public function getStudent(Request $request, Response $response): MessageInterface
     {

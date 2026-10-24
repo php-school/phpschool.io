@@ -10,12 +10,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateAdminUser
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+    ) {}
 
     public function __invoke(OutputInterface $output, string $name, string $email, string $password): int
     {

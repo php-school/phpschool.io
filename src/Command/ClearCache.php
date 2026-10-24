@@ -10,12 +10,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ClearCache
 {
-    private CacheItemPoolInterface $cache;
-
-    public function __construct(CacheItemPoolInterface $cache)
-    {
-        $this->cache = $cache;
-    }
+    public function __construct(
+        private readonly CacheItemPoolInterface $cache,
+    ) {}
 
     public function __invoke(OutputInterface $output): void
     {

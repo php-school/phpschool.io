@@ -12,16 +12,10 @@ use PhpSchool\Website\User\StudentRepository;
 
 class StudentWorkshopState
 {
-    private SessionStorageInterface $session;
-    private StudentRepository $studentRepository;
-
     public function __construct(
-        SessionStorageInterface $session,
-        StudentRepository $studentRepository,
-    ) {
-        $this->session = $session;
-        $this->studentRepository = $studentRepository;
-    }
+        private readonly SessionStorageInterface $session,
+        private readonly StudentRepository $studentRepository,
+    ) {}
 
     private function getStudent(): StudentDTO
     {

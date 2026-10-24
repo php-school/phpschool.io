@@ -13,17 +13,11 @@ use PhpSchool\PhpWorkshop\UserState\UserState;
 class StudentCloudState implements \JsonSerializable
 {
     /**
-     * @var WorkshopState
-     */
-    private array $workshopState;
-
-    /**
      * @param WorkshopState $workshopState
      */
-    public function __construct(array $workshopState)
-    {
-        $this->workshopState = $workshopState;
-    }
+    public function __construct(
+        private readonly array $workshopState,
+    ) {}
 
     public function getStateForWorkshop(string $workshop): UserState
     {

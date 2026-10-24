@@ -15,13 +15,9 @@ class RegenerateFeed
 {
     use JsonUtils;
 
-    private WorkshopFeed $workshopFeed;
-
     public function __construct(
-        WorkshopFeed $workshopFeed,
-    ) {
-        $this->workshopFeed = $workshopFeed;
-    }
+        private readonly WorkshopFeed $workshopFeed,
+    ) {}
 
     public function __invoke(Request $request, Response $response): MessageInterface
     {

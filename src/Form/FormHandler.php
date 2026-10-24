@@ -22,19 +22,12 @@ class FormHandler
     use JsonUtils;
 
     /**
-     * @var InputFilter<TFilteredValues>
-     */
-    private InputFilter $inputFilter;
-    private Session $session;
-
-    /**
      * @param InputFilter<TFilteredValues> $inputFilter
      */
-    public function __construct(InputFilter $inputFilter, Session $session)
-    {
-        $this->inputFilter = $inputFilter;
-        $this->session = $session;
-    }
+    public function __construct(
+        private readonly InputFilter $inputFilter,
+        private readonly Session $session,
+    ) {}
 
     /**
      * @return bool|MessageInterface

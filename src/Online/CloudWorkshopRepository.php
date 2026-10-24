@@ -10,12 +10,10 @@ use RuntimeException;
 
 class CloudWorkshopRepository
 {
-    private WorkshopRepository $workshopRepository;
-
-    public function __construct(WorkshopRepository $workshopRepository, private readonly string $composerCacheDir)
-    {
-        $this->workshopRepository = $workshopRepository;
-    }
+    public function __construct(
+        private readonly WorkshopRepository $workshopRepository,
+        private readonly string $composerCacheDir,
+    ) {}
 
     public function findByCode(string $code): CloudInstalledWorkshop
     {
