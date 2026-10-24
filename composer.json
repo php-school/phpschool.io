@@ -47,7 +47,8 @@
     "symfony/rate-limiter": "^7.4",
     "jimtools/jwt-auth": "^3.0",
     "symfony/var-exporter": "^7.4",
-    "mnapoli/silly": "^1.10"
+    "mnapoli/silly": "^1.10",
+    "symfony/semaphore": "^7.4"
   },
   "autoload": {
     "psr-4": {

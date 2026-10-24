@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a7a493b3b0b02edeb75011aee8f7988",
+    "content-hash": "50e29622bcbd1c7909bcd4113eac73d0",
     "packages": [
         {
             "name": "ahinkle/packagist-latest-version",
@@ -7832,6 +7832,85 @@
                 }
             ],
             "time": "2026-08-07T15:34:54+00:00"
+        },
+        {
+            "name": "symfony/semaphore",
+            "version": "v7.4.18",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/semaphore.git",
+                "reference": "102e8b9fd2950161365e40449fe7f62a4c1e3287"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/semaphore/zipball/102e8b9fd2950161365e40449fe7f62a4c1e3287",
+                "reference": "102e8b9fd2950161365e40449fe7f62a4c1e3287",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "psr/log": "^1|^2|^3"
+            },
+            "conflict": {
+                "symfony/cache": "<6.4"
+            },
+            "require-dev": {
+                "predis/predis": "^1.1|^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Semaphore\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire Pineau",
+                    "email": "lyrixx@lyrixx.info"
+                },
+                {
+                    "name": "Jérémy Derussé",
+                    "email": "jeremy@derusse.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Semaphore Component",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "semaphore"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/semaphore/tree/v7.4.18"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-08-30T20:10:52+00:00"
         },
         {
             "name": "symfony/service-contracts",
