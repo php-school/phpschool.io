@@ -1,5 +1,6 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { onMounted, ref } from "vue";
+import { useDebounceFn, useEventListener } from "@vueuse/core";
 import PrimaryButton from "../PrimaryButton.vue";
 import GitHubIcon from "../../Icons/GitHubIcon.vue";
 import MockWorkshopExerciseList from "./Home/Mocks/MockWorkshopExerciseList.vue";
@@ -67,55 +68,20 @@ const transitions = {
   feedbackProblemModal: ref(),
 };
 
-const debounce = function (func, wait, immediate) {
-  let timeout;
-  return function () {
-    const context = this,
-      args = arguments;
-    const later = () => {
-      timeout = null;
-      if (!immediate) {
-        func.apply(context, args);
-      }
-    };
-    const callNow = immediate && !timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-    if (callNow) {
-      func.apply(context, args);
-    }
-  };
-};
+// Fade each mock in once its top is in the upper 80% of the viewport.
+const checkImages = () => {
+  Object.values(transitions).forEach((target) => {
+    const container = target.value;
 
-function checkImages() {
-  Object.keys(transitions).forEach((key) => {
-    const container = transitions[key].value;
-
-    if (!container) {
-      console.log(key);
-    }
-
-    const rect = container.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
-
-    if (rect.top < windowHeight * 0.8) {
+    if (container && container.getBoundingClientRect().top < window.innerHeight * 0.8) {
       container.classList.remove("opacity-0", "translate-y-6", "translate-x-10");
     }
   });
-}
+};
 
-const debouncedCheckImages = debounce(checkImages, 500);
-
-onMounted(() => {
-  window.addEventListener("scroll", checkImages);
-  window.addEventListener("resize", debouncedCheckImages);
-  checkImages();
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", checkImages);
-  window.removeEventListener("resize", debouncedCheckImages);
-});
+onMounted(checkImages);
+useEventListener("scroll", checkImages, { passive: true });
+useEventListener("resize", useDebounceFn(checkImages, 500));
 
 const phpSchoolBreakdown = {
   openSource: {

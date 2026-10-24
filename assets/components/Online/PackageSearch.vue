@@ -1,8 +1,8 @@
 <script setup>
 import { Combobox, ComboboxInput, ComboboxOptions, ComboboxOption, TransitionRoot } from "@headlessui/vue";
 import { CheckIcon } from "@heroicons/vue/20/solid";
-import debounce from "./Utils/debounce.js";
 import { ref, watch } from "vue";
+import { useDebounceFn } from "@vueuse/core";
 
 const query = ref("");
 const selected = ref(null);
@@ -20,7 +20,7 @@ const reset = () => {
   filteredPackages.value = [];
 };
 
-const searchPackages = debounce(function (newQuery) {
+const searchPackages = useDebounceFn((newQuery) => {
   query.value = newQuery;
 
   if (newQuery.length < 4) {
@@ -40,7 +40,7 @@ const searchPackages = debounce(function (newQuery) {
     .then((packages) => {
       filteredPackages.value = packages.results;
     });
-});
+}, 500);
 
 defineExpose({
   reset,

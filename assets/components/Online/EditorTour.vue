@@ -1,7 +1,7 @@
 <script setup>
 import { offset } from "@floating-ui/dom";
-import waitUntil from "./Utils/waitUntil.js";
 import { onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { until } from "@vueuse/core";
 import Shepherd from "shepherd.js";
 
 import { useStudentStore } from "../../stores/student";
@@ -111,10 +111,6 @@ const createTour = () => {
     ],
   });
 
-  const problemModalIsOpen = function () {
-    return props.problemModalOpen === true;
-  };
-
   tour.value.addStep({
     attachTo: {
       element: "#problem-modal",
@@ -122,7 +118,7 @@ const createTour = () => {
     },
     beforeShowPromise: function () {
       emit("tour-starting");
-      return waitUntil(problemModalIsOpen);
+      return until(() => props.problemModalOpen).toBe(true);
     },
     text: "For each exercise, there will be a problem you need to solve. It will open automatically when you enter the editor.",
     buttons: [
@@ -186,17 +182,13 @@ const createTour = () => {
     advanceOn: { selector: "#run", event: "click" },
   });
 
-  const isFirstRunLoaded = function () {
-    return props.firstRunLoaded === true;
-  };
-
   tour.value.addStep({
     attachTo: {
       element: "#run-modal",
       on: "right",
     },
     text: "Your program output is displayed here. You can execute your program multiple times.",
-    beforeShowPromise: () => waitUntil(isFirstRunLoaded),
+    beforeShowPromise: () => until(() => props.firstRunLoaded).toBe(true),
     buttons: [
       {
         text: "Next",
@@ -222,17 +214,13 @@ const createTour = () => {
     advanceOn: { selector: "#verify", event: "click" },
   });
 
-  const isFirstVerifyLoaded = function () {
-    return props.firstVerifyLoaded === true;
-  };
-
   tour.value.addStep({
     attachTo: {
       element: "#results-col",
       on: "right-start",
     },
     text: "The results of verifying your program are displayed here. ❌ It appears your program's output did not match the expected output.",
-    beforeShowPromise: () => waitUntil(isFirstVerifyLoaded),
+    beforeShowPromise: () => until(() => props.firstVerifyLoaded).toBe(true),
     buttons: [
       {
         text: "Next",
