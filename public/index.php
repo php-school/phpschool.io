@@ -90,8 +90,9 @@ $errors->getDefaultErrorHandler()->registerErrorRenderer(
     ])
 );
 
-// the site is behind Cloudflare, so the visitor's IP is in CF-Connecting-IP, not REMOTE_ADDR
-$ipAddress = new IpAddress(true, [], 'ip_address', ['CF-Connecting-IP']);
+// nginx sets REMOTE_ADDR to the visitor's IP from CF-Connecting-IP, but only for requests from Cloudflare's ranges.
+// Reading the header here would trust it from anyone who reaches the server directly
+$ipAddress = new IpAddress(false, [], 'ip_address');
 
 // eg $limitPerIp('adminLogin', 5, '1 minute'), for public routes that anyone could hammer
 $limitPerIp = fn (string $id, int $limit, string $interval) => new IpRateLimiter(new RateLimiterFactory(
