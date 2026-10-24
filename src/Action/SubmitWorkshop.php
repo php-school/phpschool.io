@@ -7,6 +7,8 @@ namespace PhpSchool\Website\Action;
 use PhpSchool\Website\Exception\WorkshopCreationException;
 use PhpSchool\Website\Form\FormHandler;
 use PhpSchool\Website\Service\WorkshopCreator;
+use PhpSchool\Website\User\SessionStorageInterface;
+use PhpSchool\Website\User\StudentDTO;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -29,6 +31,7 @@ class SubmitWorkshop
         private readonly WorkshopCreator $workshopCreator,
         private readonly EmailNotifier $emailNotifier,
         private readonly LoggerInterface $logger,
+        private readonly SessionStorageInterface $session,
     ) {}
 
 
@@ -40,8 +43,13 @@ class SubmitWorkshop
             return $res;
         }
 
+        /** @var StudentDTO $student */
+        $student = $this->session->get('student');
+
         try {
-            $workshop = $this->workshopCreator->create($this->formHandler->getData());
+            $workshop = $this->workshopCreator->create(
+                [...$this->formHandler->getData(), 'email' => $student->email, 'name' => $student->name],
+            );
         } catch (WorkshopCreationException $e) {
             return $this->withJson(['success' => false, 'workshop_errors' => $e->getErrors()], $response);
         }

@@ -73,7 +73,7 @@ use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\User\Adapter\Doctrine;
 use PhpSchool\Website\User\AdminAuthenticationService;
 use PhpSchool\Website\User\Entity\Student;
-use PhpSchool\Website\User\Middleware\StudentAuthenticator;
+use PhpSchool\Website\User\Middleware\RequireLogin;
 use PhpSchool\Website\User\Middleware\StudentRefresher;
 use PhpSchool\Website\User\Session;
 use PhpSchool\Website\User\SessionStorageInterface;
@@ -206,6 +206,7 @@ return [
             new WorkshopCreator(new WorkshopComposerJsonInputFilter(), $c->get(WorkshopRepository::class)),
             $c->get(EmailNotifier::class),
             $c->get(LoggerInterface::class),
+            $c->get(Session::class),
         );
     }),
 
@@ -373,8 +374,8 @@ return [
         return new AdminAuthenticationService($authService);
     }),
 
-    StudentAuthenticator::class => function (ContainerInterface $c): StudentAuthenticator {
-        return new StudentAuthenticator(
+    RequireLogin::class => function (ContainerInterface $c): RequireLogin {
+        return new RequireLogin(
             $c->get(Session::class),
         );
     },

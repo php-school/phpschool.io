@@ -35,7 +35,7 @@ use PhpSchool\Website\Online\Middleware\ExerciseRunnerRateLimiter;
 use PhpSchool\Website\Online\Middleware\Styles;
 use PhpSchool\Website\ContainerFactory;
 use PhpSchool\Website\User\Entity\Student;
-use PhpSchool\Website\User\Middleware\StudentAuthenticator;
+use PhpSchool\Website\User\Middleware\RequireLogin;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -81,7 +81,7 @@ $errors->getDefaultErrorHandler()->registerErrorRenderer(
     ])
 );
 
-$app->post('/api/submit', SubmitWorkshop::class);
+$app->post('/api/submit', SubmitWorkshop::class)->add($container->get(RequireLogin::class));
 $app->get('/api/events', Events::class);
 $app->get('/api/posts', BlogPosts::class);
 $app->post('/api/slack-invite', SlackInvite::class);
@@ -145,7 +145,7 @@ $app
         $group->post('/tour/complete', TourComplete::class);
         $group->post('/reset', ResetState::class);
     })
-    ->add($container->get(StudentAuthenticator::class));
+    ->add($container->get(RequireLogin::class));
 
 // Run app
 $app->run();
