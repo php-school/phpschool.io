@@ -180,6 +180,21 @@ class SubmitWorkshopTest extends TestCase
                     ],
                 ],
             ],
+            'invalid-contact-not-a-link' => [
+                [
+                    'github-url'    => 'https://github.com/php-school/learn-you-php',
+                    'email'         => 'aydin@hotmail.co.uk',
+                    'name'          => 'Aydin Hassan',
+                    'contact'       => 'javascript:alert(1)',
+                    'workshop-name' => 'PHP7',
+                ],
+                null,
+                [
+                    'contact' => [
+                        'regexNotMatch' => 'Contact should be a link starting with https://',
+                    ],
+                ],
+            ],
             'invalid-contact-too-short' => [
                 [
                     'github-url'    => 'https://github.com/php-school/learn-you-php',
@@ -192,6 +207,7 @@ class SubmitWorkshopTest extends TestCase
                 [
                     'contact' => [
                         'stringLengthTooShort' => 'Contact should be between 2 and 512 characters long.',
+                        'regexNotMatch' => 'Contact should be a link starting with https://',
                     ],
                 ],
             ],
@@ -207,6 +223,7 @@ class SubmitWorkshopTest extends TestCase
                 [
                     'contact' => [
                         'stringLengthTooLong' => 'Contact should be between 2 and 512 characters long.',
+                        'regexNotMatch' => 'Contact should be a link starting with https://',
                     ],
                 ],
             ],

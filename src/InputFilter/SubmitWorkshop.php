@@ -131,6 +131,16 @@ class SubmitWorkshop extends InputFilter
                         ],
                     ],
                 ],
+                [
+                    //shown as a link on the home page, so no javascript: or other schemes
+                    'name' => Regex::class,
+                    'options' => [
+                        'pattern' => '#^https?://#i',
+                        'messages' => [
+                            Regex::NOT_MATCH => 'Contact should be a link starting with https://',
+                        ],
+                    ],
+                ],
             ],
         ]);
 
