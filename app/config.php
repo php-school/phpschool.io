@@ -93,6 +93,8 @@ use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\RateLimiter\Storage\CacheStorage;
+use Symfony\Component\Semaphore\SemaphoreFactory;
+use Symfony\Component\Semaphore\Store\RedisStore as SemaphoreRedisStore;
 use Symfony\Contracts\Cache\CacheInterface;
 use JimTools\JwtAuth\Decoder\FirebaseDecoder;
 use JimTools\JwtAuth\Middleware\JwtAuthentication;
@@ -439,7 +441,7 @@ return [
         );
     },
 
-    'rateLimiterStorage' => function (ContainerInterface $c): CacheStorage {
+    'redis' => function (ContainerInterface $c): \Predis\Client {
         $redisConnection = new \Predis\Client(['host' => $c->get('config')['redisHost']]);
         try {
             $redisConnection->connect();
@@ -453,7 +455,11 @@ return [
             );
         }
 
-        return new CacheStorage(new RedisAdapter($redisConnection, 'rate_limiter'));
+        return $redisConnection;
+    },
+
+    'rateLimiterStorage' => function (ContainerInterface $c): CacheStorage {
+        return new CacheStorage(new RedisAdapter($c->get('redis'), 'rate_limiter'));
     },
 
     'exerciseRunnerRateLimiterFactory' => function (ContainerInterface $c): RateLimiterFactory {
@@ -472,11 +478,7 @@ return [
         return new ExerciseRunnerRateLimiter(
             $c->get(SessionStorageInterface::class),
             $c->get('exerciseRunnerRateLimiterFactory'),
-            //runs take up to 30 seconds, so this keeps roughly 30 containers or fewer running at once
-            new RateLimiterFactory(
-                ['id' => 'exerciseRunnerAll', 'policy' => 'sliding_window', 'limit' => 60, 'interval' => '1 minute'],
-                $c->get('rateLimiterStorage'),
-            ),
+            new SemaphoreFactory(new SemaphoreRedisStore($c->get('redis'))),
         );
     },
 
