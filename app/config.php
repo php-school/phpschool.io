@@ -472,6 +472,11 @@ return [
         return new ExerciseRunnerRateLimiter(
             $c->get(SessionStorageInterface::class),
             $c->get('exerciseRunnerRateLimiterFactory'),
+            //runs take up to 30 seconds, so this keeps roughly 30 containers or fewer running at once
+            new RateLimiterFactory(
+                ['id' => 'exerciseRunnerAll', 'policy' => 'sliding_window', 'limit' => 60, 'interval' => '1 minute'],
+                $c->get('rateLimiterStorage'),
+            ),
         );
     },
 
