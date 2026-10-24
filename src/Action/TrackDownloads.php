@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action;
 
 use PhpSchool\Website\Entity\WorkshopInstall;
@@ -13,16 +15,10 @@ class TrackDownloads
 {
     use JsonUtils;
 
-    private WorkshopRepository $workshopRepository;
-    private WorkshopInstallRepository $workshopInstallRepository;
-
     public function __construct(
-        WorkshopRepository $workshopRepository,
-        WorkshopInstallRepository $workshopInstallRepository
-    ) {
-        $this->workshopRepository = $workshopRepository;
-        $this->workshopInstallRepository = $workshopInstallRepository;
-    }
+        private readonly WorkshopRepository $workshopRepository,
+        private readonly WorkshopInstallRepository $workshopInstallRepository,
+    ) {}
 
     public function __invoke(Request $request, Response $response, string $workshop, string $version): Response
     {
@@ -33,8 +29,11 @@ class TrackDownloads
                 ->withJson(['status' => 'error', 'message' => "Workshop: \"$workshop\" not found."], $response, 404);
         }
 
+        /** @var string $ipAddress */
+        $ipAddress = $request->getAttribute('ip_address');
+
         $this->workshopInstallRepository->save(
-            new WorkshopInstall($workshopEntity, $request->getAttribute('ip_address'), $version)
+            new WorkshopInstall($workshopEntity, $ipAddress, $version),
         );
 
         return $this->jsonSuccess($response);

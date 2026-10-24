@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\InputFilter;
 
 use Github\Api\Repo;
@@ -20,7 +22,7 @@ class SubmitWorkshopTest extends TestCase
      * @param array $messages
      * @dataProvider inputDataProvider
      */
-    public function testInputFilter(array $input, array $output = null, array $messages = null)
+    public function testInputFilter(array $input, ?array $output = null, ?array $messages = null)
     {
         $repo = $this->createMock(Repo::class);
         $repo->expects($this->any())->method('tags')->willReturnCallback(function ($owner, $repo) {
@@ -99,9 +101,9 @@ class SubmitWorkshopTest extends TestCase
                 null,
                 [
                     'github-url' => [
-                        'regexNotMatch' => 'The URL "https://www.google.com" is not a valid GitHub repository URL.'
-                    ]
-                ]
+                        'regexNotMatch' => 'The URL "https://www.google.com" is not a valid GitHub repository URL.',
+                    ],
+                ],
             ],
             'invalid-no-composer.json' => [
                 [
@@ -114,9 +116,9 @@ class SubmitWorkshopTest extends TestCase
                 null,
                 [
                     'github-url' => [
-                        'callbackValue' => 'Cannot download the contents of composer.json from "https://github.com/AydinHassan/private". Does it exist?'
-                    ]
-                ]
+                        'callbackValue' => 'Cannot download the contents of composer.json from "https://github.com/AydinHassan/private". Does it exist?',
+                    ],
+                ],
             ],
             'invalid-no-git-tags' => [
                 [
@@ -129,9 +131,9 @@ class SubmitWorkshopTest extends TestCase
                 null,
                 [
                     'github-url' => [
-                        'callbackValue' => 'Cannot find any git tags in "https://github.com/php-school/phpschool.io". Make sure you tag a release.'
-                    ]
-                ]
+                        'callbackValue' => 'Cannot find any git tags in "https://github.com/php-school/phpschool.io". Make sure you tag a release.',
+                    ],
+                ],
             ],
             'invalid-email' => [
                 [
@@ -144,9 +146,9 @@ class SubmitWorkshopTest extends TestCase
                 null,
                 [
                     'email' => [
-                        'emailAddressInvalidFormat' => 'The input is not a valid email address. Use the basic format local-part@hostname'
-                    ]
-                ]
+                        'emailAddressInvalidFormat' => 'The input is not a valid email address. Use the basic format local-part@hostname',
+                    ],
+                ],
             ],
             'invalid-name-too-short' => [
                 [
@@ -159,9 +161,9 @@ class SubmitWorkshopTest extends TestCase
                 null,
                 [
                     'name' => [
-                        'stringLengthTooShort' => 'Name should be between 2 and 255 characters long.'
-                    ]
-                ]
+                        'stringLengthTooShort' => 'Name should be between 2 and 255 characters long.',
+                    ],
+                ],
             ],
             'invalid-name-too-long' => [
                 [
@@ -174,9 +176,9 @@ class SubmitWorkshopTest extends TestCase
                 null,
                 [
                     'name' => [
-                        'stringLengthTooLong' => 'Name should be between 2 and 255 characters long.'
-                    ]
-                ]
+                        'stringLengthTooLong' => 'Name should be between 2 and 255 characters long.',
+                    ],
+                ],
             ],
             'invalid-contact-too-short' => [
                 [
@@ -189,9 +191,9 @@ class SubmitWorkshopTest extends TestCase
                 null,
                 [
                     'contact' => [
-                        'stringLengthTooShort' => 'Contact should be between 2 and 512 characters long.'
-                    ]
-                ]
+                        'stringLengthTooShort' => 'Contact should be between 2 and 512 characters long.',
+                    ],
+                ],
             ],
             'invalid-contact-too-long' => [
                 [
@@ -204,9 +206,9 @@ class SubmitWorkshopTest extends TestCase
                 null,
                 [
                     'contact' => [
-                        'stringLengthTooLong' => 'Contact should be between 2 and 512 characters long.'
-                    ]
-                ]
+                        'stringLengthTooLong' => 'Contact should be between 2 and 512 characters long.',
+                    ],
+                ],
             ],
             'invalid-workshop-name-too-short' => [
                 [
@@ -219,9 +221,9 @@ class SubmitWorkshopTest extends TestCase
                 null,
                 [
                     'workshop-name' => [
-                        'stringLengthTooShort' => 'Workshop name should be between 2 and 255 characters long.'
-                    ]
-                ]
+                        'stringLengthTooShort' => 'Workshop name should be between 2 and 255 characters long.',
+                    ],
+                ],
             ],
             'invalid-workshop-name-too-short' => [
                 [
@@ -234,9 +236,9 @@ class SubmitWorkshopTest extends TestCase
                 null,
                 [
                     'workshop-name' => [
-                        'stringLengthTooLong' => 'Workshop name should be between 2 and 255 characters long.'
-                    ]
-                ]
+                        'stringLengthTooLong' => 'Workshop name should be between 2 and 255 characters long.',
+                    ],
+                ],
             ],
             'invalid-workshop-name-not-unique' => [
                 [
@@ -249,9 +251,9 @@ class SubmitWorkshopTest extends TestCase
                 null,
                 [
                     'workshop-name' => [
-                        'callbackValue' => 'The name is used by an existing workshop, please try another.'
-                    ]
-                ]
+                        'callbackValue' => 'The name is used by an existing workshop, please try another.',
+                    ],
+                ],
             ],
             'invalid-missing-fields' => [
                 [],
@@ -261,7 +263,7 @@ class SubmitWorkshopTest extends TestCase
                     'email'         => ['isEmpty' => 'Value is required and can\'t be empty'],
                     'name'          => ['isEmpty' => 'Value is required and can\'t be empty'],
                     'workshop-name' => ['isEmpty' => 'Value is required and can\'t be empty'],
-                ]
+                ],
             ],
         ];
     }

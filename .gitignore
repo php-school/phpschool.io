@@ -1,6 +1,7 @@
 .idea
 node_modules
 .DS_Store
+.php-cs-fixer.cache
 npm-debug.log
 /vendor/
 /logs/*
@@ -8,13 +9,17 @@ npm-debug.log
 /cache/
 /config/database.yml
 /.phpunit.result.cache
-
+/*.sql
 .docker/db/*
 .docker/mysql/*
 
+/public/dist/**/*.*
+!/public/dist/.gitkeep
 /public/workshops.json
 /public/uploads
 /public/blog
 .env
 /var
 /log
+
+/assets/.vite-ssg-temp/

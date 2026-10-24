@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website;
 
 use DI\ContainerBuilder;
@@ -14,13 +16,13 @@ class ContainerFactory
     public function __invoke(): ContainerInterface
     {
 
-        $dotEnv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+        $dotEnv = \Dotenv\Dotenv::createMutable(__DIR__ . '/../');
         $dotEnv->load();
 
         $config = include __DIR__ . '/../app/config.php';
 
         Collection::macro('ifEmpty', function (callable $callback) {
-            /** @var Collection $this */
+            /** @var Collection<array-key, mixed> $this */
             if ($this->isEmpty()) {
                 $callback($this);
             }
@@ -29,6 +31,7 @@ class ContainerFactory
         });
 
         $containerBuilder = new ContainerBuilder();
+        $containerBuilder->addDefinitions(include __DIR__ . '/../vendor/php-school/php-workshop/app/config.php');
         $containerBuilder->addDefinitions($config);
 
         if ($config['config']['enableCache']) {

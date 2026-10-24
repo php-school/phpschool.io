@@ -1,10 +1,10 @@
 ## Install
 
-You will need `composer`, `gulp` and `docker`.
+You will need `composer`, `node` and `docker`.
 
 ```shell
-composer install
 npm install
+npm run build
 cp .env.dist .env
 docker-compose build
 ```
@@ -12,11 +12,17 @@ docker-compose build
 ## Run
 ```shell
 docker-compose up -d
+docker compose exec php composer install
 ```
 
 ### Create DB Scheme
 ```shell
 docker compose exec php composer app:db:update
+```
+
+### Import DB
+```shell
+docker-compose exec -T db mysql -uroot phpschool -proot < phpschool.sql
 ```
 
 ### Generate Blog
@@ -26,19 +32,41 @@ docker compose exec php composer app:gen:blog
 
 Then navigate to `http://localhost` !
 
-Pages are cached on first view.
-If you need to clear the cache, run `docker compose exec php composer app:cc`.
+## Build CSS & JS
 
-## Build CSS
+This needs to be done for the main website (non cloud) to run in development mode.
 
 ```shell
-gulp sass
+npm run build
 ```
 
-## Build SVG's
+## Building CSS & JS for cloud dev
+
+The cloud styles and JS are built using `vite.js` and therefore has a dev/watcher mode with hot/live reloading.
+
+Run:
+
 ```shell
-gulp svg
+npm run dev
 ```
+
+You will also need to symlink the image directory:
+
+```shell
+ln -s ../../assets/img/cloud public/img/cloud
+````
+
+## For GitHub login
+
+Add `127.0.0.1 www.phpschool.local` to `/etc/hosts`
+
+Create a GitHub oauth App:
+
+Application Name: PHP School Local
+Homepage: http://www.phpschool.local
+Authorization Callback URL: http://www.phpschool.local/student-login: 
+
+Take the client secret and client ID and place them in your `.env` file under the keys: `GITHUB_CLIENT_ID` & `GITHUB_CLIENT_SECRET`.
 
 ### View cache keys
 
@@ -49,7 +77,7 @@ docker-compose exec redis redis-cli keys '*'
 ### Clear cache
 
 ```shell
-docker compose exec php composer app:cc
+docker-compose exec php composer app:cc
 ```
 
 ## Deploy

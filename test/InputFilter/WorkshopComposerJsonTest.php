@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\WebsiteTest\InputFilter;
 
 use PhpSchool\Website\InputFilter\WorkshopComposerJson;
@@ -16,7 +18,7 @@ class WorkshopComposerJsonTest extends TestCase
      * @param array $messages
      * @dataProvider inputDataProvider
      */
-    public function testInputFilter(array $input, array $output = null, array $messages = null)
+    public function testInputFilter(array $input, ?array $output = null, ?array $messages = null)
     {
         $filter = new WorkshopComposerJson();
         $filter->setData($input);
@@ -51,7 +53,7 @@ class WorkshopComposerJsonTest extends TestCase
                     'type'        => ['isEmpty' => 'The "type" key in "composer.json" should be "php-school-workshop"'],
                     'bin'         => ['isEmpty' => 'The "bin" key in "composer.json" should be an array with one entry which points to the entry point of the workshop. For example: {"bin" : ["bin/learnyouphp"]}'],
                     'description' => ['isEmpty' => 'The "description" key in "composer.json" should be set with a small description of the workshop'],
-                ]
+                ],
             ],
             'invalid-missing-fields' => [
                 [
@@ -62,9 +64,9 @@ class WorkshopComposerJsonTest extends TestCase
                 null,
                 [
                     'type' => [
-                        'notSame' => 'The "type" key in "composer.json" should be "php-school-workshop"'
+                        'notSame' => 'The "type" key in "composer.json" should be "php-school-workshop"',
                     ],
-                ]
+                ],
             ],
             'invalid-bin-format' => [
                 [
@@ -75,9 +77,9 @@ class WorkshopComposerJsonTest extends TestCase
                 null,
                 [
                     'bin' => [
-                        'callbackValue' => 'The "bin" key in "composer.json" should be an array with one entry which points to the entry point of the workshop. For example: {"bin" : ["bin/learnyouphp"]}'
+                        'callbackValue' => 'The "bin" key in "composer.json" should be an array with one entry which points to the entry point of the workshop. For example: {"bin" : ["bin/learnyouphp"]}',
                     ],
-                ]
+                ],
             ],
             'invalid-description-too-short' => [
                 [
@@ -88,9 +90,9 @@ class WorkshopComposerJsonTest extends TestCase
                 null,
                 [
                     'description' => [
-                        'stringLengthTooShort' => 'The "description" key should be between 10 and 512 characters long.'
-                    ]
-                ]
+                        'stringLengthTooShort' => 'The "description" key should be between 10 and 512 characters long.',
+                    ],
+                ],
             ],
             'invalid-description-too-long' => [
                 [
@@ -101,9 +103,9 @@ class WorkshopComposerJsonTest extends TestCase
                 null,
                 [
                     'description' => [
-                        'stringLengthTooLong' => 'The "description" key should be between 10 and 512 characters long.'
-                    ]
-                ]
+                        'stringLengthTooLong' => 'The "description" key should be between 10 and 512 characters long.',
+                    ],
+                ],
             ],
         ];
     }

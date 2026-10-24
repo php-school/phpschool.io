@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\InputFilter;
 
 use Laminas\InputFilter\InputFilter;
@@ -7,7 +9,11 @@ use Laminas\Validator\EmailAddress;
 use Laminas\Validator\StringLength;
 
 /**
- * @psalm-suppress PropertyNotSetInConstructor
+ * @phpstan-type LoginData array{
+ *      email: string,
+ *      password: string,
+ *  }
+ * @extends InputFilter<LoginData>
  */
 class Login extends InputFilter
 {
@@ -23,12 +29,12 @@ class Login extends InputFilter
                         'min' => 3,
                         'max' => 254,
                         'break_chain_on_failure' => true,
-                    ]
+                    ],
                 ],
                 [
                     'name' => EmailAddress::class,
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->add([
@@ -40,9 +46,9 @@ class Login extends InputFilter
                     'options' => [
                         'min' => 3,
                         'max' => 255,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
     }
 }

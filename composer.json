@@ -1,7 +1,7 @@
 {
   "name": "php-school/website",
   "description": "PHP School Website",
-  "homepage": "http://www.phpschool.io",
+  "homepage": "https://www.phpschool.io",
   "license": "MIT",
   "authors": [
     {
@@ -10,37 +10,44 @@
     }
   ],
   "require": {
-    "php": "^8.3",
-    "slim/slim": "^4.7",
-    "monolog/monolog": "^2.2",
-    "php-di/slim-bridge": "^3.1",
-    "mnapoli/silly-php-di": "^1.0",
-    "psr/cache": "^1.0",
-    "symfony/cache": "^5.2",
-    "predis/predis": "^1.1",
-    "doctrine/orm": "^2.8",
-    "ramsey/uuid-doctrine": "^1.2",
-    "slim/flash": "^0.4.0",
-    "knplabs/github-api": "^3.1",
+    "php": "^8.5",
+    "slim/slim": "^4.15",
+    "monolog/monolog": "^2.10",
+    "php-di/slim-bridge": "^3.4",
+    "psr/cache": "^3.0",
+    "symfony/cache": "^7.4",
+    "predis/predis": "^3.0",
+    "doctrine/orm": "^3.0",
+    "ramsey/uuid-doctrine": "^2.1",
+    "knplabs/github-api": "^3.16",
     "jenssegers/agent": "^2.3",
-    "sendgrid/sendgrid": "^7.9",
-    "vlucas/phpdotenv": "^5.3",
-    "adamwathan/bootforms": "^0.9",
-    "mnapoli/front-yaml": "^1.5",
-    "laminas/laminas-inputfilter": "^2.12",
-    "laminas/laminas-uri": "^2.8",
-    "laminas/laminas-authentication": "^2.8",
-    "laminas/laminas-session": "^2.10",
-    "symfony/finder": "^5.2",
-    "laminas/laminas-filter": "^2.11",
-    "laminas/laminas-servicemanager": "^3.6",
-    "guzzlehttp/guzzle": "^7.0.1",
-    "http-interop/http-factory-guzzle": "^1.0",
-    "akrabat/ip-address-middleware": "^2.0",
+    "sendgrid/sendgrid": "^8.1",
+    "vlucas/phpdotenv": "^5.6",
+    "mnapoli/front-yaml": "^1.8",
+    "laminas/laminas-inputfilter": "^2.35",
+    "laminas/laminas-uri": "^2.14",
+    "laminas/laminas-authentication": "^2.19",
+    "laminas/laminas-session": "^2.27",
+    "symfony/finder": "^7.4",
+    "laminas/laminas-filter": "^2.42",
+    "laminas/laminas-servicemanager": "^3.24",
+    "guzzlehttp/guzzle": "^7.10 || ^8.0",
+    "http-interop/http-factory-guzzle": "^1.2",
+    "akrabat/ip-address-middleware": "^2.6",
     "ext-json": "*",
-    "illuminate/collections": "^8.36",
-    "doctrine/annotations": "^1.13",
-    "psr/log": "^3.0"
+    "illuminate/collections": "^13.0",
+    "psr/log": "^1.1",
+    "php-school/php-workshop": "dev-master",
+    "php-school/learn-you-php": "dev-workshop-rewrite",
+    "php-school/php8-appreciate": "dev-workshop-rewrite",
+    "league/oauth2-github": "^3.1",
+    "symfony/string": "^7.4",
+    "symfony/translation-contracts": "^3.7",
+    "ahinkle/packagist-latest-version": "^2.1",
+    "symfony/rate-limiter": "^7.4",
+    "jimtools/jwt-auth": "^3.0",
+    "symfony/var-exporter": "^7.4",
+    "mnapoli/silly": "^1.10"
   },
   "autoload": {
     "psr-4": {
@@ -53,29 +60,36 @@
     }
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "^3.6",
-    "phpunit/phpunit": "^9.5",
-    "vimeo/psalm": "^6.0",
-    "weirdan/doctrine-psalm-plugin": "^2.0",
-    "fig/log-test": "dev-main",
-    "doctrine/data-fixtures": "^1.5",
+    "phpunit/phpunit": "^9.6",
+    "doctrine/data-fixtures": "^2.2",
+    "phpstan/phpstan": "^2.1",
+    "friendsofphp/php-cs-fixer": "^3.95",
     "deployer/deployer": "^7.5"
   },
-  "scripts" : {
+  "scripts": {
     "test": [
       "@phpunit",
       "@cs"
     ],
     "phpunit": "phpunit",
-    "cs" : "phpcs",
-    "cs-fix": "phpcbf",
-    "static": "psalm",
+    "cs": "php-cs-fixer fix --dry-run --allow-risky=yes",
+    "cs:ci": "php-cs-fixer fix --dry-run --allow-risky=yes --format=checkstyle | cs2pr",
+    "cs-fix": "php-cs-fixer --allow-risky=yes fix",
+    "static": "phpstan --ansi analyse --level 9 src",
     "app:cc": "php bin/app clear-cache",
     "app:gen:blog": "php bin/app generate-blog",
-    "app:db:validate": "doctrine orm:validate-schema",
+    "app:db:validate": "php bin/app orm:validate-schema",
     "app:db:update": [
-      "doctrine orm:clear-cache:metadata",
-      "doctrine orm:schema-tool:update -f"
+      "php bin/app orm:clear-cache:metadata",
+      "php bin/app orm:schema-tool:update -f --complete"
     ]
+  },
+  "config": {
+    "allow-plugins": {
+      "phpstan/extension-installer": true,
+      "php-http/discovery": true
+    },
+    "platform": {
+    }
   }
 }

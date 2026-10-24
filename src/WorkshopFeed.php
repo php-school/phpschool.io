@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website;
 
 use PhpSchool\Website\Entity\Workshop;
@@ -8,14 +10,10 @@ use RuntimeException;
 
 class WorkshopFeed
 {
-    private WorkshopRepository $workshopRepository;
-    private string $outputFile;
-
-    public function __construct(WorkshopRepository $workshopRepository, string $outputFile)
-    {
-        $this->workshopRepository = $workshopRepository;
-        $this->outputFile = $outputFile;
-    }
+    public function __construct(
+        private readonly WorkshopRepository $workshopRepository,
+        private readonly string $outputFile,
+    ) {}
 
     public function generate(): void
     {

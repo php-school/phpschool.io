@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Action;
 
 use PhpSchool\Website\Exception\WorkshopCreationException;
 use PhpSchool\Website\Form\FormHandler;
-use PhpSchool\Website\PhpRenderer;
 use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use Psr\Http\Message\ResponseInterface;
@@ -13,37 +14,25 @@ use RuntimeException;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
+/**
+ * @phpstan-import-type SubmitWorkshopData from \PhpSchool\Website\InputFilter\SubmitWorkshop
+ */
 class SubmitWorkshop
 {
     use JsonUtils;
 
-    private FormHandler $formHandler;
-    private WorkshopCreator $workshopCreator;
-    private EmailNotifier $emailNotifier;
-    private LoggerInterface $logger;
-
+    /**
+     * @param FormHandler<SubmitWorkshopData> $formHandler
+     */
     public function __construct(
-        FormHandler $formHandler,
-        WorkshopCreator $workshopCreator,
-        EmailNotifier $emailNotifier,
-        LoggerInterface $logger
-    ) {
-        $this->formHandler = $formHandler;
-        $this->workshopCreator = $workshopCreator;
-        $this->emailNotifier = $emailNotifier;
-        $this->logger = $logger;
-    }
+        private readonly FormHandler $formHandler,
+        private readonly WorkshopCreator $workshopCreator,
+        private readonly EmailNotifier $emailNotifier,
+        private readonly LoggerInterface $logger,
+    ) {}
 
-    public function showSubmitForm(Request $request, Response $response, PhpRenderer $renderer): Response
-    {
-        return $renderer->render($response, 'layouts/layout.phtml', [
-            'pageTitle'       => 'Submit your workshop',
-            'pageDescription' => 'Submit your workshop to the workshop registry!',
-            'content'         => $renderer->fetch('submit.phtml')
-        ]);
-    }
 
-    public function submit(Request $request, Response $response): Response
+    public function __invoke(Request $request, Response $response): Response
     {
         $res = $this->formHandler->validateJsonRequest($request, $response);
 

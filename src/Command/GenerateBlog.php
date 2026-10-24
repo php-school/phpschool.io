@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Command;
 
 use Exception;
@@ -8,12 +10,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateBlog
 {
-    private Generator $generator;
-
-    public function __construct(Generator $generator)
-    {
-        $this->generator = $generator;
-    }
+    public function __construct(
+        private readonly Generator $generator,
+    ) {}
 
     public function __invoke(OutputInterface $output): void
     {

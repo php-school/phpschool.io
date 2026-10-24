@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\InputFilter;
 
 use Laminas\InputFilter\InputFilter;
@@ -9,7 +11,12 @@ use Laminas\Validator\NotEmpty;
 use Laminas\Validator\StringLength;
 
 /**
- * @psalm-suppress PropertyNotSetInConstructor
+ * @phpstan-type WorkshopComposerJsonData array{
+ *      name: string,
+ *      bin: string,
+ *      description: string
+ * }
+ * @extends InputFilter<WorkshopComposerJsonData>
  */
 class WorkshopComposerJson extends InputFilter
 {
@@ -35,35 +42,35 @@ class WorkshopComposerJson extends InputFilter
                             Identical::NOT_SAME => 'The "type" key in "composer.json" should be "php-school-workshop"',
                         ],
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $this->add([
-           'name' => 'bin',
-           'required' => true,
-           'validators' => [
-               [
-                   'name' => NotEmpty::class,
-                   'options' => [
-                       'break_chain_on_failure' => true,
-                       'messages' => [
-                           NotEmpty::IS_EMPTY => 'The "bin" key in "composer.json" should be an array with one entry which points to the entry point of the workshop. For example: {"bin" : ["bin/learnyouphp"]}',
-                       ]
-                   ]
-               ],
-               [
-                   'name' => Callback::class,
-                   'options' => [
-                       'callback' => /** @psalm-suppress MissingClosureParamType */ function ($bin) {
-                           return is_array($bin) && count($bin) === 1;
-                       },
-                       'messages' => [
-                           Callback::INVALID_VALUE => 'The "bin" key in "composer.json" should be an array with one entry which points to the entry point of the workshop. For example: {"bin" : ["bin/learnyouphp"]}',
-                       ]
-                   ]
-               ]
-           ]
+            'name' => 'bin',
+            'required' => true,
+            'validators' => [
+                [
+                    'name' => NotEmpty::class,
+                    'options' => [
+                        'break_chain_on_failure' => true,
+                        'messages' => [
+                            NotEmpty::IS_EMPTY => 'The "bin" key in "composer.json" should be an array with one entry which points to the entry point of the workshop. For example: {"bin" : ["bin/learnyouphp"]}',
+                        ],
+                    ],
+                ],
+                [
+                    'name' => Callback::class,
+                    'options' => [
+                        'callback' => /** @psalm-suppress MissingClosureParamType */ function ($bin) {
+                            return is_array($bin) && count($bin) === 1;
+                        },
+                        'messages' => [
+                            Callback::INVALID_VALUE => 'The "bin" key in "composer.json" should be an array with one entry which points to the entry point of the workshop. For example: {"bin" : ["bin/learnyouphp"]}',
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $this->add([
@@ -88,8 +95,8 @@ class WorkshopComposerJson extends InputFilter
                             StringLength::TOO_LONG => 'The "description" key should be between %min% and %max% characters long.',
                         ],
                     ],
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 }

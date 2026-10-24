@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSchool\Website\Repository;
 
 use Doctrine\ORM\EntityRepository;
@@ -67,13 +69,13 @@ class DoctrineORMWorkshopRepository extends EntityRepository implements Workshop
 
     public function save(Workshop $workshopSubmission): void
     {
-        $this->_em->persist($workshopSubmission);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($workshopSubmission);
+        $this->getEntityManager()->flush();
     }
 
     public function remove(Workshop $workshop): void
     {
-        $this->_em->remove($workshop);
-        $this->_em->flush();
+        $this->getEntityManager()->remove($workshop);
+        $this->getEntityManager()->flush();
     }
 }
