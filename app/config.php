@@ -134,7 +134,7 @@ return [
                 ->withHeader('cache-control', 'no-cache');
         });
         $app->add(StudentRefresher::class);
-        $app->add(new SessionMiddleware(['name' => 'phpschool']));
+        $app->add(new SessionMiddleware(['name' => 'phpschool', 'secure' => !$c->get('config')['devMode']]));
 
         return $app;
     }),
@@ -439,7 +439,7 @@ return [
         );
     },
 
-    'exerciseRunnerRateLimiterFactory' => function (ContainerInterface $c): RateLimiterFactory {
+    'rateLimiterStorage' => function (ContainerInterface $c): CacheStorage {
         $redisConnection = new \Predis\Client(['host' => $c->get('config')['redisHost']]);
         try {
             $redisConnection->connect();
@@ -453,8 +453,10 @@ return [
             );
         }
 
-        $adapter = new RedisAdapter($redisConnection, 'rate_limiter');
+        return new CacheStorage(new RedisAdapter($redisConnection, 'rate_limiter'));
+    },
 
+    'exerciseRunnerRateLimiterFactory' => function (ContainerInterface $c): RateLimiterFactory {
         return new RateLimiterFactory(
             [
                 'id' => 'exerciseRunner',
@@ -462,7 +464,7 @@ return [
                 'limit' => 10,
                 'interval' => '1 minute',
             ],
-            new CacheStorage($adapter),
+            $c->get('rateLimiterStorage'),
         );
     },
 
@@ -470,6 +472,11 @@ return [
         return new ExerciseRunnerRateLimiter(
             $c->get(SessionStorageInterface::class),
             $c->get('exerciseRunnerRateLimiterFactory'),
+            //runs take up to 30 seconds, so this keeps roughly 30 containers or fewer running at once
+            new RateLimiterFactory(
+                ['id' => 'exerciseRunnerAll', 'policy' => 'sliding_window', 'limit' => 60, 'interval' => '1 minute'],
+                $c->get('rateLimiterStorage'),
+            ),
         );
     },
 
