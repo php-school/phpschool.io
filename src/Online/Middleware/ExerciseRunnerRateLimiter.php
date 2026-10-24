@@ -19,7 +19,7 @@ class ExerciseRunnerRateLimiter
         private readonly RateLimiterFactory $limiterFactory,
         private readonly SemaphoreFactory $semaphoreFactory,
         //how many sandbox containers can run at once, across every student
-        private readonly int $maxRunning = 10,
+        private readonly int $maxRunning = 4,
         //how long a request waits for a free slot before giving up
         private readonly float $maxWaitSeconds = 20,
     ) {}
