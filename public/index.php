@@ -93,13 +93,10 @@ $limitPerIp = fn (string $id, int $limit, string $interval) => new IpRateLimiter
     $container->get('rateLimiterStorage'),
 ));
 
-// middleware runs last added first, so $ipAddress sets the IP before the limiter reads it
-$app->post('/api/submit', SubmitWorkshop::class)
-    ->add($limitPerIp('submitWorkshop', 5, '1 hour'))
-    ->add($ipAddress)
-    ->add($container->get(RequireLogin::class));
+$app->post('/api/submit', SubmitWorkshop::class)->add($container->get(RequireLogin::class));
 $app->get('/api/events', Events::class);
 $app->get('/api/posts', BlogPosts::class);
+// middleware runs last added first, so $ipAddress sets the IP before the limiter reads it
 $app->post('/api/slack-invite', SlackInvite::class)->add($limitPerIp('slackInvite', 5, '1 hour'))->add($ipAddress);
 $app->get('/api/contributors', Contributors::class);
 $app->post('/api/admin/login', Login::class)->add($limitPerIp('adminLogin', 5, '1 minute'))->add($ipAddress);
