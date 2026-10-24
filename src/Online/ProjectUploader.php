@@ -21,14 +21,14 @@ class ProjectUploader
 
     public function upload(Request $request, StudentDTO $student, ProcessFactory $processFactory): DirectorySolution
     {
-        /** @var array{scripts?: mixed, composer_deps?: mixed, entry_point?: string}|null $data */
+        /** @var array{scripts?: mixed, composer_deps?: mixed, entry_point?: mixed}|null $data */
         $data = json_decode($request->getBody()->__toString(), true);
 
         if (!is_array($data) || !isset($data['scripts']) || !is_array($data['scripts']) || count($data['scripts']) < 1) {
             throw new \RuntimeException('No files were uploaded');
         }
 
-        /** @var array<string, string> $scripts */
+        /** @var array<mixed> $scripts */
         $scripts = $data['scripts'];
 
         $basePath = $this->pathGenerator->random($student);
@@ -53,7 +53,7 @@ class ProjectUploader
         }
 
         $entryPoint = 'solution.php';
-        if (isset($data['entry_point']) && isset($data['scripts'][$data['entry_point']])) {
+        if (isset($data['entry_point']) && is_string($data['entry_point']) && isset($data['scripts'][$data['entry_point']])) {
             $entryPoint = $data['entry_point'];
         }
 
@@ -81,11 +81,16 @@ class ProjectUploader
     }
 
     /**
-     * @param array<string, string> $scripts
+     * @param array<mixed> $scripts
      */
     private function writeScripts(array $scripts, string $basePath): void
     {
         foreach ($scripts as $filePath => $content) {
+            //eg ["solution.php" => "<?php ..."], anything else used to throw a TypeError and leave the folder behind
+            if (!is_string($filePath) || !is_string($content)) {
+                throw new \RuntimeException('Invalid file');
+            }
+
             $this->validatePath($filePath);
 
             $fileName = basename($filePath);
