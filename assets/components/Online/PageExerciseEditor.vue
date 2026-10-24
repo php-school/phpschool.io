@@ -75,8 +75,9 @@ onMounted(async () => {
   // the entry point goes first, so it is at the top of the tree and opened in a tab
   initialFiles.value = [...data.initial_files].sort((a, b) => (b.name === entryPoint.value) - (a.name === entryPoint.value));
 
-  // saved files replace the starter files with the same path
-  studentFiles.value = buildTree({ ...starterFiles(), ...storage.load() });
+  // whatever is saved is the whole tree, so starter files the student deleted or renamed stay gone
+  const saved = storage.load();
+  studentFiles.value = buildTree(Object.keys(saved).length ? saved : starterFiles());
   openFiles.value = [studentFiles.value[0]];
 });
 
