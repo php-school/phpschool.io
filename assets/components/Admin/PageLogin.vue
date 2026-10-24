@@ -6,7 +6,7 @@ import { ArrowPathIcon } from "@heroicons/vue/24/solid";
 const adminStore = useAdminStore();
 
 const loading = ref(false);
-const errors = ref([]);
+const errors = ref({});
 
 const email = ref(null);
 const password = ref(null);
@@ -15,11 +15,16 @@ const login = async () => {
   errors.value = {}; //reset errors
   loading.value = true;
 
-  const loginResult = await adminStore.login(email.value, password.value);
-  loading.value = false;
+  try {
+    const loginResult = await adminStore.login(email.value, password.value);
 
-  if (loginResult.success === false) {
-    errors.value = loginResult.errors;
+    if (loginResult.success === false) {
+      errors.value = loginResult.errors;
+    }
+  } catch {
+    errors.value = { auth: ["Could not reach the server. Please try again."] };
+  } finally {
+    loading.value = false;
   }
 };
 </script>
