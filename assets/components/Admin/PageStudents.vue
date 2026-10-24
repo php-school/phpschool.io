@@ -1,6 +1,7 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { allStudents } from "./api";
+import { useSearch } from "./search";
 
 const props = defineProps({
   search: {
@@ -15,15 +16,7 @@ onMounted(async () => {
   students.value = await allStudents();
 });
 
-const filteredStudents = computed(() => {
-  if (props.search === "" || props.search === null) {
-    return students.value;
-  }
-
-  return students.value.filter((student) => {
-    return student.name.toLowerCase().includes(props.search.toLowerCase()) || student.email.toLowerCase().includes(props.search.toLowerCase());
-  });
-});
+const filteredStudents = useSearch(students, () => props.search, ["name", "email"]);
 </script>
 
 <template>

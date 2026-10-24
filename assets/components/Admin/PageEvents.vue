@@ -1,11 +1,12 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { EllipsisVerticalIcon, TrashIcon, PencilIcon, ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 import { ArrowPathIcon } from "@heroicons/vue/24/solid";
 import { Dialog, DialogPanel, DialogTitle, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from "@headlessui/vue";
 
 import Alert from "../Online/SiteAlert.vue";
 import { allEvents, createEvent, deleteEvent, updateEvent } from "./api";
+import { useSearch } from "./search";
 
 const props = defineProps({
   search: {
@@ -20,15 +21,7 @@ onMounted(async () => {
   events.value = await allEvents();
 });
 
-const filteredEvents = computed(() => {
-  if (props.search === "" || props.search === null) {
-    return events.value;
-  }
-
-  return events.value.filter((event) => {
-    return event.name.toLowerCase().includes(props.search.toLowerCase()) || event.description.toLowerCase().includes(props.search.toLowerCase());
-  });
-});
+const filteredEvents = useSearch(events, () => props.search, ["name", "description"]);
 
 const currentlyDeleting = ref(null);
 const showDeleteSuccess = ref(false);
