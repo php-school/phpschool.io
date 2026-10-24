@@ -1,11 +1,25 @@
 import toFilePath from "./toFilePath";
 
-// Builds the file tree from [path, content] pairs such as ["src/Foo.php", "<?php"],
-// linking every node to its parent. A later pair for the same path replaces the content.
-export function buildTree(pairs) {
+// The editor keeps a student's files in two shapes.
+//
+// Flat, keyed by path. Run and Verify send this, and it is what is saved in localStorage:
+//   { "solution.php": "<?php echo 1;", "src/Util/Str.php": "<?php ..." }
+//
+// A tree, which the file browser and the editor tabs use. Every node links to its parent folder (null at the top):
+//   [
+//     { name: "solution.php", content: "<?php echo 1;", parent: null },
+//     { name: "src", parent: null, children: [
+//       { name: "Util", parent: <src>, children: [
+//         { name: "Str.php", content: "<?php ...", parent: <Util> },
+//       ] },
+//     ] },
+//   ]
+
+// Flat → tree. Folders are created from the paths, in the order the paths come.
+export function buildTree(files) {
   const root = [];
 
-  for (const [path, content] of pairs) {
+  for (const [path, content] of Object.entries(files)) {
     const parts = path.split("/");
     const name = parts.pop();
     let parent = null;
@@ -21,18 +35,13 @@ export function buildTree(pairs) {
       siblings = folder.children;
     }
 
-    const file = siblings.find((node) => node.name === name && !node.children);
-    if (file) {
-      file.content = content;
-    } else {
-      siblings.push({ name, content, parent });
-    }
+    siblings.push({ name, content, parent });
   }
 
   return root;
 }
 
-// Flattens the tree into { "src/Foo.php": content }.
+// Tree → flat. Files without content yet are sent as empty.
 export function flatten(nodes, files = {}) {
   for (const node of nodes) {
     if (node.children) {
@@ -45,22 +54,15 @@ export function flatten(nodes, files = {}) {
   return files;
 }
 
-// The student's files for one exercise, kept in localStorage under "<workshop>.<exercise>.<path>".
+// The student's saved files for one exercise, kept flat as JSON under one localStorage key:
+//   "learnyouphp.Hello-World" → '{"solution.php":"<?php echo 1;","src/Util/Str.php":"<?php ..."}'
 export function savedFiles(workshop, exercise) {
-  const prefix = `${workshop}.${exercise}.`;
-  const keys = () => Object.keys(localStorage).filter((key) => key.startsWith(prefix));
-  const clear = () => keys().forEach((key) => localStorage.removeItem(key));
+  const key = `${workshop}.${exercise}`;
 
   return {
-    load: () => keys().map((key) => [key.slice(prefix.length), localStorage.getItem(key)]),
-    save: (file, content) => localStorage.setItem(prefix + toFilePath(file), content),
-    clear,
-    // Rewrites storage from the tree, so deleted and renamed files don't come back on reload.
-    sync: (tree) => {
-      clear();
-      for (const [path, content] of Object.entries(flatten(tree))) {
-        localStorage.setItem(prefix + path, content);
-      }
-    },
+    // → flat, or {} when nothing is saved yet
+    load: () => JSON.parse(localStorage.getItem(key) ?? "{}"),
+    // Saves the whole tree, so deleted and renamed files are gone on reload too.
+    save: (tree) => localStorage.setItem(key, JSON.stringify(flatten(tree))),
   };
 }

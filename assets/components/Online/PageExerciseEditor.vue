@@ -55,6 +55,9 @@ const problem = ref("");
 const openFileBrowser = ref(false);
 const openFileBrowserButton = ref(null);
 const storage = savedFiles(currentExercise.workshop.code, currentExercise.exercise.slug);
+const saveFiles = () => storage.save(studentFiles.value);
+// the exercise's own files, flat (see Utils/studentFiles.js)
+const starterFiles = () => Object.fromEntries(initialFiles.value.map((file) => [file.name, file.content]));
 
 onMounted(async () => {
   const response = await fetch("/api/online/workshop/" + currentExercise.workshop.code + "/exercise/" + currentExercise.exercise.slug);
@@ -70,7 +73,8 @@ onMounted(async () => {
   // the entry point goes first, so it is at the top of the tree and opened in a tab
   initialFiles.value = [...data.initial_files].sort((a, b) => (b.name === entryPoint.value) - (a.name === entryPoint.value));
 
-  studentFiles.value = buildTree([...initialFiles.value.map((file) => [file.name, file.content]), ...storage.load()]);
+  // saved files replace the starter files with the same path
+  studentFiles.value = buildTree({ ...starterFiles(), ...storage.load() });
   openFiles.value = [studentFiles.value[0]];
 });
 
@@ -80,7 +84,7 @@ const addFile = (file) => {
 
 const deleteFile = (file) => {
   file.parent.splice(file.index, 1);
-  storage.sync(studentFiles.value);
+  saveFiles();
 };
 
 const renameFile = (file) => {
@@ -89,7 +93,7 @@ const renameFile = (file) => {
   }
 
   file.file.name = file.name;
-  storage.sync(studentFiles.value);
+  saveFiles();
 };
 
 const closeTab = (tab) => {
@@ -145,10 +149,6 @@ const verifyFail = (newResults) => {
   loadingResults.value = false;
 };
 
-const saveSolution = (fileContent, file) => {
-  storage.save(file, fileContent);
-};
-
 const resetFiles = async () => {
   const ok = await confirm.value.show({
     title: "Resetting...",
@@ -160,8 +160,8 @@ const resetFiles = async () => {
     return;
   }
 
-  storage.clear();
-  studentFiles.value = buildTree(initialFiles.value.map((file) => [file.name, file.content]));
+  studentFiles.value = buildTree(starterFiles());
+  saveFiles();
   openFiles.value = [studentFiles.value[0]];
   activeTab.value = 0;
 };
@@ -178,7 +178,7 @@ const studentSelectFile = (selectedFile) => {
       selectedFile.content = "<?php\n\n";
     }
 
-    saveSolution(selectedFile.content, selectedFile);
+    saveFiles();
   }
 
   const found = openFiles.value.find((file) => file === selectedFile);
@@ -293,7 +293,7 @@ const deleteFileOrFolder = async (file) => {
           <div class="flex h-full w-full border-solid border-gray-600 md:w-9/12 md:border-l xl:w-10/12">
             <EditorTabs :tabList="openFiles.map((file) => file.name)" @close-tab="closeTab" :active-tab="activeTab" @change-tab="(tab) => (activeTab = tab)">
               <template v-slot:[`tab-content-`+index] v-for="(file, index) in openFiles" :key="file.name">
-                <AceEditor :id="'editor-' + (index + 1)" v-model:value="file.content" @update:value="(content) => saveSolution(content, file)" class="h-full w-full border-0" />
+                <AceEditor :id="'editor-' + (index + 1)" v-model:value="file.content" @update:value="saveFiles" class="h-full w-full border-0" />
               </template>
             </EditorTabs>
           </div>
