@@ -27,7 +27,11 @@ const submit = (action) =>
   useFetch(() => `/api/online/workshop/${action}/${props.currentExercise.workshop.code}/exercise/${props.currentExercise.exercise.slug}`, {
     immediate: false,
     onFetchError: (context) => {
-      errorMessage.value = context.response?.status === 429 ? "Too many requests. Please try again in a few minutes." : "Something went wrong. Please try again.";
+      const messages = {
+        429: "Too many requests. Please try again in a few minutes.",
+        503: "Lots of people are running code right now. Please try again in a moment.",
+      };
+      errorMessage.value = messages[context.response?.status] ?? "Something went wrong. Please try again.";
       showError.value = true;
 
       return context;
