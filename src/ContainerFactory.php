@@ -32,12 +32,8 @@ class ContainerFactory
 
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->addDefinitions(include __DIR__ . '/../vendor/php-school/php-workshop/app/config.php');
+        // Not compiled: php-workshop's listener definitions are closures, which PHP-DI can't compile.
         $containerBuilder->addDefinitions($config);
-
-        if ($config['config']['enableCache']) {
-            $containerBuilder->enableCompilation($config['config']['containerCacheDir']);
-        }
-
 
         return $containerBuilder->build();
     }
