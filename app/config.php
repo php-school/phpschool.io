@@ -20,7 +20,7 @@ use League\CommonMark\MarkdownConverter;
 use League\CommonMark\MarkdownConverterInterface;
 use League\OAuth2\Client\Provider\Github;
 use Mni\FrontYAML\Parser;
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use PhpSchool\PhpWorkshop\Markdown\CurrentContext;
@@ -165,7 +165,8 @@ return [
         $settings = $c->get('config')['logger'];
         $logger = new Logger($settings['name']);
         $logger->pushProcessor(new UidProcessor());
-        $logger->pushHandler(new StreamHandler($settings['path'], Logger::DEBUG));
+        //a file per day, keeping two weeks of them
+        $logger->pushHandler(new RotatingFileHandler($settings['path'], 14, Logger::DEBUG));
         return $logger;
     }),
 

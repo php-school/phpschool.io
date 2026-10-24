@@ -42,6 +42,7 @@ use PhpSchool\Website\User\Middleware\RequireLogin;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
+use PhpSchool\Website\ErrorHandler;
 use Slim\Exception\HttpException;
 use Slim\Routing\RouteCollectorProxy;
 use JimTools\JwtAuth\Exceptions\AuthorizationException;
@@ -70,6 +71,11 @@ $errors = $app->addErrorMiddleware(
     true,
     $container->get(LoggerInterface::class)
 );
+$errors->setDefaultErrorHandler(new ErrorHandler(
+    $app->getCallableResolver(),
+    $app->getResponseFactory(),
+    $container->get(LoggerInterface::class),
+));
 $errors->setErrorHandler(
     AuthorizationException::class,
     static fn (Request $request) => $app->getResponseFactory()->createResponse(401)
