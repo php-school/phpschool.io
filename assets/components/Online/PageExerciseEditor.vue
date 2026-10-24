@@ -379,6 +379,7 @@ const deleteFileOrFolder = async (file) => {
             <exercise-verify
               @verify-loading="verifyLoading"
               @verify-fail="verifyFail"
+              @verify-error="loadingResults = false"
               @verify-success="verifySuccess"
               :current-exercise="currentExercise"
               :files="studentFiles"
