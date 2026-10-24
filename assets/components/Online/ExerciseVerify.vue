@@ -6,7 +6,7 @@ import RunResult from "./RunResult.vue";
 import { Menu, MenuButton, MenuItem, MenuItems, Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import Alert from "./SiteAlert.vue";
 import { ref } from "vue";
-import { useAsyncState } from "@vueuse/core";
+import { useFetch } from "@vueuse/core";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 
 const emit = defineEmits(["verify-loading", "verify-success", "verify-fail", "verify-error", "run-loaded"]);
@@ -17,75 +17,60 @@ const props = defineProps({
   entryPoint: String,
 });
 
-const programRunResult = ref(null);
 const openRunModal = ref(false);
 const errorMessage = ref("");
 const showError = ref(false);
 const currentAction = ref("verify");
 
-// Posts the solution to the run or verify endpoint; returns the JSON response, or null after showing an error.
-const submit = async (action) => {
-  const { workshop, exercise } = props.currentExercise;
+// Posts the solution to the run or verify endpoint; data is the JSON response, or null after showing an error.
+const submit = (action) =>
+  useFetch(() => `/api/online/workshop/${action}/${props.currentExercise.workshop.code}/exercise/${props.currentExercise.exercise.slug}`, {
+    immediate: false,
+    onFetchError: (context) => {
+      errorMessage.value = context.response?.status === 429 ? "Too many requests. Please try again in a few minutes." : "Something went wrong. Please try again.";
+      showError.value = true;
 
-  try {
-    const response = await fetch(`/api/online/workshop/${action}/${workshop.code}/exercise/${exercise.slug}`, {
-      method: "POST",
-      headers: { Accept: "application/json", "Content-Type": "application/json" },
-      body: JSON.stringify({
-        entry_point: props.entryPoint,
-        scripts: flatten(props.files),
-        composer_deps: props.composerDeps,
-      }),
-    });
+      return context;
+    },
+  })
+    .post(() => ({ entry_point: props.entryPoint, scripts: flatten(props.files), composer_deps: props.composerDeps }))
+    .json();
 
-    if (response.ok) {
-      return await response.json();
-    }
+const { isFetching: loadingRun, data: runData, execute: run } = submit("run");
+// the last successful run; a failed re-run keeps showing it, since useFetch clears its data on failure
+const programRunResult = ref(null);
+const { isFetching: loadingVerify, data: verifyResult, execute: verify } = submit("verify");
 
-    errorMessage.value = response.status === 429 ? "Too many requests. Please try again in a few minutes." : "Something went wrong. Please try again.";
-  } catch {
-    errorMessage.value = "Something went wrong. Please try again.";
+const runSolution = async () => {
+  if (loadingRun.value) {
+    return;
   }
 
-  showError.value = true;
+  await run();
 
-  return null;
+  if (runData.value) {
+    programRunResult.value = runData.value;
+    openRunModal.value = true;
+    emit("run-loaded");
+  }
 };
 
-const { isLoading: loadingRun, executeImmediate: run } = useAsyncState(
-  async () => {
-    const result = await submit("run");
+const verifySolution = async () => {
+  if (loadingVerify.value) {
+    return;
+  }
 
-    if (result) {
-      programRunResult.value = result;
-      openRunModal.value = true;
-      emit("run-loaded");
-    }
-  },
-  null,
-  { immediate: false },
-);
+  emit("verify-loading");
+  await verify();
 
-const runSolution = () => loadingRun.value || run();
-
-const { isLoading: loadingVerify, executeImmediate: verify } = useAsyncState(
-  async () => {
-    emit("verify-loading");
-    const result = await submit("verify");
-
-    if (!result) {
-      emit("verify-error");
-    } else if (result.success === true) {
-      emit("verify-success");
-    } else {
-      emit("verify-fail", result.results);
-    }
-  },
-  null,
-  { immediate: false },
-);
-
-const verifySolution = () => loadingVerify.value || verify();
+  if (!verifyResult.value) {
+    emit("verify-error");
+  } else if (verifyResult.value.success === true) {
+    emit("verify-success");
+  } else {
+    emit("verify-fail", verifyResult.value.results);
+  }
+};
 </script>
 
 <template>

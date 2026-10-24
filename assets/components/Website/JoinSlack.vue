@@ -4,12 +4,10 @@ import { ChatBubbleLeftRightIcon } from "@heroicons/vue/24/solid";
 import Modal from "../Online/ModalDialog.vue";
 import { useStudentStore } from "../../stores/student";
 import { ref } from "vue";
-import { useAsyncState } from "@vueuse/core";
+import { useFetch } from "@vueuse/core";
 
 const studentStore = useStudentStore();
 
-const inviteSent = ref(false);
-const inviteError = ref(null);
 const email = ref(studentStore.student ? studentStore.student.email : "");
 
 const { open } = defineProps({
@@ -18,37 +16,20 @@ const { open } = defineProps({
 
 const emit = defineEmits(["close"]);
 
-const { isLoading: sending, executeImmediate: send } = useAsyncState(
-  async () => {
-    const response = await fetch("/api/slack-invite", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email.value,
-      }),
-    });
+// the server's { error: "..." } becomes the message, or a fallback when there's no JSON body
+const {
+  isFetching: sending,
+  isFinished: inviteSent,
+  error: inviteError,
+  execute,
+} = useFetch("/api/slack-invite", {
+  immediate: false,
+  onFetchError: ({ data }) => ({ error: data?.error ?? "The invite could not be sent. Please try again later." }),
+})
+  .post(() => ({ email: email.value }))
+  .json();
 
-    if (!response.ok) {
-      const data = await response.json().catch(() => ({}));
-      inviteError.value = data.error ?? "The invite could not be sent. Please try again later.";
-    }
-
-    inviteSent.value = true;
-  },
-  null,
-  {
-    immediate: false,
-    onError: () => {
-      inviteError.value = "The invite could not be sent. Please try again later.";
-      inviteSent.value = true;
-    },
-  },
-);
-
-const sendInvite = () => sending.value || send();
+const sendInvite = () => sending.value || execute();
 </script>
 
 <template>

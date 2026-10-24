@@ -3,7 +3,7 @@ import Modal from "./ModalDialog.vue";
 import { ArrowPathIcon, CircleStackIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import PackageSearch from "./PackageSearch.vue";
 import { ref } from "vue";
-import { useAsyncState } from "@vueuse/core";
+import { useFetch } from "@vueuse/core";
 import Alert from "./SiteAlert.vue";
 
 const props = defineProps({
@@ -19,35 +19,28 @@ const packageSelected = (composerPackage) => {
   newDependency.value = composerPackage;
 };
 
-const addError = ref("");
-const showAddError = ref(false);
-const failed = (message) => {
-  addError.value = message;
-  showAddError.value = true;
-};
-
-const { isLoading: loadingComposerAdd, executeImmediate: addPackage } = useAsyncState(
-  async (name) => {
-    const response = await fetch("/api/online/composer-package/add?package=" + encodeURIComponent(name), {
-      headers: { Accept: "application/json" },
-    });
-    const json = await response.json();
-
-    if (json.status === "error") {
-      failed("Package could not be added because it has no tagged version.");
-    } else {
-      emit("package-added", { name, version: json.latest_version, versions: json.versions });
-    }
-  },
-  null,
-  { immediate: false, onError: () => failed("Package could not be added. Please try again.") },
-);
+// the server answers a package it can't add with a 404
+const {
+  isFetching: loadingComposerAdd,
+  data,
+  error: addError,
+  execute,
+} = useFetch(() => "/api/online/composer-package/add?package=" + encodeURIComponent(newDependency.value), {
+  immediate: false,
+  onFetchError: ({ response }) => ({
+    error: response?.status === 404 ? "Package could not be added because it has no tagged version." : "Package could not be added. Please try again.",
+  }),
+}).json();
 
 const addDependency = async () => {
   const name = newDependency.value;
 
   if (!props.composerDeps.some((dep) => dep.name === name)) {
-    await addPackage(name);
+    await execute();
+
+    if (data.value) {
+      emit("package-added", { name, version: data.value.latest_version, versions: data.value.versions });
+    }
   }
 
   newDependency.value = "";
@@ -64,7 +57,7 @@ const removeDependency = (packageName) => {
 </script>
 
 <template>
-  <alert type="error" @close="showAddError = false" :show="showAddError" :timeout="4000" :message="addError"></alert>
+  <alert type="error" @close="addError = null" :show="!!addError" :timeout="4000" :message="addError"></alert>
 
   <Transition
     enter-active-class="transition-opacity duration-100 ease-in"

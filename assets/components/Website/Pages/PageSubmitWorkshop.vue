@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref } from "vue";
-import { useAsyncState } from "@vueuse/core";
+import { useFetch } from "@vueuse/core";
 import { ArrowPathIcon, CheckIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import Heading from "../PageHeading.vue";
 
@@ -19,22 +19,8 @@ const submitError = ref(false);
 
 const hasErrors = ref(false);
 
-// resolves to the JSON response, or null when the request fails
-const { isLoading: loading, executeImmediate: post } = useAsyncState(
-  async () => {
-    const response = await fetch("/api/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
-
-    return response.ok ? await response.json() : null;
-  },
-  null,
-  { immediate: false },
-);
+// data is the JSON response, or null when the request fails
+const { isFetching: loading, data, execute } = useFetch("/api/submit", { immediate: false }).post(form).json();
 
 const submit = async () => {
   if (submitted.value || loading.value) {
@@ -45,13 +31,13 @@ const submit = async () => {
   errors.value = {};
   workshopErrors.value = {};
 
-  const data = (await post()) ?? null;
+  await execute();
 
-  if (data === null) {
+  if (data.value === null) {
     submitError.value = true;
-  } else if (data.success === false) {
-    errors.value = data.form_errors ?? {};
-    workshopErrors.value = data.workshop_errors ?? {};
+  } else if (data.value.success === false) {
+    errors.value = data.value.form_errors ?? {};
+    workshopErrors.value = data.value.workshop_errors ?? {};
     hasErrors.value = true;
 
     setTimeout(() => {
