@@ -40,7 +40,13 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $this->slugger = new AsciiSlugger();
 
         //student code must only ever run in the sandbox. Set before anything pulls the process factory from the container.
-        $this->processFactory = new DockerProcessFactory($workshopPath, $this->getCode(), $composerCacheDir);
+        //exercises that expose ports run on this network, it has no internet access. deploy.php creates it
+        $this->processFactory = new DockerProcessFactory(
+            $workshopPath,
+            $this->getCode(),
+            $composerCacheDir,
+            portsNetwork: 'php-school-sandbox',
+        );
         $this->container->set(ProcessFactory::class, $this->processFactory);
 
         $this->configureLogger();
