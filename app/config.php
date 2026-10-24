@@ -31,23 +31,13 @@ use PhpSchool\PhpWorkshop\Markdown\Shorthands\Cloud\Run;
 use PhpSchool\PhpWorkshop\Markdown\Shorthands\Cloud\Verify;
 use PhpSchool\PhpWorkshop\Markdown\Shorthands\Context;
 use PhpSchool\PhpWorkshop\Markdown\Shorthands\Documentation as DocumentationShorthand;
-use PhpSchool\Website\Action\Admin\ClearCache as ClearCacheAction;
 use PhpSchool\Website\Action\Admin\Event\All as EventAll;
 use PhpSchool\Website\Action\Admin\Event\Create as EventCreate;
-use PhpSchool\Website\Action\Admin\Event\Delete as EventDelete;
 use PhpSchool\Website\Action\Admin\Event\Update as EventUpdate;
 use PhpSchool\Website\Action\Admin\Login;
-use PhpSchool\Website\Action\Admin\Workshop\All;
-use PhpSchool\Website\Action\Admin\Workshop\Approve;
-use PhpSchool\Website\Action\Admin\Workshop\Delete;
-use PhpSchool\Website\Action\Admin\Workshop\Promote;
-use PhpSchool\Website\Action\Admin\Workshop\Requests;
-use PhpSchool\Website\Action\Admin\Workshop\View;
 use PhpSchool\Website\Action\Online\ComposerPackageAdd;
-use PhpSchool\Website\Action\Online\RunExercise;
 use PhpSchool\Website\Action\Online\VerifyExercise;
 use PhpSchool\Website\Action\SlackInvite;
-use PhpSchool\Website\Action\StudentLogin;
 use PhpSchool\Website\Action\SubmitWorkshop;
 use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Blog\Generator;
@@ -91,6 +81,7 @@ use PhpSchool\Website\User\StudentRepository;
 use PhpSchool\Website\Workshop\EmailNotifier;
 use PhpSchool\Website\WorkshopFeed;
 use Predis\Connection\ConnectionException;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -168,6 +159,8 @@ return [
 
         return new RedisAdapter($redisConnection, 'default');
     }),
+    // lets actions type-hint the PSR-6 interface and be autowired
+    CacheItemPoolInterface::class => \DI\get('cache'),
     LoggerInterface::class => factory(function (ContainerInterface $c): LoggerInterface {
         $settings = $c->get('config')['logger'];
         $logger = new Logger($settings['name']);
@@ -239,13 +232,6 @@ return [
         ]);
     },
 
-    StudentLogin::class => function (ContainerInterface $c): StudentLogin {
-        return new StudentLogin(
-            $c->get(Github::class),
-            $c->get(Session::class),
-            $c->get(EntityManagerInterface::class),
-        );
-    },
 
     //admin
     Login::class => \DI\factory(function (ContainerInterface $c): Login {
@@ -256,58 +242,12 @@ return [
         );
     }),
 
-    ClearCacheAction::class => function (ContainerInterface $c): ClearCacheAction {
-        return new ClearCacheAction(
-            $c->get('cache'),
-        );
-    },
 
-    Requests::class => \DI\factory(function (ContainerInterface $c): Requests {
-        return new Requests(
-            $c->get(WorkshopRepository::class),
-        );
-    }),
 
-    All::class => \DI\factory(function (ContainerInterface $c): All {
-        return new All(
-            $c->get(WorkshopRepository::class),
-            $c->get(WorkshopInstallRepository::class),
-        );
-    }),
 
-    Approve::class => \DI\factory(function (ContainerInterface $c): Approve {
-        return new Approve(
-            $c->get(WorkshopRepository::class),
-            $c->get(WorkshopFeed::class),
-            $c->get('cache'),
-            $c->get(EmailNotifier::class),
-            $c->get(LoggerInterface::class),
-        );
-    }),
 
-    Promote::class => \DI\factory(function (ContainerInterface $c): Promote {
-        return new Promote(
-            $c->get(WorkshopRepository::class),
-            $c->get(WorkshopFeed::class),
-            $c->get('cache'),
-        );
-    }),
 
-    Delete::class => \DI\factory(function (ContainerInterface $c): Delete {
-        return new Delete(
-            $c->get(WorkshopRepository::class),
-            $c->get(WorkshopInstallRepository::class),
-            $c->get(WorkshopFeed::class),
-            $c->get('cache'),
-        );
-    }),
 
-    View::class => function (ContainerInterface $c): View {
-        return new View(
-            $c->get(WorkshopRepository::class),
-            $c->get(WorkshopInstallRepository::class),
-        );
-    },
 
     'guzzle' => function (ContainerInterface $c): \GuzzleHttp\Client {
         return new \GuzzleHttp\Client();
@@ -362,14 +302,6 @@ return [
         return new ProblemFileConverter($c->get(MarkdownConverterInterface::class));
     },
 
-    RunExercise::class => function (ContainerInterface $c): RunExercise {
-        return new RunExercise(
-            $c->get(CloudWorkshopRepository::class),
-            $c->get(ProjectUploader::class),
-            $c->get(StudentWorkshopState::class),
-            $c->get(SessionStorageInterface::class),
-        );
-    },
 
     VerifyExercise::class => function (ContainerInterface $c): VerifyExercise {
         return new VerifyExercise(
@@ -407,12 +339,6 @@ return [
         );
     },
 
-    EventDelete::class => function (ContainerInterface $c): EventDelete {
-        return new EventDelete(
-            $c->get(EventRepository::class),
-            $c->get('cache'),
-        );
-    },
 
     WorkshopFeed::class => \DI\factory(function (ContainerInterface $c): WorkshopFeed {
         return new WorkshopFeed(
