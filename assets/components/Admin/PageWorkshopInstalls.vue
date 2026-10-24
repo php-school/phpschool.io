@@ -3,15 +3,13 @@
     <h1 class="text-base leading-7 font-semibold text-white">Workshops Installs for the last 30 days</h1>
   </header>
 
-  <Line class="m-4" :data="chartData" :options="chartOptions" />
+  <InstallsChart :data="chartData" />
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
 
-import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Colors } from "chart.js";
-
-import { Line } from "vue-chartjs";
+import InstallsChart from "./InstallsChart.vue";
 import { allWorkshops } from "./api";
 
 defineProps({
@@ -21,22 +19,10 @@ defineProps({
   },
 });
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Colors);
-
 const chartData = ref({
   labels: [],
   datasets: [],
 });
-const chartOptions = {
-  responsive: true,
-  maintainAspectRatio: true,
-  scales: {
-    y: {
-      beginAtZero: true,
-    },
-  },
-};
-
 onMounted(async () => {
   const data = await allWorkshops();
 

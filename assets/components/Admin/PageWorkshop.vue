@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { getWorkshop } from "./api";
+import InstallsChart from "./InstallsChart.vue";
 
 const props = defineProps({
   search: {
@@ -41,21 +42,15 @@ const types = {
   Community: "text-sky-400 bg-sky-400/10 ring-sky-500/30",
 };
 
-import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Colors } from "chart.js";
-
-import { Line } from "vue-chartjs";
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Colors);
-
-const chartOptions = {
-  responsive: true,
-  maintainAspectRatio: true,
-  scales: {
-    y: {
-      beginAtZero: true,
-    },
-  },
-};
+const rows = [
+  ["Workshop Code", "code"],
+  ["Workshop Name", "name"],
+  ["Workshop Description", "description"],
+  ["Workshop Type", "type"],
+  ["Submitter Name", "submitter_name"],
+  ["Submitter email", "submitter_email"],
+  ["Submitter contact", "submitter_contact"],
+];
 </script>
 
 <template>
@@ -67,52 +62,19 @@ const chartOptions = {
 
   <div class="">
     <dl class="divide-y divide-white/10">
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm leading-6 font-medium text-white">Workshop Code</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-          {{ workshop.code }}
-        </dd>
-      </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm leading-6 font-medium text-white">Workshop Name</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-          {{ workshop.name }}
-        </dd>
-      </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm leading-6 font-medium text-white">Workshop Description</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-          {{ workshop.description }}
-        </dd>
-      </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm leading-6 font-medium text-white">Workshop Type</dt>
-        <dd class="mt-1 flex text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
+      <div v-for="[label, key] in rows" :key="key" class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
+        <dt class="text-sm leading-6 font-medium text-white">{{ label }}</dt>
+        <dd v-if="key === 'type'" class="mt-1 flex text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
           <div :class="[types[workshop.type], 'flex-none rounded-full px-2 py-0.5 text-[10px] font-medium ring-1 ring-inset']">
             {{ workshop.type }}
           </div>
         </dd>
-      </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm leading-6 font-medium text-white">Submitter Name</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-          {{ workshop.submitter_name }}
-        </dd>
-      </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm leading-6 font-medium text-white">Submitter email</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-          {{ workshop.submitter_email }}
-        </dd>
-      </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 sm:px-6 lg:px-8">
-        <dt class="text-sm leading-6 font-medium text-white">Submitter contact</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
-          {{ workshop.submitter_contact }}
+        <dd v-else class="mt-1 text-sm leading-6 text-gray-400 sm:col-span-2 sm:mt-0">
+          {{ workshop[key] }}
         </dd>
       </div>
     </dl>
   </div>
 
-  <Line class="m-4" :data="chartData" :options="chartOptions" />
+  <InstallsChart :data="chartData" />
 </template>
