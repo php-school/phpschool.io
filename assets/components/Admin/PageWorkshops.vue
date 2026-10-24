@@ -7,6 +7,7 @@ import { EllipsisVerticalIcon, ArrowUpIcon, TrashIcon } from "@heroicons/vue/24/
 
 import { allWorkshops, regenerateWorkshopFeed, deleteWorkshop, promoteWorkshop } from "./api";
 import { useSearch } from "./search";
+import { useNotice } from "./notice";
 
 const props = defineProps({
   search: {
@@ -34,96 +35,50 @@ const types = {
   Community: "text-sky-400 bg-sky-400/10 ring-sky-500/30",
 };
 
+const { notice, success, error } = useNotice();
+
 const currentlyDeleting = ref(null);
-const showDeleteSuccess = ref(false);
-const deleteSuccess = ref("");
-
-const showDeleteError = ref(false);
-const deleteError = ref("");
-
-const confirmDeleteWorkshop = (workshop) => {
-  currentlyDeleting.value = workshop;
-};
 
 const doDeleteWorkshop = async () => {
+  const workshop = currentlyDeleting.value;
+  currentlyDeleting.value = null;
+
   try {
-    await deleteWorkshop(currentlyDeleting.value.id);
-
-    const deletedId = currentlyDeleting.value.id;
-
-    deleteSuccess.value = "Successfully removed: " + currentlyDeleting.value.name + "  and regenerated workshop feed";
-    showDeleteSuccess.value = true;
-
-    workshops.value = workshops.value.filter((workshop) => workshop.id !== deletedId);
-  } catch (error) {
-    currentlyDeleting.value = null;
-
-    if (error.message) {
-      deleteError.value = error.message;
-    }
-    showDeleteError.value = true;
-  } finally {
-    currentlyDeleting.value = null;
+    await deleteWorkshop(workshop.id);
+    workshops.value = workshops.value.filter(({ id }) => id !== workshop.id);
+    success(`Successfully removed: ${workshop.name} and regenerated workshop feed`);
+  } catch (e) {
+    error(e);
   }
 };
 
 const currentlyPromoting = ref(null);
-const showPromoteSuccess = ref(false);
-const promoteSuccess = ref("");
-
-const showPromoteError = ref(false);
-const promoteError = ref("");
-
-const confirmPromoteWorkshop = (workshop) => {
-  currentlyPromoting.value = workshop;
-};
 
 const doPromoteWorkshop = async () => {
-  try {
-    await promoteWorkshop(currentlyPromoting.value.id);
+  const workshop = currentlyPromoting.value;
+  currentlyPromoting.value = null;
 
-    promoteSuccess.value = "Successfully promoted: " + currentlyPromoting.value.name + "  and regenerated workshop feed";
-    currentlyPromoting.value.type = "Core";
-    showPromoteSuccess.value = true;
-  } catch (error) {
-    if (error.message) {
-      promoteError.value = error.message;
-    }
-    showPromoteError.value = true;
-  } finally {
-    currentlyPromoting.value = null;
+  try {
+    await promoteWorkshop(workshop.id);
+    workshop.type = "Core";
+    success(`Successfully promoted: ${workshop.name} and regenerated workshop feed`);
+  } catch (e) {
+    error(e);
   }
 };
-
-const showRegenerateSuccess = ref(false);
-const regenerateError = ref("");
-const showRegenerateError = ref(false);
 
 const regenerateFeed = async () => {
   try {
     await regenerateWorkshopFeed();
-    showRegenerateSuccess.value = true;
-  } catch (error) {
-    if (error.message) {
-      regenerateError.value = error.message;
-    }
-    showRegenerateError.value = true;
+    success("Successfully regenerated workshop feed");
+  } catch (e) {
+    error(e);
   }
 };
 </script>
 
 <template>
-  <!-- delete alerts -->
-  <alert type="error" :message="deleteError || 'An error occurred. Please try again later.'" :timeout="4000" :show="showDeleteError" @close="showDeleteError = false"></alert>
-  <alert type="success" :message="deleteSuccess" :timeout="4000" :show="showDeleteSuccess" @close="showDeleteSuccess = false"></alert>
-
-  <!-- promote alerts -->
-  <alert type="error" :message="promoteError || 'An error occurred. Please try again later.'" :timeout="4000" :show="showPromoteError" @close="showPromoteError = false"></alert>
-  <alert type="success" :message="promoteSuccess" :timeout="4000" :show="showPromoteSuccess" @close="showPromoteSuccess = false"></alert>
-
-  <!-- regenerate alerts -->
-  <alert type="error" :message="regenerateError || 'An error occurred. Please try again later.'" :timeout="4000" :show="showRegenerateError" @close="showRegenerateError = false"></alert>
-  <alert type="success" message="Successfully regenerated workshop feed" :timeout="4000" :show="showRegenerateSuccess" @close="showRegenerateSuccess = false"></alert>
+  <alert v-bind="notice" :timeout="4000" @close="notice.show = false" />
 
   <header class="flex items-center justify-between border-b border-pink-600/30 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
     <h1 class="text-base leading-7 font-semibold text-white">All Workshops</h1>
@@ -189,14 +144,14 @@ const regenerateFeed = async () => {
         >
           <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-700 rounded-md bg-gray-800 p-2 shadow-lg ring-1 ring-pink-500/50 focus:outline-hidden">
             <MenuItem v-if="workshop.type === 'Community'" v-slot="{ active }">
-              <button @click="confirmPromoteWorkshop(workshop)" :class="[active ? 'p-2 text-white' : 'text-slate-400', 'group flex w-full items-center px-4 py-2 text-sm']">
+              <button @click="currentlyPromoting = workshop" :class="[active ? 'p-2 text-white' : 'text-slate-400', 'group flex w-full items-center px-4 py-2 text-sm']">
                 <ArrowUpIcon class="mr-3 h-5 w-5" aria-hidden="true" />
                 Promote to Core
                 <span class="sr-only">, {{ workshop.code }}</span>
               </button>
             </MenuItem>
             <MenuItem v-slot="{ active }">
-              <button @click="confirmDeleteWorkshop(workshop)" :class="[active ? 'p-2 text-white' : 'text-slate-400', 'group flex w-full items-center px-4 py-2 text-sm']">
+              <button @click="currentlyDeleting = workshop" :class="[active ? 'p-2 text-white' : 'text-slate-400', 'group flex w-full items-center px-4 py-2 text-sm']">
                 <TrashIcon class="mr-3 h-5 w-5" aria-hidden="true" />
                 Delete
                 <span class="sr-only">, {{ workshop.code }}</span>
