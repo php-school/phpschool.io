@@ -14,8 +14,8 @@ use PhpSchool\PhpWorkshop\Listener\OutputRunInfoListener;
 use PhpSchool\PhpWorkshop\Logger\Logger;
 use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\PhpWorkshop\Output\OutputInterface;
-use PhpSchool\PhpWorkshop\Process\DockerProcessFactory;
-use PhpSchool\PhpWorkshop\Process\ProcessFactory;
+use PhpSchool\PhpWorkshop\Process\DockerSandbox;
+use PhpSchool\PhpWorkshop\Process\Sandbox;
 use PhpSchool\Website\Entity\Workshop;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -26,7 +26,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
 {
     private \DI\Container $container;
     private AsciiSlugger $slugger;
-    private DockerProcessFactory $processFactory;
+    private DockerSandbox $sandbox;
 
     public function __construct(
         Application $application,
@@ -40,8 +40,8 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $this->slugger = new AsciiSlugger();
 
         //student code must only ever run in the sandbox. Set before anything pulls the process factory from the container.
-        $this->processFactory = new DockerProcessFactory($workshopPath, $this->getCode(), $composerCacheDir);
-        $this->container->set(ProcessFactory::class, $this->processFactory);
+        $this->sandbox = new DockerSandbox($workshopPath, $this->getCode(), $composerCacheDir);
+        $this->container->set(Sandbox::class, $this->sandbox);
 
         $this->configureLogger();
         $this->configureEvents();
@@ -52,7 +52,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
      */
     public function createRuntimeImageBuildProcess(): Process
     {
-        return $this->processFactory->createBuildProcess();
+        return $this->sandbox->createBuildProcess();
     }
 
     public function getCode(): string
@@ -122,11 +122,11 @@ class CloudInstalledWorkshop implements \JsonSerializable
         return null;
     }
 
-    public function getProcessFactory(): ProcessFactory
+    public function getSandbox(): Sandbox
     {
-        /** @var ProcessFactory $processFactory */
-        $processFactory = $this->container->get(ProcessFactory::class);
-        return $processFactory;
+        /** @var Sandbox $sandbox */
+        $sandbox = $this->container->get(Sandbox::class);
+        return $sandbox;
     }
 
     public function getExerciseDispatcher(): ExerciseDispatcher
