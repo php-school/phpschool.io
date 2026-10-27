@@ -12,7 +12,6 @@ class CloudWorkshopRepository
 {
     public function __construct(
         private readonly WorkshopRepository $workshopRepository,
-        private readonly string $composerCacheDir,
     ) {}
 
     public function findByCode(string $code): CloudInstalledWorkshop
@@ -45,7 +44,6 @@ class CloudWorkshopRepository
                     include $path . '/app/bootstrap.php',
                     $workshop,
                     $path,
-                    $this->composerCacheDir,
                 );
             },
             $workshops,
