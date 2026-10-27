@@ -70,13 +70,13 @@ class ProjectUploader
         file_put_contents(Path::join($basePath, 'composer.json'), json_encode(['require' => $require]));
 
         //runs in the workshop sandbox, never on the host
-        $run = $sandbox->create(
+        $execution = $sandbox->create(
             new ProcessInput('composer', ['update', '--no-interaction'], $basePath, ['XDEBUG_MODE' => 'off'], []),
         );
-        $run->start();
-        $run->wait();
+        $execution->start();
+        $execution->wait();
 
-        if (!$run->isSuccessful()) {
+        if (!$execution->isSuccessful()) {
             throw new \RuntimeException('Composer dependencies could not be installed');
         }
     }
