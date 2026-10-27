@@ -436,7 +436,6 @@ return [
     CloudWorkshopRepository::class => function (ContainerInterface $c): CloudWorkshopRepository {
         return new CloudWorkshopRepository(
             $c->get(WorkshopRepository::class),
-            __DIR__ . '/../var/composer-cache',
         );
     },
 

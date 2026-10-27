@@ -18,7 +18,7 @@ class CloudWorkshopRepositoryTest extends TestCase
         $this->expectExceptionMessage('Cannot find workshop with code: "not-installed-workshop"');
 
         $workshopRepo = $this->createMock(WorkshopRepository::class);
-        $repo = new CloudWorkshopRepository($workshopRepo, "/composer-cache");
+        $repo = new CloudWorkshopRepository($workshopRepo);
 
         $repo->findByCode('not-installed-workshop');
     }
@@ -26,7 +26,7 @@ class CloudWorkshopRepositoryTest extends TestCase
     public function testFindAll(): void
     {
         $workshopRepo = $this->createMock(WorkshopRepository::class);
-        $repo = new CloudWorkshopRepository($workshopRepo, "/composer-cache");
+        $repo = new CloudWorkshopRepository($workshopRepo);
 
         $workshops = $repo->findAll();
 
@@ -49,7 +49,7 @@ class CloudWorkshopRepositoryTest extends TestCase
                 ['php8appreciate', $php8appreciate],
             ]);
 
-        $repo = new CloudWorkshopRepository($workshopRepo, "/composer-cache");
+        $repo = new CloudWorkshopRepository($workshopRepo);
 
         $workshop = $repo->findByCode('php8appreciate');
 
@@ -59,7 +59,7 @@ class CloudWorkshopRepositoryTest extends TestCase
     public function testTotalExerciseCount(): void
     {
         $workshopRepo = $this->createMock(WorkshopRepository::class);
-        $repo = new CloudWorkshopRepository($workshopRepo, "/composer-cache");
+        $repo = new CloudWorkshopRepository($workshopRepo);
 
         $this->assertEquals(24, $repo->totalExerciseCount());
     }

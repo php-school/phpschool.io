@@ -32,7 +32,6 @@ class CloudInstalledWorkshop implements \JsonSerializable
         Application $application,
         private readonly Workshop $workshop,
         string $workshopPath,
-        string $composerCacheDir,
     ) {
         /** @var \DI\Container $container */
         $container = $application->configure();
@@ -40,7 +39,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $this->slugger = new AsciiSlugger();
 
         //student code must only ever run in the sandbox. Set before anything pulls the process factory from the container.
-        $this->sandbox = new DockerSandbox($workshopPath, $this->getCode(), $composerCacheDir);
+        $this->sandbox = new DockerSandbox($workshopPath, $this->getCode());
         $this->container->set(Sandbox::class, $this->sandbox);
 
         $this->configureLogger();

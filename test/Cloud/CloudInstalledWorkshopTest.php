@@ -26,7 +26,7 @@ class CloudInstalledWorkshopTest extends TestCase
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop');
 
         $this->assertEquals('myworkshop', $cloudWorkshop->getCode());
         $this->assertEquals('My Workshop', $cloudWorkshop->getName());
@@ -48,7 +48,7 @@ class CloudInstalledWorkshopTest extends TestCase
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop');
 
         $this->assertInstanceOf(ExerciseDispatcher::class, $cloudWorkshop->getExerciseDispatcher());
     }
@@ -67,7 +67,7 @@ class CloudInstalledWorkshopTest extends TestCase
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop');
 
         $this->assertEquals('my-service', $cloudWorkshop->getService('my-service')->name);
     }
@@ -89,7 +89,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop');
 
         $exercises = $cloudWorkshop->findAllExercises();
 
@@ -116,7 +116,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop');
         $cloudWorkshop->findExerciseBySlug('Exercise-5');
     }
 
@@ -137,7 +137,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop');
 
         $exercise = $cloudWorkshop->findExerciseBySlug('Exercise-2');
 
@@ -164,7 +164,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop');
         $cloudWorkshop->findExerciseByName('Exercise 5');
     }
 
@@ -185,7 +185,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop');
 
         $exercise = $cloudWorkshop->findExerciseByName('Exercise 2');
 
@@ -209,7 +209,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop');
 
         $exercise = $cloudWorkshop->findExerciseByName('Exercise 3');
         $this->assertNull($cloudWorkshop->findNextExercise($exercise));
@@ -232,7 +232,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop');
 
         $exercise = $cloudWorkshop->findExerciseByName('Exercise 2');
         $next = $cloudWorkshop->findNextExercise($exercise);
@@ -285,7 +285,7 @@ class CloudInstalledWorkshopTest extends TestCase
                 ],
                 'logo' => null,
             ],
-            (new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache'))->jsonSerialize(),
+            (new CloudInstalledWorkshop($app, $workshop, '/workshop'))->jsonSerialize(),
         );
     }
 }
