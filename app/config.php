@@ -217,6 +217,7 @@ return [
         return new SlackInvite(
             $c->get('guzzle'),
             $c->get('config')['slackInviteApiToken'],
+            $c->get(LoggerInterface::class),
         );
     },
 

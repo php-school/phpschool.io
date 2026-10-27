@@ -7,12 +7,17 @@ namespace PhpSchool\Website\Action;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Log\LoggerInterface;
 
 class SlackInvite
 {
     use JsonUtils;
 
-    public function __construct(private readonly Client $client, private readonly string $slackApiToken) {}
+    public function __construct(
+        private readonly Client $client,
+        private readonly string $slackApiToken,
+        private readonly LoggerInterface $logger,
+    ) {}
 
     public function __invoke(Request $request, Response $response): Response
     {
@@ -34,7 +39,9 @@ class SlackInvite
                 ],
             ]);
         } catch (\Exception $e) {
-            return $this->withJson(['error' => $e->getMessage()], $response, 500);
+            //the message can include details of the request to Slack, so only log it
+            $this->logger->error(sprintf('Slack invite failed: "%s"', $e->getMessage()));
+            return $this->withJson(['error' => 'An unknown error occurred'], $response, 500);
         }
 
         $apiResponseData = json_decode($apiResponse->getBody()->__toString(), true);
