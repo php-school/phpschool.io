@@ -23,6 +23,9 @@ class BuildRuntimeImages
                 $output->writeln(sprintf('<error>%s</error>', $process->getErrorOutput()));
                 return 1;
             }
+
+            $output->writeln(sprintf('<info>Caching reference solution packages for %s</info>', $workshop->getCode()));
+            $workshop->warmReferencePackages();
         }
 
         return 0;

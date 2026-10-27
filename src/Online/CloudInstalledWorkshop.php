@@ -16,6 +16,7 @@ use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\PhpWorkshop\Output\OutputInterface;
 use PhpSchool\PhpWorkshop\Process\DockerSandbox;
 use PhpSchool\PhpWorkshop\Process\Sandbox;
+use PhpSchool\PhpWorkshop\ReferencePackages;
 use PhpSchool\Website\Entity\Workshop;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -52,6 +53,16 @@ class CloudInstalledWorkshop implements \JsonSerializable
     public function createRuntimeImageBuildProcess(): Process
     {
         return $this->sandbox->createBuildProcess();
+    }
+
+    /**
+     * Locks and caches the reference solutions' packages, so a verify installs them offline. Run on deploy, after the image build.
+     */
+    public function warmReferencePackages(): void
+    {
+        /** @var ReferencePackages $referencePackages */
+        $referencePackages = $this->container->get(ReferencePackages::class);
+        $referencePackages->warm();
     }
 
     public function getCode(): string
