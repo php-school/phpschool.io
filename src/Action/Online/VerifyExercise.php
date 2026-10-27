@@ -44,7 +44,7 @@ class VerifyExercise
         $this->studentState->setCurrentExercise($workshop->getCode(), $exercise->getName());
 
         try {
-            $project = $this->projectUploader->upload($request, $this->getStudent(), $workshop->getProcessFactory());
+            $project = $this->projectUploader->upload($request, $this->getStudent(), $workshop->getSandbox());
         } catch (\RuntimeException $e) {
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
         }
