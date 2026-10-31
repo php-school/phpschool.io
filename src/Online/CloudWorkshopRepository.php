@@ -14,9 +14,12 @@ class CloudWorkshopRepository
         private readonly WorkshopRepository $workshopRepository,
     ) {}
 
-    public function findByCode(string $code): CloudInstalledWorkshop
+    /**
+     * @param array<string, string> $vendorVolumes see DockerSandbox
+     */
+    public function findByCode(string $code, array $vendorVolumes = []): CloudInstalledWorkshop
     {
-        foreach ($this->findAll() as $workshop) {
+        foreach ($this->findAll($vendorVolumes) as $workshop) {
             if ($workshop->getCode() === $code) {
                 return  $workshop;
             }
@@ -26,14 +29,15 @@ class CloudWorkshopRepository
     }
 
     /**
+     * @param array<string, string> $vendorVolumes see DockerSandbox
      * @return array<CloudInstalledWorkshop>
      */
-    public function findAll(): array
+    public function findAll(array $vendorVolumes = []): array
     {
         $workshops = $this->getComposerInstalledWorkshops();
 
         return array_map(
-            function (string $packageName) {
+            function (string $packageName) use ($vendorVolumes) {
                 $path = (string) realpath((string) InstalledVersions::getInstallPath($packageName));
 
                 $workshop = $this->workshopRepository->findByCode(
@@ -44,6 +48,7 @@ class CloudWorkshopRepository
                     include $path . '/app/bootstrap.php',
                     $workshop,
                     $path,
+                    $vendorVolumes,
                 );
             },
             $workshops,

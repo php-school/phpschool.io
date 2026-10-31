@@ -19,7 +19,19 @@ class ProjectUploader
         private readonly ComposerPackageAllowlist $composerPackageAllowlist = new ComposerPackageAllowlist(),
     ) {}
 
-    public function upload(Request $request, StudentDTO $student, Sandbox $sandbox): DirectorySolution
+    /**
+     * The volume a student's packages for one exercise are kept in between verifies, see DockerSandbox
+     *
+     * @return array<string, string> eg. ['/tmp/php-school/<student id>' => 'php-school-vendor-<student id>-learnyouphp-dependency-heaven']
+     */
+    public function vendorVolumes(StudentDTO $student, string $workshop, string $exercise): array
+    {
+        return [
+            $this->pathGenerator->student($student) => sprintf('php-school-vendor-%s-%s-%s', $student->id->toString(), $workshop, $exercise),
+        ];
+    }
+
+    public function upload(Request $request, StudentDTO $student, Sandbox $sandbox, string $workshop, string $exercise): DirectorySolution
     {
         /** @var array{scripts?: mixed, composer_deps?: mixed, entry_point?: string}|null $data */
         $data = json_decode($request->getBody()->__toString(), true);
@@ -45,7 +57,13 @@ class ProjectUploader
 
         if (isset($data['composer_deps']) && is_array($data['composer_deps']) && count($data['composer_deps']) > 0) {
             try {
-                $this->installComposerDeps($data['composer_deps'], $basePath, $sandbox);
+                $this->installComposerDeps(
+                    $data['composer_deps'],
+                    $basePath,
+                    $sandbox,
+                    //the last composer.json and lock for this exercise, eg. /tmp/php-school/<student id>/learnyouphp-dependency-heaven.composer.json
+                    Path::join($this->pathGenerator->student($student), sprintf('%s-%s', $workshop, $exercise)),
+                );
             } catch (\RuntimeException $e) {
                 (new Filesystem())->remove($basePath);
                 throw $e;
@@ -63,15 +81,22 @@ class ProjectUploader
     /**
      * @param array<mixed> $deps
      */
-    private function installComposerDeps(array $deps, string $basePath, Sandbox $sandbox): void
+    private function installComposerDeps(array $deps, string $basePath, Sandbox $sandbox, string $last): void
     {
         $require = $this->composerPackageAllowlist->validate($deps);
+        $composerJson = (string) json_encode(['require' => $require]);
 
-        file_put_contents(Path::join($basePath, 'composer.json'), json_encode(['require' => $require]));
+        file_put_contents(Path::join($basePath, 'composer.json'), $composerJson);
+
+        //same packages as last time: install from the last lock, which does nothing while the vendor volume is still there
+        $unchanged = file_exists($last . '.composer.lock') && @file_get_contents($last . '.composer.json') === $composerJson;
+        if ($unchanged) {
+            copy($last . '.composer.lock', Path::join($basePath, 'composer.lock'));
+        }
 
         //runs in the workshop sandbox, never on the host
         $execution = $sandbox->create(
-            new ProcessInput('composer', ['update', '--no-interaction'], $basePath, ['XDEBUG_MODE' => 'off'], []),
+            new ProcessInput('composer', [$unchanged ? 'install' : 'update', '--no-interaction'], $basePath, ['XDEBUG_MODE' => 'off'], []),
         );
         $execution->start();
         $execution->wait();
@@ -79,6 +104,9 @@ class ProjectUploader
         if (!$execution->isSuccessful()) {
             throw new \RuntimeException('Composer dependencies could not be installed');
         }
+
+        file_put_contents($last . '.composer.json', $composerJson);
+        copy(Path::join($basePath, 'composer.lock'), $last . '.composer.lock');
     }
 
     /**

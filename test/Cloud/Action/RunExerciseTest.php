@@ -35,6 +35,7 @@ class RunExerciseTest extends TestCase
 
         $uploader = $this->createMock(ProjectUploader::class);
         $session = $this->createMock(SessionStorageInterface::class);
+        $session->method('get')->with('student')->willReturn($this->getStudent());
         $state = $this->createMock(StudentWorkshopState::class);
 
         $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
@@ -70,6 +71,7 @@ class RunExerciseTest extends TestCase
 
         $uploader = $this->createMock(ProjectUploader::class);
         $session = $this->createMock(SessionStorageInterface::class);
+        $session->method('get')->with('student')->willReturn($this->getStudent());
         $state = $this->createMock(StudentWorkshopState::class);
 
         $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);

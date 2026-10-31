@@ -6,6 +6,9 @@ namespace PhpSchool\WebsiteTest\Cloud;
 
 use GuzzleHttp\Psr7\ServerRequest;
 use PhpSchool\PhpWorkshop\Process\HostSandbox;
+use PhpSchool\PhpWorkshop\Process\SandboxHost;
+use PhpSchool\PhpWorkshop\Process\SandboxExecution;
+use PhpSchool\PhpWorkshop\Process\ProcessInput;
 use PhpSchool\PhpWorkshop\Process\Sandbox;
 use PhpSchool\PhpWorkshop\Solution\SolutionFile;
 use PhpSchool\Website\Online\ComposerPackageAllowlist;
@@ -32,7 +35,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             json_encode([]),
         );
 
-        $uploader->upload($request, $this->getStudent(), new HostSandbox());
+        $uploader->upload($request, $this->getStudent(), new HostSandbox(), 'learnyouphp', 'dependency-heaven');
     }
 
     public function testExceptionIsThrownIfGeneratedBasePathExists(): void
@@ -62,7 +65,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ]),
         );
 
-        $uploader->upload($request, $student, new HostSandbox());
+        $uploader->upload($request, $student, new HostSandbox(), 'learnyouphp', 'dependency-heaven');
     }
 
     /**
@@ -86,7 +89,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ]),
         );
 
-        $uploader->upload($request, $this->getStudent(), new HostSandbox());
+        $uploader->upload($request, $this->getStudent(), new HostSandbox(), 'learnyouphp', 'dependency-heaven');
     }
 
     /**
@@ -127,7 +130,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
         );
 
         try {
-            $uploader->upload($request, $student, new HostSandbox());
+            $uploader->upload($request, $student, new HostSandbox(), 'learnyouphp', 'dependency-heaven');
         } catch (\RuntimeException $e) {
         }
 
@@ -161,7 +164,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ]),
         );
 
-        $result = $uploader->upload($request, $student, new HostSandbox());
+        $result = $uploader->upload($request, $student, new HostSandbox(), 'learnyouphp', 'dependency-heaven');
 
         $this->assertEquals($path, $result->getBaseDirectory());
         $this->assertEquals($path . '/solution.php', $result->getEntryPoint()->getAbsolutePath());
@@ -193,6 +196,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ->method('random')
             ->with($student)
             ->willReturn($path);
+        $generator->method('student')->willReturn(dirname($path));
 
         $uploader = new ProjectUploader($generator, $this->getAllowlist());
 
@@ -210,7 +214,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ]),
         );
 
-        $result = $uploader->upload($request, $student, new HostSandbox());
+        $result = $uploader->upload($request, $student, new HostSandbox(), 'learnyouphp', 'dependency-heaven');
 
         $this->assertEquals($path, $result->getBaseDirectory());
 
@@ -229,6 +233,55 @@ class ProjectUploaderTest extends BaseFilesystemTest
 
         $this->assertFileExists($path . '/composer.json');
         $this->assertEquals('{"require":{"symfony\/console":"6.2.0"}}', file_get_contents($path . '/composer.json'));
+    }
+
+    public function testSamePackagesAsLastTimeInstallFromTheLastLock(): void
+    {
+        $student = $this->getStudent();
+        $studentDirectory = $this->getTemporaryDirectory();
+        $first = $studentDirectory . '/first';
+        $second = $studentDirectory . '/second';
+        $generator = $this->createMock(PathGenerator::class);
+        $generator->method('random')->willReturnOnConsecutiveCalls($first, $second);
+        $generator->method('student')->willReturn($studentDirectory);
+
+        $sandbox = new class implements Sandbox {
+            /** @var list<string> */
+            public array $commands = [];
+
+            public function create(ProcessInput $processInput): SandboxExecution
+            {
+                $this->commands[] = $processInput->getArgs()[0];
+
+                return (new HostSandbox())->create($processInput);
+            }
+
+            public function getHost(): SandboxHost
+            {
+                return new SandboxHost();
+            }
+        };
+
+        $uploader = new ProjectUploader($generator, $this->getAllowlist());
+        $body = json_encode(['scripts' => ['solution.php' => '<?php'], 'composer_deps' => [['name' => 'psr/log', 'version' => '3.0.0']]]);
+
+        $uploader->upload(new ServerRequest('POST', '/verify', [], $body), $student, $sandbox, 'learnyouphp', 'dependency-heaven');
+        $uploader->upload(new ServerRequest('POST', '/verify', [], $body), $student, $sandbox, 'learnyouphp', 'dependency-heaven');
+
+        $this->assertSame(['update', 'install'], $sandbox->commands);
+        $this->assertFileEquals($first . '/composer.lock', $second . '/composer.lock');
+    }
+
+    public function testVendorVolumesCoverAllOfTheStudentsUploads(): void
+    {
+        $student = $this->getStudent();
+        $generator = $this->createMock(PathGenerator::class);
+        $generator->method('student')->with($student)->willReturn('/tmp/php-school/' . $student->id->toString());
+
+        $this->assertSame(
+            ['/tmp/php-school/' . $student->id->toString() => 'php-school-vendor-' . $student->id->toString() . '-learnyouphp-dependency-heaven'],
+            (new ProjectUploader($generator))->vendorVolumes($student, 'learnyouphp', 'dependency-heaven'),
+        );
     }
 
     /**
@@ -252,7 +305,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
         );
 
         try {
-            (new ProjectUploader($generator, $this->getAllowlist()))->upload($request, $student, $sandbox);
+            (new ProjectUploader($generator, $this->getAllowlist()))->upload($request, $student, $sandbox, 'learnyouphp', 'dependency-heaven');
         } catch (\RuntimeException $e) {
         }
 
@@ -301,7 +354,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ]),
         );
 
-        $result = $uploader->upload($request, $student, new HostSandbox());
+        $result = $uploader->upload($request, $student, new HostSandbox(), 'learnyouphp', 'dependency-heaven');
 
         $this->assertEquals($path, $result->getBaseDirectory());
         $this->assertEquals($path . '/program.php', $result->getEntryPoint()->getAbsolutePath());
@@ -362,7 +415,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
         $this->expectExceptionMessage($message);
 
         try {
-            (new ProjectUploader($generator, $this->getAllowlist()))->upload($request, $this->getStudent(), $sandbox);
+            (new ProjectUploader($generator, $this->getAllowlist()))->upload($request, $this->getStudent(), $sandbox, 'learnyouphp', 'dependency-heaven');
         } finally {
             $this->assertFileDoesNotExist($path);
         }

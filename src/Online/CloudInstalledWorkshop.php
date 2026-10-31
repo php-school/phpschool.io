@@ -29,10 +29,14 @@ class CloudInstalledWorkshop implements \JsonSerializable
     private AsciiSlugger $slugger;
     private DockerSandbox $sandbox;
 
+    /**
+     * @param array<string, string> $vendorVolumes see DockerSandbox, eg. ['/tmp/php-school/<student id>' => 'php-school-vendor-...']
+     */
     public function __construct(
         Application $application,
         private readonly Workshop $workshop,
         string $workshopPath,
+        array $vendorVolumes = [],
     ) {
         /** @var \DI\Container $container */
         $container = $application->configure();
@@ -40,7 +44,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $this->slugger = new AsciiSlugger();
 
         //student code must only ever run in the sandbox. Set before anything pulls the process factory from the container.
-        $this->sandbox = new DockerSandbox($workshopPath, $this->getCode());
+        $this->sandbox = new DockerSandbox($workshopPath, $this->getCode(), vendorVolumes: $vendorVolumes);
         $this->container->set(Sandbox::class, $this->sandbox);
 
         $this->configureLogger();

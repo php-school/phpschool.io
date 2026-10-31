@@ -34,9 +34,15 @@ class VerifyExercise
         string $workshop,
         string $exercise,
     ): Response {
+        $workshopCode = $workshop;
+        $exerciseSlug = $exercise;
+
         try {
-            $workshop = $this->installedWorkshops->findByCode($workshop);
-            $exercise = $workshop->findExerciseBySlug($exercise);
+            $workshop = $this->installedWorkshops->findByCode(
+                $workshopCode,
+                $this->projectUploader->vendorVolumes($this->getStudent(), $workshopCode, $exerciseSlug),
+            );
+            $exercise = $workshop->findExerciseBySlug($exerciseSlug);
         } catch (\RuntimeException $e) {
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
         }
@@ -44,7 +50,7 @@ class VerifyExercise
         $this->studentState->setCurrentExercise($workshop->getCode(), $exercise->getName());
 
         try {
-            $project = $this->projectUploader->upload($request, $this->getStudent(), $workshop->getSandbox());
+            $project = $this->projectUploader->upload($request, $this->getStudent(), $workshop->getSandbox(), $workshopCode, $exerciseSlug);
         } catch (\RuntimeException $e) {
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
         }

@@ -12,8 +12,14 @@ class PathGenerator
 {
     public function random(StudentDTO $student): string
     {
-        return System::tempDir(
-            Path::join($student->id->toString(), bin2hex(random_bytes(6))),
-        );
+        return Path::join($this->student($student), bin2hex(random_bytes(6)));
+    }
+
+    /**
+     * Holds all of a student's uploads, eg. /tmp/php-school/<student id>
+     */
+    public function student(StudentDTO $student): string
+    {
+        return System::tempDir($student->id->toString());
     }
 }

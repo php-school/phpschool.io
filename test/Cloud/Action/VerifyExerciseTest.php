@@ -40,6 +40,7 @@ class VerifyExerciseTest extends TestCase
         $renderer = $this->createMock(VueResultsRenderer::class);
         $uploader = $this->createMock(ProjectUploader::class);
         $session = $this->createMock(SessionStorageInterface::class);
+        $session->method('get')->with('student')->willReturn($this->getStudent());
 
         $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
@@ -76,6 +77,7 @@ class VerifyExerciseTest extends TestCase
         $renderer = $this->createMock(VueResultsRenderer::class);
         $uploader = $this->createMock(ProjectUploader::class);
         $session = $this->createMock(SessionStorageInterface::class);
+        $session->method('get')->with('student')->willReturn($this->getStudent());
 
         $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
