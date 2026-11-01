@@ -1,6 +1,6 @@
 # Sandbox docker host
 
-Student code runs in containers on a Fly.io machine instead of the web server. The web server (imp) reaches the
+Student code runs in containers on a Fly.io machine instead of the web server. The web server reaches the
 machine's docker API over Fly's private network, through a WireGuard tunnel. The API has no password, so it is never
 public.
 
@@ -20,14 +20,14 @@ fly machine list                # the machine's own address, eg. fdaa:1:2:3:4:5:
 The machine suspends when idle. Only traffic through the proxy address wakes it, so docker talks to that. The ports
 student code publishes are not proxied, so checks connect to the machine's own address, which is awake by then.
 
-On imp, a permanent tunnel into the private network:
+On the web server, a permanent tunnel into the private network:
 
 ```sh
-fly wireguard create personal fra imp fly.conf   # on a machine logged in to fly, then copy fly.conf to imp
+fly wireguard create personal fra web fly.conf   # on a machine logged in to fly, then copy fly.conf over
 sudo mv fly.conf /etc/wireguard/fly.conf && sudo systemctl enable --now wg-quick@fly
 ```
 
-Then in imp's `.env`:
+Then in the web server's `.env`:
 
 ```
 DOCKER_HOST=tcp://[fdaa:1:2:0:1::2]:2375
