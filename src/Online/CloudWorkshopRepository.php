@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpSchool\Website\Online;
 
 use Composer\InstalledVersions;
+use PhpSchool\PhpWorkshop\Process\PortPicker;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use RuntimeException;
 
@@ -12,6 +13,7 @@ class CloudWorkshopRepository
 {
     public function __construct(
         private readonly WorkshopRepository $workshopRepository,
+        private readonly PortPicker $portPicker,
     ) {}
 
     public function findByCode(string $code): CloudInstalledWorkshop
@@ -44,6 +46,7 @@ class CloudWorkshopRepository
                     include $path . '/app/bootstrap.php',
                     $workshop,
                     $path,
+                    $this->portPicker,
                 );
             },
             $workshops,
