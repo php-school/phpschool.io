@@ -7,6 +7,8 @@ namespace PhpSchool\WebsiteTest\Cloud\Action;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
+use PhpSchool\PhpWorkshop\Event\Event;
+use PhpSchool\PhpWorkshop\Event\EventDispatcher;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\PhpWorkshop\Result\Failure;
@@ -17,6 +19,7 @@ use PhpSchool\Website\Action\Online\VerifyExercise;
 use PhpSchool\Website\Online\CloudInstalledWorkshop;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\StageStream;
 use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\Online\VueResultsRenderer;
@@ -41,7 +44,7 @@ class VerifyExerciseTest extends TestCase
         $uploader = $this->createMock(ProjectUploader::class);
         $session = $this->createMock(SessionStorageInterface::class);
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class));
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
         $response = new Response();
 
@@ -77,7 +80,7 @@ class VerifyExerciseTest extends TestCase
         $uploader = $this->createMock(ProjectUploader::class);
         $session = $this->createMock(SessionStorageInterface::class);
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class));
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
         $response = new Response();
 
@@ -107,7 +110,7 @@ class VerifyExerciseTest extends TestCase
             ->with($request)
             ->willThrowException(new \RuntimeException('Some error'));
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class));
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -146,7 +149,7 @@ class VerifyExerciseTest extends TestCase
         $state = $this->createMock(StudentWorkshopState::class);
         $state->expects($this->once())->method('completeExercise')->with('workshop', 'Exercise');
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class));
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -186,7 +189,7 @@ class VerifyExerciseTest extends TestCase
         $state = $this->createMock(StudentWorkshopState::class);
         $state->expects($this->once())->method('completeExercise')->with('workshop', 'Exercise');
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class));
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -229,7 +232,7 @@ class VerifyExerciseTest extends TestCase
         $state = $this->createMock(StudentWorkshopState::class);
         $state->expects($this->never())->method('completeExercise')->with('workshop', 'Exercise');
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer);
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class));
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -244,6 +247,37 @@ class VerifyExerciseTest extends TestCase
             json_decode($actualResponse->getBody()->__toString(), true),
         );
         $this->assertFileDoesNotExist($solution->getBaseDirectory());
+    }
+
+    public function testStageIsSentAsVerifyProgresses(): void
+    {
+        $solution = $this->createProjectSolution();
+
+        [$installedWorkshopRepo, , $exerciseDispatcher, $session] = $this->getDependencies();
+
+        $events = new EventDispatcher(new ResultAggregator());
+        $exerciseDispatcher->method('getEventDispatcher')->willReturn($events);
+        $exerciseDispatcher->expects($this->once())
+            ->method('verify')
+            ->willReturnCallback(function () use ($events) {
+                foreach (['cli.verify.reference-execute.pre', 'cli.verify.student-execute.pre', 'verify.post.execute', 'verify.post.check'] as $name) {
+                    $events->dispatch(new Event($name));
+                }
+
+                return new ResultAggregator();
+            });
+
+        $uploader = $this->createMock(ProjectUploader::class);
+        $uploader->method('upload')->willReturn($solution);
+
+        $status = $this->createMock(StageStream::class);
+        $status->expects($this->exactly(4))
+            ->method('send')
+            ->withConsecutive(['reference-execute'], ['student-execute'], ['check'], ['cleanup']);
+
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $this->createMock(StudentWorkshopState::class), $this->createMock(VueResultsRenderer::class), $status);
+
+        $controller->__invoke(new ServerRequest('POST', '/verify', [], json_encode([])), new Response(), 'workshop', 'exercise');
     }
 
     private function createProjectSolution(string $entryPoint = 'solution.php'): DirectorySolution

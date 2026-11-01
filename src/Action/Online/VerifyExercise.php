@@ -8,6 +8,7 @@ use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\StageStream;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\Online\VueResultsRenderer;
 use PhpSchool\Website\User\SessionStorageInterface;
@@ -20,12 +21,21 @@ class VerifyExercise
 {
     use JsonUtils;
 
+    //the stage the frontend shows the student => the events that start it
+    private const STAGES = [
+        'reference-execute' => ['cli.verify.reference-execute.pre', 'cgi.verify.reference-execute.pre'],
+        'student-execute' => ['cli.verify.student-execute.pre', 'cgi.verify.student-execute.pre'],
+        'check' => ['verify.post.execute'],
+        'cleanup' => ['verify.post.check'],
+    ];
+
     public function __construct(
         private readonly CloudWorkshopRepository $installedWorkshops,
         private readonly ProjectUploader $projectUploader,
         private readonly SessionStorageInterface $session,
         private readonly StudentWorkshopState $studentState,
         private readonly VueResultsRenderer $resultsRenderer,
+        private readonly StageStream $stages,
     ) {}
 
     public function __invoke(
@@ -47,6 +57,11 @@ class VerifyExercise
             $project = $this->projectUploader->upload($request, $this->getStudent());
         } catch (\RuntimeException $e) {
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
+        }
+
+        $events = $workshop->getExerciseDispatcher()->getEventDispatcher();
+        foreach (self::STAGES as $stage => $eventNames) {
+            $events->listen($eventNames, fn() => $this->stages->send($stage));
         }
 
         try {

@@ -13,6 +13,7 @@ use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\StageStream;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\User\SessionStorageInterface;
 use PhpSchool\Website\User\StudentDTO;
@@ -38,6 +39,7 @@ class RunExercise
         private readonly ProjectUploader $projectUploader,
         private readonly StudentWorkshopState $studentState,
         private readonly SessionStorageInterface $session,
+        private readonly StageStream $stages,
     ) {}
 
     public function __invoke(
@@ -63,12 +65,11 @@ class RunExercise
 
         $output = new BufferedOutput();
 
-        $workshop->getExerciseDispatcher()
-            ->getEventDispatcher()
-            ->listen(['cli.run.student-execute.post', 'cgi.run.student-execute.post'], function (Event $event) use ($output) {
-                $this->collectRunInfo($event, $output);
-            });
-
+        $events = $workshop->getExerciseDispatcher()->getEventDispatcher();
+        $events->listen(['cli.run.student-execute.pre', 'cgi.run.student-execute.pre'], fn() => $this->stages->send('student-execute'));
+        $events->listen(['cli.run.student-execute.post', 'cgi.run.student-execute.post'], function (Event $event) use ($output) {
+            $this->collectRunInfo($event, $output);
+        });
 
         try {
             $result = $workshop->getExerciseDispatcher()->run(

@@ -5,8 +5,7 @@ import { flatten } from "./Utils/studentFiles";
 import RunResult from "./RunResult.vue";
 import { Menu, MenuButton, MenuItem, MenuItems, Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import Alert from "./SiteAlert.vue";
-import { ref } from "vue";
-import { useFetch } from "@vueuse/core";
+import { computed, ref } from "vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 
 const emit = defineEmits(["verify-loading", "verify-success", "verify-fail", "verify-error", "run-loaded"]);
@@ -22,57 +21,102 @@ const errorMessage = ref("");
 const showError = ref(false);
 const currentAction = ref("verify");
 
-// Posts the solution to the run or verify endpoint; data is the JSON response, or null after showing an error.
-const submit = (action) =>
-  useFetch(() => `/api/online/workshop/${action}/${props.currentExercise.workshop.code}/exercise/${props.currentExercise.exercise.slug}`, {
-    immediate: false,
-    onFetchError: (context) => {
+const stageMessages = {
+  "reference-execute": "Running our solution",
+  "student-execute": "Running your solution",
+  check: "Checking the results",
+  cleanup: "Cleaning up",
+};
+// "run" or "verify" while one is in progress, and the stage it is at
+const loading = ref(null);
+const stage = ref(null);
+const loadingRun = computed(() => loading.value === "run");
+const loadingVerify = computed(() => loading.value === "verify");
+// before the first stage the solution is being uploaded, with composer installing any packages the student added
+const stageMessage = computed(() => stageMessages[stage.value] ?? (props.composerDeps?.length ? "Installing dependencies" : "Starting"));
+
+// Posts the solution to the run or verify endpoint. While it works it sends each stage on its own line, eg
+// {"stage":"student-execute"}, and the last line is the result. Returns the result, or null after showing an error.
+const submit = async (action) => {
+  loading.value = action;
+  stage.value = null;
+
+  try {
+    const response = await fetch(`/api/online/workshop/${action}/${props.currentExercise.workshop.code}/exercise/${props.currentExercise.exercise.slug}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        entry_point: props.entryPoint,
+        scripts: flatten(props.files),
+        composer_deps: props.composerDeps,
+      }),
+    });
+
+    if (!response.ok) {
       const messages = {
         429: "Too many requests. Please try again in a few minutes.",
         503: "Lots of people are running code right now. Please try again in a moment.",
       };
-      errorMessage.value = messages[context.response?.status] ?? "Something went wrong. Please try again.";
-      showError.value = true;
+      throw messages[response.status];
+    }
 
-      return context;
-    },
-  })
-    .post(() => ({ entry_point: props.entryPoint, scripts: flatten(props.files), composer_deps: props.composerDeps }))
-    .json();
+    // stage lines end in a new line, the result does not
+    const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+    let text = "";
+    for (let chunk = await reader.read(); !chunk.done; chunk = await reader.read()) {
+      const lines = (text + chunk.value).split("\n");
+      text = lines.pop();
+      lines.forEach((line) => (stage.value = JSON.parse(line).stage));
+    }
 
-const { isFetching: loadingRun, data: runData, execute: run } = submit("run");
-// the last successful run; a failed re-run keeps showing it, since useFetch clears its data on failure
+    const result = JSON.parse(text);
+    if (result.error) {
+      throw result.error;
+    }
+
+    return result;
+  } catch (e) {
+    // a message thrown above, or eg a network error
+    errorMessage.value = typeof e === "string" ? e : "Something went wrong. Please try again.";
+    showError.value = true;
+
+    return null;
+  } finally {
+    loading.value = null;
+  }
+};
+
+// the last successful run; a failed re-run keeps showing it
 const programRunResult = ref(null);
-const { isFetching: loadingVerify, data: verifyResult, execute: verify } = submit("verify");
 
 const runSolution = async () => {
-  if (loadingRun.value) {
+  if (loading.value) {
     return;
   }
 
-  await run();
+  const result = await submit("run");
 
-  if (runData.value) {
-    programRunResult.value = runData.value;
+  if (result) {
+    programRunResult.value = result;
     openRunModal.value = true;
     emit("run-loaded");
   }
 };
 
 const verifySolution = async () => {
-  if (loadingVerify.value) {
+  if (loading.value) {
     return;
   }
 
   emit("verify-loading");
-  await verify();
+  const result = await submit("verify");
 
-  if (!verifyResult.value) {
+  if (!result) {
     emit("verify-error");
-  } else if (verifyResult.value.success === true) {
+  } else if (result.success === true) {
     emit("verify-success");
   } else {
-    emit("verify-fail", verifyResult.value.results);
+    emit("verify-fail", result.results);
   }
 };
 </script>
@@ -87,7 +131,8 @@ const verifySolution = async () => {
       :disabled="loadingRun"
     >
       <ArrowPathIcon v-cloak v-show="loadingRun" class="h-4 w-4 animate-spin" />
-      <span v-if="!loadingRun">Run</span>
+      <span v-if="loadingRun" class="ml-2 truncate text-xs">{{ stageMessage }}</span>
+      <span v-else>Run</span>
       <CommandLineIcon v-if="!loadingRun" v-cloak class="ml-2 h-5 w-5" />
     </button>
 
@@ -95,14 +140,16 @@ const verifySolution = async () => {
       <button class="mt-0 mr-0 flex h-[48px] w-full items-center pl-3 text-sm text-white outline-hidden transition-all duration-300 ease-in">
         <span v-if="currentAction === 'verify'" class="flex flex-1 items-center md:justify-center" @click="verifySolution">
           <ArrowPathIcon v-cloak v-show="loadingVerify" class="hidden h-4 w-4 animate-spin md:flex" />
-          <span :class="{ 'md:hidden': loadingVerify }">Verify</span>
+          <span v-if="loadingVerify" class="ml-2 truncate text-xs">{{ stageMessage }}</span>
+          <span v-else>Verify</span>
           <SparklesIcon :class="{ 'md:hidden': loadingVerify }" v-cloak class="ml-2 h-5 w-5" />
         </span>
 
         <span v-if="currentAction === 'run'" class="flex flex-1 items-center md:justify-center" @click="runSolution">
           <ArrowPathIcon v-cloak v-show="loadingRun" class="hidden h-4 w-4 animate-spin md:flex" />
-          <span>Run</span>
-          <CommandLineIcon v-cloak class="ml-2 h-5 w-5" />
+          <span v-if="loadingRun" class="ml-2 truncate text-xs">{{ stageMessage }}</span>
+          <span v-else>Run</span>
+          <CommandLineIcon :class="{ 'md:hidden': loadingRun }" v-cloak class="ml-2 h-5 w-5" />
         </span>
       </button>
       <Menu as="div" class="relative mr-3 text-xs text-white uppercase" v-slot="{ open }">
