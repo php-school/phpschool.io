@@ -42,7 +42,8 @@ and deploy, which builds the workshops' runtime images on the machine.
 Set `SLACK_ALERTS_WEBHOOK` in the web server's `.env` to get errors in Slack, eg. a verify that can't reach the
 machine. The same error is posted at most once an hour.
 
-To hear about it before a student does, check the machine hourly from the web server's crontab:
+To hear about it before a student does, verify Hello World on the machine hourly from the web server's crontab, the
+same way a student's verify runs:
 
 ```
 0 * * * * cd /var/www/phpschool.io/current && php bin/app check-sandbox
