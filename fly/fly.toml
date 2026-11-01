@@ -1,0 +1,23 @@
+# The docker host student code runs on, see README.md
+app = "phpschool-sandbox"
+primary_region = "fra"
+
+[build]
+
+[mounts]
+  source = "docker_data"
+  destination = "/data"
+  initial_size = "5gb"
+
+[[services]]
+  internal_port = 2375
+  protocol = "tcp"
+  auto_stop_machines = "suspend"
+  auto_start_machines = true
+  min_machines_running = 0
+  [[services.ports]]
+    port = 2375
+
+[[vm]]
+  size = "shared-cpu-2x"
+  memory = "2gb"

@@ -14,6 +14,8 @@ class CloudWorkshopRepository
     public function __construct(
         private readonly WorkshopRepository $workshopRepository,
         private readonly PortPicker $portPicker,
+        private readonly string $portsNetwork = 'bridge',
+        private readonly string $portsHost = '127.0.0.1',
     ) {}
 
     public function findByCode(string $code): CloudInstalledWorkshop
@@ -47,6 +49,8 @@ class CloudWorkshopRepository
                     $workshop,
                     $path,
                     $this->portPicker,
+                    $this->portsNetwork,
+                    $this->portsHost,
                 );
             },
             $workshops,

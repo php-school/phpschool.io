@@ -35,6 +35,8 @@ class CloudInstalledWorkshop implements \JsonSerializable
         private readonly Workshop $workshop,
         string $workshopPath,
         PortPicker $portPicker,
+        string $portsNetwork = 'bridge',
+        string $portsHost = '127.0.0.1',
     ) {
         /** @var \DI\Container $container */
         $container = $application->configure();
@@ -42,7 +44,13 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $this->slugger = new AsciiSlugger();
 
         //student code must only ever run in the sandbox. Set before anything pulls the process factory from the container.
-        $this->sandboxFactory = new DockerSandboxFactory($workshopPath, $this->getCode(), portPicker: $portPicker);
+        $this->sandboxFactory = new DockerSandboxFactory(
+            $workshopPath,
+            $this->getCode(),
+            portsNetwork: $portsNetwork,
+            portsHost: $portsHost,
+            portPicker: $portPicker,
+        );
         $this->container->set(SandboxFactory::class, $this->sandboxFactory);
 
         $this->configureLogger();
