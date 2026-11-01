@@ -443,6 +443,8 @@ return [
         return new CloudWorkshopRepository(
             $c->get(WorkshopRepository::class),
             new LockPortPicker($locks),
+            $c->get('config')['sandboxPortsNetwork'],
+            $c->get('config')['sandboxPortsHost'],
         );
     },
 
@@ -513,6 +515,9 @@ return [
 
         'enableCache'       => filter_var($_ENV['CACHE.ENABLE'], FILTER_VALIDATE_BOOLEAN),
         'redisHost'         => $_ENV['REDIS_HOST'],
+        //where student code publishes ports, eg. the docker host's private address and a network without internet
+        'sandboxPortsHost'    => $_ENV['SANDBOX_PORTS_HOST'] ?? '127.0.0.1',
+        'sandboxPortsNetwork' => $_ENV['SANDBOX_PORTS_NETWORK'] ?? 'bridge',
         'devMode'           => filter_var($_ENV['DEV_MODE'], FILTER_VALIDATE_BOOLEAN),
         'redisDsn'          => sprintf('redis://%s/%d', $_ENV['REDIS_HOST'], $_ENV['REDIS_DB']),
 
