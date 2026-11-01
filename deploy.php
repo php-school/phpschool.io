@@ -17,7 +17,7 @@ set('keep_releases', 5);
 set('git_tty', false);
 set('allow_anonymous_stats', false);
 
-host('imp')
+host('production')
     ->setHostname('100.70.13.88')
     ->setRemoteUser('deploy')
     ->set('deploy_path', '/var/www/phpschool.io');
