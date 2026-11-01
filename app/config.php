@@ -20,7 +20,9 @@ use League\CommonMark\MarkdownConverter;
 use League\CommonMark\MarkdownConverterInterface;
 use League\OAuth2\Client\Provider\Github;
 use Mni\FrontYAML\Parser;
+use Monolog\Handler\DeduplicationHandler;
 use Monolog\Handler\RotatingFileHandler;
+use Monolog\Handler\SlackWebhookHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use PhpSchool\PhpWorkshop\Markdown\CurrentContext;
@@ -51,6 +53,7 @@ use PhpSchool\Website\Online\ProjectUploader;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\Online\VueResultsRenderer;
 use PhpSchool\Website\Command\BuildRuntimeImages;
+use PhpSchool\Website\Command\CheckSandbox;
 use PhpSchool\Website\Command\ClearCache;
 use PhpSchool\Website\Command\CreateAdminUser;
 use PhpSchool\Website\Command\GenerateBlog;
@@ -117,6 +120,7 @@ return [
         $app->command('generate-blog', GenerateBlog::class);
         $app->command('download-composer-packages', DownloadComposerPackageList::class);
         $app->command('sync-contributors', SyncContributors::class);
+        $app->command('check-sandbox', CheckSandbox::class);
 
         ConsoleRunner::addCommands($app, new SingleManagerProvider($c->get(EntityManagerInterface::class)));
 
@@ -170,6 +174,11 @@ return [
         $logger->pushProcessor(new UidProcessor());
         //a file per day, keeping two weeks of them
         $logger->pushHandler(new RotatingFileHandler($settings['path'], 14, Logger::DEBUG));
+        //errors are posted to slack too, the same error at most once an hour
+        if ($settings['slackWebhook']) {
+            $slack = new SlackWebhookHandler($settings['slackWebhook'], level: Logger::ERROR);
+            $logger->pushHandler(new DeduplicationHandler($slack, $settings['path'] . '.slack', Logger::ERROR, 3600));
+        }
         return $logger;
     }),
 
@@ -513,6 +522,7 @@ return [
         'logger' => [
             'name' => 'slim-app',
             'path' => __DIR__ . '/../var/logs/app.log',
+            'slackWebhook' => $_ENV['SLACK_ALERTS_WEBHOOK'] ?? null,
         ],
 
         'links' => [
