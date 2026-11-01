@@ -15,6 +15,7 @@ use PhpSchool\PhpWorkshop\Logger\Logger;
 use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\PhpWorkshop\Output\OutputInterface;
 use PhpSchool\PhpWorkshop\Process\DockerSandbox;
+use PhpSchool\PhpWorkshop\Process\PortPicker;
 use PhpSchool\PhpWorkshop\Process\Sandbox;
 use PhpSchool\PhpWorkshop\ReferencePackages;
 use PhpSchool\Website\Entity\Workshop;
@@ -33,6 +34,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
         Application $application,
         private readonly Workshop $workshop,
         string $workshopPath,
+        PortPicker $portPicker,
     ) {
         /** @var \DI\Container $container */
         $container = $application->configure();
@@ -40,7 +42,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $this->slugger = new AsciiSlugger();
 
         //student code must only ever run in the sandbox. Set before anything pulls the process factory from the container.
-        $this->sandbox = new DockerSandbox($workshopPath, $this->getCode());
+        $this->sandbox = new DockerSandbox($workshopPath, $this->getCode(), portPicker: $portPicker);
         $this->container->set(Sandbox::class, $this->sandbox);
 
         $this->configureLogger();

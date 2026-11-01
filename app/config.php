@@ -91,6 +91,9 @@ use Ramsey\Uuid\Doctrine\UuidType;
 use Slim\App;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Symfony\Component\Lock\LockFactory;
+use Symfony\Component\Lock\Store\RedisStore;
+use PhpSchool\PhpWorkshop\Process\LockPortPicker;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\RateLimiter\Storage\CacheStorage;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -434,8 +437,12 @@ return [
     },
 
     CloudWorkshopRepository::class => function (ContainerInterface $c): CloudWorkshopRepository {
+        //verifies share the docker host, so they claim the ports they publish in redis
+        $locks = new LockFactory(new RedisStore(new \Predis\Client(['host' => $c->get('config')['redisHost']])));
+
         return new CloudWorkshopRepository(
             $c->get(WorkshopRepository::class),
+            new LockPortPicker($locks),
         );
     },
 
