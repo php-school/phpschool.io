@@ -9,7 +9,7 @@ use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PHPUnit\Framework\TestCase;
-use PhpSchool\PhpWorkshop\Process\FreePortPicker;
+use PhpSchool\PhpWorkshop\Process\Port\FreePortPicker;
 
 class CloudWorkshopRepositoryTest extends TestCase
 {

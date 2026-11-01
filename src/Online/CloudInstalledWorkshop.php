@@ -14,9 +14,9 @@ use PhpSchool\PhpWorkshop\Listener\OutputRunInfoListener;
 use PhpSchool\PhpWorkshop\Logger\Logger;
 use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\PhpWorkshop\Output\OutputInterface;
-use PhpSchool\PhpWorkshop\Process\DockerSandbox;
-use PhpSchool\PhpWorkshop\Process\PortPicker;
-use PhpSchool\PhpWorkshop\Process\Sandbox;
+use PhpSchool\PhpWorkshop\Process\Port\PortPicker;
+use PhpSchool\PhpWorkshop\Process\Sandbox\Docker\DockerSandboxFactory;
+use PhpSchool\PhpWorkshop\Process\Sandbox\SandboxFactory;
 use PhpSchool\PhpWorkshop\ReferencePackages;
 use PhpSchool\Website\Entity\Workshop;
 use Psr\Log\LoggerInterface;
@@ -28,7 +28,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
 {
     private \DI\Container $container;
     private AsciiSlugger $slugger;
-    private DockerSandbox $sandbox;
+    private DockerSandboxFactory $sandboxFactory;
 
     public function __construct(
         Application $application,
@@ -42,8 +42,8 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $this->slugger = new AsciiSlugger();
 
         //student code must only ever run in the sandbox. Set before anything pulls the process factory from the container.
-        $this->sandbox = new DockerSandbox($workshopPath, $this->getCode(), portPicker: $portPicker);
-        $this->container->set(Sandbox::class, $this->sandbox);
+        $this->sandboxFactory = new DockerSandboxFactory($workshopPath, $this->getCode(), portPicker: $portPicker);
+        $this->container->set(SandboxFactory::class, $this->sandboxFactory);
 
         $this->configureLogger();
         $this->configureEvents();
@@ -54,7 +54,7 @@ class CloudInstalledWorkshop implements \JsonSerializable
      */
     public function createRuntimeImageBuildProcess(): Process
     {
-        return $this->sandbox->createBuildProcess();
+        return $this->sandboxFactory->createBuildProcess();
     }
 
     /**

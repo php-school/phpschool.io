@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PhpSchool\Website\Online;
 
 use Composer\InstalledVersions;
-use PhpSchool\PhpWorkshop\Process\PortPicker;
+use PhpSchool\PhpWorkshop\Process\Port\PortPicker;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use RuntimeException;
 
