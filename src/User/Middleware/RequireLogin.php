@@ -12,7 +12,7 @@ use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
-class StudentAuthenticator
+class RequireLogin
 {
     use RedirectUtils;
 
@@ -22,16 +22,10 @@ class StudentAuthenticator
 
     public function __invoke(Request $request, RequestHandler $handler): MessageInterface
     {
-        $path = $request->getUri()->getPath();
-
-        //if not an online route
-        if (!str_starts_with($path, '/api/online')) {
-            return $handler->handle($request);
-        }
-
+        //added per route, so never skip by path. Slim routes the decoded path, so a raw path check let
+        //"/api/%6Fnline/reset" through
         $student = $this->session->get('student');
 
-        //if on any other cloud route, student must be logged in
         if (!$student instanceof StudentDTO) {
             return new Response(401);
         }

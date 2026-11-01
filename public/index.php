@@ -34,11 +34,15 @@ use PhpSchool\Website\Action\TrackDownloads;
 use PhpSchool\Website\Online\Middleware\ExerciseRunnerRateLimiter;
 use PhpSchool\Website\Online\Middleware\Styles;
 use PhpSchool\Website\ContainerFactory;
+use PhpSchool\Website\Middleware\IpRateLimiter;
+use RKA\Middleware\IpAddress;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use PhpSchool\Website\User\Entity\Student;
-use PhpSchool\Website\User\Middleware\StudentAuthenticator;
+use PhpSchool\Website\User\Middleware\RequireLogin;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
+use PhpSchool\Website\ErrorHandler;
 use Slim\Exception\HttpException;
 use Slim\Routing\RouteCollectorProxy;
 use JimTools\JwtAuth\Exceptions\AuthorizationException;
@@ -67,6 +71,11 @@ $errors = $app->addErrorMiddleware(
     true,
     $container->get(LoggerInterface::class)
 );
+$errors->setDefaultErrorHandler(new ErrorHandler(
+    $app->getCallableResolver(),
+    $app->getResponseFactory(),
+    $container->get(LoggerInterface::class),
+));
 $errors->setErrorHandler(
     AuthorizationException::class,
     static fn (Request $request) => $app->getResponseFactory()->createResponse(401)
@@ -81,16 +90,26 @@ $errors->getDefaultErrorHandler()->registerErrorRenderer(
     ])
 );
 
-$app->post('/api/submit', SubmitWorkshop::class);
+// the site is behind Cloudflare, so the visitor's IP is in CF-Connecting-IP, not REMOTE_ADDR
+$ipAddress = new IpAddress(true, [], 'ip_address', ['CF-Connecting-IP']);
+
+// eg $limitPerIp('adminLogin', 5, '1 minute'), for public routes that anyone could hammer
+$limitPerIp = fn (string $id, int $limit, string $interval) => new IpRateLimiter(new RateLimiterFactory(
+    ['id' => $id, 'policy' => 'sliding_window', 'limit' => $limit, 'interval' => $interval],
+    $container->get('rateLimiterStorage'),
+));
+
+$app->post('/api/submit', SubmitWorkshop::class)->add($container->get(RequireLogin::class));
 $app->get('/api/events', Events::class);
 $app->get('/api/posts', BlogPosts::class);
-$app->post('/api/slack-invite', SlackInvite::class);
+// middleware runs last added first, so $ipAddress sets the IP before the limiter reads it
+$app->post('/api/slack-invite', SlackInvite::class)->add($limitPerIp('slackInvite', 5, '1 hour'))->add($ipAddress);
 $app->get('/api/contributors', Contributors::class);
+$app->post('/api/admin/login', Login::class)->add($limitPerIp('adminLogin', 5, '1 minute'))->add($ipAddress);
 
 $app
     ->group('/api/admin', function (RouteCollectorProxy $group) {
 
-        $group->post('/login', Login::class);
         $group->post('/cache/clear', ClearCache::class);
 
         $group->group('/workshop', function (RouteCollectorProxy $group) {
@@ -124,7 +143,9 @@ $app
     })
     ->add($container->get(JwtAuthentication::class));
 
-$app->post('/downloads/{workshop}/{version}', TrackDownloads::class)->add(new \RKA\Middleware\IpAddress());
+$app->post('/downloads/{workshop}/{version}', TrackDownloads::class)
+    ->add($limitPerIp('trackDownloads', 30, '1 minute'))
+    ->add($ipAddress);
 
 $rateLimiter = $container->get(ExerciseRunnerRateLimiter::class);
 
@@ -145,7 +166,7 @@ $app
         $group->post('/tour/complete', TourComplete::class);
         $group->post('/reset', ResetState::class);
     })
-    ->add($container->get(StudentAuthenticator::class));
+    ->add($container->get(RequireLogin::class));
 
 // Run app
 $app->run();

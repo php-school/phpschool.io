@@ -20,7 +20,7 @@ use League\CommonMark\MarkdownConverter;
 use League\CommonMark\MarkdownConverterInterface;
 use League\OAuth2\Client\Provider\Github;
 use Mni\FrontYAML\Parser;
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use PhpSchool\PhpWorkshop\Markdown\CurrentContext;
@@ -73,7 +73,7 @@ use PhpSchool\Website\Service\WorkshopCreator;
 use PhpSchool\Website\User\Adapter\Doctrine;
 use PhpSchool\Website\User\AdminAuthenticationService;
 use PhpSchool\Website\User\Entity\Student;
-use PhpSchool\Website\User\Middleware\StudentAuthenticator;
+use PhpSchool\Website\User\Middleware\RequireLogin;
 use PhpSchool\Website\User\Middleware\StudentRefresher;
 use PhpSchool\Website\User\Session;
 use PhpSchool\Website\User\SessionStorageInterface;
@@ -96,12 +96,12 @@ use Symfony\Component\Lock\Store\RedisStore;
 use PhpSchool\PhpWorkshop\Process\Port\LockPortPicker;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\RateLimiter\Storage\CacheStorage;
+use Symfony\Component\Semaphore\SemaphoreFactory;
+use Symfony\Component\Semaphore\Store\RedisStore as SemaphoreRedisStore;
 use Symfony\Contracts\Cache\CacheInterface;
 use JimTools\JwtAuth\Decoder\FirebaseDecoder;
 use JimTools\JwtAuth\Middleware\JwtAuthentication;
 use JimTools\JwtAuth\Options as JwtOptions;
-use JimTools\JwtAuth\Rules\RequestMethodRule;
-use JimTools\JwtAuth\Rules\RequestPathRule;
 use JimTools\JwtAuth\Secret as JwtSecret;
 
 use function DI\factory;
@@ -139,7 +139,7 @@ return [
                 ->withHeader('cache-control', 'no-cache');
         });
         $app->add(StudentRefresher::class);
-        $app->add(new SessionMiddleware(['name' => 'phpschool']));
+        $app->add(new SessionMiddleware(['name' => 'phpschool', 'secure' => !$c->get('config')['devMode']]));
 
         return $app;
     }),
@@ -168,7 +168,8 @@ return [
         $settings = $c->get('config')['logger'];
         $logger = new Logger($settings['name']);
         $logger->pushProcessor(new UidProcessor());
-        $logger->pushHandler(new StreamHandler($settings['path'], Logger::DEBUG));
+        //a file per day, keeping two weeks of them
+        $logger->pushHandler(new RotatingFileHandler($settings['path'], 14, Logger::DEBUG));
         return $logger;
     }),
 
@@ -211,6 +212,7 @@ return [
             new WorkshopCreator(new WorkshopComposerJsonInputFilter(), $c->get(WorkshopRepository::class)),
             $c->get(EmailNotifier::class),
             $c->get(LoggerInterface::class),
+            $c->get(Session::class),
         );
     }),
 
@@ -378,8 +380,8 @@ return [
         return new AdminAuthenticationService($authService);
     }),
 
-    StudentAuthenticator::class => function (ContainerInterface $c): StudentAuthenticator {
-        return new StudentAuthenticator(
+    RequireLogin::class => function (ContainerInterface $c): RequireLogin {
+        return new RequireLogin(
             $c->get(Session::class),
         );
     },
@@ -448,7 +450,7 @@ return [
         );
     },
 
-    'exerciseRunnerRateLimiterFactory' => function (ContainerInterface $c): RateLimiterFactory {
+    'redis' => function (ContainerInterface $c): \Predis\Client {
         $redisConnection = new \Predis\Client(['host' => $c->get('config')['redisHost']]);
         try {
             $redisConnection->connect();
@@ -462,8 +464,14 @@ return [
             );
         }
 
-        $adapter = new RedisAdapter($redisConnection, 'rate_limiter');
+        return $redisConnection;
+    },
 
+    'rateLimiterStorage' => function (ContainerInterface $c): CacheStorage {
+        return new CacheStorage(new RedisAdapter($c->get('redis'), 'rate_limiter'));
+    },
+
+    'exerciseRunnerRateLimiterFactory' => function (ContainerInterface $c): RateLimiterFactory {
         return new RateLimiterFactory(
             [
                 'id' => 'exerciseRunner',
@@ -471,7 +479,7 @@ return [
                 'limit' => 10,
                 'interval' => '1 minute',
             ],
-            new CacheStorage($adapter),
+            $c->get('rateLimiterStorage'),
         );
     },
 
@@ -479,6 +487,7 @@ return [
         return new ExerciseRunnerRateLimiter(
             $c->get(SessionStorageInterface::class),
             $c->get('exerciseRunnerRateLimiterFactory'),
+            new SemaphoreFactory(new SemaphoreRedisStore($c->get('redis'))),
         );
     },
 
@@ -486,7 +495,9 @@ return [
         return new JwtAuthentication(
             new JwtOptions(isSecure: !$c->get('config')['devMode']),
             new FirebaseDecoder(new JwtSecret($c->get('config')['jwtSecret'], 'HS256')),
-            [new RequestMethodRule(), new RequestPathRule(['/api/admin'], ['/api/admin/login'])],
+            //only the admin route group uses this middleware, so check every request it sees. A path rule
+            //would compare the raw path, and Slim routes the decoded one, eg "/api/%61dmin/cache/clear"
+            [],
         );
     },
 

@@ -3,10 +3,12 @@ import { reactive, ref } from "vue";
 import { useFetch } from "@vueuse/core";
 import { ArrowPathIcon, CheckIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import Heading from "../PageHeading.vue";
+import LoginWithGitHubButton from "../../Online/LoginWithGitHubButton.vue";
+import { useStudentStore } from "../../../stores/student";
+
+const studentStore = useStudentStore();
 
 const form = reactive({
-  email: null,
-  name: null,
   contact: null,
   "workshop-name": null,
   "github-url": null,
@@ -20,7 +22,7 @@ const submitError = ref(false);
 const hasErrors = ref(false);
 
 // data is the JSON response, or null when the request fails
-const { isFetching: loading, data, execute } = useFetch("/api/submit", { immediate: false }).post(form).json();
+const { isFetching: loading, data, statusCode, execute } = useFetch("/api/submit", { immediate: false }).post(form).json();
 
 const submit = async () => {
   if (submitted.value || loading.value) {
@@ -33,7 +35,10 @@ const submit = async () => {
 
   await execute();
 
-  if (data.value === null) {
+  if (statusCode.value === 401) {
+    // logged out on the server, so show the login button again
+    await studentStore.initialize();
+  } else if (data.value === null) {
     submitError.value = true;
   } else if (data.value.success === false) {
     errors.value = data.value.form_errors ?? {};
@@ -77,54 +82,16 @@ const submit = async () => {
           </p>
         </div>
         <div class="w-full pt-8 md:w-2/3 md:pl-10">
-          <form action="/submit" method="post" @submit.prevent="submit">
-            <div class="mb-8">
-              <label class="mb-3 block text-sm font-bold" for="email">
-                Your Email Address
-                <span class="text-[#e91e63]">*</span>
-              </label>
-              <p class="mb-4 text-xs text-gray-300/70">This is used just to send you a notification when your workshop is approved.</p>
-              <div class="">
-                <input
-                  v-model="form.email"
-                  name="email"
-                  id="email"
-                  class="h-[48px] w-full rounded-full border border-[#ccc] bg-[url('/img/cloud/mail.svg')] bg-size-[1.5em] bg-position-[1em] bg-no-repeat pl-[3em] text-sm text-black focus:border-[#e91e63] focus:outline-hidden"
-                  type="text"
-                  placeholder="myname@example.com"
-                  required=""
-                />
-                <ul v-if="errors.email" class="my-3 border-l-4 border-[#cc1717] p-3 text-xs text-[#cc1717]">
-                  <li v-for="err in errors.email" :key="err" class="mb-3 last:mb-0">
-                    {{ err }}
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="mb-8">
-              <label class="mb-3 block text-sm font-bold" for="name">
-                Your Name
-                <span class="text-[#e91e63]">*</span>
-              </label>
-              <p class="mb-4 text-xs text-gray-300/70">The name of workshop creator, shown on the homepage for bragging rights!</p>
-              <div class="">
-                <input
-                  v-model="form.name"
-                  name="name"
-                  id="name"
-                  class="h-[48px] w-full rounded-full border border-[#ccc] bg-[url('/img/cloud/woman.svg')] bg-size-[1.5em] bg-position-[1em] bg-no-repeat pl-[3em] text-sm text-black focus:border-[#e91e63] focus:outline-hidden"
-                  type="text"
-                  placeholder="Jane Doe"
-                  required=""
-                />
-                <ul v-if="errors.name" class="my-3 border-l-4 border-[#cc1717] p-3 text-xs text-[#cc1717]">
-                  <li v-for="err in errors.name" :key="err" class="mb-3 last:mb-0">
-                    {{ err }}
-                  </li>
-                </ul>
-              </div>
-            </div>
+          <div v-if="!studentStore.student">
+            <p class="mb-6 text-sm">Log in with GitHub to submit your workshop. We show your GitHub name next to the workshop and email you when it's approved.</p>
+            <LoginWithGitHubButton />
+          </div>
+          <form v-else action="/submit" method="post" @submit.prevent="submit">
+            <p class="mb-8 text-sm">
+              Submitting as
+              <span class="font-bold">{{ studentStore.student.name }}</span>
+              . We'll email {{ studentStore.student.email }} when your workshop is approved.
+            </p>
 
             <div class="mb-8">
               <label class="mb-3 block text-sm font-bold" for="contact">Your Contact</label>

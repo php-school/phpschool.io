@@ -10,6 +10,7 @@ use Laminas\Validator\Date;
 use Laminas\Validator\File\IsImage;
 use Laminas\Validator\File\Size;
 use Laminas\Validator\File\UploadFile;
+use Laminas\Validator\Regex;
 use Laminas\InputFilter\FileInput;
 use Laminas\Validator\StringLength;
 use Laminas\Validator\Uri;
@@ -82,6 +83,16 @@ class Event extends InputFilter
                 ],
                 [
                     'name' => Uri::class,
+                ],
+                [
+                    //shown as a link on the events page, and Uri allows javascript:
+                    'name' => Regex::class,
+                    'options' => [
+                        'pattern' => '#^https?://#i',
+                        'messages' => [
+                            Regex::NOT_MATCH => 'Link should start with https://',
+                        ],
+                    ],
                 ],
             ],
         ]);

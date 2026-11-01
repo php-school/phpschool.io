@@ -38,8 +38,15 @@ task('deploy:schema-update', function () {
 
 // Student code runs in these images, so they must exist before the release goes live.
 task('deploy:build-runtime-images', function () {
+    //exercises that expose ports run on this network, it has no internet access
+    run('docker network inspect php-school-sandbox >/dev/null 2>&1 || docker network create -o com.docker.network.bridge.enable_ip_masquerade=false php-school-sandbox');
     run('cd {{release_path}} && {{bin/php}} bin/app build-runtime-images');
 })->desc('Build the workshop sandbox images');
+
+// The Vue site, prerendered into public/dist. The prerender fetches posts and events from the live API.
+task('deploy:build-frontend', function () {
+    run('cd {{release_path}} && npm ci --no-audit --no-fund && VITE_API_URL=https://www.phpschool.io npm run build');
+})->desc('Build the frontend');
 
 task('deploy:generate-blog', function () {
     run('cd {{release_path}} && {{bin/php}} bin/app generate-blog');
@@ -53,6 +60,7 @@ task('deploy', [
     'deploy:schema-update',
     'deploy:generate-blog',
     'deploy:build-runtime-images',
+    'deploy:build-frontend',
     'deploy:publish',
 ])->desc('Deploy phpschool.io');
 

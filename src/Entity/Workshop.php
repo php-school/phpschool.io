@@ -229,6 +229,25 @@ class Workshop implements \JsonSerializable
     }
 
     /**
+     * For the public site, so never the submitter's email.
+     *
+     * @return array{code: string, name: string, description: string, repo_url: string, submitter_name: string, submitter_contact: ?string, type: string}
+     */
+    public function toPublicArray(): array
+    {
+        return [
+            'code' => $this->getCode(),
+            'name' => $this->getDisplayName(),
+            'description' => $this->getDescription(),
+            'repo_url' => $this->getRepoUrl(),
+            'submitter_name' => $this->getSubmitterName(),
+            //older submissions weren't checked, eg "javascript:..."
+            'submitter_contact' => str_starts_with((string) $this->submitterContact, 'http') ? $this->submitterContact : null,
+            'type' => $this->getTypeName(),
+        ];
+    }
+
+    /**
      * @return array{
      *     id: string,
      *     code: string,

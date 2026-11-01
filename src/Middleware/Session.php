@@ -88,7 +88,15 @@ class Session
         $secure   = (bool) $options['secure'];
         $httponly = (bool) $options['httponly'];
 
-        session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
+        session_set_cookie_params([
+            'lifetime' => $lifetime,
+            'path' => $path,
+            'domain' => $domain,
+            'secure' => $secure,
+            'httponly' => $httponly,
+            //not sent on cross-site POSTs, so another site can't post a form to eg /api/online/reset
+            'samesite' => 'Lax',
+        ]);
         session_name($options['name']);
         session_cache_limiter($options['cache_limiter']);
         session_start();
