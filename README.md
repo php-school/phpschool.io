@@ -83,10 +83,10 @@ docker-compose exec php composer app:cc
 ## Deploy
 
 Deploys are handled by [Deployer](https://deployer.org/). You will need SSH
-access to the production server (`deploy@78.47.39.62`, the `imp` host).
+access to the production server (`deploy@78.47.39.62`).
 
 ```shell
-vendor/bin/dep deploy imp
+vendor/bin/dep deploy production
 ```
 
 ## Production deploy requisites
