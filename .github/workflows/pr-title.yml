@@ -1,7 +1,8 @@
 name: PR title
 
 on:
-  pull_request_target:
+  # not pull_request_target, which only runs workflows from the default branch (master) and this file is on online
+  pull_request:
     types: [opened, edited, synchronize, reopened]
 
 permissions:
