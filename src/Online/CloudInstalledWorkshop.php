@@ -132,13 +132,6 @@ class CloudInstalledWorkshop implements \JsonSerializable
         return null;
     }
 
-    public function getSandbox(): Sandbox
-    {
-        /** @var Sandbox $sandbox */
-        $sandbox = $this->container->get(Sandbox::class);
-        return $sandbox;
-    }
-
     public function getExerciseDispatcher(): ExerciseDispatcher
     {
         /** @var ExerciseDispatcher $exerciseDispatcher */
