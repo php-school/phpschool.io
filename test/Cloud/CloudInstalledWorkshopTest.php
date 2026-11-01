@@ -9,6 +9,7 @@ use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\Website\Online\CloudInstalledWorkshop;
 use PhpSchool\Website\Entity\Workshop;
 use PHPUnit\Framework\TestCase;
+use PhpSchool\PhpWorkshop\Process\Port\FreePortPicker;
 
 class CloudInstalledWorkshopTest extends TestCase
 {
@@ -26,7 +27,7 @@ class CloudInstalledWorkshopTest extends TestCase
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', new FreePortPicker(), 'bridge', '127.0.0.1');
 
         $this->assertEquals('myworkshop', $cloudWorkshop->getCode());
         $this->assertEquals('My Workshop', $cloudWorkshop->getName());
@@ -48,7 +49,7 @@ class CloudInstalledWorkshopTest extends TestCase
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', new FreePortPicker(), 'bridge', '127.0.0.1');
 
         $this->assertInstanceOf(ExerciseDispatcher::class, $cloudWorkshop->getExerciseDispatcher());
     }
@@ -67,7 +68,7 @@ class CloudInstalledWorkshopTest extends TestCase
 
         $app = new Application('My Workshop', __DIR__ . '/_files/fw_di_config.php');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', new FreePortPicker(), 'bridge', '127.0.0.1');
 
         $this->assertEquals('my-service', $cloudWorkshop->getService('my-service')->name);
     }
@@ -89,7 +90,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', new FreePortPicker(), 'bridge', '127.0.0.1');
 
         $exercises = $cloudWorkshop->findAllExercises();
 
@@ -116,7 +117,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', new FreePortPicker(), 'bridge', '127.0.0.1');
         $cloudWorkshop->findExerciseBySlug('Exercise-5');
     }
 
@@ -137,7 +138,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', new FreePortPicker(), 'bridge', '127.0.0.1');
 
         $exercise = $cloudWorkshop->findExerciseBySlug('Exercise-2');
 
@@ -164,7 +165,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', new FreePortPicker(), 'bridge', '127.0.0.1');
         $cloudWorkshop->findExerciseByName('Exercise 5');
     }
 
@@ -185,7 +186,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', new FreePortPicker(), 'bridge', '127.0.0.1');
 
         $exercise = $cloudWorkshop->findExerciseByName('Exercise 2');
 
@@ -209,7 +210,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', new FreePortPicker(), 'bridge', '127.0.0.1');
 
         $exercise = $cloudWorkshop->findExerciseByName('Exercise 3');
         $this->assertNull($cloudWorkshop->findNextExercise($exercise));
@@ -232,7 +233,7 @@ class CloudInstalledWorkshopTest extends TestCase
         $app->addExercise('Exercise2');
         $app->addExercise('Exercise3');
 
-        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache');
+        $cloudWorkshop = new CloudInstalledWorkshop($app, $workshop, '/workshop', new FreePortPicker(), 'bridge', '127.0.0.1');
 
         $exercise = $cloudWorkshop->findExerciseByName('Exercise 2');
         $next = $cloudWorkshop->findNextExercise($exercise);
@@ -285,7 +286,7 @@ class CloudInstalledWorkshopTest extends TestCase
                 ],
                 'logo' => null,
             ],
-            (new CloudInstalledWorkshop($app, $workshop, '/workshop', '/composer-cache'))->jsonSerialize(),
+            (new CloudInstalledWorkshop($app, $workshop, '/workshop', new FreePortPicker(), 'bridge', '127.0.0.1'))->jsonSerialize(),
         );
     }
 }

@@ -9,6 +9,7 @@ use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Entity\Workshop;
 use PhpSchool\Website\Repository\WorkshopRepository;
 use PHPUnit\Framework\TestCase;
+use PhpSchool\PhpWorkshop\Process\Port\FreePortPicker;
 
 class CloudWorkshopRepositoryTest extends TestCase
 {
@@ -18,7 +19,7 @@ class CloudWorkshopRepositoryTest extends TestCase
         $this->expectExceptionMessage('Cannot find workshop with code: "not-installed-workshop"');
 
         $workshopRepo = $this->createMock(WorkshopRepository::class);
-        $repo = new CloudWorkshopRepository($workshopRepo, "/composer-cache");
+        $repo = new CloudWorkshopRepository($workshopRepo, new FreePortPicker(), 'bridge', '127.0.0.1');
 
         $repo->findByCode('not-installed-workshop');
     }
@@ -26,7 +27,7 @@ class CloudWorkshopRepositoryTest extends TestCase
     public function testFindAll(): void
     {
         $workshopRepo = $this->createMock(WorkshopRepository::class);
-        $repo = new CloudWorkshopRepository($workshopRepo, "/composer-cache");
+        $repo = new CloudWorkshopRepository($workshopRepo, new FreePortPicker(), 'bridge', '127.0.0.1');
 
         $workshops = $repo->findAll();
 
@@ -49,7 +50,7 @@ class CloudWorkshopRepositoryTest extends TestCase
                 ['php8appreciate', $php8appreciate],
             ]);
 
-        $repo = new CloudWorkshopRepository($workshopRepo, "/composer-cache");
+        $repo = new CloudWorkshopRepository($workshopRepo, new FreePortPicker(), 'bridge', '127.0.0.1');
 
         $workshop = $repo->findByCode('php8appreciate');
 
@@ -59,7 +60,7 @@ class CloudWorkshopRepositoryTest extends TestCase
     public function testTotalExerciseCount(): void
     {
         $workshopRepo = $this->createMock(WorkshopRepository::class);
-        $repo = new CloudWorkshopRepository($workshopRepo, "/composer-cache");
+        $repo = new CloudWorkshopRepository($workshopRepo, new FreePortPicker(), 'bridge', '127.0.0.1');
 
         $this->assertEquals(24, $repo->totalExerciseCount());
     }

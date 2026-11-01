@@ -91,6 +91,9 @@ use Ramsey\Uuid\Doctrine\UuidType;
 use Slim\App;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Symfony\Component\Lock\LockFactory;
+use Symfony\Component\Lock\Store\RedisStore;
+use PhpSchool\PhpWorkshop\Process\Port\LockPortPicker;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\RateLimiter\Storage\CacheStorage;
 use Symfony\Component\Semaphore\SemaphoreFactory;
@@ -436,9 +439,14 @@ return [
     },
 
     CloudWorkshopRepository::class => function (ContainerInterface $c): CloudWorkshopRepository {
+        //verifies share the docker host, so they claim the ports they publish in redis
+        $locks = new LockFactory(new RedisStore(new \Predis\Client(['host' => $c->get('config')['redisHost']])));
+
         return new CloudWorkshopRepository(
             $c->get(WorkshopRepository::class),
-            __DIR__ . '/../var/composer-cache',
+            new LockPortPicker($locks),
+            $c->get('config')['sandboxPortsNetwork'],
+            $c->get('config')['sandboxPortsHost'],
         );
     },
 
@@ -518,6 +526,9 @@ return [
 
         'enableCache'       => filter_var($_ENV['CACHE.ENABLE'], FILTER_VALIDATE_BOOLEAN),
         'redisHost'         => $_ENV['REDIS_HOST'],
+        //where student code publishes ports, eg. the docker host's private address and a network without internet
+        'sandboxPortsHost'    => $_ENV['SANDBOX_PORTS_HOST'] ?? '127.0.0.1',
+        'sandboxPortsNetwork' => $_ENV['SANDBOX_PORTS_NETWORK'] ?? 'bridge',
         'devMode'           => filter_var($_ENV['DEV_MODE'], FILTER_VALIDATE_BOOLEAN),
         'redisDsn'          => sprintf('redis://%s/%d', $_ENV['REDIS_HOST'], $_ENV['REDIS_DB']),
 

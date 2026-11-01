@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace PhpSchool\WebsiteTest\Cloud;
 
 use GuzzleHttp\Psr7\ServerRequest;
-use PhpSchool\PhpWorkshop\Process\HostProcessFactory;
-use PhpSchool\PhpWorkshop\Process\ProcessFactory;
+use PhpSchool\PhpWorkshop\Process\Composer;
 use PhpSchool\PhpWorkshop\Solution\SolutionFile;
 use PhpSchool\Website\Online\ComposerPackageAllowlist;
 use PhpSchool\Website\Online\PathGenerator;
@@ -15,6 +14,7 @@ use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\TestUtils\BaseFilesystemTest;
 use PhpSchool\Website\User\StudentDTO;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\Process\ExecutableFinder;
 
 class ProjectUploaderTest extends BaseFilesystemTest
 {
@@ -32,7 +32,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             json_encode([]),
         );
 
-        $uploader->upload($request, $this->getStudent(), new HostProcessFactory());
+        $uploader->upload($request, $this->getStudent());
     }
 
     public function testExceptionIsThrownIfGeneratedBasePathExists(): void
@@ -62,7 +62,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ]),
         );
 
-        $uploader->upload($request, $student, new HostProcessFactory());
+        $uploader->upload($request, $student);
     }
 
     /**
@@ -86,7 +86,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ]),
         );
 
-        $uploader->upload($request, $this->getStudent(), new HostProcessFactory());
+        $uploader->upload($request, $this->getStudent());
     }
 
     /**
@@ -127,7 +127,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
         );
 
         try {
-            $uploader->upload($request, $student, new HostProcessFactory());
+            $uploader->upload($request, $student);
         } catch (\RuntimeException $e) {
         }
 
@@ -151,7 +151,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
         );
 
         try {
-            (new ProjectUploader($generator))->upload($request, $student, new HostProcessFactory());
+            (new ProjectUploader($generator))->upload($request, $student);
         } catch (\RuntimeException $e) {
         }
 
@@ -185,7 +185,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ]),
         );
 
-        $result = $uploader->upload($request, $student, new HostProcessFactory());
+        $result = $uploader->upload($request, $student);
 
         $this->assertEquals($path, $result->getBaseDirectory());
         $this->assertEquals($path . '/solution.php', $result->getEntryPoint()->getAbsolutePath());
@@ -234,7 +234,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ]),
         );
 
-        $result = $uploader->upload($request, $student, new HostProcessFactory());
+        $result = $uploader->upload($request, $student);
 
         $this->assertEquals($path, $result->getBaseDirectory());
 
@@ -265,8 +265,9 @@ class ProjectUploaderTest extends BaseFilesystemTest
         $generator = $this->createMock(PathGenerator::class);
         $generator->method('random')->willReturn($path);
 
-        $processFactory = $this->createMock(ProcessFactory::class);
-        $processFactory->expects($this->never())->method('create');
+        //composer is never looked for, so never run
+        $finder = $this->createMock(ExecutableFinder::class);
+        $finder->expects($this->never())->method('find');
 
         $request = new ServerRequest(
             'POST',
@@ -276,7 +277,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
         );
 
         try {
-            (new ProjectUploader($generator, $this->getAllowlist()))->upload($request, $student, $processFactory);
+            (new ProjectUploader($generator, $this->getAllowlist(), new Composer($finder)))->upload($request, $student);
         } catch (\RuntimeException $e) {
         }
 
@@ -325,7 +326,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
             ]),
         );
 
-        $result = $uploader->upload($request, $student, new HostProcessFactory());
+        $result = $uploader->upload($request, $student);
 
         $this->assertEquals($path, $result->getBaseDirectory());
         $this->assertEquals($path . '/program.php', $result->getEntryPoint()->getAbsolutePath());
@@ -372,8 +373,9 @@ class ProjectUploaderTest extends BaseFilesystemTest
         $generator = $this->createMock(PathGenerator::class);
         $generator->method('random')->willReturn($path);
 
-        $processFactory = $this->createMock(ProcessFactory::class);
-        $processFactory->expects($this->never())->method('create');
+        //composer is never looked for, so never run
+        $finder = $this->createMock(ExecutableFinder::class);
+        $finder->expects($this->never())->method('find');
 
         $request = new ServerRequest(
             'POST',
@@ -386,7 +388,7 @@ class ProjectUploaderTest extends BaseFilesystemTest
         $this->expectExceptionMessage($message);
 
         try {
-            (new ProjectUploader($generator, $this->getAllowlist()))->upload($request, $this->getStudent(), $processFactory);
+            (new ProjectUploader($generator, $this->getAllowlist(), new Composer($finder)))->upload($request, $this->getStudent());
         } finally {
             $this->assertFileDoesNotExist($path);
         }

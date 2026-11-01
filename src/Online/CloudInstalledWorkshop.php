@@ -14,8 +14,10 @@ use PhpSchool\PhpWorkshop\Listener\OutputRunInfoListener;
 use PhpSchool\PhpWorkshop\Logger\Logger;
 use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\PhpWorkshop\Output\OutputInterface;
-use PhpSchool\PhpWorkshop\Process\DockerProcessFactory;
-use PhpSchool\PhpWorkshop\Process\ProcessFactory;
+use PhpSchool\PhpWorkshop\Process\Port\PortPicker;
+use PhpSchool\PhpWorkshop\Process\Sandbox\Docker\DockerSandboxFactory;
+use PhpSchool\PhpWorkshop\Process\Sandbox\SandboxFactory;
+use PhpSchool\PhpWorkshop\ReferencePackages;
 use PhpSchool\Website\Entity\Workshop;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -26,13 +28,15 @@ class CloudInstalledWorkshop implements \JsonSerializable
 {
     private \DI\Container $container;
     private AsciiSlugger $slugger;
-    private DockerProcessFactory $processFactory;
+    private DockerSandboxFactory $sandboxFactory;
 
     public function __construct(
         Application $application,
         private readonly Workshop $workshop,
         string $workshopPath,
-        string $composerCacheDir,
+        PortPicker $portPicker,
+        string $portsNetwork,
+        string $portsHost,
     ) {
         /** @var \DI\Container $container */
         $container = $application->configure();
@@ -40,14 +44,14 @@ class CloudInstalledWorkshop implements \JsonSerializable
         $this->slugger = new AsciiSlugger();
 
         //student code must only ever run in the sandbox. Set before anything pulls the process factory from the container.
-        //exercises that expose ports run on this network, it has no internet access. deploy.php creates it
-        $this->processFactory = new DockerProcessFactory(
+        $this->sandboxFactory = new DockerSandboxFactory(
             $workshopPath,
             $this->getCode(),
-            $composerCacheDir,
-            portsNetwork: 'php-school-sandbox',
+            portsNetwork: $portsNetwork,
+            portsHost: $portsHost,
+            portPicker: $portPicker,
         );
-        $this->container->set(ProcessFactory::class, $this->processFactory);
+        $this->container->set(SandboxFactory::class, $this->sandboxFactory);
 
         $this->configureLogger();
         $this->configureEvents();
@@ -58,7 +62,17 @@ class CloudInstalledWorkshop implements \JsonSerializable
      */
     public function createRuntimeImageBuildProcess(): Process
     {
-        return $this->processFactory->createBuildProcess();
+        return $this->sandboxFactory->createBuildProcess();
+    }
+
+    /**
+     * Locks and caches the reference solutions' packages, so a verify installs them offline. Run on deploy, after the image build.
+     */
+    public function warmReferencePackages(): void
+    {
+        /** @var ReferencePackages $referencePackages */
+        $referencePackages = $this->container->get(ReferencePackages::class);
+        $referencePackages->warm();
     }
 
     public function getCode(): string
@@ -126,13 +140,6 @@ class CloudInstalledWorkshop implements \JsonSerializable
         }
 
         return null;
-    }
-
-    public function getProcessFactory(): ProcessFactory
-    {
-        /** @var ProcessFactory $processFactory */
-        $processFactory = $this->container->get(ProcessFactory::class);
-        return $processFactory;
     }
 
     public function getExerciseDispatcher(): ExerciseDispatcher
