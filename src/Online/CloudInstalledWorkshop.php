@@ -35,8 +35,8 @@ class CloudInstalledWorkshop implements \JsonSerializable
         private readonly Workshop $workshop,
         string $workshopPath,
         PortPicker $portPicker,
-        string $portsNetwork = 'bridge',
-        string $portsHost = '127.0.0.1',
+        string $portsNetwork,
+        string $portsHost,
     ) {
         /** @var \DI\Container $container */
         $container = $application->configure();
