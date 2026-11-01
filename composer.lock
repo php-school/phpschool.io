@@ -4895,12 +4895,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/learn-you-php.git",
-                "reference": "8e0e22d524d5108d49014722e3fa71f882e85efc"
+                "reference": "834b6ddaf8b7afab3043eb940ac8ac5e5d3476a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/learn-you-php/zipball/8e0e22d524d5108d49014722e3fa71f882e85efc",
-                "reference": "8e0e22d524d5108d49014722e3fa71f882e85efc",
+                "url": "https://api.github.com/repos/php-school/learn-you-php/zipball/834b6ddaf8b7afab3043eb940ac8ac5e5d3476a8",
+                "reference": "834b6ddaf8b7afab3043eb940ac8ac5e5d3476a8",
                 "shasum": ""
             },
             "require": {
@@ -4951,7 +4951,7 @@
                 "issues": "https://github.com/php-school/learn-you-php/issues",
                 "source": "https://github.com/php-school/learn-you-php/tree/workshop-rewrite"
             },
-            "time": "2026-10-22T21:08:11+00:00"
+            "time": "2026-11-01T14:12:57+00:00"
         },
         {
             "name": "php-school/php-workshop",
@@ -4959,12 +4959,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/php-workshop.git",
-                "reference": "58b8e530b546861a71ab403325c6640daf2a33cd"
+                "reference": "634a0c0df6ded56bb659b78bbf1d823fbcbbfbfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/58b8e530b546861a71ab403325c6640daf2a33cd",
-                "reference": "58b8e530b546861a71ab403325c6640daf2a33cd",
+                "url": "https://api.github.com/repos/php-school/php-workshop/zipball/634a0c0df6ded56bb659b78bbf1d823fbcbbfbfb",
+                "reference": "634a0c0df6ded56bb659b78bbf1d823fbcbbfbfb",
                 "shasum": ""
             },
             "require": {
@@ -5041,7 +5041,7 @@
                 "issues": "https://github.com/php-school/php-workshop/issues",
                 "source": "https://github.com/php-school/php-workshop/tree/master"
             },
-            "time": "2026-11-01T10:33:08+00:00"
+            "time": "2026-11-01T14:09:38+00:00"
         },
         {
             "name": "php-school/php8-appreciate",
@@ -5049,12 +5049,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-school/php8-appreciate.git",
-                "reference": "c5605ede89da1145068fec8c356bdb3591d672cc"
+                "reference": "98428c32d09cbb2f0d3ed4ef63a30b0b391193ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-school/php8-appreciate/zipball/c5605ede89da1145068fec8c356bdb3591d672cc",
-                "reference": "c5605ede89da1145068fec8c356bdb3591d672cc",
+                "url": "https://api.github.com/repos/php-school/php8-appreciate/zipball/98428c32d09cbb2f0d3ed4ef63a30b0b391193ed",
+                "reference": "98428c32d09cbb2f0d3ed4ef63a30b0b391193ed",
                 "shasum": ""
             },
             "require": {
@@ -5101,7 +5101,7 @@
                 "issues": "https://github.com/php-school/php8-appreciate/issues",
                 "source": "https://github.com/php-school/php8-appreciate/tree/workshop-rewrite"
             },
-            "time": "2026-10-22T21:08:16+00:00"
+            "time": "2026-10-27T19:45:21+00:00"
         },
         {
             "name": "php-school/terminal",
