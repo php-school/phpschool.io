@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace PhpSchool\Website\Online;
 
-use PhpSchool\PhpWorkshop\Process\Sandbox;
-use PhpSchool\PhpWorkshop\Process\ProcessInput;
+use PhpSchool\PhpWorkshop\Process\Composer;
 use PhpSchool\PhpWorkshop\Solution\DirectorySolution;
 use PhpSchool\PhpWorkshop\Utils\Path;
 use PhpSchool\Website\User\StudentDTO;
@@ -17,9 +16,10 @@ class ProjectUploader
     public function __construct(
         private readonly PathGenerator $pathGenerator,
         private readonly ComposerPackageAllowlist $composerPackageAllowlist = new ComposerPackageAllowlist(),
+        private readonly Composer $composer = new Composer(),
     ) {}
 
-    public function upload(Request $request, StudentDTO $student, Sandbox $sandbox): DirectorySolution
+    public function upload(Request $request, StudentDTO $student): DirectorySolution
     {
         /** @var array{scripts?: mixed, composer_deps?: mixed, entry_point?: string}|null $data */
         $data = json_decode($request->getBody()->__toString(), true);
@@ -45,7 +45,7 @@ class ProjectUploader
 
         if (isset($data['composer_deps']) && is_array($data['composer_deps']) && count($data['composer_deps']) > 0) {
             try {
-                $this->installComposerDeps($data['composer_deps'], $basePath, $sandbox);
+                $this->installComposerDeps($data['composer_deps'], $basePath);
             } catch (\RuntimeException $e) {
                 (new Filesystem())->remove($basePath);
                 throw $e;
@@ -63,20 +63,17 @@ class ProjectUploader
     /**
      * @param array<mixed> $deps
      */
-    private function installComposerDeps(array $deps, string $basePath, Sandbox $sandbox): void
+    private function installComposerDeps(array $deps, string $basePath): void
     {
         $require = $this->composerPackageAllowlist->validate($deps);
 
         file_put_contents(Path::join($basePath, 'composer.json'), json_encode(['require' => $require]));
 
-        //runs in the workshop sandbox, never on the host
-        $execution = $sandbox->create(
-            new ProcessInput('composer', ['update', '--no-interaction'], $basePath, ['XDEBUG_MODE' => 'off'], []),
-        );
-        $execution->start();
-        $execution->wait();
+        //on this machine, vendor is copied into the sandbox with the solution
+        $process = $this->composer->create(['update'], $basePath, ['XDEBUG_MODE' => 'off']);
+        $process->run();
 
-        if (!$execution->isSuccessful()) {
+        if (!$process->isSuccessful()) {
             throw new \RuntimeException('Composer dependencies could not be installed');
         }
     }
