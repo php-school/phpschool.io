@@ -54,6 +54,8 @@ class VerifyExercise
         $events = $workshop->getExerciseDispatcher()->getEventDispatcher();
         $events->listen(['cli.verify.reference-execute.pre', 'cgi.verify.reference-execute.pre'], fn() => $this->stages->send('reference-execute'));
         $events->listen(['cli.verify.student-execute.pre', 'cgi.verify.student-execute.pre'], fn() => $this->stages->send('student-execute'));
+        $events->listen('verify.post.execute', fn() => $this->stages->send('check'));
+        $events->listen('verify.post.check', fn() => $this->stages->send('cleanup'));
 
         try {
             $results = $workshop->getExerciseDispatcher()->verify(

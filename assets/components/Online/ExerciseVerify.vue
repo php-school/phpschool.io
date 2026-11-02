@@ -21,7 +21,12 @@ const errorMessage = ref("");
 const showError = ref(false);
 const currentAction = ref("verify");
 
-const stageMessages = { "reference-execute": "Running our solution", "student-execute": "Running your solution" };
+const stageMessages = {
+  "reference-execute": "Running our solution",
+  "student-execute": "Running your solution",
+  check: "Checking the results",
+  cleanup: "Cleaning up",
+};
 // "run" or "verify" while one is in progress, and what it is doing
 const loading = ref(null);
 const stage = ref("");

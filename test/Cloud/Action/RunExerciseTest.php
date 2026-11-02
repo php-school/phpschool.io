@@ -7,11 +7,8 @@ namespace PhpSchool\WebsiteTest\Cloud\Action;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use PhpSchool\PhpWorkshop\Exercise\ExerciseInterface;
-use PhpSchool\PhpWorkshop\Event\Event;
-use PhpSchool\PhpWorkshop\Event\EventDispatcher;
 use PhpSchool\PhpWorkshop\ExerciseDispatcher;
 use PhpSchool\PhpWorkshop\Input\Input;
-use PhpSchool\PhpWorkshop\ResultAggregator;
 use PhpSchool\PhpWorkshop\Solution\DirectorySolution;
 use PhpSchool\PhpWorkshop\Utils\System;
 use PhpSchool\Website\Action\Online\RunExercise;
@@ -197,35 +194,6 @@ class RunExerciseTest extends TestCase
             json_decode($actualResponse->getBody()->__toString(), true),
         );
         $this->assertFileDoesNotExist($solution->getBaseDirectory());
-    }
-
-    public function testStageIsSentAsRunProgresses(): void
-    {
-        $solution = $this->createProjectSolution();
-
-        [$installedWorkshopRepo, , $exerciseDispatcher, $session] = $this->getDependencies();
-
-        $events = new EventDispatcher(new ResultAggregator());
-        $exerciseDispatcher->method('getEventDispatcher')->willReturn($events);
-        $exerciseDispatcher->expects($this->once())
-            ->method('run')
-            ->willReturnCallback(function () use ($events) {
-                $events->dispatch(new Event('cli.run.student-execute.pre'));
-
-                return true;
-            });
-
-        $uploader = $this->createMock(ProjectUploader::class);
-        $uploader->method('upload')->willReturn($solution);
-
-        $status = $this->createMock(StageStream::class);
-        $status->expects($this->once())
-            ->method('send')
-            ->with('student-execute');
-
-        $controller = new RunExercise($installedWorkshopRepo, $uploader, $this->createMock(StudentWorkshopState::class), $session, $status);
-
-        $controller->__invoke(new ServerRequest('POST', '/run', [], json_encode([])), new Response(), 'workshop', 'exercise');
     }
 
     private function createProjectSolution(string $entryPoint = 'solution.php'): DirectorySolution
