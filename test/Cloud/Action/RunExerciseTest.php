@@ -15,6 +15,7 @@ use PhpSchool\Website\Action\Online\RunExercise;
 use PhpSchool\Website\Online\CloudInstalledWorkshop;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\StageStream;
 use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\User\SessionStorageInterface;
@@ -37,7 +38,7 @@ class RunExerciseTest extends TestCase
         $session = $this->createMock(SessionStorageInterface::class);
         $state = $this->createMock(StudentWorkshopState::class);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session, $this->createMock(StageStream::class));
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
         $response = new Response();
 
@@ -72,7 +73,7 @@ class RunExerciseTest extends TestCase
         $session = $this->createMock(SessionStorageInterface::class);
         $state = $this->createMock(StudentWorkshopState::class);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session, $this->createMock(StageStream::class));
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
         $response = new Response();
 
@@ -102,7 +103,7 @@ class RunExerciseTest extends TestCase
 
         $state = $this->createMock(StudentWorkshopState::class);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session, $this->createMock(StageStream::class));
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -139,7 +140,7 @@ class RunExerciseTest extends TestCase
         $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
         $state = $this->createMock(StudentWorkshopState::class);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session, $this->createMock(StageStream::class));
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -178,7 +179,7 @@ class RunExerciseTest extends TestCase
         $uploader->expects($this->once())->method('upload')->with($request, $student)->willReturn($solution);
         $state = $this->createMock(StudentWorkshopState::class);
 
-        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session);
+        $controller = new RunExercise($installedWorkshopRepo, $uploader, $state, $session, $this->createMock(StageStream::class));
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');

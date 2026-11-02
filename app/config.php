@@ -48,6 +48,7 @@ use PhpSchool\Website\Online\Middleware\ExerciseRunnerRateLimiter;
 use PhpSchool\Website\Online\PathGenerator;
 use PhpSchool\Website\Online\ProblemFileConverter;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\StageStream;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\Online\VueResultsRenderer;
 use PhpSchool\Website\Command\BuildRuntimeImages;
@@ -315,6 +316,7 @@ return [
             $c->get(SessionStorageInterface::class),
             $c->get(StudentWorkshopState::class),
             new VueResultsRenderer(),
+            new StageStream(),
         );
     },
 

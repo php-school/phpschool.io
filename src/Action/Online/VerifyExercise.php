@@ -8,6 +8,7 @@ use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\StageStream;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\Online\VueResultsRenderer;
 use PhpSchool\Website\User\SessionStorageInterface;
@@ -26,6 +27,7 @@ class VerifyExercise
         private readonly SessionStorageInterface $session,
         private readonly StudentWorkshopState $studentState,
         private readonly VueResultsRenderer $resultsRenderer,
+        private readonly StageStream $stages,
     ) {}
 
     public function __invoke(
@@ -48,6 +50,12 @@ class VerifyExercise
         } catch (\RuntimeException $e) {
             return $this->withJson(['success' => false, 'error' => $e->getMessage()], $response);
         }
+
+        $events = $workshop->getExerciseDispatcher()->getEventDispatcher();
+        $events->listen(['cli.verify.reference-execute.pre', 'cgi.verify.reference-execute.pre'], fn() => $this->stages->send('reference-execute'));
+        $events->listen(['cli.verify.student-execute.pre', 'cgi.verify.student-execute.pre'], fn() => $this->stages->send('student-execute'));
+        $events->listen('verify.post.execute', fn() => $this->stages->send('check'));
+        $events->listen('verify.post.check', fn() => $this->stages->send('cleanup'));
 
         try {
             $results = $workshop->getExerciseDispatcher()->verify(
