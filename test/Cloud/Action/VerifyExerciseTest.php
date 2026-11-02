@@ -260,7 +260,7 @@ class VerifyExerciseTest extends TestCase
         $exerciseDispatcher->expects($this->once())
             ->method('verify')
             ->willReturnCallback(function () use ($events) {
-                foreach (['cli.verify.reference-execute.pre', 'cli.verify.student-execute.pre', 'verify.post.execute', 'verify.post.check'] as $name) {
+                foreach (['cli.verify.reference-execute.pre', 'cli.verify.student-execute.pre', 'verify.post.execute'] as $name) {
                     $events->dispatch(new Event($name));
                 }
 
@@ -271,9 +271,9 @@ class VerifyExerciseTest extends TestCase
         $uploader->method('upload')->willReturn($solution);
 
         $status = $this->createMock(StageStream::class);
-        $status->expects($this->exactly(4))
+        $status->expects($this->exactly(2))
             ->method('send')
-            ->withConsecutive(['reference-execute'], ['student-execute'], ['check'], ['cleanup']);
+            ->withConsecutive(['reference-execute'], ['student-execute']);
 
         $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $this->createMock(StudentWorkshopState::class), $this->createMock(VueResultsRenderer::class), $status);
 

@@ -5,7 +5,7 @@ import { flatten } from "./Utils/studentFiles";
 import RunResult from "./RunResult.vue";
 import { Menu, MenuButton, MenuItem, MenuItems, Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import Alert from "./SiteAlert.vue";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 
 const emit = defineEmits(["verify-loading", "verify-success", "verify-fail", "verify-error", "run-loaded"]);
@@ -21,62 +21,49 @@ const errorMessage = ref("");
 const showError = ref(false);
 const currentAction = ref("verify");
 
-const stageMessages = {
-  "reference-execute": "Running our solution",
-  "student-execute": "Running your solution",
-  check: "Checking the results",
-  cleanup: "Cleaning up",
-};
-// "run" or "verify" while one is in progress, and the stage it is at
+const stageMessages = { "reference-execute": "Running our solution", "student-execute": "Running your solution" };
+// "run" or "verify" while one is in progress, and what it is doing
 const loading = ref(null);
-const stage = ref(null);
-const loadingRun = computed(() => loading.value === "run");
-const loadingVerify = computed(() => loading.value === "verify");
-// before the first stage the solution is being uploaded, with composer installing any packages the student added
-const stageMessage = computed(() => stageMessages[stage.value] ?? (props.composerDeps?.length ? "Installing dependencies" : "Starting"));
+const stage = ref("");
 
-// Posts the solution to the run or verify endpoint. While it works it sends each stage on its own line, eg
-// {"stage":"student-execute"}, and the last line is the result. Returns the result, or null after showing an error.
+// Posts the solution to the run or verify endpoint. It answers with a line per stage while it works, eg
+// {"stage":"student-execute"}, then the result. Returns the result, or null after showing an error.
 const submit = async (action) => {
   loading.value = action;
-  stage.value = null;
+  // until the first stage the solution is uploading, and composer installs any packages
+  stage.value = props.composerDeps?.length ? "Installing dependencies" : "Starting";
 
   try {
     const response = await fetch(`/api/online/workshop/${action}/${props.currentExercise.workshop.code}/exercise/${props.currentExercise.exercise.slug}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        entry_point: props.entryPoint,
-        scripts: flatten(props.files),
-        composer_deps: props.composerDeps,
-      }),
+      body: JSON.stringify({ entry_point: props.entryPoint, scripts: flatten(props.files), composer_deps: props.composerDeps }),
     });
 
     if (!response.ok) {
-      const messages = {
-        429: "Too many requests. Please try again in a few minutes.",
-        503: "Lots of people are running code right now. Please try again in a moment.",
-      };
-      throw messages[response.status];
+      throw { 429: "Too many requests. Please try again in a few minutes.", 503: "Lots of people are running code right now. Please try again in a moment." }[response.status];
     }
 
-    // stage lines end in a new line, the result does not
     const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
     let text = "";
     for (let chunk = await reader.read(); !chunk.done; chunk = await reader.read()) {
-      const lines = (text + chunk.value).split("\n");
-      text = lines.pop();
-      lines.forEach((line) => (stage.value = JSON.parse(line).stage));
+      text += chunk.value;
+      // the latest stage is the last line with a new line after it
+      const lines = text.split("\n");
+      if (lines.length > 1) {
+        stage.value = stageMessages[JSON.parse(lines.at(-2)).stage];
+      }
     }
 
-    const result = JSON.parse(text);
+    // the result is the last line, or an error if something failed after the stages were sent
+    const result = JSON.parse(text.split("\n").at(-1));
     if (result.error) {
       throw result.error;
     }
 
     return result;
   } catch (e) {
-    // a message thrown above, or eg a network error
+    // a message thrown above, or eg. a network error
     errorMessage.value = typeof e === "string" ? e : "Something went wrong. Please try again.";
     showError.value = true;
 
@@ -128,40 +115,35 @@ const verifySolution = async () => {
       id="run"
       class="mt-0 mr-2 hidden h-[48px] w-44 items-center justify-center rounded-sm border-2 border-solid border-[#E91E63] px-4 text-sm text-white hover:bg-[#E91E63] md:flex"
       @click.stop="runSolution"
-      :disabled="loadingRun"
+      :disabled="loading === 'run'"
     >
-      <ArrowPathIcon v-cloak v-show="loadingRun" class="h-4 w-4 animate-spin" />
-      <span v-if="loadingRun" class="ml-2 truncate text-xs">{{ stageMessage }}</span>
+      <ArrowPathIcon v-cloak v-show="loading === 'run'" class="h-4 w-4 animate-spin" />
+      <span v-if="loading === 'run'" class="ml-2 truncate text-xs">{{ stage }}</span>
       <span v-else>Run</span>
-      <CommandLineIcon v-if="!loadingRun" v-cloak class="ml-2 h-5 w-5" />
+      <CommandLineIcon v-if="loading !== 'run'" v-cloak class="ml-2 h-5 w-5" />
     </button>
 
     <div class="flex h-[48px] w-full justify-between rounded-sm bg-linear-to-r/srgb from-pink-600 to-purple-500 md:w-44 md:justify-center">
       <button class="mt-0 mr-0 flex h-[48px] w-full items-center pl-3 text-sm text-white outline-hidden transition-all duration-300 ease-in">
         <span v-if="currentAction === 'verify'" class="flex flex-1 items-center md:justify-center" @click="verifySolution">
-          <ArrowPathIcon v-cloak v-show="loadingVerify" class="hidden h-4 w-4 animate-spin md:flex" />
-          <span v-if="loadingVerify" class="ml-2 truncate text-xs">{{ stageMessage }}</span>
+          <ArrowPathIcon v-cloak v-show="loading === 'verify'" class="hidden h-4 w-4 animate-spin md:flex" />
+          <span v-if="loading === 'verify'" class="ml-2 truncate text-xs">{{ stage }}</span>
           <span v-else>Verify</span>
-          <SparklesIcon :class="{ 'md:hidden': loadingVerify }" v-cloak class="ml-2 h-5 w-5" />
+          <SparklesIcon :class="{ 'md:hidden': loading === 'verify' }" v-cloak class="ml-2 h-5 w-5" />
         </span>
 
         <span v-if="currentAction === 'run'" class="flex flex-1 items-center md:justify-center" @click="runSolution">
-          <ArrowPathIcon v-cloak v-show="loadingRun" class="hidden h-4 w-4 animate-spin md:flex" />
-          <span v-if="loadingRun" class="ml-2 truncate text-xs">{{ stageMessage }}</span>
+          <ArrowPathIcon v-cloak v-show="loading === 'run'" class="hidden h-4 w-4 animate-spin md:flex" />
+          <span v-if="loading === 'run'" class="ml-2 truncate text-xs">{{ stage }}</span>
           <span v-else>Run</span>
-          <CommandLineIcon :class="{ 'md:hidden': loadingRun }" v-cloak class="ml-2 h-5 w-5" />
+          <CommandLineIcon :class="{ 'md:hidden': loading === 'run' }" v-cloak class="ml-2 h-5 w-5" />
         </span>
       </button>
       <Menu as="div" class="relative mr-3 text-xs text-white uppercase" v-slot="{ open }">
         <div class="group">
-          <MenuButton class="h-[48px]" :disabled="loadingVerify || loadingRun">
-            <ChevronDownIcon
-              v-if="!loadingRun && !loadingVerify"
-              :class="open ? '' : 'rotate-180'"
-              class="ml-2 flex h-5 w-5 transition duration-200 duration-300 focus:outline-hidden md:hidden"
-              aria-hidden="true"
-            />
-            <ArrowPathIcon v-cloak v-show="loadingVerify || loadingRun" class="ml-2 flex h-4 w-4 animate-spin md:hidden" />
+          <MenuButton class="h-[48px]" :disabled="loading">
+            <ChevronDownIcon v-if="!loading" :class="open ? '' : 'rotate-180'" class="ml-2 flex h-5 w-5 transition duration-200 duration-300 focus:outline-hidden md:hidden" aria-hidden="true" />
+            <ArrowPathIcon v-cloak v-show="loading" class="ml-2 flex h-4 w-4 animate-spin md:hidden" />
           </MenuButton>
         </div>
 
@@ -181,7 +163,7 @@ const verifySolution = async () => {
                   runSolution();
                 "
                 class="flex h-[48px] w-full flex-1 items-center justify-start rounded-sm px-4 text-sm text-white"
-                :disabled="loadingRun"
+                :disabled="loading === 'run'"
               >
                 <span>Run</span>
                 <CommandLineIcon class="ml-2 h-5 w-5" />
@@ -194,7 +176,7 @@ const verifySolution = async () => {
                   verifySolution();
                 "
                 class="flex h-[48px] w-full flex-1 items-center justify-start rounded-sm px-4 text-sm text-white"
-                :disabled="loadingVerify"
+                :disabled="loading === 'verify'"
               >
                 <span>Verify</span>
                 <SparklesIcon class="ml-2 h-5 w-5" />
@@ -259,7 +241,7 @@ const verifySolution = async () => {
               class="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-pink-600 px-8 py-2 text-base font-medium text-white shadow-xs hover:bg-pink-700 focus:ring-3 focus:ring-pink-800 focus:outline-hidden sm:ml-3 sm:w-auto sm:text-sm"
               @click="runSolution"
             >
-              <ArrowPathIcon :class="{ 'animate-spin': loadingRun }" class="mr-2 -ml-1 h-4 w-4" />
+              <ArrowPathIcon :class="{ 'animate-spin': loading === 'run' }" class="mr-2 -ml-1 h-4 w-4" />
               Run again
             </button>
           </div>

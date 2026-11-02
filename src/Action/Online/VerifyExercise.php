@@ -21,14 +21,6 @@ class VerifyExercise
 {
     use JsonUtils;
 
-    //the stage the frontend shows the student => the events that start it
-    private const STAGES = [
-        'reference-execute' => ['cli.verify.reference-execute.pre', 'cgi.verify.reference-execute.pre'],
-        'student-execute' => ['cli.verify.student-execute.pre', 'cgi.verify.student-execute.pre'],
-        'check' => ['verify.post.execute'],
-        'cleanup' => ['verify.post.check'],
-    ];
-
     public function __construct(
         private readonly CloudWorkshopRepository $installedWorkshops,
         private readonly ProjectUploader $projectUploader,
@@ -60,9 +52,8 @@ class VerifyExercise
         }
 
         $events = $workshop->getExerciseDispatcher()->getEventDispatcher();
-        foreach (self::STAGES as $stage => $eventNames) {
-            $events->listen($eventNames, fn() => $this->stages->send($stage));
-        }
+        $events->listen(['cli.verify.reference-execute.pre', 'cgi.verify.reference-execute.pre'], fn() => $this->stages->send('reference-execute'));
+        $events->listen(['cli.verify.student-execute.pre', 'cgi.verify.student-execute.pre'], fn() => $this->stages->send('student-execute'));
 
         try {
             $results = $workshop->getExerciseDispatcher()->verify(
