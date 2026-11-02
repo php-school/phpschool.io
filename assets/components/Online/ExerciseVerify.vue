@@ -6,6 +6,7 @@ import RunResult from "./RunResult.vue";
 import { Menu, MenuButton, MenuItem, MenuItems, Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import Alert from "./SiteAlert.vue";
 import { ref } from "vue";
+import readNDJSONStream from "ndjson-readablestream";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 
 const emit = defineEmits(["verify-loading", "verify-success", "verify-fail", "verify-error", "run-loaded"]);
@@ -27,6 +28,10 @@ const stageMessages = {
   check: "Checking the results",
   cleanup: "Cleaning up",
 };
+const errorMessages = {
+  429: "Too many requests. Please try again in a few minutes.",
+  503: "Lots of people are running code right now. Please try again in a moment.",
+};
 // "run" or "verify" while one is in progress, and what it is doing
 const loading = ref(null);
 const stage = ref("");
@@ -46,22 +51,19 @@ const submit = async (action) => {
     });
 
     if (!response.ok) {
-      throw { 429: "Too many requests. Please try again in a few minutes.", 503: "Lots of people are running code right now. Please try again in a moment." }[response.status];
+      throw errorMessages[response.status];
     }
 
-    const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
-    let text = "";
-    for (let chunk = await reader.read(); !chunk.done; chunk = await reader.read()) {
-      text += chunk.value;
-      // the latest stage is the last line with a new line after it
-      const lines = text.split("\n");
-      if (lines.length > 1) {
-        stage.value = stageMessages[JSON.parse(lines.at(-2)).stage];
+    // the last line is the result, or an error if something failed after the stages were sent
+    let result;
+    for await (const line of readNDJSONStream(response.body)) {
+      if (line.stage) {
+        stage.value = stageMessages[line.stage];
+      } else {
+        result = line;
       }
     }
 
-    // the result is the last line, or an error if something failed after the stages were sent
-    const result = JSON.parse(text.split("\n").at(-1));
     if (result.error) {
       throw result.error;
     }

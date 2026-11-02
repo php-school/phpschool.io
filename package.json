@@ -38,6 +38,7 @@
     "ace-builds": "^1.13.0",
     "chart.js": "^4.4.0",
     "highlight.js": "^11.9.0",
+    "ndjson-readablestream": "^1.4.0",
     "pinia": "^4.1.0",
     "reka-ui": "^2.11.0",
     "shepherd.js": "11.0.1",
