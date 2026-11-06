@@ -3,10 +3,14 @@
 # the internet or this machine, eg. the docker API, only answer connections to its published port.
 set -e
 
+# /run is not a tmpfs here, so pid files from a machine that was not stopped cleanly survive and stop dockerd starting
+rm -f /run/docker.pid /run/docker/containerd/containerd.pid
+
 dockerd-entrypoint.sh dockerd --host=tcp://[::]:2375 --host=unix:///var/run/docker.sock --tls=false --data-root=/data/docker &
+DOCKERD=$!
 
 export DOCKER_HOST=unix:///var/run/docker.sock
-until docker info >/dev/null 2>&1; do sleep 1; done
+until docker info >/dev/null 2>&1; do kill -0 "$DOCKERD" 2>/dev/null || exit 1; sleep 1; done
 
 docker network inspect php-school-ports >/dev/null 2>&1 || docker network create \
     -o com.docker.network.bridge.name=br-ports \
