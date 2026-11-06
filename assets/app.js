@@ -198,6 +198,10 @@ export const createApp = ViteSSG(
     const adminStore = useAdminStore(pinia);
 
     router.beforeEach(async (to) => {
+      if (to.name === "editor" && !useStudentStore(pinia).student) {
+        return { path: "/online/" + to.params.workshop };
+      }
+
       //if not admin route and not login route, skip, it's a non-authenticated route
       if (!to.path.startsWith("/admin") && to.name !== "admin-login") {
         return;
