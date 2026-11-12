@@ -13,6 +13,7 @@ use PhpSchool\PhpWorkshop\Output\BufferedOutput;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\Sandbox;
 use PhpSchool\Website\Online\StageStream;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\User\SessionStorageInterface;
@@ -40,6 +41,7 @@ class RunExercise
         private readonly StudentWorkshopState $studentState,
         private readonly SessionStorageInterface $session,
         private readonly StageStream $stages,
+        private readonly Sandbox $sandbox,
     ) {}
 
     public function __invoke(
@@ -72,11 +74,11 @@ class RunExercise
         });
 
         try {
-            $result = $workshop->getExerciseDispatcher()->run(
+            $result = $this->sandbox->run(fn() => $workshop->getExerciseDispatcher()->run(
                 $exercise,
                 new Input($workshop->getCode(), ['program' => $project->getEntryPoint()->getAbsolutePath()]),
                 $output,
-            );
+            ));
         } catch (CouldNotRunException $e) {
             return $this->withJson([
                 'success' => false,

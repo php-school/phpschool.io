@@ -50,6 +50,7 @@ use PhpSchool\Website\Online\Middleware\ExerciseRunnerRateLimiter;
 use PhpSchool\Website\Online\PathGenerator;
 use PhpSchool\Website\Online\ProblemFileConverter;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\Sandbox;
 use PhpSchool\Website\Online\StageStream;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\Online\VueResultsRenderer;
@@ -327,7 +328,12 @@ return [
             $c->get(StudentWorkshopState::class),
             new VueResultsRenderer(),
             new StageStream(),
+            $c->get(Sandbox::class),
         );
+    },
+
+    Sandbox::class => function (ContainerInterface $c): Sandbox {
+        return new Sandbox($c->get('redis'), $c->get(LoggerInterface::class));
     },
 
     ProjectUploader::class => function (ContainerInterface $c): ProjectUploader {

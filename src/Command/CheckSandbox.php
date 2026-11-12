@@ -10,6 +10,7 @@ use PhpSchool\PhpWorkshop\Result\FailureInterface;
 use PhpSchool\PhpWorkshop\Utils\Path;
 use PhpSchool\PhpWorkshop\Utils\System;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
+use PhpSchool\Website\Online\Sandbox;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -24,6 +25,7 @@ class CheckSandbox
     public function __construct(
         private readonly CloudWorkshopRepository $workshops,
         private readonly LoggerInterface $logger,
+        private readonly Sandbox $sandbox,
     ) {}
 
     public function __invoke(OutputInterface $output): int
@@ -41,10 +43,10 @@ class CheckSandbox
             (new Filesystem())->mirror($exercise->getSolution()->getBaseDirectory(), $copy);
 
             try {
-                $results = $workshop->getExerciseDispatcher()->verify(
+                $results = $this->sandbox->run(fn() => $workshop->getExerciseDispatcher()->verify(
                     $exercise,
                     new Input($workshop->getCode(), ['program' => Path::join($copy, $exercise->getSolution()->getEntryPoint()->getRelativePath())]),
-                );
+                ));
             } finally {
                 (new Filesystem())->remove($copy);
             }

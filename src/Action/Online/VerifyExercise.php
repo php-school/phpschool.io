@@ -8,6 +8,7 @@ use PhpSchool\PhpWorkshop\Input\Input;
 use PhpSchool\Website\Action\JsonUtils;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\Sandbox;
 use PhpSchool\Website\Online\StageStream;
 use PhpSchool\Website\Online\StudentWorkshopState;
 use PhpSchool\Website\Online\VueResultsRenderer;
@@ -28,6 +29,7 @@ class VerifyExercise
         private readonly StudentWorkshopState $studentState,
         private readonly VueResultsRenderer $resultsRenderer,
         private readonly StageStream $stages,
+        private readonly Sandbox $sandbox,
     ) {}
 
     public function __invoke(
@@ -58,10 +60,10 @@ class VerifyExercise
         $events->listen('verify.post.check', fn() => $this->stages->send('cleanup'));
 
         try {
-            $results = $workshop->getExerciseDispatcher()->verify(
+            $results = $this->sandbox->run(fn() => $workshop->getExerciseDispatcher()->verify(
                 $exercise,
                 new Input($workshop->getCode(), ['program' => $project->getEntryPoint()->getAbsolutePath()]),
-            );
+            ));
         } finally {
             (new Filesystem())->remove($project->getBaseDirectory());
         }
