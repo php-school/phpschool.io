@@ -17,6 +17,7 @@ use PhpSchool\Website\Action\Online\VerifyExercise;
 use PhpSchool\Website\Online\CloudInstalledWorkshop;
 use PhpSchool\Website\Online\CloudWorkshopRepository;
 use PhpSchool\Website\Online\ProjectUploader;
+use PhpSchool\Website\Online\Sandbox;
 use PhpSchool\Website\Online\StageStream;
 use PhpSchool\Website\Online\StudentCloudState;
 use PhpSchool\Website\Online\StudentWorkshopState;
@@ -29,6 +30,13 @@ use RuntimeException;
 
 class VerifyExerciseTest extends TestCase
 {
+    private function sandbox(): Sandbox
+    {
+        $sandbox = $this->createMock(Sandbox::class);
+        $sandbox->method('run')->willReturnCallback(fn(callable $run) => $run());
+        return $sandbox;
+    }
+
     public function testErrorIsReturnedIfWorkshopDoesNotExist(): void
     {
         $installedWorkshopRepo = $this->createMock(CloudWorkshopRepository::class);
@@ -42,7 +50,7 @@ class VerifyExerciseTest extends TestCase
         $uploader = $this->createMock(ProjectUploader::class);
         $session = $this->createMock(SessionStorageInterface::class);
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class));
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class), $this->sandbox());
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
         $response = new Response();
 
@@ -78,7 +86,7 @@ class VerifyExerciseTest extends TestCase
         $uploader = $this->createMock(ProjectUploader::class);
         $session = $this->createMock(SessionStorageInterface::class);
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class));
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class), $this->sandbox());
         $request = new ServerRequest('POST', '/verify', [], json_encode([]));
         $response = new Response();
 
@@ -108,7 +116,7 @@ class VerifyExerciseTest extends TestCase
             ->with($request)
             ->willThrowException(new \RuntimeException('Some error'));
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class));
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class), $this->sandbox());
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -147,7 +155,7 @@ class VerifyExerciseTest extends TestCase
         $state = $this->createMock(StudentWorkshopState::class);
         $state->expects($this->once())->method('completeExercise')->with('workshop', 'Exercise');
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class));
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class), $this->sandbox());
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -187,7 +195,7 @@ class VerifyExerciseTest extends TestCase
         $state = $this->createMock(StudentWorkshopState::class);
         $state->expects($this->once())->method('completeExercise')->with('workshop', 'Exercise');
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class));
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class), $this->sandbox());
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');
@@ -230,7 +238,7 @@ class VerifyExerciseTest extends TestCase
         $state = $this->createMock(StudentWorkshopState::class);
         $state->expects($this->never())->method('completeExercise')->with('workshop', 'Exercise');
 
-        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class));
+        $controller = new VerifyExercise($installedWorkshopRepo, $uploader, $session, $state, $renderer, $this->createMock(StageStream::class), $this->sandbox());
         $response = new Response();
 
         $actualResponse = $controller->__invoke($request, $response, 'workshop', 'exercise');

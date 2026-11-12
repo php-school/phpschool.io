@@ -6,7 +6,8 @@ set -e
 # /run is not a tmpfs here, so pid files from a machine that was not stopped cleanly survive and stop dockerd starting
 rm -f /run/docker.pid /run/docker/containerd/containerd.pid
 
-dockerd-entrypoint.sh dockerd --host=tcp://[::]:2375 --host=unix:///var/run/docker.sock --tls=false --data-root=/data/docker &
+# the web server tells a cold start from a resume by this label, see src/Online/Sandbox.php
+dockerd-entrypoint.sh dockerd --label "started=$(date +%s)" --host=tcp://[::]:2375 --host=unix:///var/run/docker.sock --tls=false --data-root=/data/docker &
 DOCKERD=$!
 
 export DOCKER_HOST=unix:///var/run/docker.sock
