@@ -32,13 +32,10 @@ class StudentCloudState implements \JsonSerializable
 
     public function getTotalCompletedExercises(): int
     {
-        /** @var int $total */
-        $total = collect($this->workshopState)
-            ->pluck('completedExercises')
-            ->map(fn(array $completed) => count($completed))
-            ->sum();
-
-        return $total;
+        return array_sum(array_map(
+            fn(array $workshop) => count($workshop['completedExercises']),
+            $this->workshopState,
+        ));
     }
 
     /**
